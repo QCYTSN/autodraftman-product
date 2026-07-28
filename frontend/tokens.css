@@ -1,0 +1,54 @@
+:root {
+  --paper: #f7f3eb;
+  --paper-light: #faf9f5;
+  --paper-deep: #eee7dc;
+  --sand: #e3dacc;
+  --sand-soft: #eee8df;
+  --ink: #141413;
+  --ink-soft: #3d3934;
+  --muted: #746e65;
+  --rule: #d7cfc3;
+  --rule-dark: #bcb2a5;
+  --clay: #d97757;
+  --clay-deep: #ae533b;
+  --clay-pale: #f1d6c9;
+  --danger: #a43e2b;
+  --overlay: rgb(20 20 19 / 48%);
+
+  --font-display:
+    "Newsreader Variable", "Noto Serif SC Variable", "Noto Serif SC",
+    "Songti SC", "STSong", serif;
+  --font-body:
+    "IBM Plex Sans Variable", "Noto Sans SC", "PingFang SC",
+    "Microsoft YaHei", sans-serif;
+
+  --page-max: 86rem;
+  --page-gutter: clamp(1.25rem, 4vw, 4rem);
+  --header-height: 4.75rem;
+
+  --text-xs: 0.75rem;
+  --text-sm: 0.875rem;
+  --text-base: 1rem;
+  --text-md: 1.125rem;
+  --text-lg: 1.4rem;
+  --text-xl: 1.9rem;
+  --text-2xl: clamp(2.5rem, 4vw, 4.2rem);
+  --text-display: clamp(3.8rem, 7.4vw, 7.25rem);
+
+  --radius-small: 0.55rem;
+  --radius-medium: 0.9rem;
+  --radius-large: 1.25rem;
+  --radius-pill: 999px;
+
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-standard: cubic-bezier(0.65, 0, 0.35, 1);
+  --duration-fast: 160ms;
+  --duration-medium: 360ms;
+
+  color: var(--ink);
+  background: var(--paper);
+  font-family: var(--font-body);
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+}

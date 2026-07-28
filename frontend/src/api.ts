@@ -1,0 +1,160 @@
+const configuredApiBaseUrl = import.meta.env.VITE_API_BASE_URL?.trim();
+
+export const apiConfigured = Boolean(configuredApiBaseUrl);
+
+const apiBaseUrl = (configuredApiBaseUrl ?? "").replace(/\/+$/, "");
+
+export type CurrentIdentity = {
+  kind: "guest" | "user";
+  id: string;
+  expires_at: string | null;
+  display_name: string | null;
+  avatar_url: string | null;
+  providers: string[];
+  balance: {
+    available: number;
+    reserved: number;
+  };
+};
+
+export type AuthProvider = {
+  id: "google" | "github" | "wechat";
+  name: string;
+  enabled: boolean;
+};
+
+export type BoundIdentity = {
+  provider: string;
+  email: string | null;
+  email_verified: boolean;
+  created_at: string;
+};
+
+export class ApiError extends Error {
+  readonly status: number;
+
+  constructor(message: string, status: number) {
+    super(message);
+    this.name = "ApiError";
+    this.status = status;
+  }
+}
+
+function requireApiBaseUrl() {
+  if (!apiBaseUrl) {
+    throw new ApiError("The public API has not been configured", 0);
+  }
+  return apiBaseUrl;
+}
+
+async function requestJson<T>(
+  path: string,
+  init: RequestInit = {},
+): Promise<T> {
+  const controller = new AbortController();
+  const timeout = window.setTimeout(() => controller.abort(), 10_000);
+
+  try {
+    const response = await fetch(`${requireApiBaseUrl()}${path}`, {
+      ...init,
+      credentials: "include",
+      headers: {
+        Accept: "application/json",
+        ...init.headers,
+      },
+      signal: controller.signal,
+    });
+
+    if (!response.ok) {
+      let message = `Request failed with status ${response.status}`;
+      try {
+        const body = (await response.json()) as { detail?: string };
+        if (body.detail) message = body.detail;
+      } catch {
+        // Keep the status-based message when the server did not return JSON.
+      }
+      throw new ApiError(message, response.status);
+    }
+
+    return (await response.json()) as T;
+  } catch (error) {
+    if (error instanceof DOMException && error.name === "AbortError") {
+      throw new ApiError("The API request timed out", 0);
+    }
+    throw error;
+  } finally {
+    window.clearTimeout(timeout);
+  }
+}
+
+async function requestVoid(path: string, init: RequestInit): Promise<void> {
+  const response = await fetch(`${requireApiBaseUrl()}${path}`, {
+    ...init,
+    credentials: "include",
+    headers: {
+      Accept: "application/json",
+      ...init.headers,
+    },
+  });
+  if (!response.ok) {
+    let message = `Request failed with status ${response.status}`;
+    try {
+      const body = (await response.json()) as { detail?: string };
+      if (body.detail) message = body.detail;
+    } catch {
+      // Keep the status-based message when the server did not return JSON.
+    }
+    throw new ApiError(message, response.status);
+  }
+}
+
+export function createOrRestoreGuest(): Promise<CurrentIdentity> {
+  return requestJson<CurrentIdentity>("/api/v1/identity/guest", {
+    method: "POST",
+  });
+}
+
+export function getCurrentIdentity(): Promise<CurrentIdentity> {
+  return requestJson<CurrentIdentity>("/api/v1/identity/me");
+}
+
+export async function getAuthProviders(): Promise<AuthProvider[]> {
+  const response = await requestJson<{ providers: AuthProvider[] }>(
+    "/api/v1/auth/providers",
+  );
+  return response.providers;
+}
+
+export function oauthStartUrl(
+  provider: "google" | "github",
+  mode: "login" | "link" = "login",
+): string {
+  const returnUrl = new URL(window.location.href);
+  returnUrl.searchParams.delete("auth");
+  returnUrl.searchParams.delete("auth_error");
+  returnUrl.searchParams.delete("provider");
+  const query = new URLSearchParams({
+    mode,
+    return_url: returnUrl.toString(),
+  });
+  return `${requireApiBaseUrl()}/api/v1/auth/oauth/${provider}/start?${query.toString()}`;
+}
+
+export async function getBoundIdentities(): Promise<BoundIdentity[]> {
+  const response = await requestJson<{ identities: BoundIdentity[] }>(
+    "/api/v1/auth/identities",
+  );
+  return response.identities;
+}
+
+export async function unlinkIdentity(provider: string): Promise<void> {
+  await requestVoid(`/api/v1/auth/identities/${provider}`, {
+    method: "DELETE",
+  });
+}
+
+export async function logout(): Promise<void> {
+  await requestVoid("/api/v1/auth/logout", {
+    method: "POST",
+  });
+}
