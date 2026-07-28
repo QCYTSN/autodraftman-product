@@ -670,12 +670,6 @@ export function ProductInformationPage({
       </section>
 
       <section className="information-body shell">
-        <aside className="information-index" aria-label={content.title}>
-          <span>{String(content.sections.length).padStart(2, "0")}</span>
-          <p>{language === "zh" ? "章节" : "sections"}</p>
-          <i aria-hidden="true" />
-        </aside>
-
         <article className="information-document">
           <div className="information-notice">
             <WarningCircle size={20} weight="duotone" />
@@ -700,9 +694,8 @@ export function ProductInformationPage({
           )}
 
           <div className="information-sections">
-            {content.sections.map((section, index) => (
+            {content.sections.map((section) => (
               <section className="information-section" key={section.title}>
-                <span>{String(index + 1).padStart(2, "0")}</span>
                 <div>
                   <h2>{section.title}</h2>
                   {section.paragraphs?.map((paragraph) => (

@@ -1775,45 +1775,13 @@ input:focus-visible {
 }
 
 .information-body {
-  display: grid;
-  grid-template-columns: minmax(6rem, 0.32fr) minmax(0, 1.5fr) minmax(9rem, 0.35fr);
-  gap: clamp(2rem, 5vw, 5rem);
   padding-top: clamp(4rem, 8vw, 7rem);
   padding-bottom: clamp(5rem, 10vw, 9rem);
 }
 
-.information-index {
-  position: sticky;
-  top: calc(var(--header-height) + 2rem);
-  display: flex;
-  height: fit-content;
-  align-items: flex-start;
-  flex-direction: column;
-}
-
-.information-index > span {
-  font-family: var(--font-display);
-  font-size: 3rem;
-  line-height: 1;
-}
-
-.information-index p {
-  margin-top: 0.3rem;
-  color: var(--muted);
-  font-size: var(--text-xs);
-  text-transform: uppercase;
-}
-
-.information-index i {
-  display: block;
-  width: 1px;
-  height: 5rem;
-  margin-top: 1.2rem;
-  margin-left: 0.35rem;
-  background: var(--clay-deep);
-}
-
 .information-document {
+  width: min(100%, 58rem);
+  margin: 0 auto;
   min-width: 0;
 }
 
@@ -1875,19 +1843,8 @@ input:focus-visible {
 }
 
 .information-section {
-  display: grid;
-  grid-template-columns: minmax(3.2rem, 0.18fr) minmax(0, 1fr);
-  gap: clamp(1.3rem, 3vw, 3rem);
   padding: clamp(2.5rem, 5vw, 4.5rem) 0;
   border-bottom: 1px solid var(--rule);
-}
-
-.information-section > span {
-  padding-top: 0.35rem;
-  color: var(--clay-deep);
-  font-size: 0.7rem;
-  font-weight: 680;
-  letter-spacing: 0.1em;
 }
 
 .information-section h2 {
@@ -2650,10 +2607,6 @@ input:focus-visible {
     grid-column: 1 / -1;
   }
 
-  .information-body {
-    grid-template-columns: minmax(4rem, 0.18fr) minmax(0, 1fr);
-  }
-
   .footer-directory {
     grid-template-columns: minmax(18rem, 1.2fr) repeat(2, minmax(9rem, 0.7fr));
   }
@@ -2889,32 +2842,6 @@ input:focus-visible {
     max-width: 18rem;
   }
 
-  .information-body {
-    grid-template-columns: 1fr;
-  }
-
-  .information-index {
-    position: static;
-    display: grid;
-    grid-template-columns: auto auto 1fr;
-    align-items: center;
-    gap: 0.55rem;
-  }
-
-  .information-index > span {
-    font-size: 2rem;
-  }
-
-  .information-index p {
-    margin-top: 0;
-  }
-
-  .information-index i {
-    width: 100%;
-    height: 1px;
-    margin: 0 0 0 0.5rem;
-  }
-
   .retention-ruler {
     grid-template-columns: 1fr;
   }
@@ -2926,10 +2853,6 @@ input:focus-visible {
   .retention-ruler > div + div {
     border-top: 1px solid var(--rule);
     border-left: 0;
-  }
-
-  .information-section {
-    grid-template-columns: 2.2rem minmax(0, 1fr);
   }
 
   .footer-directory {

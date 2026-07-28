@@ -139,6 +139,14 @@ for (const language of languages) {
         .filter((image) => !image.hasAttribute("width") || !image.hasAttribute("height"))
         .map((image) => selector(image));
 
+      const decorativeDocumentNumbers = [
+        ...document.querySelectorAll(
+          ".information-index, .information-section > span",
+        ),
+      ]
+        .filter(visible)
+        .map((element) => selector(element));
+
       const heroEssentialBelowFold =
         window.innerWidth === 1280 && document.querySelector(".map-hero")
           ? [
@@ -165,6 +173,7 @@ for (const language of languages) {
         viewportEscapes,
         unnamedControls,
         unsizedImages,
+        decorativeDocumentNumbers,
         heroEssentialBelowFold,
         docsNavigationMissing:
           window.innerWidth >= 1280 &&
@@ -182,6 +191,7 @@ for (const language of languages) {
         audit.viewportEscapes.length ||
         audit.unnamedControls.length ||
         audit.unsizedImages.length ||
+        audit.decorativeDocumentNumbers.length ||
         audit.heroEssentialBelowFold ||
         audit.docsNavigationMissing
       ) {
