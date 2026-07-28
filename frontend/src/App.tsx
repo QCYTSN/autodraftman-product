@@ -1,6 +1,8 @@
 import {
   ArrowRight,
   ArrowUpRight,
+  CaretLeft,
+  CaretRight,
   Check,
   ClockCounterClockwise,
   DownloadSimple,
@@ -12,6 +14,8 @@ import {
   List,
   LockKey,
   LinkSimple,
+  NotePencil,
+  Plus,
   SignOut,
   TextT,
   Trash,
@@ -194,6 +198,11 @@ const copy = {
       history: "历史记录",
       historyEmpty: "还没有生成记录。",
       historyItem: "双分支编码器方法图",
+      newDraft: "新建草稿",
+      draftPending: "尚未生成",
+      historyHint: "输入内容后，当前草稿会显示在这里。",
+      collapseHistory: "收起记录栏",
+      expandHistory: "展开记录栏",
       delete: "删除记录",
       closeHistory: "关闭历史记录",
       promptError: "请先描述你希望生成的内容。",
@@ -396,6 +405,11 @@ const copy = {
       history: "History",
       historyEmpty: "No generations yet.",
       historyItem: "Two-branch encoder method figure",
+      newDraft: "New draft",
+      draftPending: "Not generated",
+      historyHint: "Your current draft appears here once you start writing.",
+      collapseHistory: "Collapse records",
+      expandHistory: "Expand records",
       delete: "Delete record",
       closeHistory: "Close history",
       promptError: "Describe what you want to generate first.",
@@ -946,14 +960,12 @@ function WorkspacePage({
   identity,
   credits,
   requestAuth,
-  onNavigate,
 }: {
   ui: UiCopy;
   language: Language;
   identity: Identity;
   credits: number | null;
   requestAuth: (action: () => void) => void;
-  onNavigate: (path: RoutePath) => void;
 }) {
   const [mode, setMode] = useState<"text" | "reference">("text");
   const [prompt, setPrompt] = useState("");
@@ -971,6 +983,9 @@ function WorkspacePage({
   const [progress] = useState(0);
   const [historyOpen, setHistoryOpen] = useState(false);
   const [historyVisible, setHistoryVisible] = useState(true);
+  const [historyCollapsed, setHistoryCollapsed] = useState(
+    () => window.localStorage.getItem("autodraftman-history-collapsed") === "true",
+  );
   const [message, setMessage] = useState("");
   const uploadAbortRef = useRef<AbortController | null>(null);
   const activeUploadAssetIdRef = useRef<string | null>(null);
@@ -988,6 +1003,13 @@ function WorkspacePage({
     },
     [],
   );
+
+  useEffect(() => {
+    window.localStorage.setItem(
+      "autodraftman-history-collapsed",
+      String(historyCollapsed),
+    );
+  }, [historyCollapsed]);
 
   const replacePreview = (file: File | null) => {
     if (previewUrlRef.current) URL.revokeObjectURL(previewUrlRef.current);
@@ -1156,6 +1178,17 @@ function WorkspacePage({
     replacePreview(null);
   };
 
+  const startNewDraft = () => {
+    removeReference();
+    setMode("text");
+    setPrompt("");
+    setRatio("16:9");
+    setFormat("PNG");
+    setIsPublic(false);
+    setHistoryVisible(true);
+    setMessage("");
+  };
+
   const referenceStatusLabel = (() => {
     if (referenceStatus === "preparing") return ui.workspace.uploadPreparing;
     if (referenceStatus === "uploading") {
@@ -1177,20 +1210,113 @@ function WorkspacePage({
   };
 
   return (
-    <main className="workspace-page page-enter">
-      <header className="workspace-heading shell">
-        <div>
-          <p className="kicker">{ui.workspace.eyebrow}</p>
-          <h1>{ui.workspace.title}</h1>
-          <p>{ui.workspace.subtitle}</p>
+    <main
+      className={`workspace-page page-enter ${
+        historyCollapsed ? "history-collapsed" : ""
+      }`}
+    >
+      <aside className="workspace-history" aria-label={ui.workspace.history}>
+        <div className="workspace-history-heading">
+          <button
+            type="button"
+            className="history-collapse-button"
+            aria-label={
+              historyCollapsed
+                ? ui.workspace.expandHistory
+                : ui.workspace.collapseHistory
+            }
+            title={
+              historyCollapsed
+                ? ui.workspace.expandHistory
+                : ui.workspace.collapseHistory
+            }
+            onClick={() => setHistoryCollapsed((value) => !value)}
+          >
+            {historyCollapsed ? <CaretRight size={18} /> : <CaretLeft size={18} />}
+            <span>{ui.workspace.history}</span>
+          </button>
         </div>
-        <div className="workspace-balance">
-          <span>{ui.workspace.credits}</span>
-          <strong>{credits ?? "—"}</strong>
-        </div>
-      </header>
 
-      <div className="workspace-layout shell">
+        <button className="new-draft-button" type="button" onClick={startNewDraft}>
+          <Plus size={18} />
+          <span>{ui.workspace.newDraft}</span>
+        </button>
+
+        <div className="workspace-records">
+          {!historyCollapsed && (
+            <p className="workspace-records-label">{ui.workspace.history}</p>
+          )}
+          {status === "complete" && historyVisible ? (
+            <article className="workspace-record">
+              <FileImage size={19} />
+              <div>
+                <strong>{ui.workspace.historyItem}</strong>
+                <small>
+                  {language === "zh" ? "刚刚生成" : "Generated just now"}
+                </small>
+              </div>
+              {!historyCollapsed && (
+                <button
+                  type="button"
+                  aria-label={ui.workspace.delete}
+                  title={ui.workspace.delete}
+                  onClick={() => setHistoryVisible(false)}
+                >
+                  <Trash size={16} />
+                </button>
+              )}
+            </article>
+          ) : prompt.trim() ? (
+            <div className="workspace-record current" aria-current="true">
+              <NotePencil size={19} />
+              <div>
+                <strong>{prompt.trim()}</strong>
+                <small>{ui.workspace.draftPending}</small>
+              </div>
+            </div>
+          ) : (
+            !historyCollapsed && (
+              <div className="workspace-history-empty">
+                <FileImage size={22} />
+                <p>{ui.workspace.historyHint}</p>
+              </div>
+            )
+          )}
+        </div>
+
+        <div className="workspace-history-account">
+          <UserCircle size={21} />
+          <div>
+            <strong>{credits ?? "—"}</strong>
+            <small>{ui.workspace.credits}</small>
+          </div>
+        </div>
+      </aside>
+
+      <div className="workspace-canvas">
+        <header className="workspace-heading">
+          <div>
+            <p className="kicker">{ui.workspace.eyebrow}</p>
+            <h1>{ui.workspace.title}</h1>
+            <p>{ui.workspace.subtitle}</p>
+          </div>
+          <div className="workspace-heading-actions">
+            <button
+              className="workspace-mobile-history"
+              type="button"
+              onClick={() => setHistoryOpen(true)}
+            >
+              <ClockCounterClockwise size={17} />
+              {ui.workspace.history}
+            </button>
+            <div className="workspace-balance">
+              <span>{ui.workspace.credits}</span>
+              <strong>{credits ?? "—"}</strong>
+            </div>
+          </div>
+        </header>
+
+        <div className="workspace-layout">
         <aside className="control-panel">
           <div className="mode-switch" aria-label="Generation mode">
             <button
@@ -1405,20 +1531,14 @@ function WorkspacePage({
                 </span>
               )}
             </div>
-            <button
-              className="icon-text-button"
-              type="button"
-              onClick={() => setHistoryOpen(true)}
-            >
-              <ClockCounterClockwise size={17} />
-              {ui.workspace.history}
-            </button>
           </header>
 
           <div className={`result-stage ratio-${ratio.replace(":", "-")}`}>
             {status === "empty" && (
               <div className="empty-result">
-                <span className="empty-index">01</span>
+                <span className="empty-result-mark" aria-hidden="true">
+                  <FileImage size={27} />
+                </span>
                 <div>
                   <h2>{ui.workspace.emptyTitle}</h2>
                   <p>{ui.workspace.emptyBody}</p>
@@ -1480,6 +1600,7 @@ function WorkspacePage({
           )}
         </section>
       </div>
+      </div>
 
       {historyOpen && (
         <div
@@ -1528,12 +1649,6 @@ function WorkspacePage({
         </div>
       )}
 
-      <div className="workspace-footer shell">
-        <button type="button" onClick={() => onNavigate("/pricing")}>
-          {ui.nav.pricing}
-          <ArrowUpRight size={16} />
-        </button>
-      </div>
     </main>
   );
 }
@@ -2395,7 +2510,6 @@ export default function App() {
           identity={identity}
           credits={credits}
           requestAuth={requestAuth}
-          onNavigate={navigate}
         />
       )}
       {route === "/pricing" && (

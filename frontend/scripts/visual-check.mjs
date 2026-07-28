@@ -83,6 +83,36 @@ await desktop.screenshot({
   fullPage: true,
 });
 await recordLayout(desktop, "workspace-desktop");
+if ((await desktop.locator(".workspace-record.current").count()) !== 1) {
+  errors.push("Expected the active prompt to appear as the current draft.");
+}
+const expandedHistoryWidth = await desktop
+  .locator(".workspace-history")
+  .evaluate((element) => element.getBoundingClientRect().width);
+await desktop.click(".history-collapse-button");
+await desktop.waitForTimeout(320);
+const collapsedHistoryWidth = await desktop
+  .locator(".workspace-history")
+  .evaluate((element) => element.getBoundingClientRect().width);
+if (expandedHistoryWidth < 200 || collapsedHistoryWidth > 80) {
+  errors.push(
+    `Unexpected history rail widths: expanded ${expandedHistoryWidth}, collapsed ${collapsedHistoryWidth}.`,
+  );
+}
+await desktop.screenshot({
+  path: path.join(outputDir, "workspace-collapsed.png"),
+});
+await desktop.reload({ waitUntil: "networkidle" });
+if (!(await desktop.locator(".workspace-page").evaluate((element) =>
+  element.classList.contains("history-collapsed"),
+))) {
+  errors.push("Expected the collapsed history preference to persist after reload.");
+}
+await desktop.click(".history-collapse-button");
+await desktop.fill(
+  "#figure-prompt",
+  "绘制一个双分支编码器结构，展示均值、方差和加权采样之间的关系。",
+);
 await desktop.locator(".mode-switch button").nth(1).click();
 await desktop.locator("#reference-file").setInputFiles(
   path.resolve("public/assets/autodraftman-showcase.png"),
@@ -146,6 +176,12 @@ await mobile.screenshot({
   fullPage: true,
 });
 await recordLayout(mobile, "workspace-mobile");
+await mobile.click(".workspace-mobile-history");
+await mobile.waitForSelector(".history-drawer");
+await mobile.screenshot({
+  path: path.join(outputDir, "workspace-mobile-history.png"),
+});
+await mobile.click(".drawer-heading button");
 await mobile.goto(`${baseUrl}/pricing`, { waitUntil: "networkidle" });
 await mobile.waitForTimeout(550);
 await mobile.screenshot({

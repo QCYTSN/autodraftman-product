@@ -164,6 +164,16 @@ for (const language of languages) {
             })()
           : false;
 
+      const workspaceRequiresPageScroll =
+        window.innerWidth >= 1024 &&
+        window.location.pathname.endsWith("/workspace") &&
+        document.documentElement.scrollHeight > window.innerHeight + 1;
+
+      const workspaceHistoryMissing =
+        window.innerWidth >= 1024 &&
+        window.location.pathname.endsWith("/workspace") &&
+        !document.querySelector(".workspace-history");
+
       return {
         horizontalOverflow:
           document.documentElement.scrollWidth >
@@ -175,6 +185,8 @@ for (const language of languages) {
         unsizedImages,
         decorativeDocumentNumbers,
         heroEssentialBelowFold,
+        workspaceRequiresPageScroll,
+        workspaceHistoryMissing,
         docsNavigationMissing:
           window.innerWidth >= 1280 &&
           ![...document.querySelectorAll(".desktop-nav a")].some(
@@ -193,6 +205,8 @@ for (const language of languages) {
         audit.unsizedImages.length ||
         audit.decorativeDocumentNumbers.length ||
         audit.heroEssentialBelowFold ||
+        audit.workspaceRequiresPageScroll ||
+        audit.workspaceHistoryMissing ||
         audit.docsNavigationMissing
       ) {
         failures.push(record);
