@@ -166,6 +166,11 @@ for (const language of languages) {
         unnamedControls,
         unsizedImages,
         heroEssentialBelowFold,
+        docsNavigationMissing:
+          window.innerWidth >= 1280 &&
+          ![...document.querySelectorAll(".desktop-nav a")].some(
+            (link) => new URL(link.href).pathname.endsWith("/docs"),
+          ),
       };
       });
 
@@ -177,7 +182,8 @@ for (const language of languages) {
         audit.viewportEscapes.length ||
         audit.unnamedControls.length ||
         audit.unsizedImages.length ||
-        audit.heroEssentialBelowFold
+        audit.heroEssentialBelowFold ||
+        audit.docsNavigationMissing
       ) {
         failures.push(record);
       }

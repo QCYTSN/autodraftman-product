@@ -104,6 +104,13 @@ await desktop.screenshot({
   path: path.join(outputDir, "pricing-yearly.png"),
 });
 await recordLayout(desktop, "pricing-desktop");
+await desktop.goto(`${baseUrl}/docs`, { waitUntil: "networkidle" });
+await desktop.waitForTimeout(350);
+await desktop.screenshot({
+  path: path.join(outputDir, "docs-desktop.png"),
+  fullPage: true,
+});
+await recordLayout(desktop, "docs-desktop");
 await desktop.close();
 
 const mobile = await createPage({ width: 390, height: 844 });
@@ -114,6 +121,15 @@ await mobile.screenshot({
   fullPage: true,
 });
 await recordLayout(mobile, "home-mobile");
+await mobile.click(".mobile-menu-button");
+const docsMenuEntry = mobile.locator('.mobile-nav a[href$="/docs"]');
+if ((await docsMenuEntry.count()) !== 1) {
+  errors.push("Expected one user guide entry in the mobile navigation.");
+}
+await mobile.screenshot({
+  path: path.join(outputDir, "home-mobile-menu.png"),
+});
+await mobile.click(".mobile-menu-button");
 await mobile.click(".language-button");
 await mobile.waitForTimeout(250);
 await mobile.screenshot({
@@ -143,6 +159,13 @@ await mobile.screenshot({
   path: path.join(outputDir, "pricing-mobile-yearly.png"),
   fullPage: true,
 });
+await mobile.goto(`${baseUrl}/docs`, { waitUntil: "networkidle" });
+await mobile.waitForTimeout(350);
+await mobile.screenshot({
+  path: path.join(outputDir, "docs-mobile.png"),
+  fullPage: true,
+});
+await recordLayout(mobile, "docs-mobile");
 await mobile.close();
 
 await browser.close();

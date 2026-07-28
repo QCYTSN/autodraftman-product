@@ -89,6 +89,7 @@ const copy = {
   zh: {
     nav: {
       product: "产品",
+      docs: "使用指南",
       pricing: "定价",
       workspace: "工作台",
       signIn: "登录",
@@ -283,6 +284,7 @@ const copy = {
   en: {
     nav: {
       product: "Product",
+      docs: "Docs",
       pricing: "Pricing",
       workspace: "Workspace",
       signIn: "Sign in",
@@ -640,6 +642,7 @@ function Header({
           {(
             [
               ["/", ui.nav.product],
+              ["/docs", ui.nav.docs],
               ["/pricing", ui.nav.pricing],
               ["/workspace", ui.nav.workspace],
             ] as const
@@ -688,6 +691,9 @@ function Header({
         <nav className="mobile-nav" aria-label="Mobile navigation">
           <InternalLink href="/" onNavigate={navigate}>
             {ui.nav.product}
+          </InternalLink>
+          <InternalLink href="/docs" onNavigate={navigate}>
+            {ui.nav.docs}
           </InternalLink>
           <InternalLink href="/pricing" onNavigate={navigate}>
             {ui.nav.pricing}
