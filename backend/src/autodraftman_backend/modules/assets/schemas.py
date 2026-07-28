@@ -17,6 +17,8 @@ class AssetRead(BaseModel):
     byte_size: int
     visibility: str
     created_at: datetime
+    expires_at: datetime | None
+    deleted_at: datetime | None
 
 
 class AssetPage(BaseModel):

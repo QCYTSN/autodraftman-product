@@ -30,6 +30,19 @@ export type BoundIdentity = {
   created_at: string;
 };
 
+export type CreditTransaction = {
+  id: string;
+  kind: "grant" | "reserve" | "settle" | "release" | "refund" | "adjustment";
+  delta_available: number;
+  delta_reserved: number;
+  available_after: number;
+  reserved_after: number;
+  reason: string;
+  reference_type: string | null;
+  reference_id: string | null;
+  created_at: string;
+};
+
 export class ApiError extends Error {
   readonly status: number;
 
@@ -156,5 +169,20 @@ export async function unlinkIdentity(provider: string): Promise<void> {
 export async function logout(): Promise<void> {
   await requestVoid("/api/v1/auth/logout", {
     method: "POST",
+  });
+}
+
+export async function getCreditTransactions(): Promise<CreditTransaction[]> {
+  const response = await requestJson<{
+    items: CreditTransaction[];
+    limit: number;
+    offset: number;
+  }>("/api/v1/credits/transactions?limit=8&offset=0");
+  return response.items;
+}
+
+export async function deleteAccount(): Promise<void> {
+  await requestVoid("/api/v1/auth/account", {
+    method: "DELETE",
   });
 }

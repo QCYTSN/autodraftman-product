@@ -37,6 +37,7 @@ from autodraftman_backend.modules.identity.service import (
     IdentityConflictError,
     LastIdentityError,
     list_bound_identities,
+    request_account_deletion,
     revoke_user_session,
     unlink_identity,
 )
@@ -259,4 +260,28 @@ async def logout(
     await session.commit()
     response = Response(status_code=status.HTTP_204_NO_CONTENT)
     clear_user_session_cookie(response, settings)
+    return response
+
+
+@router.delete("/account", status_code=status.HTTP_204_NO_CONTENT)
+async def delete_account(
+    principal: UserPrincipalDependency,
+    session: SessionDependency,
+    settings: SettingsDependency,
+) -> Response:
+    try:
+        await request_account_deletion(
+            session,
+            user_id=principal.subject_id,
+            now=datetime.now(UTC),
+            asset_delete_grace_hours=settings.asset_delete_grace_hours,
+            account_purge_days=settings.account_purge_days,
+        )
+        await session.commit()
+    except IdentityConflictError as exc:
+        raise HTTPException(status_code=status.HTTP_409_CONFLICT, detail=str(exc)) from exc
+
+    response = Response(status_code=status.HTTP_204_NO_CONTENT)
+    clear_user_session_cookie(response, settings)
+    clear_guest_cookie(response, settings)
     return response

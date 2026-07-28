@@ -2,7 +2,11 @@ import uuid
 
 from fastapi import APIRouter, HTTPException, Query, status
 
-from autodraftman_backend.api.dependencies import PrincipalDependency, SessionDependency
+from autodraftman_backend.api.dependencies import (
+    PrincipalDependency,
+    SessionDependency,
+    SettingsDependency,
+)
 from autodraftman_backend.modules.assets.schemas import AssetPage, AssetRead
 from autodraftman_backend.modules.assets.service import list_assets, soft_delete_asset
 
@@ -34,7 +38,13 @@ async def delete_asset(
     asset_id: uuid.UUID,
     principal: PrincipalDependency,
     session: SessionDependency,
+    settings: SettingsDependency,
 ) -> None:
-    deleted = await soft_delete_asset(session, principal, asset_id)
+    deleted = await soft_delete_asset(
+        session,
+        principal,
+        asset_id,
+        purge_after_hours=settings.asset_delete_grace_hours,
+    )
     if not deleted:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Asset not found")

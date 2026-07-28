@@ -26,11 +26,14 @@ from autodraftman_backend.core.database import (
 
 class User(UUIDPrimaryKeyMixin, TimestampMixin, Base):
     __tablename__ = "users"
+    __table_args__ = (Index("ix_users_purge_after", "purge_after"),)
 
     display_name: Mapped[str | None] = mapped_column(String(120))
     avatar_url: Mapped[str | None] = mapped_column(String(2048))
     is_active: Mapped[bool] = mapped_column(Boolean, nullable=False, server_default=true())
     guest_trial_claimed_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True))
+    deletion_requested_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True))
+    purge_after: Mapped[datetime | None] = mapped_column(DateTime(timezone=True))
 
 
 class AuthIdentity(UUIDPrimaryKeyMixin, CreatedAtMixin, Base):

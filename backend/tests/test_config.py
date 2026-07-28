@@ -43,3 +43,11 @@ def test_samesite_none_requires_secure_cookie() -> None:
             cookie_samesite="none",
             cookie_secure=False,
         )
+
+
+def test_retention_periods_must_be_positive() -> None:
+    with pytest.raises(ValidationError, match="retention"):
+        Settings(
+            _env_file=None,
+            backup_retention_days=0,
+        )

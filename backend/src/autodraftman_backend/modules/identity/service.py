@@ -5,7 +5,7 @@ from dataclasses import dataclass
 from datetime import UTC, datetime, timedelta
 from typing import Literal
 
-from sqlalchemy import select, update
+from sqlalchemy import delete, select, update
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from autodraftman_backend.core.config import Settings
@@ -30,6 +30,12 @@ class LastIdentityError(Exception):
 
 class GuestMergeError(Exception):
     pass
+
+
+@dataclass(frozen=True, slots=True)
+class AccountDeletionReceipt:
+    requested_at: datetime
+    purge_after: datetime
 
 
 @dataclass(frozen=True, slots=True)
@@ -273,6 +279,50 @@ async def revoke_user_session(
         )
         .values(revoked_at=now)
     )
+
+
+async def request_account_deletion(
+    session: AsyncSession,
+    *,
+    user_id: uuid.UUID,
+    now: datetime,
+    asset_delete_grace_hours: int,
+    account_purge_days: int,
+) -> AccountDeletionReceipt:
+    user = await session.get(User, user_id, with_for_update=True)
+    if user is None or not user.is_active:
+        raise IdentityConflictError("The account is no longer active.")
+
+    purge_after = now + timedelta(days=account_purge_days)
+    await session.execute(
+        update(Asset)
+        .where(
+            Asset.owner_user_id == user_id,
+            Asset.deleted_at.is_(None),
+        )
+        .values(
+            status="deleted",
+            deleted_at=now,
+            purge_after=now + timedelta(hours=asset_delete_grace_hours),
+        )
+    )
+    await session.execute(delete(AuthIdentity).where(AuthIdentity.user_id == user_id))
+    await session.execute(
+        update(UserSession)
+        .where(
+            UserSession.user_id == user_id,
+            UserSession.revoked_at.is_(None),
+        )
+        .values(revoked_at=now)
+    )
+
+    user.display_name = None
+    user.avatar_url = None
+    user.is_active = False
+    user.deletion_requested_at = now
+    user.purge_after = purge_after
+    await session.flush()
+    return AccountDeletionReceipt(requested_at=now, purge_after=purge_after)
 
 
 async def _get_or_create_user_account(

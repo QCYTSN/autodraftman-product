@@ -32,6 +32,8 @@ class Asset(UUIDPrimaryKeyMixin, TimestampMixin, Base):
         ),
         Index("ix_assets_user_created", "owner_user_id", "created_at"),
         Index("ix_assets_guest_created", "owner_guest_id", "created_at"),
+        Index("ix_assets_expires_at", "expires_at"),
+        Index("ix_assets_purge_after", "purge_after"),
     )
 
     owner_user_id: Mapped[uuid.UUID | None] = mapped_column(
@@ -56,3 +58,6 @@ class Asset(UUIDPrimaryKeyMixin, TimestampMixin, Base):
         server_default="private",
     )
     deleted_at: Mapped[datetime | None]
+    expires_at: Mapped[datetime | None]
+    purge_after: Mapped[datetime | None]
+    purged_at: Mapped[datetime | None]

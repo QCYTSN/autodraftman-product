@@ -32,21 +32,30 @@ import {
   ApiError,
   apiConfigured,
   createOrRestoreGuest,
+  deleteAccount,
   getAuthProviders,
   getBoundIdentities,
+  getCreditTransactions,
   getCurrentIdentity,
   logout,
   oauthStartUrl,
   unlinkIdentity,
   type AuthProvider,
   type BoundIdentity,
+  type CreditTransaction,
   type CurrentIdentity,
 } from "./api";
+import {
+  footerCopy,
+  ProductInformationPage,
+  type ProductLanguage,
+  type ProductRoute,
+} from "./ProductPages";
 
-type Language = "zh" | "en";
+type Language = ProductLanguage;
 type Identity = "guest" | "user" | null;
 type AuthChoice = "guest" | "google" | "github" | "wechat";
-type RoutePath = "/" | "/workspace" | "/pricing";
+type RoutePath = ProductRoute;
 type GenerateStatus = "empty" | "generating" | "complete";
 type BillingCycle = "monthly" | "yearly";
 
@@ -227,6 +236,22 @@ const copy = {
       logout: "退出登录",
       lastLogin: "至少需要保留一种登录方式。",
       noEmail: "未提供邮箱",
+      creditActivity: "额度记录",
+      noTransactions: "暂时没有额度变化。",
+      creditAfter: "变更后",
+      granted: "发放额度",
+      reserved: "冻结额度",
+      settled: "完成结算",
+      released: "释放额度",
+      refunded: "退回额度",
+      adjusted: "额度调整",
+      dangerZone: "账户管理",
+      deleteAccount: "注销账户",
+      deleteTitle: "确认注销这个账户？",
+      deleteBody:
+        "登录方式会立即解除，账户和内容将无法继续访问。主文件将在 24 小时内清理，账户记录计划在 30 天后清除。",
+      deleteConfirm: "确认注销",
+      cancelDelete: "保留账户",
     },
   },
   en: {
@@ -400,6 +425,22 @@ const copy = {
       logout: "Sign out",
       lastLogin: "At least one login method must remain linked.",
       noEmail: "No email provided",
+      creditActivity: "Credit activity",
+      noTransactions: "No credit changes yet.",
+      creditAfter: "After",
+      granted: "Credits granted",
+      reserved: "Credits reserved",
+      settled: "Generation settled",
+      released: "Credits released",
+      refunded: "Credits refunded",
+      adjusted: "Credit adjustment",
+      dangerZone: "Account management",
+      deleteAccount: "Close account",
+      deleteTitle: "Close this account?",
+      deleteBody:
+        "Sign-in methods are removed immediately and the account and content become inaccessible. Primary files are scheduled for removal within 24 hours and account records after 30 days.",
+      deleteConfirm: "Close account",
+      cancelDelete: "Keep account",
     },
   },
 } as const;
@@ -407,7 +448,15 @@ const copy = {
 type UiCopy = (typeof copy)[Language];
 
 function isRoutePath(value: string): value is RoutePath {
-  return value === "/" || value === "/workspace" || value === "/pricing";
+  return [
+    "/",
+    "/workspace",
+    "/pricing",
+    "/docs",
+    "/privacy",
+    "/terms",
+    "/content-policy",
+  ].includes(value as RoutePath);
 }
 
 function routeFromLocation(pathname: string): RoutePath {
@@ -736,9 +785,11 @@ function ProductStory({ ui }: { ui: UiCopy }) {
 
 function HomePage({
   ui,
+  language,
   onNavigate,
 }: {
   ui: UiCopy;
+  language: Language;
   onNavigate: (path: RoutePath) => void;
 }) {
   return (
@@ -837,7 +888,7 @@ function HomePage({
         </InternalLink>
       </section>
 
-      <Footer ui={ui} onNavigate={onNavigate} />
+      <Footer ui={ui} language={language} onNavigate={onNavigate} />
     </main>
   );
 }
@@ -1221,9 +1272,11 @@ const planPrices = [
 
 function PricingPage({
   ui,
+  language,
   onNavigate,
 }: {
   ui: UiCopy;
+  language: Language;
   onNavigate: (path: RoutePath) => void;
 }) {
   const [billing, setBilling] = useState<BillingCycle>("monthly");
@@ -1345,7 +1398,7 @@ function PricingPage({
         </button>
       </section>
 
-      <Footer ui={ui} onNavigate={onNavigate} />
+      <Footer ui={ui} language={language} onNavigate={onNavigate} />
       {toast && (
         <div className="toast" role="status">
           <LockKey size={18} />
@@ -1358,27 +1411,60 @@ function PricingPage({
 
 function Footer({
   ui,
+  language,
   onNavigate,
 }: {
   ui: UiCopy;
+  language: Language;
   onNavigate: (path: RoutePath) => void;
 }) {
+  const footer = footerCopy[language];
+
   return (
     <footer className="site-footer">
-      <div className="footer-statement shell">
-        <p>{ui.home.footerStatement}</p>
-      </div>
-      <div className="footer-meta shell">
-        <Brand onNavigate={onNavigate} />
-        <p>{ui.home.footer}</p>
-        <nav aria-label="Footer navigation">
-          <InternalLink href="/pricing" onNavigate={onNavigate}>
-            {ui.nav.pricing}
-          </InternalLink>
+      <div className="footer-directory shell">
+        <div className="footer-lead">
+          <Brand onNavigate={onNavigate} />
+          <p>{ui.home.footerStatement}</p>
+          <span>{ui.home.footer}</span>
+        </div>
+        <nav aria-label={footer.product}>
+          <p>{footer.product}</p>
           <InternalLink href="/workspace" onNavigate={onNavigate}>
-            {ui.nav.workspace}
+            {footer.workspace}
+          </InternalLink>
+          <InternalLink href="/pricing" onNavigate={onNavigate}>
+            {footer.pricing}
           </InternalLink>
         </nav>
+        <nav aria-label={footer.resources}>
+          <p>{footer.resources}</p>
+          <InternalLink href="/docs" onNavigate={onNavigate}>
+            {footer.docs}
+          </InternalLink>
+          <InternalLink href="/privacy" onNavigate={onNavigate}>
+            {footer.privacy}
+          </InternalLink>
+          <InternalLink href="/terms" onNavigate={onNavigate}>
+            {footer.terms}
+          </InternalLink>
+          <InternalLink href="/content-policy" onNavigate={onNavigate}>
+            {footer.content}
+          </InternalLink>
+        </nav>
+        <div className="footer-contact">
+          <p>{footer.contact}</p>
+          <span>{footer.contactBody}</span>
+        </div>
+      </div>
+      <div className="footer-bottom shell">
+        <p>{footer.copyright}</p>
+        <p>{footer.internal}</p>
+        <span aria-hidden="true">
+          <i />
+          <i />
+          <i />
+        </span>
       </div>
     </footer>
   );
@@ -1520,29 +1606,35 @@ function AccountDialog({
   current,
   providers,
   identities,
+  transactions,
   busy,
   error,
   onClose,
   onLink,
   onUnlink,
   onLogout,
+  onDeleteAccount,
 }: {
   ui: UiCopy;
   open: boolean;
   current: CurrentIdentity | null;
   providers: AuthProvider[];
   identities: BoundIdentity[];
+  transactions: CreditTransaction[];
   busy: boolean;
   error: string;
   onClose: () => void;
   onLink: (provider: "google" | "github") => void;
   onUnlink: (provider: string) => void;
   onLogout: () => void;
+  onDeleteAccount: () => void;
 }) {
   const dialogRef = useRef<HTMLDivElement>(null);
+  const [deleteConfirmOpen, setDeleteConfirmOpen] = useState(false);
 
   useEffect(() => {
     if (!open) return;
+    setDeleteConfirmOpen(false);
     dialogRef.current?.querySelector<HTMLButtonElement>("button")?.focus();
     const closeOnEscape = (event: KeyboardEvent) => {
       if (event.key === "Escape") onClose();
@@ -1559,6 +1651,14 @@ function AccountDialog({
       provider.id !== "wechat" &&
       !linkedProviders.has(provider.id),
   );
+  const transactionLabels = {
+    grant: ui.auth.granted,
+    reserve: ui.auth.reserved,
+    settle: ui.auth.settled,
+    release: ui.auth.released,
+    refund: ui.auth.refunded,
+    adjustment: ui.auth.adjusted,
+  } as const;
 
   return (
     <div className="modal-backdrop" onMouseDown={onClose}>
@@ -1635,6 +1735,45 @@ function AccountDialog({
           </section>
         )}
 
+        <section className="credit-activity">
+          <div className="account-section-heading">
+            <p>{ui.auth.creditActivity}</p>
+            <ClockCounterClockwise size={17} />
+          </div>
+          {transactions.length > 0 ? (
+            <ol>
+              {transactions.map((transaction) => {
+                const delta = transaction.delta_available;
+                return (
+                  <li key={transaction.id}>
+                    <span>
+                      <strong>{transactionLabels[transaction.kind]}</strong>
+                      <small>
+                        {new Intl.DateTimeFormat(
+                          document.documentElement.lang || "zh-CN",
+                          {
+                            year: "numeric",
+                            month: "short",
+                            day: "numeric",
+                          },
+                        ).format(new Date(transaction.created_at))}
+                      </small>
+                    </span>
+                    <span className={delta >= 0 ? "credit-positive" : "credit-negative"}>
+                      <strong>{delta > 0 ? `+${delta}` : delta}</strong>
+                      <small>
+                        {ui.auth.creditAfter} {transaction.available_after}
+                      </small>
+                    </span>
+                  </li>
+                );
+              })}
+            </ol>
+          ) : (
+            <p className="account-empty">{ui.auth.noTransactions}</p>
+          )}
+        </section>
+
         {error && (
           <p className="dialog-error" role="alert" aria-live="polite">
             {error}
@@ -1644,6 +1783,38 @@ function AccountDialog({
           <SignOut size={18} />
           {ui.auth.logout}
         </button>
+
+        <section className="account-danger">
+          <p>{ui.auth.dangerZone}</p>
+          {deleteConfirmOpen ? (
+            <div className="delete-confirmation">
+              <strong>{ui.auth.deleteTitle}</strong>
+              <p>{ui.auth.deleteBody}</p>
+              <div>
+                <button type="button" disabled={busy} onClick={onDeleteAccount}>
+                  <Trash size={17} />
+                  {ui.auth.deleteConfirm}
+                </button>
+                <button
+                  type="button"
+                  disabled={busy}
+                  onClick={() => setDeleteConfirmOpen(false)}
+                >
+                  {ui.auth.cancelDelete}
+                </button>
+              </div>
+            </div>
+          ) : (
+            <button
+              className="delete-account-button"
+              type="button"
+              disabled={busy}
+              onClick={() => setDeleteConfirmOpen(true)}
+            >
+              {ui.auth.deleteAccount}
+            </button>
+          )}
+        </section>
       </div>
     </div>
   );
@@ -1661,6 +1832,7 @@ export default function App() {
   const [credits, setCredits] = useState<number | null>(null);
   const [providers, setProviders] = useState<AuthProvider[]>(defaultAuthProviders);
   const [boundIdentities, setBoundIdentities] = useState<BoundIdentity[]>([]);
+  const [creditTransactions, setCreditTransactions] = useState<CreditTransaction[]>([]);
   const [loginOpen, setLoginOpen] = useState(false);
   const [accountOpen, setAccountOpen] = useState(false);
   const [authBusy, setAuthBusy] = useState(false);
@@ -1834,7 +2006,12 @@ export default function App() {
     setAccountOpen(true);
     setAuthBusy(true);
     try {
-      setBoundIdentities(await getBoundIdentities());
+      const [linked, transactions] = await Promise.all([
+        getBoundIdentities(),
+        getCreditTransactions(),
+      ]);
+      setBoundIdentities(linked);
+      setCreditTransactions(transactions);
     } catch (error) {
       setAccountError(
         error instanceof ApiError ? error.message : ui.auth.connectionError,
@@ -1845,12 +2022,14 @@ export default function App() {
   };
 
   const refreshAccount = async () => {
-    const [current, linked] = await Promise.all([
+    const [current, linked, transactions] = await Promise.all([
       getCurrentIdentity(),
       getBoundIdentities(),
+      getCreditTransactions(),
     ]);
     applyServerIdentity(current);
     setBoundIdentities(linked);
+    setCreditTransactions(transactions);
   };
 
   const handleUnlink = async (provider: string) => {
@@ -1877,8 +2056,31 @@ export default function App() {
       setIdentity(null);
       setCredits(null);
       setBoundIdentities([]);
+      setCreditTransactions([]);
       window.localStorage.removeItem(sessionMarker);
       setAccountOpen(false);
+    } catch (error) {
+      setAccountError(
+        error instanceof ApiError ? error.message : ui.auth.connectionError,
+      );
+    } finally {
+      setAuthBusy(false);
+    }
+  };
+
+  const handleDeleteAccount = async () => {
+    setAuthBusy(true);
+    setAccountError("");
+    try {
+      await deleteAccount();
+      setCurrentIdentity(null);
+      setIdentity(null);
+      setCredits(null);
+      setBoundIdentities([]);
+      setCreditTransactions([]);
+      window.localStorage.removeItem(sessionMarker);
+      setAccountOpen(false);
+      navigate("/");
     } catch (error) {
       setAccountError(
         error instanceof ApiError ? error.message : ui.auth.connectionError,
@@ -1909,7 +2111,9 @@ export default function App() {
         }}
       />
 
-      {route === "/" && <HomePage ui={ui} onNavigate={navigate} />}
+      {route === "/" && (
+        <HomePage ui={ui} language={language} onNavigate={navigate} />
+      )}
       {route === "/workspace" && (
         <WorkspacePage
           ui={ui}
@@ -1920,7 +2124,22 @@ export default function App() {
           onNavigate={navigate}
         />
       )}
-      {route === "/pricing" && <PricingPage ui={ui} onNavigate={navigate} />}
+      {route === "/pricing" && (
+        <PricingPage ui={ui} language={language} onNavigate={navigate} />
+      )}
+      {(
+        ["/docs", "/privacy", "/terms", "/content-policy"] as const
+      ).includes(route as "/docs" | "/privacy" | "/terms" | "/content-policy") && (
+        <>
+          <ProductInformationPage
+            route={route as "/docs" | "/privacy" | "/terms" | "/content-policy"}
+            language={language}
+            hrefFor={routeHref}
+            onNavigate={navigate}
+          />
+          <Footer ui={ui} language={language} onNavigate={navigate} />
+        </>
+      )}
 
       <LoginDialog
         ui={ui}
@@ -1941,6 +2160,7 @@ export default function App() {
         current={currentIdentity}
         providers={providers}
         identities={boundIdentities}
+        transactions={creditTransactions}
         busy={authBusy}
         error={accountError}
         onClose={() => {
@@ -1950,6 +2170,7 @@ export default function App() {
         onLink={(provider) => window.location.assign(oauthStartUrl(provider, "link"))}
         onUnlink={(provider) => void handleUnlink(provider)}
         onLogout={() => void handleLogout()}
+        onDeleteAccount={() => void handleDeleteAccount()}
       />
     </>
   );

@@ -66,6 +66,10 @@ Image bytes never enter PostgreSQL. Asset rows store an S3-compatible provider, 
 object key, media metadata, ownership, and visibility. Permanent public URLs are not stored.
 Access will use short-lived presigned URLs.
 
+Asset rows also record expiry, deletion, scheduled purge, and completed purge timestamps. Guest
+content expires after seven days. A user deletion removes access immediately and schedules object
+deletion within 24 hours. See `docs/data-retention-policy.md` at the repository root.
+
 ### Honest health reporting
 
 `/health/live` means the process can answer HTTP. `/health/ready` additionally verifies PostgreSQL
@@ -105,6 +109,7 @@ erDiagram
 - managed PostgreSQL connection pooling
 - CDN/WAF and rate limiting
 - object lifecycle policies for short-lived guest data
+- scheduled asset purge and account purge commands
 
 ### After the generation kernel is measured
 

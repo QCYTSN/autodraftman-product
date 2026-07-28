@@ -2,7 +2,14 @@ import { copyFile, mkdir, writeFile } from "node:fs/promises";
 import path from "node:path";
 
 const outputDirectory = path.resolve("dist");
-const routeNames = ["pricing", "workspace"];
+const routeNames = [
+  "pricing",
+  "workspace",
+  "docs",
+  "privacy",
+  "terms",
+  "content-policy",
+];
 
 await Promise.all(
   routeNames.map(async (routeName) => {

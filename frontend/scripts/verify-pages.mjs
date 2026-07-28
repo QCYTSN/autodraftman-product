@@ -27,7 +27,15 @@ page.on("response", (response) => {
 
 const checks = [];
 
-for (const route of ["/", "/pricing", "/workspace"]) {
+for (const route of [
+  "/",
+  "/pricing",
+  "/workspace",
+  "/docs",
+  "/privacy",
+  "/terms",
+  "/content-policy",
+]) {
   const response = await page.goto(`${baseUrl}${route}`, {
     waitUntil: "networkidle",
   });

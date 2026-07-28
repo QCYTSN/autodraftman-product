@@ -6,7 +6,15 @@ const executablePath =
   (process.platform === "win32"
     ? "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe"
     : "/usr/bin/google-chrome");
-const routes = ["/", "/workspace", "/pricing"];
+const routes = [
+  "/",
+  "/workspace",
+  "/pricing",
+  "/docs",
+  "/privacy",
+  "/terms",
+  "/content-policy",
+];
 const widths = [320, 375, 414, 768, 1280, 1440, 1920];
 const languages = ["zh", "en"];
 const browser = await chromium.launch({ executablePath, headless: true });

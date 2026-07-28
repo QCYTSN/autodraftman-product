@@ -37,6 +37,19 @@ npm run dev
 The frontend is available at `http://127.0.0.1:5173` and the API at
 `http://127.0.0.1:8000`.
 
+## Product information pages
+
+The bilingual product interface includes:
+
+- `/docs` — user guide and current feature boundaries
+- `/privacy` — privacy and retention policy draft
+- `/terms` — internal-test terms draft
+- `/content-policy` — responsible-use and scientific-integrity rules
+
+These pages are intentionally marked as drafts. The operating entity, formal
+contact channel, deployment regions, generation providers, payment terms, and
+governing law must be confirmed before public testing.
+
 ## Validation
 
 ```powershell

@@ -27,9 +27,13 @@ class Settings(BaseSettings):
 
     guest_cookie_name: str = "autodraftman_guest"
     guest_ttl_days: int = 7
+    guest_content_ttl_days: int = 7
     guest_initial_credits: int = 1
     session_cookie_name: str = "autodraftman_session"
     session_ttl_days: int = 30
+    asset_delete_grace_hours: int = 24
+    account_purge_days: int = 30
+    backup_retention_days: int = 30
     cookie_secure: bool = False
     cookie_samesite: Literal["lax", "strict", "none"] = "lax"
 
@@ -68,8 +72,14 @@ class Settings(BaseSettings):
             raise ValueError("SameSite=None cookies must also be Secure.")
         if self.guest_initial_credits < 0:
             raise ValueError("Guest initial credits cannot be negative.")
+        if self.guest_ttl_days <= 0 or self.guest_content_ttl_days <= 0:
+            raise ValueError("Guest identity and content TTLs must be positive.")
         if self.session_ttl_days <= 0:
             raise ValueError("Session TTL must be positive.")
+        if self.asset_delete_grace_hours <= 0:
+            raise ValueError("Asset deletion grace period must be positive.")
+        if self.account_purge_days <= 0 or self.backup_retention_days <= 0:
+            raise ValueError("Account and backup retention periods must be positive.")
         if self.oauth_attempt_ttl_minutes <= 0:
             raise ValueError("OAuth attempt TTL must be positive.")
         self._validate_oauth_pair(
