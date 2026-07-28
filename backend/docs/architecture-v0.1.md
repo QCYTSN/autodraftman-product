@@ -63,8 +63,10 @@ No payment or order tables exist until a payment provider and product policy are
 ### Private asset metadata
 
 Image bytes never enter PostgreSQL. Asset rows store an S3-compatible provider, bucket, random
-object key, media metadata, ownership, and visibility. Permanent public URLs are not stored.
-Access will use short-lived presigned URLs.
+object key, verified media metadata, ownership, and visibility. Permanent public URLs are not
+stored. Browser uploads and private downloads use short-lived presigned URLs. After upload, the
+API re-reads the object and verifies the real image type, size, dimensions, and checksum before
+marking it ready.
 
 Asset rows also record expiry, deletion, scheduled purge, and completed purge timestamps. Guest
 content expires after seven days. A user deletion removes access immediately and schedules object
@@ -94,7 +96,7 @@ erDiagram
 
 - FastAPI container
 - PostgreSQL container
-- local or development S3-compatible storage
+- local MinIO using the same S3-compatible boundary as the later cloud store
 
 ### Shared internal environment
 

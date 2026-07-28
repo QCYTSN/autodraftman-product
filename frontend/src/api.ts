@@ -43,6 +43,33 @@ export type CreditTransaction = {
   created_at: string;
 };
 
+export type Asset = {
+  id: string;
+  original_filename: string | null;
+  kind: "reference" | "result";
+  status: "pending" | "ready" | "deleted";
+  media_type: string;
+  byte_size: number;
+  width_px: number | null;
+  height_px: number | null;
+  visibility: "private" | "unlisted" | "public";
+  created_at: string;
+  expires_at: string | null;
+  deleted_at: string | null;
+};
+
+export type PresignedRequest = {
+  url: string;
+  method: "PUT" | "GET";
+  headers: Record<string, string>;
+  expires_at: string;
+};
+
+export type AssetUploadIntent = {
+  asset: Asset;
+  upload: PresignedRequest;
+};
+
 export class ApiError extends Error {
   readonly status: number;
 
@@ -185,4 +212,91 @@ export async function deleteAccount(): Promise<void> {
   await requestVoid("/api/v1/auth/account", {
     method: "DELETE",
   });
+}
+
+export function createAssetUploadIntent(
+  file: File,
+  mediaType = file.type,
+): Promise<AssetUploadIntent> {
+  return requestJson<AssetUploadIntent>("/api/v1/assets/upload-intents", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      original_filename: file.name,
+      media_type: mediaType,
+      byte_size: file.size,
+    }),
+  });
+}
+
+export function uploadToPresignedUrl(
+  request: PresignedRequest,
+  file: File,
+  onProgress: (percent: number) => void,
+  signal?: AbortSignal,
+): Promise<void> {
+  return new Promise((resolve, reject) => {
+    const xhr = new XMLHttpRequest();
+    const abortUpload = () => xhr.abort();
+    const cleanup = () => signal?.removeEventListener("abort", abortUpload);
+
+    xhr.open(request.method, request.url);
+    xhr.timeout = 120_000;
+    for (const [name, value] of Object.entries(request.headers)) {
+      xhr.setRequestHeader(name, value);
+    }
+    xhr.upload.onprogress = (event) => {
+      if (event.lengthComputable) {
+        onProgress(Math.min(100, Math.round((event.loaded / event.total) * 100)));
+      }
+    };
+    xhr.onload = () => {
+      cleanup();
+      if (xhr.status >= 200 && xhr.status < 300) {
+        onProgress(100);
+        resolve();
+        return;
+      }
+      reject(new ApiError(`Upload failed with status ${xhr.status}`, xhr.status));
+    };
+    xhr.onerror = () => {
+      cleanup();
+      reject(new ApiError("The object store could not be reached", 0));
+    };
+    xhr.ontimeout = () => {
+      cleanup();
+      reject(new ApiError("The upload timed out", 0));
+    };
+    xhr.onabort = () => {
+      cleanup();
+      reject(new ApiError("The upload was cancelled", 0));
+    };
+
+    if (signal?.aborted) {
+      reject(new ApiError("The upload was cancelled", 0));
+      return;
+    }
+    signal?.addEventListener("abort", abortUpload, { once: true });
+    xhr.send(file);
+  });
+}
+
+export function completeAssetUpload(assetId: string): Promise<Asset> {
+  return requestJson<Asset>(`/api/v1/assets/${assetId}/complete`, {
+    method: "POST",
+  });
+}
+
+export async function deleteAsset(assetId: string): Promise<void> {
+  await requestVoid(`/api/v1/assets/${assetId}`, {
+    method: "DELETE",
+  });
+}
+
+export function getAssetDownloadUrl(
+  assetId: string,
+): Promise<{ url: string; expires_at: string }> {
+  return requestJson<{ url: string; expires_at: string }>(
+    `/api/v1/assets/${assetId}/download`,
+  );
 }

@@ -46,9 +46,11 @@ class Settings(BaseSettings):
     oauth_github_client_secret: str | None = None
 
     asset_max_upload_bytes: int = 10 * 1024 * 1024
+    asset_max_pixels: int = 40_000_000
     allowed_image_media_types: str = "image/png,image/jpeg,image/webp"
 
     s3_endpoint_url: str | None = None
+    s3_public_endpoint_url: str | None = None
     s3_region: str | None = None
     s3_bucket: str = "autodraftman"
     s3_access_key_id: str | None = None
@@ -82,6 +84,8 @@ class Settings(BaseSettings):
             raise ValueError("Account and backup retention periods must be positive.")
         if self.oauth_attempt_ttl_minutes <= 0:
             raise ValueError("OAuth attempt TTL must be positive.")
+        if self.asset_max_upload_bytes <= 0 or self.asset_max_pixels <= 0:
+            raise ValueError("Asset upload limits must be positive.")
         self._validate_oauth_pair(
             "Google",
             self.oauth_google_client_id,

@@ -29,6 +29,7 @@ AUTODRAFTMAN_OAUTH_GOOGLE_CLIENT_SECRET=
 AUTODRAFTMAN_OAUTH_GITHUB_CLIENT_ID=
 AUTODRAFTMAN_OAUTH_GITHUB_CLIENT_SECRET=
 AUTODRAFTMAN_S3_ENDPOINT_URL=
+AUTODRAFTMAN_S3_PUBLIC_ENDPOINT_URL=
 AUTODRAFTMAN_S3_REGION=
 AUTODRAFTMAN_S3_BUCKET=
 AUTODRAFTMAN_S3_ACCESS_KEY_ID=
@@ -36,7 +37,9 @@ AUTODRAFTMAN_S3_SECRET_ACCESS_KEY=
 ```
 
 Only ports 80 and 443 should be public. PostgreSQL must not expose port 5432 to
-the Internet. Concrete production Compose and reverse-proxy files will be added
+the Internet. The object store must remain private except for its HTTPS signed-URL
+endpoint, with CORS restricted to the deployed frontend origins. Concrete production
+Compose and reverse-proxy files will be added
 after the cloud provider and domain are selected.
 
 The production scheduler must run guest-expiry, object-purge, and account-purge

@@ -3,7 +3,15 @@ from __future__ import annotations
 import uuid
 from datetime import datetime
 
-from sqlalchemy import BigInteger, CheckConstraint, ForeignKey, Index, String, UniqueConstraint
+from sqlalchemy import (
+    BigInteger,
+    CheckConstraint,
+    DateTime,
+    ForeignKey,
+    Index,
+    String,
+    UniqueConstraint,
+)
 from sqlalchemy.orm import Mapped, mapped_column
 
 from autodraftman_backend.core.database import Base, TimestampMixin, UUIDPrimaryKeyMixin
@@ -18,6 +26,11 @@ class Asset(UUIDPrimaryKeyMixin, TimestampMixin, Base):
             name="exactly_one_owner",
         ),
         CheckConstraint("byte_size >= 0", name="nonnegative_byte_size"),
+        CheckConstraint(
+            "(width_px IS NULL AND height_px IS NULL) OR "
+            "(width_px > 0 AND height_px > 0)",
+            name="positive_dimensions",
+        ),
         CheckConstraint("kind IN ('reference', 'result')", name="kind"),
         CheckConstraint("status IN ('pending', 'ready', 'deleted')", name="status"),
         CheckConstraint(
@@ -50,6 +63,8 @@ class Asset(UUIDPrimaryKeyMixin, TimestampMixin, Base):
     status: Mapped[str] = mapped_column(String(32), nullable=False)
     media_type: Mapped[str] = mapped_column(String(127), nullable=False)
     byte_size: Mapped[int] = mapped_column(BigInteger, nullable=False)
+    width_px: Mapped[int | None]
+    height_px: Mapped[int | None]
     checksum_sha256: Mapped[str | None] = mapped_column(String(64))
     visibility: Mapped[str] = mapped_column(
         String(16),
@@ -57,7 +72,7 @@ class Asset(UUIDPrimaryKeyMixin, TimestampMixin, Base):
         default="private",
         server_default="private",
     )
-    deleted_at: Mapped[datetime | None]
-    expires_at: Mapped[datetime | None]
-    purge_after: Mapped[datetime | None]
-    purged_at: Mapped[datetime | None]
+    deleted_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True))
+    expires_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True))
+    purge_after: Mapped[datetime | None] = mapped_column(DateTime(timezone=True))
+    purged_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True))

@@ -16,7 +16,7 @@ Included in v0.1:
 - atomic guest-to-user asset and credit migration
 - one free allowance per registered user, including repeat guest-login protection
 - provider discovery that hides login methods without backend credentials
-- asset metadata and an S3-compatible storage boundary
+- verified private reference-image uploads through short-lived S3 URLs
 - Docker development environment
 
 Deliberately excluded:
@@ -31,7 +31,8 @@ The decisions and staged deployment model are documented in
 
 ## Local development
 
-Docker Desktop or another Docker runtime is required for the PostgreSQL development service.
+Docker Desktop or another Docker runtime is required for the PostgreSQL and MinIO development
+services.
 
 ```powershell
 Copy-Item .env.example .env
@@ -39,7 +40,8 @@ docker compose up --build
 ```
 
 The API is then available at `http://127.0.0.1:8000`, with interactive documentation at
-`http://127.0.0.1:8000/docs`.
+`http://127.0.0.1:8000/docs`. The local MinIO object-store console is available at
+`http://127.0.0.1:9001` with the development credentials in `compose.yaml`.
 
 The frontend starts or restores a guest session with `POST /api/v1/identity/guest`. After the
 HttpOnly cookie is issued, `GET /api/v1/identity/me` and the credit and asset routes resolve the
@@ -100,6 +102,13 @@ anonymous abuse prevention still requires rate limits and bot protection.
 
 ## Storage
 
-The application stores only `bucket` and `object_key` metadata. The S3 boundary can produce
-short-lived upload and download URLs once credentials are configured. Public permanent URLs
-are not persisted.
+The browser first creates an authenticated upload intent, uploads directly to a short-lived
+private S3 URL, and then asks the API to complete the upload. Completion re-reads the object,
+validates its real format, byte size and pixel dimensions, and records a SHA-256 checksum.
+Objects that fail validation are rejected and scheduled for deletion.
+
+The application stores only `bucket` and `object_key` locations. Private downloads also use
+short-lived signed URLs; public permanent URLs are not persisted. `S3_ENDPOINT_URL` is the
+address visible to the API and `S3_PUBLIC_ENDPOINT_URL` is the address embedded into browser
+upload and download URLs. They differ when the API and MinIO communicate over a Compose
+network.

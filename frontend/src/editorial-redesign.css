@@ -980,6 +980,106 @@ input:focus-visible {
   font-size: var(--text-xs);
 }
 
+.reference-upload-card {
+  display: grid;
+  min-height: 5.5rem;
+  grid-template-columns: 4.25rem minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 0.9rem;
+  padding: 0.65rem;
+  border: 1px solid var(--rule);
+  border-radius: var(--radius-medium);
+  background: var(--paper);
+}
+
+.reference-upload-card.ready {
+  border-color: color-mix(in srgb, var(--clay-deep) 42%, var(--rule));
+}
+
+.reference-upload-card.error {
+  border-color: color-mix(in srgb, var(--danger) 50%, var(--rule));
+}
+
+.reference-upload-card > img {
+  width: 4.25rem;
+  height: 4.25rem;
+  border-radius: 0.45rem;
+  background: var(--paper-deep);
+  object-fit: cover;
+}
+
+.reference-upload-copy {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  gap: 0.28rem;
+}
+
+.reference-upload-copy strong {
+  overflow: hidden;
+  font-size: var(--text-sm);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.reference-upload-copy small {
+  color: var(--muted);
+  font-size: var(--text-xs);
+  line-height: 1.35;
+}
+
+.reference-upload-card.error .reference-upload-copy small:first-of-type {
+  color: var(--danger);
+}
+
+.reference-upload-card > button {
+  display: grid;
+  width: 2rem;
+  height: 2rem;
+  place-items: center;
+  border-radius: 50%;
+  color: var(--muted);
+  background: transparent;
+  cursor: pointer;
+}
+
+.reference-upload-card > button:hover {
+  color: var(--ink);
+  background: var(--paper-deep);
+}
+
+.reference-progress {
+  position: relative;
+  display: block;
+  width: min(100%, 15rem);
+  height: 0.18rem;
+  overflow: hidden;
+  margin-block: 0.18rem;
+  border-radius: 999px;
+  background: var(--rule);
+}
+
+.reference-progress > span {
+  position: absolute;
+  inset: 0 auto 0 0;
+  background: var(--clay-deep);
+  transition: width 160ms ease-out;
+}
+
+.reference-replace {
+  display: inline-flex !important;
+  align-items: center;
+  gap: 0.35rem;
+  margin: 0.65rem 0 0 !important;
+  color: var(--muted);
+  font-size: var(--text-xs);
+  cursor: pointer;
+}
+
+.reference-replace:hover {
+  color: var(--ink);
+}
+
 .settings-block {
   margin-top: 2rem;
   padding-top: 1.5rem;

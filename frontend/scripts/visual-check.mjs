@@ -2,7 +2,7 @@ import { chromium } from "playwright-core";
 import { mkdir } from "node:fs/promises";
 import path from "node:path";
 
-const baseUrl = "http://127.0.0.1:4173";
+const baseUrl = process.env.AUDIT_BASE_URL ?? "http://127.0.0.1:4173";
 const outputDir = path.resolve(".review");
 const executablePath = "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe";
 
@@ -83,6 +83,14 @@ await desktop.screenshot({
   fullPage: true,
 });
 await recordLayout(desktop, "workspace-desktop");
+await desktop.locator(".mode-switch button").nth(1).click();
+await desktop.locator("#reference-file").setInputFiles(
+  path.resolve("public/assets/autodraftman-showcase.png"),
+);
+await desktop.waitForTimeout(250);
+await desktop.screenshot({
+  path: path.join(outputDir, "workspace-reference-static.png"),
+});
 
 await desktop.goto(`${baseUrl}/pricing`, { waitUntil: "networkidle" });
 await desktop.waitForTimeout(550);

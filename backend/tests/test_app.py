@@ -27,6 +27,9 @@ def test_openapi_excludes_generation_and_payment_modules() -> None:
     assert "delete" in paths["/api/v1/auth/account"]
     assert "/api/v1/credits/balance" in paths
     assert "/api/v1/assets" in paths
+    assert "post" in paths["/api/v1/assets/upload-intents"]
+    assert "post" in paths["/api/v1/assets/{asset_id}/complete"]
+    assert "get" in paths["/api/v1/assets/{asset_id}/download"]
     assert not any("generation" in path for path in paths)
     assert not any("payment" in path or "order" in path for path in paths)
 

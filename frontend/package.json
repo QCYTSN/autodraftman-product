@@ -8,7 +8,7 @@
     "build": "tsc -b && vite build",
     "build:pages": "tsc -b && vite build --mode github-pages && node scripts/prepare-pages.mjs",
     "preview": "vite preview --host 127.0.0.1",
-    "review": "node scripts/visual-check.mjs",
+    "review": "node scripts/run-visual-review.mjs",
     "review:quality": "node scripts/run-quality.mjs",
     "review:pages": "node scripts/verify-pages.mjs"
   },

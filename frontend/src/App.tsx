@@ -31,15 +31,20 @@ import {
 import {
   ApiError,
   apiConfigured,
+  completeAssetUpload,
+  createAssetUploadIntent,
   createOrRestoreGuest,
   deleteAccount,
+  deleteAsset,
   getAuthProviders,
   getBoundIdentities,
   getCreditTransactions,
   getCurrentIdentity,
   logout,
   oauthStartUrl,
+  uploadToPresignedUrl,
   unlinkIdentity,
+  type Asset,
   type AuthProvider,
   type BoundIdentity,
   type CreditTransaction,
@@ -58,6 +63,13 @@ type AuthChoice = "guest" | "google" | "github" | "wechat";
 type RoutePath = ProductRoute;
 type GenerateStatus = "empty" | "generating" | "complete";
 type BillingCycle = "monthly" | "yearly";
+type ReferenceUploadStatus =
+  | "idle"
+  | "preparing"
+  | "uploading"
+  | "verifying"
+  | "ready"
+  | "error";
 
 const siteBasePath = import.meta.env.BASE_URL.replace(/\/$/, "");
 
@@ -146,6 +158,20 @@ const copy = {
       uploadTitle: "上传一张参考图",
       uploadBody: "PNG、JPG 或 WebP",
       replace: "点击更换",
+      uploadPreparing: "正在准备私密上传…",
+      uploadProgress: "正在上传",
+      uploadVerifying: "正在验证图片…",
+      uploadReady: "已私密保存",
+      uploadCancel: "取消上传",
+      uploadRemove: "移除参考图",
+      uploadFailed: "参考图上传失败，请重试。",
+      uploadCancelled: "上传已取消。",
+      uploadRequiresApi: "公网后端尚未配置，静态预览不会保存你的图片。",
+      uploadUnsupported: "请选择 PNG、JPG 或 WebP 图片。",
+      uploadTooLarge: "图片不能超过 10 MB。",
+      uploadEmpty: "不能上传空文件。",
+      uploadPrivateNote: "原图默认私密；游客文件将在短期后过期。",
+      uploadBeforeGenerate: "请先等待参考图完成上传与验证。",
       settings: "输出设置",
       ratio: "画面比例",
       format: "文件格式",
@@ -330,6 +356,21 @@ const copy = {
       uploadTitle: "Upload one reference image",
       uploadBody: "PNG, JPG, or WebP",
       replace: "Click to replace",
+      uploadPreparing: "Preparing a private upload…",
+      uploadProgress: "Uploading",
+      uploadVerifying: "Verifying the image…",
+      uploadReady: "Saved privately",
+      uploadCancel: "Cancel upload",
+      uploadRemove: "Remove reference",
+      uploadFailed: "The reference upload failed. Please try again.",
+      uploadCancelled: "Upload cancelled.",
+      uploadRequiresApi:
+        "The public API is not configured. This static preview will not store your image.",
+      uploadUnsupported: "Choose a PNG, JPG, or WebP image.",
+      uploadTooLarge: "Images must be 10 MB or smaller.",
+      uploadEmpty: "Empty files cannot be uploaded.",
+      uploadPrivateNote: "Private by default. Guest files expire after a short period.",
+      uploadBeforeGenerate: "Wait for the reference image to finish uploading and verification.",
       settings: "Output settings",
       ratio: "Aspect ratio",
       format: "File format",
@@ -910,7 +951,13 @@ function WorkspacePage({
 }) {
   const [mode, setMode] = useState<"text" | "reference">("text");
   const [prompt, setPrompt] = useState("");
-  const [referenceName, setReferenceName] = useState("");
+  const [referenceFile, setReferenceFile] = useState<File | null>(null);
+  const [referencePreview, setReferencePreview] = useState("");
+  const [referenceAsset, setReferenceAsset] = useState<Asset | null>(null);
+  const [referenceStatus, setReferenceStatus] =
+    useState<ReferenceUploadStatus>("idle");
+  const [referenceProgress, setReferenceProgress] = useState(0);
+  const [referenceError, setReferenceError] = useState("");
   const [ratio, setRatio] = useState("16:9");
   const [format, setFormat] = useState("PNG");
   const [isPublic, setIsPublic] = useState(false);
@@ -919,6 +966,101 @@ function WorkspacePage({
   const [historyOpen, setHistoryOpen] = useState(false);
   const [historyVisible, setHistoryVisible] = useState(true);
   const [message, setMessage] = useState("");
+  const uploadAbortRef = useRef<AbortController | null>(null);
+  const activeUploadAssetIdRef = useRef<string | null>(null);
+  const uploadSequenceRef = useRef(0);
+  const previewUrlRef = useRef("");
+
+  const uploadBusy = ["preparing", "uploading", "verifying"].includes(
+    referenceStatus,
+  );
+
+  useEffect(
+    () => () => {
+      uploadAbortRef.current?.abort();
+      if (previewUrlRef.current) URL.revokeObjectURL(previewUrlRef.current);
+    },
+    [],
+  );
+
+  const replacePreview = (file: File | null) => {
+    if (previewUrlRef.current) URL.revokeObjectURL(previewUrlRef.current);
+    const nextPreview = file ? URL.createObjectURL(file) : "";
+    previewUrlRef.current = nextPreview;
+    setReferencePreview(nextPreview);
+  };
+
+  const mediaTypeFor = (file: File) => {
+    if (["image/png", "image/jpeg", "image/webp"].includes(file.type)) {
+      return file.type;
+    }
+    const suffix = file.name.toLowerCase().split(".").pop();
+    if (suffix === "png") return "image/png";
+    if (suffix === "jpg" || suffix === "jpeg") return "image/jpeg";
+    if (suffix === "webp") return "image/webp";
+    return "";
+  };
+
+  const uploadReference = async (file: File, mediaType: string) => {
+    const sequence = ++uploadSequenceRef.current;
+    const controller = new AbortController();
+    const previousAsset = referenceAsset;
+    let pendingAssetId: string | null = null;
+    uploadAbortRef.current?.abort();
+    uploadAbortRef.current = controller;
+    setReferenceStatus("preparing");
+    setReferenceProgress(0);
+    setReferenceError("");
+    setMessage("");
+
+    try {
+      const intent = await createAssetUploadIntent(file, mediaType);
+      pendingAssetId = intent.asset.id;
+      activeUploadAssetIdRef.current = intent.asset.id;
+      if (sequence !== uploadSequenceRef.current) {
+        void deleteAsset(intent.asset.id).catch(() => undefined);
+        return;
+      }
+
+      setReferenceStatus("uploading");
+      await uploadToPresignedUrl(
+        intent.upload,
+        file,
+        setReferenceProgress,
+        controller.signal,
+      );
+      if (sequence !== uploadSequenceRef.current) return;
+
+      setReferenceStatus("verifying");
+      const completedAsset = await completeAssetUpload(intent.asset.id);
+      if (sequence !== uploadSequenceRef.current) {
+        void deleteAsset(completedAsset.id).catch(() => undefined);
+        return;
+      }
+
+      activeUploadAssetIdRef.current = null;
+      uploadAbortRef.current = null;
+      setReferenceAsset(completedAsset);
+      setReferenceStatus("ready");
+      setReferenceProgress(100);
+      if (previousAsset && previousAsset.id !== completedAsset.id) {
+        void deleteAsset(previousAsset.id).catch(() => undefined);
+      }
+    } catch {
+      if (pendingAssetId) {
+        void deleteAsset(pendingAssetId).catch(() => undefined);
+      }
+      if (sequence !== uploadSequenceRef.current) return;
+      activeUploadAssetIdRef.current = null;
+      uploadAbortRef.current = null;
+      setReferenceStatus("error");
+      setReferenceError(
+        controller.signal.aborted
+          ? ui.workspace.uploadCancelled
+          : ui.workspace.uploadFailed,
+      );
+    }
+  };
 
   const startGeneration = () => {
     setMessage(ui.workspace.generationUnavailable);
@@ -933,13 +1075,91 @@ function WorkspacePage({
       setMessage(ui.workspace.noCredits);
       return;
     }
+    if (mode === "reference" && referenceStatus !== "ready") {
+      setMessage(ui.workspace.uploadBeforeGenerate);
+      return;
+    }
     requestAuth(startGeneration);
   };
 
   const handleFile = (event: ChangeEvent<HTMLInputElement>) => {
     const selected = event.target.files?.[0];
-    if (selected) setReferenceName(selected.name);
+    event.target.value = "";
+    if (!selected) return;
+
+    const mediaType = mediaTypeFor(selected);
+    setReferenceFile(selected);
+    replacePreview(selected);
+    setReferenceProgress(0);
+    setReferenceError("");
+    if (!mediaType) {
+      setReferenceStatus("error");
+      setReferenceError(ui.workspace.uploadUnsupported);
+      return;
+    }
+    if (selected.size <= 0) {
+      setReferenceStatus("error");
+      setReferenceError(ui.workspace.uploadEmpty);
+      return;
+    }
+    if (selected.size > 10 * 1024 * 1024) {
+      setReferenceStatus("error");
+      setReferenceError(ui.workspace.uploadTooLarge);
+      return;
+    }
+    if (!apiConfigured) {
+      setReferenceStatus("error");
+      setReferenceError(ui.workspace.uploadRequiresApi);
+      return;
+    }
+    setReferenceStatus("idle");
+    requestAuth(() => void uploadReference(selected, mediaType));
   };
+
+  const cancelReferenceUpload = () => {
+    uploadSequenceRef.current += 1;
+    uploadAbortRef.current?.abort();
+    uploadAbortRef.current = null;
+    const pendingAssetId = activeUploadAssetIdRef.current;
+    activeUploadAssetIdRef.current = null;
+    if (pendingAssetId) {
+      void deleteAsset(pendingAssetId).catch(() => undefined);
+    }
+    setReferenceStatus("error");
+    setReferenceError(ui.workspace.uploadCancelled);
+  };
+
+  const removeReference = () => {
+    uploadSequenceRef.current += 1;
+    uploadAbortRef.current?.abort();
+    uploadAbortRef.current = null;
+    const ids = new Set(
+      [activeUploadAssetIdRef.current, referenceAsset?.id].filter(
+        (value): value is string => Boolean(value),
+      ),
+    );
+    activeUploadAssetIdRef.current = null;
+    for (const assetId of ids) {
+      void deleteAsset(assetId).catch(() => undefined);
+    }
+    setReferenceFile(null);
+    setReferenceAsset(null);
+    setReferenceStatus("idle");
+    setReferenceProgress(0);
+    setReferenceError("");
+    replacePreview(null);
+  };
+
+  const referenceStatusLabel = (() => {
+    if (referenceStatus === "preparing") return ui.workspace.uploadPreparing;
+    if (referenceStatus === "uploading") {
+      return `${ui.workspace.uploadProgress} · ${referenceProgress}%`;
+    }
+    if (referenceStatus === "verifying") return ui.workspace.uploadVerifying;
+    if (referenceStatus === "ready") return ui.workspace.uploadReady;
+    if (referenceStatus === "error") return referenceError;
+    return ui.workspace.uploadPrivateNote;
+  })();
 
   const handlePromptKeyDown = (
     event: ReactKeyboardEvent<HTMLTextAreaElement>,
@@ -1015,21 +1235,69 @@ function WorkspacePage({
           {mode === "reference" && (
             <div className="form-block reference-block">
               <label htmlFor="reference-file">{ui.workspace.referenceLabel}</label>
-              <label className="upload-zone" htmlFor="reference-file">
-                <UploadSimple size={20} />
-                <span>
-                  <strong>{referenceName || ui.workspace.uploadTitle}</strong>
-                  <small>
-                    {referenceName ? ui.workspace.replace : ui.workspace.uploadBody}
-                  </small>
-                </span>
-              </label>
+              {referenceFile && referencePreview ? (
+                <div className={`reference-upload-card ${referenceStatus}`}>
+                  <img src={referencePreview} alt="" />
+                  <div className="reference-upload-copy">
+                    <strong>{referenceFile.name}</strong>
+                    <small>{referenceStatusLabel}</small>
+                    {uploadBusy && (
+                      <span
+                        className="reference-progress"
+                        role="progressbar"
+                        aria-valuemin={0}
+                        aria-valuemax={100}
+                        aria-valuenow={referenceProgress}
+                      >
+                        <span style={{ width: `${referenceProgress}%` }} />
+                      </span>
+                    )}
+                    {referenceStatus === "ready" && referenceAsset && (
+                      <small>
+                        {referenceAsset.width_px} × {referenceAsset.height_px} ·{" "}
+                        {(referenceAsset.byte_size / 1024 / 1024).toFixed(1)} MB
+                      </small>
+                    )}
+                  </div>
+                  <button
+                    type="button"
+                    onClick={uploadBusy ? cancelReferenceUpload : removeReference}
+                    aria-label={
+                      uploadBusy
+                        ? ui.workspace.uploadCancel
+                        : ui.workspace.uploadRemove
+                    }
+                    title={
+                      uploadBusy
+                        ? ui.workspace.uploadCancel
+                        : ui.workspace.uploadRemove
+                    }
+                  >
+                    {uploadBusy ? <X size={18} /> : <Trash size={17} />}
+                  </button>
+                </div>
+              ) : (
+                <label className="upload-zone" htmlFor="reference-file">
+                  <UploadSimple size={20} />
+                  <span>
+                    <strong>{ui.workspace.uploadTitle}</strong>
+                    <small>{ui.workspace.uploadBody}</small>
+                  </span>
+                </label>
+              )}
+              {referenceFile && !uploadBusy && (
+                <label className="reference-replace" htmlFor="reference-file">
+                  <UploadSimple size={15} />
+                  {ui.workspace.replace}
+                </label>
+              )}
               <input
                 className="sr-only"
                 id="reference-file"
                 type="file"
                 accept=".png,.jpg,.jpeg,.webp,image/png,image/jpeg,image/webp"
                 onChange={handleFile}
+                disabled={uploadBusy}
               />
             </div>
           )}
