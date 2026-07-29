@@ -14,6 +14,9 @@
   --clay-pale: #efd3c5;
   --danger: #a43e2b;
   --overlay: rgb(20 20 19 / 48%);
+  --shadow-paper:
+    0 1px 2px rgb(35 30 25 / 4%),
+    0 14px 32px rgb(35 30 25 / 5%);
 
   --font-display:
     "Newsreader Variable", "Noto Serif SC Variable", "Noto Serif SC",
