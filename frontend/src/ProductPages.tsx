@@ -13,6 +13,7 @@ import type { MouseEvent as ReactMouseEvent } from "react";
 export type ProductLanguage = "zh" | "en";
 export type ProductRoute =
   | "/"
+  | "/examples"
   | "/workspace"
   | "/pricing"
   | "/docs"
@@ -20,7 +21,10 @@ export type ProductRoute =
   | "/terms"
   | "/content-policy";
 
-type InformationRoute = Exclude<ProductRoute, "/" | "/workspace" | "/pricing">;
+type InformationRoute = Exclude<
+  ProductRoute,
+  "/" | "/examples" | "/workspace" | "/pricing"
+>;
 
 type InformationSection = {
   title: string;
@@ -578,6 +582,7 @@ export const footerCopy = {
   zh: {
     product: "产品",
     resources: "指南与规则",
+    examples: "研发样例",
     workspace: "工作台",
     pricing: "定价",
     docs: "用户文档",
@@ -592,6 +597,7 @@ export const footerCopy = {
   en: {
     product: "Product",
     resources: "Guide and rules",
+    examples: "R&D examples",
     workspace: "Workspace",
     pricing: "Pricing",
     docs: "User guide",

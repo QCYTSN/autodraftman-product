@@ -8,6 +8,7 @@ const executablePath =
     : "/usr/bin/google-chrome");
 const routes = [
   "/",
+  "/examples",
   "/workspace",
   "/pricing",
   "/docs",

@@ -64,6 +64,26 @@ await desktop.screenshot({
   path: path.join(outputDir, "home-story-complete.png"),
 });
 
+await desktop.goto(`${baseUrl}/examples`, { waitUntil: "networkidle" });
+await desktop.waitForTimeout(450);
+await desktop.screenshot({
+  path: path.join(outputDir, "examples-desktop.png"),
+  fullPage: true,
+});
+await recordLayout(desktop, "examples-desktop");
+if ((await desktop.locator(".example-case").count()) !== 3) {
+  errors.push("Expected three truthful R&D example cases.");
+}
+await desktop.locator(".example-case").nth(1).locator("button").click();
+await desktop.waitForURL(/\/workspace$/);
+if (
+  !(await desktop.locator(".example-result-sheet img").getAttribute("src"))?.includes(
+    "case-inference-pipeline",
+  )
+) {
+  errors.push("Expected the selected example to open in the workspace.");
+}
+
 await desktop.goto(`${baseUrl}/workspace`, { waitUntil: "networkidle" });
 await desktop.waitForTimeout(550);
 await desktop.fill(
@@ -169,6 +189,13 @@ await mobile.screenshot({
 await recordLayout(mobile, "home-mobile-en");
 await mobile.click(".language-button");
 await mobile.waitForTimeout(250);
+await mobile.goto(`${baseUrl}/examples`, { waitUntil: "networkidle" });
+await mobile.waitForTimeout(350);
+await mobile.screenshot({
+  path: path.join(outputDir, "examples-mobile.png"),
+  fullPage: true,
+});
+await recordLayout(mobile, "examples-mobile");
 await mobile.goto(`${baseUrl}/workspace`, { waitUntil: "networkidle" });
 await mobile.waitForTimeout(550);
 await mobile.screenshot({
