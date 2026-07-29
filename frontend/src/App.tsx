@@ -1656,6 +1656,7 @@ function WorkspacePage({
                 id="reference-file"
                 type="file"
                 accept=".png,.jpg,.jpeg,.webp,image/png,image/jpeg,image/webp"
+                aria-label={ui.workspace.referenceLabel}
                 onChange={handleFile}
                 disabled={uploadBusy}
               />

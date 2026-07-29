@@ -43,6 +43,9 @@ for (const language of languages) {
       if (language === "en") {
         await page.click(".language-button");
       }
+      if (route === "/workspace") {
+        await page.locator(".mode-switch button").nth(1).click();
+      }
       await page.waitForTimeout(180);
 
       const audit = await page.evaluate(() => {
@@ -175,6 +178,24 @@ for (const language of languages) {
         window.location.pathname.endsWith("/workspace") &&
         !document.querySelector(".workspace-history");
 
+      const workspaceModeSwitchOverflow =
+        window.location.pathname.endsWith("/workspace") &&
+        (() => {
+          const modeSwitch = document.querySelector(".mode-switch");
+          if (!modeSwitch) return true;
+          const switchRect = modeSwitch.getBoundingClientRect();
+          return (
+            modeSwitch.scrollWidth > modeSwitch.clientWidth + 1 ||
+            [...modeSwitch.querySelectorAll("button")].some((button) => {
+              const rect = button.getBoundingClientRect();
+              return (
+                rect.left < switchRect.left - 1 ||
+                rect.right > switchRect.right + 1
+              );
+            })
+          );
+        })();
+
       return {
         horizontalOverflow:
           document.documentElement.scrollWidth >
@@ -188,6 +209,7 @@ for (const language of languages) {
         heroEssentialBelowFold,
         workspaceRequiresPageScroll,
         workspaceHistoryMissing,
+        workspaceModeSwitchOverflow,
         docsNavigationMissing:
           window.innerWidth >= 1280 &&
           ![...document.querySelectorAll(".desktop-nav a")].some(
@@ -208,6 +230,7 @@ for (const language of languages) {
         audit.heroEssentialBelowFold ||
         audit.workspaceRequiresPageScroll ||
         audit.workspaceHistoryMissing ||
+        audit.workspaceModeSwitchOverflow ||
         audit.docsNavigationMissing
       ) {
         failures.push(record);

@@ -144,6 +144,25 @@ await desktop.waitForTimeout(250);
 await desktop.screenshot({
   path: path.join(outputDir, "workspace-reference-static.png"),
 });
+await desktop.click(".language-button");
+await desktop.waitForTimeout(120);
+const referenceModeFits = await desktop.locator(".mode-switch").evaluate((element) => {
+  const bounds = element.getBoundingClientRect();
+  return (
+    element.scrollWidth <= element.clientWidth + 1 &&
+    [...element.querySelectorAll("button")].every((button) => {
+      const rect = button.getBoundingClientRect();
+      return rect.left >= bounds.left - 1 && rect.right <= bounds.right + 1;
+    })
+  );
+});
+if (!referenceModeFits) {
+  errors.push("Expected the English reference mode switch to remain inside its frame.");
+}
+await desktop.screenshot({
+  path: path.join(outputDir, "workspace-reference-static-en.png"),
+});
+await desktop.click(".language-button");
 
 await desktop.goto(`${baseUrl}/pricing`, { waitUntil: "networkidle" });
 await desktop.waitForTimeout(550);
@@ -206,6 +225,27 @@ await mobile.screenshot({
   fullPage: true,
 });
 await recordLayout(mobile, "workspace-mobile");
+await mobile.locator(".mode-switch button").nth(1).click();
+await mobile.waitForTimeout(120);
+const mobileReferenceModeFits = await mobile
+  .locator(".mode-switch")
+  .evaluate((element) => {
+    const bounds = element.getBoundingClientRect();
+    return (
+      element.scrollWidth <= element.clientWidth + 1 &&
+      [...element.querySelectorAll("button")].every((button) => {
+        const rect = button.getBoundingClientRect();
+        return rect.left >= bounds.left - 1 && rect.right <= bounds.right + 1;
+      })
+    );
+  });
+if (!mobileReferenceModeFits) {
+  errors.push("Expected the mobile reference mode switch to remain inside its frame.");
+}
+await mobile.screenshot({
+  path: path.join(outputDir, "workspace-mobile-reference.png"),
+  fullPage: true,
+});
 await mobile.click(".workspace-mobile-history");
 await mobile.waitForSelector(".history-drawer");
 await mobile.screenshot({
