@@ -36,5 +36,5 @@ async def test_account_deletion_anonymizes_user_and_schedules_purge() -> None:
     assert user.is_active is False
     assert user.deletion_requested_at == now
     assert user.purge_after == now + timedelta(days=30)
-    assert session.execute.await_count == 3
+    assert session.execute.await_count == 4
     session.flush.assert_awaited_once()

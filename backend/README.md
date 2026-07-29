@@ -17,6 +17,7 @@ Included in v0.1:
 - one free allowance per registered user, including repeat guest-login protection
 - provider discovery that hides login methods without backend credentials
 - verified private reference-image uploads through short-lived S3 URLs
+- autosaved workspace drafts with guest-to-user migration
 - Docker development environment
 
 Deliberately excluded:
@@ -43,9 +44,15 @@ The API is then available at `http://127.0.0.1:8000`, with interactive documenta
 `http://127.0.0.1:8000/docs`. The local MinIO object-store console is available at
 `http://127.0.0.1:9001` with the development credentials in `compose.yaml`.
 
-The frontend starts or restores a guest session with `POST /api/v1/identity/guest`. After the
-HttpOnly cookie is issued, `GET /api/v1/identity/me` and the credit and asset routes resolve the
-same database identity. Requests without an active session receive `401`.
+The frontend can explicitly start or restore a guest session with
+`POST /api/v1/identity/guest`. Opening the workspace draft API also establishes an anonymous
+workspace identity without showing a login wall. After the HttpOnly cookie is issued,
+`GET /api/v1/identity/me` and the credit and asset routes resolve the same database identity.
+Other protected reads without an active session receive `401`.
+
+Workspace drafts store only the prompt, input mode, output settings, privacy choice, and an
+optional reference-asset ID. They never create generation tasks or consume credits. Guest drafts
+expire after the guest content period and are atomically reassigned when that guest signs in.
 
 ## Google and GitHub login
 

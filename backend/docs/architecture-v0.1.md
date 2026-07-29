@@ -14,7 +14,7 @@ React frontend
       v
 FastAPI modular monolith
       |
-      +-- PostgreSQL: identities, sessions, assets, credit ledger
+      +-- PostgreSQL: identities, sessions, drafts, assets, credit ledger
       |
       +-- S3-compatible object storage boundary: image bytes
 ```
@@ -31,18 +31,27 @@ by configuration so concurrency and migration differences cannot be hidden durin
 
 ### Modular monolith
 
-Identity, credits, assets, and health are separate domain modules in one deployable service. For
+Identity, credits, drafts, assets, and health are separate domain modules in one deployable service. For
 the expected scale this is easier to operate and test than independently deployed services.
 
 ### Opaque server-managed sessions
 
-Guest cookies contain a random opaque token. Only its SHA-256 hash is stored. The frontend
-explicitly starts or restores a guest session through `POST /api/v1/identity/guest`; ordinary
+Guest cookies contain a random opaque token. Only its SHA-256 hash is stored. The frontend can
+explicitly start or restore a guest session through `POST /api/v1/identity/guest`. The workspace
+draft routes may also establish this anonymous principal without displaying a login wall; other
 protected reads do not create identities. A new guest, credit account, and initial grant ledger
 entry are created atomically in one database transaction.
 
-Google OAuth will later create a `User` plus an `AuthIdentity`; the schema allows one user to link
-multiple providers.
+Google and GitHub OAuth create a `User` plus an `AuthIdentity`; one user can explicitly link
+multiple providers. Matching email addresses alone never merge accounts.
+
+### Kernel-independent drafts
+
+Drafts contain the text prompt, text/reference mode, aspect ratio, file format, privacy choice,
+and optional reference-asset ID. They do not contain a generation status and cannot consume
+credits. The browser keeps a recovery copy, while a configured API stores the authoritative
+record in PostgreSQL. Guest drafts migrate atomically with assets and credits when the guest
+signs in.
 
 ### Auditable credits
 
@@ -88,6 +97,9 @@ erDiagram
     CREDIT_ACCOUNTS ||--o{ CREDIT_TRANSACTIONS : records
     USERS ||--o{ ASSETS : owns
     GUEST_IDENTITIES ||--o{ ASSETS : owns
+    USERS ||--o{ DRAFTS : owns
+    GUEST_IDENTITIES ||--o{ DRAFTS : owns
+    ASSETS o|--o{ DRAFTS : references
 ```
 
 ## Deployment evolution

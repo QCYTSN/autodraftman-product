@@ -4,6 +4,7 @@ from sqlalchemy.schema import CreateTable
 from autodraftman_backend.core.database import Base
 from autodraftman_backend.modules.assets import models as asset_models  # noqa: F401
 from autodraftman_backend.modules.credits import models as credit_models  # noqa: F401
+from autodraftman_backend.modules.drafts import models as draft_models  # noqa: F401
 from autodraftman_backend.modules.identity import models as identity_models  # noqa: F401
 
 
@@ -17,6 +18,7 @@ def test_all_foundation_tables_compile_for_postgresql() -> None:
         "assets",
         "credit_accounts",
         "credit_transactions",
+        "drafts",
     }
 
     assert expected_tables == set(Base.metadata.tables)

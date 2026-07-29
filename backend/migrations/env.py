@@ -11,6 +11,7 @@ from autodraftman_backend.core.config import get_settings
 from autodraftman_backend.core.database import Base
 from autodraftman_backend.modules.assets import models as asset_models  # noqa: F401
 from autodraftman_backend.modules.credits import models as credit_models  # noqa: F401
+from autodraftman_backend.modules.drafts import models as draft_models  # noqa: F401
 from autodraftman_backend.modules.identity import models as identity_models  # noqa: F401
 
 config = context.config

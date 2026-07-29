@@ -70,6 +70,29 @@ export type AssetUploadIntent = {
   upload: PresignedRequest;
 };
 
+export type WorkspaceDraft = {
+  id: string;
+  prompt: string;
+  mode: "text" | "reference";
+  aspect_ratio: "16:9" | "4:3" | "1:1";
+  output_format: "PNG" | "JPG" | "WebP";
+  visibility: "private" | "public";
+  reference_asset_id: string | null;
+  created_at: string;
+  updated_at: string;
+  expires_at: string | null;
+};
+
+export type WorkspaceDraftInput = Pick<
+  WorkspaceDraft,
+  | "prompt"
+  | "mode"
+  | "aspect_ratio"
+  | "output_format"
+  | "visibility"
+  | "reference_asset_id"
+>;
+
 export class ApiError extends Error {
   readonly status: number;
 
@@ -289,6 +312,47 @@ export function completeAssetUpload(assetId: string): Promise<Asset> {
 
 export async function deleteAsset(assetId: string): Promise<void> {
   await requestVoid(`/api/v1/assets/${assetId}`, {
+    method: "DELETE",
+  });
+}
+
+export function getAsset(assetId: string): Promise<Asset> {
+  return requestJson<Asset>(`/api/v1/assets/${assetId}`);
+}
+
+export async function listDrafts(): Promise<WorkspaceDraft[]> {
+  const response = await requestJson<{
+    items: WorkspaceDraft[];
+    limit: number;
+    offset: number;
+  }>("/api/v1/drafts?limit=30&offset=0");
+  return response.items;
+}
+
+export function createDraft(payload: WorkspaceDraftInput): Promise<WorkspaceDraft> {
+  return requestJson<WorkspaceDraft>("/api/v1/drafts", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(payload),
+  });
+}
+
+export function updateDraft(
+  draftId: string,
+  payload: WorkspaceDraftInput,
+): Promise<WorkspaceDraft> {
+  return requestJson<WorkspaceDraft>(`/api/v1/drafts/${draftId}`, {
+    method: "PATCH",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      ...payload,
+      reference_asset_set: true,
+    }),
+  });
+}
+
+export async function deleteDraft(draftId: string): Promise<void> {
+  await requestVoid(`/api/v1/drafts/${draftId}`, {
     method: "DELETE",
   });
 }

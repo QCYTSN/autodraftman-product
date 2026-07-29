@@ -12,6 +12,7 @@ from autodraftman_backend.core.config import Settings
 from autodraftman_backend.core.security import hash_opaque_token, new_opaque_token
 from autodraftman_backend.modules.assets.models import Asset
 from autodraftman_backend.modules.credits.models import CreditAccount, CreditTransaction
+from autodraftman_backend.modules.drafts.models import Draft
 from autodraftman_backend.modules.identity.models import (
     AuthIdentity,
     GuestIdentity,
@@ -306,6 +307,14 @@ async def request_account_deletion(
             purge_after=now + timedelta(hours=asset_delete_grace_hours),
         )
     )
+    await session.execute(
+        update(Draft)
+        .where(
+            Draft.owner_user_id == user_id,
+            Draft.deleted_at.is_(None),
+        )
+        .values(deleted_at=now)
+    )
     await session.execute(delete(AuthIdentity).where(AuthIdentity.user_id == user_id))
     await session.execute(
         update(UserSession)
@@ -371,6 +380,11 @@ async def merge_guest_into_user(
         update(Asset)
         .where(Asset.owner_guest_id == guest.id)
         .values(owner_guest_id=None, owner_user_id=user.id)
+    )
+    await session.execute(
+        update(Draft)
+        .where(Draft.owner_guest_id == guest.id)
+        .values(owner_guest_id=None, owner_user_id=user.id, expires_at=None)
     )
 
     transferable = 0

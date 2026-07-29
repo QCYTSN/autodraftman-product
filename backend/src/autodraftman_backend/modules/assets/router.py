@@ -189,6 +189,18 @@ async def complete_upload(
     return AssetRead.model_validate(asset)
 
 
+@router.get("/{asset_id}", response_model=AssetRead)
+async def asset(
+    asset_id: uuid.UUID,
+    principal: PrincipalDependency,
+    session: SessionDependency,
+) -> AssetRead:
+    item = await get_owned_asset(session, principal, asset_id)
+    if item is None:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Asset not found")
+    return AssetRead.model_validate(item)
+
+
 @router.get("/{asset_id}/download", response_model=DownloadRead)
 async def download_asset(
     asset_id: uuid.UUID,

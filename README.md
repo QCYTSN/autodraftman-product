@@ -6,8 +6,8 @@ Research experiments and generated runs remain in the original FYP repository.
 ## Structure
 
 ```text
-frontend/   React and Vite product interface
-backend/    FastAPI, PostgreSQL, identity, credits, and asset metadata
+frontend/   React and Vite product interface, including local draft recovery
+backend/    FastAPI, PostgreSQL, identity, credits, drafts, and asset metadata
 deploy/     Production deployment files and runbooks
 docs/       Product-level decisions and repository policy
 ```

@@ -101,6 +101,7 @@ const guestBalance = await desktop.locator(".workspace-balance strong").textCont
 if (guestBalance?.trim() !== "1") {
   errors.push(`Expected server guest balance 1, received ${guestBalance}`);
 }
+await desktop.waitForTimeout(850);
 await desktop.screenshot({
   path: path.join(outputDir, "workspace-desktop.png"),
   fullPage: true,
@@ -126,12 +127,36 @@ await desktop.screenshot({
   path: path.join(outputDir, "workspace-collapsed.png"),
 });
 await desktop.reload({ waitUntil: "networkidle" });
+await desktop
+  .waitForFunction(
+    () => document.querySelector("#figure-prompt")?.value.includes("双分支编码器"),
+    undefined,
+    { timeout: 4000 },
+  )
+  .catch(() => undefined);
+const restoredPrompt = await desktop.locator("#figure-prompt").inputValue();
+if (!restoredPrompt.includes("双分支编码器")) {
+  errors.push("Expected the current workspace draft to persist after reload.");
+}
 if (!(await desktop.locator(".workspace-page").evaluate((element) =>
   element.classList.contains("history-collapsed"),
 ))) {
   errors.push("Expected the collapsed history preference to persist after reload.");
 }
 await desktop.click(".history-collapse-button");
+await desktop.click(".new-draft-button");
+if ((await desktop.locator("#figure-prompt").inputValue()) !== "") {
+  errors.push("Expected a new workspace draft to start blank.");
+}
+if ((await desktop.locator(".workspace-record").count()) < 2) {
+  errors.push("Expected the previous draft to remain available after creating a new one.");
+}
+await desktop.locator(".workspace-record-delete").last().click();
+await desktop.waitForSelector(".draft-delete-dialog");
+await desktop.click(".draft-delete-dialog .danger-button");
+if ((await desktop.locator(".workspace-record").count()) !== 1) {
+  errors.push("Expected a deleted draft to disappear from the workspace records.");
+}
 await desktop.fill(
   "#figure-prompt",
   "绘制一个双分支编码器结构，展示均值、方差和加权采样之间的关系。",

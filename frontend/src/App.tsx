@@ -37,15 +37,21 @@ import {
   apiConfigured,
   completeAssetUpload,
   createAssetUploadIntent,
+  createDraft,
   createOrRestoreGuest,
   deleteAccount,
   deleteAsset,
+  deleteDraft,
+  getAsset,
+  getAssetDownloadUrl,
   getAuthProviders,
   getBoundIdentities,
   getCreditTransactions,
   getCurrentIdentity,
+  listDrafts,
   logout,
   oauthStartUrl,
+  updateDraft,
   uploadToPresignedUrl,
   unlinkIdentity,
   type Asset,
@@ -53,7 +59,16 @@ import {
   type BoundIdentity,
   type CreditTransaction,
   type CurrentIdentity,
+  type WorkspaceDraft,
+  type WorkspaceDraftInput,
 } from "./api";
+import {
+  draftFingerprint,
+  draftTitle,
+  makeLocalDraft,
+  readCachedDrafts,
+  writeCachedDrafts,
+} from "./drafts";
 import {
   footerCopy,
   ProductInformationPage,
@@ -66,6 +81,12 @@ type Identity = "guest" | "user" | null;
 type AuthChoice = "guest" | "google" | "github" | "wechat";
 type RoutePath = ProductRoute;
 type GenerateStatus = "empty" | "generating" | "complete";
+type DraftSaveState =
+  | "saved"
+  | "saving"
+  | "offline"
+  | "failed"
+  | "session-expired";
 type BillingCycle = "monthly" | "yearly";
 type ReferenceUploadStatus =
   | "idle"
@@ -232,6 +253,20 @@ const copy = {
       collapseHistory: "收起记录栏",
       expandHistory: "展开记录栏",
       delete: "删除记录",
+      draftUntitled: "未命名草稿",
+      draftSaving: "正在保存…",
+      draftSaved: "草稿已保存",
+      draftOffline: "网络已断开，修改已保存在此设备",
+      draftFailed: "草稿暂未同步，稍后会自动重试",
+      draftSessionExpired: "登录已失效，修改已保存在此设备",
+      deleteDraftTitle: "删除这份草稿？",
+      deleteDraftBody: "草稿会立即从记录栏移除；已上传的原始参考图仍可按数据规则单独删除。",
+      deleteDraftConfirm: "删除草稿",
+      cancel: "取消",
+      onboardingTitle: "工作台会自动保存",
+      onboardingBody:
+        "输入文字、选择比例或隐私后，草稿会自动出现在左侧。生图内核未接入前，不会创建任务或扣除额度。",
+      onboardingDismiss: "知道了",
       closeHistory: "关闭历史记录",
       promptError: "请先描述你希望生成的内容。",
       noCredits: "当前账户没有可用额度，定价页面仍为界面预览。",
@@ -489,6 +524,21 @@ const copy = {
       collapseHistory: "Collapse records",
       expandHistory: "Expand records",
       delete: "Delete record",
+      draftUntitled: "Untitled draft",
+      draftSaving: "Saving…",
+      draftSaved: "Draft saved",
+      draftOffline: "Offline. Changes are saved on this device",
+      draftFailed: "Draft is not synced yet. We will retry automatically",
+      draftSessionExpired: "Your session expired. Changes are saved on this device",
+      deleteDraftTitle: "Delete this draft?",
+      deleteDraftBody:
+        "The draft disappears from the record rail immediately. Uploaded source images continue to follow the separate data-retention rules.",
+      deleteDraftConfirm: "Delete draft",
+      cancel: "Cancel",
+      onboardingTitle: "The workspace saves as you write",
+      onboardingBody:
+        "Text, output settings, and privacy choices appear in the record rail automatically. No task or credit is created before the image kernel is connected.",
+      onboardingDismiss: "Got it",
       closeHistory: "Close history",
       promptError: "Describe what you want to generate first.",
       noCredits:
@@ -1190,6 +1240,7 @@ function WorkspacePage({
   const [referenceFile, setReferenceFile] = useState<File | null>(null);
   const [referencePreview, setReferencePreview] = useState("");
   const [referenceAsset, setReferenceAsset] = useState<Asset | null>(null);
+  const [referenceAssetId, setReferenceAssetId] = useState<string | null>(null);
   const [referenceStatus, setReferenceStatus] =
     useState<ReferenceUploadStatus>("idle");
   const [referenceProgress, setReferenceProgress] = useState(0);
@@ -1200,16 +1251,27 @@ function WorkspacePage({
   const [status] = useState<GenerateStatus>("empty");
   const [progress] = useState(0);
   const [historyOpen, setHistoryOpen] = useState(false);
-  const [historyVisible, setHistoryVisible] = useState(true);
   const [historyCollapsed, setHistoryCollapsed] = useState(
     () => window.localStorage.getItem("autodraftman-history-collapsed") === "true",
   );
   const [settingsOpen, setSettingsOpen] = useState(false);
   const [message, setMessage] = useState("");
+  const [drafts, setDrafts] = useState<WorkspaceDraft[]>([]);
+  const [activeDraftId, setActiveDraftId] = useState("");
+  const [draftsReady, setDraftsReady] = useState(false);
+  const [draftSaveState, setDraftSaveState] = useState<DraftSaveState>("saved");
+  const [draftToDelete, setDraftToDelete] = useState<WorkspaceDraft | null>(null);
+  const [online, setOnline] = useState(() => window.navigator.onLine);
+  const [showOnboarding, setShowOnboarding] = useState(
+    () => window.localStorage.getItem("autodraftman-workspace-onboarded") !== "true",
+  );
   const uploadAbortRef = useRef<AbortController | null>(null);
   const activeUploadAssetIdRef = useRef<string | null>(null);
   const uploadSequenceRef = useRef(0);
   const previewUrlRef = useRef("");
+  const draftSaveTimerRef = useRef<number | null>(null);
+  const draftSaveSequenceRef = useRef(0);
+  const lastSavedDraftRef = useRef("");
 
   const uploadBusy = ["preparing", "uploading", "verifying"].includes(
     referenceStatus,
@@ -1217,6 +1279,9 @@ function WorkspacePage({
   useEffect(
     () => () => {
       uploadAbortRef.current?.abort();
+      if (draftSaveTimerRef.current !== null) {
+        window.clearTimeout(draftSaveTimerRef.current);
+      }
       if (previewUrlRef.current) URL.revokeObjectURL(previewUrlRef.current);
     },
     [],
@@ -1229,12 +1294,149 @@ function WorkspacePage({
     );
   }, [historyCollapsed]);
 
+  useEffect(() => {
+    const goOnline = () => setOnline(true);
+    const goOffline = () => setOnline(false);
+    window.addEventListener("online", goOnline);
+    window.addEventListener("offline", goOffline);
+    return () => {
+      window.removeEventListener("online", goOnline);
+      window.removeEventListener("offline", goOffline);
+    };
+  }, []);
+
   const replacePreview = (file: File | null) => {
     if (previewUrlRef.current) URL.revokeObjectURL(previewUrlRef.current);
     const nextPreview = file ? URL.createObjectURL(file) : "";
     previewUrlRef.current = nextPreview;
     setReferencePreview(nextPreview);
   };
+
+  const blankDraftInput = (): WorkspaceDraftInput => ({
+    prompt: "",
+    mode: "text",
+    aspect_ratio: "16:9",
+    output_format: "PNG",
+    visibility: "private",
+    reference_asset_id: null,
+  });
+
+  const restoreReferenceAsset = async (assetId: string) => {
+    if (!apiConfigured) return;
+    const sequence = ++uploadSequenceRef.current;
+    setReferenceStatus("preparing");
+    try {
+      const [asset, download] = await Promise.all([
+        getAsset(assetId),
+        getAssetDownloadUrl(assetId),
+      ]);
+      if (sequence !== uploadSequenceRef.current) return;
+      setReferenceFile(null);
+      setReferenceAsset(asset);
+      setReferenceAssetId(asset.id);
+      setReferencePreview(download.url);
+      setReferenceProgress(100);
+      setReferenceError("");
+      setReferenceStatus("ready");
+    } catch {
+      if (sequence !== uploadSequenceRef.current) return;
+      setReferenceAsset(null);
+      setReferenceAssetId(null);
+      setReferencePreview("");
+      setReferenceStatus("error");
+      setReferenceError(ui.workspace.uploadFailed);
+    }
+  };
+
+  const applyDraft = (draft: WorkspaceDraft) => {
+    uploadSequenceRef.current += 1;
+    uploadAbortRef.current?.abort();
+    uploadAbortRef.current = null;
+    activeUploadAssetIdRef.current = null;
+    replacePreview(null);
+    setReferenceFile(null);
+    setReferenceAsset(null);
+    setReferenceAssetId(draft.reference_asset_id);
+    setReferenceStatus(draft.reference_asset_id ? "preparing" : "idle");
+    setReferenceProgress(0);
+    setReferenceError("");
+    setMode(draft.mode);
+    setPrompt(draft.prompt);
+    setRatio(draft.aspect_ratio);
+    setFormat(draft.output_format);
+    setIsPublic(draft.visibility === "public");
+    setActiveDraftId(draft.id);
+    setMessage("");
+    lastSavedDraftRef.current = draftFingerprint({
+      prompt: draft.prompt,
+      mode: draft.mode,
+      aspect_ratio: draft.aspect_ratio,
+      output_format: draft.output_format,
+      visibility: draft.visibility,
+      reference_asset_id: draft.reference_asset_id,
+    });
+    setDraftSaveState("saved");
+    if (draft.reference_asset_id) {
+      void restoreReferenceAsset(draft.reference_asset_id);
+    }
+  };
+
+  useEffect(() => {
+    let cancelled = false;
+    const cached = readCachedDrafts();
+
+    const useDrafts = (items: WorkspaceDraft[]) => {
+      if (cancelled) return;
+      const sorted = [...items].sort((left, right) =>
+        right.updated_at.localeCompare(left.updated_at),
+      );
+      const available =
+        sorted.length > 0 ? sorted : [makeLocalDraft(blankDraftInput())];
+      setDrafts(available);
+      writeCachedDrafts(available);
+      applyDraft(available[0]);
+      setDraftsReady(true);
+    };
+
+    if (!apiConfigured) {
+      useDrafts(cached);
+      return () => {
+        cancelled = true;
+      };
+    }
+
+    listDrafts()
+      .then(async (remote) => {
+        const cachedById = new Map(cached.map((draft) => [draft.id, draft]));
+        const merged = remote.map((draft) => {
+          const local = cachedById.get(draft.id);
+          return local && local.updated_at > draft.updated_at ? local : draft;
+        });
+        const localOnly = cached.filter((draft) => draft.id.startsWith("local-"));
+        const imported = await Promise.all(
+          localOnly.map(async (draft) => {
+            try {
+              return await createDraft({
+                prompt: draft.prompt,
+                mode: draft.mode,
+                aspect_ratio: draft.aspect_ratio,
+                output_format: draft.output_format,
+                visibility: draft.visibility,
+                reference_asset_id: null,
+              });
+            } catch {
+              return draft;
+            }
+          }),
+        );
+        useDrafts([...imported, ...merged]);
+      })
+      .catch(() => useDrafts(cached));
+
+    return () => {
+      cancelled = true;
+    };
+  }, []);
 
   const mediaTypeFor = (file: File) => {
     if (["image/png", "image/jpeg", "image/webp"].includes(file.type)) {
@@ -1246,6 +1448,112 @@ function WorkspacePage({
     if (suffix === "webp") return "image/webp";
     return "";
   };
+
+  useEffect(() => {
+    if (!draftsReady) return;
+    const input: WorkspaceDraftInput = {
+      prompt,
+      mode,
+      aspect_ratio: ratio as WorkspaceDraftInput["aspect_ratio"],
+      output_format: format as WorkspaceDraftInput["output_format"],
+      visibility: isPublic ? "public" : "private",
+      reference_asset_id: referenceAssetId,
+    };
+    const fingerprint = draftFingerprint(input);
+    if (fingerprint === lastSavedDraftRef.current) return;
+
+    if (draftSaveTimerRef.current !== null) {
+      window.clearTimeout(draftSaveTimerRef.current);
+    }
+    setDraftSaveState(apiConfigured && !online ? "offline" : "saving");
+
+    draftSaveTimerRef.current = window.setTimeout(() => {
+      const sequence = ++draftSaveSequenceRef.current;
+      const now = new Date().toISOString();
+      const fallbackId = activeDraftId || `local-${crypto.randomUUID()}`;
+      setActiveDraftId(fallbackId);
+      setDrafts((current) => {
+        const existing = current.find((draft) => draft.id === fallbackId);
+        const localDraft: WorkspaceDraft = existing
+          ? { ...existing, ...input, updated_at: now }
+          : makeLocalDraft(input, fallbackId);
+        const next = [
+          localDraft,
+          ...current.filter((draft) => draft.id !== fallbackId),
+        ];
+        writeCachedDrafts(next);
+        return next;
+      });
+
+      if (!apiConfigured) {
+        lastSavedDraftRef.current = fingerprint;
+        setDraftSaveState("saved");
+        return;
+      }
+      if (!online) {
+        setDraftSaveState("offline");
+        return;
+      }
+
+      const request = fallbackId.startsWith("local-")
+        ? createDraft(input)
+        : updateDraft(fallbackId, input);
+      request
+        .then((saved) => {
+          if (sequence !== draftSaveSequenceRef.current) return;
+          setActiveDraftId(saved.id);
+          setDrafts((current) => {
+            const next = [
+              saved,
+              ...current.filter(
+                (draft) => draft.id !== fallbackId && draft.id !== saved.id,
+              ),
+            ];
+            writeCachedDrafts(next);
+            return next;
+          });
+          lastSavedDraftRef.current = fingerprint;
+          setDraftSaveState("saved");
+        })
+        .catch((error: unknown) => {
+          if (sequence !== draftSaveSequenceRef.current) return;
+          if (error instanceof ApiError && error.status === 401) {
+            setDraftSaveState("session-expired");
+          } else if (!window.navigator.onLine || (error instanceof ApiError && error.status === 0)) {
+            setDraftSaveState("offline");
+          } else {
+            setDraftSaveState("failed");
+          }
+        });
+    }, 700);
+
+    return () => {
+      if (draftSaveTimerRef.current !== null) {
+        window.clearTimeout(draftSaveTimerRef.current);
+        draftSaveTimerRef.current = null;
+      }
+    };
+  }, [
+    activeDraftId,
+    draftsReady,
+    format,
+    isPublic,
+    mode,
+    online,
+    prompt,
+    ratio,
+    referenceAssetId,
+  ]);
+
+  useEffect(() => {
+    const warnBeforeLeaving = (event: BeforeUnloadEvent) => {
+      if (draftSaveState === "saved") return;
+      event.preventDefault();
+      event.returnValue = "";
+    };
+    window.addEventListener("beforeunload", warnBeforeLeaving);
+    return () => window.removeEventListener("beforeunload", warnBeforeLeaving);
+  }, [draftSaveState]);
 
   const uploadReference = async (file: File, mediaType: string) => {
     const sequence = ++uploadSequenceRef.current;
@@ -1287,6 +1595,7 @@ function WorkspacePage({
       activeUploadAssetIdRef.current = null;
       uploadAbortRef.current = null;
       setReferenceAsset(completedAsset);
+      setReferenceAssetId(completedAsset.id);
       setReferenceStatus("ready");
       setReferenceProgress(100);
       if (previousAsset && previousAsset.id !== completedAsset.id) {
@@ -1390,6 +1699,7 @@ function WorkspacePage({
     }
     setReferenceFile(null);
     setReferenceAsset(null);
+    setReferenceAssetId(null);
     setReferenceStatus("idle");
     setReferenceProgress(0);
     setReferenceError("");
@@ -1397,15 +1707,66 @@ function WorkspacePage({
   };
 
   const startNewDraft = () => {
-    removeReference();
+    uploadSequenceRef.current += 1;
+    uploadAbortRef.current?.abort();
+    uploadAbortRef.current = null;
+    const pendingAssetId = activeUploadAssetIdRef.current;
+    activeUploadAssetIdRef.current = null;
+    if (pendingAssetId) {
+      void deleteAsset(pendingAssetId).catch(() => undefined);
+    }
+    replacePreview(null);
+    setReferenceFile(null);
+    setReferenceAsset(null);
+    setReferenceAssetId(null);
+    setReferenceStatus("idle");
+    setReferenceProgress(0);
+    setReferenceError("");
     setMode("text");
     setPrompt("");
     setRatio("16:9");
     setFormat("PNG");
     setIsPublic(false);
     setSettingsOpen(false);
-    setHistoryVisible(true);
     setMessage("");
+    const next = makeLocalDraft(blankDraftInput());
+    setActiveDraftId(next.id);
+    setDrafts((current) => {
+      const items = [next, ...current];
+      writeCachedDrafts(items);
+      return items;
+    });
+    lastSavedDraftRef.current = draftFingerprint(blankDraftInput());
+    setDraftSaveState("saved");
+  };
+
+  const selectDraft = (draft: WorkspaceDraft) => {
+    applyDraft(draft);
+    setHistoryOpen(false);
+  };
+
+  const confirmDeleteDraft = async () => {
+    if (!draftToDelete) return;
+    const deletedId = draftToDelete.id;
+    setDraftToDelete(null);
+    if (apiConfigured && !deletedId.startsWith("local-")) {
+      try {
+        await deleteDraft(deletedId);
+      } catch {
+        setDraftSaveState(window.navigator.onLine ? "failed" : "offline");
+        return;
+      }
+    }
+    const remaining = drafts.filter((draft) => draft.id !== deletedId);
+    if (remaining.length > 0) {
+      setDrafts(remaining);
+      writeCachedDrafts(remaining);
+      if (activeDraftId === deletedId) applyDraft(remaining[0]);
+      return;
+    }
+    setDrafts([]);
+    writeCachedDrafts([]);
+    startNewDraft();
   };
 
   const referenceStatusLabel = (() => {
@@ -1418,6 +1779,17 @@ function WorkspacePage({
     if (referenceStatus === "error") return referenceError;
     return ui.workspace.uploadPrivateNote;
   })();
+
+  const draftSaveLabel =
+    draftSaveState === "saving"
+      ? ui.workspace.draftSaving
+      : draftSaveState === "offline"
+        ? ui.workspace.draftOffline
+        : draftSaveState === "failed"
+          ? ui.workspace.draftFailed
+          : draftSaveState === "session-expired"
+            ? ui.workspace.draftSessionExpired
+            : ui.workspace.draftSaved;
 
   const handlePromptKeyDown = (
     event: ReactKeyboardEvent<HTMLTextAreaElement>,
@@ -1465,42 +1837,55 @@ function WorkspacePage({
           {!historyCollapsed && (
             <p className="workspace-records-label">{ui.workspace.history}</p>
           )}
-          {status === "complete" && historyVisible ? (
-            <article className="workspace-record">
-              <FileImage size={19} />
-              <div>
-                <strong>{ui.workspace.historyItem}</strong>
-                <small>
-                  {language === "zh" ? "刚刚生成" : "Generated just now"}
-                </small>
-              </div>
-              {!historyCollapsed && (
-                <button
-                  type="button"
-                  aria-label={ui.workspace.delete}
-                  title={ui.workspace.delete}
-                  onClick={() => setHistoryVisible(false)}
+          {drafts.length > 0
+            ? drafts.map((draft) => (
+                <article
+                  className={
+                    activeDraftId === draft.id
+                      ? "workspace-record current"
+                      : "workspace-record"
+                  }
+                  aria-current={activeDraftId === draft.id ? "true" : undefined}
+                  key={draft.id}
                 >
-                  <Trash size={16} />
-                </button>
+                  <button
+                    className="workspace-record-main"
+                    type="button"
+                    data-allow-wrap="true"
+                    onClick={() => selectDraft(draft)}
+                  >
+                    <NotePencil size={19} />
+                    <span>
+                      <strong>{draftTitle(draft, ui.workspace.draftUntitled)}</strong>
+                      <small>
+                        {new Intl.DateTimeFormat(language === "zh" ? "zh-CN" : "en", {
+                          month: "short",
+                          day: "numeric",
+                          hour: "2-digit",
+                          minute: "2-digit",
+                        }).format(new Date(draft.updated_at))}
+                      </small>
+                    </span>
+                  </button>
+                  {!historyCollapsed && (
+                    <button
+                      className="workspace-record-delete"
+                      type="button"
+                      aria-label={ui.workspace.delete}
+                      title={ui.workspace.delete}
+                      onClick={() => setDraftToDelete(draft)}
+                    >
+                      <Trash size={16} />
+                    </button>
+                  )}
+                </article>
+              ))
+            : !historyCollapsed && (
+                <div className="workspace-history-empty">
+                  <FileImage size={22} />
+                  <p>{ui.workspace.historyHint}</p>
+                </div>
               )}
-            </article>
-          ) : prompt.trim() ? (
-            <div className="workspace-record current" aria-current="true">
-              <NotePencil size={19} />
-              <div>
-                <strong>{prompt.trim()}</strong>
-                <small>{ui.workspace.draftPending}</small>
-              </div>
-            </div>
-          ) : (
-            !historyCollapsed && (
-              <div className="workspace-history-empty">
-                <FileImage size={22} />
-                <p>{ui.workspace.historyHint}</p>
-              </div>
-            )
-          )}
         </div>
 
         <div className="workspace-history-account">
@@ -1524,9 +1909,35 @@ function WorkspacePage({
             </div>
             <div className="workspace-title-line">
               <h1>{ui.workspace.title}</h1>
-              <span>{ui.workspace.draftLabel} / 01</span>
+              <span className={`draft-save-state ${draftSaveState}`}>
+                {draftSaveLabel}
+              </span>
             </div>
             <p>{ui.workspace.subtitle}</p>
+            {showOnboarding && (
+              <aside
+                className="workspace-onboarding"
+                aria-label={ui.workspace.onboardingTitle}
+              >
+                <NotePencil size={18} aria-hidden="true" />
+                <div>
+                  <strong>{ui.workspace.onboardingTitle}</strong>
+                  <p>{ui.workspace.onboardingBody}</p>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => {
+                    window.localStorage.setItem(
+                      "autodraftman-workspace-onboarded",
+                      "true",
+                    );
+                    setShowOnboarding(false);
+                  }}
+                >
+                  {ui.workspace.onboardingDismiss}
+                </button>
+              </aside>
+            )}
           </div>
           <div className="workspace-heading-actions">
             <button
@@ -1595,11 +2006,15 @@ function WorkspacePage({
           {mode === "reference" && (
             <div className="form-block reference-block">
               <label htmlFor="reference-file">{ui.workspace.referenceLabel}</label>
-              {referenceFile && referencePreview ? (
+              {referencePreview ? (
                 <div className={`reference-upload-card ${referenceStatus}`}>
                   <img src={referencePreview} alt="" />
                   <div className="reference-upload-copy">
-                    <strong>{referenceFile.name}</strong>
+                    <strong>
+                      {referenceFile?.name ??
+                        referenceAsset?.original_filename ??
+                        ui.workspace.referenceLabel}
+                    </strong>
                     <small>{referenceStatusLabel}</small>
                     {uploadBusy && (
                       <span
@@ -1645,7 +2060,7 @@ function WorkspacePage({
                   </span>
                 </label>
               )}
-              {referenceFile && !uploadBusy && (
+              {referencePreview && !uploadBusy && (
                 <label className="reference-replace" htmlFor="reference-file">
                   <UploadSimple size={15} />
                   {ui.workspace.replace}
@@ -1896,22 +2311,39 @@ function WorkspacePage({
                 <X size={20} />
               </button>
             </div>
-            {status === "complete" && historyVisible ? (
-              <article className="history-item">
-                <img src={figureAssetPath} alt="" width={2048} height={544} />
-                <div>
-                  <h3>{ui.workspace.historyItem}</h3>
-                  <p>{language === "zh" ? "刚刚生成" : "Generated just now"}</p>
-                </div>
-                <button
-                  type="button"
-                  aria-label={ui.workspace.delete}
-                  title={ui.workspace.delete}
-                  onClick={() => setHistoryVisible(false)}
-                >
-                  <Trash size={18} />
-                </button>
-              </article>
+            {drafts.length > 0 ? (
+              <div className="history-draft-list">
+                {drafts.map((draft) => (
+                  <article
+                    className={
+                      activeDraftId === draft.id
+                        ? "history-item current"
+                        : "history-item"
+                    }
+                    key={draft.id}
+                  >
+                    <button
+                      type="button"
+                      data-allow-wrap="true"
+                      onClick={() => selectDraft(draft)}
+                    >
+                      <NotePencil size={20} />
+                      <span>
+                        <strong>{draftTitle(draft, ui.workspace.draftUntitled)}</strong>
+                        <small>{ui.workspace.draftPending}</small>
+                      </span>
+                    </button>
+                    <button
+                      type="button"
+                      aria-label={ui.workspace.delete}
+                      title={ui.workspace.delete}
+                      onClick={() => setDraftToDelete(draft)}
+                    >
+                      <Trash size={18} />
+                    </button>
+                  </article>
+                ))}
+              </div>
             ) : (
               <div className="drawer-empty">
                 <FileImage size={27} />
@@ -1919,6 +2351,42 @@ function WorkspacePage({
               </div>
             )}
           </aside>
+        </div>
+      )}
+
+      {draftToDelete && (
+        <div
+          className="dialog-backdrop"
+          role="presentation"
+          onMouseDown={() => setDraftToDelete(null)}
+        >
+          <section
+            className="draft-delete-dialog"
+            role="alertdialog"
+            aria-modal="true"
+            aria-labelledby="draft-delete-title"
+            onMouseDown={(event) => event.stopPropagation()}
+          >
+            <p className="kicker">{ui.workspace.draftLabel}</p>
+            <h2 id="draft-delete-title">{ui.workspace.deleteDraftTitle}</h2>
+            <p>{ui.workspace.deleteDraftBody}</p>
+            <div>
+              <button
+                className="button secondary-button"
+                type="button"
+                onClick={() => setDraftToDelete(null)}
+              >
+                {ui.workspace.cancel}
+              </button>
+              <button
+                className="button danger-button"
+                type="button"
+                onClick={() => void confirmDeleteDraft()}
+              >
+                {ui.workspace.deleteDraftConfirm}
+              </button>
+            </div>
+          </section>
         </div>
       )}
 
