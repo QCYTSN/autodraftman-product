@@ -108,7 +108,6 @@ const exampleArtifacts = [
     format: "PNG",
   },
 ] as const;
-type ExampleArtifactId = (typeof exampleArtifacts)[number]["id"];
 const sessionMarker = "autodraftman-session";
 const defaultAuthProviders: AuthProvider[] = [
   { id: "google", name: "Google", enabled: false },
@@ -243,12 +242,7 @@ const copy = {
       technicalSummary: "输出与隐私",
       settingsOpen: "展开输出设置",
       settingsClose: "收起输出设置",
-      exampleEyebrow: "当前项目研发样例",
-      exampleNotice: "静态研发资料，不代表线上生成结果",
-      exampleLoad: "载入这段描述",
-      exampleLoaded: "样例描述已载入，不会消耗额度。",
-      exampleBrowse: "查看全部样例",
-      exampleSource: "来自当前 AutoDraftman 项目实验输出",
+      idleStatus: "等待输入",
     },
     examples: {
       kicker: "真实项目资料 · 静态展示",
@@ -256,8 +250,8 @@ const copy = {
       body:
         "这里展示的是当前 AutoDraftman 项目已有的实验输出与结构检查资料。它们用于验证界面、信息密度和展示方式，不冒充尚未接通的线上生成结果。",
       notice:
-        "所有样例均来自当前项目目录。点击“在工作台查看”只会载入对应描述和静态预览，不会调用模型，也不会消耗额度。",
-      openWorkspace: "在工作台查看",
+        "所有样例均来自当前项目目录，仅作为研发资料在此展示。工作台保持空白，不会预载样例、调用模型或消耗额度。",
+      openWorkspace: "进入空白工作台",
       artifact: "研发资料",
       cases: [
         {
@@ -505,12 +499,7 @@ const copy = {
       technicalSummary: "Output and privacy",
       settingsOpen: "Open output settings",
       settingsClose: "Close output settings",
-      exampleEyebrow: "Current project R&D example",
-      exampleNotice: "Static R&D material, not a live generation result",
-      exampleLoad: "Load this description",
-      exampleLoaded: "The example description is loaded. No credit was used.",
-      exampleBrowse: "View all examples",
-      exampleSource: "From the current AutoDraftman project experiments",
+      idleStatus: "Awaiting input",
     },
     examples: {
       kicker: "Real project material · static display",
@@ -518,8 +507,8 @@ const copy = {
       body:
         "These are existing experimental outputs and structure-inspection artifacts from the current AutoDraftman project. They help us test layout and information density without pretending the live generation service is already connected.",
       notice:
-        "Every example comes from the current project directory. “Open in workspace” only loads its description and static preview. It does not call a model or use a credit.",
-      openWorkspace: "Open in workspace",
+        "Every example comes from the current project directory and stays on this R&D page. The workspace opens blank and does not preload an example, call a model, or use a credit.",
+      openWorkspace: "Open blank workspace",
       artifact: "R&D artifact",
       cases: [
         {
@@ -1108,11 +1097,6 @@ function ExamplesPage({
     ...ui.examples.cases[index],
   }));
 
-  const openInWorkspace = (id: ExampleArtifactId) => {
-    window.localStorage.setItem("autodraftman-selected-example", id);
-    onNavigate("/workspace");
-  };
-
   return (
     <main className="examples-page page-enter">
       <section className="examples-hero shell">
@@ -1159,9 +1143,9 @@ function ExamplesPage({
               <div className="example-case-footer">
                 <span>{example.meta}</span>
                 <button
-                  className="text-link"
-                  type="button"
-                  onClick={() => openInWorkspace(example.id)}
+                 className="text-link"
+                 type="button"
+                  onClick={() => onNavigate("/workspace")}
                 >
                   {ui.examples.openWorkspace}
                   <ArrowRight size={17} />
@@ -1210,15 +1194,6 @@ function WorkspacePage({
     () => window.localStorage.getItem("autodraftman-history-collapsed") === "true",
   );
   const [settingsOpen, setSettingsOpen] = useState(false);
-  const [selectedExampleId, setSelectedExampleId] =
-    useState<ExampleArtifactId>(() => {
-      const stored = window.localStorage.getItem(
-        "autodraftman-selected-example",
-      );
-      return exampleArtifacts.some((example) => example.id === stored)
-        ? (stored as ExampleArtifactId)
-        : "training";
-    });
   const [message, setMessage] = useState("");
   const uploadAbortRef = useRef<AbortController | null>(null);
   const activeUploadAssetIdRef = useRef<string | null>(null);
@@ -1228,14 +1203,6 @@ function WorkspacePage({
   const uploadBusy = ["preparing", "uploading", "verifying"].includes(
     referenceStatus,
   );
-  const localizedExamples = exampleArtifacts.map((artifact, index) => ({
-    ...artifact,
-    ...ui.examples.cases[index],
-  }));
-  const selectedExample =
-    localizedExamples.find((example) => example.id === selectedExampleId) ??
-    localizedExamples[0];
-
   useEffect(
     () => () => {
       uploadAbortRef.current?.abort();
@@ -1250,13 +1217,6 @@ function WorkspacePage({
       String(historyCollapsed),
     );
   }, [historyCollapsed]);
-
-  useEffect(() => {
-    window.localStorage.setItem(
-      "autodraftman-selected-example",
-      selectedExampleId,
-    );
-  }, [selectedExampleId]);
 
   const replacePreview = (file: File | null) => {
     if (previewUrlRef.current) URL.revokeObjectURL(previewUrlRef.current);
@@ -1437,14 +1397,6 @@ function WorkspacePage({
     setMessage("");
   };
 
-  const loadSelectedExample = () => {
-    setMode("text");
-    setPrompt(selectedExample.prompt);
-    setRatio(selectedExample.ratio);
-    setFormat(selectedExample.format);
-    setMessage(ui.workspace.exampleLoaded);
-  };
-
   const referenceStatusLabel = (() => {
     if (referenceStatus === "preparing") return ui.workspace.uploadPreparing;
     if (referenceStatus === "uploading") {
@@ -1601,17 +1553,6 @@ function WorkspacePage({
             >
               <ImageSquare size={17} />
               {ui.workspace.modeReference}
-            </button>
-          </div>
-
-          <div className="workspace-example-context">
-            <div>
-              <span>{ui.workspace.exampleEyebrow}</span>
-              <strong>{selectedExample.title}</strong>
-            </div>
-            <button type="button" onClick={loadSelectedExample}>
-              {ui.workspace.exampleLoad}
-              <ArrowRight size={15} />
             </button>
           </div>
 
@@ -1828,10 +1769,10 @@ function WorkspacePage({
               />
               <span>
                 {status === "complete"
-                  ? ui.workspace.completed
-                  : status === "generating"
-                    ? ui.workspace.generating
-                    : ui.workspace.exampleEyebrow}
+                 ? ui.workspace.completed
+                 : status === "generating"
+                   ? ui.workspace.generating
+                    : ui.workspace.idleStatus}
               </span>
               {status === "complete" && (
                 <span className="privacy-badge">
@@ -1840,38 +1781,28 @@ function WorkspacePage({
               )}
             </div>
             <div className="result-metadata" aria-label={ui.workspace.technicalSummary}>
-              <span>{selectedExample.ratio}</span>
-              <span>{selectedExample.format}</span>
-              <span>{ui.workspace.exampleNotice}</span>
+              <span>{ratio}</span>
+              <span>{format}</span>
+              <span>{isPublic ? ui.workspace.public : ui.workspace.private}</span>
             </div>
           </header>
 
           <div className={`result-stage ratio-${ratio.replace(":", "-")}`}>
             {status === "empty" && (
-              <div className="example-result">
-                <div className="example-result-sheet">
-                  <img
-                    src={selectedExample.src}
-                    alt={selectedExample.alt}
-                    width={selectedExample.width}
-                    height={selectedExample.height}
-                  />
-                </div>
-                <div className="example-result-caption">
+              <div className="empty-result">
+                <span className="empty-sheet-index">FIGURE / 01</span>
+                <div className="empty-result-content">
+                  <span className="empty-result-mark" aria-hidden="true">
+                    <FileImage size={22} weight="duotone" />
+                  </span>
                   <div>
-                    <span>{selectedExample.category}</span>
-                    <h2>{selectedExample.title}</h2>
-                    <p>{ui.workspace.exampleSource}</p>
+                    <h2>{ui.workspace.emptyTitle}</h2>
+                    <p>{ui.workspace.emptyBody}</p>
                   </div>
-                  <button
-                    className="button secondary-button"
-                    type="button"
-                    onClick={loadSelectedExample}
-                  >
-                    {ui.workspace.exampleLoad}
-                    <ArrowRight size={17} />
-                  </button>
                 </div>
+                <span className="empty-sheet-meta">
+                  {ratio} · {format}
+                </span>
               </div>
             )}
             {status === "generating" && (
@@ -1928,35 +1859,6 @@ function WorkspacePage({
             </div>
           )}
 
-          {status === "empty" && (
-            <div className="example-dock" aria-label={ui.nav.examples}>
-              {localizedExamples.map((example, index) => (
-                <button
-                  type="button"
-                  data-allow-wrap="true"
-                  className={
-                    example.id === selectedExample.id
-                      ? "example-dock-item active"
-                      : "example-dock-item"
-                  }
-                  aria-pressed={example.id === selectedExample.id}
-                  onClick={() => setSelectedExampleId(example.id)}
-                  key={example.id}
-                >
-                  <img
-                    src={example.src}
-                    alt=""
-                    width={example.width}
-                    height={example.height}
-                  />
-                  <span>
-                    <small>{String(index + 1).padStart(2, "0")}</small>
-                    <strong>{example.title}</strong>
-                  </span>
-                </button>
-              ))}
-            </div>
-          )}
         </section>
       </div>
       </div>

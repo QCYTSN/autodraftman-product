@@ -76,12 +76,15 @@ if ((await desktop.locator(".example-case").count()) !== 3) {
 }
 await desktop.locator(".example-case").nth(1).locator("button").click();
 await desktop.waitForURL(/\/workspace$/);
+if ((await desktop.locator(".empty-result").count()) !== 1) {
+  errors.push("Expected examples to open a blank workspace.");
+}
 if (
-  !(await desktop.locator(".example-result-sheet img").getAttribute("src"))?.includes(
-    "case-inference-pipeline",
-  )
+  (await desktop.locator(
+    ".example-result, .example-dock, .workspace-example-context",
+  ).count()) !== 0
 ) {
-  errors.push("Expected the selected example to open in the workspace.");
+  errors.push("Expected the workspace to remain free of R&D examples.");
 }
 
 await desktop.goto(`${baseUrl}/workspace`, { waitUntil: "networkidle" });
