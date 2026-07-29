@@ -3,6 +3,7 @@ import path from "node:path";
 
 const outputDirectory = path.resolve("dist");
 const routeNames = [
+  "examples",
   "pricing",
   "workspace",
   "docs",
