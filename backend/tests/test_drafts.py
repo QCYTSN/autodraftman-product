@@ -25,6 +25,15 @@ def test_draft_rejects_unsupported_output_options() -> None:
 
 
 def test_partial_draft_update_preserves_omitted_fields() -> None:
-    update = DraftUpdate(prompt="Changed")
+    update = DraftUpdate(prompt="Changed", title="  Method   overview  ")
 
-    assert update.model_dump(exclude_unset=True) == {"prompt": "Changed"}
+    assert update.model_dump(exclude_unset=True) == {
+        "prompt": "Changed",
+        "title": "Method overview",
+    }
+
+
+def test_blank_custom_title_restores_prompt_based_title() -> None:
+    update = DraftUpdate(title="   ")
+
+    assert update.model_dump(exclude_unset=True) == {"title": None}

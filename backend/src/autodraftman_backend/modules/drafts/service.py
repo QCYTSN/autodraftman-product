@@ -79,6 +79,7 @@ async def create_draft(
     draft = Draft(
         owner_user_id=principal.subject_id if principal.kind == "user" else None,
         owner_guest_id=principal.subject_id if principal.kind == "guest" else None,
+        title=payload.title,
         prompt=payload.prompt,
         mode=payload.mode,
         aspect_ratio=payload.aspect_ratio,

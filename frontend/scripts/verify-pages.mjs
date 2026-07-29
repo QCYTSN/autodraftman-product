@@ -33,6 +33,7 @@ for (const route of [
   "/pricing",
   "/workspace",
   "/docs",
+  "/feedback",
   "/privacy",
   "/terms",
   "/content-policy",

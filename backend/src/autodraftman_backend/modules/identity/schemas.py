@@ -20,6 +20,11 @@ class CurrentIdentity(BaseModel):
     display_name: str | None = None
     avatar_url: str | None = None
     providers: list[str] = Field(default_factory=list)
+    default_visibility: Literal["private", "public"] = "private"
+
+
+class IdentityPreferencesUpdate(BaseModel):
+    default_visibility: Literal["private", "public"]
 
 
 class AuthProviderStatus(BaseModel):

@@ -11,6 +11,7 @@ export type CurrentIdentity = {
   display_name: string | null;
   avatar_url: string | null;
   providers: string[];
+  default_visibility: "private" | "public";
   balance: {
     available: number;
     reserved: number;
@@ -72,6 +73,7 @@ export type AssetUploadIntent = {
 
 export type WorkspaceDraft = {
   id: string;
+  title: string | null;
   prompt: string;
   mode: "text" | "reference";
   aspect_ratio: "16:9" | "4:3" | "1:1";
@@ -85,12 +87,30 @@ export type WorkspaceDraft = {
 
 export type WorkspaceDraftInput = Pick<
   WorkspaceDraft,
+  | "title"
   | "prompt"
   | "mode"
   | "aspect_ratio"
   | "output_format"
   | "visibility"
   | "reference_asset_id"
+>;
+
+export type FeedbackEntry = {
+  id: string;
+  category: "product" | "bug" | "account" | "other";
+  message: string;
+  contact_email: string | null;
+  page_url: string | null;
+  locale: "zh" | "en";
+  status: "received" | "in_review" | "resolved" | "closed";
+  created_at: string;
+  updated_at: string;
+};
+
+export type FeedbackInput = Pick<
+  FeedbackEntry,
+  "category" | "message" | "contact_email" | "page_url" | "locale"
 >;
 
 export class ApiError extends Error {
@@ -179,6 +199,16 @@ export function createOrRestoreGuest(): Promise<CurrentIdentity> {
 
 export function getCurrentIdentity(): Promise<CurrentIdentity> {
   return requestJson<CurrentIdentity>("/api/v1/identity/me");
+}
+
+export function updateIdentityPreferences(
+  defaultVisibility: "private" | "public",
+): Promise<CurrentIdentity> {
+  return requestJson<CurrentIdentity>("/api/v1/identity/preferences", {
+    method: "PATCH",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ default_visibility: defaultVisibility }),
+  });
 }
 
 export async function getAuthProviders(): Promise<AuthProvider[]> {
@@ -339,7 +369,7 @@ export function createDraft(payload: WorkspaceDraftInput): Promise<WorkspaceDraf
 
 export function updateDraft(
   draftId: string,
-  payload: WorkspaceDraftInput,
+  payload: Partial<WorkspaceDraftInput>,
 ): Promise<WorkspaceDraft> {
   return requestJson<WorkspaceDraft>(`/api/v1/drafts/${draftId}`, {
     method: "PATCH",
@@ -348,6 +378,23 @@ export function updateDraft(
       ...payload,
       reference_asset_set: true,
     }),
+  });
+}
+
+export async function listFeedback(): Promise<FeedbackEntry[]> {
+  const response = await requestJson<{
+    items: FeedbackEntry[];
+    limit: number;
+    offset: number;
+  }>("/api/v1/feedback?limit=10&offset=0");
+  return response.items;
+}
+
+export function createFeedback(payload: FeedbackInput): Promise<FeedbackEntry> {
+  return requestJson<FeedbackEntry>("/api/v1/feedback", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(payload),
   });
 }
 

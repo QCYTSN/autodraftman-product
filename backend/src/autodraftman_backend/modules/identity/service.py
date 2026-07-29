@@ -13,6 +13,7 @@ from autodraftman_backend.core.security import hash_opaque_token, new_opaque_tok
 from autodraftman_backend.modules.assets.models import Asset
 from autodraftman_backend.modules.credits.models import CreditAccount, CreditTransaction
 from autodraftman_backend.modules.drafts.models import Draft
+from autodraftman_backend.modules.feedback.models import Feedback
 from autodraftman_backend.modules.identity.models import (
     AuthIdentity,
     GuestIdentity,
@@ -50,6 +51,7 @@ class Principal:
     display_name: str | None = None
     avatar_url: str | None = None
     providers: tuple[str, ...] = ()
+    default_visibility: Literal["private", "public"] = "private"
 
 
 @dataclass(frozen=True, slots=True)
@@ -192,6 +194,7 @@ async def resolve_principal(
                 display_name=user.display_name,
                 avatar_url=user.avatar_url,
                 providers=await _provider_names(session, user.id),
+                default_visibility=user.default_visibility,
             )
 
     if not raw_guest_token:
@@ -385,6 +388,11 @@ async def merge_guest_into_user(
         update(Draft)
         .where(Draft.owner_guest_id == guest.id)
         .values(owner_guest_id=None, owner_user_id=user.id, expires_at=None)
+    )
+    await session.execute(
+        update(Feedback)
+        .where(Feedback.owner_guest_id == guest.id)
+        .values(owner_guest_id=None, owner_user_id=user.id)
     )
 
     transferable = 0

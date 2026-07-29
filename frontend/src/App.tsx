@@ -15,6 +15,8 @@ import {
   LockKey,
   LinkSimple,
   NotePencil,
+  PaperPlaneTilt,
+  PencilSimple,
   Plus,
   SignOut,
   TextT,
@@ -26,6 +28,7 @@ import {
 } from "@phosphor-icons/react";
 import {
   type ChangeEvent,
+  type FormEvent,
   type KeyboardEvent as ReactKeyboardEvent,
   type ReactNode,
   useEffect,
@@ -38,6 +41,7 @@ import {
   completeAssetUpload,
   createAssetUploadIntent,
   createDraft,
+  createFeedback,
   createOrRestoreGuest,
   deleteAccount,
   deleteAsset,
@@ -48,10 +52,12 @@ import {
   getBoundIdentities,
   getCreditTransactions,
   getCurrentIdentity,
+  listFeedback,
   listDrafts,
   logout,
   oauthStartUrl,
   updateDraft,
+  updateIdentityPreferences,
   uploadToPresignedUrl,
   unlinkIdentity,
   type Asset,
@@ -59,6 +65,7 @@ import {
   type BoundIdentity,
   type CreditTransaction,
   type CurrentIdentity,
+  type FeedbackEntry,
   type WorkspaceDraft,
   type WorkspaceDraftInput,
 } from "./api";
@@ -255,6 +262,9 @@ const copy = {
       collapseHistory: "收起记录栏",
       expandHistory: "展开记录栏",
       delete: "删除记录",
+      rename: "重命名草稿",
+      renameSave: "保存名称",
+      renameCancel: "取消重命名",
       draftUntitled: "未命名草稿",
       draftSaving: "正在保存…",
       draftSaved: "草稿已保存",
@@ -378,6 +388,12 @@ const copy = {
       connecting: "正在连接…",
       accountTitle: "你的账户",
       accountBody: "不同登录方式可以绑定到同一个 AutoDraftman 账户。",
+      preferences: "工作偏好",
+      defaultPrivacy: "新草稿默认状态",
+      defaultPrivate: "默认私密",
+      defaultPublic: "默认公开",
+      privacyHint: "只影响之后新建的草稿；已有草稿保持原状。",
+      preferenceSaved: "默认隐私已更新。",
       linked: "已绑定",
       addLogin: "添加登录方式",
       unlink: "解除绑定",
@@ -527,6 +543,9 @@ const copy = {
       collapseHistory: "Collapse records",
       expandHistory: "Expand records",
       delete: "Delete record",
+      rename: "Rename draft",
+      renameSave: "Save name",
+      renameCancel: "Cancel renaming",
       draftUntitled: "Untitled draft",
       draftSaving: "Saving…",
       draftSaved: "Draft saved",
@@ -654,6 +673,12 @@ const copy = {
       connecting: "Connecting…",
       accountTitle: "Your account",
       accountBody: "Different login methods can open the same AutoDraftman account.",
+      preferences: "Workspace preferences",
+      defaultPrivacy: "New draft default",
+      defaultPrivate: "Private by default",
+      defaultPublic: "Public by default",
+      privacyHint: "This only affects new drafts. Existing drafts stay unchanged.",
+      preferenceSaved: "Default privacy updated.",
       linked: "Linked",
       addLogin: "Add a login method",
       unlink: "Unlink",
@@ -689,6 +714,7 @@ function isRoutePath(value: string): value is RoutePath {
     "/workspace",
     "/pricing",
     "/docs",
+    "/feedback",
     "/privacy",
     "/terms",
     "/content-policy",
@@ -1319,6 +1345,7 @@ function WorkspacePage({
   const [ratio, setRatio] = useState("16:9");
   const [format, setFormat] = useState("PNG");
   const [isPublic, setIsPublic] = useState(false);
+  const [activeDraftTitle, setActiveDraftTitle] = useState<string | null>(null);
   const [status] = useState<GenerateStatus>("empty");
   const [progress] = useState(0);
   const [historyOpen, setHistoryOpen] = useState(false);
@@ -1332,6 +1359,8 @@ function WorkspacePage({
   const [draftsReady, setDraftsReady] = useState(false);
   const [draftSaveState, setDraftSaveState] = useState<DraftSaveState>("saved");
   const [draftToDelete, setDraftToDelete] = useState<WorkspaceDraft | null>(null);
+  const [renamingDraftId, setRenamingDraftId] = useState("");
+  const [renamingDraftTitle, setRenamingDraftTitle] = useState("");
   const [online, setOnline] = useState(() => window.navigator.onLine);
   const [showOnboarding, setShowOnboarding] = useState(
     () => window.localStorage.getItem("autodraftman-workspace-onboarded") !== "true",
@@ -1384,11 +1413,12 @@ function WorkspacePage({
   };
 
   const blankDraftInput = (): WorkspaceDraftInput => ({
+    title: null,
     prompt: "",
     mode: "text",
     aspect_ratio: "16:9",
     output_format: "PNG",
-    visibility: "private",
+    visibility: currentIdentity?.default_visibility ?? "private",
     reference_asset_id: null,
   });
 
@@ -1432,6 +1462,7 @@ function WorkspacePage({
     setReferenceProgress(0);
     setReferenceError("");
     setMode(draft.mode);
+    setActiveDraftTitle(draft.title);
     setPrompt(draft.prompt);
     setRatio(draft.aspect_ratio);
     setFormat(draft.output_format);
@@ -1439,6 +1470,7 @@ function WorkspacePage({
     setActiveDraftId(draft.id);
     setMessage("");
     lastSavedDraftRef.current = draftFingerprint({
+      title: draft.title,
       prompt: draft.prompt,
       mode: draft.mode,
       aspect_ratio: draft.aspect_ratio,
@@ -1488,6 +1520,7 @@ function WorkspacePage({
           localOnly.map(async (draft) => {
             try {
               return await createDraft({
+                title: draft.title,
                 prompt: draft.prompt,
                 mode: draft.mode,
                 aspect_ratio: draft.aspect_ratio,
@@ -1523,6 +1556,7 @@ function WorkspacePage({
   useEffect(() => {
     if (!draftsReady) return;
     const input: WorkspaceDraftInput = {
+      title: activeDraftTitle,
       prompt,
       mode,
       aspect_ratio: ratio as WorkspaceDraftInput["aspect_ratio"],
@@ -1606,6 +1640,7 @@ function WorkspacePage({
     };
   }, [
     activeDraftId,
+    activeDraftTitle,
     draftsReady,
     format,
     isPublic,
@@ -1794,10 +1829,11 @@ function WorkspacePage({
     setReferenceProgress(0);
     setReferenceError("");
     setMode("text");
+    setActiveDraftTitle(null);
     setPrompt("");
     setRatio("16:9");
     setFormat("PNG");
-    setIsPublic(false);
+    setIsPublic(currentIdentity?.default_visibility === "public");
     setSettingsOpen(false);
     setMessage("");
     const next = makeLocalDraft(blankDraftInput());
@@ -1814,6 +1850,41 @@ function WorkspacePage({
   const selectDraft = (draft: WorkspaceDraft) => {
     applyDraft(draft);
     setHistoryOpen(false);
+  };
+
+  const beginRenameDraft = (draft: WorkspaceDraft) => {
+    setRenamingDraftId(draft.id);
+    setRenamingDraftTitle(
+      draft.title ?? draftTitle(draft, ui.workspace.draftUntitled),
+    );
+  };
+
+  const saveDraftTitle = async (draft: WorkspaceDraft) => {
+    const title = renamingDraftTitle.trim().replace(/\s+/g, " ") || null;
+    const updatedAt = new Date().toISOString();
+    const local = { ...draft, title, updated_at: updatedAt };
+    setRenamingDraftId("");
+    setRenamingDraftTitle("");
+    setDrafts((current) => {
+      const next = current.map((item) => (item.id === draft.id ? local : item));
+      writeCachedDrafts(next);
+      return next;
+    });
+    if (activeDraftId === draft.id) {
+      setActiveDraftTitle(title);
+      return;
+    }
+    if (!apiConfigured || draft.id.startsWith("local-")) return;
+    try {
+      const saved = await updateDraft(draft.id, { title });
+      setDrafts((current) => {
+        const next = current.map((item) => (item.id === draft.id ? saved : item));
+        writeCachedDrafts(next);
+        return next;
+      });
+    } catch {
+      setDraftSaveState(window.navigator.onLine ? "failed" : "offline");
+    }
   };
 
   const confirmDeleteDraft = async () => {
@@ -1919,35 +1990,82 @@ function WorkspacePage({
                   aria-current={activeDraftId === draft.id ? "true" : undefined}
                   key={draft.id}
                 >
-                  <button
-                    className="workspace-record-main"
-                    type="button"
-                    data-allow-wrap="true"
-                    onClick={() => selectDraft(draft)}
-                  >
-                    <NotePencil size={19} />
-                    <span>
-                      <strong>{draftTitle(draft, ui.workspace.draftUntitled)}</strong>
-                      <small>
-                        {new Intl.DateTimeFormat(language === "zh" ? "zh-CN" : "en", {
-                          month: "short",
-                          day: "numeric",
-                          hour: "2-digit",
-                          minute: "2-digit",
-                        }).format(new Date(draft.updated_at))}
-                      </small>
-                    </span>
-                  </button>
-                  {!historyCollapsed && (
-                    <button
-                      className="workspace-record-delete"
-                      type="button"
-                      aria-label={ui.workspace.delete}
-                      title={ui.workspace.delete}
-                      onClick={() => setDraftToDelete(draft)}
+                  {renamingDraftId === draft.id && !historyCollapsed ? (
+                    <form
+                      className="draft-rename-form"
+                      onSubmit={(event) => {
+                        event.preventDefault();
+                        void saveDraftTitle(draft);
+                      }}
                     >
-                      <Trash size={16} />
+                      <input
+                        autoFocus
+                        maxLength={120}
+                        value={renamingDraftTitle}
+                        aria-label={ui.workspace.rename}
+                        onChange={(event) => setRenamingDraftTitle(event.target.value)}
+                      />
+                      <button
+                        type="submit"
+                        aria-label={ui.workspace.renameSave}
+                        title={ui.workspace.renameSave}
+                      >
+                        <Check size={15} />
+                      </button>
+                      <button
+                        type="button"
+                        aria-label={ui.workspace.renameCancel}
+                        title={ui.workspace.renameCancel}
+                        onClick={() => {
+                          setRenamingDraftId("");
+                          setRenamingDraftTitle("");
+                        }}
+                      >
+                        <X size={15} />
+                      </button>
+                    </form>
+                  ) : (
+                    <button
+                      className="workspace-record-main"
+                      type="button"
+                      data-allow-wrap="true"
+                      onClick={() => selectDraft(draft)}
+                    >
+                      <NotePencil size={19} />
+                      <span>
+                        <strong>{draftTitle(draft, ui.workspace.draftUntitled)}</strong>
+                        <small>
+                          {new Intl.DateTimeFormat(language === "zh" ? "zh-CN" : "en", {
+                            month: "short",
+                            day: "numeric",
+                            hour: "2-digit",
+                            minute: "2-digit",
+                          }).format(new Date(draft.updated_at))}
+                        </small>
+                      </span>
                     </button>
+                  )}
+                  {!historyCollapsed && (
+                    <span className="workspace-record-actions">
+                      <button
+                        className="workspace-record-rename"
+                        type="button"
+                        aria-label={ui.workspace.rename}
+                        title={ui.workspace.rename}
+                        onClick={() => beginRenameDraft(draft)}
+                      >
+                        <PencilSimple size={15} />
+                      </button>
+                      <button
+                        className="workspace-record-delete"
+                        type="button"
+                        aria-label={ui.workspace.delete}
+                        title={ui.workspace.delete}
+                        onClick={() => setDraftToDelete(draft)}
+                      >
+                        <Trash size={15} />
+                      </button>
+                    </span>
                   )}
                 </article>
               ))
@@ -2621,6 +2739,278 @@ function PricingPage({
   );
 }
 
+const feedbackCopy = {
+  zh: {
+    kicker: "把问题留给真正能处理它的人",
+    title: "告诉我们，哪里需要改。",
+    body:
+      "产品建议、界面问题和账户请求都会获得一个反馈编号。内部测试期间，我们只收集处理这条反馈所需的信息。",
+    category: "反馈类型",
+    categories: {
+      product: "产品建议",
+      bug: "问题报告",
+      account: "账户与数据",
+      other: "其他",
+    },
+    message: "具体内容",
+    messagePlaceholder:
+      "请说明你正在做什么、遇到了什么，以及你原本期待发生什么。不要提交患者身份信息或其他敏感研究资料。",
+    email: "联系邮箱（可选）",
+    emailPlaceholder: "需要回复时使用",
+    submit: "提交反馈",
+    submitting: "正在提交…",
+    unavailableTitle: "反馈接口尚未部署",
+    unavailableBody:
+      "表单和存储接口已经完成；当前公开静态站不会假装提交成功。部署公网后端后，这里会直接启用。",
+    validation: "请至少填写 10 个字符。",
+    emailInvalid: "请填写有效的邮箱地址，或将邮箱留空。",
+    failed: "暂时无法提交。内容仍保留在页面中，请稍后重试。",
+    received: "反馈已收到",
+    receipt: "反馈编号",
+    history: "最近提交",
+    historyEmpty: "当前身份还没有提交过反馈。",
+    status: {
+      received: "已收到",
+      in_review: "处理中",
+      resolved: "已解决",
+      closed: "已关闭",
+    },
+    privacy:
+      "提交内容默认不公开。我们会保留反馈正文、类型、可选邮箱、提交页面和处理状态。",
+  },
+  en: {
+    kicker: "Send the issue to people who can act on it",
+    title: "Tell us what needs work.",
+    body:
+      "Product ideas, interface issues, and account requests receive a trackable reference. During internal testing, we collect only what is needed to handle the submission.",
+    category: "Feedback type",
+    categories: {
+      product: "Product idea",
+      bug: "Issue report",
+      account: "Account and data",
+      other: "Other",
+    },
+    message: "Details",
+    messagePlaceholder:
+      "Describe what you were doing, what happened, and what you expected. Do not submit patient identifiers or other sensitive research material.",
+    email: "Contact email (optional)",
+    emailPlaceholder: "Used only if a reply is needed",
+    submit: "Send feedback",
+    submitting: "Sending…",
+    unavailableTitle: "Feedback API not deployed",
+    unavailableBody:
+      "The form and storage API are complete. This public static site will not pretend a submission succeeded; the form activates when the public API is deployed.",
+    validation: "Write at least 10 characters.",
+    emailInvalid: "Enter a valid email address or leave the field empty.",
+    failed: "We could not send this yet. Your text remains here so you can retry.",
+    received: "Feedback received",
+    receipt: "Reference",
+    history: "Recent submissions",
+    historyEmpty: "No feedback has been submitted from this identity.",
+    status: {
+      received: "Received",
+      in_review: "In review",
+      resolved: "Resolved",
+      closed: "Closed",
+    },
+    privacy:
+      "Submissions are private by default. We store the message, category, optional email, source page, and handling status.",
+  },
+} as const;
+
+function FeedbackPage({
+  language,
+  onNavigate,
+}: {
+  language: Language;
+  onNavigate: (path: RoutePath) => void;
+}) {
+  const content = feedbackCopy[language];
+  const [category, setCategory] = useState<FeedbackEntry["category"]>("product");
+  const [message, setMessage] = useState("");
+  const [email, setEmail] = useState("");
+  const [entries, setEntries] = useState<FeedbackEntry[]>([]);
+  const [submitState, setSubmitState] = useState<
+    "idle" | "submitting" | "received" | "failed"
+  >("idle");
+  const [formError, setFormError] = useState("");
+  const [receipt, setReceipt] = useState("");
+
+  useEffect(() => {
+    if (!apiConfigured) return;
+    let cancelled = false;
+    listFeedback()
+      .then((items) => {
+        if (!cancelled) setEntries(items);
+      })
+      .catch(() => undefined);
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
+  const submit = async (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    setFormError("");
+    const normalizedMessage = message.trim();
+    const normalizedEmail = email.trim();
+    if (normalizedMessage.length < 10) {
+      setFormError(content.validation);
+      return;
+    }
+    if (
+      normalizedEmail &&
+      !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(normalizedEmail)
+    ) {
+      setFormError(content.emailInvalid);
+      return;
+    }
+    if (!apiConfigured) return;
+
+    setSubmitState("submitting");
+    try {
+      const entry = await createFeedback({
+        category,
+        message: normalizedMessage,
+        contact_email: normalizedEmail || null,
+        page_url: window.location.href,
+        locale: language,
+      });
+      setEntries((current) => [entry, ...current.filter((item) => item.id !== entry.id)]);
+      setReceipt(entry.id.slice(0, 8).toUpperCase());
+      setMessage("");
+      setEmail("");
+      setSubmitState("received");
+    } catch {
+      setSubmitState("failed");
+    }
+  };
+
+  return (
+    <main className="feedback-page page-enter" id="main-content">
+      <section className="feedback-heading shell">
+        <button
+          className="information-back"
+          type="button"
+          onClick={() => onNavigate("/")}
+        >
+          <CaretLeft size={17} />
+          {language === "zh" ? "返回首页" : "Back to home"}
+        </button>
+        <p className="kicker">{content.kicker}</p>
+        <h1>{content.title}</h1>
+        <p>{content.body}</p>
+      </section>
+
+      <section className="feedback-layout shell">
+        <form className="feedback-form" onSubmit={(event) => void submit(event)}>
+          <label>
+            <span>{content.category}</span>
+            <select
+              value={category}
+              onChange={(event) =>
+                setCategory(event.target.value as FeedbackEntry["category"])
+              }
+            >
+              {Object.entries(content.categories).map(([value, label]) => (
+                <option value={value} key={value}>
+                  {label}
+                </option>
+              ))}
+            </select>
+          </label>
+          <label>
+            <span>{content.message}</span>
+            <textarea
+              rows={8}
+              maxLength={4000}
+              value={message}
+              placeholder={content.messagePlaceholder}
+              onChange={(event) => {
+                setMessage(event.target.value);
+                setSubmitState("idle");
+              }}
+            />
+            <small>{message.length}/4000</small>
+          </label>
+          <label>
+            <span>{content.email}</span>
+            <input
+              type="email"
+              maxLength={320}
+              value={email}
+              placeholder={content.emailPlaceholder}
+              onChange={(event) => setEmail(event.target.value)}
+            />
+          </label>
+          {formError && (
+            <p className="feedback-error" role="alert">
+              {formError}
+            </p>
+          )}
+          {!apiConfigured && (
+            <div className="feedback-unavailable">
+              <strong>{content.unavailableTitle}</strong>
+              <p>{content.unavailableBody}</p>
+            </div>
+          )}
+          {submitState === "failed" && (
+            <p className="feedback-error" role="alert">
+              {content.failed}
+            </p>
+          )}
+          {submitState === "received" && (
+            <div className="feedback-receipt" role="status">
+              <Check size={19} />
+              <span>
+                <strong>{content.received}</strong>
+                <small>
+                  {content.receipt} · {receipt}
+                </small>
+              </span>
+            </div>
+          )}
+          <button
+            className="button primary-button feedback-submit"
+            type="submit"
+            disabled={!apiConfigured || submitState === "submitting"}
+          >
+            <PaperPlaneTilt size={18} />
+            {submitState === "submitting" ? content.submitting : content.submit}
+          </button>
+          <p className="feedback-privacy">{content.privacy}</p>
+        </form>
+
+        <aside className="feedback-history">
+          <p className="kicker">{content.history}</p>
+          {entries.length > 0 ? (
+            <ol>
+              {entries.map((entry) => (
+                <li key={entry.id}>
+                  <div>
+                    <strong>{content.categories[entry.category]}</strong>
+                    <small>
+                      {new Intl.DateTimeFormat(language === "zh" ? "zh-CN" : "en", {
+                        year: "numeric",
+                        month: "short",
+                        day: "numeric",
+                      }).format(new Date(entry.created_at))}
+                    </small>
+                  </div>
+                  <span>{content.status[entry.status]}</span>
+                  <code>{entry.id.slice(0, 8).toUpperCase()}</code>
+                </li>
+              ))}
+            </ol>
+          ) : (
+            <p className="feedback-empty">{content.historyEmpty}</p>
+          )}
+        </aside>
+      </section>
+    </main>
+  );
+}
+
 function Footer({
   ui,
   language,
@@ -2670,6 +3060,10 @@ function Footer({
         <div className="footer-contact">
           <p>{footer.contact}</p>
           <span>{footer.contactBody}</span>
+          <InternalLink href="/feedback" onNavigate={onNavigate}>
+            {footer.feedback}
+            <ArrowRight size={15} />
+          </InternalLink>
         </div>
       </div>
       <div className="footer-bottom shell">
@@ -2827,6 +3221,7 @@ function AccountDialog({
   onClose,
   onLink,
   onUnlink,
+  onDefaultVisibilityChange,
   onLogout,
   onDeleteAccount,
 }: {
@@ -2841,15 +3236,20 @@ function AccountDialog({
   onClose: () => void;
   onLink: (provider: "google" | "github") => void;
   onUnlink: (provider: string) => void;
+  onDefaultVisibilityChange: (
+    visibility: "private" | "public",
+  ) => Promise<boolean>;
   onLogout: () => void;
   onDeleteAccount: () => void;
 }) {
   const dialogRef = useRef<HTMLDivElement>(null);
   const [deleteConfirmOpen, setDeleteConfirmOpen] = useState(false);
+  const [preferenceSaved, setPreferenceSaved] = useState(false);
 
   useEffect(() => {
     if (!open) return;
     setDeleteConfirmOpen(false);
+    setPreferenceSaved(false);
     dialogRef.current?.querySelector<HTMLButtonElement>("button")?.focus();
     const closeOnEscape = (event: KeyboardEvent) => {
       if (event.key === "Escape") onClose();
@@ -2949,6 +3349,39 @@ function AccountDialog({
             ))}
           </section>
         )}
+
+        <section className="account-preferences">
+          <div className="account-section-heading">
+            <p>{ui.auth.preferences}</p>
+            <LockKey size={17} />
+          </div>
+          <label>
+            <span>
+              <strong>{ui.auth.defaultPrivacy}</strong>
+              <small>{ui.auth.privacyHint}</small>
+            </span>
+            <select
+              value={current.default_visibility}
+              disabled={busy}
+              onChange={(event) => {
+                const visibility = event.target.value as "private" | "public";
+                setPreferenceSaved(false);
+                void onDefaultVisibilityChange(visibility).then((saved) => {
+                  setPreferenceSaved(saved);
+                });
+              }}
+            >
+              <option value="private">{ui.auth.defaultPrivate}</option>
+              <option value="public">{ui.auth.defaultPublic}</option>
+            </select>
+          </label>
+          {preferenceSaved && (
+            <p className="preference-saved" role="status">
+              <Check size={15} />
+              {ui.auth.preferenceSaved}
+            </p>
+          )}
+        </section>
 
         <section className="credit-activity">
           <div className="account-section-heading">
@@ -3262,6 +3695,25 @@ export default function App() {
     }
   };
 
+  const handleDefaultVisibilityChange = async (
+    visibility: "private" | "public",
+  ) => {
+    setAuthBusy(true);
+    setAccountError("");
+    try {
+      const current = await updateIdentityPreferences(visibility);
+      applyServerIdentity(current);
+      return true;
+    } catch (error) {
+      setAccountError(
+        error instanceof ApiError ? error.message : ui.auth.connectionError,
+      );
+      return false;
+    } finally {
+      setAuthBusy(false);
+    }
+  };
+
   const handleLogout = async () => {
     setAuthBusy(true);
     setAccountError("");
@@ -3352,6 +3804,12 @@ export default function App() {
       {route === "/pricing" && (
         <PricingPage ui={ui} language={language} onNavigate={navigate} />
       )}
+      {route === "/feedback" && (
+        <>
+          <FeedbackPage language={language} onNavigate={navigate} />
+          <Footer ui={ui} language={language} onNavigate={navigate} />
+        </>
+      )}
       {(
         ["/docs", "/privacy", "/terms", "/content-policy"] as const
       ).includes(route as "/docs" | "/privacy" | "/terms" | "/content-policy") && (
@@ -3394,6 +3852,7 @@ export default function App() {
         }}
         onLink={(provider) => window.location.assign(oauthStartUrl(provider, "link"))}
         onUnlink={(provider) => void handleUnlink(provider)}
+        onDefaultVisibilityChange={handleDefaultVisibilityChange}
         onLogout={() => void handleLogout()}
         onDeleteAccount={() => void handleDeleteAccount()}
       />

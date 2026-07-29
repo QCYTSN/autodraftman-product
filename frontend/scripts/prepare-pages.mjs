@@ -7,6 +7,7 @@ const routeNames = [
   "pricing",
   "workspace",
   "docs",
+  "feedback",
   "privacy",
   "terms",
   "content-policy",

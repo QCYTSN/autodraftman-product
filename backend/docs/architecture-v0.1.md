@@ -14,7 +14,7 @@ React frontend
       v
 FastAPI modular monolith
       |
-      +-- PostgreSQL: identities, sessions, drafts, assets, credit ledger
+      +-- PostgreSQL: identities, sessions, preferences, drafts, feedback, assets, credit ledger
       |
       +-- S3-compatible object storage boundary: image bytes
 ```
@@ -31,8 +31,9 @@ by configuration so concurrency and migration differences cannot be hidden durin
 
 ### Modular monolith
 
-Identity, credits, drafts, assets, and health are separate domain modules in one deployable service. For
-the expected scale this is easier to operate and test than independently deployed services.
+Identity, credits, drafts, feedback, assets, and health are separate domain modules in one
+deployable service. For the expected scale this is easier to operate and test than independently
+deployed services.
 
 ### Opaque server-managed sessions
 
@@ -47,11 +48,23 @@ multiple providers. Matching email addresses alone never merge accounts.
 
 ### Kernel-independent drafts
 
-Drafts contain the text prompt, text/reference mode, aspect ratio, file format, privacy choice,
-and optional reference-asset ID. They do not contain a generation status and cannot consume
-credits. The browser keeps a recovery copy, while a configured API stores the authoritative
-record in PostgreSQL. Guest drafts migrate atomically with assets and credits when the guest
-signs in.
+Drafts contain an optional user title, text prompt, text/reference mode, aspect ratio, file format,
+privacy choice, and optional reference-asset ID. They do not contain a generation status and
+cannot consume credits. The browser keeps a recovery copy, while a configured API stores the
+authoritative record in PostgreSQL. Guest drafts migrate atomically with assets, feedback, and
+credits when the guest signs in.
+
+### Explicit account preferences
+
+Registered users store a default visibility for newly created drafts. It defaults to private and
+never changes existing drafts retroactively. The preference is returned with the current identity
+so the frontend can create a new draft consistently on every device.
+
+### Private feedback receipts
+
+Guests and registered users can submit product, bug, account, or general feedback. Each submission
+receives a UUID reference and a visible handling status. Users can list only submissions belonging
+to their current identity. Guest feedback migrates to the registered account during conversion.
 
 ### Auditable credits
 
@@ -100,6 +113,8 @@ erDiagram
     USERS ||--o{ DRAFTS : owns
     GUEST_IDENTITIES ||--o{ DRAFTS : owns
     ASSETS o|--o{ DRAFTS : references
+    USERS ||--o{ FEEDBACK : submits
+    GUEST_IDENTITIES ||--o{ FEEDBACK : submits
 ```
 
 ## Deployment evolution

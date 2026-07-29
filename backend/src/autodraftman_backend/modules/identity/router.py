@@ -1,7 +1,19 @@
-from fastapi import APIRouter
+from dataclasses import replace
 
-from autodraftman_backend.api.dependencies import GuestPrincipalDependency, PrincipalDependency
-from autodraftman_backend.modules.identity.schemas import CurrentIdentity, IdentityBalance
+from fastapi import APIRouter, HTTPException
+
+from autodraftman_backend.api.dependencies import (
+    GuestPrincipalDependency,
+    PrincipalDependency,
+    SessionDependency,
+    UserPrincipalDependency,
+)
+from autodraftman_backend.modules.identity.models import User
+from autodraftman_backend.modules.identity.schemas import (
+    CurrentIdentity,
+    IdentityBalance,
+    IdentityPreferencesUpdate,
+)
 
 router = APIRouter(prefix="/identity", tags=["identity"])
 
@@ -18,6 +30,7 @@ def _serialize_identity(principal) -> CurrentIdentity:
         display_name=principal.display_name,
         avatar_url=principal.avatar_url,
         providers=list(principal.providers),
+        default_visibility=principal.default_visibility,
     )
 
 
@@ -31,3 +44,18 @@ async def create_or_restore_guest(
 @router.get("/me", response_model=CurrentIdentity)
 async def me(principal: PrincipalDependency) -> CurrentIdentity:
     return _serialize_identity(principal)
+
+
+@router.patch("/preferences", response_model=CurrentIdentity)
+async def update_preferences(
+    payload: IdentityPreferencesUpdate,
+    principal: UserPrincipalDependency,
+    session: SessionDependency,
+) -> CurrentIdentity:
+    user = await session.get(User, principal.subject_id, with_for_update=True)
+    if user is None or not user.is_active:
+        raise HTTPException(status_code=404, detail="User not found")
+    user.default_visibility = payload.default_visibility
+    await session.commit()
+    refreshed = replace(principal, default_visibility=payload.default_visibility)
+    return _serialize_identity(refreshed)

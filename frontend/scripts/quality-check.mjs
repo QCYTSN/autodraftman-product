@@ -12,6 +12,7 @@ const routes = [
   "/workspace",
   "/pricing",
   "/docs",
+  "/feedback",
   "/privacy",
   "/terms",
   "/content-policy",

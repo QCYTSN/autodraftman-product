@@ -119,6 +119,16 @@ await recordLayout(desktop, "workspace-desktop");
 if ((await desktop.locator(".workspace-record.current").count()) !== 1) {
   errors.push("Expected the active prompt to appear as the current draft.");
 }
+await desktop.locator(".workspace-record.current .workspace-record-rename").click();
+await desktop.locator(".workspace-record.current .draft-rename-form input").fill("双分支方法图");
+await desktop.locator(".workspace-record.current .draft-rename-form").press("Enter");
+await desktop.waitForTimeout(850);
+if (
+  (await desktop.locator(".workspace-record.current strong").textContent())?.trim() !==
+  "双分支方法图"
+) {
+  errors.push("Expected the draft title to update inline.");
+}
 const expandedHistoryWidth = await desktop
   .locator(".workspace-history")
   .evaluate((element) => element.getBoundingClientRect().width);
@@ -228,6 +238,13 @@ await desktop.screenshot({
   fullPage: true,
 });
 await recordLayout(desktop, "docs-desktop");
+await desktop.goto(`${baseUrl}/feedback`, { waitUntil: "networkidle" });
+await desktop.waitForTimeout(350);
+await desktop.screenshot({
+  path: path.join(outputDir, "feedback-desktop.png"),
+  fullPage: true,
+});
+await recordLayout(desktop, "feedback-desktop");
 await desktop.close();
 
 const mobile = await createPage({ width: 390, height: 844 });
@@ -320,6 +337,13 @@ await mobile.screenshot({
   fullPage: true,
 });
 await recordLayout(mobile, "docs-mobile");
+await mobile.goto(`${baseUrl}/feedback`, { waitUntil: "networkidle" });
+await mobile.waitForTimeout(350);
+await mobile.screenshot({
+  path: path.join(outputDir, "feedback-mobile.png"),
+  fullPage: true,
+});
+await recordLayout(mobile, "feedback-mobile");
 await mobile.close();
 
 await browser.close();

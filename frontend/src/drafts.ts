@@ -7,6 +7,9 @@ function isDraft(value: unknown): value is WorkspaceDraft {
   const draft = value as Partial<WorkspaceDraft>;
   return (
     typeof draft.id === "string" &&
+    (draft.title === undefined ||
+      draft.title === null ||
+      typeof draft.title === "string") &&
     typeof draft.prompt === "string" &&
     (draft.mode === "text" || draft.mode === "reference") &&
     ["16:9", "4:3", "1:1"].includes(draft.aspect_ratio ?? "") &&
@@ -21,7 +24,10 @@ export function readCachedDrafts(): WorkspaceDraft[] {
   try {
     const parsed = JSON.parse(window.localStorage.getItem(draftStorageKey) ?? "[]");
     if (!Array.isArray(parsed)) return [];
-    return parsed.filter(isDraft).slice(0, 30);
+    return parsed
+      .filter(isDraft)
+      .map((draft) => ({ ...draft, title: draft.title ?? null }))
+      .slice(0, 30);
   } catch {
     return [];
   }
@@ -54,6 +60,7 @@ export function makeLocalDraft(
 
 export function draftInput(draft: WorkspaceDraft): WorkspaceDraftInput {
   return {
+    title: draft.title,
     prompt: draft.prompt,
     mode: draft.mode,
     aspect_ratio: draft.aspect_ratio,
@@ -68,6 +75,8 @@ export function draftFingerprint(input: WorkspaceDraftInput): string {
 }
 
 export function draftTitle(draft: WorkspaceDraft, fallback: string): string {
+  const customTitle = draft.title?.trim();
+  if (customTitle) return customTitle;
   const normalized = draft.prompt.trim().replace(/\s+/g, " ");
   if (!normalized) return fallback;
   return normalized.length > 42 ? `${normalized.slice(0, 42)}…` : normalized;

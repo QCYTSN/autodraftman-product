@@ -32,6 +32,7 @@ class Draft(UUIDPrimaryKeyMixin, TimestampMixin, Base):
     owner_guest_id: Mapped[uuid.UUID | None] = mapped_column(
         ForeignKey("guest_identities.id", ondelete="CASCADE"),
     )
+    title: Mapped[str | None] = mapped_column(String(120))
     prompt: Mapped[str] = mapped_column(Text, nullable=False, default="", server_default="")
     mode: Mapped[str] = mapped_column(
         String(16),

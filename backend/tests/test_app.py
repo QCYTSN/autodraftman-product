@@ -19,6 +19,7 @@ def test_openapi_excludes_generation_and_payment_modules() -> None:
 
     assert "post" in paths["/api/v1/identity/guest"]
     assert "/api/v1/identity/me" in paths
+    assert "patch" in paths["/api/v1/identity/preferences"]
     assert "/api/v1/auth/providers" in paths
     assert "/api/v1/auth/oauth/{provider}/start" in paths
     assert "/api/v1/auth/oauth/{provider}/callback" in paths
@@ -35,6 +36,8 @@ def test_openapi_excludes_generation_and_payment_modules() -> None:
     assert "post" in paths["/api/v1/drafts"]
     assert "patch" in paths["/api/v1/drafts/{draft_id}"]
     assert "delete" in paths["/api/v1/drafts/{draft_id}"]
+    assert "get" in paths["/api/v1/feedback"]
+    assert "post" in paths["/api/v1/feedback"]
     assert not any("generation" in path for path in paths)
     assert not any("payment" in path or "order" in path for path in paths)
 

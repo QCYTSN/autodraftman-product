@@ -17,13 +17,14 @@ export type ProductRoute =
   | "/workspace"
   | "/pricing"
   | "/docs"
+  | "/feedback"
   | "/privacy"
   | "/terms"
   | "/content-policy";
 
 type InformationRoute = Exclude<
   ProductRoute,
-  "/" | "/examples" | "/workspace" | "/pricing"
+  "/" | "/examples" | "/workspace" | "/pricing" | "/feedback"
 >;
 
 type InformationSection = {
@@ -589,8 +590,9 @@ export const footerCopy = {
     privacy: "隐私政策",
     terms: "用户协议",
     content: "内容使用规则",
-    contact: "联系",
-    contactBody: "公开测试前公布正式支持邮箱",
+    contact: "反馈",
+    contactBody: "提交产品建议、问题或账户请求",
+    feedback: "提交反馈",
     internal: "当前为内部测试版",
     copyright: "© 2026 AutoDraftman",
   },
@@ -604,8 +606,9 @@ export const footerCopy = {
     privacy: "Privacy",
     terms: "Terms",
     content: "Content rules",
-    contact: "Contact",
-    contactBody: "A support address will be published before public testing",
+    contact: "Feedback",
+    contactBody: "Send a product idea, issue, or account request",
+    feedback: "Send feedback",
     internal: "Internal testing edition",
     copyright: "© 2026 AutoDraftman",
   },
