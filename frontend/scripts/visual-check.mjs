@@ -53,6 +53,9 @@ await desktop.screenshot({
   fullPage: true,
 });
 await recordLayout(desktop, "home-desktop");
+if ((await desktop.locator(".header-workspace-button").count()) !== 1) {
+  errors.push("Expected the homepage header to use a workspace call to action.");
+}
 await desktop.locator(".story-step").nth(1).scrollIntoViewIfNeeded();
 await desktop.waitForTimeout(600);
 await desktop.screenshot({
@@ -89,6 +92,12 @@ if (
 
 await desktop.goto(`${baseUrl}/workspace`, { waitUntil: "networkidle" });
 await desktop.waitForTimeout(550);
+if ((await desktop.locator(".site-header .account-button").count()) !== 0) {
+  errors.push("Expected the workspace header to reserve its actions for language switching.");
+}
+if (!(await desktop.locator(".workspace-account-summary").first().textContent())?.includes("登录")) {
+  errors.push("Expected sign-in to appear at the bottom of the workspace history rail.");
+}
 await desktop.fill(
   "#figure-prompt",
   "绘制一个双分支编码器结构，展示均值、方差和加权采样之间的关系。",
@@ -195,8 +204,19 @@ await desktop.screenshot({
   path: path.join(outputDir, "pricing-desktop.png"),
   fullPage: true,
 });
+const monthlyPrices = await desktop
+  .locator(".plan-price strong")
+  .allTextContents();
+if (monthlyPrices.join(",") !== "$9,$19,$39") {
+  errors.push(`Unexpected monthly prices: ${monthlyPrices.join(",")}.`);
+}
 await desktop.locator(".billing-switch button").nth(1).click();
 await desktop.waitForTimeout(250);
+if (!(await desktop.locator(".billing-switch").evaluate((element) =>
+  element.classList.contains("yearly"),
+))) {
+  errors.push("Expected the billing control to animate to the yearly state.");
+}
 await desktop.screenshot({
   path: path.join(outputDir, "pricing-yearly.png"),
 });
@@ -273,6 +293,9 @@ await mobile.screenshot({
 });
 await mobile.click(".workspace-mobile-history");
 await mobile.waitForSelector(".history-drawer");
+if ((await mobile.locator(".history-drawer .workspace-account-summary").count()) !== 1) {
+  errors.push("Expected the mobile history drawer to include the account entry.");
+}
 await mobile.screenshot({
   path: path.join(outputDir, "workspace-mobile-history.png"),
 });

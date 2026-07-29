@@ -288,6 +288,27 @@ input:focus-visible {
   border: 1px solid var(--rule-dark);
 }
 
+.header-workspace-button {
+  gap: 0.55rem;
+  color: var(--paper-light);
+  background: var(--ink);
+  border-color: var(--ink);
+}
+
+.header-workspace-button:hover {
+  color: var(--paper-light);
+  background: var(--clay-deep);
+  border-color: var(--clay-deep);
+}
+
+.header-workspace-button svg {
+  transition: transform var(--duration-fast) var(--ease-out);
+}
+
+.header-workspace-button:hover svg {
+  transform: translateX(2px);
+}
+
 .mobile-menu-button,
 .mobile-nav {
   display: none;
@@ -1207,41 +1228,69 @@ input:focus-visible {
   line-height: 1.55;
 }
 
-.workspace-history-account {
-  display: flex;
+.workspace-account-summary {
+  display: grid;
+  width: 100%;
   min-height: 3.35rem;
+  grid-template-columns: auto minmax(0, 1fr) auto;
   align-items: center;
   gap: 0.7rem;
   margin-top: 1rem;
-  padding: 0.65rem 0.7rem 0;
+  padding: 0.65rem 0.25rem 0;
   border-top: 1px solid var(--rule);
+  color: var(--ink);
+  background: transparent;
+  text-align: left;
+  cursor: pointer;
 }
 
-.workspace-history-account > div {
-  min-width: 0;
+.workspace-account-summary:hover strong {
+  color: var(--clay-deep);
 }
 
-.workspace-history-account strong,
-.workspace-history-account small {
-  display: block;
-  white-space: nowrap;
-}
-
-.workspace-history-account strong {
+.workspace-account-avatar {
+  display: grid;
+  width: 2.25rem;
+  height: 2.25rem;
+  overflow: hidden;
+  place-items: center;
+  border: 1px solid var(--rule);
+  border-radius: 0.7rem;
+  background: var(--paper-light);
   font-family: var(--font-display);
-  font-size: 1.15rem;
-  line-height: 1;
+  font-size: 1rem;
 }
 
-.workspace-history-account small {
-  margin-top: 0.2rem;
+.workspace-account-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.workspace-account-summary > strong {
+  overflow: hidden;
+  font-size: var(--text-sm);
+  font-weight: 620;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  transition: color var(--duration-fast) ease;
+}
+
+.workspace-account-plan {
+  padding: 0.25rem 0.55rem;
+  border: 1px solid var(--rule-dark);
+  border-radius: var(--radius-pill);
   color: var(--muted);
-  font-size: 0.68rem;
+  background: rgb(255 255 255 / 36%);
+  font-family: var(--font-display);
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.01em;
 }
 
 .history-collapsed .history-collapse-button,
 .history-collapsed .new-draft-button,
-.history-collapsed .workspace-history-account {
+.history-collapsed .workspace-account-summary {
   justify-content: center;
   padding-inline: 0;
 }
@@ -1249,8 +1298,13 @@ input:focus-visible {
 .history-collapsed .history-collapse-button span,
 .history-collapsed .new-draft-button span,
 .history-collapsed .workspace-record-main > span,
-.history-collapsed .workspace-history-account > div {
+.history-collapsed .workspace-account-summary > strong,
+.history-collapsed .workspace-account-plan {
   display: none;
+}
+
+.history-collapsed .workspace-account-summary {
+  grid-template-columns: auto;
 }
 
 .history-collapsed .workspace-record {
@@ -2206,6 +2260,7 @@ input:focus-visible {
 }
 
 .billing-switch {
+  position: relative;
   display: inline-grid;
   grid-template-columns: 1fr 1fr;
   gap: 0.25rem;
@@ -2216,7 +2271,29 @@ input:focus-visible {
   background: var(--paper-deep);
 }
 
+.billing-switch::before {
+  position: absolute;
+  z-index: 0;
+  top: 0.25rem;
+  bottom: 0.25rem;
+  left: 0.25rem;
+  width: calc(50% - 0.375rem);
+  border: 1px solid rgb(97 76 61 / 9%);
+  border-radius: var(--radius-pill);
+  background: var(--paper-light);
+  box-shadow: 0 1px 2px rgb(73 52 38 / 5%);
+  content: "";
+  transform: translateX(0);
+  transition: transform 420ms cubic-bezier(0.22, 0.72, 0.22, 1);
+}
+
+.billing-switch.yearly::before {
+  transform: translateX(calc(100% + 0.25rem));
+}
+
 .billing-switch button {
+  position: relative;
+  z-index: 1;
   display: flex;
   min-width: 8.4rem;
   height: 2.65rem;
@@ -2230,11 +2307,12 @@ input:focus-visible {
   font-size: var(--text-sm);
   font-weight: 550;
   cursor: pointer;
+  transition: color 260ms ease;
 }
 
 .billing-switch button.selected {
   color: var(--ink);
-  background: var(--paper-light);
+  background: transparent;
 }
 
 .billing-switch button span {
@@ -2257,6 +2335,26 @@ input:focus-visible {
   border: 1px solid var(--rule);
   border-radius: var(--radius-large);
   background: var(--paper-light);
+  animation: pricing-card-enter 560ms cubic-bezier(0.2, 0.72, 0.2, 1) both;
+}
+
+.pricing-card:nth-child(2) {
+  animation-delay: 70ms;
+}
+
+.pricing-card:nth-child(3) {
+  animation-delay: 140ms;
+}
+
+@keyframes pricing-card-enter {
+  from {
+    opacity: 0;
+    transform: translateY(0.9rem) scale(0.992);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
 }
 
 .pricing-card.featured {
@@ -2341,6 +2439,14 @@ input:focus-visible {
   align-items: baseline;
   gap: 0.45rem;
   margin-top: 1rem;
+  animation: pricing-value-enter 380ms cubic-bezier(0.22, 0.72, 0.22, 1) both;
+}
+
+@keyframes pricing-value-enter {
+  from {
+    opacity: 0;
+    transform: translateY(0.35rem);
+  }
 }
 
 .plan-price del {
@@ -2796,8 +2902,10 @@ input:focus-visible {
   position: absolute;
   top: 0;
   right: 0;
+  display: flex;
   width: min(29rem, 100%);
   height: 100%;
+  flex-direction: column;
   padding: 1.5rem;
   background: var(--paper-light);
   animation: drawer-in var(--duration-medium) var(--ease-out) both;
@@ -2849,6 +2957,8 @@ input:focus-visible {
 }
 
 .history-draft-list {
+  min-height: 0;
+  flex: 1;
   overflow-y: auto;
 }
 
@@ -2961,12 +3071,18 @@ input:focus-visible {
 
 .drawer-empty {
   display: flex;
+  flex: 1;
   min-height: 20rem;
   align-items: center;
   justify-content: center;
   flex-direction: column;
   gap: 0.8rem;
   color: var(--muted);
+}
+
+.history-drawer .workspace-account-summary {
+  flex: none;
+  margin-top: auto;
 }
 
 .modal-backdrop {
@@ -3425,6 +3541,16 @@ input:focus-visible {
     padding-block: 0.8rem;
     border-bottom: 1px solid var(--rule);
     font-size: var(--text-sm);
+  }
+
+  .mobile-nav-account {
+    padding-block: 0.8rem;
+    color: var(--clay-deep);
+    background: transparent;
+    font-size: var(--text-sm);
+    font-weight: 620;
+    text-align: left;
+    cursor: pointer;
   }
 
   .editorial-hero {

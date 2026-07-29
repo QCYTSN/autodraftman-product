@@ -144,6 +144,7 @@ const copy = {
       docs: "使用指南",
       pricing: "定价",
       workspace: "工作台",
+      start: "开始制图",
       signIn: "登录",
       guest: "游客",
       account: "演示账户",
@@ -235,6 +236,7 @@ const copy = {
       generate: "生成一张图",
       generating: "正在生成",
       credits: "剩余额度",
+      freePlan: "Free",
       emptyTitle: "结果将在这里出现",
       emptyBody: "左侧用于描述与设置，右侧始终保留给你的图。",
       progressTitle: "正在组织结构与视觉层级",
@@ -328,7 +330,7 @@ const copy = {
       body: "当前暂不开放真实付款。价格、额度与存储周期是首版产品占位，可在接入支付前继续讨论。",
       monthly: "月付",
       yearly: "年付",
-      save: "最高省 21%",
+      save: "最高省 22%",
       notice: "暂未接入付款",
       choose: "选择方案",
       current: "当前方案",
@@ -336,12 +338,11 @@ const copy = {
       perMonth: "/ 月",
       billedYearly: "按年支付",
       savePerMonth: "每月比月付节省",
-      freeForever: "用于初次体验",
       plans: [
         {
           name: "Sketch",
           description: "从一张研究草图开始，轻量体验完整流程。",
-          features: ["1 次游客免费生成", "标准生成队列", "PNG、JPG、WebP"],
+          features: ["30 次月度生成额度", "标准生成队列", "30 天历史记录"],
         },
         {
           name: "Folio",
@@ -408,6 +409,7 @@ const copy = {
       docs: "Docs",
       pricing: "Pricing",
       workspace: "Workspace",
+      start: "Start drafting",
       signIn: "Sign in",
       guest: "Guest",
       account: "Demo account",
@@ -504,6 +506,7 @@ const copy = {
       generate: "Generate one image",
       generating: "Generating",
       credits: "Credits left",
+      freePlan: "Free",
       emptyTitle: "Your result will appear here",
       emptyBody:
         "Description and settings stay on the left. The right side belongs to your figure.",
@@ -602,7 +605,7 @@ const copy = {
         "Live payments are not enabled. Prices, allowances, and storage periods are first-pass product placeholders for discussion.",
       monthly: "Monthly",
       yearly: "Yearly",
-      save: "Save up to 21%",
+      save: "Save up to 22%",
       notice: "Payments not connected",
       choose: "Choose plan",
       current: "Current plan",
@@ -610,12 +613,11 @@ const copy = {
       perMonth: "/ month",
       billedYearly: "billed yearly",
       savePerMonth: "Save each month vs monthly",
-      freeForever: "For a first experience",
       plans: [
         {
           name: "Sketch",
           description: "Begin with one study and experience the complete workflow.",
-          features: ["1 free guest generation", "Standard queue", "PNG, JPG, WebP"],
+          features: ["30 monthly generation credits", "Standard queue", "30-day history"],
         },
         {
           name: "Folio",
@@ -859,15 +861,26 @@ function Header({
             <Globe size={16} />
             <span>{language === "zh" ? "EN" : "中文"}</span>
           </button>
-          <button className="account-button" type="button" onClick={onSignIn}>
-            <span>
-              {identity === "guest"
-                ? ui.nav.guest
-                : identity === "user"
-                  ? accountName || ui.nav.account
-                  : ui.nav.signIn}
-            </span>
-          </button>
+          {route === "/" ? (
+            <button
+              className="account-button header-workspace-button"
+              type="button"
+              onClick={() => navigate("/workspace")}
+            >
+              <span>{ui.nav.start}</span>
+              <ArrowRight size={16} aria-hidden="true" />
+            </button>
+          ) : route !== "/workspace" ? (
+            <button className="account-button" type="button" onClick={onSignIn}>
+              <span>
+                {identity === "guest"
+                  ? ui.nav.guest
+                  : identity === "user"
+                    ? accountName || ui.nav.account
+                    : ui.nav.signIn}
+              </span>
+            </button>
+          ) : null}
           <button
             className="mobile-menu-button"
             type="button"
@@ -896,6 +909,15 @@ function Header({
           <InternalLink href="/workspace" onNavigate={navigate}>
             {ui.nav.workspace}
           </InternalLink>
+          {route !== "/" && route !== "/workspace" && (
+            <button className="mobile-nav-account" type="button" onClick={onSignIn}>
+              {identity === "guest"
+                ? ui.nav.guest
+                : identity === "user"
+                  ? accountName || ui.nav.account
+                  : ui.nav.signIn}
+            </button>
+          )}
         </nav>
       )}
     </header>
@@ -1222,18 +1244,67 @@ function ExamplesPage({
   );
 }
 
+function WorkspaceAccountSummary({
+  ui,
+  identity,
+  currentIdentity,
+  onActivate,
+}: {
+  ui: UiCopy;
+  identity: Identity;
+  currentIdentity: CurrentIdentity | null;
+  onActivate: () => void;
+}) {
+  const label =
+    identity === "user"
+      ? currentIdentity?.display_name || ui.nav.account
+      : identity === "guest"
+        ? ui.nav.guest
+        : ui.nav.signIn;
+  const monogram =
+    identity === "user"
+      ? (currentIdentity?.display_name?.trim().charAt(0) || "A").toUpperCase()
+      : identity === "guest"
+        ? "G"
+        : "U";
+
+  return (
+    <button
+      className="workspace-account-summary"
+      type="button"
+      onClick={onActivate}
+      aria-label={label}
+      data-allow-wrap="true"
+    >
+      <span className="workspace-account-avatar" aria-hidden="true">
+        {identity === "user" && currentIdentity?.avatar_url ? (
+          <img src={currentIdentity.avatar_url} alt="" referrerPolicy="no-referrer" />
+        ) : (
+          monogram
+        )}
+      </span>
+      <strong>{label}</strong>
+      <span className="workspace-account-plan">{ui.workspace.freePlan}</span>
+    </button>
+  );
+}
+
 function WorkspacePage({
   ui,
   language,
   identity,
+  currentIdentity,
   credits,
   requestAuth,
+  onAccount,
 }: {
   ui: UiCopy;
   language: Language;
   identity: Identity;
+  currentIdentity: CurrentIdentity | null;
   credits: number | null;
   requestAuth: (action: () => void) => void;
+  onAccount: () => void;
 }) {
   const [mode, setMode] = useState<"text" | "reference">("text");
   const [prompt, setPrompt] = useState("");
@@ -1888,13 +1959,12 @@ function WorkspacePage({
               )}
         </div>
 
-        <div className="workspace-history-account">
-          <UserCircle size={21} />
-          <div>
-            <strong>{credits ?? "—"}</strong>
-            <small>{ui.workspace.credits}</small>
-          </div>
-        </div>
+        <WorkspaceAccountSummary
+          ui={ui}
+          identity={identity}
+          currentIdentity={currentIdentity}
+          onActivate={onAccount}
+        />
       </aside>
 
       <div className="workspace-canvas">
@@ -2350,6 +2420,12 @@ function WorkspacePage({
                 <p>{ui.workspace.historyEmpty}</p>
               </div>
             )}
+            <WorkspaceAccountSummary
+              ui={ui}
+              identity={identity}
+              currentIdentity={currentIdentity}
+              onActivate={onAccount}
+            />
           </aside>
         </div>
       )}
@@ -2395,8 +2471,8 @@ function WorkspacePage({
 }
 
 const planPrices = [
-  { monthly: 0, yearly: 0 },
-  { monthly: 15, yearly: 12 },
+  { monthly: 9, yearly: 7 },
+  { monthly: 19, yearly: 15 },
   { monthly: 39, yearly: 31 },
 ] as const;
 
@@ -2424,7 +2500,10 @@ function PricingPage({
         <p className="kicker">{ui.pricing.kicker}</p>
         <h1>{ui.pricing.title}</h1>
         <p>{ui.pricing.body}</p>
-        <div className="billing-switch" aria-label="Billing cycle">
+        <div
+          className={`billing-switch ${billing}`}
+          aria-label="Billing cycle"
+        >
           <button
             type="button"
             className={billing === "monthly" ? "selected" : ""}
@@ -2446,7 +2525,12 @@ function PricingPage({
         </div>
       </section>
 
-      <section className="pricing-grid shell" aria-label={ui.nav.pricing}>
+      <section
+        className="pricing-grid shell"
+        aria-label={ui.nav.pricing}
+        data-billing={billing}
+        key={billing}
+      >
         {ui.pricing.plans.map((plan, index) => {
           const amount =
             billing === "monthly"
@@ -2474,9 +2558,7 @@ function PricingPage({
                 {amount > 0 && <span>{ui.pricing.perMonth}</span>}
               </div>
               <div className="billing-detail">
-                {amount === 0 ? (
-                  <span>{ui.pricing.freeForever}</span>
-                ) : billing === "yearly" ? (
+                {billing === "yearly" ? (
                   <>
                     <strong>
                       {ui.pricing.savePerMonth} $
@@ -2495,7 +2577,7 @@ function PricingPage({
                 type="button"
                 onClick={() => setToast(true)}
               >
-                {index === 0 ? ui.pricing.current : ui.pricing.choose}
+                {ui.pricing.choose}
               </button>
               <div className="plan-rule" />
               <ul>
@@ -3255,8 +3337,16 @@ export default function App() {
           ui={ui}
           language={language}
           identity={identity}
+          currentIdentity={currentIdentity}
           credits={credits}
           requestAuth={requestAuth}
+          onAccount={() => {
+            if (identity === "user") {
+              void openAccount();
+            } else {
+              openLogin();
+            }
+          }}
         />
       )}
       {route === "/pricing" && (
