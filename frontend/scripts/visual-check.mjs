@@ -95,9 +95,141 @@ await desktop.waitForTimeout(550);
 if ((await desktop.locator(".site-header .account-button").count()) !== 0) {
   errors.push("Expected the workspace header to reserve its actions for language switching.");
 }
+if ((await desktop.locator(".workspace-home-link").count()) !== 1) {
+  errors.push("Expected the workspace header to include an explicit return-home action.");
+}
+await desktop.locator(".workspace-home-link").click();
+await desktop.waitForURL((url) => url.pathname === "/" || url.pathname.endsWith("/autodraftman/"));
+await desktop.goto(`${baseUrl}/workspace`, { waitUntil: "networkidle" });
 if (!(await desktop.locator(".workspace-account-summary").first().textContent())?.includes("登录")) {
   errors.push("Expected sign-in to appear at the bottom of the workspace history rail.");
 }
+await desktop.locator(".open-editor-button").click();
+await desktop.waitForURL(/\/editor$/);
+await desktop.waitForTimeout(450);
+if ((await desktop.locator(".editor-page .svg-import-stage").count()) !== 1) {
+  errors.push("Expected the empty SVG route to open as a dedicated import scene.");
+}
+if (
+  !(await desktop.locator(".svg-import-stage").textContent())?.includes(
+    "打开一个 SVG 文档",
+  )
+) {
+  errors.push("Expected the empty SVG editor to offer a real local SVG import.");
+}
+if (
+  (await desktop.locator(
+    ".svg-editor-shell, .svg-toolrail, .svg-inspector, .svg-workbench-toolbar",
+  ).count()) !== 0
+) {
+  errors.push("Expected editing chrome to stay hidden until an SVG document is loaded.");
+}
+if (await desktop.locator(".editor-export-button").isEnabled()) {
+  errors.push("Expected SVG export to remain disabled before a document is loaded.");
+}
+await desktop.screenshot({
+  path: path.join(outputDir, "editor-empty-desktop.png"),
+});
+const editorFileInput = desktop.locator('input[type="file"][accept*=".svg"]');
+await editorFileInput.setInputFiles({
+  name: "unsafe-review.svg",
+  mimeType: "image/svg+xml",
+  buffer: Buffer.from(
+    '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 80" onload="alert(1)"><script>alert(1)</script><rect width="120" height="80" fill="#d97757"/><image href="https://example.com/tracker.png" width="1" height="1"/></svg>',
+  ),
+});
+await desktop.waitForSelector(".svg-document-preview img");
+if (!(await desktop.locator(".svg-safety-note").isVisible())) {
+  errors.push("Expected imported SVGs with unsafe content to report sanitization.");
+}
+const sanitizedSvg = await desktop.locator(".svg-document-preview img").evaluate(
+  async (image) => fetch(image.src).then((response) => response.text()),
+);
+if (/script|onload|https:\/\/example\.com/i.test(sanitizedSvg)) {
+  errors.push("Expected scripts, event handlers, and external image references to be removed.");
+}
+await editorFileInput.setInputFiles(path.resolve("public/favicon.svg"));
+await desktop.waitForFunction(
+  () => document.querySelector(".editor-document-title strong")?.textContent === "favicon.svg",
+);
+if (!(await desktop.locator(".editor-export-button").isEnabled())) {
+  errors.push("Expected SVG export to become available after a safe import.");
+}
+if ((await desktop.locator(".svg-layer-list li").count()) < 1) {
+  errors.push("Expected imported SVG structure to appear in the inspector.");
+}
+await editorFileInput.setInputFiles({
+  name: "font-review.svg",
+  mimeType: "image/svg+xml",
+  buffer: Buffer.from(
+    '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400"><rect width="400" height="400" fill="#fffdf8"/><text x="30" y="210" font-family="Research Serif, serif" font-size="42">AutoDraftman</text></svg>',
+  ),
+});
+await desktop.waitForSelector(".svg-font-note");
+if (!(await desktop.locator(".svg-artboard").evaluate((element) =>
+  element.classList.contains("aspect-square"),
+))) {
+  errors.push("Expected square SVGs to use the square canvas fitting rule.");
+}
+await editorFileInput.setInputFiles({
+  name: "wide-review.svg",
+  mimeType: "image/svg+xml",
+  buffer: Buffer.from(
+    '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1800 400"><rect width="1800" height="400" fill="#fffdf8"/><path d="M80 200H1720" stroke="#141413" stroke-width="16"/><circle cx="900" cy="200" r="70" fill="#c86445"/></svg>',
+  ),
+});
+await desktop.waitForFunction(
+  () => document.querySelector(".editor-document-title strong")?.textContent === "wide-review.svg",
+);
+if (!(await desktop.locator(".svg-artboard").evaluate((element) =>
+  element.classList.contains("aspect-wide"),
+))) {
+  errors.push("Expected very wide SVGs to use the wide canvas fitting rule.");
+}
+await editorFileInput.setInputFiles({
+  name: "portrait-review.svg",
+  mimeType: "image/svg+xml",
+  buffer: Buffer.from(
+    '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 1000"><rect width="500" height="1000" fill="#fffdf8"/><path d="M250 80V920" stroke="#141413" stroke-width="14"/><circle cx="250" cy="500" r="72" fill="#c86445"/></svg>',
+  ),
+});
+await desktop.waitForFunction(
+  () => document.querySelector(".editor-document-title strong")?.textContent === "portrait-review.svg",
+);
+if (!(await desktop.locator(".svg-artboard").evaluate((element) =>
+  element.classList.contains("aspect-portrait"),
+))) {
+  errors.push("Expected portrait SVGs to use the portrait canvas fitting rule.");
+}
+const canvasFit = await desktop.locator(".svg-canvas-viewport").evaluate((viewport) => {
+  const canvas = viewport.getBoundingClientRect();
+  const artboard = viewport.querySelector(".svg-artboard")?.getBoundingClientRect();
+  return Boolean(
+    artboard &&
+      artboard.left >= canvas.left &&
+      artboard.right <= canvas.right &&
+      artboard.top >= canvas.top &&
+      artboard.bottom <= canvas.bottom,
+  );
+});
+if (!canvasFit) {
+  errors.push("Expected portrait SVGs to remain fully inside the editor canvas.");
+}
+await editorFileInput.setInputFiles({
+  name: "too-large.svg",
+  mimeType: "image/svg+xml",
+  buffer: Buffer.alloc(5 * 1024 * 1024 + 1, 32),
+});
+await desktop.waitForSelector(".svg-canvas-alert");
+if ((await desktop.locator(".editor-document-title strong").textContent()) !== "portrait-review.svg") {
+  errors.push("Expected an invalid replacement to preserve the previously opened SVG.");
+}
+await desktop.screenshot({
+  path: path.join(outputDir, "editor-desktop.png"),
+});
+await recordLayout(desktop, "editor-desktop");
+await desktop.locator(".editor-back-button").click();
+await desktop.waitForURL(/\/workspace$/);
 await desktop.fill(
   "#figure-prompt",
   "绘制一个双分支编码器结构，展示均值、方差和加权采样之间的关系。",
@@ -221,11 +353,20 @@ if (monthlyPrices.join(",") !== "$9,$19,$39") {
   errors.push(`Unexpected monthly prices: ${monthlyPrices.join(",")}.`);
 }
 await desktop.locator(".billing-switch button").nth(1).click();
-await desktop.waitForTimeout(250);
+await desktop.waitForTimeout(500);
 if (!(await desktop.locator(".billing-switch").evaluate((element) =>
   element.classList.contains("yearly"),
 ))) {
   errors.push("Expected the billing control to animate to the yearly state.");
+}
+const settledPricingCards = await desktop.locator(".pricing-card").evaluateAll((cards) =>
+  cards.every((card) => {
+    const style = getComputedStyle(card);
+    return Number.parseFloat(style.opacity) > 0.99 && style.transform === "none";
+  }),
+);
+if (!settledPricingCards) {
+  errors.push("Expected pricing cards to reach a fully visible resting state promptly.");
 }
 await desktop.screenshot({
   path: path.join(outputDir, "pricing-yearly.png"),
@@ -282,11 +423,36 @@ await mobile.screenshot({
 await recordLayout(mobile, "examples-mobile");
 await mobile.goto(`${baseUrl}/workspace`, { waitUntil: "networkidle" });
 await mobile.waitForTimeout(550);
+if ((await mobile.locator(".workspace-home-link").count()) !== 1) {
+  errors.push("Expected the mobile workspace header to retain the return-home action.");
+}
 await mobile.screenshot({
   path: path.join(outputDir, "workspace-mobile.png"),
   fullPage: true,
 });
 await recordLayout(mobile, "workspace-mobile");
+await mobile.locator(".open-editor-button").click();
+await mobile.waitForURL(/\/editor$/);
+await mobile.waitForTimeout(450);
+if (!(await mobile.locator(".svg-mobile-note").isVisible())) {
+  errors.push("Expected mobile SVG view to explain its review-only role.");
+}
+if (
+  (await mobile.locator(".svg-toolrail:visible, .svg-inspector:visible").count()) !== 0
+) {
+  errors.push("Expected mobile SVG view to hide desktop editing rails.");
+}
+await mobile
+  .locator('input[type="file"][accept*=".svg"]')
+  .setInputFiles(path.resolve("public/favicon.svg"));
+await mobile.waitForSelector(".svg-document-preview img");
+await mobile.screenshot({
+  path: path.join(outputDir, "editor-mobile.png"),
+  fullPage: true,
+});
+await recordLayout(mobile, "editor-mobile");
+await mobile.locator(".editor-back-button").click();
+await mobile.waitForURL(/\/workspace$/);
 await mobile.locator(".mode-switch button").nth(1).click();
 await mobile.waitForTimeout(120);
 const mobileReferenceModeFits = await mobile
@@ -325,7 +491,7 @@ await mobile.screenshot({
 });
 await recordLayout(mobile, "pricing-mobile");
 await mobile.locator(".billing-switch button").nth(1).click();
-await mobile.waitForTimeout(250);
+await mobile.waitForTimeout(500);
 await mobile.screenshot({
   path: path.join(outputDir, "pricing-mobile-yearly.png"),
   fullPage: true,

@@ -17,6 +17,21 @@
   --shadow-paper:
     0 1px 2px rgb(35 30 25 / 4%),
     0 14px 32px rgb(35 30 25 / 5%);
+  --shadow-edge:
+    inset 0 1px 0 rgb(255 255 255 / 62%),
+    0 1px 2px rgb(49 38 29 / 4%);
+  --shadow-surface:
+    inset 0 1px 0 rgb(255 255 255 / 72%),
+    0 2px 5px rgb(49 38 29 / 4%),
+    0 18px 46px rgb(49 38 29 / 7%);
+  --shadow-focus:
+    inset 0 1px 0 rgb(255 255 255 / 82%),
+    0 3px 8px rgb(49 38 29 / 5%),
+    0 28px 64px rgb(49 38 29 / 9%);
+  --shadow-floating:
+    inset 0 1px 0 rgb(255 255 255 / 68%),
+    0 10px 26px rgb(35 30 25 / 10%),
+    0 32px 78px rgb(35 30 25 / 14%);
 
   --font-display:
     "Newsreader Variable", "Noto Serif SC Variable", "Noto Serif SC",

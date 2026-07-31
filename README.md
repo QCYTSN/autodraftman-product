@@ -3,6 +3,21 @@
 This repository is the source of truth for the AutoDraftman web product.
 Research experiments and generated runs remain in the original FYP repository.
 
+## Repository roles
+
+- `QCYTSN/autodraftman-product` is the only active source repository for the
+  product frontend, backend, product documentation, tests, and deployment
+  configuration.
+- `QCYTSN/autodraftman` is a static GitHub Pages deployment mirror. It may
+  receive built assets from a reviewed product commit, but product features
+  must not be edited there.
+- `LawrenceRiver/fyp_AutoDraftman` remains the research and generation-kernel
+  repository. Kernel work should enter this repository only through an agreed
+  runtime or API contract.
+
+Do not copy source changes back from a deployment mirror. Product development
+starts here, is reviewed here, and is deployed outward from a known commit.
+
 ## Structure
 
 ```text

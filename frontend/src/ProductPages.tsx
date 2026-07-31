@@ -15,6 +15,7 @@ export type ProductRoute =
   | "/"
   | "/examples"
   | "/workspace"
+  | "/editor"
   | "/pricing"
   | "/docs"
   | "/feedback"
@@ -24,7 +25,7 @@ export type ProductRoute =
 
 type InformationRoute = Exclude<
   ProductRoute,
-  "/" | "/examples" | "/workspace" | "/pricing" | "/feedback"
+  "/" | "/examples" | "/workspace" | "/editor" | "/pricing" | "/feedback"
 >;
 
 type InformationSection = {
@@ -654,7 +655,10 @@ export function ProductInformationPage({
   };
 
   return (
-    <main className="information-page page-enter" id="main-content">
+    <main
+      className={`information-page information-page-${route.slice(1)} page-enter`}
+      id="main-content"
+    >
       <section className="information-hero shell">
         <a
           className="information-back"
@@ -665,10 +669,11 @@ export function ProductInformationPage({
           {backLabel}
         </a>
         <div className="information-heading">
-          <div className="information-emblem">
-            <InformationIcon route={route} />
-          </div>
-          <p className="kicker">{content.eyebrow}</p>
+          {route !== "/docs" && (
+            <div className="information-emblem">
+              <InformationIcon route={route} />
+            </div>
+          )}
           <h1>{content.title}</h1>
           <p>{content.introduction}</p>
         </div>
@@ -679,6 +684,27 @@ export function ProductInformationPage({
       </section>
 
       <section className="information-body shell">
+        {route === "/docs" && (
+          <aside className="information-toc" aria-label={content.title}>
+            <div>
+              <BookOpen size={18} weight="duotone" aria-hidden="true" />
+              <p>{language === "zh" ? "本页内容" : "On this page"}</p>
+            </div>
+            <ol>
+              {content.sections.map((section, index) => (
+                <li key={section.title}>
+                  <a
+                    href={`#guide-section-${index + 1}`}
+                    data-allow-wrap="true"
+                  >
+                    <span>{String(index + 1).padStart(2, "0")}</span>
+                    {section.title}
+                  </a>
+                </li>
+              ))}
+            </ol>
+          </aside>
+        )}
         <article className="information-document">
           <div className="information-notice">
             <WarningCircle size={20} weight="duotone" />
@@ -703,8 +729,12 @@ export function ProductInformationPage({
           )}
 
           <div className="information-sections">
-            {content.sections.map((section) => (
-              <section className="information-section" key={section.title}>
+            {content.sections.map((section, index) => (
+              <section
+                className="information-section"
+                id={route === "/docs" ? `guide-section-${index + 1}` : undefined}
+                key={section.title}
+              >
                 <div>
                   <h2>{section.title}</h2>
                   {section.paragraphs?.map((paragraph) => (

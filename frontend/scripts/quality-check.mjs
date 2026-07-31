@@ -31,6 +31,9 @@ for (const language of languages) {
       viewport: { width, height: width < 768 ? 844 : 800 },
       colorScheme: "light",
     });
+    await page.addInitScript((targetLanguage) => {
+      window.localStorage.setItem("autodraftman-language", targetLanguage);
+    }, language);
     page.on("console", (message) => {
       if (message.type() === "error") {
         browserErrors.push(`${route} @ ${width}: ${message.text()}`);
@@ -41,9 +44,6 @@ for (const language of languages) {
     });
 
       await page.goto(`${baseUrl}${route}`, { waitUntil: "networkidle" });
-      if (language === "en") {
-        await page.click(".language-button");
-      }
       if (route === "/workspace") {
         await page.locator(".mode-switch button").nth(1).click();
       }

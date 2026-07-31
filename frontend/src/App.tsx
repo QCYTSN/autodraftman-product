@@ -1,10 +1,13 @@
 import {
   ArrowRight,
   ArrowUpRight,
+  BezierCurve,
+  BoundingBox,
   CaretLeft,
   CaretRight,
   Check,
   ClockCounterClockwise,
+  CursorClick,
   DownloadSimple,
   FileImage,
   GithubLogo,
@@ -14,20 +17,30 @@ import {
   List,
   LockKey,
   LinkSimple,
+  MagnifyingGlassMinus,
+  MagnifyingGlassPlus,
   NotePencil,
+  PaintBrush,
   PaperPlaneTilt,
   PencilSimple,
   Plus,
+  Selection,
   SignOut,
+  SlidersHorizontal,
+  Stack,
   TextT,
   Trash,
   UploadSimple,
   UserCircle,
+  VectorThree,
+  WarningCircle,
   WechatLogo,
   X,
 } from "@phosphor-icons/react";
 import {
+  type CSSProperties,
   type ChangeEvent,
+  type DragEvent as ReactDragEvent,
   type FormEvent,
   type KeyboardEvent as ReactKeyboardEvent,
   type ReactNode,
@@ -82,6 +95,12 @@ import {
   type ProductLanguage,
   type ProductRoute,
 } from "./ProductPages";
+import {
+  importSvgDocument,
+  SvgImportError,
+  type ImportedSvgDocument,
+  type SvgImportErrorCode,
+} from "./svgDocument";
 
 type Language = ProductLanguage;
 type Identity = "guest" | "user" | null;
@@ -152,10 +171,14 @@ const copy = {
       pricing: "定价",
       workspace: "工作台",
       start: "开始制图",
+      backHome: "返回首页",
       signIn: "登录",
       guest: "游客",
       account: "演示账户",
       menu: "打开菜单",
+      primaryLabel: "主导航",
+      mobileLabel: "移动端导航",
+      skip: "跳到主要内容",
     },
     home: {
       kicker: "面向科研表达的制图工作台",
@@ -202,7 +225,7 @@ const copy = {
         "登录用户可以保留和删除历史；游客内容仅短期保存。任何公开展示都必须由用户主动选择，内容不用于训练。",
       privacyItems: ["私密生成", "可删除历史", "公开需主动选择"],
       closingTitle: "从一张干净的画布开始。",
-      closingBody: "当前为本地内部版本，交互与产品结构均可继续讨论和调整。",
+      closingBody: "带着一段研究描述进入工作台，从第一张图开始。",
       footer: "面向科研图示的生成工具",
       footerStatement: "让严谨的研究，也拥有清晰的表达。",
     },
@@ -218,7 +241,7 @@ const copy = {
       promptHelp: "说明对象、关系和视觉重点，通常会得到更稳定的结果。",
       referenceLabel: "参考图",
       uploadTitle: "上传一张参考图",
-      uploadBody: "PNG、JPG 或 WebP",
+      uploadBody: "PNG、JPG 或 WebP · 不超过 10 MB",
       replace: "点击更换",
       uploadPreparing: "正在准备私密上传…",
       uploadProgress: "正在上传",
@@ -291,6 +314,59 @@ const copy = {
       settingsOpen: "展开输出设置",
       settingsClose: "收起输出设置",
       idleStatus: "等待输入",
+      previewTab: "图版预览",
+      editorTab: "SVG 编辑",
+      editorStatus: "未打开 SVG",
+      editorTools: "编辑工具",
+      editorSelect: "选择",
+      editorNodes: "节点",
+      editorShape: "形状",
+      editorText: "文字",
+      editorCanvas: "SVG 画布",
+      editorDocument: "文档",
+      editorInspector: "属性",
+      editorLayers: "图层",
+      editorSelection: "选中对象",
+      editorNoLayers: "打开 SVG 后，这里会显示文档的顶层对象",
+      editorNoSelection: "选择对象后可调整描边、填充与文字",
+      editorTitle: "生成后在这里继续编辑",
+      editorBody:
+        "生成可编辑 SVG 后，路径、文字、连接线和图层会在这里载入。当前没有可编辑文档。",
+      editorUnavailable: "生成可编辑 SVG 后启用",
+      editorMobile:
+        "移动端用于查看图版、图层概览和导出；精细编辑请在桌面端继续。",
+      resultViews: "结果视图",
+      editorZoom: "缩放",
+      editorOpen: "打开 SVG 编辑器",
+      editorBack: "返回生成工作台",
+      editorUntitled: "未命名 SVG",
+      editorExport: "导出 SVG",
+      editorOpenFile: "打开 SVG",
+      editorReplaceFile: "更换文件",
+      editorDropTitle: "打开一个 SVG 文档",
+      editorDropBody:
+        "将已有 SVG 拖到画布，或从设备选择文件。文档只在当前浏览器中处理。",
+      editorDropAction: "选择 SVG 文件",
+      editorDropHint: "SVG · 最大 5 MB · 不上传到服务器",
+      editorDropActive: "松开以打开 SVG",
+      editorLoading: "正在检查 SVG…",
+      editorReady: "已安全载入",
+      editorLocal: "本地文档",
+      editorSanitized: "已移除不安全脚本或外部内容",
+      editorObjects: "个对象",
+      editorTexts: "段文字",
+      editorAspect: "画布比例",
+      editorFonts: "字体引用",
+      editorFontNotice: "本机缺少相应字体时，预览会使用浏览器替代字体。",
+      editorStructure: "文档结构",
+      editorSelectionReady:
+        "文档已载入。对象选择、文字修改与路径编辑将在下一阶段接入。",
+      editorErrorFormat: "请选择有效的 .svg 文件。",
+      editorErrorInvalid: "无法读取这个 SVG。请检查文件是否完整。",
+      editorErrorLarge: "SVG 文件不能超过 5 MB。",
+      editorErrorComplex: "SVG 元素过多，当前版本暂不支持打开。",
+      editorTryAgain: "重新选择",
+      editorPreviewAlt: "导入到 AutoDraftman SVG 编辑器的本地文档",
     },
     examples: {
       kicker: "真实项目资料 · 静态展示",
@@ -426,10 +502,14 @@ const copy = {
       pricing: "Pricing",
       workspace: "Workspace",
       start: "Start drafting",
+      backHome: "Back to home",
       signIn: "Sign in",
       guest: "Guest",
       account: "Demo account",
       menu: "Open menu",
+      primaryLabel: "Primary navigation",
+      mobileLabel: "Mobile navigation",
+      skip: "Skip to main content",
     },
     home: {
       kicker: "A figure workspace for scientific ideas",
@@ -477,8 +557,7 @@ const copy = {
         "Signed-in users can keep and delete history; guest files expire. Public sharing is always opt-in, and content is not used for training.",
       privacyItems: ["Private generation", "Deletable history", "Opt-in sharing"],
       closingTitle: "Begin with a clean canvas.",
-      closingBody:
-        "This is a local internal edition. The interaction and product structure can continue to evolve.",
+      closingBody: "Bring one research description into the workspace and start with one figure.",
       footer: "Generative tools for scientific figures",
       footerStatement: "Rigorous research deserves clear expression.",
     },
@@ -496,7 +575,7 @@ const copy = {
         "Clear objects, relationships, and visual emphasis usually produce steadier results.",
       referenceLabel: "Reference image",
       uploadTitle: "Upload one reference image",
-      uploadBody: "PNG, JPG, or WebP",
+      uploadBody: "PNG, JPG, or WebP · Up to 10 MB",
       replace: "Click to replace",
       uploadPreparing: "Preparing a private upload…",
       uploadProgress: "Uploading",
@@ -574,6 +653,60 @@ const copy = {
       settingsOpen: "Open output settings",
       settingsClose: "Close output settings",
       idleStatus: "Awaiting input",
+      previewTab: "Figure preview",
+      editorTab: "SVG editor",
+      editorStatus: "No SVG open",
+      editorTools: "Editing tools",
+      editorSelect: "Select",
+      editorNodes: "Nodes",
+      editorShape: "Shape",
+      editorText: "Text",
+      editorCanvas: "SVG canvas",
+      editorDocument: "Document",
+      editorInspector: "Inspector",
+      editorLayers: "Layers",
+      editorSelection: "Selection",
+      editorNoLayers: "Top-level document objects appear after an SVG is opened",
+      editorNoSelection: "Select an object to adjust stroke, fill, and type",
+      editorTitle: "Continue editing after generation",
+      editorBody:
+        "Paths, labels, connectors, and layers load here after an editable SVG is generated. No editable document is open yet.",
+      editorUnavailable: "Enabled after an editable SVG is generated",
+      editorMobile:
+        "Mobile supports figure review, a layer overview, and export. Continue precise editing on desktop.",
+      resultViews: "Result views",
+      editorZoom: "Zoom",
+      editorOpen: "Open SVG editor",
+      editorBack: "Back to generation",
+      editorUntitled: "Untitled SVG",
+      editorExport: "Export SVG",
+      editorOpenFile: "Open SVG",
+      editorReplaceFile: "Replace file",
+      editorDropTitle: "Open an SVG document",
+      editorDropBody:
+        "Drop an existing SVG onto the canvas or choose one from your device. The document stays in this browser.",
+      editorDropAction: "Choose SVG file",
+      editorDropHint: "SVG · 5 MB maximum · never uploaded",
+      editorDropActive: "Release to open SVG",
+      editorLoading: "Checking SVG…",
+      editorReady: "Safely loaded",
+      editorLocal: "Local document",
+      editorSanitized: "Unsafe scripts or external content were removed",
+      editorObjects: "objects",
+      editorTexts: "text elements",
+      editorAspect: "Canvas ratio",
+      editorFonts: "Font references",
+      editorFontNotice:
+        "The browser will use fallback fonts when a referenced typeface is unavailable.",
+      editorStructure: "Document structure",
+      editorSelectionReady:
+        "The document is loaded. Object selection, text changes, and path editing come in the next editor stage.",
+      editorErrorFormat: "Choose a valid .svg file.",
+      editorErrorInvalid: "This SVG could not be read. Check that the file is complete.",
+      editorErrorLarge: "SVG files must be 5 MB or smaller.",
+      editorErrorComplex: "This SVG contains too many elements for the current editor.",
+      editorTryAgain: "Choose another",
+      editorPreviewAlt: "Local document imported into the AutoDraftman SVG editor",
     },
     examples: {
       kicker: "Real project material · static display",
@@ -712,6 +845,7 @@ function isRoutePath(value: string): value is RoutePath {
     "/",
     "/examples",
     "/workspace",
+    "/editor",
     "/pricing",
     "/docs",
     "/feedback",
@@ -854,10 +988,25 @@ function Header({
   };
 
   return (
-    <header className="site-header">
+    <header
+      className={route === "/workspace" ? "site-header workspace-site-header" : "site-header"}
+    >
       <div className="header-inner shell">
-        <Brand onNavigate={navigate} />
-        <nav className="desktop-nav" aria-label="Primary navigation">
+        <div className="header-leading">
+          <Brand onNavigate={navigate} />
+          {route === "/workspace" && (
+            <InternalLink
+              className="workspace-home-link"
+              href="/"
+              onNavigate={navigate}
+              aria-label={ui.nav.backHome}
+            >
+              <CaretLeft size={17} aria-hidden="true" />
+              <span>{ui.nav.backHome}</span>
+            </InternalLink>
+          )}
+        </div>
+        <nav className="desktop-nav" aria-label={ui.nav.primaryLabel}>
           {(
             [
               ["/", ui.nav.product],
@@ -919,7 +1068,7 @@ function Header({
         </div>
       </div>
       {menuOpen && (
-        <nav className="mobile-nav" aria-label="Mobile navigation">
+        <nav className="mobile-nav" aria-label={ui.nav.mobileLabel}>
           <InternalLink href="/" onNavigate={navigate}>
             {ui.nav.product}
           </InternalLink>
@@ -959,6 +1108,7 @@ function ProductStory({ ui }: { ui: UiCopy }) {
 
     const updateActiveStep = () => {
       animationFrame = 0;
+      if (window.matchMedia("(max-width: 54rem)").matches) return;
       const viewportAnchor = window.innerHeight * 0.5;
       let nextStep = 0;
       let closestDistance = Number.POSITIVE_INFINITY;
@@ -1053,11 +1203,15 @@ function ProductStory({ ui }: { ui: UiCopy }) {
             activeStep === index ? "active" : index < activeStep ? "past" : "upcoming";
 
           return (
-            <article
+            <button
+              type="button"
               aria-current={activeStep === index ? "step" : undefined}
               className={`story-step ${state}`}
+              data-allow-wrap="true"
               data-step={index}
               key={step.title}
+              onClick={() => setActiveStep(index)}
+              onPointerEnter={() => setActiveStep(index)}
               ref={(node) => {
                 stepRefs.current[index] = node;
               }}
@@ -1065,7 +1219,7 @@ function ProductStory({ ui }: { ui: UiCopy }) {
               <span>{String(index + 1).padStart(2, "0")}</span>
               <h3>{step.title}</h3>
               <p>{step.body}</p>
-            </article>
+            </button>
           );
         })}
       </div>
@@ -1082,11 +1236,16 @@ function HomePage({
   language: Language;
   onNavigate: (path: RoutePath) => void;
 }) {
+  const productNotes = [
+    { label: ui.home.pointOne, Icon: ImageSquare },
+    { label: ui.home.pointTwo, Icon: FileImage },
+    { label: ui.home.pointThree, Icon: LockKey },
+  ];
+
   return (
     <main className="home-page page-enter">
       <section className="editorial-hero shell">
         <div className="hero-copy">
-          <p className="kicker">{ui.home.kicker}</p>
           <h1>{ui.home.title}</h1>
           <p className="hero-body">{ui.home.body}</p>
           <div className="hero-actions">
@@ -1120,22 +1279,21 @@ function HomePage({
       </section>
 
       <section className="product-notes shell" aria-label="Product principles">
-        {[ui.home.pointOne, ui.home.pointTwo, ui.home.pointThree].map(
-          (point, index) => (
-            <p key={point}>
-              <span>{String(index + 1).padStart(2, "0")}</span>
-              {point}
-            </p>
-          ),
-        )}
+        {productNotes.map(({ label, Icon }) => (
+          <p key={label}>
+            <span className="product-note-mark" aria-hidden="true">
+              <Icon size={17} />
+            </span>
+            {label}
+          </p>
+        ))}
       </section>
 
       <section className="story-section shell">
         <div className="story-decoration">
           <EditorialMotif kind="thread" />
         </div>
-        <header className="section-intro">
-          <p className="kicker">{ui.home.storyKicker}</p>
+        <header className="section-intro section-intro-clean">
           <h2>{ui.home.storyTitle}</h2>
           <p>{ui.home.storyBody}</p>
         </header>
@@ -1147,7 +1305,6 @@ function HomePage({
           <div className="privacy-decoration">
             <EditorialMotif kind="privacy" />
           </div>
-          <p className="kicker">{ui.home.privacyKicker}</p>
           <div className="privacy-grid">
             <h2>{ui.home.privacyTitle}</h2>
             <div>
@@ -1165,19 +1322,31 @@ function HomePage({
         </div>
       </section>
 
-      <section className="closing-section shell">
-        <div>
+      <section className="home-entry-section shell">
+        <div className="home-entry-mark" aria-hidden="true">
+          <BezierCurve size={25} weight="duotone" />
+          <span />
+          <span />
+          <span />
+        </div>
+        <div className="home-entry-copy">
           <h2>{ui.home.closingTitle}</h2>
           <p>{ui.home.closingBody}</p>
         </div>
-        <InternalLink
-          className="button primary-button"
-          href="/workspace"
-          onNavigate={onNavigate}
-        >
-          {ui.home.primary}
-          <ArrowRight size={18} />
-        </InternalLink>
+        <div className="home-entry-actions">
+          <InternalLink
+            className="button primary-button"
+            href="/workspace"
+            onNavigate={onNavigate}
+          >
+            {ui.home.primary}
+            <ArrowRight size={18} />
+          </InternalLink>
+          <InternalLink className="text-link" href="/docs" onNavigate={onNavigate}>
+            {ui.nav.docs}
+            <ArrowUpRight size={16} />
+          </InternalLink>
+        </div>
       </section>
 
       <Footer ui={ui} language={language} onNavigate={onNavigate} />
@@ -1201,10 +1370,9 @@ function ExamplesPage({
 
   return (
     <main className="examples-page page-enter">
-      <section className="examples-hero shell">
-        <div>
-          <p className="kicker">{ui.examples.kicker}</p>
-          <h1>{ui.examples.title}</h1>
+        <section className="examples-hero shell">
+          <div>
+            <h1>{ui.examples.title}</h1>
         </div>
         <div className="examples-hero-copy">
           <p>{ui.examples.body}</p>
@@ -1315,6 +1483,529 @@ function WorkspaceAccountSummary({
   );
 }
 
+function SvgEditorPanel({
+  ui,
+  svgDocument,
+  previewUrl,
+  importError,
+  importing,
+  onOpenFile,
+  onDropFile,
+}: {
+  ui: UiCopy;
+  svgDocument: ImportedSvgDocument | null;
+  previewUrl: string;
+  importError: SvgImportErrorCode | null;
+  importing: boolean;
+  onOpenFile: () => void;
+  onDropFile: (file: File) => void;
+}) {
+  const [dragActive, setDragActive] = useState(false);
+  const tools = [
+    { label: ui.workspace.editorSelect, Icon: CursorClick },
+    { label: ui.workspace.editorNodes, Icon: VectorThree },
+    { label: ui.workspace.editorShape, Icon: BoundingBox },
+    { label: ui.workspace.editorText, Icon: TextT },
+  ];
+  const errorMessage =
+    importError === "empty"
+      ? ui.workspace.editorErrorInvalid
+      : importError === "format"
+        ? ui.workspace.editorErrorFormat
+        : importError === "large"
+          ? ui.workspace.editorErrorLarge
+          : importError === "complex"
+            ? ui.workspace.editorErrorComplex
+            : importError === "invalid"
+              ? ui.workspace.editorErrorInvalid
+              : "";
+  const aspectClass = !svgDocument
+    ? "ratio-16-9"
+    : svgDocument.aspectRatio >= 2
+      ? "aspect-wide"
+      : svgDocument.aspectRatio > 1.15
+        ? "aspect-landscape"
+        : svgDocument.aspectRatio >= 0.85
+          ? "aspect-square"
+          : "aspect-portrait";
+  const aspectLabel = svgDocument
+    ? svgDocument.aspectRatio >= 0.98 && svgDocument.aspectRatio <= 1.02
+      ? "1:1"
+      : svgDocument.aspectRatio >= 1.31 && svgDocument.aspectRatio <= 1.36
+        ? "4:3"
+        : svgDocument.aspectRatio >= 1.75 && svgDocument.aspectRatio <= 1.8
+          ? "16:9"
+          : `${svgDocument.aspectRatio.toFixed(2)}:1`
+    : "";
+
+  function acceptDrag(event: ReactDragEvent<HTMLElement>) {
+    event.preventDefault();
+    event.dataTransfer.dropEffect = "copy";
+    setDragActive(true);
+  }
+
+  function leaveDrag(event: ReactDragEvent<HTMLElement>) {
+    if (event.currentTarget.contains(event.relatedTarget as Node | null)) return;
+    setDragActive(false);
+  }
+
+  function dropFile(event: ReactDragEvent<HTMLElement>) {
+    event.preventDefault();
+    setDragActive(false);
+    const file = event.dataTransfer.files[0];
+    if (file) onDropFile(file);
+  }
+
+  if (!svgDocument) {
+    return (
+      <section
+        className={`svg-import-stage ${dragActive ? "drag-active" : ""}`}
+        aria-labelledby="svg-import-title"
+        onDragEnter={acceptDrag}
+        onDragOver={acceptDrag}
+        onDragLeave={leaveDrag}
+        onDrop={dropFile}
+      >
+        <div className="svg-import-copy">
+          <div className="svg-import-symbol" aria-hidden="true">
+            <UploadSimple size={25} weight="duotone" />
+          </div>
+          <span className="svg-import-local">{ui.workspace.editorLocal}</span>
+          <h2 id="svg-import-title">
+            {importing ? ui.workspace.editorLoading : ui.workspace.editorDropTitle}
+          </h2>
+          <p>{ui.workspace.editorDropBody}</p>
+          {errorMessage && (
+            <p className="svg-import-error" role="alert">
+              {errorMessage}
+            </p>
+          )}
+          <div className="svg-import-actions">
+            <button
+              className="svg-import-button"
+              type="button"
+              onClick={onOpenFile}
+              disabled={importing}
+            >
+              <UploadSimple size={17} aria-hidden="true" />
+              {errorMessage
+                ? ui.workspace.editorTryAgain
+                : ui.workspace.editorDropAction}
+            </button>
+            <small>{ui.workspace.editorDropHint}</small>
+          </div>
+          <p className="svg-mobile-note svg-import-mobile-note">
+            {ui.workspace.editorMobile}
+          </p>
+        </div>
+
+        <div className="svg-import-diagram" aria-hidden="true">
+          <svg viewBox="0 0 620 430">
+            <path
+              className="svg-import-paper"
+              d="M93 58H488L543 113V365H93Z"
+            />
+            <path className="svg-import-fold" d="M488 58V113H543" />
+            <path
+              className="svg-import-path"
+              d="M160 278C205 178 276 316 326 207C368 116 430 143 475 195"
+            />
+            <path className="svg-import-guide" d="M160 278L326 207L475 195" />
+            <circle className="svg-import-node" cx="160" cy="278" r="10" />
+            <circle className="svg-import-node clay" cx="326" cy="207" r="10" />
+            <circle className="svg-import-node" cx="475" cy="195" r="10" />
+            <path className="svg-import-caption-line" d="M160 318H258" />
+            <path className="svg-import-caption-line short" d="M160 338H218" />
+          </svg>
+          <span className="svg-import-diagram-label path">PATH</span>
+          <span className="svg-import-diagram-label node">NODE</span>
+          <span className="svg-import-diagram-label text">TEXT</span>
+        </div>
+
+        <div className="svg-import-specs" aria-hidden="true">
+          <span>SVG</span>
+          <span>≤ 5 MB</span>
+          <span>LOCAL</span>
+        </div>
+
+        {dragActive && (
+          <div className="svg-drop-overlay">
+            <UploadSimple size={24} />
+            <strong>{ui.workspace.editorDropActive}</strong>
+          </div>
+        )}
+      </section>
+    );
+  }
+
+  return (
+    <div className="svg-editor-shell">
+      <aside className="svg-toolrail" aria-label={ui.workspace.editorTools}>
+        <span className="svg-toolrail-label">{ui.workspace.editorTools}</span>
+        <div>
+          {tools.map(({ label, Icon }) => (
+            <button
+              key={label}
+              type="button"
+              aria-label={`${label}. ${ui.workspace.editorUnavailable}`}
+              title={ui.workspace.editorUnavailable}
+              disabled
+            >
+              <Icon size={18} />
+            </button>
+          ))}
+        </div>
+      </aside>
+
+      <section className="svg-workbench" aria-label={ui.workspace.editorCanvas}>
+        <header className="svg-workbench-toolbar">
+          <div>
+            <BezierCurve size={17} weight="duotone" />
+            <strong>{ui.workspace.editorDocument}</strong>
+            <span>
+              {svgDocument
+                ? `${svgDocument.fileName} · ${svgDocument.elementCount} ${ui.workspace.editorObjects}`
+                : ui.workspace.editorStatus}
+            </span>
+          </div>
+          <div className="svg-zoom-controls" aria-label={ui.workspace.editorZoom}>
+            <button
+              type="button"
+              aria-label={`${ui.workspace.editorZoom} -. ${ui.workspace.editorUnavailable}`}
+              disabled
+            >
+              <MagnifyingGlassMinus size={16} />
+            </button>
+            <span>—</span>
+            <button
+              type="button"
+              aria-label={`${ui.workspace.editorZoom} +. ${ui.workspace.editorUnavailable}`}
+              disabled
+            >
+              <MagnifyingGlassPlus size={16} />
+            </button>
+          </div>
+        </header>
+
+        <div
+          className={[
+            "svg-canvas-viewport",
+            svgDocument ? "document-open" : "pending",
+            dragActive ? "drag-active" : "",
+          ]
+            .filter(Boolean)
+            .join(" ")}
+          onDragEnter={acceptDrag}
+          onDragOver={acceptDrag}
+          onDragLeave={leaveDrag}
+          onDrop={dropFile}
+        >
+          <div
+            className={[
+              "svg-artboard",
+              svgDocument ? "has-document" : "",
+              aspectClass,
+            ]
+              .filter(Boolean)
+              .join(" ")}
+            style={
+              svgDocument
+                ? ({
+                    "--svg-aspect-ratio": svgDocument.aspectRatio,
+                  } as CSSProperties)
+                : undefined
+            }
+          >
+            {svgDocument && previewUrl ? (
+              <div className="svg-document-preview">
+                <img src={previewUrl} alt={ui.workspace.editorPreviewAlt} />
+              </div>
+            ) : (
+              <div className="svg-artboard-empty svg-import-empty">
+                <UploadSimple size={30} weight="duotone" aria-hidden="true" />
+                <div>
+                  <span id="svg-editor-unavailable">
+                    {dragActive
+                      ? ui.workspace.editorDropActive
+                      : ui.workspace.editorLocal}
+                  </span>
+                  <h2>
+                    {importing
+                      ? ui.workspace.editorLoading
+                      : ui.workspace.editorDropTitle}
+                  </h2>
+                  <p>{ui.workspace.editorDropBody}</p>
+                  {errorMessage && (
+                    <p className="svg-import-error" role="alert">
+                      {errorMessage}
+                    </p>
+                  )}
+                  <button
+                    className="svg-import-button"
+                    type="button"
+                    onClick={onOpenFile}
+                    disabled={importing}
+                  >
+                    <UploadSimple size={17} aria-hidden="true" />
+                    {errorMessage
+                      ? ui.workspace.editorTryAgain
+                      : ui.workspace.editorDropAction}
+                  </button>
+                  <small>{ui.workspace.editorDropHint}</small>
+                </div>
+              </div>
+            )}
+          </div>
+          {errorMessage && svgDocument && (
+            <div className="svg-canvas-alert" role="alert">
+              <WarningCircle size={18} weight="fill" aria-hidden="true" />
+              <span>{errorMessage}</span>
+              <button type="button" onClick={onOpenFile}>
+                {ui.workspace.editorTryAgain}
+              </button>
+            </div>
+          )}
+          {dragActive && (
+            <div className="svg-drop-overlay" aria-hidden="true">
+              <UploadSimple size={24} />
+              <strong>{ui.workspace.editorDropActive}</strong>
+            </div>
+          )}
+          <p className="svg-mobile-note">{ui.workspace.editorMobile}</p>
+        </div>
+      </section>
+
+      <aside className="svg-inspector" aria-label={ui.workspace.editorInspector}>
+        <header>
+          <SlidersHorizontal size={17} />
+          <strong>{ui.workspace.editorInspector}</strong>
+        </header>
+        <section>
+          <h3>
+            <Stack size={15} />
+            {ui.workspace.editorStructure}
+          </h3>
+          {svgDocument ? (
+            <ol className="svg-layer-list">
+              {svgDocument.layers.map((layer, index) => (
+                <li key={`${layer.id}-${index}`}>
+                  <span aria-hidden="true">{String(index + 1).padStart(2, "0")}</span>
+                  <div>
+                    <strong>{layer.label}</strong>
+                    <small>
+                      {layer.tag}
+                      {layer.childCount > 0 ? ` · ${layer.childCount}` : ""}
+                    </small>
+                  </div>
+                </li>
+              ))}
+            </ol>
+          ) : (
+            <div className="svg-inspector-empty">
+              <Selection size={18} weight="duotone" />
+              <p>{ui.workspace.editorNoLayers}</p>
+            </div>
+          )}
+        </section>
+        <section>
+          <h3>
+            <PaintBrush size={15} />
+            {ui.workspace.editorSelection}
+          </h3>
+          <p>
+            {svgDocument
+              ? ui.workspace.editorSelectionReady
+              : ui.workspace.editorNoSelection}
+          </p>
+          {svgDocument && (
+            <dl className="svg-document-facts">
+              <div>
+                <dt>{ui.workspace.editorObjects}</dt>
+                <dd>{svgDocument.elementCount}</dd>
+              </div>
+              <div>
+                <dt>{ui.workspace.editorTexts}</dt>
+                <dd>{svgDocument.textCount}</dd>
+              </div>
+              <div>
+                <dt>KB</dt>
+                <dd>{Math.max(1, Math.round(svgDocument.byteSize / 1024))}</dd>
+              </div>
+              <div>
+                <dt>{ui.workspace.editorAspect}</dt>
+                <dd>{aspectLabel}</dd>
+              </div>
+            </dl>
+          )}
+          {svgDocument?.sanitized && (
+            <p className="svg-safety-note">
+              <Check size={15} weight="bold" aria-hidden="true" />
+              {ui.workspace.editorSanitized}
+            </p>
+          )}
+          {svgDocument && svgDocument.fontFamilies.length > 0 && (
+            <p className="svg-font-note">
+              <TextT size={15} weight="bold" aria-hidden="true" />
+              <span>
+                <strong>
+                  {ui.workspace.editorFonts}: {svgDocument.fontFamilies.join(", ")}
+                </strong>
+                {ui.workspace.editorFontNotice}
+              </span>
+            </p>
+          )}
+        </section>
+      </aside>
+    </div>
+  );
+}
+
+function SvgEditorPage({
+  ui,
+  language,
+  onLanguageChange,
+  onNavigate,
+}: {
+  ui: UiCopy;
+  language: Language;
+  onLanguageChange: () => void;
+  onNavigate: (path: RoutePath) => void;
+}) {
+  const latestDraft = readCachedDrafts()[0];
+  const fileInputRef = useRef<HTMLInputElement>(null);
+  const [svgDocument, setSvgDocument] = useState<ImportedSvgDocument | null>(null);
+  const [previewUrl, setPreviewUrl] = useState("");
+  const [importError, setImportError] = useState<SvgImportErrorCode | null>(null);
+  const [importing, setImporting] = useState(false);
+  const fallbackTitle = latestDraft?.title?.trim() || ui.workspace.editorUntitled;
+  const documentTitle = svgDocument?.fileName || fallbackTitle;
+
+  useEffect(() => {
+    if (!svgDocument) {
+      setPreviewUrl("");
+      return undefined;
+    }
+
+    const url = URL.createObjectURL(
+      new Blob([svgDocument.markup], { type: "image/svg+xml" }),
+    );
+    setPreviewUrl(url);
+    return () => URL.revokeObjectURL(url);
+  }, [svgDocument]);
+
+  async function openSvg(file: File) {
+    setImporting(true);
+    setImportError(null);
+    try {
+      const imported = await importSvgDocument(file);
+      setSvgDocument(imported);
+    } catch (error) {
+      setImportError(error instanceof SvgImportError ? error.code : "invalid");
+    } finally {
+      setImporting(false);
+    }
+  }
+
+  function handleSvgInput(event: ChangeEvent<HTMLInputElement>) {
+    const file = event.target.files?.[0];
+    event.target.value = "";
+    if (file) void openSvg(file);
+  }
+
+  function exportSvg() {
+    if (!svgDocument) return;
+
+    const url = URL.createObjectURL(
+      new Blob([svgDocument.markup], { type: "image/svg+xml" }),
+    );
+    const link = window.document.createElement("a");
+    const stem = svgDocument.fileName.replace(/\.svg$/i, "");
+    link.href = url;
+    link.download = `${stem}-autodraftman.svg`;
+    link.click();
+    window.setTimeout(() => URL.revokeObjectURL(url), 0);
+  }
+
+  return (
+    <div className="editor-app page-enter">
+      <input
+        ref={fileInputRef}
+        className="sr-only"
+        type="file"
+        accept=".svg,image/svg+xml"
+        aria-label={ui.workspace.editorOpenFile}
+        onChange={handleSvgInput}
+      />
+      <header className="editor-app-header">
+        <div className="editor-app-left">
+          <Brand onNavigate={onNavigate} />
+          <InternalLink
+            className="editor-back-button"
+            href="/workspace"
+            onNavigate={onNavigate}
+          >
+            <CaretLeft size={17} aria-hidden="true" />
+            <span>{ui.workspace.editorBack}</span>
+          </InternalLink>
+        </div>
+        <div className="editor-document-title" aria-live="polite">
+          <strong>{documentTitle}</strong>
+          <span>
+            {svgDocument
+              ? `${ui.workspace.editorReady} · ${ui.workspace.editorLocal}`
+              : ui.workspace.editorStatus}
+          </span>
+        </div>
+        <div className="editor-app-actions">
+          <button
+            className="language-button"
+            type="button"
+            onClick={onLanguageChange}
+            aria-label={language === "zh" ? "Switch to English" : "切换到中文"}
+          >
+            <Globe size={16} />
+            <span>{language === "zh" ? "EN" : "中文"}</span>
+          </button>
+          <button
+            className="editor-open-file-button"
+            type="button"
+            onClick={() => fileInputRef.current?.click()}
+            disabled={importing}
+          >
+            <UploadSimple size={17} aria-hidden="true" />
+            <span>
+              {svgDocument
+                ? ui.workspace.editorReplaceFile
+                : ui.workspace.editorOpenFile}
+            </span>
+          </button>
+          <button
+            className="editor-export-button"
+            type="button"
+            onClick={exportSvg}
+            disabled={!svgDocument}
+            title={!svgDocument ? ui.workspace.editorStatus : undefined}
+          >
+            <DownloadSimple size={17} aria-hidden="true" />
+            <span>{ui.workspace.editorExport}</span>
+          </button>
+        </div>
+      </header>
+      <main className="editor-page" id="editor-canvas">
+        <SvgEditorPanel
+          ui={ui}
+          svgDocument={svgDocument}
+          previewUrl={previewUrl}
+          importError={importError}
+          importing={importing}
+          onOpenFile={() => fileInputRef.current?.click()}
+          onDropFile={(file) => void openSvg(file)}
+        />
+      </main>
+    </div>
+  );
+}
+
 function WorkspacePage({
   ui,
   language,
@@ -1323,6 +2014,7 @@ function WorkspacePage({
   credits,
   requestAuth,
   onAccount,
+  onOpenEditor,
 }: {
   ui: UiCopy;
   language: Language;
@@ -1331,6 +2023,7 @@ function WorkspacePage({
   credits: number | null;
   requestAuth: (action: () => void) => void;
   onAccount: () => void;
+  onOpenEditor: () => void;
 }) {
   const [mode, setMode] = useState<"text" | "reference">("text");
   const [prompt, setPrompt] = useState("");
@@ -2089,7 +2782,6 @@ function WorkspacePage({
         <header className="workspace-heading">
           <div className="workspace-heading-copy">
             <div className="workspace-heading-topline">
-              <p className="kicker">{ui.workspace.eyebrow}</p>
               <span className="kernel-status">
                 <i aria-hidden="true" />
                 {ui.workspace.kernelPending}
@@ -2101,31 +2793,6 @@ function WorkspacePage({
                 {draftSaveLabel}
               </span>
             </div>
-            <p>{ui.workspace.subtitle}</p>
-            {showOnboarding && (
-              <aside
-                className="workspace-onboarding"
-                aria-label={ui.workspace.onboardingTitle}
-              >
-                <NotePencil size={18} aria-hidden="true" />
-                <div>
-                  <strong>{ui.workspace.onboardingTitle}</strong>
-                  <p>{ui.workspace.onboardingBody}</p>
-                </div>
-                <button
-                  type="button"
-                  onClick={() => {
-                    window.localStorage.setItem(
-                      "autodraftman-workspace-onboarded",
-                      "true",
-                    );
-                    setShowOnboarding(false);
-                  }}
-                >
-                  {ui.workspace.onboardingDismiss}
-                </button>
-              </aside>
-            )}
           </div>
           <div className="workspace-heading-actions">
             <button
@@ -2145,7 +2812,7 @@ function WorkspacePage({
 
         <div className="workspace-layout">
         <aside className="control-panel">
-          <div className="mode-switch" aria-label="Generation mode">
+          <div className="mode-switch" aria-label={ui.workspace.title}>
             <button
               type="button"
               className={mode === "text" ? "selected" : ""}
@@ -2165,6 +2832,31 @@ function WorkspacePage({
               {ui.workspace.modeReference}
             </button>
           </div>
+
+          {showOnboarding && (
+            <aside
+              className="workspace-onboarding"
+              aria-label={ui.workspace.onboardingTitle}
+            >
+              <NotePencil size={18} aria-hidden="true" />
+              <div>
+                <strong>{ui.workspace.onboardingTitle}</strong>
+                <p>{ui.workspace.onboardingBody}</p>
+              </div>
+              <button
+                type="button"
+                onClick={() => {
+                  window.localStorage.setItem(
+                    "autodraftman-workspace-onboarded",
+                    "true",
+                  );
+                  setShowOnboarding(false);
+                }}
+              >
+                {ui.workspace.onboardingDismiss}
+              </button>
+            </aside>
+          )}
 
           <div className="form-block prompt-block">
             <label htmlFor="figure-prompt">{ui.workspace.promptLabel}</label>
@@ -2395,6 +3087,16 @@ function WorkspacePage({
                 </span>
               )}
             </div>
+            <button
+              className="open-editor-button"
+              type="button"
+              onClick={onOpenEditor}
+              title={ui.workspace.editorUnavailable}
+            >
+              <BezierCurve size={15} aria-hidden="true" />
+              {ui.workspace.editorOpen}
+              <ArrowUpRight size={14} aria-hidden="true" />
+            </button>
             <div className="result-metadata" aria-label={ui.workspace.technicalSummary}>
               <span>{ratio}</span>
               <span>{format}</span>
@@ -2405,7 +3107,7 @@ function WorkspacePage({
           <div className={`result-stage ratio-${ratio.replace(":", "-")}`}>
             {status === "empty" && (
               <div className="empty-result">
-                <span className="empty-sheet-index">FIGURE / 01</span>
+                <span className="empty-sheet-index">FIGURE / —</span>
                 <div className="empty-result-content">
                   <span className="empty-result-mark" aria-hidden="true">
                     <FileImage size={22} weight="duotone" />
@@ -2657,8 +3359,13 @@ function PricingPage({
           return (
             <article className={index === 1 ? "pricing-card featured" : "pricing-card"} key={plan.name}>
               <div className="plan-topline">
-                <span>{String(index + 1).padStart(2, "0")}</span>
-                {index === 1 && <span>{ui.pricing.recommended}</span>}
+                <span className="plan-ornament" aria-hidden="true">
+                  <i />
+                  <i />
+                </span>
+                {index === 1 && (
+                  <span className="plan-recommended">{ui.pricing.recommended}</span>
+                )}
               </div>
               <PlanMark
                 level={index}
@@ -3759,40 +4466,24 @@ export default function App() {
 
   return (
     <>
-      <Header
-        language={language}
-        identity={identity}
-        accountName={currentIdentity?.display_name ?? null}
-        ui={ui}
-        route={route}
-        onLanguageChange={() =>
-          setLanguage((value) => (value === "zh" ? "en" : "zh"))
-        }
-        onNavigate={navigate}
-        onSignIn={() => {
-          if (identity === "user") {
-            void openAccount();
-          } else {
-            openLogin();
-          }
-        }}
-      />
-
-      {route === "/" && (
-        <HomePage ui={ui} language={language} onNavigate={navigate} />
-      )}
-      {route === "/examples" && (
-        <ExamplesPage ui={ui} language={language} onNavigate={navigate} />
-      )}
-      {route === "/workspace" && (
-        <WorkspacePage
-          ui={ui}
+      <a
+        className="skip-link"
+        href={route === "/editor" ? "#editor-canvas" : "#main-content"}
+      >
+        {ui.nav.skip}
+      </a>
+      {route !== "/editor" && (
+        <Header
           language={language}
           identity={identity}
-          currentIdentity={currentIdentity}
-          credits={credits}
-          requestAuth={requestAuth}
-          onAccount={() => {
+          accountName={currentIdentity?.display_name ?? null}
+          ui={ui}
+          route={route}
+          onLanguageChange={() =>
+            setLanguage((value) => (value === "zh" ? "en" : "zh"))
+          }
+          onNavigate={navigate}
+          onSignIn={() => {
             if (identity === "user") {
               void openAccount();
             } else {
@@ -3801,28 +4492,65 @@ export default function App() {
           }}
         />
       )}
-      {route === "/pricing" && (
-        <PricingPage ui={ui} language={language} onNavigate={navigate} />
-      )}
-      {route === "/feedback" && (
-        <>
-          <FeedbackPage language={language} onNavigate={navigate} />
-          <Footer ui={ui} language={language} onNavigate={navigate} />
-        </>
-      )}
-      {(
-        ["/docs", "/privacy", "/terms", "/content-policy"] as const
-      ).includes(route as "/docs" | "/privacy" | "/terms" | "/content-policy") && (
-        <>
-          <ProductInformationPage
-            route={route as "/docs" | "/privacy" | "/terms" | "/content-policy"}
+
+      <div id="main-content">
+        {route === "/" && (
+          <HomePage ui={ui} language={language} onNavigate={navigate} />
+        )}
+        {route === "/examples" && (
+          <ExamplesPage ui={ui} language={language} onNavigate={navigate} />
+        )}
+        {route === "/workspace" && (
+          <WorkspacePage
+            ui={ui}
             language={language}
-            hrefFor={routeHref}
+            identity={identity}
+            currentIdentity={currentIdentity}
+            credits={credits}
+            requestAuth={requestAuth}
+            onOpenEditor={() => navigate("/editor")}
+            onAccount={() => {
+              if (identity === "user") {
+                void openAccount();
+              } else {
+                openLogin();
+              }
+            }}
+          />
+        )}
+        {route === "/editor" && (
+          <SvgEditorPage
+            ui={ui}
+            language={language}
+            onLanguageChange={() =>
+              setLanguage((value) => (value === "zh" ? "en" : "zh"))
+            }
             onNavigate={navigate}
           />
-          <Footer ui={ui} language={language} onNavigate={navigate} />
-        </>
-      )}
+        )}
+        {route === "/pricing" && (
+          <PricingPage ui={ui} language={language} onNavigate={navigate} />
+        )}
+        {route === "/feedback" && (
+          <>
+            <FeedbackPage language={language} onNavigate={navigate} />
+            <Footer ui={ui} language={language} onNavigate={navigate} />
+          </>
+        )}
+        {(
+          ["/docs", "/privacy", "/terms", "/content-policy"] as const
+        ).includes(route as "/docs" | "/privacy" | "/terms" | "/content-policy") && (
+          <>
+            <ProductInformationPage
+              route={route as "/docs" | "/privacy" | "/terms" | "/content-policy"}
+              language={language}
+              hrefFor={routeHref}
+              onNavigate={navigate}
+            />
+            <Footer ui={ui} language={language} onNavigate={navigate} />
+          </>
+        )}
+      </div>
 
       <LoginDialog
         ui={ui}
