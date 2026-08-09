@@ -47,7 +47,7 @@ async function recordLayout(page, name) {
 
 const desktop = await createPage({ width: 1440, height: 1000 });
 await desktop.goto(baseUrl, { waitUntil: "networkidle" });
-await desktop.waitForTimeout(550);
+await desktop.locator(".site-header").waitFor({ state: "visible" });
 await desktop.screenshot({
   path: path.join(outputDir, "home-desktop.png"),
   fullPage: true,
@@ -99,7 +99,7 @@ if ((await desktop.locator(".workspace-home-link").count()) !== 1) {
   errors.push("Expected the workspace header to include an explicit return-home action.");
 }
 await desktop.locator(".workspace-home-link").click();
-await desktop.waitForURL((url) => url.pathname === "/" || url.pathname.endsWith("/autodraftman/"));
+await desktop.waitForURL((url) => url.pathname === "/" || url.pathname.endsWith("/figfox/"));
 await desktop.goto(`${baseUrl}/workspace`, { waitUntil: "networkidle" });
 if (!(await desktop.locator(".workspace-account-summary").first().textContent())?.includes("登录")) {
   errors.push("Expected sign-in to appear at the bottom of the workspace history rail.");
@@ -131,6 +131,7 @@ await desktop.screenshot({
   path: path.join(outputDir, "editor-empty-desktop.png"),
 });
 const editorFileInput = desktop.locator('input[type="file"][accept*=".svg"]');
+const editorFrame = desktop.frameLocator(".figfox-svgedit-frame");
 await editorFileInput.setInputFiles({
   name: "unsafe-review.svg",
   mimeType: "image/svg+xml",
@@ -138,13 +139,9 @@ await editorFileInput.setInputFiles({
     '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 80" onload="alert(1)"><script>alert(1)</script><rect width="120" height="80" fill="#d97757"/><image href="https://example.com/tracker.png" width="1" height="1"/></svg>',
   ),
 });
-await desktop.waitForSelector(".svg-document-preview img");
-if (!(await desktop.locator(".svg-safety-note").isVisible())) {
-  errors.push("Expected imported SVGs with unsafe content to report sanitization.");
-}
-const sanitizedSvg = await desktop.locator(".svg-document-preview img").evaluate(
-  async (image) => fetch(image.src).then((response) => response.text()),
-);
+await editorFrame.locator("#svgroot").waitFor();
+await desktop.waitForFunction(() => !document.querySelector(".figfox-svgedit-loading"));
+const sanitizedSvg = await editorFrame.locator("body").evaluate(() => window.svgEditor.svgCanvas.getSvgString());
 if (/script|onload|https:\/\/example\.com/i.test(sanitizedSvg)) {
   errors.push("Expected scripts, event handlers, and external image references to be removed.");
 }
@@ -152,24 +149,27 @@ await editorFileInput.setInputFiles(path.resolve("public/favicon.svg"));
 await desktop.waitForFunction(
   () => document.querySelector(".editor-document-title strong")?.textContent === "favicon.svg",
 );
+await desktop.waitForFunction(
+  () => !document.querySelector(".editor-export-button")?.hasAttribute("disabled"),
+);
 if (!(await desktop.locator(".editor-export-button").isEnabled())) {
   errors.push("Expected SVG export to become available after a safe import.");
 }
-if ((await desktop.locator(".svg-layer-list li").count()) < 1) {
-  errors.push("Expected imported SVG structure to appear in the inspector.");
+if ((await editorFrame.locator("#svgroot path").count()) < 1) {
+  errors.push("Expected imported SVG paths to appear in the live SVG-Edit canvas.");
 }
 await editorFileInput.setInputFiles({
   name: "font-review.svg",
   mimeType: "image/svg+xml",
   buffer: Buffer.from(
-    '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400"><rect width="400" height="400" fill="#fffdf8"/><text x="30" y="210" font-family="Research Serif, serif" font-size="42">AutoDraftman</text></svg>',
+    '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400"><rect width="400" height="400" fill="#fffdf8"/><text x="30" y="210" font-family="Research Serif, serif" font-size="42">FigFox</text></svg>',
   ),
 });
-await desktop.waitForSelector(".svg-font-note");
-if (!(await desktop.locator(".svg-artboard").evaluate((element) =>
-  element.classList.contains("aspect-square"),
-))) {
-  errors.push("Expected square SVGs to use the square canvas fitting rule.");
+await desktop.waitForFunction(
+  () => document.querySelector(".editor-document-title strong")?.textContent === "font-review.svg",
+);
+if ((await editorFrame.locator("#svgroot text").textContent()) !== "FigFox") {
+  errors.push("Expected editable text to survive import into SVG-Edit.");
 }
 await editorFileInput.setInputFiles({
   name: "wide-review.svg",
@@ -181,10 +181,11 @@ await editorFileInput.setInputFiles({
 await desktop.waitForFunction(
   () => document.querySelector(".editor-document-title strong")?.textContent === "wide-review.svg",
 );
-if (!(await desktop.locator(".svg-artboard").evaluate((element) =>
-  element.classList.contains("aspect-wide"),
-))) {
-  errors.push("Expected very wide SVGs to use the wide canvas fitting rule.");
+const wideResolution = await editorFrame.locator("body").evaluate(() =>
+  window.svgEditor.svgCanvas.getResolution(),
+);
+if (Number(wideResolution.width ?? wideResolution.w) !== 1800 || Number(wideResolution.height ?? wideResolution.h) !== 400) {
+  errors.push("Expected the SVG-Edit canvas to preserve wide document dimensions.");
 }
 await editorFileInput.setInputFiles({
   name: "portrait-review.svg",
@@ -196,25 +197,62 @@ await editorFileInput.setInputFiles({
 await desktop.waitForFunction(
   () => document.querySelector(".editor-document-title strong")?.textContent === "portrait-review.svg",
 );
-if (!(await desktop.locator(".svg-artboard").evaluate((element) =>
-  element.classList.contains("aspect-portrait"),
-))) {
-  errors.push("Expected portrait SVGs to use the portrait canvas fitting rule.");
-}
-const canvasFit = await desktop.locator(".svg-canvas-viewport").evaluate((viewport) => {
-  const canvas = viewport.getBoundingClientRect();
-  const artboard = viewport.querySelector(".svg-artboard")?.getBoundingClientRect();
-  return Boolean(
-    artboard &&
-      artboard.left >= canvas.left &&
-      artboard.right <= canvas.right &&
-      artboard.top >= canvas.top &&
-      artboard.bottom <= canvas.bottom,
-  );
+const canvasFit = await editorFrame.locator("#workarea").evaluate((viewport) => {
+  const artboard = viewport.querySelector("#svgroot")?.getBoundingClientRect();
+  return Boolean(artboard && artboard.width > 0 && artboard.height > 0);
 });
 if (!canvasFit) {
   errors.push("Expected portrait SVGs to remain fully inside the editor canvas.");
 }
+const nativeChromeHidden = await editorFrame.locator("body").evaluate(() =>
+  ["#tools_top", "#tools_left", "#tools_bottom", "#sidepanels"].every((selector) => {
+    const element = document.querySelector(selector);
+    return element && getComputedStyle(element).display === "none";
+  }),
+);
+if (!nativeChromeHidden) {
+  errors.push("Expected the legacy SVG-Edit chrome to be fully hidden.");
+}
+const editorChromeFits = await desktop.locator(".ff-editor-stage").evaluate((stage) => {
+  const bounds = stage.getBoundingClientRect();
+  const controls = [...stage.querySelectorAll(".ff-editor-tools, .ff-editor-properties, .ff-editor-zoom")];
+  return controls.length === 3 && controls.every((control) => {
+    const rect = control.getBoundingClientRect();
+    return rect.left >= bounds.left && rect.right <= bounds.right && rect.top >= bounds.top && rect.bottom <= bounds.bottom;
+  });
+});
+if (!editorChromeFits) {
+  errors.push("Expected FigFox editor controls to stay inside the editor stage.");
+}
+await desktop.locator(".ff-editor-tool-button").nth(3).click();
+await desktop.waitForFunction(() =>
+  document.querySelector(".figfox-svgedit-frame")?.contentWindow?.svgEditor?.svgCanvas?.getMode() === "rect",
+);
+await desktop.locator(".ff-editor-tool-button").first().click();
+const circleBefore = Number(
+  await editorFrame.locator("#svg_3").getAttribute("cx"),
+);
+await editorFrame.locator("#svg_3").click();
+await editorFrame.locator("body").evaluate(() => {
+  const circle = document.getElementById("svg_3");
+  window.svgEditor.svgCanvas.selectOnly([circle]);
+  window.svgEditor.svgCanvas.moveSelectedElements(1, 0);
+});
+const circleAfter = Number(
+  await editorFrame.locator("#svg_3").getAttribute("cx"),
+);
+if (!(circleAfter > circleBefore)) {
+  errors.push("Expected a selected SVG object to move with SVG-Edit keyboard controls.");
+}
+await desktop.locator(".ff-editor-color-trigger").first().click();
+await desktop.locator('.ff-editor-swatch[aria-label="#6b3df4"]').click();
+await desktop.waitForFunction(() =>
+  document.querySelector(".figfox-svgedit-frame")?.contentWindow?.document?.getElementById("svg_3")?.getAttribute("fill") === "#6b3df4",
+);
+await desktop.screenshot({
+  path: path.join(outputDir, "editor-desktop.png"),
+});
+await recordLayout(desktop, "editor-desktop");
 await editorFileInput.setInputFiles({
   name: "too-large.svg",
   mimeType: "image/svg+xml",
@@ -224,10 +262,6 @@ await desktop.waitForSelector(".svg-canvas-alert");
 if ((await desktop.locator(".editor-document-title strong").textContent()) !== "portrait-review.svg") {
   errors.push("Expected an invalid replacement to preserve the previously opened SVG.");
 }
-await desktop.screenshot({
-  path: path.join(outputDir, "editor-desktop.png"),
-});
-await recordLayout(desktop, "editor-desktop");
 await desktop.locator(".editor-back-button").click();
 await desktop.waitForURL(/\/workspace$/);
 await desktop.fill(
@@ -314,7 +348,7 @@ await desktop.fill(
 );
 await desktop.locator(".mode-switch button").nth(1).click();
 await desktop.locator("#reference-file").setInputFiles(
-  path.resolve("public/assets/autodraftman-showcase.png"),
+  path.resolve("public/assets/figfox-showcase.png"),
 );
 await desktop.waitForTimeout(250);
 await desktop.screenshot({
@@ -390,7 +424,7 @@ await desktop.close();
 
 const mobile = await createPage({ width: 390, height: 844 });
 await mobile.goto(baseUrl, { waitUntil: "networkidle" });
-await mobile.waitForTimeout(550);
+await mobile.locator(".site-header").waitFor({ state: "visible" });
 await mobile.screenshot({
   path: path.join(outputDir, "home-mobile.png"),
   fullPage: true,
@@ -437,15 +471,27 @@ await mobile.waitForTimeout(450);
 if (!(await mobile.locator(".svg-mobile-note").isVisible())) {
   errors.push("Expected mobile SVG view to explain its review-only role.");
 }
-if (
-  (await mobile.locator(".svg-toolrail:visible, .svg-inspector:visible").count()) !== 0
-) {
-  errors.push("Expected mobile SVG view to hide desktop editing rails.");
-}
 await mobile
   .locator('input[type="file"][accept*=".svg"]')
   .setInputFiles(path.resolve("public/favicon.svg"));
-await mobile.waitForSelector(".svg-document-preview img");
+await mobile.frameLocator(".figfox-svgedit-frame").locator("#svgroot").waitFor();
+const mobileEditorChromeFits = await mobile.locator(".ff-editor-stage").evaluate((stage) => {
+  const bounds = stage.getBoundingClientRect();
+  const tools = stage.querySelector(".ff-editor-tools");
+  const controls = [...stage.querySelectorAll(".ff-editor-tools, .ff-editor-properties, .ff-editor-zoom")];
+  return Boolean(
+    tools &&
+    getComputedStyle(tools).flexDirection === "row" &&
+    controls.length === 3 &&
+    controls.every((control) => {
+      const rect = control.getBoundingClientRect();
+      return rect.left >= bounds.left && rect.right <= bounds.right && rect.top >= bounds.top && rect.bottom <= bounds.bottom;
+    }),
+  );
+});
+if (!mobileEditorChromeFits) {
+  errors.push("Expected the mobile FigFox controls to dock inside the editor stage.");
+}
 await mobile.screenshot({
   path: path.join(outputDir, "editor-mobile.png"),
   fullPage: true,
@@ -511,6 +557,36 @@ await mobile.screenshot({
 });
 await recordLayout(mobile, "feedback-mobile");
 await mobile.close();
+
+const localizedRoutes = [
+  ["home", ""],
+  ["examples", "/examples"],
+  ["pricing", "/pricing"],
+  ["docs", "/docs"],
+  ["feedback", "/feedback"],
+];
+
+async function captureEnglishPages(viewport, suffix) {
+  const page = await createPage(viewport);
+  await page.addInitScript(() => {
+    window.localStorage.setItem("autodraftman-language", "en");
+  });
+
+  for (const [name, route] of localizedRoutes) {
+    await page.goto(`${baseUrl}${route}`, { waitUntil: "networkidle" });
+    await page.waitForTimeout(300);
+    await page.screenshot({
+      path: path.join(outputDir, `${name}-${suffix}-en.png`),
+      fullPage: true,
+    });
+    await recordLayout(page, `${name}-${suffix}-en`);
+  }
+
+  await page.close();
+}
+
+await captureEnglishPages({ width: 1440, height: 1000 }, "desktop");
+await captureEnglishPages({ width: 390, height: 844 }, "mobile");
 
 await browser.close();
 

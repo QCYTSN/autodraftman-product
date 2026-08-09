@@ -1,6 +1,6 @@
-# AutoDraftman Product
+# FigFox Product
 
-This repository is the source of truth for the AutoDraftman web product.
+This repository is the source of truth for the FigFox web product.
 Research experiments and generated runs remain in the original FYP repository.
 
 ## Repository roles
@@ -8,7 +8,7 @@ Research experiments and generated runs remain in the original FYP repository.
 - `QCYTSN/autodraftman-product` is the only active source repository for the
   product frontend, backend, product documentation, tests, and deployment
   configuration.
-- `QCYTSN/autodraftman` is a static GitHub Pages deployment mirror. It may
+- `QCYTSN/figfox` is a static GitHub Pages deployment mirror. It may
   receive built assets from a reviewed product commit, but product features
   must not be edited there.
 - `LawrenceRiver/fyp_AutoDraftman` remains the research and generation-kernel
@@ -87,3 +87,7 @@ object storage. See `deploy/README.md`.
 
 Never commit `.env`, OAuth secrets, database passwords, private keys, uploaded
 research images, database files, or generated user content.
+
+Legacy `autodraftman` package names, environment variables, database identifiers,
+and browser storage keys remain unchanged for backward compatibility. They are
+implementation details and are not part of the public FigFox brand.

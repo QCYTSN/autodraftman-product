@@ -1,7 +1,7 @@
 import { chromium } from "playwright-core";
 
 const baseUrl =
-  process.env.PREVIEW_URL ?? "http://127.0.0.1:4175/autodraftman";
+  process.env.PREVIEW_URL ?? "http://127.0.0.1:4175/figfox";
 const executablePath =
   process.env.CHROME_PATH ??
   (process.platform === "win32"

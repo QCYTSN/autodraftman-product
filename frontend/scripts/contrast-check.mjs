@@ -26,13 +26,14 @@ function ratio(foreground, background) {
 }
 
 const pairs = [
-  ["ink", "paper", 4.5],
-  ["ink-soft", "paper", 4.5],
-  ["muted", "paper", 4.5],
-  ["clay-deep", "paper", 4.5],
-  ["danger", "paper", 4.5],
-  ["paper-light", "ink", 4.5],
-  ["ink", "clay", 4.5],
+  ["ff-ink", "ff-canvas", 4.5],
+  ["ff-ink-soft", "ff-canvas", 4.5],
+  ["ff-muted", "ff-canvas", 4.5],
+  ["ff-violet-strong", "ff-surface", 4.5],
+  ["ff-orange-strong", "ff-surface", 4.5],
+  ["ff-danger", "ff-surface", 4.5],
+  ["ff-surface", "ff-ink", 4.5],
+  ["ff-ink", "ff-orange-soft", 4.5],
 ];
 
 const results = pairs.map(([foregroundName, backgroundName, threshold]) => {

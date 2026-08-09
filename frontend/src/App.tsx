@@ -37,6 +37,15 @@ import {
   WechatLogo,
   X,
 } from "@phosphor-icons/react";
+import { Tabs } from "@base-ui/react/tabs";
+import { Toolbar } from "@base-ui/react/toolbar";
+import { Collapsible } from "@base-ui/react/collapsible";
+import { Dialog } from "@base-ui/react/dialog";
+import { Progress } from "@base-ui/react/progress";
+import { Switch } from "@base-ui/react/switch";
+import { Toggle } from "@base-ui/react/toggle";
+import { ToggleGroup } from "@base-ui/react/toggle-group";
+import { Flex, Grid } from "@radix-ui/themes";
 import {
   type CSSProperties,
   type ChangeEvent,
@@ -48,6 +57,8 @@ import {
   useRef,
   useState,
 } from "react";
+import { PageContainer, PageSection } from "./components/layout/FigFoxLayout";
+import { AnimatePresence, motion } from "motion/react";
 import {
   ApiError,
   apiConfigured,
@@ -95,6 +106,14 @@ import {
   type ProductLanguage,
   type ProductRoute,
 } from "./ProductPages";
+import { FigFoxMark, FigFoxWordmark } from "./components/brand/FigFoxBrand";
+import { FigFoxEditorChrome } from "./components/editor/FigFoxEditorChrome";
+import { FigFoxSelect } from "./components/ui/FigFoxSelect";
+import {
+  SvgEditHost,
+  type SvgEditHandle,
+  type SvgEditState,
+} from "./components/editor/SvgEditHost";
 import {
   importSvgDocument,
   SvgImportError,
@@ -128,7 +147,7 @@ function sitePath(path: string) {
   return `${import.meta.env.BASE_URL}${path.replace(/^\/+/, "")}`;
 }
 
-const figureAssetPath = sitePath("/assets/autodraftman-showcase.png");
+const figureAssetPath = sitePath("/assets/figfox-showcase.png");
 const exampleArtifacts = [
   {
     id: "training",
@@ -166,7 +185,7 @@ const copy = {
   zh: {
     nav: {
       product: "产品",
-      examples: "研发样例",
+      examples: "示例",
       docs: "使用指南",
       pricing: "定价",
       workspace: "工作台",
@@ -174,71 +193,71 @@ const copy = {
       backHome: "返回首页",
       signIn: "登录",
       guest: "游客",
-      account: "演示账户",
+      account: "账户",
       menu: "打开菜单",
       primaryLabel: "主导航",
       mobileLabel: "移动端导航",
       skip: "跳到主要内容",
     },
     home: {
-      kicker: "面向科研表达的制图工作台",
-      title: "把研究思路，\n绘成清晰的图。",
+      kicker: "科研图生成、重建与编辑",
+      title: "把研究内容，\n画成一张能继续改的图。",
       body:
-        "从一段文字或一张参考图开始。AutoDraftman 梳理对象、关系与视觉层级，交付一张完整、可读的科研图。",
+        "写一段描述来创建新图，或者上传已有图片做重建。完成后还能继续改文字、颜色、路径和连线。",
       primary: "进入工作台",
-      secondary: "查看研发样例",
+      secondary: "看看示例",
       figureAlt: "一支铅笔正在同一张图纸上把研究草稿整理为正式科研图版",
-      resultAlt: "由 AutoDraftman 生成的科研图示预览",
+      resultAlt: "由 FigFox 生成的科研图示预览",
       figureCaption: "同一张图纸，从研究草稿到正式图版",
       figureMeta: "内部概念预览 · 16:9",
       pointOne: "文字或参考图",
       pointTwo: "一次生成一张图",
       pointThree: "默认私密",
-      storyKicker: "一个安静而完整的流程",
-      storyTitle: "把复杂留给系统，\n把判断留给研究者。",
+      storyKicker: "怎么开始",
+      storyTitle: "先把内容说清楚，\n再处理版式。",
       storyBody:
-        "首页只说明价值，真正的输入、校准与生成都在工作台完成。随着阅读推进，你会看到同一张图如何逐步成形。",
+        "创建新图时写清对象和关系，需要时再加参考图。已经有图，就直接上传重建。",
       steps: [
         {
           title: "描述研究关系",
-          body: "写清对象、连接与重点。无需在首页面对密集的生成设置。",
+          body: "写清有哪些对象、它们怎么连接，以及哪部分最重要。",
           label: "输入",
         },
         {
           title: "加入参考线索",
-          body: "需要时上传一张参考图，用来说明构图或视觉方向，而不是机械复刻。",
+          body: "需要时上传一张图，说明你想要的构图或视觉方向。",
           label: "校准",
         },
         {
-          title: "得到完整图版",
-          body: "跟随进度完成生成，下载结果；只有主动重新生成才再次消耗额度。",
-          label: "交付",
+          title: "检查并导出",
+          body: "生成后直接检查结果。需要细改时，打开 SVG 编辑器继续处理。",
+          label: "结果",
         },
       ],
       stagePrompt:
         "绘制一个双分支编码器，展示均值、方差与加权采样之间的关系。",
       stageReference: "参考结构已加入",
       stageComplete: "图版已完成",
-      privacyKicker: "由你掌握的研究资料",
-      privacyTitle: "默认私密，也始终可删除。",
+      privacyKicker: "你的文件",
+      privacyTitle: "默认不公开，随时可以删。",
       privacyBody:
-        "登录用户可以保留和删除历史；游客内容仅短期保存。任何公开展示都必须由用户主动选择，内容不用于训练。",
+        "登录后可以保存和删除历史。游客文件只保留一段时间；公开展示必须由你主动开启。",
       privacyItems: ["私密生成", "可删除历史", "公开需主动选择"],
-      closingTitle: "从一张干净的画布开始。",
-      closingBody: "带着一段研究描述进入工作台，从第一张图开始。",
-      footer: "面向科研图示的生成工具",
-      footerStatement: "让严谨的研究，也拥有清晰的表达。",
+      closingTitle: "开始做第一张图。",
+      closingBody: "写一段描述，或者上传手头已有的图片。",
+      footer: "科研图生成、重建与 SVG 编辑",
+      footerStatement: "图要说清楚，后面也要改得动。",
     },
     workspace: {
-      eyebrow: "内部版本 · 本地演示",
-      title: "生成工作台",
-      subtitle: "描述你的研究图，必要时加入参考图，然后完成一次生成。",
+      eyebrow: "当前版本",
+      title: "工作台",
+      subtitle: "新建一张图，或者把已有图片重建成可编辑 SVG。",
       modeText: "文字生成",
       modeReference: "文字 + 参考图",
       promptLabel: "你想画什么？",
       promptPlaceholder:
         "例如：绘制一个双分支编码器，展示均值、方差与加权采样之间的关系。",
-      promptHelp: "说明对象、关系和视觉重点，通常会得到更稳定的结果。",
+      promptHelp: "写清对象、关系和重点即可，不用把要求写成一长串关键词。",
       referenceLabel: "参考图",
       uploadTitle: "上传一张参考图",
       uploadBody: "PNG、JPG 或 WebP · 不超过 10 MB",
@@ -251,7 +270,7 @@ const copy = {
       uploadRemove: "移除参考图",
       uploadFailed: "参考图上传失败，请重试。",
       uploadCancelled: "上传已取消。",
-      uploadRequiresApi: "公网后端尚未配置，静态预览不会保存你的图片。",
+      uploadRequiresApi: "当前版本不会上传或保存这张图片。",
       uploadUnsupported: "请选择 PNG、JPG 或 WebP 图片。",
       uploadTooLarge: "图片不能超过 10 MB。",
       uploadEmpty: "不能上传空文件。",
@@ -266,18 +285,18 @@ const copy = {
       generate: "生成一张图",
       generating: "正在生成",
       credits: "剩余额度",
-      freePlan: "Free",
-      emptyTitle: "结果将在这里出现",
-      emptyBody: "左侧用于描述与设置，右侧始终保留给你的图。",
-      progressTitle: "正在组织结构与视觉层级",
-      progressBody: "当前本地界面使用模拟进度，不会调用真实接口。",
+      freePlan: "免费版",
+      emptyTitle: "生成结果会出现在这里",
+      emptyBody: "先在左边写内容或上传图片。",
+      progressTitle: "正在处理这张图",
+      progressBody: "这是界面演示，不会发起真实生成请求。",
       completed: "生成完成",
       private: "私密",
       public: "公开",
       download: "下载图片",
       regenerate: "重新生成",
       history: "历史记录",
-      historyEmpty: "还没有生成记录。",
+      historyEmpty: "还没有草稿。",
       historyItem: "双分支编码器方法图",
       newDraft: "新建草稿",
       draftPending: "尚未生成",
@@ -298,17 +317,17 @@ const copy = {
       deleteDraftBody: "草稿会立即从记录栏移除；已上传的原始参考图仍可按数据规则单独删除。",
       deleteDraftConfirm: "删除草稿",
       cancel: "取消",
-      onboardingTitle: "工作台会自动保存",
+      onboardingTitle: "草稿会自动保存",
       onboardingBody:
-        "输入文字、选择比例或隐私后，草稿会自动出现在左侧。生图内核未接入前，不会创建任务或扣除额度。",
-      onboardingDismiss: "知道了",
+        "输入内容和设置会出现在左侧记录里。当前版本不会真的生成，也不会扣额度。",
+      onboardingDismiss: "关闭提示",
       closeHistory: "关闭历史记录",
       promptError: "请先描述你希望生成的内容。",
       noCredits: "当前账户没有可用额度，定价页面仍为界面预览。",
-      mockNotice: "本地演示，不会调用真实生图接口。",
+      mockNotice: "当前为界面演示",
       generationUnavailable:
-        "游客身份与额度已经保存到数据库；生图内核尚未接入，本次不会创建任务或扣除额度。",
-      kernelPending: "内核待接入",
+        "当前还不能生成图片，也不会消耗额度。",
+      kernelPending: "生成功能未开放",
       draftLabel: "当前草稿",
       technicalSummary: "输出与隐私",
       settingsOpen: "展开输出设置",
@@ -329,9 +348,9 @@ const copy = {
       editorSelection: "选中对象",
       editorNoLayers: "打开 SVG 后，这里会显示文档的顶层对象",
       editorNoSelection: "选择对象后可调整描边、填充与文字",
-      editorTitle: "生成后在这里继续编辑",
+      editorTitle: "在这里继续改 SVG",
       editorBody:
-        "生成可编辑 SVG 后，路径、文字、连接线和图层会在这里载入。当前没有可编辑文档。",
+        "打开 SVG 后，可以继续调整文字、图形、路径和连接线。",
       editorUnavailable: "生成可编辑 SVG 后启用",
       editorMobile:
         "移动端用于查看图版、图层概览和导出；精细编辑请在桌面端继续。",
@@ -360,33 +379,33 @@ const copy = {
       editorFontNotice: "本机缺少相应字体时，预览会使用浏览器替代字体。",
       editorStructure: "文档结构",
       editorSelectionReady:
-        "文档已载入。对象选择、文字修改与路径编辑将在下一阶段接入。",
+        "文档已打开。现在可以选择对象，调整颜色、线宽和路径。",
       editorErrorFormat: "请选择有效的 .svg 文件。",
       editorErrorInvalid: "无法读取这个 SVG。请检查文件是否完整。",
       editorErrorLarge: "SVG 文件不能超过 5 MB。",
       editorErrorComplex: "SVG 元素过多，当前版本暂不支持打开。",
       editorTryAgain: "重新选择",
-      editorPreviewAlt: "导入到 AutoDraftman SVG 编辑器的本地文档",
+      editorPreviewAlt: "导入到 FigFox SVG 编辑器的本地文档",
     },
     examples: {
-      kicker: "真实项目资料 · 静态展示",
-      title: "先看我们已经做出来的东西。",
+      kicker: "实际示例",
+      title: "这是我们现在用来测试的几张图。",
       body:
-        "这里展示的是当前 AutoDraftman 项目已有的实验输出与结构检查资料。它们用于验证界面、信息密度和展示方式，不冒充尚未接通的线上生成结果。",
+        "它们来自项目现有实验资料，用来检查流程图生成、结构识别和图片重建。它们不是线上生成结果。",
       notice:
-        "所有样例均来自当前项目目录，仅作为研发资料在此展示。工作台保持空白，不会预载样例、调用模型或消耗额度。",
-      openWorkspace: "进入空白工作台",
+        "示例只用于展示。打开工作台后会从空白草稿开始。",
+      openWorkspace: "打开工作台",
       artifact: "研发资料",
       cases: [
         {
           title: "双控制训练流程",
           category: "训练流程图",
           description:
-            "展示文本条件、音频参考、CLAP 表征、RVQ 离散化和自回归训练目标之间的完整关系。",
+            "说明文本条件、音频参考、CLAP 表征、RVQ 离散化和自回归训练目标之间的关系。",
           prompt:
             "绘制一个双控制音频模型的训练流程图，展示文本与音频参考、CLAP 表征、RVQ 离散化、自回归语义模型和训练损失之间的关系。",
           meta: "当前项目实验输出 · PNG · 1520 × 499",
-          alt: "AutoDraftman 当前项目的双控制音频模型训练流程实验图",
+          alt: "FigFox 当前项目的双控制音频模型训练流程实验图",
         },
         {
           title: "双控制推理流程",
@@ -396,7 +415,7 @@ const copy = {
           prompt:
             "绘制一个双阶段自回归音频生成模型的推理流程，突出温度控制、CFG 权重、RVQ 解码和最终音频输出。",
           meta: "当前项目实验输出 · PNG · 1521 × 271",
-          alt: "AutoDraftman 当前项目的双控制音频模型推理流程实验图",
+          alt: "FigFox 当前项目的双控制音频模型推理流程实验图",
         },
         {
           title: "语义结构检查",
@@ -411,9 +430,9 @@ const copy = {
       ],
     },
     pricing: {
-      kicker: "Sketch · Folio · Atlas",
-      title: "选择适合你的生成额度。",
-      body: "当前暂不开放真实付款。价格、额度与存储周期是首版产品占位，可在接入支付前继续讨论。",
+      kicker: "按使用频率选择",
+      title: "先选一个合适的用量。",
+      body: "这里展示的是拟定方案，暂时不能购买。正式开放前会再次确认价格和额度。",
       monthly: "月付",
       yearly: "年付",
       save: "最高省 22%",
@@ -427,43 +446,43 @@ const copy = {
       plans: [
         {
           name: "Sketch",
-          description: "从一张研究草图开始，轻量体验完整流程。",
-          features: ["30 次月度生成额度", "标准生成队列", "30 天历史记录"],
+          description: "偶尔做图，先用起来。",
+          features: ["每月 30 次生成", "标准处理队列", "草稿保留 30 天"],
         },
         {
           name: "Folio",
-          description: "把课程与研究图示逐步积累成册。",
-          features: ["120 次月度生成额度", "更高分辨率", "长期历史记录"],
+          description: "适合日常课程、论文和项目制图。",
+          features: ["每月 120 次生成", "更高分辨率", "长期保存草稿"],
         },
         {
           name: "Atlas",
-          description: "为高频研究与小型团队建立完整图谱。",
-          features: ["360 次月度生成额度", "优先生成队列", "更长存储周期"],
+          description: "适合高频使用，或几个人一起做图。",
+          features: ["每月 360 次生成", "优先处理队列", "更长文件保留时间"],
         },
       ],
-      toast: "这是定价界面预览，尚未连接付款渠道。",
+      toast: "暂时还不能购买，我们会在开放前公布最终方案。",
       footnote: "生成失败且没有产出图片时不扣额度；主动重新生成会正常消耗额度。",
     },
     auth: {
-      title: "开始生成",
-      body: "登录后可以保存历史，也可以使用一次游客免费额度继续。",
+      title: "登录 FigFox",
+      body: "登录后可以保存草稿和编辑记录。不想登录，也可以先以游客身份试一次。",
       google: "使用 Google 登录",
       github: "使用 GitHub 登录",
       wechat: "使用微信登录",
       guest: "以游客身份继续",
       guestNote: "游客内容仅短期保存",
       close: "关闭登录窗口",
-      deployRequired: "公网后端部署后启用",
+      deployRequired: "暂未开放",
       comingSoon: "待接入",
       demo: "登录渠道状态由后端统一管理。",
-      noProvider: "当前为静态预览；真实登录将在公网后端部署后启用。",
+      noProvider: "当前版本还不能登录。",
       cancelled: "你取消了登录授权，账户没有发生变化。",
-      conflict: "这个登录身份已经属于另一个 AutoDraftman 账户。",
+      conflict: "这个登录身份已经属于另一个 FigFox 账户。",
       loginFailed: "登录没有完成，请稍后重试。",
       connectionError: "暂时无法连接本地后端，请确认 Docker 服务仍在运行。",
       connecting: "正在连接…",
       accountTitle: "你的账户",
-      accountBody: "不同登录方式可以绑定到同一个 AutoDraftman 账户。",
+      accountBody: "在这里管理登录方式、草稿默认状态和额度记录。",
       preferences: "工作偏好",
       defaultPrivacy: "新草稿默认状态",
       defaultPrivate: "默认私密",
@@ -515,12 +534,12 @@ const copy = {
       kicker: "A figure workspace for scientific ideas",
       title: "Research ideas,\ndrawn into focus.",
       body:
-        "Begin with text or a reference image. AutoDraftman arranges objects, relationships, and visual hierarchy into one clear scientific figure.",
+        "Begin with text or a reference image. FigFox arranges objects, relationships, and visual hierarchy into one clear scientific figure.",
       primary: "Open workspace",
       secondary: "View R&D examples",
       figureAlt:
         "A pencil turns a rough research sketch into a finished scientific figure on the same drafting sheet",
-      resultAlt: "Scientific figure preview generated by AutoDraftman",
+      resultAlt: "Scientific figure preview generated by FigFox",
       figureCaption: "One sheet, from research sketch to finished figure",
       figureMeta: "Internal concept preview · 16:9",
       pointOne: "Text or reference",
@@ -586,7 +605,7 @@ const copy = {
       uploadFailed: "The reference upload failed. Please try again.",
       uploadCancelled: "Upload cancelled.",
       uploadRequiresApi:
-        "The public API is not configured. This static preview will not store your image.",
+        "This version will not upload or store the image.",
       uploadUnsupported: "Choose a PNG, JPG, or WebP image.",
       uploadTooLarge: "Images must be 10 MB or smaller.",
       uploadEmpty: "Empty files cannot be uploaded.",
@@ -638,16 +657,16 @@ const copy = {
       cancel: "Cancel",
       onboardingTitle: "The workspace saves as you write",
       onboardingBody:
-        "Text, output settings, and privacy choices appear in the record rail automatically. No task or credit is created before the image kernel is connected.",
+        "Your text and settings are saved in the history rail. This version does not create generation tasks or use credits.",
       onboardingDismiss: "Got it",
       closeHistory: "Close history",
       promptError: "Describe what you want to generate first.",
       noCredits:
         "This account has no credits left. Pricing is still an interface preview.",
-      mockNotice: "Local preview. No real image API is called.",
+      mockNotice: "This is an interface preview.",
       generationUnavailable:
-        "Your guest identity and credit are stored in PostgreSQL. The image kernel is not connected, so no task or charge was created.",
-      kernelPending: "Kernel pending",
+        "Image generation is not available yet, and no credit was used.",
+      kernelPending: "Generation unavailable",
       draftLabel: "Current draft",
       technicalSummary: "Output and privacy",
       settingsOpen: "Open output settings",
@@ -706,16 +725,16 @@ const copy = {
       editorErrorLarge: "SVG files must be 5 MB or smaller.",
       editorErrorComplex: "This SVG contains too many elements for the current editor.",
       editorTryAgain: "Choose another",
-      editorPreviewAlt: "Local document imported into the AutoDraftman SVG editor",
+      editorPreviewAlt: "Local document imported into the FigFox SVG editor",
     },
     examples: {
-      kicker: "Real project material · static display",
-      title: "Start with what the project has already made.",
+      kicker: "Examples",
+      title: "Here are a few real examples.",
       body:
-        "These are existing experimental outputs and structure-inspection artifacts from the current AutoDraftman project. They help us test layout and information density without pretending the live generation service is already connected.",
+        "These images come from existing project material and show the kinds of scientific figures FigFox is built to handle. They are not live generation results.",
       notice:
-        "Every example comes from the current project directory and stays on this R&D page. The workspace opens blank and does not preload an example, call a model, or use a credit.",
-      openWorkspace: "Open blank workspace",
+        "Examples are for display only. The workspace opens with a blank draft.",
+      openWorkspace: "Open workspace",
       artifact: "R&D artifact",
       cases: [
         {
@@ -726,7 +745,7 @@ const copy = {
           prompt:
             "Draw a training pipeline for a dual-control audio model, showing text and audio references, CLAP representations, RVQ discretization, an autoregressive semantic model, and the training loss.",
           meta: "Current project experiment · PNG · 1520 × 499",
-          alt: "Experimental training pipeline for the current AutoDraftman dual-control audio model",
+          alt: "Experimental training pipeline for the current FigFox dual-control audio model",
         },
         {
           title: "Dual-control inference pipeline",
@@ -736,7 +755,7 @@ const copy = {
           prompt:
             "Draw the inference pipeline for a two-stage autoregressive audio model, emphasizing temperature controls, CFG weights, RVQ decoding, and final audio output.",
           meta: "Current project experiment · PNG · 1521 × 271",
-          alt: "Experimental inference pipeline for the current AutoDraftman dual-control audio model",
+          alt: "Experimental inference pipeline for the current FigFox dual-control audio model",
         },
         {
           title: "Semantic structure inspection",
@@ -752,9 +771,9 @@ const copy = {
     },
     pricing: {
       kicker: "Sketch · Folio · Atlas",
-      title: "Choose the generation allowance that fits.",
+      title: "Choose the plan that fits.",
       body:
-        "Live payments are not enabled. Prices, allowances, and storage periods are first-pass product placeholders for discussion.",
+        "Purchases are not available yet. These first plans will be confirmed before payments go live.",
       monthly: "Monthly",
       yearly: "Yearly",
       save: "Save up to 22%",
@@ -798,14 +817,14 @@ const copy = {
       deployRequired: "Available after API deployment",
       comingSoon: "Coming soon",
       demo: "Sign-in availability is managed by the backend.",
-      noProvider: "This is a static preview. Real sign-in activates after the public API is deployed.",
+      noProvider: "Sign-in is not available in this version.",
       cancelled: "Authorization was cancelled. Your account was not changed.",
-      conflict: "This login identity already belongs to another AutoDraftman account.",
+      conflict: "This login identity already belongs to another FigFox account.",
       loginFailed: "Sign-in did not complete. Please try again.",
       connectionError: "The local API is unavailable. Check that Docker is still running.",
       connecting: "Connecting…",
       accountTitle: "Your account",
-      accountBody: "Different login methods can open the same AutoDraftman account.",
+      accountBody: "Different login methods can open the same FigFox account.",
       preferences: "Workspace preferences",
       defaultPrivacy: "New draft default",
       defaultPrivate: "Private by default",
@@ -899,9 +918,8 @@ function InternalLink({
 function Brand({ onNavigate }: { onNavigate: (path: RoutePath) => void }) {
   return (
     <InternalLink className="brand" href="/" onNavigate={onNavigate}>
-      <span className="brand-name">
-        autodraftman<span className="brand-period">.</span>
-      </span>
+      <FigFoxMark className="brand-mark" />
+      <FigFoxWordmark className="brand-name" />
     </InternalLink>
   );
 }
@@ -913,7 +931,7 @@ function HeroDraftingIllustration({ label }: { label: string }) {
       role="img"
       aria-label={label}
       style={{
-        backgroundImage: `url("${sitePath("/assets/autodraftman-drafting-sheet-hero.png")}")`,
+        backgroundImage: `url("${sitePath("/assets/figfox-drafting-sheet-hero.png")}")`,
       }}
     />
   );
@@ -1227,6 +1245,238 @@ function ProductStory({ ui }: { ui: UiCopy }) {
   );
 }
 
+const figFoxHomeCopy = {
+  zh: {
+    kicker: "新建科研图，或重建现有图片",
+    title: "把科研想法，画成一张能继续改的图。",
+    body:
+      "写下要表达的内容，FigFox 可以从头生成；上传已有图片，则会把文字、图形和连线重建成分层 SVG。",
+    primary: "新建一张图",
+    secondary: "看看怎么重建",
+    previewLabel: "重建示例",
+    raster: "原图",
+    vector: "可编辑版本",
+    previewNote: "示例文件 · 可切换查看",
+    layers: "图层",
+    layerItems: ["文字", "连接线", "结构模块", "背景"],
+    principles: ["从文字开始", "加入参考图", "重建现有图片"],
+    capabilityKicker: "两种开始方式",
+    capabilityTitle: "从头画，或者从现有图片接着改。",
+    capabilityBody:
+      "新建时只需要一段描述，参考图可加可不加。手上已经有图，就直接上传重建。",
+    capabilities: [
+      {
+        label: "Create",
+        title: "写下你想画什么",
+        body: "写清有哪些对象、它们怎么连接，以及最需要强调的部分。",
+      },
+      {
+        label: "Guide",
+        title: "需要时加一张参考图",
+        body: "用参考图说明构图或视觉方向，不会直接复制原图。",
+      },
+      {
+        label: "Rebuild",
+        title: "把现有图片拆成图层",
+        body: "识别文字、图形和连接线，再把它们重建成可以逐项修改的 SVG。",
+      },
+    ],
+    editableKicker: "生成以后",
+    editableTitle: "不是只能下载，还能接着改。",
+    editableBody:
+      "打开编辑器后，可以选择对象、修改文字和颜色、调整路径与连接线，最后导出 SVG。",
+    editActions: ["选择与图层", "文字与颜色", "路径与连接线", "SVG 导出"],
+    agentKicker: "任务进度",
+    agentTitle: "处理到哪一步，直接告诉你。",
+    agentBody:
+      "上传之后，工作台会显示当前步骤。失败时会保留草稿并说明原因。",
+    agentStages: ["读取内容", "找出文字和图形", "重建图层", "检查结果"],
+    integrityTitle: "文件默认不公开。",
+    integrityBody:
+      "游客文件短期保存；登录用户可管理和删除历史。任何公开展示都必须由用户主动选择。",
+    closingTitle: "开始做第一张图。",
+    closingBody: "写一段描述，或者上传手头已有的图片。",
+  },
+  en: {
+    kicker: "Scientific figure creation and rebuild",
+    title: "Turn a research idea into a figure you can keep editing.",
+    body:
+      "Describe what you need, or upload an existing image. FigFox creates a layered SVG so you can still change labels, colors, and connectors.",
+    primary: "Create a figure",
+    secondary: "See how rebuild works",
+    previewLabel: "Rebuild example",
+    raster: "Original",
+    vector: "Editable version",
+    previewNote: "Example file · switch views to compare",
+    layers: "Layers",
+    layerItems: ["Text", "Connectors", "Structure", "Background"],
+    principles: ["Start with text", "Add a reference", "Rebuild an image"],
+    capabilityKicker: "Two common starting points",
+    capabilityTitle: "Start fresh, or keep working from an existing image.",
+    capabilityBody:
+      "A reference is optional when creating. If you already have a figure, rebuild it directly as an editable file.",
+    capabilities: [
+      {
+        label: "Create",
+        title: "Write down what you want to show",
+        body: "Name the objects, relationships, and focus. FigFox makes a complete first draft.",
+      },
+      {
+        label: "Guide",
+        title: "Add a reference when it helps",
+        body: "Use it to show composition or style direction without copying it directly.",
+      },
+      {
+        label: "Rebuild",
+        title: "Turn an existing image into layers",
+        body: "FigFox finds text, shapes, and connectors, then rebuilds them as an editable SVG.",
+      },
+    ],
+    editableKicker: "Keep editing after generation",
+    editableTitle: "The result is not a locked image.",
+    editableBody:
+      "Open the editor to select objects, change labels and colors, adjust paths and connectors, then export SVG.",
+    editActions: ["Selection and layers", "Text and color", "Paths and connectors", "SVG export"],
+    agentKicker: "What happens next",
+    agentTitle: "You can see each step.",
+    agentBody:
+      "The workspace shows what it is doing after upload. If something fails, it tells you why.",
+    agentStages: ["Read the content", "Find text and shapes", "Rebuild layers", "Check the result"],
+    integrityTitle: "Research material stays private by default.",
+    integrityBody:
+      "Guest files expire. Signed-in users can manage and delete history. Public display is always an explicit choice.",
+    closingTitle: "Start with one figure.",
+    closingBody: "Write a short description or upload the image you already have.",
+  },
+} as const;
+
+const figFoxWorkspaceCopy = {
+  zh: {
+    create: "创建",
+    createDescription: "从一段描述开始，参考图可选。",
+    rebuild: "重建",
+    rebuildDescription: "上传现有图片，重建为可编辑 SVG。",
+    rebuildKicker: "把图片变回可编辑文件",
+    rebuildTitle: "上传现有图片，重建后直接编辑。",
+    rebuildBody: "FigFox 会找出文字、图形和连接线，再把它们重建成分层 SVG。",
+    rebuildStages: ["读取图片", "重建图层", "检查结果"],
+    rebuildPrompt: "补充要求（可选）",
+    rebuildPromptPlaceholder: "例如：保留原有构图，统一线宽，文字使用无衬线体。",
+    rebuildAction: "开始重建",
+    sourceRequired: "请先上传一张要重建的图片。",
+  },
+  en: {
+    create: "Create",
+    createDescription: "Write a description. A reference is optional.",
+    rebuild: "Rebuild",
+    rebuildDescription: "Upload an image and rebuild it as editable SVG.",
+    rebuildKicker: "Image rebuild",
+    rebuildTitle: "Upload the image. FigFox handles the rest.",
+    rebuildBody: "We find the labels, shapes, and connectors, then open the rebuilt file in the editor.",
+    rebuildStages: ["Read image", "Rebuild layers", "Check result"],
+    rebuildPrompt: "Additional direction (optional)",
+    rebuildPromptPlaceholder: "For example: preserve composition, normalize line widths, and use a sans-serif typeface.",
+    rebuildAction: "Start rebuild",
+    sourceRequired: "Upload the image you want to rebuild first.",
+  },
+} as const;
+
+function EditableFigureProof({ language }: { language: Language }) {
+  const content = figFoxHomeCopy[language];
+  const [view, setView] = useState<"raster" | "vector">("vector");
+
+  return (
+    <article className="ff-proof" aria-label={content.previewLabel}>
+      <header className="ff-proof-toolbar">
+        <div>
+          <span className="ff-live-dot" aria-hidden="true" />
+          <strong>{content.previewLabel}</strong>
+        </div>
+        <Tabs.Root
+          value={view}
+          onValueChange={(value) => setView(value as "raster" | "vector")}
+        >
+          <Tabs.List className="ff-proof-switch" aria-label={content.previewLabel}>
+            <Tabs.Tab value="raster">{content.raster}</Tabs.Tab>
+            <Tabs.Tab value="vector">{content.vector}</Tabs.Tab>
+            <Tabs.Indicator className="ff-tab-indicator" />
+          </Tabs.List>
+        </Tabs.Root>
+      </header>
+      <div className="ff-proof-body">
+        <div className="ff-proof-canvas">
+          <AnimatePresence mode="wait" initial={false}>
+            <motion.div
+              className="ff-proof-document"
+              key={view}
+              initial={{ opacity: 0, scale: 0.985 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.22 }}
+            >
+              <img
+                src={figureAssetPath}
+                alt={content.previewLabel}
+                width={2048}
+                height={544}
+              />
+              {view === "vector" && (
+                <svg className="ff-vector-overlay" viewBox="0 0 1000 266" aria-hidden="true">
+                  <motion.rect
+                    x="206"
+                    y="31"
+                    width="178"
+                    height="193"
+                    rx="3"
+                    pathLength="1"
+                    initial={{ pathLength: 0, opacity: 0 }}
+                    animate={{ pathLength: 1, opacity: 1 }}
+                    transition={{ duration: 0.7 }}
+                  />
+                  <motion.path
+                    d="M418 143C474 99 529 171 590 123S710 91 768 139"
+                    pathLength="1"
+                    initial={{ pathLength: 0 }}
+                    animate={{ pathLength: 1 }}
+                    transition={{ duration: 0.8, delay: 0.1 }}
+                  />
+                  {[418, 503, 590, 682, 768].map((cx, index) => (
+                    <motion.circle
+                      key={cx}
+                      cx={cx}
+                      cy={[143, 126, 123, 108, 139][index]}
+                      r="6"
+                      initial={{ opacity: 0, scale: 0 }}
+                      animate={{ opacity: 1, scale: 1 }}
+                      transition={{ delay: 0.28 + index * 0.08 }}
+                    />
+                  ))}
+                </svg>
+              )}
+            </motion.div>
+          </AnimatePresence>
+          <span className="ff-canvas-status">{content.previewNote}</span>
+        </div>
+        <aside className="ff-layer-panel">
+          <div className="ff-layer-heading">
+            <Stack size={16} />
+            <span>{content.layers}</span>
+          </div>
+          <ul>
+            {content.layerItems.map((item, index) => (
+              <li className={index === 1 ? "selected" : ""} key={item}>
+                <span className="ff-layer-icon" aria-hidden="true" />
+                {item}
+                <span className="ff-layer-eye" aria-hidden="true" />
+              </li>
+            ))}
+          </ul>
+        </aside>
+      </div>
+    </article>
+  );
+}
+
 function HomePage({
   ui,
   language,
@@ -1236,118 +1486,202 @@ function HomePage({
   language: Language;
   onNavigate: (path: RoutePath) => void;
 }) {
-  const productNotes = [
-    { label: ui.home.pointOne, Icon: ImageSquare },
-    { label: ui.home.pointTwo, Icon: FileImage },
-    { label: ui.home.pointThree, Icon: LockKey },
-  ];
+  const content = figFoxHomeCopy[language];
+  const capabilityIcons = [TextT, ImageSquare, BezierCurve];
 
   return (
-    <main className="home-page page-enter">
-      <section className="editorial-hero shell">
-        <div className="hero-copy">
-          <h1>{ui.home.title}</h1>
-          <p className="hero-body">{ui.home.body}</p>
-          <div className="hero-actions">
+    <main className="home-page ff-home page-enter">
+      <PageSection className="ff-hero-section" density="standard">
+        <PageContainer>
+          <Grid
+            className="ff-hero"
+            columns={{ initial: "1", lg: "minmax(0, 0.82fr) minmax(0, 1.18fr)" }}
+            gap={{ initial: "7", lg: "9" }}
+            align="center"
+          >
+            <div className="ff-hero-copy">
+              <p className="ff-kicker">{content.kicker}</p>
+              <h1>{content.title}</h1>
+              <p className="ff-hero-body">{content.body}</p>
+              <Flex className="hero-actions" gap="5" align="center" wrap="wrap">
+                <InternalLink
+                  className="button primary-button"
+                  href="/workspace"
+                  onNavigate={onNavigate}
+                >
+                  {content.primary}
+                  <ArrowRight size={18} />
+                </InternalLink>
+                <a className="text-link" href="#rebuild-proof">
+                  {content.secondary}
+                  <ArrowRight size={16} />
+                </a>
+              </Flex>
+            </div>
+            <EditableFigureProof language={language} />
+          </Grid>
+        </PageContainer>
+      </PageSection>
+
+      <PageContainer>
+        <Grid
+          className="ff-principles"
+          columns={{ initial: "1", sm: "3" }}
+          aria-label="Product capabilities"
+        >
+          {content.principles.map((label, index) => {
+            const Icon = capabilityIcons[index];
+            return (
+              <p key={label}>
+                <span className="ff-principle-mark" aria-hidden="true">
+                  <Icon size={17} />
+                </span>
+                {label}
+              </p>
+            );
+          })}
+        </Grid>
+      </PageContainer>
+
+      <PageSection
+        className="ff-capability-section"
+        density="standard"
+        id="rebuild-proof"
+      >
+        <PageContainer>
+          <Grid
+            className="ff-section-heading"
+            columns={{ initial: "1", md: "minmax(0, 1.22fr) minmax(18rem, 0.78fr)" }}
+            gap={{ initial: "4", md: "8" }}
+            align="end"
+          >
+            <div>
+              <p className="ff-kicker">{content.capabilityKicker}</p>
+              <h2>{content.capabilityTitle}</h2>
+            </div>
+            <p>{content.capabilityBody}</p>
+          </Grid>
+          <Grid
+            className="ff-capability-grid"
+            columns={{ initial: "1", md: "minmax(16rem, 0.72fr) minmax(0, 1.28fr)" }}
+          >
+            {content.capabilities.map((capability, index) => {
+              const Icon = capabilityIcons[index];
+              return (
+                <article
+                  className={`ff-capability story-step ${index === 2 ? "primary" : ""}`}
+                  key={capability.label}
+                >
+                  <div className="ff-capability-top">
+                    <span>{capability.label}</span>
+                    <Icon size={22} />
+                  </div>
+                  <h3>{capability.title}</h3>
+                  <p>{capability.body}</p>
+                  {index === 2 && (
+                    <div className="ff-rebuild-track" aria-hidden="true">
+                      <span className="raster-block" />
+                      <span className="track-line" />
+                      <FigFoxMark className="track-mark" />
+                      <span className="track-line active" />
+                      <span className="vector-block" />
+                    </div>
+                  )}
+                </article>
+              );
+            })}
+          </Grid>
+        </PageContainer>
+      </PageSection>
+
+      <PageSection className="ff-editable-section" density="standard">
+        <PageContainer>
+          <Grid
+            className="ff-editable-inner"
+            columns={{ initial: "1", lg: "minmax(18rem, 0.72fr) minmax(0, 1.28fr)" }}
+            gap={{ initial: "7", lg: "9" }}
+            align="center"
+          >
+            <div className="ff-editable-copy">
+              <p className="ff-kicker">{content.editableKicker}</p>
+              <h2>{content.editableTitle}</h2>
+              <p>{content.editableBody}</p>
+              <Grid asChild columns={{ initial: "1", xs: "2" }} gap="3">
+                <ul>
+                  {content.editActions.map((action) => (
+                    <li key={action}>
+                      <Check size={15} weight="bold" />
+                      {action}
+                    </li>
+                  ))}
+                </ul>
+              </Grid>
+            </div>
+            <EditableFigureProof language={language} />
+          </Grid>
+        </PageContainer>
+      </PageSection>
+
+      <PageSection className="ff-agent-section" density="standard">
+        <PageContainer>
+          <Grid
+            className="ff-agent-copy"
+            columns={{ initial: "1", md: "minmax(0, 1.15fr) minmax(18rem, 0.85fr)" }}
+            gap={{ initial: "4", md: "8" }}
+            align="end"
+          >
+            <div>
+              <p className="ff-kicker">{content.agentKicker}</p>
+              <h2>{content.agentTitle}</h2>
+            </div>
+            <p>{content.agentBody}</p>
+          </Grid>
+          <Grid asChild columns={{ initial: "2", md: "4" }}>
+            <ol className="ff-agent-flow" aria-label={content.agentTitle}>
+              {content.agentStages.map((stage, index) => (
+                <li className="ff-agent-node" key={stage}>
+                  <span>{String(index + 1).padStart(2, "0")}</span>
+                  <strong>{stage}</strong>
+                </li>
+              ))}
+            </ol>
+          </Grid>
+        </PageContainer>
+      </PageSection>
+
+      <PageSection className="ff-integrity-section" density="compact">
+        <PageContainer>
+          <Grid
+            className="ff-integrity-grid"
+            columns={{ initial: "auto 1fr", md: "auto minmax(16rem, 0.62fr) minmax(20rem, 1.38fr)" }}
+            gap={{ initial: "4", md: "7" }}
+            align="center"
+          >
+            <LockKey size={26} />
+            <h2>{content.integrityTitle}</h2>
+            <p>{content.integrityBody}</p>
+          </Grid>
+        </PageContainer>
+      </PageSection>
+
+      <PageSection className="ff-closing-section" density="compact">
+        <PageContainer>
+          <Flex className="ff-closing" align="end" justify="between" gap="7" wrap="wrap">
+            <div>
+              <h2>{content.closingTitle}</h2>
+              <p>{content.closingBody}</p>
+            </div>
             <InternalLink
               className="button primary-button"
               href="/workspace"
               onNavigate={onNavigate}
             >
-              {ui.home.primary}
+              {content.primary}
               <ArrowRight size={18} />
             </InternalLink>
-            <InternalLink
-              className="text-link"
-              href="/examples"
-              onNavigate={onNavigate}
-            >
-              {ui.home.secondary}
-              <ArrowUpRight size={16} />
-            </InternalLink>
-          </div>
-        </div>
-        <figure className="hero-art">
-          <div className="hero-main-sheet">
-            <HeroDraftingIllustration label={ui.home.figureAlt} />
-          </div>
-          <figcaption>
-            <span>{ui.home.figureMeta}</span>
-            <span>{ui.home.figureCaption}</span>
-          </figcaption>
-        </figure>
-      </section>
-
-      <section className="product-notes shell" aria-label="Product principles">
-        {productNotes.map(({ label, Icon }) => (
-          <p key={label}>
-            <span className="product-note-mark" aria-hidden="true">
-              <Icon size={17} />
-            </span>
-            {label}
-          </p>
-        ))}
-      </section>
-
-      <section className="story-section shell">
-        <div className="story-decoration">
-          <EditorialMotif kind="thread" />
-        </div>
-        <header className="section-intro section-intro-clean">
-          <h2>{ui.home.storyTitle}</h2>
-          <p>{ui.home.storyBody}</p>
-        </header>
-        <ProductStory ui={ui} />
-      </section>
-
-      <section className="privacy-section">
-        <div className="privacy-inner shell">
-          <div className="privacy-decoration">
-            <EditorialMotif kind="privacy" />
-          </div>
-          <div className="privacy-grid">
-            <h2>{ui.home.privacyTitle}</h2>
-            <div>
-              <p>{ui.home.privacyBody}</p>
-              <ul>
-                {ui.home.privacyItems.map((item) => (
-                  <li key={item}>
-                    <Check size={16} weight="bold" />
-                    {item}
-                  </li>
-                ))}
-              </ul>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section className="home-entry-section shell">
-        <div className="home-entry-mark" aria-hidden="true">
-          <BezierCurve size={25} weight="duotone" />
-          <span />
-          <span />
-          <span />
-        </div>
-        <div className="home-entry-copy">
-          <h2>{ui.home.closingTitle}</h2>
-          <p>{ui.home.closingBody}</p>
-        </div>
-        <div className="home-entry-actions">
-          <InternalLink
-            className="button primary-button"
-            href="/workspace"
-            onNavigate={onNavigate}
-          >
-            {ui.home.primary}
-            <ArrowRight size={18} />
-          </InternalLink>
-          <InternalLink className="text-link" href="/docs" onNavigate={onNavigate}>
-            {ui.nav.docs}
-            <ArrowUpRight size={16} />
-          </InternalLink>
-        </div>
-      </section>
+          </Flex>
+        </PageContainer>
+      </PageSection>
 
       <Footer ui={ui} language={language} onNavigate={onNavigate} />
     </main>
@@ -1370,68 +1704,87 @@ function ExamplesPage({
 
   return (
     <main className="examples-page page-enter">
-        <section className="examples-hero shell">
-          <div>
-            <h1>{ui.examples.title}</h1>
-        </div>
-        <div className="examples-hero-copy">
-          <p>{ui.examples.body}</p>
-          <div className="examples-notice">
-            <FileImage size={19} weight="duotone" />
-            <p>{ui.examples.notice}</p>
-          </div>
-        </div>
-      </section>
-
-      <section className="examples-gallery shell" aria-label={ui.nav.examples}>
-        {examples.map((example, index) => (
-          <article
-            className={`example-case example-case-${index + 1}`}
-            key={example.id}
+      <PageSection className="examples-hero-section" density="compact">
+        <PageContainer>
+          <Grid
+            className="examples-hero"
+            columns={{ initial: "1", md: "minmax(0, 1.15fr) minmax(19rem, 0.85fr)" }}
+            gap={{ initial: "6", md: "9" }}
+            align="end"
           >
-            <header className="example-case-heading">
-              <div>
-                <span>{String(index + 1).padStart(2, "0")}</span>
-                <p>{example.category}</p>
-              </div>
-              <span>{ui.examples.artifact}</span>
-            </header>
-            <figure className="example-case-figure">
-              <div className="example-case-visual">
-                <img
-                  src={example.src}
-                  alt={example.alt}
-                  width={example.width}
-                  height={example.height}
-                />
-              </div>
-              <figcaption className="example-visual-meta">
-                <span>
-                  FIGURE / {String(index + 1).padStart(2, "0")}
-                </span>
-                <span>{example.meta}</span>
-              </figcaption>
-            </figure>
-            <div className="example-case-copy">
-              <div>
-                <h2>{example.title}</h2>
-                <p>{example.description}</p>
-              </div>
-              <blockquote>{example.prompt}</blockquote>
-              <div className="example-case-footer">
-                <button
-                 className="text-link"
-                 type="button"
-                  onClick={() => onNavigate("/workspace")}
-                >
-                  {ui.examples.openWorkspace}
-                  <ArrowRight size={17} />
-                </button>
-              </div>
+            <h1>{ui.examples.title}</h1>
+            <div className="examples-hero-copy">
+              <p>{ui.examples.body}</p>
+              <Flex className="examples-notice" gap="3" align="start">
+                <FileImage size={19} weight="duotone" />
+                <p>{ui.examples.notice}</p>
+              </Flex>
             </div>
-          </article>
-        ))}
-      </section>
+          </Grid>
+        </PageContainer>
+      </PageSection>
+
+      <PageSection
+        className="examples-gallery-section"
+        density="standard"
+        ariaLabel={ui.nav.examples}
+      >
+        <PageContainer>
+          <Flex className="examples-gallery" direction="column" gap={{ initial: "7", md: "9" }}>
+            {examples.map((example, index) => (
+              <Grid
+                asChild
+                columns={{ initial: "1", md: "minmax(0, 1.28fr) minmax(19rem, 0.72fr)" }}
+                gap={{ initial: "5", md: "8" }}
+                key={example.id}
+              >
+                <article className={`example-case example-case-${index + 1}`}>
+                  <header className="example-case-heading">
+                    <div>
+                      <span>{String(index + 1).padStart(2, "0")}</span>
+                      <p>{example.category}</p>
+                    </div>
+                    <span>{ui.examples.artifact}</span>
+                  </header>
+                  <figure className="example-case-figure">
+                    <div className="example-case-visual">
+                      <img
+                        src={example.src}
+                        alt={example.alt}
+                        width={example.width}
+                        height={example.height}
+                      />
+                    </div>
+                    <figcaption className="example-visual-meta">
+                      <span>
+                        FIGURE / {String(index + 1).padStart(2, "0")}
+                      </span>
+                      <span>{example.meta}</span>
+                    </figcaption>
+                  </figure>
+                  <div className="example-case-copy">
+                    <div>
+                      <h2>{example.title}</h2>
+                      <p>{example.description}</p>
+                    </div>
+                    <blockquote>{example.prompt}</blockquote>
+                    <div className="example-case-footer">
+                      <button
+                        className="text-link"
+                        type="button"
+                        onClick={() => onNavigate("/workspace")}
+                      >
+                        {ui.examples.openWorkspace}
+                        <ArrowRight size={17} />
+                      </button>
+                    </div>
+                  </div>
+                </article>
+              </Grid>
+            ))}
+          </Flex>
+        </PageContainer>
+      </PageSection>
 
       <Footer ui={ui} language={language} onNavigate={onNavigate} />
     </main>
@@ -1483,7 +1836,7 @@ function WorkspaceAccountSummary({
   );
 }
 
-function SvgEditorPanel({
+function LegacySvgEditorPanel({
   ui,
   svgDocument,
   previewUrl,
@@ -1860,6 +2213,100 @@ function SvgEditorPanel({
   );
 }
 
+function SvgEditorPanel({
+  ui,
+  language,
+  svgDocument,
+  previewUrl,
+  importError,
+  importing,
+  onOpenFile,
+  onDropFile,
+  editedMarkup,
+  editorReady,
+  onMarkupChange,
+  onReadyChange,
+}: {
+  ui: UiCopy;
+  language: Language;
+  svgDocument: ImportedSvgDocument | null;
+  previewUrl: string;
+  importError: SvgImportErrorCode | null;
+  importing: boolean;
+  onOpenFile: () => void;
+  onDropFile: (file: File) => void;
+  editedMarkup: string;
+  editorReady: boolean;
+  onMarkupChange: (markup: string) => void;
+  onReadyChange: (ready: boolean) => void;
+}) {
+  const editorRef = useRef<SvgEditHandle>(null);
+  const [editorState, setEditorState] = useState<SvgEditState>({
+    mode: "select",
+    hasSelection: false,
+    canUndo: false,
+    canRedo: false,
+    zoom: 100,
+    fill: "#ffffff",
+    stroke: "#20152b",
+    strokeWidth: 1,
+    opacity: 100,
+  });
+
+  if (!svgDocument) {
+    return (
+      <LegacySvgEditorPanel
+        ui={ui}
+        svgDocument={svgDocument}
+        previewUrl={previewUrl}
+        importError={importError}
+        importing={importing}
+        onOpenFile={onOpenFile}
+        onDropFile={onDropFile}
+      />
+    );
+  }
+
+  const liveError =
+    importError === "large"
+      ? ui.workspace.editorErrorLarge
+      : importError === "complex"
+        ? ui.workspace.editorErrorComplex
+        : importError
+          ? ui.workspace.editorErrorInvalid
+          : "";
+
+  return (
+    <div className="svg-edit-live-shell">
+      {liveError && (
+        <div className="svg-canvas-alert" role="alert">
+          <WarningCircle size={18} weight="fill" aria-hidden="true" />
+          <span>{liveError}</span>
+          <button type="button" onClick={onOpenFile}>
+            {ui.workspace.editorTryAgain}
+          </button>
+        </div>
+      )}
+      <FigFoxEditorChrome
+        language={language}
+        ready={editorReady}
+        state={editorState}
+        editor={editorRef.current}
+      >
+        <SvgEditHost
+          ref={editorRef}
+          language={language}
+          markup={editedMarkup || svgDocument.markup}
+          loadingLabel={ui.workspace.editorLoading}
+          onMarkupChange={onMarkupChange}
+          onReadyChange={onReadyChange}
+          onStateChange={setEditorState}
+        />
+      </FigFoxEditorChrome>
+    </div>
+  );
+}
+
 function SvgEditorPage({
   ui,
   language,
@@ -1877,6 +2324,8 @@ function SvgEditorPage({
   const [previewUrl, setPreviewUrl] = useState("");
   const [importError, setImportError] = useState<SvgImportErrorCode | null>(null);
   const [importing, setImporting] = useState(false);
+  const [editedMarkup, setEditedMarkup] = useState("");
+  const [editorReady, setEditorReady] = useState(false);
   const fallbackTitle = latestDraft?.title?.trim() || ui.workspace.editorUntitled;
   const documentTitle = svgDocument?.fileName || fallbackTitle;
 
@@ -1899,6 +2348,8 @@ function SvgEditorPage({
     try {
       const imported = await importSvgDocument(file);
       setSvgDocument(imported);
+      setEditedMarkup(imported.markup);
+      setEditorReady(false);
     } catch (error) {
       setImportError(error instanceof SvgImportError ? error.code : "invalid");
     } finally {
@@ -1913,15 +2364,15 @@ function SvgEditorPage({
   }
 
   function exportSvg() {
-    if (!svgDocument) return;
+    if (!svgDocument || !editedMarkup) return;
 
     const url = URL.createObjectURL(
-      new Blob([svgDocument.markup], { type: "image/svg+xml" }),
+      new Blob([editedMarkup], { type: "image/svg+xml" }),
     );
     const link = window.document.createElement("a");
     const stem = svgDocument.fileName.replace(/\.svg$/i, "");
     link.href = url;
-    link.download = `${stem}-autodraftman.svg`;
+      link.download = `${stem}-figfox.svg`;
     link.click();
     window.setTimeout(() => URL.revokeObjectURL(url), 0);
   }
@@ -1952,23 +2403,22 @@ function SvgEditorPage({
           <strong>{documentTitle}</strong>
           <span>
             {svgDocument
-              ? `${ui.workspace.editorReady} · ${ui.workspace.editorLocal}`
+              ? `${editorReady ? ui.workspace.editorReady : ui.workspace.editorLoading} · ${ui.workspace.editorLocal}`
               : ui.workspace.editorStatus}
           </span>
         </div>
-        <div className="editor-app-actions">
-          <button
+        <Toolbar.Root className="editor-app-actions" aria-label={ui.workspace.editorTitle}>
+          <Toolbar.Button
             className="language-button"
-            type="button"
             onClick={onLanguageChange}
             aria-label={language === "zh" ? "Switch to English" : "切换到中文"}
           >
             <Globe size={16} />
             <span>{language === "zh" ? "EN" : "中文"}</span>
-          </button>
-          <button
+          </Toolbar.Button>
+          <Toolbar.Separator className="editor-action-separator" />
+          <Toolbar.Button
             className="editor-open-file-button"
-            type="button"
             onClick={() => fileInputRef.current?.click()}
             disabled={importing}
           >
@@ -1978,28 +2428,32 @@ function SvgEditorPage({
                 ? ui.workspace.editorReplaceFile
                 : ui.workspace.editorOpenFile}
             </span>
-          </button>
-          <button
+          </Toolbar.Button>
+          <Toolbar.Button
             className="editor-export-button"
-            type="button"
             onClick={exportSvg}
-            disabled={!svgDocument}
+            disabled={!svgDocument || !editorReady}
             title={!svgDocument ? ui.workspace.editorStatus : undefined}
           >
             <DownloadSimple size={17} aria-hidden="true" />
             <span>{ui.workspace.editorExport}</span>
-          </button>
-        </div>
+          </Toolbar.Button>
+        </Toolbar.Root>
       </header>
       <main className="editor-page" id="editor-canvas">
         <SvgEditorPanel
           ui={ui}
+          language={language}
           svgDocument={svgDocument}
           previewUrl={previewUrl}
           importError={importError}
           importing={importing}
           onOpenFile={() => fileInputRef.current?.click()}
           onDropFile={(file) => void openSvg(file)}
+          editedMarkup={editedMarkup}
+          editorReady={editorReady}
+          onMarkupChange={setEditedMarkup}
+          onReadyChange={setEditorReady}
         />
       </main>
     </div>
@@ -2025,6 +2479,8 @@ function WorkspacePage({
   onAccount: () => void;
   onOpenEditor: () => void;
 }) {
+  const workspaceCopy = figFoxWorkspaceCopy[language];
+  const [taskMode, setTaskMode] = useState<"create" | "rebuild">("create");
   const [mode, setMode] = useState<"text" | "reference">("text");
   const [prompt, setPrompt] = useState("");
   const [referenceFile, setReferenceFile] = useState<File | null>(null);
@@ -2421,7 +2877,7 @@ function WorkspacePage({
   };
 
   const handleGenerate = () => {
-    if (!prompt.trim()) {
+    if (taskMode === "create" && !prompt.trim()) {
       setMessage(ui.workspace.promptError);
       return;
     }
@@ -2429,8 +2885,12 @@ function WorkspacePage({
       setMessage(ui.workspace.noCredits);
       return;
     }
-    if (mode === "reference" && referenceStatus !== "ready") {
-      setMessage(ui.workspace.uploadBeforeGenerate);
+    if ((taskMode === "rebuild" || mode === "reference") && referenceStatus !== "ready") {
+      setMessage(
+        taskMode === "rebuild"
+          ? workspaceCopy.sourceRequired
+          : ui.workspace.uploadBeforeGenerate,
+      );
       return;
     }
     requestAuth(startGeneration);
@@ -2521,6 +2981,7 @@ function WorkspacePage({
     setReferenceStatus("idle");
     setReferenceProgress(0);
     setReferenceError("");
+    setTaskMode("create");
     setMode("text");
     setActiveDraftTitle(null);
     setPrompt("");
@@ -2812,26 +3273,68 @@ function WorkspacePage({
 
         <div className="workspace-layout">
         <aside className="control-panel">
-          <div className="mode-switch" aria-label={ui.workspace.title}>
-            <button
-              type="button"
-              className={mode === "text" ? "selected" : ""}
-              aria-pressed={mode === "text"}
-              onClick={() => setMode("text")}
+          <Tabs.Root
+            className="workspace-task-root"
+            value={taskMode}
+            onValueChange={(value) => {
+              const nextMode = value as "create" | "rebuild";
+              setTaskMode(nextMode);
+              if (nextMode === "rebuild") setMode("reference");
+              setMessage("");
+            }}
+          >
+            <Tabs.List className="workspace-task-switch" aria-label={ui.workspace.title}>
+              <Tabs.Tab value="create">
+                <Plus size={16} />
+                {workspaceCopy.create}
+              </Tabs.Tab>
+              <Tabs.Tab value="rebuild">
+                <BezierCurve size={16} />
+                {workspaceCopy.rebuild}
+              </Tabs.Tab>
+              <Tabs.Indicator className="workspace-task-indicator" />
+            </Tabs.List>
+            <p className="workspace-task-description">
+              {taskMode === "create"
+                ? workspaceCopy.createDescription
+                : workspaceCopy.rebuildDescription}
+            </p>
+          </Tabs.Root>
+
+          {taskMode === "rebuild" && (
+            <section className="workspace-rebuild-intro">
+              <span>{workspaceCopy.rebuildKicker}</span>
+              <h2>{workspaceCopy.rebuildTitle}</h2>
+              <p>{workspaceCopy.rebuildBody}</p>
+              <ol>
+                {workspaceCopy.rebuildStages.map((stage, index) => (
+                  <li key={stage}>
+                    <i>{String(index + 1).padStart(2, "0")}</i>
+                    <span>{stage}</span>
+                  </li>
+                ))}
+              </ol>
+            </section>
+          )}
+
+          {taskMode === "create" && (
+            <Tabs.Root
+              value={mode}
+              onValueChange={(value) => setMode(value as "text" | "reference")}
             >
-              <TextT size={17} />
-              {ui.workspace.modeText}
-            </button>
-            <button
-              type="button"
-              className={mode === "reference" ? "selected" : ""}
-              aria-pressed={mode === "reference"}
-              onClick={() => setMode("reference")}
-            >
-              <ImageSquare size={17} />
-              {ui.workspace.modeReference}
-            </button>
-          </div>
+              <Tabs.List className="mode-switch" aria-label={ui.workspace.title}>
+                <Tabs.Tab value="text">
+                  <TextT size={17} />
+                  {ui.workspace.modeText}
+                </Tabs.Tab>
+                <Tabs.Tab value="reference">
+                  <ImageSquare size={17} />
+                  {ui.workspace.modeReference}
+                </Tabs.Tab>
+                <Tabs.Indicator className="mode-switch-indicator" />
+              </Tabs.List>
+            </Tabs.Root>
+          )}
 
           {showOnboarding && (
             <aside
@@ -2859,13 +3362,19 @@ function WorkspacePage({
           )}
 
           <div className="form-block prompt-block">
-            <label htmlFor="figure-prompt">{ui.workspace.promptLabel}</label>
+            <label htmlFor="figure-prompt">
+              {taskMode === "rebuild" ? workspaceCopy.rebuildPrompt : ui.workspace.promptLabel}
+            </label>
             <textarea
               id="figure-prompt"
               value={prompt}
               onChange={(event) => setPrompt(event.target.value)}
               onKeyDown={handlePromptKeyDown}
-              placeholder={ui.workspace.promptPlaceholder}
+              placeholder={
+                taskMode === "rebuild"
+                  ? workspaceCopy.rebuildPromptPlaceholder
+                  : ui.workspace.promptPlaceholder
+              }
               aria-describedby={message ? "prompt-message" : "prompt-help"}
               aria-invalid={message ? "true" : undefined}
             />
@@ -2883,7 +3392,7 @@ function WorkspacePage({
             </div>
           </div>
 
-          {mode === "reference" && (
+          {(taskMode === "rebuild" || mode === "reference") && (
             <div className="form-block reference-block">
               <label htmlFor="reference-file">{ui.workspace.referenceLabel}</label>
               {referencePreview ? (
@@ -2958,13 +3467,14 @@ function WorkspacePage({
             </div>
           )}
 
-          <div className={settingsOpen ? "settings-disclosure open" : "settings-disclosure"}>
-            <button
+          <Collapsible.Root
+            className="settings-disclosure"
+            open={settingsOpen}
+            onOpenChange={setSettingsOpen}
+          >
+            <Collapsible.Trigger
               className="settings-summary"
-              type="button"
               data-allow-wrap="true"
-              aria-expanded={settingsOpen}
-              onClick={() => setSettingsOpen((value) => !value)}
             >
               <span>
                 <strong>{ui.workspace.technicalSummary}</strong>
@@ -2979,39 +3489,45 @@ function WorkspacePage({
                   ? ui.workspace.settingsClose
                   : ui.workspace.settingsOpen}
               </span>
-            </button>
+            </Collapsible.Trigger>
 
-            {settingsOpen && (
-              <div className="settings-disclosure-body">
+            <Collapsible.Panel className="settings-disclosure-body">
                 <div className="settings-block">
                   <p>{ui.workspace.settings}</p>
                   <div className="settings-grid">
                     <fieldset>
                       <legend>{ui.workspace.ratio}</legend>
-                      <div className="choice-row">
+                      <ToggleGroup
+                        className="choice-row"
+                        value={[ratio]}
+                        aria-label={ui.workspace.ratio}
+                        onValueChange={(values) => {
+                          const nextRatio = values.at(-1);
+                          if (nextRatio) setRatio(nextRatio);
+                        }}
+                      >
                         {["16:9", "4:3", "1:1"].map((item) => (
-                          <button
+                          <Toggle
                             key={item}
-                            type="button"
-                            className={ratio === item ? "selected" : ""}
-                            aria-pressed={ratio === item}
-                            onClick={() => setRatio(item)}
+                            value={item}
                           >
                             {item}
-                          </button>
+                          </Toggle>
                         ))}
-                      </div>
+                      </ToggleGroup>
                     </fieldset>
                     <label className="format-field">
                       <span>{ui.workspace.format}</span>
-                      <select
+                      <FigFoxSelect
                         value={format}
-                        onChange={(event) => setFormat(event.target.value)}
-                      >
-                        <option>PNG</option>
-                        <option>JPG</option>
-                        <option>WebP</option>
-                      </select>
+                        ariaLabel={ui.workspace.format}
+                        options={[
+                          { value: "PNG", label: "PNG" },
+                          { value: "JPG", label: "JPG" },
+                          { value: "WebP", label: "WebP" },
+                        ]}
+                        onValueChange={setFormat}
+                      />
                     </label>
                   </div>
                 </div>
@@ -3028,23 +3544,21 @@ function WorkspacePage({
                       </small>
                     </span>
                   </div>
-                  <button
-                    type="button"
-                    className={isPublic ? "toggle on" : "toggle"}
-                    aria-pressed={isPublic}
+                  <Switch.Root
+                    className="toggle"
+                    checked={isPublic}
                     aria-label={
                       isPublic
                         ? ui.workspace.publicToggle
                         : ui.workspace.privateToggle
                     }
-                    onClick={() => setIsPublic((value) => !value)}
+                    onCheckedChange={setIsPublic}
                   >
-                    <span />
-                  </button>
+                    <Switch.Thumb />
+                  </Switch.Root>
                 </div>
-              </div>
-            )}
-          </div>
+            </Collapsible.Panel>
+          </Collapsible.Root>
 
           <button
             className="generate-button"
@@ -3059,7 +3573,7 @@ function WorkspacePage({
               </>
             ) : (
               <>
-                {ui.workspace.generate}
+                {taskMode === "rebuild" ? workspaceCopy.rebuildAction : ui.workspace.generate}
                 <ArrowRight size={18} />
               </>
             )}
@@ -3067,7 +3581,7 @@ function WorkspacePage({
           <p className="mock-note">{ui.workspace.mockNotice}</p>
         </aside>
 
-        <section className="result-panel" aria-live="polite">
+        <section className={`result-panel ${taskMode}`} aria-live="polite">
           <header className="result-toolbar">
             <div className="result-status">
               <span
@@ -3090,6 +3604,7 @@ function WorkspacePage({
             <button
               className="open-editor-button"
               type="button"
+              data-allow-wrap="true"
               onClick={onOpenEditor}
               title={ui.workspace.editorUnavailable}
             >
@@ -3113,8 +3628,16 @@ function WorkspacePage({
                     <FileImage size={22} weight="duotone" />
                   </span>
                   <div>
-                    <h2>{ui.workspace.emptyTitle}</h2>
-                    <p>{ui.workspace.emptyBody}</p>
+                    <h2>
+                      {taskMode === "rebuild"
+                        ? workspaceCopy.rebuildTitle
+                        : ui.workspace.emptyTitle}
+                    </h2>
+                    <p>
+                      {taskMode === "rebuild"
+                        ? workspaceCopy.rebuildBody
+                        : ui.workspace.emptyBody}
+                    </p>
                   </div>
                 </div>
                 <span className="empty-sheet-meta">
@@ -3136,15 +3659,11 @@ function WorkspacePage({
                   </div>
                   <strong>{progress}%</strong>
                 </div>
-                <div
-                  className="progress-track"
-                  role="progressbar"
-                  aria-valuemin={0}
-                  aria-valuemax={100}
-                  aria-valuenow={progress}
-                >
-                  <span style={{ transform: `scaleX(${progress / 100})` }} />
-                </div>
+                <Progress.Root className="progress-track" value={progress}>
+                  <Progress.Track>
+                    <Progress.Indicator />
+                  </Progress.Track>
+                </Progress.Root>
               </div>
             )}
             {status === "complete" && (
@@ -3164,7 +3683,7 @@ function WorkspacePage({
               <a
                 className="button secondary-button"
                 href={figureAssetPath}
-                download={`autodraftman-result.${format.toLowerCase()}`}
+                    download={`figfox-result.${format.toLowerCase()}`}
               >
                 <DownloadSimple size={18} />
                 {ui.workspace.download}
@@ -3316,124 +3835,132 @@ function PricingPage({
 
   return (
     <main className="pricing-page page-enter">
-      <section className="pricing-intro shell">
-        <p className="kicker">{ui.pricing.kicker}</p>
-        <h1>{ui.pricing.title}</h1>
-        <p>{ui.pricing.body}</p>
-        <div
-          className={`billing-switch ${billing}`}
-          aria-label="Billing cycle"
-        >
-          <button
-            type="button"
-            className={billing === "monthly" ? "selected" : ""}
-            aria-pressed={billing === "monthly"}
-            onClick={() => setBilling("monthly")}
+      <PageSection className="pricing-intro-section" density="compact">
+        <PageContainer measure="reading">
+          <Flex className="pricing-intro" direction="column" align="center">
+            <p className="kicker">{ui.pricing.kicker}</p>
+            <h1>{ui.pricing.title}</h1>
+            <p>{ui.pricing.body}</p>
+            <ToggleGroup
+              className={`billing-switch ${billing}`}
+              value={[billing]}
+              aria-label="Billing cycle"
+              onValueChange={(values) => {
+                const nextBilling = values.at(-1) as BillingCycle | undefined;
+                if (nextBilling) setBilling(nextBilling);
+              }}
+            >
+              <Toggle value="monthly">{ui.pricing.monthly}</Toggle>
+              <Toggle value="yearly" data-allow-wrap="true">
+                {ui.pricing.yearly}
+                <span>{ui.pricing.save}</span>
+              </Toggle>
+            </ToggleGroup>
+          </Flex>
+        </PageContainer>
+      </PageSection>
+
+      <PageSection className="pricing-plans-section" density="compact">
+        <PageContainer>
+          <Grid
+            asChild
+            columns={{ initial: "1", md: "repeat(3, minmax(0, 1fr))" }}
+            gap={{ initial: "5", md: "6" }}
           >
-            {ui.pricing.monthly}
-          </button>
-          <button
-            type="button"
-            className={billing === "yearly" ? "selected" : ""}
-            aria-pressed={billing === "yearly"}
-            data-allow-wrap="true"
-            onClick={() => setBilling("yearly")}
-          >
-            {ui.pricing.yearly}
-            <span>{ui.pricing.save}</span>
-          </button>
-        </div>
-      </section>
+            <section
+              className="pricing-grid"
+              aria-label={ui.nav.pricing}
+              data-billing={billing}
+              key={billing}
+            >
+              {ui.pricing.plans.map((plan, index) => {
+                const amount =
+                  billing === "monthly"
+                    ? planPrices[index].monthly
+                    : planPrices[index].yearly;
+                return (
+                  <article
+                    className={index === 1 ? "pricing-card featured" : "pricing-card"}
+                    key={plan.name}
+                  >
+                    <div className="plan-topline">
+                      <span className="plan-ornament" aria-hidden="true">
+                        <i />
+                        <i />
+                      </span>
+                      {index === 1 && (
+                        <span className="plan-recommended">{ui.pricing.recommended}</span>
+                      )}
+                    </div>
+                    <PlanMark level={index} label={`${plan.name} ${ui.nav.pricing}`} />
+                    <div className="plan-heading">
+                      <h2>{plan.name}</h2>
+                      <p>{plan.description}</p>
+                    </div>
+                    <div className="plan-price">
+                      {billing === "yearly" && amount > 0 && (
+                        <del>${planPrices[index].monthly}</del>
+                      )}
+                      <strong>${amount}</strong>
+                      {amount > 0 && <span>{ui.pricing.perMonth}</span>}
+                    </div>
+                    <div className="billing-detail">
+                      {billing === "yearly" ? (
+                        <>
+                          <strong>
+                            {ui.pricing.savePerMonth} ${planPrices[index].monthly - amount}
+                          </strong>
+                          <span>
+                            {ui.pricing.billedYearly} · ${amount * 12}
+                          </span>
+                        </>
+                      ) : (
+                        <span>{ui.pricing.notice}</span>
+                      )}
+                    </div>
+                    <button
+                      className={index === 1 ? "button primary-button" : "button secondary-button"}
+                      type="button"
+                      onClick={() => setToast(true)}
+                    >
+                      {ui.pricing.choose}
+                    </button>
+                    <div className="plan-rule" />
+                    <ul>
+                      {plan.features.map((feature) => (
+                        <li key={feature}>
+                          <Check size={17} weight="bold" />
+                          <span>{feature}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </article>
+                );
+              })}
+            </section>
+          </Grid>
+          <p className="pricing-footnote">{ui.pricing.footnote}</p>
+        </PageContainer>
+      </PageSection>
 
-      <section
-        className="pricing-grid shell"
-        aria-label={ui.nav.pricing}
-        data-billing={billing}
-        key={billing}
-      >
-        {ui.pricing.plans.map((plan, index) => {
-          const amount =
-            billing === "monthly"
-              ? planPrices[index].monthly
-              : planPrices[index].yearly;
-          return (
-            <article className={index === 1 ? "pricing-card featured" : "pricing-card"} key={plan.name}>
-              <div className="plan-topline">
-                <span className="plan-ornament" aria-hidden="true">
-                  <i />
-                  <i />
-                </span>
-                {index === 1 && (
-                  <span className="plan-recommended">{ui.pricing.recommended}</span>
-                )}
-              </div>
-              <PlanMark
-                level={index}
-                label={`${plan.name} ${ui.nav.pricing}`}
-              />
-              <div className="plan-heading">
-                <h2>{plan.name}</h2>
-                <p>{plan.description}</p>
-              </div>
-              <div className="plan-price">
-                {billing === "yearly" && amount > 0 && (
-                  <del>${planPrices[index].monthly}</del>
-                )}
-                <strong>${amount}</strong>
-                {amount > 0 && <span>{ui.pricing.perMonth}</span>}
-              </div>
-              <div className="billing-detail">
-                {billing === "yearly" ? (
-                  <>
-                    <strong>
-                      {ui.pricing.savePerMonth} $
-                      {planPrices[index].monthly - amount}
-                    </strong>
-                    <span>
-                      {ui.pricing.billedYearly} · ${amount * 12}
-                    </span>
-                  </>
-                ) : (
-                  <span>{ui.pricing.notice}</span>
-                )}
-              </div>
-              <button
-                className={index === 1 ? "button primary-button" : "button secondary-button"}
-                type="button"
-                onClick={() => setToast(true)}
-              >
-                {ui.pricing.choose}
-              </button>
-              <div className="plan-rule" />
-              <ul>
-                {plan.features.map((feature) => (
-                  <li key={feature}>
-                    <Check size={17} weight="bold" />
-                    <span>{feature}</span>
-                  </li>
-                ))}
-              </ul>
-            </article>
-          );
-        })}
-      </section>
-
-      <p className="pricing-footnote shell">{ui.pricing.footnote}</p>
-
-      <section className="pricing-closing shell">
-        <div>
-          <h2>{ui.home.closingTitle}</h2>
-          <p>{ui.home.closingBody}</p>
-        </div>
-        <button
-          className="button primary-button"
-          type="button"
-          onClick={() => onNavigate("/workspace")}
-        >
-          {ui.home.primary}
-          <ArrowRight size={18} />
-        </button>
-      </section>
+      <PageSection className="pricing-closing-section" density="compact">
+        <PageContainer>
+          <Flex className="pricing-closing" align="end" justify="between" gap="7" wrap="wrap">
+            <div>
+              <h2>{ui.home.closingTitle}</h2>
+              <p>{ui.home.closingBody}</p>
+            </div>
+            <button
+              className="button primary-button"
+              type="button"
+              onClick={() => onNavigate("/workspace")}
+            >
+              {ui.home.primary}
+              <ArrowRight size={18} />
+            </button>
+          </Flex>
+        </PageContainer>
+      </PageSection>
 
       <Footer ui={ui} language={language} onNavigate={onNavigate} />
       {toast && (
@@ -3448,34 +3975,34 @@ function PricingPage({
 
 const feedbackCopy = {
   zh: {
-    kicker: "把问题留给真正能处理它的人",
-    title: "告诉我们，哪里需要改。",
+    kicker: "提交反馈",
+    title: "哪里不对，直接告诉我们。",
     body:
-      "产品建议、界面问题和账户请求都会获得一个反馈编号。内部测试期间，我们只收集处理这条反馈所需的信息。",
-    category: "反馈类型",
+      "描述你当时在做什么、哪里出了问题。提交后会得到一个编号，方便之后跟进。",
+    category: "你要反馈什么",
     categories: {
       product: "产品建议",
       bug: "问题报告",
       account: "账户与数据",
       other: "其他",
     },
-    message: "具体内容",
+    message: "发生了什么",
     messagePlaceholder:
-      "请说明你正在做什么、遇到了什么，以及你原本期待发生什么。不要提交患者身份信息或其他敏感研究资料。",
+      "例如：我在上传参考图时一直停在验证中。我原本以为几秒后会进入下一步。请不要填写患者信息或其他敏感资料。",
     email: "联系邮箱（可选）",
     emailPlaceholder: "需要回复时使用",
     submit: "提交反馈",
     submitting: "正在提交…",
-    unavailableTitle: "反馈接口尚未部署",
+    unavailableTitle: "反馈服务还没接通",
     unavailableBody:
-      "表单和存储接口已经完成；当前公开静态站不会假装提交成功。部署公网后端后，这里会直接启用。",
+      "你填写的内容只会留在当前页面，不会发出去。",
     validation: "请至少填写 10 个字符。",
     emailInvalid: "请填写有效的邮箱地址，或将邮箱留空。",
     failed: "暂时无法提交。内容仍保留在页面中，请稍后重试。",
-    received: "反馈已收到",
+    received: "已经收到",
     receipt: "反馈编号",
-    history: "最近提交",
-    historyEmpty: "当前身份还没有提交过反馈。",
+    history: "提交记录",
+    historyEmpty: "还没有提交记录。",
     status: {
       received: "已收到",
       in_review: "处理中",
@@ -3483,13 +4010,13 @@ const feedbackCopy = {
       closed: "已关闭",
     },
     privacy:
-      "提交内容默认不公开。我们会保留反馈正文、类型、可选邮箱、提交页面和处理状态。",
+      "反馈默认不公开。我们只保存正文、类型、可选邮箱、来源页面和处理状态。",
   },
   en: {
-    kicker: "Send the issue to people who can act on it",
-    title: "Tell us what needs work.",
+    kicker: "Feedback",
+    title: "Found a problem? Tell us.",
     body:
-      "Product ideas, interface issues, and account requests receive a trackable reference. During internal testing, we collect only what is needed to handle the submission.",
+      "Send a product idea, interface issue, or account request. Each submission gets a reference so you can check its status.",
     category: "Feedback type",
     categories: {
       product: "Product idea",
@@ -3504,9 +4031,9 @@ const feedbackCopy = {
     emailPlaceholder: "Used only if a reply is needed",
     submit: "Send feedback",
     submitting: "Sending…",
-    unavailableTitle: "Feedback API not deployed",
+    unavailableTitle: "Feedback is not available yet",
     unavailableBody:
-      "The form and storage API are complete. This public static site will not pretend a submission succeeded; the form activates when the public API is deployed.",
+      "The website is not connected to the feedback service yet. Your text stays on this page and is not sent.",
     validation: "Write at least 10 characters.",
     emailInvalid: "Enter a valid email address or leave the field empty.",
     failed: "We could not send this yet. Your text remains here so you can retry.",
@@ -3595,36 +4122,53 @@ function FeedbackPage({
 
   return (
     <main className="feedback-page page-enter" id="main-content">
-      <section className="feedback-heading shell">
-        <button
-          className="information-back"
-          type="button"
-          onClick={() => onNavigate("/")}
-        >
-          <CaretLeft size={17} />
-          {language === "zh" ? "返回首页" : "Back to home"}
-        </button>
-        <p className="kicker">{content.kicker}</p>
-        <h1>{content.title}</h1>
-        <p>{content.body}</p>
-      </section>
+      <PageSection className="feedback-heading-section" density="compact">
+        <PageContainer>
+          <div className="feedback-heading">
+            <button
+              className="information-back"
+              type="button"
+              onClick={() => onNavigate("/")}
+            >
+              <CaretLeft size={17} />
+              {language === "zh" ? "返回首页" : "Back to home"}
+            </button>
+            <Grid
+              className="feedback-heading-grid"
+              columns={{ initial: "1", md: "minmax(0, 1.12fr) minmax(18rem, 0.88fr)" }}
+              gap={{ initial: "4", md: "8" }}
+              align="end"
+            >
+              <div>
+                <p className="kicker">{content.kicker}</p>
+                <h1>{content.title}</h1>
+              </div>
+              <p>{content.body}</p>
+            </Grid>
+          </div>
+        </PageContainer>
+      </PageSection>
 
-      <section className="feedback-layout shell">
-        <form className="feedback-form" onSubmit={(event) => void submit(event)}>
+      <PageSection className="feedback-content-section" density="compact">
+        <PageContainer>
+          <Grid
+            className="feedback-layout"
+            columns={{ initial: "1", md: "minmax(0, 1.25fr) minmax(17rem, 0.75fr)" }}
+            gap={{ initial: "7", md: "9" }}
+            align="start"
+          >
+          <form className="feedback-form" onSubmit={(event) => void submit(event)}>
           <label>
             <span>{content.category}</span>
-            <select
+            <FigFoxSelect
               value={category}
-              onChange={(event) =>
-                setCategory(event.target.value as FeedbackEntry["category"])
-              }
-            >
-              {Object.entries(content.categories).map(([value, label]) => (
-                <option value={value} key={value}>
-                  {label}
-                </option>
-              ))}
-            </select>
+              ariaLabel={content.category}
+              options={Object.entries(content.categories).map(([value, label]) => ({
+                value: value as FeedbackEntry["category"],
+                label,
+              }))}
+              onValueChange={setCategory}
+            />
           </label>
           <label>
             <span>{content.message}</span>
@@ -3686,9 +4230,9 @@ function FeedbackPage({
             {submitState === "submitting" ? content.submitting : content.submit}
           </button>
           <p className="feedback-privacy">{content.privacy}</p>
-        </form>
+          </form>
 
-        <aside className="feedback-history">
+          <aside className="feedback-history">
           <p className="kicker">{content.history}</p>
           {entries.length > 0 ? (
             <ol>
@@ -3710,10 +4254,20 @@ function FeedbackPage({
               ))}
             </ol>
           ) : (
-            <p className="feedback-empty">{content.historyEmpty}</p>
+            <div className="feedback-empty">
+              <NotePencil size={24} weight="duotone" aria-hidden="true" />
+              <strong>{content.historyEmpty}</strong>
+              <span>
+                {language === "zh"
+                  ? "提交后，编号和处理状态会显示在这里。"
+                  : "References and status updates will appear here after you submit."}
+              </span>
+            </div>
           )}
-        </aside>
-      </section>
+          </aside>
+          </Grid>
+        </PageContainer>
+      </PageSection>
     </main>
   );
 }
@@ -3810,54 +4364,20 @@ function LoginDialog({
   onClose: () => void;
   onSelect: (identity: AuthChoice) => void;
 }) {
-  const firstButton = useRef<HTMLButtonElement>(null);
-  const dialogRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    if (!open) return;
-    firstButton.current?.focus();
-    const handleKeyDown = (event: KeyboardEvent) => {
-      if (event.key === "Escape") onClose();
-      if (event.key !== "Tab" || !dialogRef.current) return;
-      const controls = Array.from(
-        dialogRef.current.querySelectorAll<HTMLElement>(
-          'button, a[href], input, select, textarea, [tabindex]:not([tabindex="-1"])',
-        ),
-      );
-      if (!controls.length) return;
-      const first = controls[0];
-      const last = controls[controls.length - 1];
-      if (event.shiftKey && document.activeElement === first) {
-        event.preventDefault();
-        last.focus();
-      } else if (!event.shiftKey && document.activeElement === last) {
-        event.preventDefault();
-        first.focus();
-      }
-    };
-    document.addEventListener("keydown", handleKeyDown);
-    return () => document.removeEventListener("keydown", handleKeyDown);
-  }, [open, onClose]);
-
-  if (!open) return null;
   return (
-    <div className="modal-backdrop" onMouseDown={onClose}>
-      <div
-        className="login-dialog"
-        role="dialog"
-        aria-modal="true"
-        aria-labelledby="login-title"
-        ref={dialogRef}
-        onMouseDown={(event) => event.stopPropagation()}
-      >
-        <button className="dialog-close" type="button" aria-label={ui.auth.close} onClick={onClose}>
+    <Dialog.Root open={open} onOpenChange={(nextOpen) => !nextOpen && onClose()}>
+      <Dialog.Portal>
+        <Dialog.Backdrop className="modal-backdrop" />
+        <Dialog.Viewport className="dialog-viewport">
+          <Dialog.Popup className="login-dialog">
+        <Dialog.Close className="dialog-close" aria-label={ui.auth.close}>
           <X size={20} />
-        </button>
-        <p className="dialog-label">AutoDraftman</p>
-        <h2 id="login-title">{ui.auth.title}</h2>
-        <p>{ui.auth.body}</p>
+        </Dialog.Close>
+        <p className="dialog-label">FigFox</p>
+        <Dialog.Title id="login-title">{ui.auth.title}</Dialog.Title>
+        <Dialog.Description>{ui.auth.body}</Dialog.Description>
         <div className="login-actions">
-          {providers.map((provider, index) => {
+          {providers.map((provider) => {
             const enabled =
               apiConfigured && provider.enabled && provider.id !== "wechat";
             const label =
@@ -3876,7 +4396,6 @@ function LoginDialog({
             return (
               <button
                 key={provider.id}
-                ref={index === 0 ? firstButton : undefined}
                 className="oauth-button"
                 type="button"
                 disabled={busy || !enabled}
@@ -3911,8 +4430,10 @@ function LoginDialog({
         <p className="dialog-demo-note">
           {apiConfigured ? ui.auth.demo : ui.auth.noProvider}
         </p>
-      </div>
-    </div>
+          </Dialog.Popup>
+        </Dialog.Viewport>
+      </Dialog.Portal>
+    </Dialog.Root>
   );
 }
 
@@ -3949,7 +4470,6 @@ function AccountDialog({
   onLogout: () => void;
   onDeleteAccount: () => void;
 }) {
-  const dialogRef = useRef<HTMLDivElement>(null);
   const [deleteConfirmOpen, setDeleteConfirmOpen] = useState(false);
   const [preferenceSaved, setPreferenceSaved] = useState(false);
 
@@ -3957,13 +4477,7 @@ function AccountDialog({
     if (!open) return;
     setDeleteConfirmOpen(false);
     setPreferenceSaved(false);
-    dialogRef.current?.querySelector<HTMLButtonElement>("button")?.focus();
-    const closeOnEscape = (event: KeyboardEvent) => {
-      if (event.key === "Escape") onClose();
-    };
-    document.addEventListener("keydown", closeOnEscape);
-    return () => document.removeEventListener("keydown", closeOnEscape);
-  }, [open, onClose]);
+  }, [open]);
 
   if (!open || current?.kind !== "user") return null;
   const linkedProviders = new Set(identities.map((identity) => identity.provider));
@@ -3983,21 +4497,17 @@ function AccountDialog({
   } as const;
 
   return (
-    <div className="modal-backdrop" onMouseDown={onClose}>
-      <div
-        className="login-dialog account-dialog"
-        role="dialog"
-        aria-modal="true"
-        aria-labelledby="account-title"
-        ref={dialogRef}
-        onMouseDown={(event) => event.stopPropagation()}
-      >
-        <button className="dialog-close" type="button" aria-label={ui.auth.close} onClick={onClose}>
+    <Dialog.Root open={open} onOpenChange={(nextOpen) => !nextOpen && onClose()}>
+      <Dialog.Portal>
+        <Dialog.Backdrop className="modal-backdrop" />
+        <Dialog.Viewport className="dialog-viewport">
+          <Dialog.Popup className="login-dialog account-dialog">
+        <Dialog.Close className="dialog-close" aria-label={ui.auth.close}>
           <X size={20} />
-        </button>
-        <p className="dialog-label">AutoDraftman</p>
-        <h2 id="account-title">{ui.auth.accountTitle}</h2>
-        <p>{ui.auth.accountBody}</p>
+        </Dialog.Close>
+        <p className="dialog-label">FigFox</p>
+        <Dialog.Title id="account-title">{ui.auth.accountTitle}</Dialog.Title>
+        <Dialog.Description>{ui.auth.accountBody}</Dialog.Description>
         <div className="account-profile">
           {current.avatar_url ? (
             <img
@@ -4011,8 +4521,10 @@ function AccountDialog({
             <UserCircle size={34} />
           )}
           <div>
-            <strong>{current.display_name || "AutoDraftman user"}</strong>
-            <small>{current.balance.available} credits</small>
+            <strong>{current.display_name || ui.nav.account}</strong>
+            <small>
+              {ui.workspace.credits} {current.balance.available}
+            </small>
           </div>
         </div>
 
@@ -4067,20 +4579,21 @@ function AccountDialog({
               <strong>{ui.auth.defaultPrivacy}</strong>
               <small>{ui.auth.privacyHint}</small>
             </span>
-            <select
+            <FigFoxSelect
               value={current.default_visibility}
               disabled={busy}
-              onChange={(event) => {
-                const visibility = event.target.value as "private" | "public";
+              ariaLabel={ui.auth.defaultPrivacy}
+              options={[
+                { value: "private", label: ui.auth.defaultPrivate },
+                { value: "public", label: ui.auth.defaultPublic },
+              ]}
+              onValueChange={(visibility) => {
                 setPreferenceSaved(false);
                 void onDefaultVisibilityChange(visibility).then((saved) => {
                   setPreferenceSaved(saved);
                 });
               }}
-            >
-              <option value="private">{ui.auth.defaultPrivate}</option>
-              <option value="public">{ui.auth.defaultPublic}</option>
-            </select>
+            />
           </label>
           {preferenceSaved && (
             <p className="preference-saved" role="status">
@@ -4170,8 +4683,10 @@ function AccountDialog({
             </button>
           )}
         </section>
-      </div>
-    </div>
+          </Dialog.Popup>
+        </Dialog.Viewport>
+      </Dialog.Portal>
+    </Dialog.Root>
   );
 }
 

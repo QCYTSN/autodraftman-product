@@ -1,0 +1,164 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>FigFox SVG Editor</title>
+    <link href="./svgedit.css" rel="stylesheet" />
+    <style>
+      @font-face {
+        font-family: "Figtree Variable";
+        src: url("./figtree-latin-wght-normal.woff2") format("woff2-variations");
+        font-style: normal;
+        font-weight: 300 900;
+        font-display: swap;
+      }
+
+      :root {
+        --main-bg-color: #f8f7fa;
+        --text-color: #20152b;
+        --border-color: #ded9e5;
+        --canvas-bg-color: #eeecf2;
+        --link-color: #6b3df4;
+        --ruler-color: #f4f2f7;
+        --icon-bg-color: #fff;
+        --icon-bg-color-hover: #eee8ff;
+        --input-color: #fff;
+        --orange-color: #6b3df4;
+        --top-toolbar-min-height: 66px;
+      }
+
+      html, body, #container { width: 100%; height: 100%; margin: 0; overflow: hidden; }
+      .svg_editor {
+        grid-template-rows: minmax(0, 1fr);
+        grid-template-columns: minmax(0, 1fr);
+        grid-template-areas: "workarea";
+        font-family: "Figtree Variable", "Segoe UI", "Noto Sans SC", sans-serif;
+        font-size: 11px;
+        background: #f8f7fa;
+      }
+      .svg_editor.open { grid-template-columns: minmax(0, 1fr); }
+      #tools_left,
+      #tools_top,
+      #tools_bottom,
+      #cur_context_panel,
+      #main_button,
+      #title_panel,
+      #sidepanels,
+      #rulers {
+        display: none !important;
+      }
+      #workarea {
+        grid-area: workarea;
+        min-width: 0;
+        min-height: 0;
+        border: 0;
+        background: linear-gradient(#e7e4eb 1px, transparent 1px),
+          linear-gradient(90deg, #e7e4eb 1px, transparent 1px), #f0eef3;
+        background-size: 24px 24px;
+      }
+      #svgcanvas { background: transparent; }
+    </style>
+  </head>
+  <body>
+    <div id="container"></div>
+    <script src="./iife-Editor.js"></script>
+    <script>
+      const targetOrigin = window.location.origin;
+      const EditorCtor = (window.Editor && window.Editor.default) || window.Editor;
+      const editor = new EditorCtor(document.getElementById("container"));
+      const lang = new URLSearchParams(window.location.search).get("lang") || "en";
+
+      const send = (type, detail = {}) => {
+        window.parent.postMessage({ source: "figfox-svgedit", type, ...detail }, targetOrigin);
+      };
+
+      const normalizeColor = (value, fallback) => {
+        if (typeof value !== "string" || value.startsWith("url(")) return fallback;
+        if (value === "none" || value.startsWith("#")) return value;
+        return `#${value}`;
+      };
+
+      const sendState = () => {
+        const canvas = editor.svgCanvas;
+        const opacity = Number(canvas.getOpacity());
+        send("state", {
+          state: {
+            mode: canvas.getMode(),
+            hasSelection: Boolean(editor.selectedElement || editor.multiselected),
+            canUndo: canvas.undoMgr.getUndoStackSize() > 0,
+            canRedo: canvas.undoMgr.getRedoStackSize() > 0,
+            zoom: Math.round(canvas.getZoom() * 100),
+            fill: normalizeColor(canvas.getColor("fill"), "#ffffff"),
+            stroke: normalizeColor(canvas.getColor("stroke"), "#20152b"),
+            strokeWidth: Number(canvas.getStrokeWidth()) || 0,
+            opacity: Number.isFinite(opacity) ? Math.round(opacity * 100) : 100,
+          },
+        });
+      };
+
+      editor.setConfig({
+        lang,
+        imgPath: "./images/",
+        noDefaultExtensions: true,
+        extensions: [],
+        userExtensions: [],
+        showRulers: false,
+        no_save_warning: true,
+        canvas_expansion: 2,
+        initFill: { color: "ffffff", opacity: 1 },
+        initStroke: { color: "20152b", opacity: 1, width: 1 },
+      });
+
+      window.addEventListener("message", async (event) => {
+        if (event.source !== window.parent || event.origin !== targetOrigin) return;
+        if (event.data?.source !== "figfox-app") return;
+
+        if (event.data?.type === "command") {
+          try {
+            const canvas = editor.svgCanvas;
+            switch (event.data.command) {
+              case "set-mode": canvas.setMode(String(event.data.value)); break;
+              case "undo": canvas.undo(); break;
+              case "redo": canvas.redo(); break;
+              case "delete": canvas.deleteSelectedElements(); break;
+              case "fill": canvas.setColor("fill", String(event.data.value)); break;
+              case "stroke": canvas.setColor("stroke", String(event.data.value)); break;
+              case "stroke-width": canvas.setStrokeWidth(Number(event.data.value)); break;
+              case "opacity": canvas.setOpacity(Number(event.data.value) / 100); break;
+              case "zoom-in": editor.bottomPanel.changeZoom(String(Math.min(800, canvas.getZoom() * 120))); break;
+              case "zoom-out": editor.bottomPanel.changeZoom(String(Math.max(10, canvas.getZoom() * 80))); break;
+              case "fit-canvas": editor.bottomPanel.changeZoom("canvas"); break;
+            }
+            window.requestAnimationFrame(sendState);
+          } catch (error) {
+            send("error", { message: error instanceof Error ? error.message : "Editor command failed" });
+          }
+          return;
+        }
+
+        if (event.data?.type !== "load") return;
+        try {
+          await editor.loadFromString(event.data.markup, { noAlert: true });
+          editor.zoomChanged(null, "canvas");
+          send("loaded", { markup: editor.svgCanvas.getSvgString() });
+          sendState();
+        } catch (error) {
+          send("error", { message: error instanceof Error ? error.message : "SVG load failed" });
+        }
+      });
+
+      editor.init().then(() => {
+        editor.svgCanvas.bind("changed", () => {
+          send("changed", { markup: editor.svgCanvas.getSvgString() });
+          sendState();
+        });
+        editor.svgCanvas.bind("selected", sendState);
+        editor.svgCanvas.bind("zoomDone", sendState);
+        send("ready");
+      }).catch((error) => {
+        send("error", { message: error instanceof Error ? error.message : "SVG-Edit failed to initialize" });
+      });
+    </script>
+  </body>
+</html>

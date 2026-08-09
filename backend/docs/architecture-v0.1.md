@@ -1,4 +1,4 @@
-# AutoDraftman backend architecture v0.1
+# FigFox backend architecture v0.1
 
 ## Goal
 
