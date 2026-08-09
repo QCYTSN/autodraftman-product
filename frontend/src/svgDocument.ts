@@ -287,3 +287,13 @@ export async function importSvgDocument(file: File): Promise<ImportedSvgDocument
     sanitized: sourceHadUnsafeContent || removedReferences > 0,
   };
 }
+
+export async function sanitizeSvgMarkup(source: string, fileName = "figure.svg") {
+  const safeFileName = fileName.toLowerCase().endsWith(".svg")
+    ? fileName
+    : `${fileName}.svg`;
+  const document = await importSvgDocument(
+    new File([source], safeFileName, { type: "image/svg+xml" }),
+  );
+  return document.markup;
+}

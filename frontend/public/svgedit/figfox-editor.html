@@ -79,13 +79,142 @@
         return `#${value}`;
       };
 
+      const toNumber = (value, fallback = 0) => {
+        const parsed = Number.parseFloat(value);
+        return Number.isFinite(parsed) ? parsed : fallback;
+      };
+
+      const byId = (id) => {
+        try {
+          return editor.svgCanvas.$id(id) || document.getElementById(id);
+        } catch {
+          return document.getElementById(id);
+        }
+      };
+
+      const selectedElements = () =>
+        editor.svgCanvas.getSelectedElements().filter(Boolean);
+
+      let editingPathId = "";
+      let addingSubPath = false;
+      let linkedControls = false;
+
+      const selectedIds = () => {
+        const ids = new Set(selectedElements().map((element) => element.id));
+        if (editingPathId) {
+          ids.add(editingPathId);
+        }
+        return ids;
+      };
+
+      const getContentRoot = () => {
+        if (typeof editor.svgCanvas.getSvgContent === "function") {
+          return editor.svgCanvas.getSvgContent();
+        }
+        return byId("svgcontent");
+      };
+
+      const elementLabel = (element, index) => {
+        const title = Array.from(element.children || []).find(
+          (child) => child.tagName?.toLowerCase() === "title",
+        );
+        return (
+          element.getAttribute("data-name") ||
+          element.getAttribute("aria-label") ||
+          title?.textContent?.trim() ||
+          element.id ||
+          `${element.tagName?.toLowerCase() || "object"} ${index + 1}`
+        );
+      };
+
+      const collectLayers = () => {
+        const root = getContentRoot();
+        const activeIds = selectedIds();
+        if (!root) return [];
+        const items = [];
+        const structuralTags = new Set([
+          "defs", "title", "desc", "metadata", "style", "clippath", "mask",
+          "marker", "pattern", "lineargradient", "radialgradient", "filter",
+        ]);
+        const drawableTags = new Set([
+          "g", "a", "svg", "path", "rect", "circle", "ellipse", "line",
+          "polyline", "polygon", "text", "tspan", "textpath", "image", "use",
+        ]);
+        const visit = (element, depth) => {
+          const tag = element.tagName?.toLowerCase() || "";
+          if (!tag || structuralTags.has(tag)) return;
+          if (drawableTags.has(tag)) {
+            if (!element.id) element.id = editor.svgCanvas.getNextId();
+            items.push({
+              id: element.id,
+              label: elementLabel(element, items.length),
+              type: tag,
+              depth: Math.min(depth, 4),
+              hidden:
+                element.getAttribute("display") === "none" ||
+                element.style.display === "none" ||
+                element.getAttribute("visibility") === "hidden",
+              selected: activeIds.has(element.id),
+            });
+          }
+          Array.from(element.children || []).reverse().forEach((child) => visit(child, depth + 1));
+        };
+        Array.from(root.children).reverse().forEach((element) => visit(element, 0));
+        return items;
+      };
+
+      const selectionDetail = () => {
+        const element =
+          selectedElements()[0] ||
+          (editingPathId
+            ? editor.svgCanvas.getElement(editingPathId)
+            : null);
+        if (!element) return null;
+        let bbox = { x: 0, y: 0, width: 0, height: 0 };
+        try {
+          bbox = element.getBBox();
+        } catch {
+          // Hidden and non-rendered SVG nodes may not expose a box.
+        }
+        const transform = element.getAttribute("transform") || "";
+        const rotationMatch = transform.match(/rotate\(\s*(-?[\d.]+)/i);
+        const text = element.tagName.toLowerCase() === "text" ? element.textContent || "" : "";
+        return {
+          id: element.id || "",
+          type: element.tagName.toLowerCase(),
+          text,
+          x: toNumber(element.getAttribute("x"), bbox.x),
+          y: toNumber(element.getAttribute("y"), bbox.y),
+          width: toNumber(element.getAttribute("width"), bbox.width),
+          height: toNumber(element.getAttribute("height"), bbox.height),
+          rotation: rotationMatch ? toNumber(rotationMatch[1]) : 0,
+          radius: toNumber(element.getAttribute("rx"), 0),
+          fontFamily: element.getAttribute("font-family") || "Figtree",
+          fontSize: toNumber(element.getAttribute("font-size"), 24),
+          fontWeight: element.getAttribute("font-weight") || "normal",
+          fontStyle: element.getAttribute("font-style") || "normal",
+          textAnchor: element.getAttribute("text-anchor") || "start",
+          strokeDasharray: element.getAttribute("stroke-dasharray") || "none",
+          strokeLinecap: element.getAttribute("stroke-linecap") || "butt",
+          strokeLinejoin: element.getAttribute("stroke-linejoin") || "miter",
+          markerStart: element.getAttribute("marker-start") || "",
+          markerEnd: element.getAttribute("marker-end") || "",
+          blur:
+            typeof editor.svgCanvas.getBlur === "function"
+              ? Math.round(toNumber(editor.svgCanvas.getBlur(element)) * 10)
+              : 0,
+        };
+      };
+
       const sendState = () => {
         const canvas = editor.svgCanvas;
         const opacity = Number(canvas.getOpacity());
+        const selection = selectedElements();
+        const detail = selectionDetail();
         send("state", {
           state: {
-            mode: canvas.getMode(),
-            hasSelection: Boolean(editor.selectedElement || editor.multiselected),
+            mode: editingPathId ? "pathedit" : canvas.getMode(),
+            hasSelection: selection.length > 0 || Boolean(detail),
             canUndo: canvas.undoMgr.getUndoStackSize() > 0,
             canRedo: canvas.undoMgr.getRedoStackSize() > 0,
             zoom: Math.round(canvas.getZoom() * 100),
@@ -93,17 +222,132 @@
             stroke: normalizeColor(canvas.getColor("stroke"), "#20152b"),
             strokeWidth: Number(canvas.getStrokeWidth()) || 0,
             opacity: Number.isFinite(opacity) ? Math.round(opacity * 100) : 100,
+            selectionCount: selection.length || (detail ? 1 : 0),
+            selection: detail,
+            layers: collectLayers(),
+            gridVisible: Boolean(editor.configObj.curConfig.showGrid),
+            wireframe: editor.workarea.classList.contains("wireframe"),
           },
         });
+      };
+
+      const toolIds = {
+        select: "tool_select",
+        path: "tool_path",
+        fhpath: "tool_fhpath",
+        line: "tool_line",
+        rect: "tool_rect",
+        ellipse: "tool_ellipse",
+        text: "tool_text",
+        image: "tool_image",
+        zoom: "tool_zoom",
+        "ext-panning": "ext-panning",
+        connector: "tool_connect",
+        eyedropper: "tool_eyedropper",
+        polygon: "tool_polygon",
+        star: "tool_star",
+        shapelib: "tool_shapelib",
+      };
+
+      const activateMode = (mode) => {
+        if (mode !== "pathedit") {
+          if (addingSubPath && editingPathId) {
+            editor.svgCanvas.pathActions.addSubPath(false);
+          }
+          editingPathId = "";
+          addingSubPath = false;
+          linkedControls = false;
+        }
+        const button = byId(toolIds[mode]);
+        if (button && !button.disabled) {
+          button.click();
+        } else {
+          editor.svgCanvas.setMode(mode);
+        }
+      };
+
+      const enterPathEdit = () => {
+        const element = selectedElements()[0];
+        if (!element || element.tagName.toLowerCase() !== "path") return;
+        editingPathId = element.id || editor.svgCanvas.getNextId();
+        if (!element.id) element.id = editingPathId;
+        addingSubPath = false;
+        linkedControls = false;
+        editor.svgCanvas.pathActions.toEditMode(element);
+      };
+
+      const resumePathEdit = () => {
+        if (!editingPathId) return false;
+        if (addingSubPath) {
+          editor.svgCanvas.pathActions.addSubPath(false);
+          addingSubPath = false;
+        }
+        return true;
+      };
+
+      const selectLayer = (id) => {
+        const element = editor.svgCanvas.getElement(String(id));
+        if (!element) return;
+        activateMode("select");
+        editor.svgCanvas.selectOnly([element], true);
+      };
+
+      const toggleLayer = (id) => {
+        const element = editor.svgCanvas.getElement(String(id));
+        if (!element) return;
+        editor.svgCanvas.selectOnly([element], true);
+        const hidden =
+          element.getAttribute("display") === "none" || element.style.display === "none";
+        editor.svgCanvas.changeSelectedAttribute("display", hidden ? "inline" : "none");
+      };
+
+      const changeAttribute = (payload) => {
+        if (!payload || typeof payload !== "object") return;
+        const name = String(payload.name || "");
+        const value = payload.value;
+        if (!name || value === undefined || value === null) return;
+        if (name === "rotation") {
+          editor.svgCanvas.setRotationAngle(Number(value));
+        } else if (name === "radius") {
+          editor.svgCanvas.setRectRadius(Number(value));
+        } else if (name === "blur") {
+          editor.svgCanvas.setBlur(Number(value) / 10, true);
+        } else {
+          editor.svgCanvas.changeSelectedAttribute(name, value);
+        }
+      };
+
+      const changeMarker = (position, value) => {
+        if (typeof window.figfoxSetMarker === "function") {
+          window.figfoxSetMarker(position, String(value));
+          return;
+        }
+        const list = byId(`${position}_marker_list_opts`);
+        if (!list) return;
+        list.setAttribute("value", String(value));
+        list.dispatchEvent(
+          new CustomEvent("change", { detail: { value: String(value) }, bubbles: true }),
+        );
       };
 
       editor.setConfig({
         lang,
         imgPath: "./images/",
+        extPath: "./extensions",
         noDefaultExtensions: true,
-        extensions: [],
+        extensions: [
+          "ext-connector",
+          "ext-eyedropper",
+          "ext-grid",
+          "ext-markers",
+          "ext-panning",
+          "ext-shapes",
+          "ext-polystar",
+          "ext-layer_view",
+        ],
         userExtensions: [],
         showRulers: false,
+        noStorageOnLoad: true,
         no_save_warning: true,
         canvas_expansion: 2,
         initFill: { color: "ffffff", opacity: 1 },
@@ -118,10 +362,74 @@
           try {
             const canvas = editor.svgCanvas;
             switch (event.data.command) {
-              case "set-mode": canvas.setMode(String(event.data.value)); break;
-              case "undo": canvas.undo(); break;
-              case "redo": canvas.redo(); break;
+              case "set-mode": activateMode(String(event.data.value)); break;
+              case "undo": if (canvas.undoMgr.getUndoStackSize() > 0) canvas.undoMgr.undo(); break;
+              case "redo": if (canvas.undoMgr.getRedoStackSize() > 0) canvas.undoMgr.redo(); break;
+              case "select-all": canvas.selectAllInCurrentLayer(); break;
+              case "deselect": canvas.clearSelection(); break;
               case "delete": canvas.deleteSelectedElements(); break;
+              case "cut": canvas.cutSelectedElements(); break;
+              case "copy": canvas.copySelectedElements(); break;
+              case "paste": editor.pasteInCenter(); break;
+              case "duplicate": canvas.cloneSelectedElements(20, 20); break;
+              case "group": if (selectedElements().length > 1) canvas.groupSelectedElements(); break;
+              case "ungroup": if (selectedElements().length === 1) canvas.ungroupSelectedElement(); break;
+              case "bring-forward": canvas.moveUpDownSelected("Up"); break;
+              case "send-backward": canvas.moveUpDownSelected("Down"); break;
+              case "bring-front": canvas.moveToTopSelectedElement(); break;
+              case "send-back": canvas.moveToBottomSelectedElement(); break;
+              case "align-left": canvas.alignSelectedElements("left", selectedElements().length > 1 ? "selected" : "page"); break;
+              case "align-center": canvas.alignSelectedElements("center", selectedElements().length > 1 ? "selected" : "page"); break;
+              case "align-right": canvas.alignSelectedElements("right", selectedElements().length > 1 ? "selected" : "page"); break;
+              case "align-top": canvas.alignSelectedElements("top", selectedElements().length > 1 ? "selected" : "page"); break;
+              case "align-middle": canvas.alignSelectedElements("middle", selectedElements().length > 1 ? "selected" : "page"); break;
+              case "align-bottom": canvas.alignSelectedElements("bottom", selectedElements().length > 1 ? "selected" : "page"); break;
+              case "distribute-horizontal": canvas.alignSelectedElements("distrib_horiz", "selected"); break;
+              case "distribute-vertical": canvas.alignSelectedElements("distrib_verti", "selected"); break;
+              case "flip-horizontal": canvas.flipSelectedElements(-1, 1); break;
+              case "flip-vertical": canvas.flipSelectedElements(1, -1); break;
+              case "rotate-left": {
+                const element = selectedElements()[0];
+                if (element) canvas.setRotationAngle(canvas.getRotationAngle(element) - 15);
+                break;
+              }
+              case "rotate-right": {
+                const element = selectedElements()[0];
+                if (element) canvas.setRotationAngle(canvas.getRotationAngle(element) + 15);
+                break;
+              }
+              case "convert-path": canvas.convertToPath(); break;
+              case "reorient-path": canvas.pathActions.reorient(); break;
+              case "path-edit": enterPathEdit(); break;
+              case "path-node-clone": if (resumePathEdit()) editor.topPanel.clonePathNode(); break;
+              case "path-node-delete": if (resumePathEdit()) editor.topPanel.deletePathNode(); break;
+              case "path-open-close": if (resumePathEdit()) editor.topPanel.opencloseSubPath(); break;
+              case "path-add-subpath":
+                if (editingPathId) {
+                  addingSubPath = !addingSubPath;
+                  canvas.pathActions.addSubPath(addingSubPath);
+                }
+                break;
+              case "path-link-controls":
+                if (resumePathEdit()) {
+                  linkedControls = !linkedControls;
+                  canvas.pathActions.linkControlPoints(linkedControls);
+                }
+                break;
+              case "bold": editor.topPanel.clickBold(); break;
+              case "italic": editor.topPanel.clickItalic(); break;
+              case "underline": editor.topPanel.clickTextDecoration("underline"); break;
+              case "strike": editor.topPanel.clickTextDecoration("line-through"); break;
+              case "overline": editor.topPanel.clickTextDecoration("overline"); break;
+              case "toggle-grid":
+                if (typeof window.figfoxToggleGrid === "function") window.figfoxToggleGrid();
+                else byId("view_grid")?.click();
+                break;
+              case "toggle-wireframe":
+                editor.topPanel.clickWireframe();
+                editor.configObj.curConfig.wireframe = editor.workarea.classList.contains("wireframe");
+                break;
+              case "source": editor.topPanel.showSourceEditor(); break;
               case "fill": canvas.setColor("fill", String(event.data.value)); break;
               case "stroke": canvas.setColor("stroke", String(event.data.value)); break;
               case "stroke-width": canvas.setStrokeWidth(Number(event.data.value)); break;
@@ -129,16 +437,51 @@
               case "zoom-in": editor.bottomPanel.changeZoom(String(Math.min(800, canvas.getZoom() * 120))); break;
               case "zoom-out": editor.bottomPanel.changeZoom(String(Math.max(10, canvas.getZoom() * 80))); break;
               case "fit-canvas": editor.bottomPanel.changeZoom("canvas"); break;
+              case "fit-selection": editor.bottomPanel.changeZoom("selection"); break;
+              case "fit-content": editor.bottomPanel.changeZoom("content"); break;
+              case "select-layer": selectLayer(event.data.value); break;
+              case "toggle-layer": toggleLayer(event.data.value); break;
+              case "attribute": changeAttribute(event.data.value); break;
+              case "text-content": canvas.changeSelectedAttribute("#text", String(event.data.value)); break;
+              case "font-family": canvas.setFontFamily(String(event.data.value)); break;
+              case "font-size": canvas.setFontSize(Number(event.data.value)); break;
+              case "marker-start": changeMarker("start", event.data.value); break;
+              case "marker-mid": changeMarker("mid", event.data.value); break;
+              case "marker-end": changeMarker("end", event.data.value); break;
+              case "image-source": {
+                const source = String(event.data.value?.source || "");
+                const replace = Boolean(event.data.value?.replace);
+                if (source && replace && selectedElements()[0]?.tagName.toLowerCase() === "image") {
+                  canvas.setImageURL(source);
+                } else if (source) {
+                  canvas.lastGoodImgUrl = source;
+                  activateMode("image");
+                }
+                break;
+              }
+              case "shape-library": {
+                const pathData = String(event.data.value || "");
+                if (pathData) {
+                  window.figfoxShapePath = pathData;
+                  editingPathId = "";
+                  addingSubPath = false;
+                  canvas.setMode("shapelib");
+                }
+                break;
+              }
             }
             window.requestAnimationFrame(sendState);
           } catch (error) {
-            send("error", { message: error instanceof Error ? error.message : "Editor command failed" });
+            send("command-error", { message: error instanceof Error ? error.message : "Editor command failed" });
           }
           return;
         }
 
         if (event.data?.type !== "load") return;
         try {
+          editingPathId = "";
+          addingSubPath = false;
+          linkedControls = false;
           await editor.loadFromString(event.data.markup, { noAlert: true });
           editor.zoomChanged(null, "canvas");
           send("loaded", { markup: editor.svgCanvas.getSvgString() });
@@ -154,6 +497,8 @@
           sendState();
         });
         editor.svgCanvas.bind("selected", sendState);
+        editor.svgCanvas.bind("contextset", sendState);
+        editor.svgCanvas.bind("extension_added", sendState);
         editor.svgCanvas.bind("zoomDone", sendState);
         send("ready");
       }).catch((error) => {

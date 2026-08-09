@@ -116,6 +116,7 @@ import {
 } from "./components/editor/SvgEditHost";
 import {
   importSvgDocument,
+  sanitizeSvgMarkup,
   SvgImportError,
   type ImportedSvgDocument,
   type SvgImportErrorCode,
@@ -1488,197 +1489,176 @@ function HomePage({
 }) {
   const content = figFoxHomeCopy[language];
   const capabilityIcons = [TextT, ImageSquare, BezierCurve];
+  const [entryMode, setEntryMode] = useState<"create" | "rebuild">("create");
+  const [homePrompt, setHomePrompt] = useState("");
+  const zh = language === "zh";
 
   return (
-    <main className="home-page ff-home page-enter">
-      <PageSection className="ff-hero-section" density="standard">
+    <main className="home-page ff-home ff-home-v2 page-enter">
+      <PageSection className="ff-desk-hero" density="compact">
         <PageContainer>
-          <Grid
-            className="ff-hero"
-            columns={{ initial: "1", lg: "minmax(0, 0.82fr) minmax(0, 1.18fr)" }}
-            gap={{ initial: "7", lg: "9" }}
-            align="center"
-          >
-            <div className="ff-hero-copy">
+          <header className="ff-home-intro">
+            <div>
               <p className="ff-kicker">{content.kicker}</p>
               <h1>{content.title}</h1>
-              <p className="ff-hero-body">{content.body}</p>
-              <Flex className="hero-actions" gap="5" align="center" wrap="wrap">
-                <InternalLink
-                  className="button primary-button"
-                  href="/workspace"
-                  onNavigate={onNavigate}
-                >
-                  {content.primary}
-                  <ArrowRight size={18} />
-                </InternalLink>
-                <a className="text-link" href="#rebuild-proof">
-                  {content.secondary}
-                  <ArrowRight size={16} />
-                </a>
-              </Flex>
             </div>
-            <EditableFigureProof language={language} />
-          </Grid>
-        </PageContainer>
-      </PageSection>
+            <p>{content.body}</p>
+          </header>
 
-      <PageContainer>
-        <Grid
-          className="ff-principles"
-          columns={{ initial: "1", sm: "3" }}
-          aria-label="Product capabilities"
-        >
-          {content.principles.map((label, index) => {
-            const Icon = capabilityIcons[index];
-            return (
-              <p key={label}>
-                <span className="ff-principle-mark" aria-hidden="true">
-                  <Icon size={17} />
-                </span>
-                {label}
-              </p>
-            );
-          })}
-        </Grid>
-      </PageContainer>
+          <section className="ff-creation-desk" aria-label={zh ? "开始创建科研图" : "Start a scientific figure"}>
+            <div className="ff-desk-composer">
+              <div className="ff-desk-windowbar">
+                <span><i />FIGFOX / DRAFT</span>
+                <span>{zh ? "本地草稿" : "Local draft"}</span>
+              </div>
+              <Tabs.Root value={entryMode} onValueChange={(value) => setEntryMode(value as "create" | "rebuild")}>
+                <Tabs.List className="ff-desk-tabs">
+                  <Tabs.Tab value="create"><Plus size={16} />{figFoxWorkspaceCopy[language].create}</Tabs.Tab>
+                  <Tabs.Tab value="rebuild"><BezierCurve size={16} />{figFoxWorkspaceCopy[language].rebuild}</Tabs.Tab>
+                  <Tabs.Indicator className="ff-desk-tab-indicator" />
+                </Tabs.List>
+              </Tabs.Root>
 
-      <PageSection
-        className="ff-capability-section"
-        density="standard"
-        id="rebuild-proof"
-      >
-        <PageContainer>
-          <Grid
-            className="ff-section-heading"
-            columns={{ initial: "1", md: "minmax(0, 1.22fr) minmax(18rem, 0.78fr)" }}
-            gap={{ initial: "4", md: "8" }}
-            align="end"
-          >
-            <div>
-              <p className="ff-kicker">{content.capabilityKicker}</p>
-              <h2>{content.capabilityTitle}</h2>
-            </div>
-            <p>{content.capabilityBody}</p>
-          </Grid>
-          <Grid
-            className="ff-capability-grid"
-            columns={{ initial: "1", md: "minmax(16rem, 0.72fr) minmax(0, 1.28fr)" }}
-          >
-            {content.capabilities.map((capability, index) => {
-              const Icon = capabilityIcons[index];
-              return (
-                <article
-                  className={`ff-capability story-step ${index === 2 ? "primary" : ""}`}
-                  key={capability.label}
-                >
-                  <div className="ff-capability-top">
-                    <span>{capability.label}</span>
-                    <Icon size={22} />
+              {entryMode === "create" ? (
+                <div className="ff-desk-input">
+                  <label htmlFor="home-figure-prompt">{ui.workspace.promptLabel}</label>
+                  <textarea
+                    id="home-figure-prompt"
+                    rows={6}
+                    maxLength={1200}
+                    value={homePrompt}
+                    placeholder={ui.workspace.promptPlaceholder}
+                    onChange={(event) => setHomePrompt(event.target.value)}
+                  />
+                  <div className="ff-desk-input-meta">
+                    <span>{zh ? "写清对象、关系和重点就够了" : "Objects, relationships, and emphasis are enough"}</span>
+                    <span>{homePrompt.length} / 1200</span>
                   </div>
-                  <h3>{capability.title}</h3>
-                  <p>{capability.body}</p>
-                  {index === 2 && (
-                    <div className="ff-rebuild-track" aria-hidden="true">
-                      <span className="raster-block" />
-                      <span className="track-line" />
-                      <FigFoxMark className="track-mark" />
-                      <span className="track-line active" />
-                      <span className="vector-block" />
-                    </div>
-                  )}
-                </article>
-              );
+                </div>
+              ) : (
+                <button className="ff-desk-upload" type="button" onClick={() => onNavigate("/workspace")}>
+                  <UploadSimple size={24} weight="duotone" />
+                  <span><strong>{ui.workspace.uploadTitle}</strong><small>{ui.workspace.uploadBody}</small></span>
+                  <ArrowUpRight size={18} />
+                </button>
+              )}
+
+              <div className="ff-desk-actions">
+                <button className="button primary-button" type="button" onClick={() => onNavigate("/workspace")}>
+                  {entryMode === "create" ? content.primary : figFoxWorkspaceCopy[language].rebuildAction}
+                  <ArrowRight size={18} />
+                </button>
+                <span><LockKey size={14} />{zh ? "默认私密" : "Private by default"}</span>
+              </div>
+            </div>
+
+            <div className="ff-desk-proof">
+              <EditableFigureProof language={language} />
+            </div>
+          </section>
+
+          <div className="ff-desk-capabilities" aria-label={zh ? "创建方式" : "Creation routes"}>
+            {content.principles.map((label, index) => {
+              const Icon = capabilityIcons[index];
+              return <span key={label}><Icon size={17} />{label}<i>0{index + 1}</i></span>;
             })}
-          </Grid>
+          </div>
         </PageContainer>
       </PageSection>
 
-      <PageSection className="ff-editable-section" density="standard">
+      <PageSection className="ff-route-section" density="standard" id="rebuild-proof">
         <PageContainer>
-          <Grid
-            className="ff-editable-inner"
-            columns={{ initial: "1", lg: "minmax(18rem, 0.72fr) minmax(0, 1.28fr)" }}
-            gap={{ initial: "7", lg: "9" }}
-            align="center"
-          >
-            <div className="ff-editable-copy">
+          <header className="ff-route-heading">
+            <p className="ff-kicker">{content.capabilityKicker}</p>
+            <h2>{content.capabilityTitle}</h2>
+            <p>{content.capabilityBody}</p>
+          </header>
+
+          <div className="ff-route-board">
+            <nav className="ff-route-index" aria-label={content.capabilityKicker}>
+              {content.capabilities.map((capability, index) => (
+                <a href={`#route-${index + 1}`} key={capability.label}>
+                  <span>0{index + 1}</span>
+                  <strong>{capability.label}</strong>
+                  <small>{capability.title}</small>
+                </a>
+              ))}
+            </nav>
+            <div className="ff-route-content">
+              <article id="route-1" className="ff-route-story">
+                <span>01 / CREATE</span>
+                <div>
+                  <h3>{content.capabilities[0].title}</h3>
+                  <p>{content.capabilities[0].body}</p>
+                </div>
+                <blockquote>{ui.workspace.promptPlaceholder}</blockquote>
+              </article>
+              <article id="route-2" className="ff-route-story visual">
+                <span>02 / GUIDE</span>
+                <div>
+                  <h3>{content.capabilities[1].title}</h3>
+                  <p>{content.capabilities[1].body}</p>
+                </div>
+                <figure><img src={exampleArtifacts[0].src} alt={ui.examples.cases[0].alt} /></figure>
+              </article>
+              <article id="route-3" className="ff-route-story rebuild">
+                <span>03 / REBUILD</span>
+                <div>
+                  <h3>{content.capabilities[2].title}</h3>
+                  <p>{content.capabilities[2].body}</p>
+                </div>
+                <div className="ff-route-rebuild-track" aria-hidden="true">
+                  <span>{zh ? "图片" : "Image"}</span><i /><FigFoxMark /><i /><span>SVG</span>
+                </div>
+              </article>
+            </div>
+          </div>
+        </PageContainer>
+      </PageSection>
+
+      <PageSection className="ff-editor-story-section" density="standard">
+        <PageContainer>
+          <div className="ff-editor-story">
+            <div className="ff-editor-story-copy">
               <p className="ff-kicker">{content.editableKicker}</p>
               <h2>{content.editableTitle}</h2>
               <p>{content.editableBody}</p>
-              <Grid asChild columns={{ initial: "1", xs: "2" }} gap="3">
-                <ul>
-                  {content.editActions.map((action) => (
-                    <li key={action}>
-                      <Check size={15} weight="bold" />
-                      {action}
-                    </li>
-                  ))}
-                </ul>
-              </Grid>
+              <ul>
+                {content.editActions.map((action, index) => (
+                  <li key={action}><span>{String(index + 1).padStart(2, "0")}</span>{action}</li>
+                ))}
+              </ul>
             </div>
-            <EditableFigureProof language={language} />
-          </Grid>
+            <div className="ff-editor-story-proof">
+              <EditableFigureProof language={language} />
+              <div className="ff-editor-command-strip" aria-hidden="true">
+                <Selection size={17} /><VectorThree size={17} /><BoundingBox size={17} /><TextT size={17} /><PaintBrush size={17} /><Stack size={17} />
+              </div>
+            </div>
+          </div>
         </PageContainer>
       </PageSection>
 
-      <PageSection className="ff-agent-section" density="standard">
+      <PageSection className="ff-process-section" density="standard">
         <PageContainer>
-          <Grid
-            className="ff-agent-copy"
-            columns={{ initial: "1", md: "minmax(0, 1.15fr) minmax(18rem, 0.85fr)" }}
-            gap={{ initial: "4", md: "8" }}
-            align="end"
-          >
-            <div>
-              <p className="ff-kicker">{content.agentKicker}</p>
-              <h2>{content.agentTitle}</h2>
-            </div>
+          <div className="ff-process-head">
+            <div><p className="ff-kicker">{content.agentKicker}</p><h2>{content.agentTitle}</h2></div>
             <p>{content.agentBody}</p>
-          </Grid>
-          <Grid asChild columns={{ initial: "2", md: "4" }}>
-            <ol className="ff-agent-flow" aria-label={content.agentTitle}>
-              {content.agentStages.map((stage, index) => (
-                <li className="ff-agent-node" key={stage}>
-                  <span>{String(index + 1).padStart(2, "0")}</span>
-                  <strong>{stage}</strong>
-                </li>
-              ))}
-            </ol>
-          </Grid>
-        </PageContainer>
-      </PageSection>
-
-      <PageSection className="ff-integrity-section" density="compact">
-        <PageContainer>
-          <Grid
-            className="ff-integrity-grid"
-            columns={{ initial: "auto 1fr", md: "auto minmax(16rem, 0.62fr) minmax(20rem, 1.38fr)" }}
-            gap={{ initial: "4", md: "7" }}
-            align="center"
-          >
-            <LockKey size={26} />
-            <h2>{content.integrityTitle}</h2>
-            <p>{content.integrityBody}</p>
-          </Grid>
+          </div>
+          <ol className="ff-process-line">
+            {content.agentStages.map((stage, index) => (
+              <li key={stage}><span>{String(index + 1).padStart(2, "0")}</span><strong>{stage}</strong></li>
+            ))}
+          </ol>
+          <div className="ff-privacy-line"><LockKey size={22} /><strong>{content.integrityTitle}</strong><p>{content.integrityBody}</p></div>
         </PageContainer>
       </PageSection>
 
       <PageSection className="ff-closing-section" density="compact">
         <PageContainer>
           <Flex className="ff-closing" align="end" justify="between" gap="7" wrap="wrap">
-            <div>
-              <h2>{content.closingTitle}</h2>
-              <p>{content.closingBody}</p>
-            </div>
-            <InternalLink
-              className="button primary-button"
-              href="/workspace"
-              onNavigate={onNavigate}
-            >
-              {content.primary}
-              <ArrowRight size={18} />
-            </InternalLink>
+            <div><h2>{content.closingTitle}</h2><p>{content.closingBody}</p></div>
+            <InternalLink className="button primary-button" href="/workspace" onNavigate={onNavigate}>{content.primary}<ArrowRight size={18} /></InternalLink>
           </Flex>
         </PageContainer>
       </PageSection>
@@ -1701,88 +1681,71 @@ function ExamplesPage({
     ...artifact,
     ...ui.examples.cases[index],
   }));
+  const [activeIndex, setActiveIndex] = useState(0);
+  const activeExample = examples[activeIndex] ?? examples[0];
+  const zh = language === "zh";
 
   return (
-    <main className="examples-page page-enter">
-      <PageSection className="examples-hero-section" density="compact">
+    <main className="examples-page ff-library-page page-enter">
+      <PageSection className="ff-library-section" density="compact" ariaLabel={ui.nav.examples}>
         <PageContainer>
-          <Grid
-            className="examples-hero"
-            columns={{ initial: "1", md: "minmax(0, 1.15fr) minmax(19rem, 0.85fr)" }}
-            gap={{ initial: "6", md: "9" }}
-            align="end"
-          >
-            <h1>{ui.examples.title}</h1>
-            <div className="examples-hero-copy">
-              <p>{ui.examples.body}</p>
-              <Flex className="examples-notice" gap="3" align="start">
-                <FileImage size={19} weight="duotone" />
-                <p>{ui.examples.notice}</p>
-              </Flex>
+          <header className="ff-library-heading">
+            <div>
+              <p className="ff-kicker">{ui.examples.kicker}</p>
+              <h1>{ui.examples.title}</h1>
             </div>
-          </Grid>
-        </PageContainer>
-      </PageSection>
+            <div>
+              <p>{ui.examples.body}</p>
+              <span><FileImage size={16} />{ui.examples.notice}</span>
+            </div>
+          </header>
 
-      <PageSection
-        className="examples-gallery-section"
-        density="standard"
-        ariaLabel={ui.nav.examples}
-      >
-        <PageContainer>
-          <Flex className="examples-gallery" direction="column" gap={{ initial: "7", md: "9" }}>
-            {examples.map((example, index) => (
-              <Grid
-                asChild
-                columns={{ initial: "1", md: "minmax(0, 1.28fr) minmax(19rem, 0.72fr)" }}
-                gap={{ initial: "5", md: "8" }}
-                key={example.id}
-              >
-                <article className={`example-case example-case-${index + 1}`}>
-                  <header className="example-case-heading">
-                    <div>
-                      <span>{String(index + 1).padStart(2, "0")}</span>
-                      <p>{example.category}</p>
-                    </div>
-                    <span>{ui.examples.artifact}</span>
-                  </header>
-                  <figure className="example-case-figure">
-                    <div className="example-case-visual">
-                      <img
-                        src={example.src}
-                        alt={example.alt}
-                        width={example.width}
-                        height={example.height}
-                      />
-                    </div>
-                    <figcaption className="example-visual-meta">
-                      <span>
-                        FIGURE / {String(index + 1).padStart(2, "0")}
-                      </span>
-                      <span>{example.meta}</span>
-                    </figcaption>
-                  </figure>
-                  <div className="example-case-copy">
-                    <div>
-                      <h2>{example.title}</h2>
-                      <p>{example.description}</p>
-                    </div>
-                    <blockquote>{example.prompt}</blockquote>
-                    <div className="example-case-footer">
-                      <button
-                        className="text-link"
-                        type="button"
-                        onClick={() => onNavigate("/workspace")}
-                      >
-                        {ui.examples.openWorkspace}
-                        <ArrowRight size={17} />
-                      </button>
-                    </div>
-                  </div>
-                </article>
-              </Grid>
-            ))}
-          </Flex>
+          <section className="ff-library-shell">
+            <aside className="ff-library-index" aria-label={zh ? "案例列表" : "Example list"}>
+              <header><span>{zh ? "研发案例" : "R&D collection"}</span><strong>{String(examples.length).padStart(2, "0")}</strong></header>
+              <div className="ff-library-items">
+                {examples.map((example, index) => (
+                  <button
+                    type="button"
+                    className="ff-library-item"
+                    data-active={index === activeIndex}
+                    aria-current={index === activeIndex ? "true" : undefined}
+                    onClick={() => setActiveIndex(index)}
+                    key={example.id}
+                  >
+                    <span className="ff-library-thumb"><img src={example.src} alt="" /></span>
+                    <span><small>{String(index + 1).padStart(2, "0")} · {example.category}</small><strong>{example.title}</strong></span>
+                    <CaretRight size={15} />
+                  </button>
+                ))}
+              </div>
+              <button className="ff-library-start" type="button" onClick={() => onNavigate("/workspace")}>
+                <Plus size={17} />{ui.examples.openWorkspace}<ArrowRight size={16} />
+              </button>
+            </aside>
+
+            <article className="ff-library-detail" key={activeExample.id}>
+              <header className="ff-library-detailbar">
+                <span><i />FIGURE / {String(activeIndex + 1).padStart(2, "0")}</span>
+                <span>{activeExample.ratio} · {activeExample.format}</span>
+              </header>
+              <figure className={`ff-library-canvas ratio-${activeExample.ratio.replace(":", "-")}`}>
+                <img src={activeExample.src} alt={activeExample.alt} width={activeExample.width} height={activeExample.height} />
+              </figure>
+              <div className="ff-library-copy">
+                <div className="ff-library-description">
+                  <p>{activeExample.category}</p>
+                  <h2>{activeExample.title}</h2>
+                  <span>{activeExample.description}</span>
+                </div>
+                <blockquote><small>{zh ? "输入说明" : "Source prompt"}</small>{activeExample.prompt}</blockquote>
+                <footer>
+                  <span>{activeExample.meta}</span>
+                  <button type="button" onClick={() => onNavigate("/workspace")}>{zh ? "按这个结构开始" : "Start from this structure"}<ArrowUpRight size={16} /></button>
+                </footer>
+              </div>
+            </article>
+          </section>
         </PageContainer>
       </PageSection>
 
@@ -2251,6 +2214,11 @@ function SvgEditorPanel({
     stroke: "#20152b",
     strokeWidth: 1,
     opacity: 100,
+    selectionCount: 0,
+    selection: null,
+    layers: [],
+    gridVisible: false,
+    wireframe: false,
   });
 
   if (!svgDocument) {
@@ -2292,6 +2260,10 @@ function SvgEditorPanel({
         ready={editorReady}
         state={editorState}
         editor={editorRef.current}
+        sourceMarkup={editedMarkup || svgDocument.markup}
+        onSourceApply={async (source) => {
+          onMarkupChange(await sanitizeSvgMarkup(source, svgDocument.fileName));
+        }}
       >
         <SvgEditHost
           ref={editorRef}
@@ -3098,7 +3070,7 @@ function WorkspacePage({
 
   return (
     <main
-      className={`workspace-page page-enter ${
+      className={`workspace-page ff-workspace-v2 page-enter ${
         historyCollapsed ? "history-collapsed" : ""
       }`}
     >
@@ -3243,13 +3215,14 @@ function WorkspacePage({
         <header className="workspace-heading">
           <div className="workspace-heading-copy">
             <div className="workspace-heading-topline">
+              <span className="workspace-context-label">{ui.workspace.draftLabel}</span>
               <span className="kernel-status">
                 <i aria-hidden="true" />
                 {ui.workspace.kernelPending}
               </span>
             </div>
             <div className="workspace-title-line">
-              <h1>{ui.workspace.title}</h1>
+              <h1>{activeDraftTitle?.trim() || ui.workspace.draftUntitled}</h1>
               <span className={`draft-save-state ${draftSaveState}`}>
                 {draftSaveLabel}
               </span>

@@ -8,11 +8,53 @@ import {
 
 export type SvgEditMode =
   | "select"
+  | "pathedit"
+  | "path"
   | "fhpath"
   | "line"
   | "rect"
   | "ellipse"
-  | "text";
+  | "text"
+  | "image"
+  | "zoom"
+  | "ext-panning"
+  | "connector"
+  | "eyedropper"
+  | "polygon"
+  | "star"
+  | "shapelib";
+
+export type SvgEditLayer = {
+  id: string;
+  label: string;
+  type: string;
+  depth: number;
+  hidden: boolean;
+  selected: boolean;
+};
+
+export type SvgEditSelection = {
+  id: string;
+  type: string;
+  text: string;
+  x: number;
+  y: number;
+  width: number;
+  height: number;
+  rotation: number;
+  radius: number;
+  fontFamily: string;
+  fontSize: number;
+  fontWeight: string;
+  fontStyle: string;
+  textAnchor: string;
+  strokeDasharray: string;
+  strokeLinecap: string;
+  strokeLinejoin: string;
+  markerStart: string;
+  markerEnd: string;
+  blur: number;
+};
 
 export type SvgEditState = {
   mode: SvgEditMode;
@@ -24,7 +66,73 @@ export type SvgEditState = {
   stroke: string;
   strokeWidth: number;
   opacity: number;
+  selectionCount: number;
+  selection: SvgEditSelection | null;
+  layers: SvgEditLayer[];
+  gridVisible: boolean;
+  wireframe: boolean;
 };
+
+export type SvgEditCommand =
+  | "undo"
+  | "redo"
+  | "select-all"
+  | "deselect"
+  | "delete"
+  | "cut"
+  | "copy"
+  | "paste"
+  | "duplicate"
+  | "group"
+  | "ungroup"
+  | "bring-forward"
+  | "send-backward"
+  | "bring-front"
+  | "send-back"
+  | "align-left"
+  | "align-center"
+  | "align-right"
+  | "align-top"
+  | "align-middle"
+  | "align-bottom"
+  | "distribute-horizontal"
+  | "distribute-vertical"
+  | "flip-horizontal"
+  | "flip-vertical"
+  | "rotate-left"
+  | "rotate-right"
+  | "convert-path"
+  | "reorient-path"
+  | "path-edit"
+  | "path-node-clone"
+  | "path-node-delete"
+  | "path-open-close"
+  | "path-add-subpath"
+  | "path-link-controls"
+  | "bold"
+  | "italic"
+  | "underline"
+  | "strike"
+  | "overline"
+  | "toggle-grid"
+  | "toggle-wireframe"
+  | "source"
+  | "zoom-in"
+  | "zoom-out"
+  | "fit-canvas"
+  | "fit-selection"
+  | "fit-content"
+  | "select-layer"
+  | "toggle-layer"
+  | "attribute"
+  | "text-content"
+  | "font-family"
+  | "font-size"
+  | "marker-start"
+  | "marker-mid"
+  | "marker-end"
+  | "image-source"
+  | "shape-library";
 
 export type SvgEditHandle = {
   setMode: (mode: SvgEditMode) => void;
@@ -38,6 +146,7 @@ export type SvgEditHandle = {
   zoomIn: () => void;
   zoomOut: () => void;
   fitCanvas: () => void;
+  execute: (command: SvgEditCommand, value?: unknown) => void;
 };
 
 type SvgEditHostProps = {
@@ -69,6 +178,7 @@ function SvgEditHost({
   const frameRef = useRef<HTMLIFrameElement>(null);
   const latestMarkupRef = useRef(markup);
   const lastEditorMarkupRef = useRef("");
+  const editorMarkupQueueRef = useRef(new Set<string>());
   const onMarkupChangeRef = useRef(onMarkupChange);
   const onReadyChangeRef = useRef(onReadyChange);
   const onStateChangeRef = useRef(onStateChange);
@@ -83,7 +193,7 @@ function SvgEditHost({
     onStateChangeRef.current = onStateChange;
   }, [onMarkupChange, onReadyChange, onStateChange]);
 
-  const sendCommand = (command: string, value?: string | number) => {
+  const sendCommand = (command: string, value?: unknown) => {
     frameRef.current?.contentWindow?.postMessage(
       { source: "figfox-app", type: "command", command, value },
       window.location.origin,
@@ -102,12 +212,14 @@ function SvgEditHost({
     zoomIn: () => sendCommand("zoom-in"),
     zoomOut: () => sendCommand("zoom-out"),
     fitCanvas: () => sendCommand("fit-canvas"),
+    execute: (command, value) => sendCommand(command, value),
   }));
 
   useEffect(() => {
     setFrameReady(false);
     setError("");
     lastEditorMarkupRef.current = "";
+    editorMarkupQueueRef.current.clear();
     onReadyChangeRef.current(false);
 
     function receiveMessage(event: MessageEvent<SvgEditFrameMessage>) {
@@ -131,6 +243,11 @@ function SvgEditHost({
       }
       if (event.data.type === "changed" && event.data.markup) {
         lastEditorMarkupRef.current = event.data.markup;
+        editorMarkupQueueRef.current.add(event.data.markup);
+        if (editorMarkupQueueRef.current.size > 24) {
+          const oldestMarkup = editorMarkupQueueRef.current.values().next().value;
+          if (oldestMarkup) editorMarkupQueueRef.current.delete(oldestMarkup);
+        }
         onMarkupChangeRef.current(event.data.markup);
       }
       if (event.data.type === "state" && event.data.state) {
@@ -150,7 +267,12 @@ function SvgEditHost({
   }, [language]);
 
   useEffect(() => {
-    if (!frameReady || markup === lastEditorMarkupRef.current) return;
+    if (!frameReady) return;
+    if (editorMarkupQueueRef.current.delete(markup)) {
+      lastEditorMarkupRef.current = markup;
+      return;
+    }
+    if (markup === lastEditorMarkupRef.current) return;
     onReadyChangeRef.current(false);
     frameRef.current?.contentWindow?.postMessage(
       { source: "figfox-app", type: "load", markup },

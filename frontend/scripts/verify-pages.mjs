@@ -32,6 +32,7 @@ for (const route of [
   "/examples",
   "/pricing",
   "/workspace",
+  "/editor",
   "/docs",
   "/feedback",
   "/privacy",
