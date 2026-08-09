@@ -14,7 +14,7 @@ class Settings(BaseSettings):
         extra="ignore",
     )
 
-    app_name: str = "AutoDraftman API"
+    app_name: str = "FigFox API"
     environment: Literal["development", "test", "production"] = "development"
     database_url: str = "postgresql+asyncpg://autodraftman:autodraftman@localhost:5432/autodraftman"
     database_pool_size: int = 10
@@ -61,7 +61,7 @@ class Settings(BaseSettings):
     @classmethod
     def require_postgresql(cls, value: str) -> str:
         if not value.startswith(("postgresql://", "postgresql+asyncpg://")):
-            raise ValueError("AutoDraftman requires PostgreSQL; SQLite is not supported.")
+            raise ValueError("FigFox requires PostgreSQL; SQLite is not supported.")
         if value.startswith("postgresql://"):
             return value.replace("postgresql://", "postgresql+asyncpg://", 1)
         return value

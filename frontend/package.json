@@ -1,5 +1,5 @@
 {
-  "name": "autodraftman-frontend",
+  "name": "figfox-frontend",
   "version": "0.1.0",
   "private": true,
   "type": "module",
@@ -10,16 +10,19 @@
     "preview": "vite preview --host 127.0.0.1",
     "review": "node scripts/run-visual-review.mjs",
     "review:quality": "node scripts/run-quality.mjs",
-    "review:pages": "node scripts/verify-pages.mjs"
+    "review:pages": "node scripts/run-pages-review.mjs"
   },
   "dependencies": {
-    "@fontsource-variable/ibm-plex-sans": "^5.3.0",
-    "@fontsource-variable/newsreader": "^5.3.0",
-    "@fontsource-variable/noto-serif-sc": "^5.3.0",
+    "@base-ui/react": "^1.7.0",
+    "@fontsource-variable/figtree": "^5.3.0",
+    "@fontsource-variable/noto-sans-sc": "^5.3.0",
     "@phosphor-icons/react": "^2.1.10",
-    "dompurify": "^3.4.12",
+    "@radix-ui/themes": "^3.3.0",
+    "dompurify": "^3.4.13",
+    "motion": "^13.0.0",
     "react": "^19.1.1",
-    "react-dom": "^19.1.1"
+    "react-dom": "^19.1.1",
+    "svgedit": "^7.4.2"
   },
   "devDependencies": {
     "@types/react": "^19.1.10",

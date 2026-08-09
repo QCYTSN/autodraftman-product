@@ -5,7 +5,7 @@ build-backend = "hatchling.build"
 [project]
 name = "autodraftman-backend"
 version = "0.1.0"
-description = "Product backend foundation for AutoDraftman"
+description = "Product backend foundation for FigFox"
 readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [

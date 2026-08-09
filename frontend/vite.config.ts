@@ -6,7 +6,7 @@ export default defineConfig(({ mode }) => {
   return {
     base:
       env.VITE_PUBLIC_BASE_PATH ||
-      (mode === "github-pages" ? "/autodraftman/" : "/"),
+      (mode === "github-pages" ? "/figfox/" : "/"),
     plugins: [react()],
   };
 });

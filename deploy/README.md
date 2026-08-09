@@ -5,7 +5,7 @@ The development Compose file is not a production deployment.
 The first shared environment will contain:
 
 1. HTTPS reverse proxy
-2. AutoDraftman API container
+2. FigFox API container
 3. PostgreSQL with private networking and automated backups
 4. S3-compatible object storage for reference and result images
 5. Error monitoring and health checks

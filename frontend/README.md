@@ -1,6 +1,6 @@
-# AutoDraftman Frontend
+# FigFox Frontend
 
-这是 AutoDraftman 的本地产品前端，包含中英双语首页、生成工作台、登录选择和定价页。
+这是 FigFox 的本地产品前端，包含中英双语首页、生成工作台、登录选择和定价页。
 游客身份与额度已连接本地 FastAPI 和 PostgreSQL。
 
 ## 本地运行

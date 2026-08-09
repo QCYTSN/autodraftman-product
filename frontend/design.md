@@ -1,11 +1,11 @@
-# AutoDraftman design system
+# FigFox design system
 
-This file records the visual decisions shared by the local AutoDraftman product.
+This file records the visual decisions shared by the local FigFox product.
 `tokens.css` is the canonical runtime source for exact values.
 
 ## Design thesis
 
-AutoDraftman combines two related voices:
+FigFox combines two related voices:
 
 - The public site is a warm scientific editorial: calm, selective, and human.
 - The workspace is a precise drafting instrument: denser, quieter, and clearly

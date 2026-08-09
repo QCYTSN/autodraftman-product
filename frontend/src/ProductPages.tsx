@@ -8,7 +8,9 @@ import {
   LockKey,
   WarningCircle,
 } from "@phosphor-icons/react";
+import { Flex, Grid } from "@radix-ui/themes";
 import type { MouseEvent as ReactMouseEvent } from "react";
+import { PageContainer, PageSection } from "./components/layout/FigFoxLayout";
 
 export type ProductLanguage = "zh" | "en";
 export type ProductRoute =
@@ -57,7 +59,7 @@ const pageCopy: Record<
       eyebrow: "研究资料，由你掌握",
       title: "隐私政策",
       introduction:
-        "这份政策说明 AutoDraftman 在内部测试阶段会处理哪些资料、为什么处理，以及你如何查看、公开或删除自己的内容。",
+        "这份政策说明 FigFox 在内部测试阶段会处理哪些资料、为什么处理，以及你如何查看、公开或删除自己的内容。",
       status: "草案 0.1 · 更新于 2026 年 7 月 28 日",
       notice:
         "当前为内部测试版本。经营主体、正式联系地址、部署地区和实际生图服务商将在公开测试前补充并接受法律审核。",
@@ -78,7 +80,7 @@ const pageCopy: Record<
             "排查失败请求、阻止滥用，并以汇总数据了解产品是否稳定。",
             "执行你主动选择的公开展示、删除或账户注销操作。",
           ],
-          note: "我们不会出售你的研究资料，也不会将私密提示词、参考图或结果用于训练 AutoDraftman 自有模型。",
+          note: "我们不会出售你的研究资料，也不会将私密提示词、参考图或结果用于训练 FigFox 自有模型。",
         },
         {
           title: "生成服务与第三方",
@@ -127,7 +129,7 @@ const pageCopy: Record<
       eyebrow: "内部测试使用约定",
       title: "用户协议",
       introduction:
-        "本协议描述你在使用 AutoDraftman 时与产品团队之间的基本约定。当前版本不收费，也不承诺正式商业服务的可用性。",
+        "本协议描述你在使用 FigFox 时与产品团队之间的基本约定。当前版本不收费，也不承诺正式商业服务的可用性。",
       status: "草案 0.1 · 更新于 2026 年 7 月 28 日",
       notice:
         "公开收费前还需要补充签约主体、适用法律、退款和争议处理条款。当前文本仅用于内部测试和产品评审。",
@@ -143,7 +145,7 @@ const pageCopy: Record<
           title: "账户与登录",
           items: [
             "游客可以浏览和输入；点击生成时可以登录或使用一次游客体验。",
-            "Google、GitHub 以及未来的微信身份可以绑定到同一个 AutoDraftman 账户。",
+            "Google、GitHub 以及未来的微信身份可以绑定到同一个 FigFox 账户。",
             "你应保护自己的登录渠道，并对账户中的操作负责。",
             "不得出售、出租、批量注册或绕过游客额度与访问限制。",
           ],
@@ -151,7 +153,7 @@ const pageCopy: Record<
         {
           title: "你的输入与结果",
           paragraphs: [
-            "你保留对自己合法拥有的输入资料的权利，并授权 AutoDraftman 仅为提供服务而存储和处理这些资料。",
+            "你保留对自己合法拥有的输入资料的权利，并授权 FigFox 仅为提供服务而存储和处理这些资料。",
             "在法律允许的范围内，你可以将生成结果用于合法的研究、教学、展示或商业工作；但我们不保证任何结果自动获得著作权、专利权或投稿资格。",
           ],
           note: "你必须核查科学准确性、标签、单位、引用和期刊披露要求。生成结果不能替代研究判断。",
@@ -169,7 +171,7 @@ const pageCopy: Record<
           title: "测试服务",
           paragraphs: [
             "内部测试版可能中断、修改或重置数据。团队会尽力保护资料，但暂不提供服务等级、永久保存或无错误运行保证。",
-            "重要研究文件必须由用户自行保留原始副本，不应把 AutoDraftman 当作唯一存档位置。",
+            "重要研究文件必须由用户自行保留原始副本，不应把 FigFox 当作唯一存档位置。",
           ],
         },
         {
@@ -182,7 +184,7 @@ const pageCopy: Record<
         {
           title: "责任边界与后续变更",
           paragraphs: [
-            "你对输入来源、研究结论和结果的最终使用负责。AutoDraftman 不提供医疗、法律、投稿或研究伦理结论。",
+            "你对输入来源、研究结论和结果的最终使用负责。FigFox 不提供医疗、法律、投稿或研究伦理结论。",
             "商业化前，本协议会根据经营主体、服务地区、支付方式和生成服务商更新，并重新提示用户确认。",
           ],
         },
@@ -192,7 +194,7 @@ const pageCopy: Record<
       eyebrow: "清楚表达，也要负责任",
       title: "内容使用规则",
       introduction:
-        "AutoDraftman 服务科研表达，但不会替用户判断资料是否合法、结论是否准确或图片是否适合发表。",
+        "FigFox 服务科研表达，但不会替用户判断资料是否合法、结论是否准确或图片是否适合发表。",
       status: "草案 0.1 · 更新于 2026 年 7 月 28 日",
       notice:
         "以下规则同时适用于提示词、参考图、生成结果、公开内容和对服务的自动化调用。",
@@ -226,7 +228,7 @@ const pageCopy: Record<
         {
           title: "公开展示",
           items: [
-            "公开是主动选择，不代表 AutoDraftman 对内容准确性或权利状态的认可。",
+            "公开是主动选择，不代表 FigFox 对内容准确性或权利状态的认可。",
             "公开内容不得包含个人信息、保密资料、未经授权的论文图或机构内部信息。",
             "用户删除或取消公开后，我们会立即停止公开访问。",
           ],
@@ -241,75 +243,73 @@ const pageCopy: Record<
       ],
     },
     "/docs": {
-      eyebrow: "AutoDraftman 使用指南",
-      title: "从研究描述到第一张图",
+      eyebrow: "使用指南",
+      title: "第一次用 FigFox，从这里开始。",
       introduction:
-        "这份短指南解释当前工作台的输入方式、账户规则和数据处理。生图内核尚未接入，因此示例只说明已经确定的产品流程。",
-      status: "内部文档 0.1 · 随产品更新",
+        "你可以从一句描述开始，也可以上传已有图片做重建。下面只讲当前版本里真正能看到、能操作的流程。",
+      status: "随产品更新",
       notice:
-        "当前公开网页是静态预览。真实登录、文件保存和额度将在公网后端部署后启用；真实生成将在内核接口确定后启用。",
+        "生成服务还没接通。工作台目前可以保存草稿、上传参考图，并在浏览器里打开和编辑 SVG。",
       action: {
         label: "打开工作台",
         route: "/workspace",
       },
       sections: [
         {
-          title: "选择输入方式",
+          title: "先选：新建还是重建",
           items: [
-            "文字生成：只描述研究对象、关系、方向和视觉重点。",
-            "文字 + 参考图：在文字之外上传一张用于说明构图或风格方向的图片。",
-            "参考图用于校准，不应要求复制他人的具体作品、标识或受保护内容。",
+            "新建：写一段描述，让 FigFox 从头画一张图。需要时可以再加参考图。",
+            "重建：上传已有图片，识别其中的文字、图形和连线，再重建成可编辑 SVG。",
+            "如果只是想沿用构图，而不是修改原图，选择新建并添加参考图。",
           ],
         },
         {
-          title: "写一个清楚的提示词",
+          title: "描述不用写得像提示词",
           items: [
-            "先写要表达的研究关系，再写构图和视觉风格。",
-            "明确对象名称、连接方式、先后顺序、重点区域和需要出现的标签。",
-            "避免一次塞入互相冲突的风格、过多对象或无法验证的结论。",
+            "先写图里有哪些对象，再写它们之间的关系。",
+            "需要固定方向、分组、颜色或标签时，再把这些要求补上。",
+            "一句话说不清可以分行写，不需要堆“专业、清晰、高级”之类的形容词。",
           ],
-          note: "示例：绘制一个双分支编码器，左侧输入图像，中间分别输出均值和方差，右侧展示加权采样与最终结果。",
+          note: "例如：画一个双分支编码器。左边输入图像，中间两条分支分别输出均值和方差，右边画加权采样和结果。",
         },
         {
-          title: "登录、游客与额度",
+          title: "参考图怎么用",
           items: [
-            "浏览和填写内容不强制登录；点击生成时再选择登录或游客。",
-            "游客获得一次体验额度，游客身份和内容保留 7 天。",
-            "Google 和 GitHub 可以绑定到同一个账户；微信将在条件具备后接入。",
-            "系统失败且没有生成图片时不扣额度，主动重新生成正常消耗额度。",
-          ],
-        },
-        {
-          title: "参考图和格式",
-          items: [
-            "当前产品约定接受 PNG、JPG/JPEG 和 WebP，单文件上限暂定 10MB。",
-            "上传前请确认你拥有使用权，并移除患者信息、内部编号或其他敏感字段。",
-            "最终输出尺寸、分辨率和更多格式要在生图内核测量后确定。",
+            "参考图用来说明构图、排版或视觉方向，不是让系统照着复制。",
+            "当前支持 PNG、JPG/JPEG 和 WebP，单个文件不超过 10 MB。",
+            "上传前先移除患者信息、内部编号或其他不该离开本地的内容。",
           ],
         },
         {
-          title: "隐私、公开与删除",
+          title: "重建已有图片",
           items: [
-            "所有内容默认私密，公开展示需要主动开启。",
-            "删除后内容立即从账户和公开区域消失，文件在 24 小时内清理。",
-            "登录用户内容保留到主动删除；游客内容 7 天后过期。",
-            "不要把 AutoDraftman 当作唯一存档，重要文件应保留本地副本。",
+            "上传后，工作台会依次读取内容、重建图层并检查结果。",
+            "重建的目标是得到结构化 SVG，不是把原图嵌进一个 SVG 外壳。",
+            "复杂公式、特殊字体和低清晰度图片可能需要手动校正。",
           ],
         },
         {
-          title: "使用生成结果",
+          title: "在 SVG 编辑器里继续改",
           items: [
-            "生成结果是草稿，需要人工检查科学关系、标签、单位和视觉歧义。",
-            "投稿前检查期刊对 AI 辅助图像、披露、分辨率和文件格式的要求。",
-            "不要把生成示意图描述成真实实验数据、显微照片或临床证据。",
+            "可以选择对象，修改填充、描边、线宽和透明度。",
+            "也可以继续画矩形、椭圆、直线、路径和文字。",
+            "编辑在当前浏览器中完成，最后导出新的 SVG 文件。",
           ],
         },
         {
-          title: "常见问题",
+          title: "保存、隐私和额度",
+          items: [
+            "草稿和文件默认不公开，公开展示必须由你主动开启。",
+            "游客可以先试一次，游客身份和内容保留 7 天。",
+            "系统失败且没有生成结果时不扣额度；主动重新生成会使用新的额度。",
+            "重要文件请保留本地副本，不要只存一份。",
+          ],
+        },
+        {
+          title: "当前版本还缺什么",
           paragraphs: [
-            "为什么登录按钮暂不可用？公开网页目前没有公网 API，只有部署后才能完成 OAuth 回调。",
-            "为什么不能真的生成？团队尚在确定生图内核的输入、输出、耗时和失败语义。",
-            "为什么价格不能购买？定价页当前用于讨论产品层级，支付会在商业主体和渠道明确后接入。",
+            "真实生成和付款还没有开放。登录是否可用取决于当前部署有没有连接后端服务。",
+            "页面会明确标出哪些是演示状态，不会把模拟进度写成已经完成的真实任务。",
           ],
         },
       ],
@@ -320,7 +320,7 @@ const pageCopy: Record<
       eyebrow: "Research material under your control",
       title: "Privacy policy",
       introduction:
-        "This policy explains what AutoDraftman handles during internal testing, why it is needed, and how you can view, publish, or delete your material.",
+        "This policy explains what FigFox handles during internal testing, why it is needed, and how you can view, publish, or delete your material.",
       status: "Draft 0.1 · Updated 28 July 2026",
       notice:
         "This is an internal-test draft. The operating entity, formal contact address, hosting regions, and actual generation providers will be added and legally reviewed before public testing.",
@@ -341,7 +341,7 @@ const pageCopy: Record<
             "To diagnose failed requests, prevent abuse, and measure reliability with aggregated data.",
             "To carry out publishing, deletion, and account closure choices you make.",
           ],
-          note: "We do not sell research material or use private prompts, references, or results to train AutoDraftman's own models.",
+          note: "We do not sell research material or use private prompts, references, or results to train FigFox's own models.",
         },
         {
           title: "Generation providers",
@@ -390,7 +390,7 @@ const pageCopy: Record<
       eyebrow: "Internal test agreement",
       title: "Terms of use",
       introduction:
-        "These terms set the basic agreement between you and the AutoDraftman team during internal testing. The current edition is free and does not promise a commercial service level.",
+        "These terms set the basic agreement between you and the FigFox team during internal testing. The current edition is free and does not promise a commercial service level.",
       status: "Draft 0.1 · Updated 28 July 2026",
       notice:
         "The contracting entity, governing law, refunds, and dispute terms must be added before paid public use. This draft is for internal testing and product review.",
@@ -406,7 +406,7 @@ const pageCopy: Record<
           title: "Accounts and sign-in",
           items: [
             "Guests may browse and type; generation asks them to sign in or use one guest trial.",
-            "Google, GitHub, and a future WeChat identity may link to one AutoDraftman account.",
+            "Google, GitHub, and a future WeChat identity may link to one FigFox account.",
             "You must protect your sign-in providers and are responsible for activity in the account.",
             "Do not sell accounts, bulk-register, or bypass allowance and access controls.",
           ],
@@ -414,7 +414,7 @@ const pageCopy: Record<
         {
           title: "Inputs and outputs",
           paragraphs: [
-            "You keep rights in material you lawfully own and grant AutoDraftman only the permission needed to store and process it for the service.",
+            "You keep rights in material you lawfully own and grant FigFox only the permission needed to store and process it for the service.",
             "Where permitted by law, you may use outputs for lawful research, teaching, presentations, or commercial work. We do not guarantee copyright, patent protection, or journal acceptance.",
           ],
           note: "You must verify scientific accuracy, labels, units, citations, and journal disclosure rules. A generated figure cannot replace research judgment.",
@@ -432,7 +432,7 @@ const pageCopy: Record<
           title: "Test service",
           paragraphs: [
             "The internal edition may pause, change, or reset data. We work to protect material but do not yet offer an uptime, permanent-storage, or error-free guarantee.",
-            "Keep original copies of important research files. AutoDraftman must not be the only archive.",
+            "Keep original copies of important research files. FigFox must not be the only archive.",
           ],
         },
         {
@@ -445,7 +445,7 @@ const pageCopy: Record<
         {
           title: "Responsibility and changes",
           paragraphs: [
-            "You remain responsible for source material, research conclusions, and final use. AutoDraftman does not provide medical, legal, publication, or ethics approval.",
+            "You remain responsible for source material, research conclusions, and final use. FigFox does not provide medical, legal, publication, or ethics approval.",
             "Before commercial launch, these terms will change to reflect the operating entity, regions, payments, and generation providers, and users will be asked to review them again.",
           ],
         },
@@ -455,7 +455,7 @@ const pageCopy: Record<
       eyebrow: "Clear expression, responsible use",
       title: "Content rules",
       introduction:
-        "AutoDraftman supports scientific communication. It cannot decide whether source material is lawful, conclusions are accurate, or an image is suitable for publication.",
+        "FigFox supports scientific communication. It cannot decide whether source material is lawful, conclusions are accurate, or an image is suitable for publication.",
       status: "Draft 0.1 · Updated 28 July 2026",
       notice:
         "These rules apply to prompts, reference images, outputs, public material, and automated use of the service.",
@@ -489,7 +489,7 @@ const pageCopy: Record<
         {
           title: "Public material",
           items: [
-            "Publishing is opt-in and does not mean AutoDraftman endorses accuracy or ownership.",
+            "Publishing is opt-in and does not mean FigFox endorses accuracy or ownership.",
             "Public items must not contain personal data, confidential research, unlicensed paper figures, or internal institutional information.",
             "Deleting or unpublishing an item stops public access immediately.",
           ],
@@ -504,7 +504,7 @@ const pageCopy: Record<
       ],
     },
     "/docs": {
-      eyebrow: "AutoDraftman user guide",
+      eyebrow: "FigFox user guide",
       title: "From research description to first draft",
       introduction:
         "This short guide explains the workspace inputs, account rules, and data handling. The generation kernel is not connected, so examples describe only the agreed product flow.",
@@ -556,7 +556,7 @@ const pageCopy: Record<
             "Everything is private by default; publishing requires an explicit choice.",
             "Deletion removes account and public access immediately and schedules file removal within 24 hours.",
             "Signed-in content remains until deletion; guest content expires after seven days.",
-            "Keep local copies of important work. AutoDraftman is not the only archive.",
+            "Keep local copies of important work. FigFox is not the only archive.",
           ],
         },
         {
@@ -584,7 +584,7 @@ export const footerCopy = {
   zh: {
     product: "产品",
     resources: "指南与规则",
-    examples: "研发样例",
+    examples: "示例",
     workspace: "工作台",
     pricing: "定价",
     docs: "用户文档",
@@ -595,7 +595,7 @@ export const footerCopy = {
     contactBody: "提交产品建议、问题或账户请求",
     feedback: "提交反馈",
     internal: "当前为内部测试版",
-    copyright: "© 2026 AutoDraftman",
+    copyright: "© 2026 FigFox",
   },
   en: {
     product: "Product",
@@ -611,7 +611,7 @@ export const footerCopy = {
     contactBody: "Send a product idea, issue, or account request",
     feedback: "Send feedback",
     internal: "Internal testing edition",
-    copyright: "© 2026 AutoDraftman",
+    copyright: "© 2026 FigFox",
   },
 } as const;
 
@@ -659,53 +659,76 @@ export function ProductInformationPage({
       className={`information-page information-page-${route.slice(1)} page-enter`}
       id="main-content"
     >
-      <section className="information-hero shell">
-        <a
-          className="information-back"
-          href={hrefFor("/")}
-          onClick={(event) => onInternalLink(event, "/")}
-        >
-          <ArrowLeft size={17} />
-          {backLabel}
-        </a>
-        <div className="information-heading">
-          {route !== "/docs" && (
-            <div className="information-emblem">
-              <InformationIcon route={route} />
-            </div>
-          )}
-          <h1>{content.title}</h1>
-          <p>{content.introduction}</p>
-        </div>
-        <div className="information-status">
-          <Clock size={17} />
-          <span>{content.status}</span>
-        </div>
-      </section>
+      <PageSection className="information-hero-section" density="compact">
+        <PageContainer>
+          <div className="information-hero">
+            <a
+              className="information-back"
+              href={hrefFor("/")}
+              onClick={(event) => onInternalLink(event, "/")}
+            >
+              <ArrowLeft size={17} />
+              {backLabel}
+            </a>
+            <Grid
+              className="information-hero-grid"
+              columns={{ initial: "1", md: "minmax(0, 1fr) auto" }}
+              gap={{ initial: "5", md: "8" }}
+              align="end"
+            >
+              <div className="information-heading">
+                {route !== "/docs" && (
+                  <div className="information-emblem">
+                    <InformationIcon route={route} />
+                  </div>
+                )}
+                <h1>{content.title}</h1>
+                <p>{content.introduction}</p>
+              </div>
+              <Flex className="information-status" gap="2" align="center">
+                <Clock size={17} />
+                <span>{content.status}</span>
+              </Flex>
+            </Grid>
+          </div>
+        </PageContainer>
+      </PageSection>
 
-      <section className="information-body shell">
-        {route === "/docs" && (
-          <aside className="information-toc" aria-label={content.title}>
-            <div>
-              <BookOpen size={18} weight="duotone" aria-hidden="true" />
-              <p>{language === "zh" ? "本页内容" : "On this page"}</p>
-            </div>
-            <ol>
-              {content.sections.map((section, index) => (
-                <li key={section.title}>
-                  <a
-                    href={`#guide-section-${index + 1}`}
-                    data-allow-wrap="true"
-                  >
-                    <span>{String(index + 1).padStart(2, "0")}</span>
-                    {section.title}
-                  </a>
-                </li>
-              ))}
-            </ol>
-          </aside>
-        )}
-        <article className="information-document">
+      <PageSection className="information-body-section" density="compact">
+        <PageContainer>
+          <Grid
+            className="information-body"
+            columns={
+              route === "/docs"
+                ? { initial: "1", md: "minmax(11rem, 14rem) minmax(0, 52rem)" }
+                : "1"
+            }
+            gap={{ initial: "6", md: "9" }}
+            justify="center"
+            align="start"
+          >
+            {route === "/docs" && (
+              <aside className="information-toc" aria-label={content.title}>
+                <div>
+                  <BookOpen size={18} weight="duotone" aria-hidden="true" />
+                  <p>{language === "zh" ? "本页内容" : "On this page"}</p>
+                </div>
+                <ol>
+                  {content.sections.map((section, index) => (
+                    <li key={section.title}>
+                      <a
+                        href={`#guide-section-${index + 1}`}
+                        data-allow-wrap="true"
+                      >
+                        <span>{String(index + 1).padStart(2, "0")}</span>
+                        {section.title}
+                      </a>
+                    </li>
+                  ))}
+                </ol>
+              </aside>
+            )}
+            <article className="information-document">
           <div className="information-notice">
             <WarningCircle size={20} weight="duotone" />
             <p>{content.notice}</p>
@@ -768,8 +791,10 @@ export function ProductInformationPage({
               <ArrowRight size={18} />
             </a>
           )}
-        </article>
-      </section>
+            </article>
+          </Grid>
+        </PageContainer>
+      </PageSection>
     </main>
   );
 }

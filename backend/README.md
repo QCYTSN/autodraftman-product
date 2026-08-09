@@ -1,4 +1,4 @@
-# AutoDraftman backend foundation
+# FigFox backend foundation
 
 This directory contains the product backend that is independent from the image-generation
 kernel. It is intentionally a modular monolith.

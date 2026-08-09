@@ -1,47 +1,78 @@
 :root {
-  --paper: #f3eee5;
-  --paper-light: #fffdf8;
-  --paper-deep: #eae1d5;
-  --sand: #dfd3c3;
-  --sand-soft: #eee6da;
-  --ink: #141413;
-  --ink-soft: #3d3934;
-  --muted: #6f685f;
-  --rule: #d2c6b8;
-  --rule-dark: #b6a99a;
-  --clay: #c86445;
-  --clay-deep: #a94e35;
-  --clay-pale: #efd3c5;
-  --danger: #a43e2b;
-  --overlay: rgb(20 20 19 / 48%);
+  --ff-ink: #20152b;
+  --ff-ink-soft: #43384f;
+  --ff-muted: #756f7e;
+  --ff-muted-strong: #5f5869;
+  --ff-canvas: #f7f7fb;
+  --ff-canvas-deep: #efedf5;
+  --ff-surface: #ffffff;
+  --ff-surface-subtle: #fbfaff;
+  --ff-surface-raised: #ffffff;
+  --ff-line: #dfdbe8;
+  --ff-line-strong: #c9c2d5;
+  --ff-violet: #6b3df4;
+  --ff-violet-strong: #5730d8;
+  --ff-violet-deep: #3d218f;
+  --ff-violet-soft: #eee9ff;
+  --ff-violet-wash: #f6f3ff;
+  --ff-orange: #f2672e;
+  --ff-orange-strong: #cc4515;
+  --ff-orange-soft: #ffe5d7;
+  --ff-apricot: #fff3ec;
+  --ff-success: #147a5a;
+  --ff-success-soft: #e4f5ee;
+  --ff-warning: #9c5d09;
+  --ff-warning-soft: #fff1d5;
+  --ff-danger: #b33645;
+  --ff-danger-soft: #ffeaed;
+  --ff-overlay: rgb(24 15 34 / 52%);
+
+  /* Compatibility aliases while legacy surfaces are migrated. */
+  --paper: var(--ff-canvas);
+  --paper-light: var(--ff-surface);
+  --paper-deep: var(--ff-canvas-deep);
+  --sand: #e8e3f0;
+  --sand-soft: #f1eef6;
+  --ink: var(--ff-ink);
+  --ink-soft: var(--ff-ink-soft);
+  --muted: var(--ff-muted);
+  --rule: var(--ff-line);
+  --rule-dark: var(--ff-line-strong);
+  --clay: var(--ff-orange);
+  --clay-deep: var(--ff-orange-strong);
+  --clay-pale: var(--ff-orange-soft);
+  --danger: var(--ff-danger);
+  --overlay: var(--ff-overlay);
+
   --shadow-paper:
-    0 1px 2px rgb(35 30 25 / 4%),
-    0 14px 32px rgb(35 30 25 / 5%);
+    0 1px 2px rgb(32 21 43 / 3%),
+    0 16px 38px rgb(32 21 43 / 5%);
   --shadow-edge:
-    inset 0 1px 0 rgb(255 255 255 / 62%),
-    0 1px 2px rgb(49 38 29 / 4%);
+    inset 0 1px 0 rgb(255 255 255 / 88%),
+    0 1px 2px rgb(49 35 64 / 5%);
   --shadow-surface:
-    inset 0 1px 0 rgb(255 255 255 / 72%),
-    0 2px 5px rgb(49 38 29 / 4%),
-    0 18px 46px rgb(49 38 29 / 7%);
+    inset 0 1px 0 rgb(255 255 255 / 90%),
+    0 2px 6px rgb(49 35 64 / 5%),
+    0 22px 54px rgb(49 35 64 / 8%);
   --shadow-focus:
-    inset 0 1px 0 rgb(255 255 255 / 82%),
-    0 3px 8px rgb(49 38 29 / 5%),
-    0 28px 64px rgb(49 38 29 / 9%);
+    inset 0 1px 0 rgb(255 255 255 / 92%),
+    0 4px 10px rgb(49 35 64 / 6%),
+    0 30px 72px rgb(49 35 64 / 11%);
   --shadow-floating:
-    inset 0 1px 0 rgb(255 255 255 / 68%),
-    0 10px 26px rgb(35 30 25 / 10%),
-    0 32px 78px rgb(35 30 25 / 14%);
+    inset 0 1px 0 rgb(255 255 255 / 90%),
+    0 12px 30px rgb(32 21 43 / 12%),
+    0 34px 84px rgb(32 21 43 / 16%);
 
-  --font-display:
-    "Newsreader Variable", "Noto Serif SC Variable", "Noto Serif SC",
-    "Songti SC", "STSong", serif;
+  --font-brand:
+    "Figtree Variable", "Noto Sans SC Variable", "Noto Sans SC",
+    "PingFang SC", "Microsoft YaHei", sans-serif;
+  --font-display: var(--font-brand);
   --font-body:
-    "IBM Plex Sans Variable", "Noto Sans SC", "PingFang SC",
-    "Microsoft YaHei", sans-serif;
+    "Figtree Variable", "Noto Sans SC Variable", "Noto Sans SC",
+    "PingFang SC", "Microsoft YaHei", sans-serif;
 
-  --page-max: 86rem;
-  --page-gutter: clamp(1.25rem, 4vw, 4rem);
+  --page-max: 90rem;
+  --page-gutter: clamp(1.25rem, 4vw, 4.5rem);
   --header-height: 4.75rem;
 
   --text-xs: 0.75rem;
@@ -50,21 +81,28 @@
   --text-md: 1.125rem;
   --text-lg: 1.4rem;
   --text-xl: 1.9rem;
-  --text-2xl: clamp(2.5rem, 4vw, 4.2rem);
-  --text-display: clamp(3.8rem, 7.4vw, 7.25rem);
+  --text-2xl: clamp(2.6rem, 4.6vw, 4.8rem);
+  --text-display: clamp(3.9rem, 7.6vw, 7.8rem);
 
-  --radius-small: 0.55rem;
-  --radius-medium: 0.9rem;
-  --radius-large: 1.25rem;
+  --radius-small: 0.45rem;
+  --radius-medium: 0.75rem;
+  --radius-large: 1rem;
   --radius-pill: 999px;
+
+  --z-base: 0;
+  --z-sticky: 20;
+  --z-popover: 40;
+  --z-dialog: 60;
+  --z-toast: 80;
 
   --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
   --ease-standard: cubic-bezier(0.65, 0, 0.35, 1);
-  --duration-fast: 160ms;
-  --duration-medium: 360ms;
+  --duration-fast: 150ms;
+  --duration-medium: 320ms;
+  --duration-slow: 620ms;
 
-  color: var(--ink);
-  background: var(--paper);
+  color: var(--ff-ink);
+  background: var(--ff-canvas);
   font-family: var(--font-body);
   font-synthesis: none;
   text-rendering: optimizeLegibility;
