@@ -11,6 +11,7 @@ import {
 import { Flex, Grid } from "@radix-ui/themes";
 import type { MouseEvent as ReactMouseEvent } from "react";
 import { PageContainer, PageSection } from "./components/layout/FigFoxLayout";
+import { apiConfigured } from "./api";
 
 export type ProductLanguage = "zh" | "en";
 export type ProductRoute =
@@ -595,7 +596,7 @@ export const footerCopy = {
     contact: "反馈",
     contactBody: "提交产品建议、问题或账户请求",
     feedback: "提交反馈",
-    internal: "当前为内部测试版",
+    internal: "公开预览版",
     copyright: "© 2026 FigFox",
   },
   en: {
@@ -611,7 +612,7 @@ export const footerCopy = {
     contact: "Feedback",
     contactBody: "Send a product idea, issue, or account request",
     feedback: "Send feedback",
-    internal: "Internal testing edition",
+    internal: "Public preview",
     copyright: "© 2026 FigFox",
   },
 } as const;
@@ -637,6 +638,7 @@ export function ProductInformationPage({
   onNavigate: (path: ProductRoute) => void;
 }) {
   const content = pageCopy[language][route];
+  const localRelease = !apiConfigured && route !== "/docs";
   const backLabel = language === "zh" ? "返回首页" : "Back to home";
   const onInternalLink = (
     event: ReactMouseEvent<HTMLAnchorElement>,
@@ -684,11 +686,11 @@ export function ProductInformationPage({
                   </div>
                 )}
                 <h1>{content.title}</h1>
-                <p>{content.introduction}</p>
+                <p>{localRelease ? language === "zh" ? "当前公开版提供浏览器内的 SVG 编辑与保存。这里说明当前的数据处理方式，以及后续在线服务的规则草案。" : "The public version edits and saves SVGs in your browser. This page describes current data handling and draft rules for future online services." : content.introduction}</p>
               </div>
               <Flex className="information-status" gap="2" align="center">
                 <Clock size={17} />
-                <span>{content.status}</span>
+                <span>{localRelease ? language === "zh" ? "公开预览版 · 更新于 2026 年 10 月 4 日" : "Public preview · updated October 4, 2026" : content.status}</span>
               </Flex>
             </Grid>
           </div>
@@ -730,12 +732,30 @@ export function ProductInformationPage({
               </aside>
             )}
             <article className="information-document">
+          {localRelease && <section className="information-section public-release-policy">
+            <h2>{language === "zh" ? "当前公开版本" : "The current public version"}</h2>
+            <ul>
+              {(language === "zh" ? [
+                "SVG 文件、描述草稿和图片预览在当前浏览器中处理；选择本地文件不会将它上传至 FigFox 服务器。",
+                "本地保存的内容与浏览器、设备和网站地址关联。删除文档或清除网站数据后，需要用自行导出的文件恢复。",
+                "反馈入口会打开公开的 GitHub 仓库，由你确认发布。请勿在公开反馈中附上私密资料。",
+                "登录、生图和图片转 SVG 尚未开放；当前版本不创建在线账户、生成任务或付费订单。",
+              ] : [
+                "SVGs, description drafts and image previews are handled in this browser. Selecting a local file does not upload it to a FigFox server.",
+                "Local records belong to this browser, device and site address. After deletion or clearing site data, restore them from files you exported yourself.",
+                "Feedback opens the public GitHub repository for you to review and publish. Leave private material out of public reports.",
+                "Sign-in, image generation and image-to-SVG processing are not open yet. This version creates no online account, generation job or paid order.",
+              ]).map(item => <li key={item}><CheckCircle size={17} weight="duotone" /><span>{item}</span></li>)}
+            </ul>
+            <h2>{language === "zh" ? "后续在线服务规则 · 草案" : "Future online-service rules · draft"}</h2>
+            <p>{language === "zh" ? "以下账户、云端存储、额度和保留期限条款用于后续服务规划，将在相应服务开放前更新。" : "The account, cloud storage, credit and retention terms below describe planned services and will be updated before those services open."}</p>
+          </section>}
           <div className="information-notice">
             <WarningCircle size={20} weight="duotone" />
             <p>{content.notice}</p>
           </div>
 
-          {route === "/privacy" && (
+          {route === "/privacy" && !localRelease && (
             <div className="retention-ruler" aria-label="Data retention summary">
               <div>
                 <strong>7</strong>

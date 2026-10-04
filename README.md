@@ -62,6 +62,13 @@ mechanism and repair demonstrations. Missing evaluation charts show placeholders
 Raw experiment runs and user uploads remain outside the product repository.
 See `docs/figfox-completion-audit-2026-10-04.md`.
 
+The public feedback page opens a draft in `QCYTSN/figfox` GitHub Issues for the
+visitor to review and publish. It also supports copying the message and retaining
+the draft in the current browser tab; it never simulates a successful submission.
+The current local data handling is explained before draft policies for future
+account and cloud services. The proposed restricted kernel integration is retained
+in `docs/research/figfox-private-beta-deferred-2026-10-04.md` and is not deployed.
+
 ## Product information pages
 
 The bilingual product interface includes:

@@ -118,6 +118,7 @@ import { WorkspaceDocuments } from "./features/product/WorkspaceDocuments";
 import { ProductPromptField } from "./features/product/ProductPromptField";
 import { FigureProcessPreview } from "./features/product/FigureProcess";
 import { ProductLoginPage } from "./features/product/ProductLoginPage";
+import { PublicFeedbackPage } from "./features/product/PublicFeedbackPage";
 import "./features/product/product.css";
 import "./features/product/workspace.css";
 import { FigFoxSelect } from "./components/ui/FigFoxSelect";
@@ -3464,7 +3465,8 @@ export default function App() {
         {route === "/pricing" && (
           <ProductPricingPage language={language} onNavigate={navigate} hrefFor={routeHref} />
         )}
-        {route === "/feedback" && (
+        {route === "/feedback" && !apiConfigured && <PublicFeedbackPage language={language} onNavigate={navigate} hrefFor={routeHref} />}
+        {route === "/feedback" && apiConfigured && (
           <>
             <FeedbackPage language={language} onNavigate={navigate} />
             <Footer ui={ui} language={language} onNavigate={navigate} />
