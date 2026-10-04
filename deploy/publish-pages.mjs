@@ -1,4 +1,4 @@
-import { readdir, lstat, mkdir, copyFile, unlink, writeFile, readFile } from "node:fs/promises";
+import { readdir, lstat, mkdir, copyFile, chmod, unlink, writeFile, readFile } from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { execFileSync } from "node:child_process";
@@ -42,6 +42,14 @@ for (const relative of currentFiles) {
   const destination = path.join(target, relative);
   assert.ok(destination.startsWith(target + path.sep));
   await mkdir(path.dirname(destination), { recursive: true });
+  const contents = await readFile(path.join(source, relative));
+  const existing = await readFile(destination).catch(error => {
+    if (error.code === "ENOENT") return null;
+    throw error;
+  });
+  if (existing?.equals(contents)) continue;
+  // Windows copies can retain an attachment's read-only flag in the static mirror.
+  if (existing) await chmod(destination, 0o666);
   await copyFile(path.join(source, relative), destination);
 }
 let removed = 0;
