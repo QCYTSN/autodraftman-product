@@ -16,6 +16,7 @@
     "review:showcase": "node scripts/showcase-check.mjs",
     "review:cursor": "node scripts/cursor-check.mjs",
     "review:public": "node scripts/public-release-check.mjs",
+    "review:editor-save": "node scripts/editor-save-check.mjs",
     "review:pages": "node scripts/run-pages-review.mjs"
   },
   "dependencies": {

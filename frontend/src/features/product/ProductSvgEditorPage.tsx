@@ -80,6 +80,7 @@ export function ProductSvgEditorPage({ language, ui, onLanguageChange, hrefFor, 
       if (latestSnapshot.current) await saveEditorDocument(latestSnapshot.current).catch(() => undefined);
       if (sequence !== importSequence.current) return;
       documentId.current = crypto.randomUUID();
+      setSaveState("saving");
       setDocument(imported); setMarkup(imported.markup); setReady(false); setRestored(false);
     } catch (error) {
       if (sequence === importSequence.current) setImportError(error instanceof SvgImportError ? error.code : "invalid");
@@ -87,11 +88,25 @@ export function ProductSvgEditorPage({ language, ui, onLanguageChange, hrefFor, 
   }
   function chooseFile(event: ChangeEvent<HTMLInputElement>) { const file = event.target.files?.[0]; event.target.value = ""; if (file) void openFile(file); }
   const createBlank = () => { setNewDocumentOpen(false); void openFile(new File([blankSvg], zh ? "未命名图像.svg" : "untitled-figure.svg", { type: "image/svg+xml" })); };
-  function exportFile() {
-    if (!document || !markup || !ready) return;
-    const url = URL.createObjectURL(new Blob([markup], { type: "image/svg+xml" }));
-    const link = window.document.createElement("a"); link.href = url; link.download = `${document.fileName.replace(/\.svg$/i, "")}-figfox.svg`; link.click();
-    window.setTimeout(() => URL.revokeObjectURL(url), 1000);
+  async function exportFile() {
+    if (!document || !markup || !ready || busy) return;
+    const snapshot = latestSnapshot.current;
+    const sequence = ++saveSequence.current;
+    setBusy(true);
+    try {
+      if (snapshot) {
+        setSaveState("saving");
+        try {
+          await saveEditorDocument(snapshot);
+          if (sequence === saveSequence.current) setSaveState("saved");
+        } catch {
+          if (sequence === saveSequence.current) setSaveState("failed");
+        }
+      }
+      const url = URL.createObjectURL(new Blob([markup], { type: "image/svg+xml" }));
+      const link = window.document.createElement("a"); link.href = url; link.download = `${document.fileName.replace(/\.svg$/i, "")}-figfox.svg`; link.click();
+      window.setTimeout(() => URL.revokeObjectURL(url), 1000);
+    } finally { setBusy(false); }
   }
   const error = importError === "large" ? ui.workspace.editorErrorLarge : importError === "complex" ? ui.workspace.editorErrorComplex : importError === "format" ? ui.workspace.editorErrorFormat : importError ? ui.workspace.editorErrorInvalid : "";
 
@@ -100,7 +115,7 @@ export function ProductSvgEditorPage({ language, ui, onLanguageChange, hrefFor, 
     <header className="product-editor-header">
       <div className="product-editor-leading"><ProductLink route="/" hrefFor={hrefFor} onNavigate={onNavigate} className="product-brand" aria-label={zh ? "FigFox 首页" : "FigFox home"}><img src={`${import.meta.env.BASE_URL}assets/demo/figfox-logo.svg`} width="36" height="36" alt="" /><strong>FigFox</strong></ProductLink><ProductLink route="/workspace" hrefFor={hrefFor} onNavigate={onNavigate} className="product-editor-back"><ArrowLeft size={17} /><span>{zh ? "工作台" : "Workspace"}</span></ProductLink></div>
       <div className="product-editor-title"><strong>{document?.fileName || (zh ? "SVG 编辑器" : "SVG editor")}</strong><span role="status">{document ? saveState === "failed" ? zh ? "本地保存失败，请导出保留" : "Local save failed. Export to keep your work." : saveState === "saving" ? zh ? "正在保存…" : "Saving…" : restored ? zh ? "已恢复本地文档" : "Local document restored" : zh ? "已在当前浏览器保存" : "Saved in this browser" : zh ? "本地文档" : "Local document"}</span></div>
-      <div className="product-editor-actions"><button type="button" className="product-language" onClick={onLanguageChange} aria-label={zh ? "Switch to English" : "切换到中文"}><Globe size={17} /><span>{zh ? "EN" : "中文"}</span></button><button type="button" className="product-editor-new" aria-label={zh ? "新建 SVG" : "New SVG"} disabled={busy} onClick={() => document ? setNewDocumentOpen(true) : createBlank()}><Plus size={18} /></button><button type="button" className="product-button product-button-secondary" disabled={busy} onClick={() => fileInput.current?.click()} aria-label={zh ? "打开 SVG" : "Open SVG"}><UploadSimple size={17} /><span>{zh ? "打开 SVG" : "Open SVG"}</span></button><button type="button" className="product-button product-button-primary" disabled={!document || !ready} onClick={exportFile} aria-label={zh ? "导出 SVG" : "Export SVG"}><DownloadSimple size={17} /><span>{zh ? "导出 SVG" : "Export SVG"}</span></button></div>
+      <div className="product-editor-actions"><button type="button" className="product-language" onClick={onLanguageChange} aria-label={zh ? "Switch to English" : "切换到中文"}><Globe size={17} /><span>{zh ? "EN" : "中文"}</span></button><button type="button" className="product-editor-new" aria-label={zh ? "新建 SVG" : "New SVG"} disabled={busy} onClick={() => document ? setNewDocumentOpen(true) : createBlank()}><Plus size={18} /></button><button type="button" className="product-button product-button-secondary" disabled={busy} onClick={() => fileInput.current?.click()} aria-label={zh ? "打开 SVG" : "Open SVG"}><UploadSimple size={17} /><span>{zh ? "打开 SVG" : "Open SVG"}</span></button><button type="button" className="product-button product-button-primary" disabled={busy || !document || !ready} onClick={() => void exportFile()} aria-label={zh ? "导出 SVG" : "Export SVG"}><DownloadSimple size={17} /><span>{zh ? "导出 SVG" : "Export SVG"}</span></button></div>
     </header>
     <main id="editor-canvas" className="product-editor-main">
       {error && <div className="product-editor-error" role="alert"><WarningCircle size={18} /><span>{error}</span><button type="button" onClick={() => fileInput.current?.click()}>{zh ? "重新选择" : "Try another file"}</button></div>}
