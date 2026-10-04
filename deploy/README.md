@@ -22,6 +22,11 @@ git commit -m "Publish FigFox product surfaces"
 git push origin main
 ```
 
+The Pages review checks route refreshes and runs product, multiple-document and
+complete-showcase operations against the built `/figfox/` site. Showcase checks
+verify that published examples and repair demonstrations remain present and
+match the selected asset manifest. Raw experiments are not part of the release.
+
 The copier verifies the mirror repository, clean source and mirror checkouts,
 build base path, destination paths and copied bytes. It copies only static files,
 removes individual obsolete files under `site/`, and leaves historical root files

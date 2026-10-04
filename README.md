@@ -55,10 +55,12 @@ The frontend is available at `http://127.0.0.1:5173` and the API at
 The showcase and product pages can run without the API. The static release includes
 a real local SVG editor, browser draft storage, a guide and proposed pricing.
 Account sign-in, subscriptions and generation are visibly unavailable until their
-services are deployed. During local development,
-three experiment examples are read from an explicit allowlist in `FigFox-926`.
-Those research images and outputs are neither committed here nor included in a
-production build. See `docs/research/figfox-demo-design-2026-10-03.md`.
+services are deployed. The complete showcase uses a selected static asset set in
+`frontend/public/assets/demo/cases/`, with origins and checksums recorded in its
+manifest. Development and production include the same editing, comparison,
+mechanism and repair demonstrations. Missing evaluation charts show placeholders.
+Raw experiment runs and user uploads remain outside the product repository.
+See `docs/figfox-completion-audit-2026-10-04.md`.
 
 ## Product information pages
 
@@ -81,6 +83,8 @@ npm ci
 npm run build
 npm run review:quality
 npm run review:product
+npm run review:documents
+npm run review:showcase
 
 Set-Location ..\backend
 python -m pip install -e ".[dev]"

@@ -62,6 +62,11 @@ try {
   await page.locator("#reference-file").setInputFiles({ name: "reference.png", mimeType: "image/png", buffer: Buffer.from("iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+/NhoAAAAASUVORK5CYII=", "base64") });
   assert.ok((await page.locator(".reference-upload-copy").innerText()).includes("本地预览"));
   assert.equal(await page.locator(".product-workspace-source").count(), 1);
+  await page.getByRole("button", { name: "我的 SVG", exact: true }).click();
+  await page.locator(".product-documents").waitFor();
+  assert.equal(await page.locator(".product-workspace-source").count(), 0);
+  await page.getByRole("button", { name: "原图预览", exact: true }).click();
+  assert.equal(await page.locator(".product-workspace-source").count(), 1);
   record("Reference image previews locally without an upload or authentication request");
   while (await page.locator(".workspace-record-delete").count() > 1) {
     await page.locator(".workspace-record-delete").last().click();

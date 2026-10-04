@@ -22,6 +22,10 @@ source.
 - Do not persist permanent public URLs for private images.
 - Do not commit uploads, generated images, database volumes, logs containing
   prompts, or production backups.
+- Exception: the explicitly selected static FigFox showcase images and SVGs live
+  under `frontend/public/assets/demo/cases/`, with a source and checksum manifest.
+  This implements the user's instruction to publish the designed showcase. Raw
+  experiments, prompts, model responses and user uploads remain outside it.
 
 ## Product boundaries
 

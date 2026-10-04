@@ -11,6 +11,8 @@
     "review": "node scripts/run-visual-review.mjs",
     "review:quality": "node scripts/run-quality.mjs",
     "review:product": "node scripts/product-check.mjs",
+    "review:documents": "node scripts/document-check.mjs",
+    "review:showcase": "node scripts/showcase-check.mjs",
     "review:pages": "node scripts/run-pages-review.mjs"
   },
   "dependencies": {

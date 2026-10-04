@@ -42,7 +42,6 @@ import { Toolbar } from "@base-ui/react/toolbar";
 import { Collapsible } from "@base-ui/react/collapsible";
 import { Dialog } from "@base-ui/react/dialog";
 import { AlertDialog } from "@base-ui/react/alert-dialog";
-import { Progress } from "@base-ui/react/progress";
 import { Switch } from "@base-ui/react/switch";
 import { Toggle } from "@base-ui/react/toggle";
 import { ToggleGroup } from "@base-ui/react/toggle-group";
@@ -114,6 +113,7 @@ import { FigFoxMark, FigFoxWordmark } from "./components/brand/FigFoxBrand";
 import { ProductHeader } from "./features/product/ProductHeader";
 import { ProductPricingPage } from "./features/product/ProductPricingPage";
 import { ProductGuidePage } from "./features/product/ProductGuidePage";
+import { WorkspaceDocuments } from "./features/product/WorkspaceDocuments";
 import "./features/product/product.css";
 import { FigFoxSelect } from "./components/ui/FigFoxSelect";
 import { FigFoxDemoPage } from "./features/demo/FigFoxDemoPage";
@@ -812,7 +812,7 @@ const copy = {
       guest: "Continue as guest",
       guestNote: "Guest files are stored temporarily",
       close: "Close sign-in dialog",
-      deployRequired: "Available after API deployment",
+      deployRequired: "Not open yet",
       comingSoon: "Coming soon",
       demo: "Sign-in availability is managed by the backend.",
       noProvider: "Sign-in is not available in this version.",
@@ -1277,6 +1277,10 @@ function WorkspacePage({
   const [prompt, setPrompt] = useState("");
   const [referenceFile, setReferenceFile] = useState<File | null>(null);
   const [referencePreview, setReferencePreview] = useState("");
+  const [workspaceView, setWorkspaceView] = useState<"documents" | "source">("documents");
+  useEffect(() => {
+    setWorkspaceView(taskMode === "rebuild" && referencePreview ? "source" : "documents");
+  }, [taskMode, referencePreview]);
   const [referenceAsset, setReferenceAsset] = useState<Asset | null>(null);
   const [referenceAssetId, setReferenceAssetId] = useState<string | null>(null);
   const [referenceStatus, setReferenceStatus] =
@@ -1288,7 +1292,6 @@ function WorkspacePage({
   const [isPublic, setIsPublic] = useState(false);
   const [activeDraftTitle, setActiveDraftTitle] = useState<string | null>(null);
   const [status] = useState<GenerateStatus>("empty");
-  const [progress] = useState(0);
   const [historyOpen, setHistoryOpen] = useState(false);
   const [historyCollapsed, setHistoryCollapsed] = useState(
     () => window.localStorage.getItem("autodraftman-history-collapsed") === "true",
@@ -2090,6 +2093,18 @@ function WorkspacePage({
         </header>
 
         <div className="workspace-layout">
+        <section className={`result-panel ${taskMode}`}>
+          {taskMode === "rebuild" && referencePreview && <header className="result-toolbar product-result-views" role="group" aria-label={language === "zh" ? "工作区视图" : "Workspace view"}>
+            <button type="button" aria-pressed={workspaceView === "documents"} onClick={() => setWorkspaceView("documents")}>{language === "zh" ? "我的 SVG" : "My SVGs"}</button>
+            <button type="button" aria-pressed={workspaceView === "source"} onClick={() => setWorkspaceView("source")}>{language === "zh" ? "原图预览" : "Source preview"}</button>
+          </header>}
+          {taskMode === "rebuild" && referencePreview && workspaceView === "source" ? <div className="product-source-review">
+            <div className="product-source-review-heading"><h2>{language === "zh" ? "原图预览" : "Source preview"}</h2><span>{referenceFile?.name}</span></div>
+            <img src={referencePreview} alt={language === "zh" ? "准备重建的本地原图" : "Local source prepared for reconstruction"} width="1280" height="720" className="product-workspace-source" />
+            <p>{language === "zh" ? "可以先补充要保留的文字、布局和细节。重建服务开放后再提交处理。" : "Add notes on the text, layout and details to preserve. Processing will become available with the reconstruction service."}</p>
+            <button type="button" className="product-button product-button-secondary" onClick={onOpenEditor}>{language === "zh" ? "打开 SVG 编辑器" : "Open SVG editor"}<ArrowRight size={17} /></button>
+          </div> : <WorkspaceDocuments language={language} onOpenEditor={onOpenEditor} />}
+        </section>
         <aside className="control-panel">
           <Tabs.Root
             className="workspace-task-root"
@@ -2398,108 +2413,6 @@ function WorkspacePage({
           <p className="mock-note">{language === "zh" ? "可以先准备内容，草稿会自动保存。" : "Prepare the content now. Your draft is saved automatically."}</p>
         </aside>
 
-        <section className={`result-panel ${taskMode}`} aria-live="polite">
-          <header className="result-toolbar">
-            <div className="result-status">
-              <span
-                className={status === "generating" ? "status-mark working" : "status-mark"}
-                aria-hidden="true"
-              />
-              <span>
-                {status === "complete"
-                 ? ui.workspace.completed
-                 : status === "generating"
-                   ? ui.workspace.generating
-                    : ui.workspace.idleStatus}
-              </span>
-              {status === "complete" && (
-                <span className="privacy-badge">
-                  {isPublic ? ui.workspace.public : ui.workspace.private}
-                </span>
-              )}
-            </div>
-            <div className="result-metadata" aria-label={ui.workspace.technicalSummary}>
-              <span>{ratio}</span>
-              <span>{format}</span>
-              <span>{isPublic ? ui.workspace.public : ui.workspace.private}</span>
-            </div>
-          </header>
-
-          <div className={`result-stage ratio-${ratio.replace(":", "-")}`}>
-            {status === "empty" && (
-              <div className="empty-result">
-                <span className="empty-sheet-index">FIGURE / —</span>
-                <div className="empty-result-content">
-                  <span className="empty-result-mark" aria-hidden="true">
-                    <FileImage size={22} weight="duotone" />
-                  </span>
-                  <div>
-                    <h2>
-                      {taskMode === "rebuild" && referencePreview ? language === "zh" ? "原图预览" : "Source preview" : language === "zh" ? "SVG 编辑器" : "SVG editor"}
-                    </h2>
-                    <p>
-                      {taskMode === "rebuild" && referencePreview ? language === "zh" ? "重建服务接入后，可将这张图转为 SVG。" : "Reconstruct this image once the service is available." : language === "zh" ? "打开 SVG 文档，调整文字、图形与布局。" : "Open an SVG to adjust its text, shapes and layout."}
-                    </p>
-                  </div>
-                  {taskMode === "rebuild" && referencePreview && <img className="product-workspace-source" src={referencePreview} alt={language === "zh" ? "准备重建的本地原图" : "Local source prepared for reconstruction"} />}
-                  <button type="button" className="product-button product-button-primary product-workspace-editor" onClick={onOpenEditor}>
-                    <BezierCurve size={17} />{language === "zh" ? "打开 SVG 编辑器" : "Open SVG editor"}<ArrowUpRight size={16} />
-                  </button>
-                  <span className="product-workspace-editor-note">{language === "zh" ? "本地文件 · 无需登录" : "Local files · no sign-in needed"}</span>
-                </div>
-              </div>
-            )}
-            {status === "generating" && (
-              <div className="generation-state">
-                <div className="generation-lines" aria-hidden="true">
-                  <span />
-                  <span />
-                  <span />
-                </div>
-                <div className="progress-copy">
-                  <div>
-                    <h2>{ui.workspace.progressTitle}</h2>
-                    <p>{ui.workspace.progressBody}</p>
-                  </div>
-                  <strong>{progress}%</strong>
-                </div>
-                <Progress.Root className="progress-track" value={progress}>
-                  <Progress.Track>
-                    <Progress.Indicator />
-                  </Progress.Track>
-                </Progress.Root>
-              </div>
-            )}
-            {status === "complete" && (
-              <div className="complete-result">
-                <img
-                  src={figureAssetPath}
-                  alt={ui.home.resultAlt}
-                  width={2048}
-                  height={544}
-                />
-              </div>
-            )}
-          </div>
-
-          {status === "complete" && (
-            <div className="result-actions">
-              <a
-                className="button secondary-button"
-                href={figureAssetPath}
-                    download={`figfox-result.${format.toLowerCase()}`}
-              >
-                <DownloadSimple size={18} />
-                {ui.workspace.download}
-              </a>
-              <button className="button primary-button" type="button" onClick={handleGenerate}>
-                {ui.workspace.regenerate}
-                <ArrowRight size={18} />
-              </button>
-            </div>
-          )}
-
-        </section>
       </div>
       </div>
 

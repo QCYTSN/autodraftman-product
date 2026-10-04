@@ -7,7 +7,7 @@ import { DemoCanvas } from "./DemoCanvas";
 import { DemoCursor } from "./DemoCursor";
 import { MechanismSection } from "./MechanismSection";
 import { RefinementSection } from "./RefinementSection";
-import { RefinementResultsPreview, ResearchSections } from "./ResearchSections";
+import { ResearchSections } from "./ResearchSections";
 import { HeroSvgWord } from "./HeroSvgWord";
 import { demoAsset, demoBrandAsset, demoCases, type DemoLanguage } from "./cases";
 import { useDemoMotion } from "./useDemoMotion";
@@ -92,8 +92,6 @@ export function FigFoxDemoPage({ language, onLanguageChange, onNavigate, hrefFor
   const diagramDialog = useRef<HTMLDialogElement>(null);
   const page = useRef<HTMLDivElement>(null);
   const item = demoCases[active];
-  // Private research assets are intentionally absent from production builds.
-  const localCasesAvailable = import.meta.env.DEV;
 
   useDemoMotion(page);
 
@@ -136,7 +134,7 @@ export function FigFoxDemoPage({ language, onLanguageChange, onNavigate, hrefFor
           </a>
           <nav className="demo-nav" aria-label={language === "zh" ? "演示页导航" : "Showcase navigation"}>
             <span className="demo-nav-indicator" aria-hidden="true" />
-            {localCasesAvailable && <a href="#demo-examples">{content.cases}</a>}
+            <a href="#demo-examples">{content.cases}</a>
             <a href="#demo-method">{content.method}</a>
             <a className="demo-nav-detail" href="#demo-content">{content.scope}</a>
             <a href="#demo-results">{content.results}</a>
@@ -176,21 +174,20 @@ export function FigFoxDemoPage({ language, onLanguageChange, onNavigate, hrefFor
               </span>
             </p>
             <div className="demo-hero-actions">
-              <a className="demo-primary" href={localCasesAvailable ? "#demo-examples" : "#demo-method"}>
-                {localCasesAvailable ? content.explore : content.method}<ArrowDown size={18} />
+              <a className="demo-primary" href="#demo-examples">
+                {content.explore}<ArrowDown size={18} />
               </a>
               <a className="demo-hero-source" href="https://github.com/LawrenceRiver/FigFox" target="_blank" rel="noreferrer">
                 <GithubLogo size={19} />GitHub
               </a>
             </div>
           </div>
-          <a className="demo-scroll-cue" href={localCasesAvailable ? "#demo-examples" : "#demo-method"}>
+          <a className="demo-scroll-cue" href="#demo-examples">
             <span>{content.scroll}</span><ArrowDown size={17} />
           </a>
         </section>
 
-        {localCasesAvailable && (
-          <section className="demo-examples demo-section" id="demo-examples" aria-labelledby="demo-examples-title">
+        <section className="demo-examples demo-section" id="demo-examples" aria-labelledby="demo-examples-title">
             <div className="demo-section-heading" data-demo-reveal>
               <h2 id="demo-examples-title">{content.examplesTitle}</h2>
               <p>{content.examplesBody}</p>
@@ -211,11 +208,9 @@ export function FigFoxDemoPage({ language, onLanguageChange, onNavigate, hrefFor
               </div>
               <p className="demo-case-note">{content.caseNote}</p>
             </div>
-          </section>
-        )}
+        </section>
 
-        {localCasesAvailable && (
-          <section className="demo-evidence demo-section" aria-labelledby="demo-compare-title">
+        <section className="demo-evidence demo-section" aria-labelledby="demo-compare-title">
             <div className="demo-section-heading" data-demo-reveal>
               <h2 id="demo-compare-title">{content.comparisonTitle}</h2>
               <p>{content.comparisonBody}</p>
@@ -237,15 +232,14 @@ export function FigFoxDemoPage({ language, onLanguageChange, onNavigate, hrefFor
                 </p>}
               </div>
             </div>
-          </section>
-        )}
+        </section>
 
         <section className="demo-method demo-section" id="demo-method" aria-labelledby="demo-method-title">
           <div className="demo-section-heading" data-demo-reveal>
             <h2 id="demo-method-title">{content.methodTitle}</h2>
             <p>{content.methodBody}</p>
           </div>
-          <figure className={localCasesAvailable ? "demo-method-figure" : "demo-method-figure demo-production-figure"} data-demo-reveal data-demo-delay="1">
+          <figure className="demo-method-figure" data-demo-reveal data-demo-delay="1">
             <button type="button" className="demo-method-preview" data-demo-cursor="zoom"
               aria-label={language === "zh" ? "查看完整流程图" : "View the full pipeline diagram"} onClick={() => diagramDialog.current?.showModal()}>
               <img src={demoBrandAsset("figfox-method.jpg")} width="2976" height="1280" loading="lazy" alt={content.methodAlt} />
@@ -259,12 +253,12 @@ export function FigFoxDemoPage({ language, onLanguageChange, onNavigate, hrefFor
               <li key={title}><h3>{title}</h3><p>{description}</p></li>
             ))}
           </ol>
-          {localCasesAvailable && <p className="demo-evidence-note" data-demo-reveal>{content.evidenceNote}</p>}
+          <p className="demo-evidence-note" data-demo-reveal>{content.evidenceNote}</p>
         </section>
 
-        <MechanismSection language={language} localCasesAvailable={localCasesAvailable} onOpenCase={openContentCase} />
-        {localCasesAvailable ? <RefinementSection language={language} onOpenCase={openContentCase} /> : <RefinementResultsPreview language={language} />}
-        <ResearchSections language={language} localCasesAvailable={localCasesAvailable} />
+        <MechanismSection language={language} localCasesAvailable onOpenCase={openContentCase} />
+        <RefinementSection language={language} onOpenCase={openContentCase} />
+        <ResearchSections language={language} localCasesAvailable />
 
         <section className="demo-closing" data-demo-reveal>
           <div><h2>{content.closingTitle}</h2><p>{content.closingBody}</p></div>

@@ -1,6 +1,7 @@
 import { ArrowRight, ArrowUpRight, Check, DownloadSimple, FileSvg, ImageSquare, LockKey, TextT, UploadSimple, VectorThree } from "@phosphor-icons/react";
 import { useEffect, useState } from "react";
 import { ProductFooter, ProductLink, type ProductNavigation } from "./ProductHeader";
+import { openGuideExample } from "./WorkspaceDocuments";
 
 const guideSections = ["open", "edit", "export", "drafts", "generate", "account"] as const;
 
@@ -21,7 +22,15 @@ export function ProductGuidePage(props: ProductNavigation) {
   const { language, hrefFor, onNavigate } = props;
   const zh = language === "zh";
   const [active, setActive] = useState("open");
-  const titles = zh ? ["打开一个 SVG", "编辑图中的元素", "检查并导出", "保存与恢复草稿", "准备生成或重建", "账户与数据"] : ["Open an SVG", "Edit the elements", "Check and export", "Save and restore drafts", "Prepare generation", "Accounts and data"];
+  const [exampleBusy, setExampleBusy] = useState(false);
+  const [exampleError, setExampleError] = useState(false);
+  async function startExample() {
+    setExampleBusy(true); setExampleError(false);
+    try { await openGuideExample(() => onNavigate("/editor")); }
+    catch { setExampleError(true); }
+    finally { setExampleBusy(false); }
+  }
+  const titles = zh ? ["打开一个 SVG", "编辑图中的元素", "检查并导出", "保存 SVG 与草稿", "准备生成或重建", "账户与数据"] : ["Open an SVG", "Edit the elements", "Check and export", "Save SVGs and drafts", "Prepare generation", "Accounts and data"];
   useEffect(() => {
     let frame = 0;
     const update = () => {
@@ -49,6 +58,8 @@ export function ProductGuidePage(props: ProductNavigation) {
           <span className="product-guide-number">01</span><h2>{titles[0]}</h2><p>{zh ? "在工作台点击「打开 SVG 编辑器」，选择设备上的 .svg 文件，或新建一张空白画布。" : "Choose “Open SVG editor” in the workspace, then open a .svg file from your device or create a blank canvas."}</p>
           <div className="product-guide-open-options"><div><UploadSimple size={22} /><strong>{zh ? "打开已有文档" : "Open a document"}</strong><p>{zh ? "支持拖放或文件选择，最大 5 MB。" : "Drop a file or use the file picker. Up to 5 MB."}</p></div><div><FileSvg size={22} /><strong>{zh ? "新建空白画布" : "Create a blank canvas"}</strong><p>{zh ? "从空白文档开始添加图形、文字与连接线。" : "Start from scratch with shapes, text and connectors."}</p></div></div>
           <p className="product-guide-note"><LockKey size={17} />{zh ? "本地 SVG 只在浏览器中处理，无需登录。" : "Local SVGs are processed in your browser. No account is needed."}</p>
+          <div className="product-guide-example"><img src={`${import.meta.env.BASE_URL}assets/demo/cases/study/result.png`} width="1774" height="887" loading="lazy" alt={zh ? "用于练习编辑的学习与记忆流程图" : "Learning and memory figure for practicing SVG edits"} /><div><h3>{zh ? "先用一张示例熟悉操作" : "Learn with an example"}</h3><p>{zh ? "选中文字并修改，再移动一个图形。导出后重新打开，检查改动是否保留。" : "Select and edit a label, then move a shape. Export and reopen the SVG to check your changes."}</p><button type="button" className="product-button product-button-secondary" disabled={exampleBusy} onClick={() => void startExample()}>{exampleBusy ? zh ? "正在打开…" : "Opening…" : zh ? "用示例开始编辑" : "Edit the example"}<ArrowRight size={16} /></button></div></div>
+          {exampleError && <p className="product-documents-error" role="alert">{zh ? "示例暂时无法打开。可以在编辑器中直接导入自己的文件。" : "The example could not be opened. You can import your own file in the editor."}</p>}
         </section>
         <section className="product-guide-section" id="guide-edit"><span className="product-guide-number">02</span><h2>{titles[1]}</h2><p>{zh ? "选择画布中的对象，在属性面板调整位置、尺寸、颜色和文字。图层面板可以帮助找到组合内的元素。" : "Select an object and use the inspector to adjust its position, dimensions, colors and text. The layer panel helps locate elements within groups."}</p>
           <GuideFigure zh={zh} />
@@ -64,10 +75,11 @@ export function ProductGuidePage(props: ProductNavigation) {
           <div className="product-guide-export"><DownloadSimple size={24} /><div><strong>{zh ? "导出当前编辑结果" : "Export your current edits"}</strong><span>{zh ? "保存为 SVG，后续仍可继续编辑。" : "Save as SVG and continue editing later."}</span></div><span className="product-file-tag">.svg</span></div>
           <p className="product-guide-note">{zh ? "文档使用的字体需要在接收方设备上可用；缺少字体时可能显示替代字形。" : "Fonts used in the document should be available on the receiving device. Missing fonts may be substituted."}</p>
         </section>
-        <section className="product-guide-section" id="guide-drafts"><span className="product-guide-number">04</span><h2>{titles[3]}</h2><p>{zh ? "工作台里的描述与输出设置会自动保存为本地草稿。可以新建、重命名、切换或删除草稿。SVG 编辑器也会在当前浏览器保存最近的文档，返回时可以继续编辑。" : "Descriptions and output settings are saved as local drafts. Create, rename, switch or delete them in the workspace. The SVG editor also saves the latest document in this browser so you can return to it."}</p><p>{zh ? "本地保存不跨设备同步。清除网站数据会删除本地记录，重要结果请另外导出。参考图片的本地预览在刷新后需要重新选择。" : "Local files do not sync across devices. Clearing site data removes local records, so export important work separately. Reference-image previews need to be selected again after a refresh."}</p></section>
+        <section className="product-guide-section" id="guide-drafts"><span className="product-guide-number">04</span><h2>{titles[3]}</h2><p>{zh ? "工作台中的「我的 SVG」保存已经导入或创建的文档，可以搜索、重命名、下载和删除。点击缩略图回到编辑器，继续修改对应文档。新建画布会另外保存，已有文档仍会保留。" : "“My SVGs” keeps imported and created documents. Search, rename, download or delete them in the workspace. Open a thumbnail to continue editing that document. New canvases are saved separately."}</p><p>{zh ? "描述与输出设置作为另一类草稿保存在历史记录中。本地保存不跨设备同步；清除网站数据会删除本地记录，重要结果请另外导出。参考图片的本地预览在刷新后需要重新选择。" : "Descriptions and output settings are kept separately in draft history. Local records do not sync across devices, and clearing site data removes them. Export important work separately. Reference previews need to be selected again after a refresh."}</p></section>
         <section className="product-guide-section" id="guide-generate"><span className="product-guide-number">05</span><div className="product-guide-section-title"><h2>{titles[4]}</h2><span className="product-pending">{zh ? "服务待接入" : "Service pending"}</span></div><p>{zh ? "工作台保留两种输入方式。现在可以准备内容和预览图片，生成与重建服务接入后再提交处理。" : "The workspace has two input modes. You can prepare content and preview an image now; processing will be enabled once the generation and reconstruction services are connected."}</p><dl className="product-guide-capabilities"><div><dt>{zh ? "新建图像" : "Create an image"}</dt><dd>{zh ? "描述图中的对象、关系与重点，需要时附加参考图。" : "Describe the objects, relationships and emphasis, with an optional reference image."}</dd></div><div><dt>{zh ? "重建已有图片" : "Reconstruct an image"}</dt><dd>{zh ? "选择原图，补充需要保留的文字、布局或细节。" : "Select the source and add notes on text, layout or details to preserve."}</dd></div></dl><ProductLink route="/workspace" hrefFor={hrefFor} onNavigate={onNavigate} className="product-text-link">{zh ? "到工作台准备内容" : "Prepare content in the workspace"}<ArrowRight size={16} /></ProductLink></section>
         <section className="product-guide-section" id="guide-account"><span className="product-guide-number">06</span><h2>{titles[5]}</h2><p>{zh ? "当前公开版本不提供在线账户、云端文件保存或付费订阅。本地编辑无需登录，也不会消耗生成额度。" : "The public version does not yet offer online accounts, cloud storage or paid subscriptions. Local editing requires no login and uses no generation credits."}</p><p>{zh ? "未来登录方式开放后，可以在同一账户下管理草稿与文件。实际数据处理和保留规则会在服务开放前更新。" : "When sign-in becomes available, an account will manage your drafts and files. Data handling and retention rules will be updated before service launch."}</p></section>
         <div className="product-guide-end"><Check size={20} /><span>{zh ? "打开自己的 SVG，实际试一遍。" : "Open your own SVG and try it."}</span><ProductLink route="/editor" hrefFor={hrefFor} onNavigate={onNavigate} className="product-text-link">{zh ? "开始编辑" : "Start editing"}<ArrowRight size={16} /></ProductLink></div>
+        <div className="product-guide-help"><h2>{zh ? "遇到问题时" : "When something goes wrong"}</h2>{(zh ? [["文件打不开？", "检查文件是否为 SVG，大小是否超过 5 MB。复杂文件可先在原软件中精简，再导入。导入失败会保留当前文档。"], ["文字显示不同？", "先检查原图使用的字体是否在当前设备可用。已经转为路径的文字需要按图形编辑。"], ["找不到文档？", "本地文档只在保存时使用的浏览器和网站地址下可见。无痕窗口、另一台设备或清除网站数据后不能读取原记录。"], ["保存失败怎么办？", "先导出 SVG 到设备，避免丢失改动。检查浏览器存储空间和网站权限，再重新打开文件。"]] : [["The file will not open", "Check that it is an SVG and is within the 5 MB import limit. Simplify complex files in their source application. Failed imports preserve the current document."], ["Text looks different", "Check whether the document’s fonts are available on this device. Text already converted to paths is edited as a shape."], ["A document is missing", "Local documents belong to the browser and site address where you saved them. Other devices, private windows and cleared site data cannot access the original records."], ["Saving fails", "Export an SVG to your device first. Then check browser storage and site permissions before reopening the file."]]).map(([question, answer]) => <details key={question}><summary>{question}<span aria-hidden="true">+</span></summary><p>{answer}</p></details>)}</div>
       </div>
     </div>
     <ProductFooter {...props} />

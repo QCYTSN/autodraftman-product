@@ -38,6 +38,7 @@ export function ProductSvgEditorPage({ language, ui, onLanguageChange, hrefFor, 
   const [newDocumentOpen, setNewDocumentOpen] = useState(false);
   const [state, setState] = useState<SvgEditState>(emptyEditorState);
   const latestSnapshot = useRef<LocalEditorDocument | null>(null);
+  const documentId = useRef("");
   const saveSequence = useRef(0);
   const importSequence = useRef(0);
 
@@ -47,12 +48,13 @@ export function ProductSvgEditorPage({ language, ui, onLanguageChange, hrefFor, 
       if (!saved || cancelled) return;
       const imported = restoreSvgDocument(saved.markup, saved.fileName);
       if (cancelled) return;
+      documentId.current = saved.id;
       setDocument(imported); setMarkup(imported.markup); setRestored(true);
     }).catch(() => { if (!cancelled) setSaveState("failed"); }).finally(() => { if (!cancelled) setBusy(false); });
     return () => { cancelled = true; };
   }, []);
 
-  latestSnapshot.current = document && markup ? { fileName: document.fileName, markup, updatedAt: new Date().toISOString() } : null;
+  latestSnapshot.current = document && markup ? { id: documentId.current, fileName: document.fileName, markup, updatedAt: new Date().toISOString() } : null;
   useEffect(() => {
     const snapshot = latestSnapshot.current;
     if (!snapshot) return;
@@ -75,6 +77,9 @@ export function ProductSvgEditorPage({ language, ui, onLanguageChange, hrefFor, 
     try {
       const imported = await importSvgDocument(file);
       if (sequence !== importSequence.current) return;
+      if (latestSnapshot.current) await saveEditorDocument(latestSnapshot.current).catch(() => undefined);
+      if (sequence !== importSequence.current) return;
+      documentId.current = crypto.randomUUID();
       setDocument(imported); setMarkup(imported.markup); setReady(false); setRestored(false);
     } catch (error) {
       if (sequence === importSequence.current) setImportError(error instanceof SvgImportError ? error.code : "invalid");
@@ -102,6 +107,6 @@ export function ProductSvgEditorPage({ language, ui, onLanguageChange, hrefFor, 
       {!document ? busy ? <div className="product-editor-loading" role="status">{zh ? "正在读取本地文档…" : "Loading local document…"}</div> : <EditorEmptyState zh={zh} busy={busy} onOpen={() => fileInput.current?.click()} onBlank={createBlank} onDrop={file => void openFile(file)} /> : <FigFoxEditorChrome language={language} ready={ready} state={state} editor={editorRef.current} sourceMarkup={markup} onSourceApply={async source => { setMarkup(await sanitizeSvgMarkup(source, document.fileName)); }}><SvgEditHost ref={editorRef} language={language} markup={markup} loadingLabel={ui.workspace.editorLoading} onMarkupChange={setMarkup} onReadyChange={setReady} onStateChange={setState} /></FigFoxEditorChrome>}
     </main>
     {!document && <footer className="product-editor-empty-footer"><span><Check size={15} />{zh ? "可编辑文字与路径" : "Editable text and paths"}</span><span><BezierCurve size={15} />{zh ? "原生 SVG 编辑" : "Native SVG editing"}</span><ProductLink route="/docs" hrefFor={hrefFor} onNavigate={onNavigate}>{zh ? "查看使用指南" : "Read the guide"}<ArrowRight size={15} /></ProductLink></footer>}
-    <Dialog.Root open={newDocumentOpen} onOpenChange={setNewDocumentOpen}><Dialog.Portal><Dialog.Backdrop className="modal-backdrop" /><Dialog.Viewport className="dialog-viewport"><Dialog.Popup className="product-new-document-dialog"><Dialog.Close className="dialog-close" aria-label={zh ? "关闭" : "Close"}><X size={19} /></Dialog.Close><Dialog.Title>{zh ? "新建一张画布？" : "Create a new canvas?"}</Dialog.Title><Dialog.Description>{zh ? "新文档将替换当前本地记录。请先导出需要保留的 SVG。" : "The new document will replace the current local record. Export your SVG first if you want to keep it."}</Dialog.Description><div><Dialog.Close className="product-button product-button-secondary">{zh ? "继续编辑" : "Keep editing"}</Dialog.Close><button className="product-button product-button-primary" type="button" onClick={createBlank}>{zh ? "新建画布" : "Create canvas"}</button></div></Dialog.Popup></Dialog.Viewport></Dialog.Portal></Dialog.Root>
+    <Dialog.Root open={newDocumentOpen} onOpenChange={setNewDocumentOpen}><Dialog.Portal><Dialog.Backdrop className="modal-backdrop" /><Dialog.Viewport className="dialog-viewport"><Dialog.Popup className="product-new-document-dialog"><Dialog.Close className="dialog-close" aria-label={zh ? "关闭" : "Close"}><X size={19} /></Dialog.Close><Dialog.Title>{zh ? "新建一张画布？" : "Create a new canvas?"}</Dialog.Title><Dialog.Description>{zh ? "新画布会另存为一份文档，当前文档保留在工作台中。本地保存失败时，请先导出。" : "The new canvas is saved separately. Your current document stays in the workspace. Export first if local saving has failed."}</Dialog.Description><div><Dialog.Close className="product-button product-button-secondary">{zh ? "继续编辑" : "Keep editing"}</Dialog.Close><button className="product-button product-button-primary" type="button" onClick={createBlank}>{zh ? "新建画布" : "Create canvas"}</button></div></Dialog.Popup></Dialog.Viewport></Dialog.Portal></Dialog.Root>
   </div>;
 }

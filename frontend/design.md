@@ -32,11 +32,12 @@ Pricing uses three aligned plans. Sketch, Folio and Atlas retain their names,
 illustration assets and original pricing values. Plan comparison and FAQ sit
 below; subscriptions remain visibly unavailable until payment exists.
 
-The guide is a reading surface with a sticky section directory and a readable
-article width. The workspace has a record rail, input panel and main working
-surface. Mobile stacks the form and canvas; history becomes a focus-managed
-drawer. Functional panels may be denser than the showcase without acquiring
-marketing-sized headings or decorative rules.
+The guide is a reading surface with a sticky directory, a real example that
+opens in the editor, and practical troubleshooting. The workspace has a draft
+rail, preparation form and a library of independently saved SVGs. Source previews
+and the library can be switched without removing a reference image. Mobile
+stacks the form and library; history becomes a focus-managed drawer. Functional
+panels may be denser than the showcase without marketing-sized headings.
 
 ## Motion and pointer
 
@@ -57,7 +58,9 @@ Keep copy literal and tied to available actions. Do not present invented usage
 counts, research scores, generation results, account identities or credit balances.
 Use native details for FAQ and focus-managed dialogs for consequential choices.
 
-The static release edits and exports real local SVGs. Generation, OAuth and
+The showcase uses the same curated assets and full sections in development and
+production. Only unmeasured charts use placeholders. The static release edits,
+stores and exports multiple real local SVGs. Generation, OAuth and
 subscriptions have truthful pending states. A local document save is distinct
 from a hosted account or a cloud backup; failed storage must not claim success.
 

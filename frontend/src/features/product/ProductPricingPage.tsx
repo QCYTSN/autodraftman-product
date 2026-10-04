@@ -45,6 +45,7 @@ export function ProductPricingPage(props: ProductNavigation) {
       <p className="product-pricing-note"><i aria-hidden="true" />{zh ? "方案预览 · 订阅暂未开放" : "Proposed plans · subscriptions are not open yet"}</p>
     </section>
 
+    <section className="product-free-editor product-container"><div><span>{zh ? "当前可用" : "Available now"}</span><h2>{zh ? "本地 SVG 编辑，免费使用" : "Local SVG editing is free"}</h2><p>{zh ? "打开、修改、保存和导出自己的 SVG，无需登录或订阅。" : "Open, edit, save and export your own SVGs without an account or subscription."}</p></div><ProductLink route="/editor" hrefFor={hrefFor} onNavigate={onNavigate} className="product-button product-button-secondary">{zh ? "开始编辑" : "Start editing"}<ArrowRight size={17} /></ProductLink></section>
     <section className="product-plans product-container" aria-label={zh ? "拟定套餐" : "Proposed plans"}>
       {plans.map((plan, index) => <article className={`product-plan ${index === 1 ? "product-plan-featured" : ""}`} key={plan.name}>
         <div className="product-plan-top"><img src={`${import.meta.env.BASE_URL}assets/pricing-${plan.image}-v2.png`} width="80" height="80" alt="" />{index === 1 && <span>{zh ? "日常研究" : "Everyday research"}</span>}</div>
@@ -53,7 +54,7 @@ export function ProductPricingPage(props: ProductNavigation) {
         <div className="product-plan-price"><span>$</span><strong>{plan[billing]}</strong><span>{zh ? "/ 月" : "/ month"}</span></div>
         <p className="product-plan-billing">{billing === "yearly" ? zh ? `全年 $${plan.yearly * 12}，一次支付` : `$${plan.yearly * 12} billed annually` : zh ? "按月支付" : "Billed monthly"}</p>
         <button className={`product-button ${index === 1 ? "product-button-primary" : "product-button-secondary"}`} type="button" onClick={() => setSelectedPlan(selectedPlan === plan.name ? null : plan.name)} aria-expanded={selectedPlan === plan.name} aria-controls={`plan-note-${plan.name}`}>{zh ? "查看方案" : "View plan"}<ArrowRight size={17} /></button>
-        {selectedPlan === plan.name && <p className="product-plan-message" id={`plan-note-${plan.name}`} role="status">{zh ? `${plan.name} 暂未开放订阅，当前不会收费。` : `${plan.name} is not open for subscription yet. No payment will be taken.`}</p>}
+        {selectedPlan === plan.name && <div className="product-plan-message" id={`plan-note-${plan.name}`} role="status"><strong>{zh ? plan.zh : plan.en}</strong><p>{zh ? `拟定每月 ${plan.credits} 份额度，${index === 0 ? "适合零散的制图需求" : index === 1 ? "包含高分辨率结果与较长草稿保留" : "包含高分辨率结果与优先处理"}。` : `${plan.credits} proposed monthly credits. ${index === 0 ? "For occasional figure work." : index === 1 ? "With higher-resolution output and extended draft retention." : "With higher-resolution output and priority processing."}`}</p><p>{zh ? `${plan.name} 暂未开放订阅，当前不会收费。本地 SVG 编辑可直接免费使用。` : `${plan.name} is not open for subscription yet. No payment will be taken. Local SVG editing is free.`}</p></div>}
         <ul>
           <li><Check size={17} /><span>{zh ? `每月 ${plan.credits} 次生成` : `${plan.credits} generations / month`}</span></li>
           <li><Check size={17} /><span>{zh ? "图像生成与 SVG 重建" : "Image generation and SVG reconstruction"}</span></li>

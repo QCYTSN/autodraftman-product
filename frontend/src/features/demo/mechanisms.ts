@@ -97,4 +97,4 @@ export type RepairReceipt = {
 
 type EvidenceFile = "baseline.svg" | "crop-original.png" | "crop-draft.png" | "sam-reading.png" | "sam-restudy.png" | "sam-recall.png" | "repair-receipt.json";
 export const mechanismAsset = (file: EvidenceFile) =>
-  import.meta.env.BASE_URL + "__demo-assets/study/" + file;
+  import.meta.env.BASE_URL + "assets/demo/cases/study/" + file;

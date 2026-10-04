@@ -2,7 +2,7 @@ import { demoCases, type DemoCase, type DemoLanguage } from "./cases";
 
 type Localized = Record<DemoLanguage, string>;
 
-// Curated input figures from the existing dataset. Sample images are local-only;
+// Curated input figures from the existing dataset, included in the showcase;
 // their presence does not imply a completed benchmark or a quality score.
 export const evaluationSamples: DemoCase[] = [
   ...demoCases,

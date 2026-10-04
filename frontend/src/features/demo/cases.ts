@@ -29,8 +29,7 @@ export const demoCases: DemoCase[] = [
 ];
 
 export function demoAsset(id: string, file: "input.png" | "result.png" | "result.svg" | "baseline.svg") {
-  const folder = import.meta.env.DEV ? "__demo-assets" : "assets/demo/cases";
-  return import.meta.env.BASE_URL + folder + "/" + id + "/" + file;
+  return import.meta.env.BASE_URL + "assets/demo/cases/" + id + "/" + file;
 }
 
 export const demoBrandAsset = (file: string) =>
