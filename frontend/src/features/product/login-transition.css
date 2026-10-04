@@ -1,0 +1,58 @@
+/* Keep the brand and pointer steady while the surrounding page changes. */
+html[data-figfox-navigation] .product-header .product-brand,
+html[data-figfox-navigation] .product-login-header .product-brand { view-transition-name: figfox-brand; }
+html[data-figfox-navigation] .figfox-cursor { view-transition-name: figfox-pointer; }
+html[data-figfox-navigation]::view-transition { pointer-events: none; }
+html[data-figfox-navigation]::view-transition-group(root) { animation: none; }
+html[data-figfox-navigation]::view-transition-image-pair(root) { isolation: isolate; }
+html[data-figfox-navigation]::view-transition-old(root) { animation: figfox-login-fade-out 160ms ease-out both; mix-blend-mode: normal; }
+html[data-figfox-navigation]::view-transition-new(root) { animation: figfox-login-fade-in 340ms 30ms cubic-bezier(.22,1,.36,1) both; mix-blend-mode: normal; }
+html[data-figfox-navigation]::view-transition-group(figfox-brand) { animation-duration: 370ms; animation-timing-function: cubic-bezier(.22,1,.36,1); z-index: 2; }
+html[data-figfox-navigation]::view-transition-old(figfox-brand),
+html[data-figfox-navigation]::view-transition-old(figfox-pointer) { display: none; }
+html[data-figfox-navigation]::view-transition-new(figfox-brand),
+html[data-figfox-navigation]::view-transition-new(figfox-pointer) { animation: none; mix-blend-mode: normal; }
+html[data-figfox-navigation]::view-transition-group(figfox-pointer) { animation: none; z-index: 3; }
+html[data-figfox-navigation="login-out"]::view-transition-new(root) { animation-duration: 280ms; animation-delay: 15ms; }
+
+.product-login-header > div { animation: figfox-login-rise 330ms 40ms cubic-bezier(.22,1,.36,1) both; }
+.product-login-visual-content { animation: figfox-login-rise 440ms 35ms cubic-bezier(.22,1,.36,1) both; }
+.product-login-visual-footnote { animation: figfox-login-fade-in 320ms 110ms ease-out both; }
+.product-login-form > h1,
+.product-login-description { animation: figfox-login-rise 380ms 45ms cubic-bezier(.22,1,.36,1) both; }
+.product-login-providers { animation: figfox-login-rise 360ms 95ms cubic-bezier(.22,1,.36,1) both; }
+.product-login-availability,
+.product-login-error,
+.product-login-continue,
+.product-login-local-note,
+.product-login-legal { animation: figfox-login-rise 340ms 130ms cubic-bezier(.22,1,.36,1) both; }
+
+@keyframes figfox-login-fade-out { to { opacity: 0; } }
+@keyframes figfox-login-fade-in { from { opacity: 0; } to { opacity: 1; } }
+@keyframes figfox-login-rise { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
+
+@media (max-width: 700px) {
+  .product-login-form > h1,
+  .product-login-description { animation-delay: 25ms; }
+  .product-login-providers { animation-delay: 65ms; }
+  .product-login-continue,
+  .product-login-local-note,
+  .product-login-legal,
+  .product-login-availability { animation-delay: 100ms; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .product-login-header > div,
+  .product-login-visual-content,
+  .product-login-visual-footnote,
+  .product-login-form > h1,
+  .product-login-description,
+  .product-login-providers,
+  .product-login-availability,
+  .product-login-error,
+  .product-login-continue,
+  .product-login-local-note,
+  .product-login-legal { animation: none; }
+  html[data-figfox-navigation]::view-transition-group(*),
+  html[data-figfox-navigation]::view-transition-old(*),
+  html[data-figfox-navigation]::view-transition-new(*) { animation: none; }
+}

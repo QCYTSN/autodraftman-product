@@ -119,6 +119,7 @@ import { ProductPromptField } from "./features/product/ProductPromptField";
 import { FigureProcessPreview } from "./features/product/FigureProcess";
 import { ProductLoginPage } from "./features/product/ProductLoginPage";
 import { PublicFeedbackPage } from "./features/product/PublicFeedbackPage";
+import { useLoginTransition } from "./features/product/useLoginTransition";
 import "./features/product/product.css";
 import "./features/product/workspace.css";
 import { FigFoxSelect } from "./components/ui/FigFoxSelect";
@@ -3101,6 +3102,8 @@ function AccountDialog({
 export default function App() {
   const initialRoute = routeFromLocation(window.location.pathname);
   const [route, setRoute] = useState<RoutePath>(initialRoute);
+  const currentRoute = useRef<RoutePath>(initialRoute);
+  const animateNavigation = useLoginTransition();
   const [language, setLanguage] = useState<Language>(() => {
     const stored = window.localStorage.getItem("autodraftman-language");
     return stored === "en" ? "en" : "zh";
@@ -3135,11 +3138,16 @@ export default function App() {
   useEffect(() => {
     const handlePopState = () => {
       pendingAction.current = null;
-      setRoute(routeFromLocation(window.location.pathname));
+      const nextRoute = routeFromLocation(window.location.pathname);
+      animateNavigation(currentRoute.current, nextRoute, () => {
+        currentRoute.current = nextRoute;
+        setRoute(nextRoute);
+        if (nextRoute === "/login") window.scrollTo({ top: 0, behavior: "instant" });
+      });
     };
     window.addEventListener("popstate", handlePopState);
     return () => window.removeEventListener("popstate", handlePopState);
-  }, []);
+  }, [animateNavigation]);
 
   useEffect(() => {
     if (!apiConfigured) return;
@@ -3219,6 +3227,7 @@ export default function App() {
         try { window.sessionStorage.setItem("figfox-auth-return-route", returnRoute); } catch { /* In-memory return route remains available. */ }
       }
       url.pathname = routeHref("/login");
+      currentRoute.current = "/login";
       setRoute("/login");
     }
     url.searchParams.delete("auth");
@@ -3234,16 +3243,20 @@ export default function App() {
   }, [language]);
 
   const navigate = (path: RoutePath) => {
-    if (route === "/login" && path !== "/login") pendingAction.current = null;
-    if (path === "/workspace" && route === "/editor") {
+    const previousRoute = currentRoute.current;
+    if (previousRoute === "/login" && path !== "/login") pendingAction.current = null;
+    if (path === "/workspace" && previousRoute === "/editor") {
       try { window.sessionStorage.setItem("figfox-workspace-view", "documents"); } catch { /* The workspace can still open without persisted view state. */ }
     }
-    const nextHref = routeHref(path);
-    if (window.location.pathname !== nextHref) {
-      window.history.pushState({}, "", nextHref);
-    }
-    setRoute(path);
-    window.scrollTo({ top: 0, behavior: "smooth" });
+    animateNavigation(previousRoute, path, () => {
+      const nextHref = routeHref(path);
+      if (window.location.pathname !== nextHref) {
+        window.history.pushState({}, "", nextHref);
+      }
+      currentRoute.current = path;
+      setRoute(path);
+      window.scrollTo({ top: 0, behavior: previousRoute === "/login" || path === "/login" ? "instant" : "smooth" });
+    });
   };
 
   const openLogin = (action?: () => void) => {
