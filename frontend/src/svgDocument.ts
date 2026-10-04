@@ -265,9 +265,15 @@ export async function importSvgDocument(file: File): Promise<ImportedSvgDocument
 
   const purified = DOMPurify.sanitize(source, {
     USE_PROFILES: { svg: true, svgFilters: true },
+    // Preserve reusable SVG symbols; cleanExternalReferences below restricts hrefs.
+    ADD_TAGS: ["use"],
     FORBID_TAGS: forbiddenTags,
+    RETURN_DOM: true,
   });
-  const sanitized = parseSvg(purified);
+  const purifiedRoot = purified instanceof Element ? purified.querySelector("svg") : null;
+  if (!purifiedRoot) throw new SvgImportError("invalid");
+  // HTML serialization introduces entities such as &nbsp; that SVG XML rejects.
+  const sanitized = parseSvg(new XMLSerializer().serializeToString(purifiedRoot));
   const removedReferences = cleanExternalReferences(sanitized.root);
   const elementCount = sanitized.root.querySelectorAll("*").length;
   if (elementCount > maxSvgElements) throw new SvgImportError("complex");

@@ -2,9 +2,9 @@
 
 ## Source of truth
 
-This repository owns the product frontend and backend. The original
-`fyp_AutoDraftman` repository owns research experiments and the generation
-kernel. The public `QCYTSN/figfox` repository is currently a deployment
+This repository owns the product frontend and backend. The current
+`LawrenceRiver/FigFox` repository (locally `FigFox-926`) owns research experiments
+and the generation kernel. The public `QCYTSN/figfox` repository is currently a deployment
 mirror for the static preview and must not become a second feature-development
 source.
 

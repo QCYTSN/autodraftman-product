@@ -6,7 +6,7 @@ const executablePath =
   (process.platform === "win32"
     ? "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe"
     : "/usr/bin/google-chrome");
-const routes = [
+const defaultRoutes = [
   "/",
   "/examples",
   "/workspace",
@@ -17,6 +17,10 @@ const routes = [
   "/terms",
   "/content-policy",
 ];
+const routes = process.env.AUDIT_ROUTES
+  ? defaultRoutes.filter((route) => process.env.AUDIT_ROUTES.split(",").includes(route))
+  : defaultRoutes;
+if (!routes.length) throw new Error("AUDIT_ROUTES did not select any known route.");
 const widths = [320, 375, 414, 768, 1280, 1440, 1920];
 const languages = ["zh", "en"];
 const browser = await chromium.launch({ executablePath, headless: true });
@@ -69,7 +73,7 @@ for (const language of languages) {
         return `${element.tagName.toLowerCase()}${className ? `.${className}` : ""}`;
       };
       const textLineCount = (element) => {
-        const tops = [];
+        const lines = [];
         const walker = document.createTreeWalker(
           element,
           NodeFilter.SHOW_TEXT,
@@ -81,18 +85,21 @@ for (const language of languages) {
           range.selectNodeContents(node);
           for (const rect of range.getClientRects()) {
             if (rect.width < 1 || rect.height < 1) continue;
-            if (!tops.some((top) => Math.abs(top - rect.top) < 2)) {
-              tops.push(rect.top);
+            // Mixed font sizes on one line have different glyph tops. Group
+            // overlapping text rectangles instead of treating a small counter
+            // next to a label as an extra wrapped line.
+            if (!lines.some((line) => Math.min(line.bottom, rect.bottom) - Math.max(line.top, rect.top) >= Math.min(line.height, rect.height) * 0.6)) {
+              lines.push({ top: rect.top, bottom: rect.bottom, height: rect.height });
             }
           }
         }
-        return tops.length;
+        return lines.length;
       };
       const isClippedByAncestor = (element) => {
         let parent = element.parentElement;
         while (parent) {
           const overflow = getComputedStyle(parent).overflowX;
-          if (overflow === "hidden" || overflow === "clip") return true;
+          if (["hidden", "clip", "auto", "scroll"].includes(overflow)) return true;
           parent = parent.parentElement;
         }
         return false;
@@ -213,7 +220,8 @@ for (const language of languages) {
         workspaceModeSwitchOverflow,
         docsNavigationMissing:
           window.innerWidth >= 1280 &&
-          ![...document.querySelectorAll(".desktop-nav a")].some(
+          ![...document.querySelectorAll(document.querySelector(".demo-site")
+            ? ".demo-footer nav a" : ".desktop-nav a")].some(
             (link) => new URL(link.href).pathname.endsWith("/docs"),
           ),
       };

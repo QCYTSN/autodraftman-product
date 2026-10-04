@@ -25,6 +25,7 @@
     "svgedit": "^7.4.2"
   },
   "devDependencies": {
+    "@types/node": "^22.20.5",
     "@types/react": "^19.1.10",
     "@types/react-dom": "^19.1.7",
     "@vitejs/plugin-react": "^4.7.0",

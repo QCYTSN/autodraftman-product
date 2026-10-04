@@ -1,7 +1,7 @@
 # FigFox Product
 
 This repository is the source of truth for the FigFox web product.
-Research experiments and generated runs remain in the original FYP repository.
+Research experiments and generated runs remain in the separate FigFox kernel repository.
 
 ## Repository roles
 
@@ -11,9 +11,9 @@ Research experiments and generated runs remain in the original FYP repository.
 - `QCYTSN/figfox` is a static GitHub Pages deployment mirror. It may
   receive built assets from a reviewed product commit, but product features
   must not be edited there.
-- `LawrenceRiver/fyp_AutoDraftman` remains the research and generation-kernel
-  repository. Kernel work should enter this repository only through an agreed
-  runtime or API contract.
+- `LawrenceRiver/FigFox` is the current research and generation-kernel
+  repository, available locally in the sibling `FigFox-926` directory. Kernel
+  work should enter this repository only through an agreed runtime or API contract.
 
 Do not copy source changes back from a deployment mirror. Product development
 starts here, is reviewed here, and is deployed outward from a known commit.
@@ -51,6 +51,11 @@ npm run dev
 
 The frontend is available at `http://127.0.0.1:5173` and the API at
 `http://127.0.0.1:8000`.
+
+The public homepage prototype can run without the API. During local development,
+three experiment examples are read from an explicit allowlist in `FigFox-926`.
+Those research images and outputs are neither committed here nor included in a
+production build. See `docs/research/figfox-demo-design-2026-10-03.md`.
 
 ## Product information pages
 
