@@ -161,6 +161,17 @@ try {
   await custom(page,'link');
   record('Product text fields and portal dialogs use native cursors and resume browsing afterwards');
 
+  await page.locator('.product-account').click();
+  await page.waitForURL(/\/login$/);
+  await page.locator('.product-login-continue').hover();
+  await custom(page,'link');
+  assert.equal(await page.locator('.figfox-cursor').count(),1);
+  await page.screenshot({path:output+'/login-desktop.png'});
+  await page.locator('.product-login-back').click();
+  await page.waitForURL(/\/workspace$/);
+  assert.equal(await page.locator('#figure-prompt').inputValue(),'Local cursor regression draft');
+  record('Independent sign-in shares the brand cursor and returns to the retained draft');
+
   await page.locator('.product-nav a[href$="/pricing"]').click();
   await page.waitForTimeout(650);
   await page.locator('.product-faq summary').first().hover();
@@ -176,6 +187,7 @@ try {
   record('FAQ has control feedback; selecting product copy restores the native cursor');
 
   await page.locator('.product-nav a[href$="/workspace"]').click();
+  await page.getByRole('button',{name:'我的 SVG',exact:true}).click();
   const create = page.getByRole('button',{name:/^新建画布/});
   await create.hover();
   await custom(page,'link');

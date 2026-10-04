@@ -35,7 +35,8 @@ try {
   assert.equal(await page.locator(".product-faq details").first().getAttribute("open"), "");
   record("Plan availability and working FAQ disclosures");
   await page.locator(".product-account").click();
-  assert.equal(await page.locator(".login-dialog .oauth-button:disabled").count(), 3);
+  await page.waitForURL(/\/login$/);
+  assert.equal(await page.locator(".product-login-providers .oauth-button:disabled").count(), 3);
   await page.getByRole("button", { name: /继续使用工作台/ }).click();
   await page.waitForURL(/\/workspace$/);
   assert.equal(await page.locator(".workspace-balance").count(), 0);
@@ -58,15 +59,15 @@ try {
   await page.getByRole("button", { name: "取消", exact: true }).click();
   assert.equal(await page.getByRole("alertdialog").count(), 0);
   record("Draft deletion offers a keyboard-accessible cancel action");
-  await page.getByRole("tab", { name: "重建", exact: true }).click();
+  await page.getByRole("tab", { name: "图片转 SVG", exact: true }).click();
   await page.locator("#reference-file").setInputFiles({ name: "reference.png", mimeType: "image/png", buffer: Buffer.from("iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+/NhoAAAAASUVORK5CYII=", "base64") });
   assert.ok((await page.locator(".reference-upload-copy").innerText()).includes("本地预览"));
   assert.equal(await page.locator(".product-workspace-source").count(), 1);
   await page.getByRole("button", { name: "我的 SVG", exact: true }).click();
   await page.locator(".product-documents").waitFor();
-  assert.equal(await page.locator(".product-workspace-source").count(), 0);
+  assert.equal(await page.locator(".product-workspace-source:visible").count(), 0);
   await page.getByRole("button", { name: "原图预览", exact: true }).click();
-  assert.equal(await page.locator(".product-workspace-source").count(), 1);
+  assert.equal(await page.locator(".product-workspace-source:visible").count(), 1);
   record("Reference image previews locally without an upload or authentication request");
   while (await page.locator(".workspace-record-delete").count() > 1) {
     await page.locator(".workspace-record-delete").last().click();
@@ -123,7 +124,7 @@ try {
   assert.equal(file.suggestedFilename(), "editor-test-figfox.svg");
   record("Export contains the actual edits and the original text");
   await page.locator('.product-editor-back').click();
-  await page.getByRole("button", { name: "打开 SVG 编辑器", exact: true }).click();
+  await page.locator(".workspace-editor-link").click();
   await waitReady(page);
   assert.equal(await page.frameLocator("iframe").locator("#test-panel").getAttribute("fill"), "#24a37a");
   await page.reload({ waitUntil: "networkidle" });

@@ -6,6 +6,7 @@ const routeNames = [
   "examples",
   "pricing",
   "workspace",
+  "login",
   "editor",
   "docs",
   "feedback",

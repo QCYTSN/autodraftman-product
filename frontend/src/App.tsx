@@ -23,6 +23,7 @@ import {
   PaintBrush,
   PaperPlaneTilt,
   PencilSimple,
+  PlayCircle,
   Plus,
   Selection,
   SignOut,
@@ -114,7 +115,11 @@ import { ProductHeader } from "./features/product/ProductHeader";
 import { ProductPricingPage } from "./features/product/ProductPricingPage";
 import { ProductGuidePage } from "./features/product/ProductGuidePage";
 import { WorkspaceDocuments } from "./features/product/WorkspaceDocuments";
+import { ProductPromptField } from "./features/product/ProductPromptField";
+import { FigureProcessPreview } from "./features/product/FigureProcess";
+import { ProductLoginPage } from "./features/product/ProductLoginPage";
 import "./features/product/product.css";
+import "./features/product/workspace.css";
 import { FigFoxSelect } from "./components/ui/FigFoxSelect";
 import { FigFoxCursor } from "./components/ui/FigFoxCursor";
 import { FigFoxDemoPage } from "./features/demo/FigFoxDemoPage";
@@ -124,7 +129,6 @@ type Language = ProductLanguage;
 type Identity = "guest" | "user" | null;
 type AuthChoice = "guest" | "google" | "github" | "wechat";
 type RoutePath = ProductRoute;
-type GenerateStatus = "empty" | "generating" | "complete";
 type DraftSaveState =
   | "saved"
   | "saving"
@@ -863,6 +867,7 @@ function isRoutePath(value: string): value is RoutePath {
     "/",
     "/examples",
     "/workspace",
+    "/login",
     "/editor",
     "/pricing",
     "/docs",
@@ -1254,6 +1259,7 @@ function WorkspaceAccountSummary({
 }
 
 function WorkspacePage({
+  active = true,
   ui,
   language,
   identity,
@@ -1263,6 +1269,7 @@ function WorkspacePage({
   onAccount,
   onOpenEditor,
 }: {
+  active?: boolean;
   ui: UiCopy;
   language: Language;
   identity: Identity;
@@ -1278,10 +1285,16 @@ function WorkspacePage({
   const [prompt, setPrompt] = useState("");
   const [referenceFile, setReferenceFile] = useState<File | null>(null);
   const [referencePreview, setReferencePreview] = useState("");
-  const [workspaceView, setWorkspaceView] = useState<"documents" | "source">("documents");
+  const [workspaceView, setWorkspaceView] = useState<"task" | "documents" | "source">(() => {
+    try { return window.sessionStorage.getItem("figfox-workspace-view") === "documents" ? "documents" : "task"; }
+    catch { return "task"; }
+  });
+  const [processPreview, setProcessPreview] = useState(false);
   useEffect(() => {
-    setWorkspaceView(taskMode === "rebuild" && referencePreview ? "source" : "documents");
-  }, [taskMode, referencePreview]);
+    try { window.sessionStorage.setItem("figfox-workspace-view", workspaceView); }
+    catch { /* The current view remains usable when storage is unavailable. */ }
+  }, [workspaceView]);
+  useEffect(() => { setProcessPreview(false); }, [taskMode]);
   const [referenceAsset, setReferenceAsset] = useState<Asset | null>(null);
   const [referenceAssetId, setReferenceAssetId] = useState<string | null>(null);
   const [referenceStatus, setReferenceStatus] =
@@ -1292,7 +1305,6 @@ function WorkspacePage({
   const [format, setFormat] = useState("PNG");
   const [isPublic, setIsPublic] = useState(false);
   const [activeDraftTitle, setActiveDraftTitle] = useState<string | null>(null);
-  const [status] = useState<GenerateStatus>("empty");
   const [historyOpen, setHistoryOpen] = useState(false);
   const [historyCollapsed, setHistoryCollapsed] = useState(
     () => window.localStorage.getItem("autodraftman-history-collapsed") === "true",
@@ -1307,9 +1319,6 @@ function WorkspacePage({
   const [renamingDraftId, setRenamingDraftId] = useState("");
   const [renamingDraftTitle, setRenamingDraftTitle] = useState("");
   const [online, setOnline] = useState(() => window.navigator.onLine);
-  const [showOnboarding, setShowOnboarding] = useState(
-    () => window.localStorage.getItem("autodraftman-workspace-onboarded") !== "true",
-  );
   const uploadAbortRef = useRef<AbortController | null>(null);
   const activeUploadAssetIdRef = useRef<string | null>(null);
   const uploadSequenceRef = useRef(0);
@@ -1690,6 +1699,10 @@ function WorkspacePage({
   };
 
   const handleGenerate = () => {
+    if (!apiConfigured) {
+      setMessage(ui.workspace.generationUnavailable);
+      return;
+    }
     if (taskMode === "create" && !prompt.trim()) {
       setMessage(ui.workspace.promptError);
       return;
@@ -1713,6 +1726,8 @@ function WorkspacePage({
     const selected = event.target.files?.[0];
     event.target.value = "";
     if (!selected) return;
+    setMode("reference");
+    setWorkspaceView("task");
 
     const mediaType = mediaTypeFor(selected);
     setReferenceFile(selected);
@@ -1757,6 +1772,7 @@ function WorkspacePage({
   };
 
   const removeReference = () => {
+    if (taskMode === "create") setMode("text");
     uploadSequenceRef.current += 1;
     uploadAbortRef.current?.abort();
     uploadAbortRef.current = null;
@@ -1779,6 +1795,8 @@ function WorkspacePage({
   };
 
   const startNewDraft = () => {
+    setWorkspaceView("task");
+    setProcessPreview(false);
     const flushed = flushLocalDraft();
     uploadSequenceRef.current += 1;
     uploadAbortRef.current?.abort();
@@ -1814,6 +1832,8 @@ function WorkspacePage({
   };
 
   const selectDraft = (draft: WorkspaceDraft) => {
+    setWorkspaceView("task");
+    setProcessPreview(false);
     if (draft.id === activeDraftId) { setHistoryOpen(false); return; }
     const flushed = flushLocalDraft();
     if (flushed) setDrafts(current => current.map(item => item.id === flushed.id ? flushed : item));
@@ -1917,9 +1937,30 @@ function WorkspacePage({
     }
   };
 
+  const returnToDraft = () => {
+    setWorkspaceView("task");
+    setProcessPreview(false);
+    window.requestAnimationFrame(() => document.getElementById("figure-prompt")?.focus({ preventScroll: true }));
+  };
+
+  const promptField = <ProductPromptField
+    active={active && workspaceView === "task" && !processPreview}
+    language={language}
+    taskMode={taskMode}
+    value={prompt}
+    onChange={setPrompt}
+    onKeyDown={handlePromptKeyDown}
+    label={taskMode === "rebuild" ? workspaceCopy.rebuildPrompt : ui.workspace.promptLabel}
+    help={taskMode === "rebuild"
+      ? language === "zh" ? "可补充需要保留的文字、布局与细节。" : "Add notes on labels, layout and details to preserve."
+      : language === "zh" ? "明确的主体、标签和布局，会让绘图要求更清楚。" : "Describe the subject, labels and layout to make the brief clearer."}
+    message={message}
+    invalid={message === ui.workspace.promptError}
+  />;
+
   return (
     <main
-      className={`workspace-page ff-workspace-v2 page-enter ${
+      className={`workspace-page ff-workspace-v2 ff-workspace-v3 task-${taskMode} page-enter ${
         historyCollapsed ? "history-collapsed" : ""
       }`}
     >
@@ -2078,6 +2119,9 @@ function WorkspacePage({
             </div>
           </div>
           <div className="workspace-heading-actions">
+            <button type="button" className="workspace-view-link" aria-pressed={workspaceView === "task" && !processPreview} onClick={returnToDraft}><NotePencil size={16} />{language === "zh" ? "当前草稿" : "Current draft"}</button>
+            <button type="button" className="workspace-view-link" aria-pressed={workspaceView === "documents"} onClick={() => { setProcessPreview(false); setWorkspaceView("documents"); }}><Stack size={16} />{language === "zh" ? "我的 SVG" : "My SVGs"}</button>
+            <button type="button" className="workspace-editor-link" onClick={onOpenEditor}><BezierCurve size={17} /><span>{language === "zh" ? "打开 SVG 编辑器" : "Open SVG editor"}</span><ArrowUpRight size={14} /></button>
             <button
               className="workspace-mobile-history"
               type="button"
@@ -2093,10 +2137,16 @@ function WorkspacePage({
           </div>
         </header>
 
-        <div className="workspace-layout">
-        <section className={`result-panel ${taskMode}`}>
+        <div className={`workspace-layout workspace-view-${workspaceView} ${processPreview ? "is-process-preview" : ""}`}>
+        {workspaceView === "task" && !processPreview && <div className="workspace-start-heading">
+          <h2>{language === "zh" ? taskMode === "create" ? "创建科研图" : "将图片重建为 SVG" : taskMode === "create" ? "Create a scientific figure" : "Reconstruct an image as SVG"}</h2>
+          <p>{language === "zh" ? taskMode === "create" ? "描述图中的内容、布局与关系，也可以添加参考图。" : "上传原图，保留文字、图形和连接关系，继续编辑。" : taskMode === "create" ? "Describe the content, layout and relationships, or add a reference image." : "Upload a figure to reconstruct its text, shapes and connections."}</p>
+        </div>}
+        {processPreview && <FigureProcessPreview key={taskMode} active={active} language={language} mode={taskMode} onClose={returnToDraft} />}
+        {workspaceView !== "task" && !processPreview && <section className={`result-panel ${taskMode}`}>
+          <div className="workspace-documents-back"><button type="button" onClick={returnToDraft}><CaretLeft size={16} />{language === "zh" ? "返回草稿" : "Back to draft"}</button></div>
           {taskMode === "rebuild" && referencePreview && <header className="result-toolbar product-result-views" role="group" aria-label={language === "zh" ? "工作区视图" : "Workspace view"}>
-            <button type="button" aria-pressed={workspaceView === "documents"} onClick={() => setWorkspaceView("documents")}>{language === "zh" ? "我的 SVG" : "My SVGs"}</button>
+            <button type="button" aria-pressed={workspaceView === "documents"} onClick={() => setWorkspaceView("documents")}>{language === "zh" ? "文件列表" : "Documents"}</button>
             <button type="button" aria-pressed={workspaceView === "source"} onClick={() => setWorkspaceView("source")}>{language === "zh" ? "原图预览" : "Source preview"}</button>
           </header>}
           {taskMode === "rebuild" && referencePreview && workspaceView === "source" ? <div className="product-source-review">
@@ -2105,8 +2155,8 @@ function WorkspacePage({
             <p>{language === "zh" ? "可以先补充要保留的文字、布局和细节。重建服务开放后再提交处理。" : "Add notes on the text, layout and details to preserve. Processing will become available with the reconstruction service."}</p>
             <button type="button" className="product-button product-button-secondary" onClick={onOpenEditor}>{language === "zh" ? "打开 SVG 编辑器" : "Open SVG editor"}<ArrowRight size={17} /></button>
           </div> : <WorkspaceDocuments language={language} onOpenEditor={onOpenEditor} />}
-        </section>
-        <aside className="control-panel">
+        </section>}
+        <aside className="control-panel" hidden={workspaceView !== "task" || processPreview}>
           <Tabs.Root
             className="workspace-task-root"
             value={taskMode}
@@ -2114,124 +2164,31 @@ function WorkspacePage({
               const nextMode = value as "create" | "rebuild";
               setTaskMode(nextMode);
               if (nextMode === "rebuild") setMode("reference");
+              setWorkspaceView("task");
               setMessage("");
             }}
           >
             <Tabs.List className="workspace-task-switch" aria-label={ui.workspace.title}>
               <Tabs.Tab value="create">
                 <Plus size={16} />
-                {workspaceCopy.create}
+                {language === "zh" ? "创建图片" : "Create image"}
               </Tabs.Tab>
               <Tabs.Tab value="rebuild">
                 <BezierCurve size={16} />
-                {workspaceCopy.rebuild}
+                {language === "zh" ? "图片转 SVG" : "Image to SVG"}
               </Tabs.Tab>
               <Tabs.Indicator className="workspace-task-indicator" />
             </Tabs.List>
-            <p className="workspace-task-description">
-              {taskMode === "create"
-                ? workspaceCopy.createDescription
-                : workspaceCopy.rebuildDescription}
-            </p>
           </Tabs.Root>
 
-          {taskMode === "rebuild" && (
-            <section className="workspace-rebuild-intro">
-              <span>{workspaceCopy.rebuildKicker}</span>
-              <h2>{workspaceCopy.rebuildTitle}</h2>
-              <p>{workspaceCopy.rebuildBody}</p>
-              <ol>
-                {workspaceCopy.rebuildStages.map((stage, index) => (
-                  <li key={stage}>
-                    <i>{String(index + 1).padStart(2, "0")}</i>
-                    <span>{stage}</span>
-                  </li>
-                ))}
-              </ol>
-            </section>
-          )}
-
-          {taskMode === "create" && (
-            <Tabs.Root
-              value={mode}
-              onValueChange={(value) => setMode(value as "text" | "reference")}
-            >
-              <Tabs.List className="mode-switch" aria-label={ui.workspace.title}>
-                <Tabs.Tab value="text">
-                  <TextT size={17} />
-                  {ui.workspace.modeText}
-                </Tabs.Tab>
-                <Tabs.Tab value="reference">
-                  <ImageSquare size={17} />
-                  {ui.workspace.modeReference}
-                </Tabs.Tab>
-                <Tabs.Indicator className="mode-switch-indicator" />
-              </Tabs.List>
-            </Tabs.Root>
-          )}
-
-          {showOnboarding && (
-            <aside
-              className="workspace-onboarding"
-              aria-label={ui.workspace.onboardingTitle}
-            >
-              <NotePencil size={18} aria-hidden="true" />
-              <div>
-                <strong>{ui.workspace.onboardingTitle}</strong>
-                <p>{ui.workspace.onboardingBody}</p>
-              </div>
-              <button
-                type="button"
-                onClick={() => {
-                  window.localStorage.setItem(
-                    "autodraftman-workspace-onboarded",
-                    "true",
-                  );
-                  setShowOnboarding(false);
-                }}
-              >
-                {ui.workspace.onboardingDismiss}
-              </button>
-            </aside>
-          )}
-
-          <div className="form-block prompt-block">
-            <label htmlFor="figure-prompt">
-              {taskMode === "rebuild" ? workspaceCopy.rebuildPrompt : ui.workspace.promptLabel}
-            </label>
-            <textarea
-              id="figure-prompt"
-              value={prompt}
-              onChange={(event) => setPrompt(event.target.value)}
-              onKeyDown={handlePromptKeyDown}
-              placeholder={
-                taskMode === "rebuild"
-                  ? workspaceCopy.rebuildPromptPlaceholder
-                  : ui.workspace.promptPlaceholder
-              }
-              aria-describedby={message ? "prompt-message" : "prompt-help"}
-              aria-invalid={message ? "true" : undefined}
-            />
-            <div className="field-meta">
-              {message ? (
-                <p className="field-message" id="prompt-message" role="status">
-                  {message}
-                </p>
-              ) : (
-                <p className="field-help" id="prompt-help">
-                  {ui.workspace.promptHelp}
-                </p>
-              )}
-              <span>{prompt.length}/1200</span>
-            </div>
-          </div>
+          {taskMode === "create" && promptField}
 
           {(taskMode === "rebuild" || mode === "reference") && (
             <div className="form-block reference-block">
-              <label htmlFor="reference-file">{ui.workspace.referenceLabel}</label>
+              <label htmlFor="reference-file">{taskMode === "rebuild" ? language === "zh" ? "原图" : "Source image" : ui.workspace.referenceLabel}</label>
               {referencePreview ? (
                 <div className={`reference-upload-card ${referenceStatus}`}>
-                  <img src={referencePreview} alt="" />
+                  <img src={referencePreview} alt="" className={taskMode === "rebuild" ? "product-workspace-source" : undefined} />
                   <div className="reference-upload-copy">
                     <strong>
                       {referenceFile?.name ??
@@ -2275,45 +2232,54 @@ function WorkspacePage({
                   </button>
                 </div>
               ) : (
-                <label className="upload-zone" htmlFor="reference-file">
+                <button type="button" className="upload-zone" data-allow-wrap="true" onClick={() => document.getElementById("reference-file")?.click()} disabled={uploadBusy}>
                   <UploadSimple size={20} />
                   <span>
-                    <strong>{ui.workspace.uploadTitle}</strong>
+                    <strong>{taskMode === "rebuild" ? language === "zh" ? "选择需要重建的图片" : "Choose an image to reconstruct" : ui.workspace.uploadTitle}</strong>
                     <small>{ui.workspace.uploadBody}</small>
                   </span>
-                </label>
+                </button>
               )}
               {referencePreview && !uploadBusy && (
-                <label className="reference-replace" htmlFor="reference-file">
+                <div className="workspace-reference-actions">
+                <button type="button" className="reference-replace" onClick={() => document.getElementById("reference-file")?.click()}>
                   <UploadSimple size={15} />
                   {ui.workspace.replace}
-                </label>
+                </button>
+                {taskMode === "rebuild" && <button type="button" onClick={() => setWorkspaceView("source")}>{language === "zh" ? "原图预览" : "Source preview"}<ArrowUpRight size={13} /></button>}
+                </div>
               )}
-              <input
+            </div>
+          )}
+          {taskMode === "rebuild" && promptField}
+          <input
                 className="sr-only"
                 id="reference-file"
                 type="file"
+                tabIndex={-1}
                 accept=".png,.jpg,.jpeg,.webp,image/png,image/jpeg,image/webp"
                 aria-label={ui.workspace.referenceLabel}
                 onChange={handleFile}
                 disabled={uploadBusy}
               />
-            </div>
-          )}
+
+          <div className="workspace-composer-footer">
+          <button type="button" className="workspace-attach-reference" onClick={() => document.getElementById("reference-file")?.click()} disabled={uploadBusy}><UploadSimple size={17} /><span>{language === "zh" ? taskMode === "rebuild" ? "选择原图" : "添加参考图" : taskMode === "rebuild" ? "Choose source" : "Add reference"}</span></button>
 
           <Collapsible.Root
             className="settings-disclosure"
             open={settingsOpen}
             onOpenChange={setSettingsOpen}
+            onKeyDown={event => { if (event.key === "Escape") { setSettingsOpen(false); event.currentTarget.querySelector<HTMLButtonElement>(".settings-summary")?.focus(); } }}
           >
             <Collapsible.Trigger
               className="settings-summary"
               data-allow-wrap="true"
             >
               <span>
-                <strong>{ui.workspace.technicalSummary}</strong>
+                <strong>{language === "zh" ? taskMode === "create" ? "画幅与导出" : "保存设置" : "Options"}</strong>
                 <small>
-                  {ratio} · {format} ·{" "}
+                  {taskMode === "create" ? `${ratio} · ${format} · ` : "SVG · "}
                   {isPublic ? ui.workspace.public : ui.workspace.private}
                 </small>
               </span>
@@ -2326,7 +2292,7 @@ function WorkspacePage({
             </Collapsible.Trigger>
 
             <Collapsible.Panel className="settings-disclosure-body">
-                <div className="settings-block">
+                {taskMode === "create" && <div className="settings-block">
                   <p>{ui.workspace.settings}</p>
                   <div className="settings-grid">
                     <fieldset>
@@ -2364,7 +2330,7 @@ function WorkspacePage({
                       />
                     </label>
                   </div>
-                </div>
+                </div>}
 
                 <div className="privacy-control">
                   <div>
@@ -2400,24 +2366,16 @@ function WorkspacePage({
             disabled
             onClick={handleGenerate}
           >
-            {status === "generating" ? (
-              <>
-                <span className="button-loader" aria-hidden="true" />
-                {ui.workspace.generating}
-              </>
-            ) : (
-              <>
-                {language === "zh" ? taskMode === "rebuild" ? "重建服务尚未开放" : "生成服务尚未开放" : taskMode === "rebuild" ? "Reconstruction is not open yet" : "Generation is not open yet"}
-              </>
-            )}
+            {language === "zh" ? taskMode === "rebuild" ? "重建 SVG" : "生成图片" : taskMode === "rebuild" ? "Reconstruct SVG" : "Generate image"}<ArrowRight size={16} />
           </button>
-          <p className="mock-note">{language === "zh" ? "可以先准备内容，草稿会自动保存。" : "Prepare the content now. Your draft is saved automatically."}</p>
+          </div>
         </aside>
+        {workspaceView === "task" && !processPreview && <div className="workspace-process-entry"><p><i />{language === "zh" ? taskMode === "rebuild" ? "重建服务尚未开放，草稿会自动保存。" : "生成服务尚未开放，草稿会自动保存。" : taskMode === "rebuild" ? "Reconstruction is not open yet. Drafts save automatically." : "Generation is not open yet. Drafts save automatically."}</p><button type="button" onClick={() => setProcessPreview(true)}><PlayCircle size={17} />{language === "zh" ? "了解处理过程" : "See the process"}</button></div>}
 
       </div>
       </div>
 
-      <Dialog.Root open={historyOpen} onOpenChange={setHistoryOpen}>
+      <Dialog.Root open={historyOpen && active} onOpenChange={setHistoryOpen}>
         <Dialog.Portal>
           <Dialog.Backdrop className="modal-backdrop" />
           <Dialog.Viewport className="product-history-viewport">
@@ -2473,14 +2431,14 @@ function WorkspacePage({
               ui={ui}
               identity={identity}
               currentIdentity={currentIdentity}
-              onActivate={onAccount}
+              onActivate={() => { setHistoryOpen(false); onAccount(); }}
             />
           </Dialog.Popup>
           </Dialog.Viewport>
         </Dialog.Portal>
       </Dialog.Root>
 
-      <AlertDialog.Root open={!!draftToDelete} onOpenChange={open => { if (!open) setDraftToDelete(null); }}>
+      <AlertDialog.Root open={!!draftToDelete && active} onOpenChange={open => { if (!open) setDraftToDelete(null); }}>
         <AlertDialog.Portal>
           <AlertDialog.Backdrop className="modal-backdrop" />
           <AlertDialog.Viewport className="dialog-viewport">
@@ -2885,95 +2843,6 @@ function ProviderIcon({ provider }: { provider: string }) {
   return <UserCircle size={19} />;
 }
 
-function LoginDialog({
-  ui,
-  open,
-  busy,
-  error,
-  providers,
-  onClose,
-  onSelect,
-}: {
-  ui: UiCopy;
-  open: boolean;
-  busy: boolean;
-  error: string;
-  providers: AuthProvider[];
-  onClose: () => void;
-  onSelect: (identity: AuthChoice) => void;
-}) {
-  return (
-    <Dialog.Root open={open} onOpenChange={(nextOpen) => !nextOpen && onClose()}>
-      <Dialog.Portal>
-        <Dialog.Backdrop className="modal-backdrop" />
-        <Dialog.Viewport className="dialog-viewport">
-          <Dialog.Popup className="login-dialog">
-        <Dialog.Close className="dialog-close" aria-label={ui.auth.close}>
-          <X size={20} />
-        </Dialog.Close>
-        <p className="dialog-label">FigFox</p>
-        <Dialog.Title id="login-title">{ui.auth.title}</Dialog.Title>
-        <Dialog.Description>{apiConfigured ? ui.auth.body : ui.nav.signIn === "登录" ? "账户服务尚未开放。你可以直接使用本地工作台和 SVG 编辑器。" : "Account services are not open yet. The local workspace and SVG editor are available without sign-in."}</Dialog.Description>
-        <div className="login-actions">
-          {providers.map((provider) => {
-            const enabled =
-              apiConfigured && provider.enabled && provider.id !== "wechat";
-            const label =
-              provider.id === "google"
-                ? ui.auth.google
-                : provider.id === "github"
-                  ? ui.auth.github
-                  : ui.auth.wechat;
-            const status =
-              provider.id === "wechat"
-                ? ui.auth.comingSoon
-                : enabled
-                  ? ""
-                  : ui.auth.deployRequired;
-
-            return (
-              <button
-                key={provider.id}
-                className="oauth-button"
-                type="button"
-                disabled={busy || !enabled}
-                onClick={() => onSelect(provider.id)}
-              >
-                <span className="oauth-button-icon">
-                  <ProviderIcon provider={provider.id} />
-                </span>
-                <span className="oauth-button-label">{label}</span>
-                {status && <small>{status}</small>}
-              </button>
-            );
-          })}
-          <button
-            className="guest-button"
-            type="button"
-            disabled={busy}
-            onClick={() => onSelect("guest")}
-          >
-            <UserCircle size={19} />
-            <span>
-              <strong>{busy ? ui.auth.connecting : apiConfigured ? ui.auth.guest : ui.nav.signIn === "登录" ? "继续使用工作台" : "Continue to workspace"}</strong>
-              <small>{apiConfigured ? ui.auth.guestNote : ui.nav.signIn === "登录" ? "无需登录 · 文件保存在当前浏览器" : "No sign-in · files stay in this browser"}</small>
-            </span>
-          </button>
-        </div>
-        {error && (
-          <p className="dialog-error" role="alert" aria-live="polite">
-            {error}
-          </p>
-        )}
-        <p className="dialog-demo-note">
-          {apiConfigured ? ui.auth.demo : ui.auth.noProvider}
-        </p>
-          </Dialog.Popup>
-        </Dialog.Viewport>
-      </Dialog.Portal>
-    </Dialog.Root>
-  );
-}
 
 function AccountDialog({
   ui,
@@ -3241,7 +3110,13 @@ export default function App() {
   const [providers, setProviders] = useState<AuthProvider[]>(defaultAuthProviders);
   const [boundIdentities, setBoundIdentities] = useState<BoundIdentity[]>([]);
   const [creditTransactions, setCreditTransactions] = useState<CreditTransaction[]>([]);
-  const [loginOpen, setLoginOpen] = useState(false);
+  const [authReturnRoute, setAuthReturnRoute] = useState<RoutePath>(() => {
+    try {
+      const saved = window.sessionStorage.getItem("figfox-auth-return-route");
+      if (saved && isRoutePath(saved) && saved !== "/login") return saved;
+    } catch { /* Direct sign-in still has a local workspace to return to. */ }
+    return "/workspace";
+  });
   const [accountOpen, setAccountOpen] = useState(false);
   const [authBusy, setAuthBusy] = useState(false);
   const [authError, setAuthError] = useState("");
@@ -3258,6 +3133,7 @@ export default function App() {
 
   useEffect(() => {
     const handlePopState = () => {
+      pendingAction.current = null;
       setRoute(routeFromLocation(window.location.pathname));
     };
     window.addEventListener("popstate", handlePopState);
@@ -3336,7 +3212,13 @@ export default function App() {
             ? ui.auth.conflict
           : ui.auth.loginFailed,
       );
-      setLoginOpen(true);
+      const returnRoute = routeFromLocation(url.pathname);
+      if (returnRoute !== "/login") {
+        setAuthReturnRoute(returnRoute);
+        try { window.sessionStorage.setItem("figfox-auth-return-route", returnRoute); } catch { /* In-memory return route remains available. */ }
+      }
+      url.pathname = routeHref("/login");
+      setRoute("/login");
     }
     url.searchParams.delete("auth");
     url.searchParams.delete("auth_error");
@@ -3351,6 +3233,10 @@ export default function App() {
   }, [language]);
 
   const navigate = (path: RoutePath) => {
+    if (route === "/login" && path !== "/login") pendingAction.current = null;
+    if (path === "/workspace" && route === "/editor") {
+      try { window.sessionStorage.setItem("figfox-workspace-view", "documents"); } catch { /* The workspace can still open without persisted view state. */ }
+    }
     const nextHref = routeHref(path);
     if (window.location.pathname !== nextHref) {
       window.history.pushState({}, "", nextHref);
@@ -3362,7 +3248,11 @@ export default function App() {
   const openLogin = (action?: () => void) => {
     pendingAction.current = action ?? null;
     setAuthError("");
-    setLoginOpen(true);
+    if (route !== "/login") {
+      setAuthReturnRoute(route);
+      try { window.sessionStorage.setItem("figfox-auth-return-route", route); } catch { /* Retain the return route in React state. */ }
+    }
+    navigate("/login");
   };
 
   const requestAuth = (action: () => void) => {
@@ -3378,12 +3268,11 @@ export default function App() {
 
     if (choice === "google" || choice === "github") {
       if (!apiConfigured) return;
-      window.location.assign(oauthStartUrl(choice));
+      window.location.assign(oauthStartUrl(choice, "login", routeHref(authReturnRoute)));
       return;
     }
 
     if (!apiConfigured) {
-      setLoginOpen(false);
       pendingAction.current = null;
       navigate("/workspace");
       return;
@@ -3395,10 +3284,9 @@ export default function App() {
       const current = await createOrRestoreGuest();
       applyServerIdentity(current);
       window.localStorage.setItem(sessionMarker, "active");
-      setLoginOpen(false);
-
       const action = pendingAction.current;
       pendingAction.current = null;
+      navigate(action ? authReturnRoute : "/workspace");
       window.setTimeout(() => action?.(), 0);
     } catch {
       setAuthError(ui.auth.connectionError);
@@ -3524,7 +3412,7 @@ export default function App() {
       >
         {ui.nav.skip}
       </a>
-      {route !== "/editor" && route !== "/" && (
+      {route !== "/editor" && route !== "/" && route !== "/login" && (
         <ProductHeader
           language={language}
           route={route}
@@ -3548,8 +3436,9 @@ export default function App() {
         {route === "/examples" && (
           <ExamplesPage ui={ui} language={language} onNavigate={navigate} />
         )}
-        {route === "/workspace" && (
+        {(route === "/workspace" || route === "/login" && authReturnRoute === "/workspace") && <div hidden={route !== "/workspace"} inert={route !== "/workspace" ? true : undefined}>
           <WorkspacePage
+            active={route === "/workspace"}
             ui={ui}
             language={language}
             identity={identity}
@@ -3565,7 +3454,8 @@ export default function App() {
               }
             }}
           />
-        )}
+        </div>}
+        {route === "/login" && <ProductLoginPage language={language} providers={providers} busy={authBusy} error={authError} onSelect={choice => void selectIdentity(choice)} onBack={() => { pendingAction.current = null; setAuthError(""); navigate(authReturnRoute); }} onLanguageChange={() => setLanguage(value => value === "zh" ? "en" : "zh")} hrefFor={routeHref} onNavigate={navigate} />}
         {route === "/editor" && (
           <Suspense fallback={<div className="product-editor-loading" role="status">{language === "zh" ? "正在打开编辑器…" : "Opening editor…"}</div>}>
             <ProductSvgEditorPage ui={ui} language={language} onLanguageChange={() => setLanguage(value => value === "zh" ? "en" : "zh")} onNavigate={navigate} hrefFor={routeHref} />
@@ -3596,19 +3486,6 @@ export default function App() {
         )}
       </div>
 
-      <LoginDialog
-        ui={ui}
-        open={loginOpen}
-        busy={authBusy}
-        error={authError}
-        providers={providers}
-        onClose={() => {
-          pendingAction.current = null;
-          setAuthError("");
-          setLoginOpen(false);
-        }}
-        onSelect={selectIdentity}
-      />
       <AccountDialog
         ui={ui}
         open={accountOpen}

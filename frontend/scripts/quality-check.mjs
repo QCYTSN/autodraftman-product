@@ -10,6 +10,7 @@ const defaultRoutes = [
   "/",
   "/examples",
   "/workspace",
+  "/login",
   "/editor",
   "/pricing",
   "/docs",
@@ -53,7 +54,7 @@ for (const language of languages) {
         await page.locator(".product-editor-empty-footer").waitFor({ state: "visible" });
       }
       if (route === "/workspace") {
-        await page.locator(".mode-switch button").nth(1).click();
+        await page.locator('.workspace-task-switch [role="tab"]').nth(1).click();
       }
       await page.waitForTimeout(180);
 
@@ -180,10 +181,14 @@ for (const language of languages) {
             })()
           : false;
 
-      const workspaceRequiresPageScroll =
-        window.innerWidth >= 1024 &&
+      const workspaceComposerOverflows =
         window.location.pathname.endsWith("/workspace") &&
-        document.documentElement.scrollHeight > window.innerHeight + 1;
+        (() => {
+          const composer = document.querySelector(".control-panel");
+          const actions = document.querySelector(".workspace-composer-footer");
+          if (!composer || !actions) return true;
+          return actions.getBoundingClientRect().bottom > composer.getBoundingClientRect().bottom + 1;
+        })();
 
       const workspaceHistoryMissing =
         window.innerWidth >= 1024 &&
@@ -193,7 +198,7 @@ for (const language of languages) {
       const workspaceModeSwitchOverflow =
         window.location.pathname.endsWith("/workspace") &&
         (() => {
-          const modeSwitch = document.querySelector(".mode-switch");
+          const modeSwitch = document.querySelector(".workspace-task-switch");
           if (!modeSwitch) return true;
           const switchRect = modeSwitch.getBoundingClientRect();
           return (
@@ -219,11 +224,12 @@ for (const language of languages) {
         unsizedImages,
         decorativeDocumentNumbers,
         heroEssentialBelowFold,
-        workspaceRequiresPageScroll,
+        workspaceComposerOverflows,
         workspaceHistoryMissing,
         workspaceModeSwitchOverflow,
         docsNavigationMissing:
           window.innerWidth >= 1280 &&
+          !window.location.pathname.endsWith("/login") &&
           ![...document.querySelectorAll(document.querySelector(".demo-site")
             ? ".demo-footer nav a" : ".product-nav a, .product-editor-empty-footer a")].some(
             (link) => new URL(link.href).pathname.endsWith("/docs"),
@@ -241,7 +247,7 @@ for (const language of languages) {
         audit.unsizedImages.length ||
         audit.decorativeDocumentNumbers.length ||
         audit.heroEssentialBelowFold ||
-        audit.workspaceRequiresPageScroll ||
+        audit.workspaceComposerOverflows ||
         audit.workspaceHistoryMissing ||
         audit.workspaceModeSwitchOverflow ||
         audit.docsNavigationMissing

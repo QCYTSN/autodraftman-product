@@ -148,7 +148,7 @@ body:has(.product-site), .radix-themes:has(.product-site) { background: #fcfcfe;
 .product-page-enter { animation: product-enter 500ms cubic-bezier(.2,.65,.3,1) both; }
 .product-editor.product-page-enter { animation-name: product-editor-enter; }
 @keyframes product-editor-enter { from { opacity: 0; } to { opacity: 1; } }
-.product-history-viewport { position: fixed; inset: 0; z-index: 70; display: flex; justify-content: flex-end; }
+.product-history-viewport { position: fixed; inset: 0; z-index: 410; display: flex; justify-content: flex-end; }
 .product-history-drawer { position: relative; width: min(380px, 100%); height: 100%; background: #fcfcfe; color: #1e2437; border-left: 1px solid #e7e2ee; font-family: var(--font-body); overflow-y: auto; }
 .product-history-drawer .drawer-heading { margin-bottom: 20px; }
 .product-history-drawer .drawer-heading, .product-history-drawer .workspace-account-summary { border-color: #e7e2ee; }

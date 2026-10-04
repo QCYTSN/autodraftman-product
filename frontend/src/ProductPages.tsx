@@ -17,6 +17,7 @@ export type ProductRoute =
   | "/"
   | "/examples"
   | "/workspace"
+  | "/login"
   | "/editor"
   | "/pricing"
   | "/docs"
@@ -27,7 +28,7 @@ export type ProductRoute =
 
 type InformationRoute = Exclude<
   ProductRoute,
-  "/" | "/examples" | "/workspace" | "/editor" | "/pricing" | "/feedback"
+  "/" | "/examples" | "/workspace" | "/login" | "/editor" | "/pricing" | "/feedback"
 >;
 
 type InformationSection = {

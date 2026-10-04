@@ -112,7 +112,8 @@ try {
   assert.equal(await page.locator(".product-editor-title strong").innerText(), "study-revised.svg");
   assert.equal(await page.frameLocator("iframe").locator("#document-a").getAttribute("fill"), "#24a37a");
   await page.locator(".product-editor-back").click();
-  await page.getByRole("tab", { name: "重建", exact: true }).click();
+  await page.getByRole("button", { name: "当前草稿", exact: true }).click();
+  await page.getByRole("tab", { name: "图片转 SVG", exact: true }).click();
   await page.locator("#reference-file").setInputFiles({ name: "reference.png", mimeType: "image/png", buffer: Buffer.from("iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+/NhoAAAAASUVORK5CYII=", "base64") });
   await page.locator(".product-workspace-source").waitFor();
   const referenceUrl = await page.locator(".product-workspace-source").getAttribute("src");
@@ -120,8 +121,10 @@ try {
   await card(page, "study-revised.svg").waitFor();
   assert.equal(await page.locator(".product-document-card").count(), 3);
   await page.getByRole("button", { name: "原图预览", exact: true }).click();
-  assert.equal(await page.locator(".product-workspace-source").getAttribute("src"), referenceUrl);
-  await page.getByRole("tab", { name: "创建", exact: true }).click();
+  assert.equal(await page.locator(".product-workspace-source:visible").getAttribute("src"), referenceUrl);
+  await page.getByRole("button", { name: "当前草稿", exact: true }).click();
+  await page.getByRole("tab", { name: "创建图片", exact: true }).click();
+  await page.getByRole("button", { name: "我的 SVG", exact: true }).click();
   record("The source preview and saved SVG library switch without discarding either");
   await page.waitForFunction(() => getComputedStyle(document.querySelector(".workspace-page")).opacity === "1");
   await page.locator(".product-document-preview img").evaluateAll(images => Promise.all(images.map(image => image.decode())));
@@ -161,6 +164,7 @@ try {
   const updatedTab = await migrationContext.newPage();
   updatedTab.on("pageerror", error => errors.push(error.message));
   await updatedTab.goto(base + "/workspace", { waitUntil: "networkidle" });
+  await updatedTab.getByRole("button", { name: "我的 SVG", exact: true }).click();
   await updatedTab.getByRole("alert").waitFor();
   assert.ok((await updatedTab.getByRole("alert").innerText()).includes("关闭其他 FigFox 标签页"));
   await legacyTab.close();
