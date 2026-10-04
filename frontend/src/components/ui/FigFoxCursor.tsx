@@ -1,18 +1,22 @@
-import { useEffect, useRef, type RefObject } from "react";
-import "./cursor.css";
+import { useEffect, useLayoutEffect, useRef, type RefObject } from "react";
+import "./FigFoxCursor.css";
 
 type CursorMode = "idle" | "link" | "zoom";
-const nativeTargets = '.demo-canvas-stage, .demo-comparison, dialog, input, textarea, select, [contenteditable]:not([contenteditable="false"]), [data-demo-cursor="native"], :disabled, [aria-disabled="true"]';
-const interactiveTargets = 'a, button, [role="button"]';
+const nativeTargets = '.demo-canvas-stage, .demo-comparison, .product-editor-main, iframe, dialog, [role="dialog"], [role="alertdialog"], input, textarea, select, [role="slider"], [contenteditable]:not([contenteditable="false"]), [data-demo-cursor="native"], [data-figfox-cursor="native"], :disabled, [aria-disabled="true"]';
+const interactiveTargets = 'a, button, summary, label, [role="button"], [role="tab"], [role="switch"], [role="checkbox"], [role="radio"]';
 
-export function DemoCursor({ page }: { page: RefObject<HTMLDivElement | null> }) {
+export function FigFoxCursor({ site, route }: { site: RefObject<HTMLDivElement | null>; route: string }) {
   const cursorRef = useRef<HTMLDivElement>(null);
   const pointRef = useRef<HTMLDivElement>(null);
   const shapeRef = useRef<HTMLDivElement>(null);
   const labelRef = useRef<HTMLSpanElement>(null);
+  const refreshRef = useRef<(() => void) | null>(null);
+
+  // Recheck a stationary mouse when navigation replaces the content beneath it.
+  useLayoutEffect(() => { refreshRef.current?.(); }, [route]);
 
   useEffect(() => {
-    const root = page.current;
+    const root = site.current;
     const cursor = cursorRef.current;
     const point = pointRef.current;
     const shape = shapeRef.current;
@@ -60,7 +64,7 @@ export function DemoCursor({ page }: { page: RefObject<HTMLDivElement | null> })
     function hide() {
       visible = false;
       cursor!.removeAttribute("data-visible");
-      root!.removeAttribute("data-demo-cursor-active");
+      root!.removeAttribute("data-figfox-cursor-active");
       cancelAnimationFrame(frame);
       frame = 0;
       lastFrame = 0;
@@ -71,14 +75,14 @@ export function DemoCursor({ page }: { page: RefObject<HTMLDivElement | null> })
         hide();
         return false;
       }
-      const nextMode: CursorMode = target.closest('[data-demo-cursor="zoom"]') ? "zoom" : target.closest(interactiveTargets) ? "link" : "idle";
+      const nextMode: CursorMode = target.closest('[data-demo-cursor="zoom"], [data-figfox-cursor="zoom"]') ? "zoom" : target.closest(interactiveTargets) ? "link" : "idle";
       mode = nextMode;
       cursor!.dataset.mode = mode;
       label!.textContent = mode === "zoom" ? root!.lang.startsWith("zh") ? "放大" : "Zoom" : "";
       visible = true;
       point!.style.transform = `translate3d(${pointer.x}px,${pointer.y}px,0)`;
       cursor!.setAttribute("data-visible", "");
-      root!.setAttribute("data-demo-cursor-active", "");
+      root!.setAttribute("data-figfox-cursor-active", "");
       animate();
       return true;
     }
@@ -139,6 +143,7 @@ export function DemoCursor({ page }: { page: RefObject<HTMLDivElement | null> })
       if (document.hidden) suspend();
     }
 
+    refreshRef.current = refreshTarget;
     window.addEventListener("pointermove", move, { passive: true });
     window.addEventListener("pointerover", move, { passive: true });
     window.addEventListener("pointerdown", press, { passive: true });
@@ -153,6 +158,7 @@ export function DemoCursor({ page }: { page: RefObject<HTMLDivElement | null> })
     document.documentElement.addEventListener("mouseleave", suspend);
     for (const preference of [finePointer, reducedMotion, forcedColors]) preference.addEventListener("change", changePreference);
     return () => {
+      refreshRef.current = null;
       hide();
       window.removeEventListener("pointermove", move);
       window.removeEventListener("pointerover", move);
@@ -168,9 +174,9 @@ export function DemoCursor({ page }: { page: RefObject<HTMLDivElement | null> })
       document.documentElement.removeEventListener("mouseleave", suspend);
       for (const preference of [finePointer, reducedMotion, forcedColors]) preference.removeEventListener("change", changePreference);
     };
-  }, [page]);
+  }, [site]);
 
-  return <div className="demo-cursor" ref={cursorRef} aria-hidden="true">
-    <div className="demo-cursor-point" ref={pointRef}><div className="demo-cursor-shape" ref={shapeRef}><span ref={labelRef} /></div></div>
+  return <div className="figfox-cursor" ref={cursorRef} aria-hidden="true">
+    <div className="figfox-cursor-point" ref={pointRef}><div className="figfox-cursor-shape" ref={shapeRef}><span ref={labelRef} /></div></div>
   </div>;
 }

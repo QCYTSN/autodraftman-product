@@ -4,7 +4,6 @@ import {
 import { useRef, useState, type CSSProperties, type MouseEvent } from "react";
 import type { ProductRoute } from "../../ProductPages";
 import { DemoCanvas } from "./DemoCanvas";
-import { DemoCursor } from "./DemoCursor";
 import { MechanismSection } from "./MechanismSection";
 import { RefinementSection } from "./RefinementSection";
 import { ResearchSections } from "./ResearchSections";
@@ -125,7 +124,6 @@ export function FigFoxDemoPage({ language, onLanguageChange, onNavigate, hrefFor
 
   return (
     <div className="demo-site" ref={page} lang={language === "zh" ? "zh-CN" : "en"}>
-      <DemoCursor page={page} />
       <header className="demo-header">
         <div className="demo-container demo-header-inner">
           <a className="demo-brand" href={hrefFor("/")} aria-label="FigFox">

@@ -22,8 +22,8 @@ git commit -m "Publish FigFox product surfaces"
 git push origin main
 ```
 
-The Pages review checks route refreshes and runs product, multiple-document and
-complete-showcase operations against the built `/figfox/` site. Showcase checks
+The Pages review checks route refreshes and runs product, multiple-document,
+complete-showcase and shared-cursor operations against the built `/figfox/` site. Showcase checks
 verify that published examples and repair demonstrations remain present and
 match the selected asset manifest. Raw experiments are not part of the release.
 

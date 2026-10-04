@@ -53,7 +53,7 @@ try {
       else reject(new Error(`Pages verification exited with code ${code ?? "unknown"}.`));
     });
   });
-  for (const script of ["scripts/product-check.mjs", "scripts/document-check.mjs", "scripts/showcase-check.mjs"]) {
+  for (const script of ["scripts/product-check.mjs", "scripts/document-check.mjs", "scripts/showcase-check.mjs", "scripts/cursor-check.mjs"]) {
     await new Promise((resolve, reject) => {
       const verification = spawn(process.execPath, [script], {
         cwd: frontendDir,

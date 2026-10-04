@@ -13,6 +13,7 @@
     "review:product": "node scripts/product-check.mjs",
     "review:documents": "node scripts/document-check.mjs",
     "review:showcase": "node scripts/showcase-check.mjs",
+    "review:cursor": "node scripts/cursor-check.mjs",
     "review:pages": "node scripts/run-pages-review.mjs"
   },
   "dependencies": {

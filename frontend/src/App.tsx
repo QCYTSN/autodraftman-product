@@ -116,6 +116,7 @@ import { ProductGuidePage } from "./features/product/ProductGuidePage";
 import { WorkspaceDocuments } from "./features/product/WorkspaceDocuments";
 import "./features/product/product.css";
 import { FigFoxSelect } from "./components/ui/FigFoxSelect";
+import { FigFoxCursor } from "./components/ui/FigFoxCursor";
 import { FigFoxDemoPage } from "./features/demo/FigFoxDemoPage";
 const ProductSvgEditorPage = lazy(() => import("./features/product/ProductSvgEditorPage").then(module => ({ default: module.ProductSvgEditorPage })));
 
@@ -3246,6 +3247,7 @@ export default function App() {
   const [authError, setAuthError] = useState("");
   const [accountError, setAccountError] = useState("");
   const pendingAction = useRef<(() => void) | null>(null);
+  const site = useRef<HTMLDivElement>(null);
   const ui = copy[language];
 
   const applyServerIdentity = (current: CurrentIdentity) => {
@@ -3514,7 +3516,8 @@ export default function App() {
   };
 
   return (
-    <div className={route === "/" ? undefined : "product-site"}>
+    <div className={route === "/" ? "figfox-site" : "figfox-site product-site"} ref={site} lang={language === "zh" ? "zh-CN" : "en"}>
+      <FigFoxCursor site={site} route={route} />
       <a
         className="skip-link"
         href={route === "/editor" ? "#editor-canvas" : "#main-content"}

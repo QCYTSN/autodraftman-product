@@ -45,9 +45,13 @@ Use a brief page entrance and short transitions for actual state changes.
 The showcase's initial content reveals play once; navigation and header states
 respond to repeat scrolling. Avoid repeatedly hiding content that has been read.
 
-The showcase pointer stays exactly at the mouse location. Its shape expands
-slightly over controls and shows a label only for working zoom targets. SVG
-editing, resizing, sliders, text selection and product pages use native cursors.
+One shared pointer lives above the showcase and product routes, outside animated
+page containers. Its position follows the mouse exactly; only its shape has
+elasticity. Controls, tabs and FAQ summaries share the same hover feedback.
+Labels appear only for working zoom targets. Forms, sliders, text selection,
+dialogs and the SVG editing region use native cursors. Editor header navigation
+keeps the shared pointer. Route changes recheck the target beneath a stationary
+mouse; touch input and system accessibility preferences keep native cursors.
 
 Editor entrance animates opacity only, keeping canvas coordinates stable.
 Reduced-motion and forced-color preferences disable decorative motion.
