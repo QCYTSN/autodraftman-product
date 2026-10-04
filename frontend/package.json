@@ -10,6 +10,13 @@
     "preview": "vite preview --host 127.0.0.1",
     "review": "node scripts/run-visual-review.mjs",
     "review:quality": "node scripts/run-quality.mjs",
+    "review:product": "node scripts/product-check.mjs",
+    "review:workspace": "node scripts/workspace-flow-check.mjs",
+    "review:documents": "node scripts/document-check.mjs",
+    "review:showcase": "node scripts/showcase-check.mjs",
+    "review:cursor": "node scripts/cursor-check.mjs",
+    "review:public": "node scripts/public-release-check.mjs",
+    "review:editor-save": "node scripts/editor-save-check.mjs",
     "review:pages": "node scripts/run-pages-review.mjs"
   },
   "dependencies": {
@@ -25,6 +32,7 @@
     "svgedit": "^7.4.2"
   },
   "devDependencies": {
+    "@types/node": "^22.20.5",
     "@types/react": "^19.1.10",
     "@types/react-dom": "^19.1.7",
     "@vitejs/plugin-react": "^4.7.0",

@@ -33,15 +33,20 @@ export function readCachedDrafts(): WorkspaceDraft[] {
   }
 }
 
-export function writeCachedDrafts(drafts: WorkspaceDraft[]): void {
-  window.localStorage.setItem(
-    draftStorageKey,
-    JSON.stringify(
-      [...drafts]
-        .sort((left, right) => right.updated_at.localeCompare(left.updated_at))
-        .slice(0, 30),
-    ),
-  );
+export function writeCachedDrafts(drafts: WorkspaceDraft[]): boolean {
+  try {
+    window.localStorage.setItem(
+      draftStorageKey,
+      JSON.stringify(
+        [...drafts]
+          .sort((left, right) => right.updated_at.localeCompare(left.updated_at))
+          .slice(0, 30),
+      ),
+    );
+    return true;
+  } catch {
+    return false;
+  }
 }
 
 export function makeLocalDraft(

@@ -6,6 +6,8 @@ const routeNames = [
   "examples",
   "pricing",
   "workspace",
+  "login",
+  "editor",
   "docs",
   "feedback",
   "privacy",
@@ -27,5 +29,9 @@ await Promise.all(
 await copyFile(
   path.join(outputDirectory, "index.html"),
   path.join(outputDirectory, "404.html"),
+);
+await copyFile(
+  path.join(outputDirectory, "index.html"),
+  path.join(outputDirectory, "editor.html"),
 );
 await writeFile(path.join(outputDirectory, ".nojekyll"), "");

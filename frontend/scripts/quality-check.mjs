@@ -6,10 +6,12 @@ const executablePath =
   (process.platform === "win32"
     ? "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe"
     : "/usr/bin/google-chrome");
-const routes = [
+const defaultRoutes = [
   "/",
   "/examples",
   "/workspace",
+  "/login",
+  "/editor",
   "/pricing",
   "/docs",
   "/feedback",
@@ -17,6 +19,10 @@ const routes = [
   "/terms",
   "/content-policy",
 ];
+const routes = process.env.AUDIT_ROUTES
+  ? defaultRoutes.filter((route) => process.env.AUDIT_ROUTES.split(",").includes(route))
+  : defaultRoutes;
+if (!routes.length) throw new Error("AUDIT_ROUTES did not select any known route.");
 const widths = [320, 375, 414, 768, 1280, 1440, 1920];
 const languages = ["zh", "en"];
 const browser = await chromium.launch({ executablePath, headless: true });
@@ -44,8 +50,11 @@ for (const language of languages) {
     });
 
       await page.goto(`${baseUrl}${route}`, { waitUntil: "networkidle" });
+      if (route === "/editor") {
+        await page.locator(".product-editor-empty-footer").waitFor({ state: "visible" });
+      }
       if (route === "/workspace") {
-        await page.locator(".mode-switch button").nth(1).click();
+        await page.locator('.workspace-task-switch [role="tab"]').nth(1).click();
       }
       await page.waitForTimeout(180);
 
@@ -69,7 +78,7 @@ for (const language of languages) {
         return `${element.tagName.toLowerCase()}${className ? `.${className}` : ""}`;
       };
       const textLineCount = (element) => {
-        const tops = [];
+        const lines = [];
         const walker = document.createTreeWalker(
           element,
           NodeFilter.SHOW_TEXT,
@@ -81,18 +90,21 @@ for (const language of languages) {
           range.selectNodeContents(node);
           for (const rect of range.getClientRects()) {
             if (rect.width < 1 || rect.height < 1) continue;
-            if (!tops.some((top) => Math.abs(top - rect.top) < 2)) {
-              tops.push(rect.top);
+            // Mixed font sizes on one line have different glyph tops. Group
+            // overlapping text rectangles instead of treating a small counter
+            // next to a label as an extra wrapped line.
+            if (!lines.some((line) => Math.min(line.bottom, rect.bottom) - Math.max(line.top, rect.top) >= Math.min(line.height, rect.height) * 0.6)) {
+              lines.push({ top: rect.top, bottom: rect.bottom, height: rect.height });
             }
           }
         }
-        return tops.length;
+        return lines.length;
       };
       const isClippedByAncestor = (element) => {
         let parent = element.parentElement;
         while (parent) {
           const overflow = getComputedStyle(parent).overflowX;
-          if (overflow === "hidden" || overflow === "clip") return true;
+          if (["hidden", "clip", "auto", "scroll"].includes(overflow)) return true;
           parent = parent.parentElement;
         }
         return false;
@@ -169,10 +181,14 @@ for (const language of languages) {
             })()
           : false;
 
-      const workspaceRequiresPageScroll =
-        window.innerWidth >= 1024 &&
+      const workspaceComposerOverflows =
         window.location.pathname.endsWith("/workspace") &&
-        document.documentElement.scrollHeight > window.innerHeight + 1;
+        (() => {
+          const composer = document.querySelector(".control-panel");
+          const actions = document.querySelector(".workspace-composer-footer");
+          if (!composer || !actions) return true;
+          return actions.getBoundingClientRect().bottom > composer.getBoundingClientRect().bottom + 1;
+        })();
 
       const workspaceHistoryMissing =
         window.innerWidth >= 1024 &&
@@ -182,7 +198,7 @@ for (const language of languages) {
       const workspaceModeSwitchOverflow =
         window.location.pathname.endsWith("/workspace") &&
         (() => {
-          const modeSwitch = document.querySelector(".mode-switch");
+          const modeSwitch = document.querySelector(".workspace-task-switch");
           if (!modeSwitch) return true;
           const switchRect = modeSwitch.getBoundingClientRect();
           return (
@@ -208,12 +224,14 @@ for (const language of languages) {
         unsizedImages,
         decorativeDocumentNumbers,
         heroEssentialBelowFold,
-        workspaceRequiresPageScroll,
+        workspaceComposerOverflows,
         workspaceHistoryMissing,
         workspaceModeSwitchOverflow,
         docsNavigationMissing:
           window.innerWidth >= 1280 &&
-          ![...document.querySelectorAll(".desktop-nav a")].some(
+          !window.location.pathname.endsWith("/login") &&
+          ![...document.querySelectorAll(document.querySelector(".demo-site")
+            ? ".demo-footer nav a" : ".product-nav a, .product-editor-empty-footer a")].some(
             (link) => new URL(link.href).pathname.endsWith("/docs"),
           ),
       };
@@ -229,7 +247,7 @@ for (const language of languages) {
         audit.unsizedImages.length ||
         audit.decorativeDocumentNumbers.length ||
         audit.heroEssentialBelowFold ||
-        audit.workspaceRequiresPageScroll ||
+        audit.workspaceComposerOverflows ||
         audit.workspaceHistoryMissing ||
         audit.workspaceModeSwitchOverflow ||
         audit.docsNavigationMissing

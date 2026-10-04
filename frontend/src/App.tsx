@@ -23,6 +23,7 @@ import {
   PaintBrush,
   PaperPlaneTilt,
   PencilSimple,
+  PlayCircle,
   Plus,
   Selection,
   SignOut,
@@ -41,7 +42,7 @@ import { Tabs } from "@base-ui/react/tabs";
 import { Toolbar } from "@base-ui/react/toolbar";
 import { Collapsible } from "@base-ui/react/collapsible";
 import { Dialog } from "@base-ui/react/dialog";
-import { Progress } from "@base-ui/react/progress";
+import { AlertDialog } from "@base-ui/react/alert-dialog";
 import { Switch } from "@base-ui/react/switch";
 import { Toggle } from "@base-ui/react/toggle";
 import { ToggleGroup } from "@base-ui/react/toggle-group";
@@ -54,6 +55,7 @@ import {
   type KeyboardEvent as ReactKeyboardEvent,
   type ReactNode,
   useEffect,
+  useLayoutEffect,
   useRef,
   useState,
 } from "react";
@@ -95,6 +97,7 @@ import {
 } from "./api";
 import {
   draftFingerprint,
+  draftInput,
   draftTitle,
   makeLocalDraft,
   readCachedDrafts,
@@ -107,34 +110,43 @@ import {
   type ProductRoute,
 } from "./ProductPages";
 import { FigFoxMark, FigFoxWordmark } from "./components/brand/FigFoxBrand";
-import { FigFoxEditorChrome } from "./components/editor/FigFoxEditorChrome";
+import { ProductHeader } from "./features/product/ProductHeader";
+import { ProductPricingPage } from "./features/product/ProductPricingPage";
+import { ProductGuidePage } from "./features/product/ProductGuidePage";
+import { WorkspaceDocuments } from "./features/product/WorkspaceDocuments";
+import { ProductPromptField } from "./features/product/ProductPromptField";
+import { FigureProcessPreview } from "./features/product/FigureProcess";
+import { ProductLoginPage } from "./features/product/ProductLoginPage";
+import { PublicFeedbackPage } from "./features/product/PublicFeedbackPage";
+import { usePageTransition, type PageTransitionScope } from "./features/product/usePageTransition";
+import { ProductEditorRoute } from "./features/product/ProductEditorRoute";
+import "./features/product/product.css";
+import "./features/product/workspace.css";
 import { FigFoxSelect } from "./components/ui/FigFoxSelect";
-import {
-  SvgEditHost,
-  type SvgEditHandle,
-  type SvgEditState,
-} from "./components/editor/SvgEditHost";
-import {
-  importSvgDocument,
-  SvgImportError,
-  type ImportedSvgDocument,
-  type SvgImportErrorCode,
-} from "./svgDocument";
+import { FigFoxCursor } from "./components/ui/FigFoxCursor";
+import { FigFoxDemoPage } from "./features/demo/FigFoxDemoPage";
 
 type Language = ProductLanguage;
 type Identity = "guest" | "user" | null;
 type AuthChoice = "guest" | "google" | "github" | "wechat";
 type RoutePath = ProductRoute;
-type GenerateStatus = "empty" | "generating" | "complete";
+function routeTransition(from: RoutePath, to: RoutePath): PageTransitionScope | null {
+  if (from === to) return null;
+  if (to === "/login") return "login-in";
+  if (from === "/login") return "login-out";
+  if (to === "/editor") return "editor-in";
+  if (from === "/editor") return "editor-out";
+  return null;
+}
 type DraftSaveState =
   | "saved"
   | "saving"
   | "offline"
   | "failed"
   | "session-expired";
-type BillingCycle = "monthly" | "yearly";
 type ReferenceUploadStatus =
   | "idle"
+  | "local"
   | "preparing"
   | "uploading"
   | "verifying"
@@ -479,7 +491,7 @@ const copy = {
       cancelled: "你取消了登录授权，账户没有发生变化。",
       conflict: "这个登录身份已经属于另一个 FigFox 账户。",
       loginFailed: "登录没有完成，请稍后重试。",
-      connectionError: "暂时无法连接本地后端，请确认 Docker 服务仍在运行。",
+      connectionError: "暂时无法连接服务，请稍后重试。",
       connecting: "正在连接…",
       accountTitle: "你的账户",
       accountBody: "在这里管理登录方式、草稿默认状态和额度记录。",
@@ -524,7 +536,7 @@ const copy = {
       backHome: "Back to home",
       signIn: "Sign in",
       guest: "Guest",
-      account: "Demo account",
+      account: "Account",
       menu: "Open menu",
       primaryLabel: "Primary navigation",
       mobileLabel: "Mobile navigation",
@@ -814,14 +826,14 @@ const copy = {
       guest: "Continue as guest",
       guestNote: "Guest files are stored temporarily",
       close: "Close sign-in dialog",
-      deployRequired: "Available after API deployment",
+      deployRequired: "Not open yet",
       comingSoon: "Coming soon",
       demo: "Sign-in availability is managed by the backend.",
       noProvider: "Sign-in is not available in this version.",
       cancelled: "Authorization was cancelled. Your account was not changed.",
       conflict: "This login identity already belongs to another FigFox account.",
       loginFailed: "Sign-in did not complete. Please try again.",
-      connectionError: "The local API is unavailable. Check that Docker is still running.",
+      connectionError: "The service is unavailable. Please try again later.",
       connecting: "Connecting…",
       accountTitle: "Your account",
       accountBody: "Different login methods can open the same FigFox account.",
@@ -857,13 +869,14 @@ const copy = {
   },
 } as const;
 
-type UiCopy = (typeof copy)[Language];
+export type UiCopy = (typeof copy)[Language];
 
 function isRoutePath(value: string): value is RoutePath {
   return [
     "/",
     "/examples",
     "/workspace",
+    "/login",
     "/editor",
     "/pricing",
     "/docs",
@@ -958,162 +971,6 @@ function EditorialMotif({ kind }: { kind: "thread" | "privacy" }) {
       <circle className="motif-node clay" cx="84" cy="62" r="8" />
       <circle className="motif-node" cx="136" cy="50" r="7" />
     </svg>
-  );
-}
-
-const planMarkSources = [
-  sitePath("/assets/pricing-sketch-v2.png"),
-  sitePath("/assets/pricing-folio-v2.png"),
-  sitePath("/assets/pricing-atlas-v2.png"),
-];
-
-function PlanMark({ level, label }: { level: number; label: string }) {
-  return (
-    <figure className={`plan-mark plan-mark-${level}`}>
-      <img
-        src={planMarkSources[level]}
-        alt={label}
-        width={1254}
-        height={1254}
-      />
-    </figure>
-  );
-}
-
-function Header({
-  language,
-  identity,
-  accountName,
-  ui,
-  route,
-  onLanguageChange,
-  onNavigate,
-  onSignIn,
-}: {
-  language: Language;
-  identity: Identity;
-  accountName: string | null;
-  ui: UiCopy;
-  route: RoutePath;
-  onLanguageChange: () => void;
-  onNavigate: (path: RoutePath) => void;
-  onSignIn: () => void;
-}) {
-  const [menuOpen, setMenuOpen] = useState(false);
-  const navigate = (path: RoutePath) => {
-    setMenuOpen(false);
-    onNavigate(path);
-  };
-
-  return (
-    <header
-      className={route === "/workspace" ? "site-header workspace-site-header" : "site-header"}
-    >
-      <div className="header-inner shell">
-        <div className="header-leading">
-          <Brand onNavigate={navigate} />
-          {route === "/workspace" && (
-            <InternalLink
-              className="workspace-home-link"
-              href="/"
-              onNavigate={navigate}
-              aria-label={ui.nav.backHome}
-            >
-              <CaretLeft size={17} aria-hidden="true" />
-              <span>{ui.nav.backHome}</span>
-            </InternalLink>
-          )}
-        </div>
-        <nav className="desktop-nav" aria-label={ui.nav.primaryLabel}>
-          {(
-            [
-              ["/", ui.nav.product],
-              ["/examples", ui.nav.examples],
-              ["/docs", ui.nav.docs],
-              ["/pricing", ui.nav.pricing],
-              ["/workspace", ui.nav.workspace],
-            ] as const
-          ).map(([path, label]) => (
-            <InternalLink
-              key={path}
-              className={route === path ? "nav-link active" : "nav-link"}
-              href={path}
-              onNavigate={navigate}
-            >
-              {label}
-            </InternalLink>
-          ))}
-        </nav>
-        <div className="header-actions">
-          <button
-            className="language-button"
-            type="button"
-            onClick={onLanguageChange}
-            aria-label={language === "zh" ? "Switch to English" : "切换到中文"}
-          >
-            <Globe size={16} />
-            <span>{language === "zh" ? "EN" : "中文"}</span>
-          </button>
-          {route === "/" ? (
-            <button
-              className="account-button header-workspace-button"
-              type="button"
-              onClick={() => navigate("/workspace")}
-            >
-              <span>{ui.nav.start}</span>
-              <ArrowRight size={16} aria-hidden="true" />
-            </button>
-          ) : route !== "/workspace" ? (
-            <button className="account-button" type="button" onClick={onSignIn}>
-              <span>
-                {identity === "guest"
-                  ? ui.nav.guest
-                  : identity === "user"
-                    ? accountName || ui.nav.account
-                    : ui.nav.signIn}
-              </span>
-            </button>
-          ) : null}
-          <button
-            className="mobile-menu-button"
-            type="button"
-            aria-label={ui.nav.menu}
-            aria-expanded={menuOpen}
-            onClick={() => setMenuOpen((open) => !open)}
-          >
-            {menuOpen ? <X size={20} /> : <List size={20} />}
-          </button>
-        </div>
-      </div>
-      {menuOpen && (
-        <nav className="mobile-nav" aria-label={ui.nav.mobileLabel}>
-          <InternalLink href="/" onNavigate={navigate}>
-            {ui.nav.product}
-          </InternalLink>
-          <InternalLink href="/examples" onNavigate={navigate}>
-            {ui.nav.examples}
-          </InternalLink>
-          <InternalLink href="/docs" onNavigate={navigate}>
-            {ui.nav.docs}
-          </InternalLink>
-          <InternalLink href="/pricing" onNavigate={navigate}>
-            {ui.nav.pricing}
-          </InternalLink>
-          <InternalLink href="/workspace" onNavigate={navigate}>
-            {ui.nav.workspace}
-          </InternalLink>
-          {route !== "/" && route !== "/workspace" && (
-            <button className="mobile-nav-account" type="button" onClick={onSignIn}>
-              {identity === "guest"
-                ? ui.nav.guest
-                : identity === "user"
-                  ? accountName || ui.nav.account
-                  : ui.nav.signIn}
-            </button>
-          )}
-        </nav>
-      )}
-    </header>
   );
 }
 
@@ -1245,111 +1102,6 @@ function ProductStory({ ui }: { ui: UiCopy }) {
   );
 }
 
-const figFoxHomeCopy = {
-  zh: {
-    kicker: "新建科研图，或重建现有图片",
-    title: "把科研想法，画成一张能继续改的图。",
-    body:
-      "写下要表达的内容，FigFox 可以从头生成；上传已有图片，则会把文字、图形和连线重建成分层 SVG。",
-    primary: "新建一张图",
-    secondary: "看看怎么重建",
-    previewLabel: "重建示例",
-    raster: "原图",
-    vector: "可编辑版本",
-    previewNote: "示例文件 · 可切换查看",
-    layers: "图层",
-    layerItems: ["文字", "连接线", "结构模块", "背景"],
-    principles: ["从文字开始", "加入参考图", "重建现有图片"],
-    capabilityKicker: "两种开始方式",
-    capabilityTitle: "从头画，或者从现有图片接着改。",
-    capabilityBody:
-      "新建时只需要一段描述，参考图可加可不加。手上已经有图，就直接上传重建。",
-    capabilities: [
-      {
-        label: "Create",
-        title: "写下你想画什么",
-        body: "写清有哪些对象、它们怎么连接，以及最需要强调的部分。",
-      },
-      {
-        label: "Guide",
-        title: "需要时加一张参考图",
-        body: "用参考图说明构图或视觉方向，不会直接复制原图。",
-      },
-      {
-        label: "Rebuild",
-        title: "把现有图片拆成图层",
-        body: "识别文字、图形和连接线，再把它们重建成可以逐项修改的 SVG。",
-      },
-    ],
-    editableKicker: "生成以后",
-    editableTitle: "不是只能下载，还能接着改。",
-    editableBody:
-      "打开编辑器后，可以选择对象、修改文字和颜色、调整路径与连接线，最后导出 SVG。",
-    editActions: ["选择与图层", "文字与颜色", "路径与连接线", "SVG 导出"],
-    agentKicker: "任务进度",
-    agentTitle: "处理到哪一步，直接告诉你。",
-    agentBody:
-      "上传之后，工作台会显示当前步骤。失败时会保留草稿并说明原因。",
-    agentStages: ["读取内容", "找出文字和图形", "重建图层", "检查结果"],
-    integrityTitle: "文件默认不公开。",
-    integrityBody:
-      "游客文件短期保存；登录用户可管理和删除历史。任何公开展示都必须由用户主动选择。",
-    closingTitle: "开始做第一张图。",
-    closingBody: "写一段描述，或者上传手头已有的图片。",
-  },
-  en: {
-    kicker: "Scientific figure creation and rebuild",
-    title: "Turn a research idea into a figure you can keep editing.",
-    body:
-      "Describe what you need, or upload an existing image. FigFox creates a layered SVG so you can still change labels, colors, and connectors.",
-    primary: "Create a figure",
-    secondary: "See how rebuild works",
-    previewLabel: "Rebuild example",
-    raster: "Original",
-    vector: "Editable version",
-    previewNote: "Example file · switch views to compare",
-    layers: "Layers",
-    layerItems: ["Text", "Connectors", "Structure", "Background"],
-    principles: ["Start with text", "Add a reference", "Rebuild an image"],
-    capabilityKicker: "Two common starting points",
-    capabilityTitle: "Start fresh, or keep working from an existing image.",
-    capabilityBody:
-      "A reference is optional when creating. If you already have a figure, rebuild it directly as an editable file.",
-    capabilities: [
-      {
-        label: "Create",
-        title: "Write down what you want to show",
-        body: "Name the objects, relationships, and focus. FigFox makes a complete first draft.",
-      },
-      {
-        label: "Guide",
-        title: "Add a reference when it helps",
-        body: "Use it to show composition or style direction without copying it directly.",
-      },
-      {
-        label: "Rebuild",
-        title: "Turn an existing image into layers",
-        body: "FigFox finds text, shapes, and connectors, then rebuilds them as an editable SVG.",
-      },
-    ],
-    editableKicker: "Keep editing after generation",
-    editableTitle: "The result is not a locked image.",
-    editableBody:
-      "Open the editor to select objects, change labels and colors, adjust paths and connectors, then export SVG.",
-    editActions: ["Selection and layers", "Text and color", "Paths and connectors", "SVG export"],
-    agentKicker: "What happens next",
-    agentTitle: "You can see each step.",
-    agentBody:
-      "The workspace shows what it is doing after upload. If something fails, it tells you why.",
-    agentStages: ["Read the content", "Find text and shapes", "Rebuild layers", "Check the result"],
-    integrityTitle: "Research material stays private by default.",
-    integrityBody:
-      "Guest files expire. Signed-in users can manage and delete history. Public display is always an explicit choice.",
-    closingTitle: "Start with one figure.",
-    closingBody: "Write a short description or upload the image you already have.",
-  },
-} as const;
-
 const figFoxWorkspaceCopy = {
   zh: {
     create: "创建",
@@ -1381,313 +1133,6 @@ const figFoxWorkspaceCopy = {
   },
 } as const;
 
-function EditableFigureProof({ language }: { language: Language }) {
-  const content = figFoxHomeCopy[language];
-  const [view, setView] = useState<"raster" | "vector">("vector");
-
-  return (
-    <article className="ff-proof" aria-label={content.previewLabel}>
-      <header className="ff-proof-toolbar">
-        <div>
-          <span className="ff-live-dot" aria-hidden="true" />
-          <strong>{content.previewLabel}</strong>
-        </div>
-        <Tabs.Root
-          value={view}
-          onValueChange={(value) => setView(value as "raster" | "vector")}
-        >
-          <Tabs.List className="ff-proof-switch" aria-label={content.previewLabel}>
-            <Tabs.Tab value="raster">{content.raster}</Tabs.Tab>
-            <Tabs.Tab value="vector">{content.vector}</Tabs.Tab>
-            <Tabs.Indicator className="ff-tab-indicator" />
-          </Tabs.List>
-        </Tabs.Root>
-      </header>
-      <div className="ff-proof-body">
-        <div className="ff-proof-canvas">
-          <AnimatePresence mode="wait" initial={false}>
-            <motion.div
-              className="ff-proof-document"
-              key={view}
-              initial={{ opacity: 0, scale: 0.985 }}
-              animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 0.22 }}
-            >
-              <img
-                src={figureAssetPath}
-                alt={content.previewLabel}
-                width={2048}
-                height={544}
-              />
-              {view === "vector" && (
-                <svg className="ff-vector-overlay" viewBox="0 0 1000 266" aria-hidden="true">
-                  <motion.rect
-                    x="206"
-                    y="31"
-                    width="178"
-                    height="193"
-                    rx="3"
-                    pathLength="1"
-                    initial={{ pathLength: 0, opacity: 0 }}
-                    animate={{ pathLength: 1, opacity: 1 }}
-                    transition={{ duration: 0.7 }}
-                  />
-                  <motion.path
-                    d="M418 143C474 99 529 171 590 123S710 91 768 139"
-                    pathLength="1"
-                    initial={{ pathLength: 0 }}
-                    animate={{ pathLength: 1 }}
-                    transition={{ duration: 0.8, delay: 0.1 }}
-                  />
-                  {[418, 503, 590, 682, 768].map((cx, index) => (
-                    <motion.circle
-                      key={cx}
-                      cx={cx}
-                      cy={[143, 126, 123, 108, 139][index]}
-                      r="6"
-                      initial={{ opacity: 0, scale: 0 }}
-                      animate={{ opacity: 1, scale: 1 }}
-                      transition={{ delay: 0.28 + index * 0.08 }}
-                    />
-                  ))}
-                </svg>
-              )}
-            </motion.div>
-          </AnimatePresence>
-          <span className="ff-canvas-status">{content.previewNote}</span>
-        </div>
-        <aside className="ff-layer-panel">
-          <div className="ff-layer-heading">
-            <Stack size={16} />
-            <span>{content.layers}</span>
-          </div>
-          <ul>
-            {content.layerItems.map((item, index) => (
-              <li className={index === 1 ? "selected" : ""} key={item}>
-                <span className="ff-layer-icon" aria-hidden="true" />
-                {item}
-                <span className="ff-layer-eye" aria-hidden="true" />
-              </li>
-            ))}
-          </ul>
-        </aside>
-      </div>
-    </article>
-  );
-}
-
-function HomePage({
-  ui,
-  language,
-  onNavigate,
-}: {
-  ui: UiCopy;
-  language: Language;
-  onNavigate: (path: RoutePath) => void;
-}) {
-  const content = figFoxHomeCopy[language];
-  const capabilityIcons = [TextT, ImageSquare, BezierCurve];
-
-  return (
-    <main className="home-page ff-home page-enter">
-      <PageSection className="ff-hero-section" density="standard">
-        <PageContainer>
-          <Grid
-            className="ff-hero"
-            columns={{ initial: "1", lg: "minmax(0, 0.82fr) minmax(0, 1.18fr)" }}
-            gap={{ initial: "7", lg: "9" }}
-            align="center"
-          >
-            <div className="ff-hero-copy">
-              <p className="ff-kicker">{content.kicker}</p>
-              <h1>{content.title}</h1>
-              <p className="ff-hero-body">{content.body}</p>
-              <Flex className="hero-actions" gap="5" align="center" wrap="wrap">
-                <InternalLink
-                  className="button primary-button"
-                  href="/workspace"
-                  onNavigate={onNavigate}
-                >
-                  {content.primary}
-                  <ArrowRight size={18} />
-                </InternalLink>
-                <a className="text-link" href="#rebuild-proof">
-                  {content.secondary}
-                  <ArrowRight size={16} />
-                </a>
-              </Flex>
-            </div>
-            <EditableFigureProof language={language} />
-          </Grid>
-        </PageContainer>
-      </PageSection>
-
-      <PageContainer>
-        <Grid
-          className="ff-principles"
-          columns={{ initial: "1", sm: "3" }}
-          aria-label="Product capabilities"
-        >
-          {content.principles.map((label, index) => {
-            const Icon = capabilityIcons[index];
-            return (
-              <p key={label}>
-                <span className="ff-principle-mark" aria-hidden="true">
-                  <Icon size={17} />
-                </span>
-                {label}
-              </p>
-            );
-          })}
-        </Grid>
-      </PageContainer>
-
-      <PageSection
-        className="ff-capability-section"
-        density="standard"
-        id="rebuild-proof"
-      >
-        <PageContainer>
-          <Grid
-            className="ff-section-heading"
-            columns={{ initial: "1", md: "minmax(0, 1.22fr) minmax(18rem, 0.78fr)" }}
-            gap={{ initial: "4", md: "8" }}
-            align="end"
-          >
-            <div>
-              <p className="ff-kicker">{content.capabilityKicker}</p>
-              <h2>{content.capabilityTitle}</h2>
-            </div>
-            <p>{content.capabilityBody}</p>
-          </Grid>
-          <Grid
-            className="ff-capability-grid"
-            columns={{ initial: "1", md: "minmax(16rem, 0.72fr) minmax(0, 1.28fr)" }}
-          >
-            {content.capabilities.map((capability, index) => {
-              const Icon = capabilityIcons[index];
-              return (
-                <article
-                  className={`ff-capability story-step ${index === 2 ? "primary" : ""}`}
-                  key={capability.label}
-                >
-                  <div className="ff-capability-top">
-                    <span>{capability.label}</span>
-                    <Icon size={22} />
-                  </div>
-                  <h3>{capability.title}</h3>
-                  <p>{capability.body}</p>
-                  {index === 2 && (
-                    <div className="ff-rebuild-track" aria-hidden="true">
-                      <span className="raster-block" />
-                      <span className="track-line" />
-                      <FigFoxMark className="track-mark" />
-                      <span className="track-line active" />
-                      <span className="vector-block" />
-                    </div>
-                  )}
-                </article>
-              );
-            })}
-          </Grid>
-        </PageContainer>
-      </PageSection>
-
-      <PageSection className="ff-editable-section" density="standard">
-        <PageContainer>
-          <Grid
-            className="ff-editable-inner"
-            columns={{ initial: "1", lg: "minmax(18rem, 0.72fr) minmax(0, 1.28fr)" }}
-            gap={{ initial: "7", lg: "9" }}
-            align="center"
-          >
-            <div className="ff-editable-copy">
-              <p className="ff-kicker">{content.editableKicker}</p>
-              <h2>{content.editableTitle}</h2>
-              <p>{content.editableBody}</p>
-              <Grid asChild columns={{ initial: "1", xs: "2" }} gap="3">
-                <ul>
-                  {content.editActions.map((action) => (
-                    <li key={action}>
-                      <Check size={15} weight="bold" />
-                      {action}
-                    </li>
-                  ))}
-                </ul>
-              </Grid>
-            </div>
-            <EditableFigureProof language={language} />
-          </Grid>
-        </PageContainer>
-      </PageSection>
-
-      <PageSection className="ff-agent-section" density="standard">
-        <PageContainer>
-          <Grid
-            className="ff-agent-copy"
-            columns={{ initial: "1", md: "minmax(0, 1.15fr) minmax(18rem, 0.85fr)" }}
-            gap={{ initial: "4", md: "8" }}
-            align="end"
-          >
-            <div>
-              <p className="ff-kicker">{content.agentKicker}</p>
-              <h2>{content.agentTitle}</h2>
-            </div>
-            <p>{content.agentBody}</p>
-          </Grid>
-          <Grid asChild columns={{ initial: "2", md: "4" }}>
-            <ol className="ff-agent-flow" aria-label={content.agentTitle}>
-              {content.agentStages.map((stage, index) => (
-                <li className="ff-agent-node" key={stage}>
-                  <span>{String(index + 1).padStart(2, "0")}</span>
-                  <strong>{stage}</strong>
-                </li>
-              ))}
-            </ol>
-          </Grid>
-        </PageContainer>
-      </PageSection>
-
-      <PageSection className="ff-integrity-section" density="compact">
-        <PageContainer>
-          <Grid
-            className="ff-integrity-grid"
-            columns={{ initial: "auto 1fr", md: "auto minmax(16rem, 0.62fr) minmax(20rem, 1.38fr)" }}
-            gap={{ initial: "4", md: "7" }}
-            align="center"
-          >
-            <LockKey size={26} />
-            <h2>{content.integrityTitle}</h2>
-            <p>{content.integrityBody}</p>
-          </Grid>
-        </PageContainer>
-      </PageSection>
-
-      <PageSection className="ff-closing-section" density="compact">
-        <PageContainer>
-          <Flex className="ff-closing" align="end" justify="between" gap="7" wrap="wrap">
-            <div>
-              <h2>{content.closingTitle}</h2>
-              <p>{content.closingBody}</p>
-            </div>
-            <InternalLink
-              className="button primary-button"
-              href="/workspace"
-              onNavigate={onNavigate}
-            >
-              {content.primary}
-              <ArrowRight size={18} />
-            </InternalLink>
-          </Flex>
-        </PageContainer>
-      </PageSection>
-
-      <Footer ui={ui} language={language} onNavigate={onNavigate} />
-    </main>
-  );
-}
-
 function ExamplesPage({
   ui,
   language,
@@ -1701,88 +1146,72 @@ function ExamplesPage({
     ...artifact,
     ...ui.examples.cases[index],
   }));
+  const [activeIndex, setActiveIndex] = useState(0);
+  const activeExample = examples[activeIndex] ?? examples[0];
+  const zh = language === "zh";
 
   return (
-    <main className="examples-page page-enter">
-      <PageSection className="examples-hero-section" density="compact">
+    <main className="examples-page ff-library-page page-enter">
+      <PageSection className="ff-library-section" density="compact" ariaLabel={ui.nav.examples}>
         <PageContainer>
-          <Grid
-            className="examples-hero"
-            columns={{ initial: "1", md: "minmax(0, 1.15fr) minmax(19rem, 0.85fr)" }}
-            gap={{ initial: "6", md: "9" }}
-            align="end"
-          >
-            <h1>{ui.examples.title}</h1>
-            <div className="examples-hero-copy">
-              <p>{ui.examples.body}</p>
-              <Flex className="examples-notice" gap="3" align="start">
-                <FileImage size={19} weight="duotone" />
-                <p>{ui.examples.notice}</p>
-              </Flex>
+          <header className="ff-library-heading">
+            <div>
+              <p className="ff-kicker">{ui.examples.kicker}</p>
+              <h1>{ui.examples.title}</h1>
             </div>
-          </Grid>
-        </PageContainer>
-      </PageSection>
+            <div>
+              <p>{ui.examples.body}</p>
+              <span><FileImage size={16} />{ui.examples.notice}</span>
+            </div>
+          </header>
 
-      <PageSection
-        className="examples-gallery-section"
-        density="standard"
-        ariaLabel={ui.nav.examples}
-      >
-        <PageContainer>
-          <Flex className="examples-gallery" direction="column" gap={{ initial: "7", md: "9" }}>
-            {examples.map((example, index) => (
-              <Grid
-                asChild
-                columns={{ initial: "1", md: "minmax(0, 1.28fr) minmax(19rem, 0.72fr)" }}
-                gap={{ initial: "5", md: "8" }}
-                key={example.id}
-              >
-                <article className={`example-case example-case-${index + 1}`}>
-                  <header className="example-case-heading">
-                    <div>
-                      <span>{String(index + 1).padStart(2, "0")}</span>
-                      <p>{example.category}</p>
-                    </div>
-                    <span>{ui.examples.artifact}</span>
-                  </header>
-                  <figure className="example-case-figure">
-                    <div className="example-case-visual">
-                      <img
-                        src={example.src}
-                        alt={example.alt}
-                        width={example.width}
-                        height={example.height}
-                      />
-                    </div>
-                    <figcaption className="example-visual-meta">
-                      <span>
-                        FIGURE / {String(index + 1).padStart(2, "0")}
-                      </span>
-                      <span>{example.meta}</span>
-                    </figcaption>
-                  </figure>
-                  <div className="example-case-copy">
-                    <div>
-                      <h2>{example.title}</h2>
-                      <p>{example.description}</p>
-                    </div>
-                    <blockquote>{example.prompt}</blockquote>
-                    <div className="example-case-footer">
-                      <button
-                        className="text-link"
-                        type="button"
-                        onClick={() => onNavigate("/workspace")}
-                      >
-                        {ui.examples.openWorkspace}
-                        <ArrowRight size={17} />
-                      </button>
-                    </div>
-                  </div>
-                </article>
-              </Grid>
-            ))}
-          </Flex>
+          <section className="ff-library-shell">
+            <aside className="ff-library-index" aria-label={zh ? "案例列表" : "Example list"}>
+              <header><span>{zh ? "研发案例" : "R&D collection"}</span><strong>{String(examples.length).padStart(2, "0")}</strong></header>
+              <div className="ff-library-items">
+                {examples.map((example, index) => (
+                  <button
+                    type="button"
+                    className="ff-library-item"
+                    data-allow-wrap="true"
+                    data-active={index === activeIndex}
+                    aria-current={index === activeIndex ? "true" : undefined}
+                    onClick={() => setActiveIndex(index)}
+                    key={example.id}
+                  >
+                    <span className="ff-library-thumb"><img src={example.src} alt="" width={example.width} height={example.height} /></span>
+                    <span><small>{String(index + 1).padStart(2, "0")} · {example.category}</small><strong>{example.title}</strong></span>
+                    <CaretRight size={15} />
+                  </button>
+                ))}
+              </div>
+              <button className="ff-library-start" type="button" onClick={() => onNavigate("/workspace")}>
+                <Plus size={17} />{ui.examples.openWorkspace}<ArrowRight size={16} />
+              </button>
+            </aside>
+
+            <article className="ff-library-detail" key={activeExample.id}>
+              <header className="ff-library-detailbar">
+                <span><i />FIGURE / {String(activeIndex + 1).padStart(2, "0")}</span>
+                <span>{activeExample.ratio} · {activeExample.format}</span>
+              </header>
+              <figure className={`ff-library-canvas ratio-${activeExample.ratio.replace(":", "-")}`}>
+                <img src={activeExample.src} alt={activeExample.alt} width={activeExample.width} height={activeExample.height} />
+              </figure>
+              <div className="ff-library-copy">
+                <div className="ff-library-description">
+                  <p>{activeExample.category}</p>
+                  <h2>{activeExample.title}</h2>
+                  <span>{activeExample.description}</span>
+                </div>
+                <blockquote><small>{zh ? "输入说明" : "Source prompt"}</small>{activeExample.prompt}</blockquote>
+                <footer>
+                  <span>{activeExample.meta}</span>
+                  <button type="button" onClick={() => onNavigate("/workspace")}>{zh ? "按这个结构开始" : "Start from this structure"}<ArrowUpRight size={16} /></button>
+                </footer>
+              </div>
+            </article>
+          </section>
         </PageContainer>
       </PageSection>
 
@@ -1803,7 +1232,9 @@ function WorkspaceAccountSummary({
   onActivate: () => void;
 }) {
   const label =
-    identity === "user"
+    !apiConfigured
+      ? ui.nav.signIn === "登录" ? "本地工作台" : "Local workspace"
+      : identity === "user"
       ? currentIdentity?.display_name || ui.nav.account
       : identity === "guest"
         ? ui.nav.guest
@@ -1824,643 +1255,20 @@ function WorkspaceAccountSummary({
       data-allow-wrap="true"
     >
       <span className="workspace-account-avatar" aria-hidden="true">
-        {identity === "user" && currentIdentity?.avatar_url ? (
+        {!apiConfigured ? <FileImage size={17} /> : identity === "user" && currentIdentity?.avatar_url ? (
           <img src={currentIdentity.avatar_url} alt="" referrerPolicy="no-referrer" />
         ) : (
           monogram
         )}
       </span>
       <strong>{label}</strong>
-      <span className="workspace-account-plan">{ui.workspace.freePlan}</span>
+      <span className="workspace-account-plan">{apiConfigured ? ui.workspace.freePlan : "SVG"}</span>
     </button>
   );
 }
 
-function LegacySvgEditorPanel({
-  ui,
-  svgDocument,
-  previewUrl,
-  importError,
-  importing,
-  onOpenFile,
-  onDropFile,
-}: {
-  ui: UiCopy;
-  svgDocument: ImportedSvgDocument | null;
-  previewUrl: string;
-  importError: SvgImportErrorCode | null;
-  importing: boolean;
-  onOpenFile: () => void;
-  onDropFile: (file: File) => void;
-}) {
-  const [dragActive, setDragActive] = useState(false);
-  const tools = [
-    { label: ui.workspace.editorSelect, Icon: CursorClick },
-    { label: ui.workspace.editorNodes, Icon: VectorThree },
-    { label: ui.workspace.editorShape, Icon: BoundingBox },
-    { label: ui.workspace.editorText, Icon: TextT },
-  ];
-  const errorMessage =
-    importError === "empty"
-      ? ui.workspace.editorErrorInvalid
-      : importError === "format"
-        ? ui.workspace.editorErrorFormat
-        : importError === "large"
-          ? ui.workspace.editorErrorLarge
-          : importError === "complex"
-            ? ui.workspace.editorErrorComplex
-            : importError === "invalid"
-              ? ui.workspace.editorErrorInvalid
-              : "";
-  const aspectClass = !svgDocument
-    ? "ratio-16-9"
-    : svgDocument.aspectRatio >= 2
-      ? "aspect-wide"
-      : svgDocument.aspectRatio > 1.15
-        ? "aspect-landscape"
-        : svgDocument.aspectRatio >= 0.85
-          ? "aspect-square"
-          : "aspect-portrait";
-  const aspectLabel = svgDocument
-    ? svgDocument.aspectRatio >= 0.98 && svgDocument.aspectRatio <= 1.02
-      ? "1:1"
-      : svgDocument.aspectRatio >= 1.31 && svgDocument.aspectRatio <= 1.36
-        ? "4:3"
-        : svgDocument.aspectRatio >= 1.75 && svgDocument.aspectRatio <= 1.8
-          ? "16:9"
-          : `${svgDocument.aspectRatio.toFixed(2)}:1`
-    : "";
-
-  function acceptDrag(event: ReactDragEvent<HTMLElement>) {
-    event.preventDefault();
-    event.dataTransfer.dropEffect = "copy";
-    setDragActive(true);
-  }
-
-  function leaveDrag(event: ReactDragEvent<HTMLElement>) {
-    if (event.currentTarget.contains(event.relatedTarget as Node | null)) return;
-    setDragActive(false);
-  }
-
-  function dropFile(event: ReactDragEvent<HTMLElement>) {
-    event.preventDefault();
-    setDragActive(false);
-    const file = event.dataTransfer.files[0];
-    if (file) onDropFile(file);
-  }
-
-  if (!svgDocument) {
-    return (
-      <section
-        className={`svg-import-stage ${dragActive ? "drag-active" : ""}`}
-        aria-labelledby="svg-import-title"
-        onDragEnter={acceptDrag}
-        onDragOver={acceptDrag}
-        onDragLeave={leaveDrag}
-        onDrop={dropFile}
-      >
-        <div className="svg-import-copy">
-          <div className="svg-import-symbol" aria-hidden="true">
-            <UploadSimple size={25} weight="duotone" />
-          </div>
-          <span className="svg-import-local">{ui.workspace.editorLocal}</span>
-          <h2 id="svg-import-title">
-            {importing ? ui.workspace.editorLoading : ui.workspace.editorDropTitle}
-          </h2>
-          <p>{ui.workspace.editorDropBody}</p>
-          {errorMessage && (
-            <p className="svg-import-error" role="alert">
-              {errorMessage}
-            </p>
-          )}
-          <div className="svg-import-actions">
-            <button
-              className="svg-import-button"
-              type="button"
-              onClick={onOpenFile}
-              disabled={importing}
-            >
-              <UploadSimple size={17} aria-hidden="true" />
-              {errorMessage
-                ? ui.workspace.editorTryAgain
-                : ui.workspace.editorDropAction}
-            </button>
-            <small>{ui.workspace.editorDropHint}</small>
-          </div>
-          <p className="svg-mobile-note svg-import-mobile-note">
-            {ui.workspace.editorMobile}
-          </p>
-        </div>
-
-        <div className="svg-import-diagram" aria-hidden="true">
-          <svg viewBox="0 0 620 430">
-            <path
-              className="svg-import-paper"
-              d="M93 58H488L543 113V365H93Z"
-            />
-            <path className="svg-import-fold" d="M488 58V113H543" />
-            <path
-              className="svg-import-path"
-              d="M160 278C205 178 276 316 326 207C368 116 430 143 475 195"
-            />
-            <path className="svg-import-guide" d="M160 278L326 207L475 195" />
-            <circle className="svg-import-node" cx="160" cy="278" r="10" />
-            <circle className="svg-import-node clay" cx="326" cy="207" r="10" />
-            <circle className="svg-import-node" cx="475" cy="195" r="10" />
-            <path className="svg-import-caption-line" d="M160 318H258" />
-            <path className="svg-import-caption-line short" d="M160 338H218" />
-          </svg>
-          <span className="svg-import-diagram-label path">PATH</span>
-          <span className="svg-import-diagram-label node">NODE</span>
-          <span className="svg-import-diagram-label text">TEXT</span>
-        </div>
-
-        <div className="svg-import-specs" aria-hidden="true">
-          <span>SVG</span>
-          <span>≤ 5 MB</span>
-          <span>LOCAL</span>
-        </div>
-
-        {dragActive && (
-          <div className="svg-drop-overlay">
-            <UploadSimple size={24} />
-            <strong>{ui.workspace.editorDropActive}</strong>
-          </div>
-        )}
-      </section>
-    );
-  }
-
-  return (
-    <div className="svg-editor-shell">
-      <aside className="svg-toolrail" aria-label={ui.workspace.editorTools}>
-        <span className="svg-toolrail-label">{ui.workspace.editorTools}</span>
-        <div>
-          {tools.map(({ label, Icon }) => (
-            <button
-              key={label}
-              type="button"
-              aria-label={`${label}. ${ui.workspace.editorUnavailable}`}
-              title={ui.workspace.editorUnavailable}
-              disabled
-            >
-              <Icon size={18} />
-            </button>
-          ))}
-        </div>
-      </aside>
-
-      <section className="svg-workbench" aria-label={ui.workspace.editorCanvas}>
-        <header className="svg-workbench-toolbar">
-          <div>
-            <BezierCurve size={17} weight="duotone" />
-            <strong>{ui.workspace.editorDocument}</strong>
-            <span>
-              {svgDocument
-                ? `${svgDocument.fileName} · ${svgDocument.elementCount} ${ui.workspace.editorObjects}`
-                : ui.workspace.editorStatus}
-            </span>
-          </div>
-          <div className="svg-zoom-controls" aria-label={ui.workspace.editorZoom}>
-            <button
-              type="button"
-              aria-label={`${ui.workspace.editorZoom} -. ${ui.workspace.editorUnavailable}`}
-              disabled
-            >
-              <MagnifyingGlassMinus size={16} />
-            </button>
-            <span>—</span>
-            <button
-              type="button"
-              aria-label={`${ui.workspace.editorZoom} +. ${ui.workspace.editorUnavailable}`}
-              disabled
-            >
-              <MagnifyingGlassPlus size={16} />
-            </button>
-          </div>
-        </header>
-
-        <div
-          className={[
-            "svg-canvas-viewport",
-            svgDocument ? "document-open" : "pending",
-            dragActive ? "drag-active" : "",
-          ]
-            .filter(Boolean)
-            .join(" ")}
-          onDragEnter={acceptDrag}
-          onDragOver={acceptDrag}
-          onDragLeave={leaveDrag}
-          onDrop={dropFile}
-        >
-          <div
-            className={[
-              "svg-artboard",
-              svgDocument ? "has-document" : "",
-              aspectClass,
-            ]
-              .filter(Boolean)
-              .join(" ")}
-            style={
-              svgDocument
-                ? ({
-                    "--svg-aspect-ratio": svgDocument.aspectRatio,
-                  } as CSSProperties)
-                : undefined
-            }
-          >
-            {svgDocument && previewUrl ? (
-              <div className="svg-document-preview">
-                <img src={previewUrl} alt={ui.workspace.editorPreviewAlt} />
-              </div>
-            ) : (
-              <div className="svg-artboard-empty svg-import-empty">
-                <UploadSimple size={30} weight="duotone" aria-hidden="true" />
-                <div>
-                  <span id="svg-editor-unavailable">
-                    {dragActive
-                      ? ui.workspace.editorDropActive
-                      : ui.workspace.editorLocal}
-                  </span>
-                  <h2>
-                    {importing
-                      ? ui.workspace.editorLoading
-                      : ui.workspace.editorDropTitle}
-                  </h2>
-                  <p>{ui.workspace.editorDropBody}</p>
-                  {errorMessage && (
-                    <p className="svg-import-error" role="alert">
-                      {errorMessage}
-                    </p>
-                  )}
-                  <button
-                    className="svg-import-button"
-                    type="button"
-                    onClick={onOpenFile}
-                    disabled={importing}
-                  >
-                    <UploadSimple size={17} aria-hidden="true" />
-                    {errorMessage
-                      ? ui.workspace.editorTryAgain
-                      : ui.workspace.editorDropAction}
-                  </button>
-                  <small>{ui.workspace.editorDropHint}</small>
-                </div>
-              </div>
-            )}
-          </div>
-          {errorMessage && svgDocument && (
-            <div className="svg-canvas-alert" role="alert">
-              <WarningCircle size={18} weight="fill" aria-hidden="true" />
-              <span>{errorMessage}</span>
-              <button type="button" onClick={onOpenFile}>
-                {ui.workspace.editorTryAgain}
-              </button>
-            </div>
-          )}
-          {dragActive && (
-            <div className="svg-drop-overlay" aria-hidden="true">
-              <UploadSimple size={24} />
-              <strong>{ui.workspace.editorDropActive}</strong>
-            </div>
-          )}
-          <p className="svg-mobile-note">{ui.workspace.editorMobile}</p>
-        </div>
-      </section>
-
-      <aside className="svg-inspector" aria-label={ui.workspace.editorInspector}>
-        <header>
-          <SlidersHorizontal size={17} />
-          <strong>{ui.workspace.editorInspector}</strong>
-        </header>
-        <section>
-          <h3>
-            <Stack size={15} />
-            {ui.workspace.editorStructure}
-          </h3>
-          {svgDocument ? (
-            <ol className="svg-layer-list">
-              {svgDocument.layers.map((layer, index) => (
-                <li key={`${layer.id}-${index}`}>
-                  <span aria-hidden="true">{String(index + 1).padStart(2, "0")}</span>
-                  <div>
-                    <strong>{layer.label}</strong>
-                    <small>
-                      {layer.tag}
-                      {layer.childCount > 0 ? ` · ${layer.childCount}` : ""}
-                    </small>
-                  </div>
-                </li>
-              ))}
-            </ol>
-          ) : (
-            <div className="svg-inspector-empty">
-              <Selection size={18} weight="duotone" />
-              <p>{ui.workspace.editorNoLayers}</p>
-            </div>
-          )}
-        </section>
-        <section>
-          <h3>
-            <PaintBrush size={15} />
-            {ui.workspace.editorSelection}
-          </h3>
-          <p>
-            {svgDocument
-              ? ui.workspace.editorSelectionReady
-              : ui.workspace.editorNoSelection}
-          </p>
-          {svgDocument && (
-            <dl className="svg-document-facts">
-              <div>
-                <dt>{ui.workspace.editorObjects}</dt>
-                <dd>{svgDocument.elementCount}</dd>
-              </div>
-              <div>
-                <dt>{ui.workspace.editorTexts}</dt>
-                <dd>{svgDocument.textCount}</dd>
-              </div>
-              <div>
-                <dt>KB</dt>
-                <dd>{Math.max(1, Math.round(svgDocument.byteSize / 1024))}</dd>
-              </div>
-              <div>
-                <dt>{ui.workspace.editorAspect}</dt>
-                <dd>{aspectLabel}</dd>
-              </div>
-            </dl>
-          )}
-          {svgDocument?.sanitized && (
-            <p className="svg-safety-note">
-              <Check size={15} weight="bold" aria-hidden="true" />
-              {ui.workspace.editorSanitized}
-            </p>
-          )}
-          {svgDocument && svgDocument.fontFamilies.length > 0 && (
-            <p className="svg-font-note">
-              <TextT size={15} weight="bold" aria-hidden="true" />
-              <span>
-                <strong>
-                  {ui.workspace.editorFonts}: {svgDocument.fontFamilies.join(", ")}
-                </strong>
-                {ui.workspace.editorFontNotice}
-              </span>
-            </p>
-          )}
-        </section>
-      </aside>
-    </div>
-  );
-}
-
-function SvgEditorPanel({
-  ui,
-  language,
-  svgDocument,
-  previewUrl,
-  importError,
-  importing,
-  onOpenFile,
-  onDropFile,
-  editedMarkup,
-  editorReady,
-  onMarkupChange,
-  onReadyChange,
-}: {
-  ui: UiCopy;
-  language: Language;
-  svgDocument: ImportedSvgDocument | null;
-  previewUrl: string;
-  importError: SvgImportErrorCode | null;
-  importing: boolean;
-  onOpenFile: () => void;
-  onDropFile: (file: File) => void;
-  editedMarkup: string;
-  editorReady: boolean;
-  onMarkupChange: (markup: string) => void;
-  onReadyChange: (ready: boolean) => void;
-}) {
-  const editorRef = useRef<SvgEditHandle>(null);
-  const [editorState, setEditorState] = useState<SvgEditState>({
-    mode: "select",
-    hasSelection: false,
-    canUndo: false,
-    canRedo: false,
-    zoom: 100,
-    fill: "#ffffff",
-    stroke: "#20152b",
-    strokeWidth: 1,
-    opacity: 100,
-  });
-
-  if (!svgDocument) {
-    return (
-      <LegacySvgEditorPanel
-        ui={ui}
-        svgDocument={svgDocument}
-        previewUrl={previewUrl}
-        importError={importError}
-        importing={importing}
-        onOpenFile={onOpenFile}
-        onDropFile={onDropFile}
-      />
-    );
-  }
-
-  const liveError =
-    importError === "large"
-      ? ui.workspace.editorErrorLarge
-      : importError === "complex"
-        ? ui.workspace.editorErrorComplex
-        : importError
-          ? ui.workspace.editorErrorInvalid
-          : "";
-
-  return (
-    <div className="svg-edit-live-shell">
-      {liveError && (
-        <div className="svg-canvas-alert" role="alert">
-          <WarningCircle size={18} weight="fill" aria-hidden="true" />
-          <span>{liveError}</span>
-          <button type="button" onClick={onOpenFile}>
-            {ui.workspace.editorTryAgain}
-          </button>
-        </div>
-      )}
-      <FigFoxEditorChrome
-        language={language}
-        ready={editorReady}
-        state={editorState}
-        editor={editorRef.current}
-      >
-        <SvgEditHost
-          ref={editorRef}
-          language={language}
-          markup={editedMarkup || svgDocument.markup}
-          loadingLabel={ui.workspace.editorLoading}
-          onMarkupChange={onMarkupChange}
-          onReadyChange={onReadyChange}
-          onStateChange={setEditorState}
-        />
-      </FigFoxEditorChrome>
-    </div>
-  );
-}
-
-function SvgEditorPage({
-  ui,
-  language,
-  onLanguageChange,
-  onNavigate,
-}: {
-  ui: UiCopy;
-  language: Language;
-  onLanguageChange: () => void;
-  onNavigate: (path: RoutePath) => void;
-}) {
-  const latestDraft = readCachedDrafts()[0];
-  const fileInputRef = useRef<HTMLInputElement>(null);
-  const [svgDocument, setSvgDocument] = useState<ImportedSvgDocument | null>(null);
-  const [previewUrl, setPreviewUrl] = useState("");
-  const [importError, setImportError] = useState<SvgImportErrorCode | null>(null);
-  const [importing, setImporting] = useState(false);
-  const [editedMarkup, setEditedMarkup] = useState("");
-  const [editorReady, setEditorReady] = useState(false);
-  const fallbackTitle = latestDraft?.title?.trim() || ui.workspace.editorUntitled;
-  const documentTitle = svgDocument?.fileName || fallbackTitle;
-
-  useEffect(() => {
-    if (!svgDocument) {
-      setPreviewUrl("");
-      return undefined;
-    }
-
-    const url = URL.createObjectURL(
-      new Blob([svgDocument.markup], { type: "image/svg+xml" }),
-    );
-    setPreviewUrl(url);
-    return () => URL.revokeObjectURL(url);
-  }, [svgDocument]);
-
-  async function openSvg(file: File) {
-    setImporting(true);
-    setImportError(null);
-    try {
-      const imported = await importSvgDocument(file);
-      setSvgDocument(imported);
-      setEditedMarkup(imported.markup);
-      setEditorReady(false);
-    } catch (error) {
-      setImportError(error instanceof SvgImportError ? error.code : "invalid");
-    } finally {
-      setImporting(false);
-    }
-  }
-
-  function handleSvgInput(event: ChangeEvent<HTMLInputElement>) {
-    const file = event.target.files?.[0];
-    event.target.value = "";
-    if (file) void openSvg(file);
-  }
-
-  function exportSvg() {
-    if (!svgDocument || !editedMarkup) return;
-
-    const url = URL.createObjectURL(
-      new Blob([editedMarkup], { type: "image/svg+xml" }),
-    );
-    const link = window.document.createElement("a");
-    const stem = svgDocument.fileName.replace(/\.svg$/i, "");
-    link.href = url;
-      link.download = `${stem}-figfox.svg`;
-    link.click();
-    window.setTimeout(() => URL.revokeObjectURL(url), 0);
-  }
-
-  return (
-    <div className="editor-app page-enter">
-      <input
-        ref={fileInputRef}
-        className="sr-only"
-        type="file"
-        accept=".svg,image/svg+xml"
-        aria-label={ui.workspace.editorOpenFile}
-        onChange={handleSvgInput}
-      />
-      <header className="editor-app-header">
-        <div className="editor-app-left">
-          <Brand onNavigate={onNavigate} />
-          <InternalLink
-            className="editor-back-button"
-            href="/workspace"
-            onNavigate={onNavigate}
-          >
-            <CaretLeft size={17} aria-hidden="true" />
-            <span>{ui.workspace.editorBack}</span>
-          </InternalLink>
-        </div>
-        <div className="editor-document-title" aria-live="polite">
-          <strong>{documentTitle}</strong>
-          <span>
-            {svgDocument
-              ? `${editorReady ? ui.workspace.editorReady : ui.workspace.editorLoading} · ${ui.workspace.editorLocal}`
-              : ui.workspace.editorStatus}
-          </span>
-        </div>
-        <Toolbar.Root className="editor-app-actions" aria-label={ui.workspace.editorTitle}>
-          <Toolbar.Button
-            className="language-button"
-            onClick={onLanguageChange}
-            aria-label={language === "zh" ? "Switch to English" : "切换到中文"}
-          >
-            <Globe size={16} />
-            <span>{language === "zh" ? "EN" : "中文"}</span>
-          </Toolbar.Button>
-          <Toolbar.Separator className="editor-action-separator" />
-          <Toolbar.Button
-            className="editor-open-file-button"
-            onClick={() => fileInputRef.current?.click()}
-            disabled={importing}
-          >
-            <UploadSimple size={17} aria-hidden="true" />
-            <span>
-              {svgDocument
-                ? ui.workspace.editorReplaceFile
-                : ui.workspace.editorOpenFile}
-            </span>
-          </Toolbar.Button>
-          <Toolbar.Button
-            className="editor-export-button"
-            onClick={exportSvg}
-            disabled={!svgDocument || !editorReady}
-            title={!svgDocument ? ui.workspace.editorStatus : undefined}
-          >
-            <DownloadSimple size={17} aria-hidden="true" />
-            <span>{ui.workspace.editorExport}</span>
-          </Toolbar.Button>
-        </Toolbar.Root>
-      </header>
-      <main className="editor-page" id="editor-canvas">
-        <SvgEditorPanel
-          ui={ui}
-          language={language}
-          svgDocument={svgDocument}
-          previewUrl={previewUrl}
-          importError={importError}
-          importing={importing}
-          onOpenFile={() => fileInputRef.current?.click()}
-          onDropFile={(file) => void openSvg(file)}
-          editedMarkup={editedMarkup}
-          editorReady={editorReady}
-          onMarkupChange={setEditedMarkup}
-          onReadyChange={setEditorReady}
-        />
-      </main>
-    </div>
-  );
-}
-
 function WorkspacePage({
+  active = true,
   ui,
   language,
   identity,
@@ -2469,7 +1277,9 @@ function WorkspacePage({
   requestAuth,
   onAccount,
   onOpenEditor,
+  onViewTransition,
 }: {
+  active?: boolean;
   ui: UiCopy;
   language: Language;
   identity: Identity;
@@ -2478,6 +1288,7 @@ function WorkspacePage({
   requestAuth: (action: () => void) => void;
   onAccount: () => void;
   onOpenEditor: () => void;
+  onViewTransition: (update: () => void, animate: boolean) => void;
 }) {
   const workspaceCopy = figFoxWorkspaceCopy[language];
   const [taskMode, setTaskMode] = useState<"create" | "rebuild">("create");
@@ -2485,6 +1296,25 @@ function WorkspacePage({
   const [prompt, setPrompt] = useState("");
   const [referenceFile, setReferenceFile] = useState<File | null>(null);
   const [referencePreview, setReferencePreview] = useState("");
+  const [workspaceView, setWorkspaceView] = useState<"task" | "documents" | "source">(() => {
+    try { return window.sessionStorage.getItem("figfox-workspace-view") === "documents" ? "documents" : "task"; }
+    catch { return "task"; }
+  });
+  const [processPreview, setProcessPreview] = useState(false);
+  useLayoutEffect(() => {
+    if (!active) return;
+    try {
+      if (window.sessionStorage.getItem("figfox-workspace-view") === "documents") {
+        setWorkspaceView("documents");
+        setProcessPreview(false);
+      }
+    } catch { /* The current view remains available without persisted navigation. */ }
+  }, [active]);
+  useEffect(() => {
+    try { window.sessionStorage.setItem("figfox-workspace-view", workspaceView); }
+    catch { /* The current view remains usable when storage is unavailable. */ }
+  }, [workspaceView]);
+  useEffect(() => { setProcessPreview(false); }, [taskMode]);
   const [referenceAsset, setReferenceAsset] = useState<Asset | null>(null);
   const [referenceAssetId, setReferenceAssetId] = useState<string | null>(null);
   const [referenceStatus, setReferenceStatus] =
@@ -2495,8 +1325,6 @@ function WorkspacePage({
   const [format, setFormat] = useState("PNG");
   const [isPublic, setIsPublic] = useState(false);
   const [activeDraftTitle, setActiveDraftTitle] = useState<string | null>(null);
-  const [status] = useState<GenerateStatus>("empty");
-  const [progress] = useState(0);
   const [historyOpen, setHistoryOpen] = useState(false);
   const [historyCollapsed, setHistoryCollapsed] = useState(
     () => window.localStorage.getItem("autodraftman-history-collapsed") === "true",
@@ -2511,9 +1339,6 @@ function WorkspacePage({
   const [renamingDraftId, setRenamingDraftId] = useState("");
   const [renamingDraftTitle, setRenamingDraftTitle] = useState("");
   const [online, setOnline] = useState(() => window.navigator.onLine);
-  const [showOnboarding, setShowOnboarding] = useState(
-    () => window.localStorage.getItem("autodraftman-workspace-onboarded") !== "true",
-  );
   const uploadAbortRef = useRef<AbortController | null>(null);
   const activeUploadAssetIdRef = useRef<string | null>(null);
   const uploadSequenceRef = useRef(0);
@@ -2521,6 +1346,27 @@ function WorkspacePage({
   const draftSaveTimerRef = useRef<number | null>(null);
   const draftSaveSequenceRef = useRef(0);
   const lastSavedDraftRef = useRef("");
+  const latestDraftRef = useRef<WorkspaceDraft | null>(null);
+
+  const flushLocalDraft = () => {
+    const draft = latestDraftRef.current;
+    if (!draft) return null;
+    const cached = readCachedDrafts();
+    const previous = cached.find(item => item.id === draft.id);
+    if (previous && draftFingerprint(draftInput(previous)) === draftFingerprint(draftInput(draft))) return previous;
+    const updated = { ...draft, updated_at: new Date().toISOString() };
+    writeCachedDrafts([updated, ...cached.filter(item => item.id !== draft.id)]);
+    return updated;
+  };
+
+  useEffect(() => {
+    const flush = () => flushLocalDraft();
+    window.addEventListener("pagehide", flush);
+    return () => { window.removeEventListener("pagehide", flush); flush(); };
+  }, []);
+
+  const currentDraft = drafts.find(draft => draft.id === activeDraftId);
+  latestDraftRef.current = draftsReady && currentDraft ? { ...currentDraft, title: activeDraftTitle, prompt, mode, aspect_ratio: ratio as WorkspaceDraftInput["aspect_ratio"], output_format: format as WorkspaceDraftInput["output_format"], visibility: isPublic ? "public" : "private", reference_asset_id: referenceAssetId } : null;
 
   const uploadBusy = ["preparing", "uploading", "verifying"].includes(
     referenceStatus,
@@ -2645,8 +1491,9 @@ function WorkspacePage({
       const available =
         sorted.length > 0 ? sorted : [makeLocalDraft(blankDraftInput())];
       setDrafts(available);
-      writeCachedDrafts(available);
+      const locallySaved = writeCachedDrafts(available);
       applyDraft(available[0]);
+      if (!locallySaved && !apiConfigured) setDraftSaveState("failed");
       setDraftsReady(true);
     };
 
@@ -2726,22 +1573,17 @@ function WorkspacePage({
       const now = new Date().toISOString();
       const fallbackId = activeDraftId || `local-${crypto.randomUUID()}`;
       setActiveDraftId(fallbackId);
-      setDrafts((current) => {
-        const existing = current.find((draft) => draft.id === fallbackId);
-        const localDraft: WorkspaceDraft = existing
-          ? { ...existing, ...input, updated_at: now }
-          : makeLocalDraft(input, fallbackId);
-        const next = [
-          localDraft,
-          ...current.filter((draft) => draft.id !== fallbackId),
-        ];
-        writeCachedDrafts(next);
-        return next;
-      });
+      const existing = drafts.find((draft) => draft.id === fallbackId);
+      const localDraft: WorkspaceDraft = existing
+        ? { ...existing, ...input, updated_at: now }
+        : makeLocalDraft(input, fallbackId);
+      const next = [localDraft, ...drafts.filter((draft) => draft.id !== fallbackId)];
+      const locallySaved = writeCachedDrafts(next);
+      setDrafts(next);
 
       if (!apiConfigured) {
-        lastSavedDraftRef.current = fingerprint;
-        setDraftSaveState("saved");
+        if (locallySaved) lastSavedDraftRef.current = fingerprint;
+        setDraftSaveState(locallySaved ? "saved" : "failed");
         return;
       }
       if (!online) {
@@ -2877,6 +1719,10 @@ function WorkspacePage({
   };
 
   const handleGenerate = () => {
+    if (!apiConfigured) {
+      setMessage(ui.workspace.generationUnavailable);
+      return;
+    }
     if (taskMode === "create" && !prompt.trim()) {
       setMessage(ui.workspace.promptError);
       return;
@@ -2900,6 +1746,8 @@ function WorkspacePage({
     const selected = event.target.files?.[0];
     event.target.value = "";
     if (!selected) return;
+    setMode("reference");
+    setWorkspaceView("task");
 
     const mediaType = mediaTypeFor(selected);
     setReferenceFile(selected);
@@ -2922,8 +1770,8 @@ function WorkspacePage({
       return;
     }
     if (!apiConfigured) {
-      setReferenceStatus("error");
-      setReferenceError(ui.workspace.uploadRequiresApi);
+      setReferenceStatus("local");
+      setReferenceError("");
       return;
     }
     setReferenceStatus("idle");
@@ -2944,6 +1792,7 @@ function WorkspacePage({
   };
 
   const removeReference = () => {
+    if (taskMode === "create") setMode("text");
     uploadSequenceRef.current += 1;
     uploadAbortRef.current?.abort();
     uploadAbortRef.current = null;
@@ -2966,6 +1815,9 @@ function WorkspacePage({
   };
 
   const startNewDraft = () => {
+    setWorkspaceView("task");
+    setProcessPreview(false);
+    const flushed = flushLocalDraft();
     uploadSequenceRef.current += 1;
     uploadAbortRef.current?.abort();
     uploadAbortRef.current = null;
@@ -2992,16 +1844,19 @@ function WorkspacePage({
     setMessage("");
     const next = makeLocalDraft(blankDraftInput());
     setActiveDraftId(next.id);
-    setDrafts((current) => {
-      const items = [next, ...current];
-      writeCachedDrafts(items);
-      return items;
-    });
+    const items = [next, ...drafts.map(item => item.id === flushed?.id ? flushed : item)];
+    const locallySaved = writeCachedDrafts(items);
+    setDrafts(items);
     lastSavedDraftRef.current = draftFingerprint(blankDraftInput());
-    setDraftSaveState("saved");
+    setDraftSaveState(locallySaved || apiConfigured ? "saved" : "failed");
   };
 
   const selectDraft = (draft: WorkspaceDraft) => {
+    setWorkspaceView("task");
+    setProcessPreview(false);
+    if (draft.id === activeDraftId) { setHistoryOpen(false); return; }
+    const flushed = flushLocalDraft();
+    if (flushed) setDrafts(current => current.map(item => item.id === flushed.id ? flushed : item));
     applyDraft(draft);
     setHistoryOpen(false);
   };
@@ -3054,18 +1909,24 @@ function WorkspacePage({
       }
     }
     const remaining = drafts.filter((draft) => draft.id !== deletedId);
+    if (activeDraftId === deletedId) latestDraftRef.current = null;
     if (remaining.length > 0) {
       setDrafts(remaining);
       writeCachedDrafts(remaining);
       if (activeDraftId === deletedId) applyDraft(remaining[0]);
       return;
     }
-    setDrafts([]);
-    writeCachedDrafts([]);
-    startNewDraft();
+    const next = makeLocalDraft(blankDraftInput());
+    setDrafts([next]);
+    const locallySaved = writeCachedDrafts([next]);
+    setTaskMode("create");
+    setSettingsOpen(false);
+    applyDraft(next);
+    if (!locallySaved && !apiConfigured) setDraftSaveState("failed");
   };
 
   const referenceStatusLabel = (() => {
+    if (referenceStatus === "local") return language === "zh" ? "本地预览 · 刷新后需重新选择" : "Local preview · select again after refresh";
     if (referenceStatus === "preparing") return ui.workspace.uploadPreparing;
     if (referenceStatus === "uploading") {
       return `${ui.workspace.uploadProgress} · ${referenceProgress}%`;
@@ -3082,10 +1943,10 @@ function WorkspacePage({
       : draftSaveState === "offline"
         ? ui.workspace.draftOffline
         : draftSaveState === "failed"
-          ? ui.workspace.draftFailed
+          ? apiConfigured ? ui.workspace.draftFailed : language === "zh" ? "本地保存失败，请保留草稿内容" : "Local save failed. Keep a copy of your draft."
           : draftSaveState === "session-expired"
             ? ui.workspace.draftSessionExpired
-            : ui.workspace.draftSaved;
+          : apiConfigured ? ui.workspace.draftSaved : language === "zh" ? "已在当前浏览器保存" : "Saved in this browser";
 
   const handlePromptKeyDown = (
     event: ReactKeyboardEvent<HTMLTextAreaElement>,
@@ -3096,9 +1957,35 @@ function WorkspacePage({
     }
   };
 
+  const changeWorkspaceView = (nextView: "task" | "documents" | "source", focusPrompt = false) => {
+    onViewTransition(() => {
+      setWorkspaceView(nextView);
+      setProcessPreview(false);
+      if (focusPrompt) window.requestAnimationFrame(() => document.getElementById("figure-prompt")?.focus({ preventScroll: true }));
+    }, nextView !== workspaceView || processPreview);
+  };
+  const returnToDraft = () => changeWorkspaceView("task", true);
+
+  const promptField = <ProductPromptField
+    active={active && workspaceView === "task" && !processPreview}
+    language={language}
+    taskMode={taskMode}
+    value={prompt}
+    onChange={setPrompt}
+    onKeyDown={handlePromptKeyDown}
+    label={taskMode === "rebuild" ? workspaceCopy.rebuildPrompt : ui.workspace.promptLabel}
+    help={taskMode === "rebuild"
+      ? language === "zh" ? "可补充需要保留的文字、布局与细节。" : "Add notes on labels, layout and details to preserve."
+      : language === "zh" ? "明确的主体、标签和布局，会让绘图要求更清楚。" : "Describe the subject, labels and layout to make the brief clearer."}
+    message={message}
+    invalid={message === ui.workspace.promptError}
+  />;
+
+  if (!active) return null;
+
   return (
     <main
-      className={`workspace-page page-enter ${
+      className={`workspace-page ff-workspace-v2 ff-workspace-v3 task-${taskMode} page-enter ${
         historyCollapsed ? "history-collapsed" : ""
       }`}
     >
@@ -3243,19 +2130,23 @@ function WorkspacePage({
         <header className="workspace-heading">
           <div className="workspace-heading-copy">
             <div className="workspace-heading-topline">
+              <span className="workspace-context-label">{ui.workspace.draftLabel}</span>
               <span className="kernel-status">
                 <i aria-hidden="true" />
                 {ui.workspace.kernelPending}
               </span>
             </div>
             <div className="workspace-title-line">
-              <h1>{ui.workspace.title}</h1>
+              <h1>{activeDraftTitle?.trim() || ui.workspace.draftUntitled}</h1>
               <span className={`draft-save-state ${draftSaveState}`}>
                 {draftSaveLabel}
               </span>
             </div>
           </div>
           <div className="workspace-heading-actions">
+            <button type="button" className="workspace-view-link" aria-pressed={workspaceView === "task" && !processPreview} onClick={returnToDraft}><NotePencil size={16} />{language === "zh" ? "当前草稿" : "Current draft"}</button>
+            <button type="button" className="workspace-view-link" aria-pressed={workspaceView === "documents"} onClick={() => changeWorkspaceView("documents")}><Stack size={16} />{language === "zh" ? "我的 SVG" : "My SVGs"}</button>
+            <button type="button" className="workspace-editor-link" onClick={onOpenEditor}><BezierCurve size={17} /><span>{language === "zh" ? "打开 SVG 编辑器" : "Open SVG editor"}</span><ArrowUpRight size={14} /></button>
             <button
               className="workspace-mobile-history"
               type="button"
@@ -3264,15 +2155,33 @@ function WorkspacePage({
               <ClockCounterClockwise size={17} />
               {ui.workspace.history}
             </button>
-            <div className="workspace-balance">
+            {apiConfigured && <div className="workspace-balance">
               <span>{ui.workspace.credits}</span>
               <strong>{credits ?? "—"}</strong>
-            </div>
+            </div>}
           </div>
         </header>
 
-        <div className="workspace-layout">
-        <aside className="control-panel">
+        <div className={`workspace-layout workspace-view-${workspaceView} ${processPreview ? "is-process-preview" : ""}`}>
+        {workspaceView === "task" && !processPreview && <div className="workspace-start-heading">
+          <h2>{language === "zh" ? taskMode === "create" ? "创建科研图" : "将图片重建为 SVG" : taskMode === "create" ? "Create a scientific figure" : "Reconstruct an image as SVG"}</h2>
+          <p>{language === "zh" ? taskMode === "create" ? "描述图中的内容、布局与关系，也可以添加参考图。" : "上传原图，保留文字、图形和连接关系，继续编辑。" : taskMode === "create" ? "Describe the content, layout and relationships, or add a reference image." : "Upload a figure to reconstruct its text, shapes and connections."}</p>
+        </div>}
+        {processPreview && <FigureProcessPreview key={taskMode} active={active} language={language} mode={taskMode} onClose={returnToDraft} />}
+        {workspaceView !== "task" && !processPreview && <section className={`result-panel ${taskMode}`}>
+          <div className="workspace-documents-back"><button type="button" onClick={returnToDraft}><CaretLeft size={16} />{language === "zh" ? "返回草稿" : "Back to draft"}</button></div>
+          {taskMode === "rebuild" && referencePreview && <header className="result-toolbar product-result-views" role="group" aria-label={language === "zh" ? "工作区视图" : "Workspace view"}>
+            <button type="button" aria-pressed={workspaceView === "documents"} onClick={() => changeWorkspaceView("documents")}>{language === "zh" ? "文件列表" : "Documents"}</button>
+            <button type="button" aria-pressed={workspaceView === "source"} onClick={() => changeWorkspaceView("source")}>{language === "zh" ? "原图预览" : "Source preview"}</button>
+          </header>}
+          {taskMode === "rebuild" && referencePreview && workspaceView === "source" ? <div className="product-source-review">
+            <div className="product-source-review-heading"><h2>{language === "zh" ? "原图预览" : "Source preview"}</h2><span>{referenceFile?.name}</span></div>
+            <img src={referencePreview} alt={language === "zh" ? "准备重建的本地原图" : "Local source prepared for reconstruction"} width="1280" height="720" className="product-workspace-source" />
+            <p>{language === "zh" ? "可以先补充要保留的文字、布局和细节。重建服务开放后再提交处理。" : "Add notes on the text, layout and details to preserve. Processing will become available with the reconstruction service."}</p>
+            <button type="button" className="product-button product-button-secondary" onClick={onOpenEditor}>{language === "zh" ? "打开 SVG 编辑器" : "Open SVG editor"}<ArrowRight size={17} /></button>
+          </div> : <WorkspaceDocuments language={language} onOpenEditor={onOpenEditor} />}
+        </section>}
+        <aside className="control-panel" hidden={workspaceView !== "task" || processPreview}>
           <Tabs.Root
             className="workspace-task-root"
             value={taskMode}
@@ -3280,124 +2189,31 @@ function WorkspacePage({
               const nextMode = value as "create" | "rebuild";
               setTaskMode(nextMode);
               if (nextMode === "rebuild") setMode("reference");
+              setWorkspaceView("task");
               setMessage("");
             }}
           >
             <Tabs.List className="workspace-task-switch" aria-label={ui.workspace.title}>
               <Tabs.Tab value="create">
                 <Plus size={16} />
-                {workspaceCopy.create}
+                {language === "zh" ? "创建图片" : "Create image"}
               </Tabs.Tab>
               <Tabs.Tab value="rebuild">
                 <BezierCurve size={16} />
-                {workspaceCopy.rebuild}
+                {language === "zh" ? "图片转 SVG" : "Image to SVG"}
               </Tabs.Tab>
               <Tabs.Indicator className="workspace-task-indicator" />
             </Tabs.List>
-            <p className="workspace-task-description">
-              {taskMode === "create"
-                ? workspaceCopy.createDescription
-                : workspaceCopy.rebuildDescription}
-            </p>
           </Tabs.Root>
 
-          {taskMode === "rebuild" && (
-            <section className="workspace-rebuild-intro">
-              <span>{workspaceCopy.rebuildKicker}</span>
-              <h2>{workspaceCopy.rebuildTitle}</h2>
-              <p>{workspaceCopy.rebuildBody}</p>
-              <ol>
-                {workspaceCopy.rebuildStages.map((stage, index) => (
-                  <li key={stage}>
-                    <i>{String(index + 1).padStart(2, "0")}</i>
-                    <span>{stage}</span>
-                  </li>
-                ))}
-              </ol>
-            </section>
-          )}
-
-          {taskMode === "create" && (
-            <Tabs.Root
-              value={mode}
-              onValueChange={(value) => setMode(value as "text" | "reference")}
-            >
-              <Tabs.List className="mode-switch" aria-label={ui.workspace.title}>
-                <Tabs.Tab value="text">
-                  <TextT size={17} />
-                  {ui.workspace.modeText}
-                </Tabs.Tab>
-                <Tabs.Tab value="reference">
-                  <ImageSquare size={17} />
-                  {ui.workspace.modeReference}
-                </Tabs.Tab>
-                <Tabs.Indicator className="mode-switch-indicator" />
-              </Tabs.List>
-            </Tabs.Root>
-          )}
-
-          {showOnboarding && (
-            <aside
-              className="workspace-onboarding"
-              aria-label={ui.workspace.onboardingTitle}
-            >
-              <NotePencil size={18} aria-hidden="true" />
-              <div>
-                <strong>{ui.workspace.onboardingTitle}</strong>
-                <p>{ui.workspace.onboardingBody}</p>
-              </div>
-              <button
-                type="button"
-                onClick={() => {
-                  window.localStorage.setItem(
-                    "autodraftman-workspace-onboarded",
-                    "true",
-                  );
-                  setShowOnboarding(false);
-                }}
-              >
-                {ui.workspace.onboardingDismiss}
-              </button>
-            </aside>
-          )}
-
-          <div className="form-block prompt-block">
-            <label htmlFor="figure-prompt">
-              {taskMode === "rebuild" ? workspaceCopy.rebuildPrompt : ui.workspace.promptLabel}
-            </label>
-            <textarea
-              id="figure-prompt"
-              value={prompt}
-              onChange={(event) => setPrompt(event.target.value)}
-              onKeyDown={handlePromptKeyDown}
-              placeholder={
-                taskMode === "rebuild"
-                  ? workspaceCopy.rebuildPromptPlaceholder
-                  : ui.workspace.promptPlaceholder
-              }
-              aria-describedby={message ? "prompt-message" : "prompt-help"}
-              aria-invalid={message ? "true" : undefined}
-            />
-            <div className="field-meta">
-              {message ? (
-                <p className="field-message" id="prompt-message" role="status">
-                  {message}
-                </p>
-              ) : (
-                <p className="field-help" id="prompt-help">
-                  {ui.workspace.promptHelp}
-                </p>
-              )}
-              <span>{prompt.length}/1200</span>
-            </div>
-          </div>
+          {taskMode === "create" && promptField}
 
           {(taskMode === "rebuild" || mode === "reference") && (
             <div className="form-block reference-block">
-              <label htmlFor="reference-file">{ui.workspace.referenceLabel}</label>
+              <label htmlFor="reference-file">{taskMode === "rebuild" ? language === "zh" ? "原图" : "Source image" : ui.workspace.referenceLabel}</label>
               {referencePreview ? (
                 <div className={`reference-upload-card ${referenceStatus}`}>
-                  <img src={referencePreview} alt="" />
+                  <img src={referencePreview} alt="" className={taskMode === "rebuild" ? "product-workspace-source" : undefined} />
                   <div className="reference-upload-copy">
                     <strong>
                       {referenceFile?.name ??
@@ -3441,45 +2257,54 @@ function WorkspacePage({
                   </button>
                 </div>
               ) : (
-                <label className="upload-zone" htmlFor="reference-file">
+                <button type="button" className="upload-zone" data-allow-wrap="true" onClick={() => document.getElementById("reference-file")?.click()} disabled={uploadBusy}>
                   <UploadSimple size={20} />
                   <span>
-                    <strong>{ui.workspace.uploadTitle}</strong>
+                    <strong>{taskMode === "rebuild" ? language === "zh" ? "选择需要重建的图片" : "Choose an image to reconstruct" : ui.workspace.uploadTitle}</strong>
                     <small>{ui.workspace.uploadBody}</small>
                   </span>
-                </label>
+                </button>
               )}
               {referencePreview && !uploadBusy && (
-                <label className="reference-replace" htmlFor="reference-file">
+                <div className="workspace-reference-actions">
+                <button type="button" className="reference-replace" onClick={() => document.getElementById("reference-file")?.click()}>
                   <UploadSimple size={15} />
                   {ui.workspace.replace}
-                </label>
+                </button>
+                {taskMode === "rebuild" && <button type="button" onClick={() => changeWorkspaceView("source")}>{language === "zh" ? "原图预览" : "Source preview"}<ArrowUpRight size={13} /></button>}
+                </div>
               )}
-              <input
+            </div>
+          )}
+          {taskMode === "rebuild" && promptField}
+          <input
                 className="sr-only"
                 id="reference-file"
                 type="file"
+                tabIndex={-1}
                 accept=".png,.jpg,.jpeg,.webp,image/png,image/jpeg,image/webp"
                 aria-label={ui.workspace.referenceLabel}
                 onChange={handleFile}
                 disabled={uploadBusy}
               />
-            </div>
-          )}
+
+          <div className="workspace-composer-footer">
+          <button type="button" className="workspace-attach-reference" onClick={() => document.getElementById("reference-file")?.click()} disabled={uploadBusy}><UploadSimple size={17} /><span>{language === "zh" ? taskMode === "rebuild" ? "选择原图" : "添加参考图" : taskMode === "rebuild" ? "Choose source" : "Add reference"}</span></button>
 
           <Collapsible.Root
             className="settings-disclosure"
             open={settingsOpen}
             onOpenChange={setSettingsOpen}
+            onKeyDown={event => { if (event.key === "Escape") { setSettingsOpen(false); event.currentTarget.querySelector<HTMLButtonElement>(".settings-summary")?.focus(); } }}
           >
             <Collapsible.Trigger
               className="settings-summary"
               data-allow-wrap="true"
             >
               <span>
-                <strong>{ui.workspace.technicalSummary}</strong>
+                <strong>{language === "zh" ? taskMode === "create" ? "画幅与导出" : "保存设置" : "Options"}</strong>
                 <small>
-                  {ratio} · {format} ·{" "}
+                  {taskMode === "create" ? `${ratio} · ${format} · ` : "SVG · "}
                   {isPublic ? ui.workspace.public : ui.workspace.private}
                 </small>
               </span>
@@ -3492,7 +2317,7 @@ function WorkspacePage({
             </Collapsible.Trigger>
 
             <Collapsible.Panel className="settings-disclosure-body">
-                <div className="settings-block">
+                {taskMode === "create" && <div className="settings-block">
                   <p>{ui.workspace.settings}</p>
                   <div className="settings-grid">
                     <fieldset>
@@ -3530,7 +2355,7 @@ function WorkspacePage({
                       />
                     </label>
                   </div>
-                </div>
+                </div>}
 
                 <div className="privacy-control">
                   <div>
@@ -3563,162 +2388,30 @@ function WorkspacePage({
           <button
             className="generate-button"
             type="button"
-            disabled={status === "generating"}
+            disabled
             onClick={handleGenerate}
           >
-            {status === "generating" ? (
-              <>
-                <span className="button-loader" aria-hidden="true" />
-                {ui.workspace.generating}
-              </>
-            ) : (
-              <>
-                {taskMode === "rebuild" ? workspaceCopy.rebuildAction : ui.workspace.generate}
-                <ArrowRight size={18} />
-              </>
-            )}
+            {language === "zh" ? taskMode === "rebuild" ? "重建 SVG" : "生成图片" : taskMode === "rebuild" ? "Reconstruct SVG" : "Generate image"}<ArrowRight size={16} />
           </button>
-          <p className="mock-note">{ui.workspace.mockNotice}</p>
-        </aside>
-
-        <section className={`result-panel ${taskMode}`} aria-live="polite">
-          <header className="result-toolbar">
-            <div className="result-status">
-              <span
-                className={status === "generating" ? "status-mark working" : "status-mark"}
-                aria-hidden="true"
-              />
-              <span>
-                {status === "complete"
-                 ? ui.workspace.completed
-                 : status === "generating"
-                   ? ui.workspace.generating
-                    : ui.workspace.idleStatus}
-              </span>
-              {status === "complete" && (
-                <span className="privacy-badge">
-                  {isPublic ? ui.workspace.public : ui.workspace.private}
-                </span>
-              )}
-            </div>
-            <button
-              className="open-editor-button"
-              type="button"
-              data-allow-wrap="true"
-              onClick={onOpenEditor}
-              title={ui.workspace.editorUnavailable}
-            >
-              <BezierCurve size={15} aria-hidden="true" />
-              {ui.workspace.editorOpen}
-              <ArrowUpRight size={14} aria-hidden="true" />
-            </button>
-            <div className="result-metadata" aria-label={ui.workspace.technicalSummary}>
-              <span>{ratio}</span>
-              <span>{format}</span>
-              <span>{isPublic ? ui.workspace.public : ui.workspace.private}</span>
-            </div>
-          </header>
-
-          <div className={`result-stage ratio-${ratio.replace(":", "-")}`}>
-            {status === "empty" && (
-              <div className="empty-result">
-                <span className="empty-sheet-index">FIGURE / —</span>
-                <div className="empty-result-content">
-                  <span className="empty-result-mark" aria-hidden="true">
-                    <FileImage size={22} weight="duotone" />
-                  </span>
-                  <div>
-                    <h2>
-                      {taskMode === "rebuild"
-                        ? workspaceCopy.rebuildTitle
-                        : ui.workspace.emptyTitle}
-                    </h2>
-                    <p>
-                      {taskMode === "rebuild"
-                        ? workspaceCopy.rebuildBody
-                        : ui.workspace.emptyBody}
-                    </p>
-                  </div>
-                </div>
-                <span className="empty-sheet-meta">
-                  {ratio} · {format}
-                </span>
-              </div>
-            )}
-            {status === "generating" && (
-              <div className="generation-state">
-                <div className="generation-lines" aria-hidden="true">
-                  <span />
-                  <span />
-                  <span />
-                </div>
-                <div className="progress-copy">
-                  <div>
-                    <h2>{ui.workspace.progressTitle}</h2>
-                    <p>{ui.workspace.progressBody}</p>
-                  </div>
-                  <strong>{progress}%</strong>
-                </div>
-                <Progress.Root className="progress-track" value={progress}>
-                  <Progress.Track>
-                    <Progress.Indicator />
-                  </Progress.Track>
-                </Progress.Root>
-              </div>
-            )}
-            {status === "complete" && (
-              <div className="complete-result">
-                <img
-                  src={figureAssetPath}
-                  alt={ui.home.resultAlt}
-                  width={2048}
-                  height={544}
-                />
-              </div>
-            )}
           </div>
+        </aside>
+        {workspaceView === "task" && !processPreview && <div className="workspace-process-entry"><p><i />{language === "zh" ? taskMode === "rebuild" ? "重建服务尚未开放，草稿会自动保存。" : "生成服务尚未开放，草稿会自动保存。" : taskMode === "rebuild" ? "Reconstruction is not open yet. Drafts save automatically." : "Generation is not open yet. Drafts save automatically."}</p><button type="button" onClick={() => setProcessPreview(true)}><PlayCircle size={17} />{language === "zh" ? "了解处理过程" : "See the process"}</button></div>}
 
-          {status === "complete" && (
-            <div className="result-actions">
-              <a
-                className="button secondary-button"
-                href={figureAssetPath}
-                    download={`figfox-result.${format.toLowerCase()}`}
-              >
-                <DownloadSimple size={18} />
-                {ui.workspace.download}
-              </a>
-              <button className="button primary-button" type="button" onClick={handleGenerate}>
-                {ui.workspace.regenerate}
-                <ArrowRight size={18} />
-              </button>
-            </div>
-          )}
-
-        </section>
       </div>
       </div>
 
-      {historyOpen && (
-        <div
-          className="drawer-backdrop"
-          role="presentation"
-          onMouseDown={() => setHistoryOpen(false)}
-        >
-          <aside
-            className="history-drawer"
-            aria-label={ui.workspace.history}
-            onMouseDown={(event) => event.stopPropagation()}
-          >
+      <Dialog.Root open={historyOpen && active} onOpenChange={setHistoryOpen}>
+        <Dialog.Portal>
+          <Dialog.Backdrop className="modal-backdrop" />
+          <Dialog.Viewport className="product-history-viewport">
+          <Dialog.Popup className="history-drawer product-history-drawer">
             <div className="drawer-heading">
-              <h2>{ui.workspace.history}</h2>
-              <button
-                type="button"
+              <Dialog.Title>{ui.workspace.history}</Dialog.Title>
+              <Dialog.Close
                 aria-label={ui.workspace.closeHistory}
-                onClick={() => setHistoryOpen(false)}
               >
                 <X size={20} />
-              </button>
+              </Dialog.Close>
             </div>
             {drafts.length > 0 ? (
               <div className="history-draft-list">
@@ -3763,36 +2456,27 @@ function WorkspacePage({
               ui={ui}
               identity={identity}
               currentIdentity={currentIdentity}
-              onActivate={onAccount}
+              onActivate={() => { setHistoryOpen(false); onAccount(); }}
             />
-          </aside>
-        </div>
-      )}
+          </Dialog.Popup>
+          </Dialog.Viewport>
+        </Dialog.Portal>
+      </Dialog.Root>
 
-      {draftToDelete && (
-        <div
-          className="dialog-backdrop"
-          role="presentation"
-          onMouseDown={() => setDraftToDelete(null)}
-        >
-          <section
-            className="draft-delete-dialog"
-            role="alertdialog"
-            aria-modal="true"
-            aria-labelledby="draft-delete-title"
-            onMouseDown={(event) => event.stopPropagation()}
-          >
+      <AlertDialog.Root open={!!draftToDelete && active} onOpenChange={open => { if (!open) setDraftToDelete(null); }}>
+        <AlertDialog.Portal>
+          <AlertDialog.Backdrop className="modal-backdrop" />
+          <AlertDialog.Viewport className="dialog-viewport">
+          <AlertDialog.Popup className="draft-delete-dialog product-delete-dialog">
             <p className="kicker">{ui.workspace.draftLabel}</p>
-            <h2 id="draft-delete-title">{ui.workspace.deleteDraftTitle}</h2>
-            <p>{ui.workspace.deleteDraftBody}</p>
+            <AlertDialog.Title>{ui.workspace.deleteDraftTitle}</AlertDialog.Title>
+            <AlertDialog.Description>{apiConfigured ? ui.workspace.deleteDraftBody : language === "zh" ? "删除后无法恢复这份本地草稿。" : "This local draft cannot be restored after deletion."}</AlertDialog.Description>
             <div>
-              <button
+              <AlertDialog.Close
                 className="button secondary-button"
-                type="button"
-                onClick={() => setDraftToDelete(null)}
               >
                 {ui.workspace.cancel}
-              </button>
+              </AlertDialog.Close>
               <button
                 className="button danger-button"
                 type="button"
@@ -3801,174 +2485,11 @@ function WorkspacePage({
                 {ui.workspace.deleteDraftConfirm}
               </button>
             </div>
-          </section>
-        </div>
-      )}
+          </AlertDialog.Popup>
+          </AlertDialog.Viewport>
+        </AlertDialog.Portal>
+      </AlertDialog.Root>
 
-    </main>
-  );
-}
-
-const planPrices = [
-  { monthly: 9, yearly: 7 },
-  { monthly: 19, yearly: 15 },
-  { monthly: 39, yearly: 31 },
-] as const;
-
-function PricingPage({
-  ui,
-  language,
-  onNavigate,
-}: {
-  ui: UiCopy;
-  language: Language;
-  onNavigate: (path: RoutePath) => void;
-}) {
-  const [billing, setBilling] = useState<BillingCycle>("monthly");
-  const [toast, setToast] = useState(false);
-
-  useEffect(() => {
-    if (!toast) return;
-    const timer = window.setTimeout(() => setToast(false), 2600);
-    return () => window.clearTimeout(timer);
-  }, [toast]);
-
-  return (
-    <main className="pricing-page page-enter">
-      <PageSection className="pricing-intro-section" density="compact">
-        <PageContainer measure="reading">
-          <Flex className="pricing-intro" direction="column" align="center">
-            <p className="kicker">{ui.pricing.kicker}</p>
-            <h1>{ui.pricing.title}</h1>
-            <p>{ui.pricing.body}</p>
-            <ToggleGroup
-              className={`billing-switch ${billing}`}
-              value={[billing]}
-              aria-label="Billing cycle"
-              onValueChange={(values) => {
-                const nextBilling = values.at(-1) as BillingCycle | undefined;
-                if (nextBilling) setBilling(nextBilling);
-              }}
-            >
-              <Toggle value="monthly">{ui.pricing.monthly}</Toggle>
-              <Toggle value="yearly" data-allow-wrap="true">
-                {ui.pricing.yearly}
-                <span>{ui.pricing.save}</span>
-              </Toggle>
-            </ToggleGroup>
-          </Flex>
-        </PageContainer>
-      </PageSection>
-
-      <PageSection className="pricing-plans-section" density="compact">
-        <PageContainer>
-          <Grid
-            asChild
-            columns={{ initial: "1", md: "repeat(3, minmax(0, 1fr))" }}
-            gap={{ initial: "5", md: "6" }}
-          >
-            <section
-              className="pricing-grid"
-              aria-label={ui.nav.pricing}
-              data-billing={billing}
-              key={billing}
-            >
-              {ui.pricing.plans.map((plan, index) => {
-                const amount =
-                  billing === "monthly"
-                    ? planPrices[index].monthly
-                    : planPrices[index].yearly;
-                return (
-                  <article
-                    className={index === 1 ? "pricing-card featured" : "pricing-card"}
-                    key={plan.name}
-                  >
-                    <div className="plan-topline">
-                      <span className="plan-ornament" aria-hidden="true">
-                        <i />
-                        <i />
-                      </span>
-                      {index === 1 && (
-                        <span className="plan-recommended">{ui.pricing.recommended}</span>
-                      )}
-                    </div>
-                    <PlanMark level={index} label={`${plan.name} ${ui.nav.pricing}`} />
-                    <div className="plan-heading">
-                      <h2>{plan.name}</h2>
-                      <p>{plan.description}</p>
-                    </div>
-                    <div className="plan-price">
-                      {billing === "yearly" && amount > 0 && (
-                        <del>${planPrices[index].monthly}</del>
-                      )}
-                      <strong>${amount}</strong>
-                      {amount > 0 && <span>{ui.pricing.perMonth}</span>}
-                    </div>
-                    <div className="billing-detail">
-                      {billing === "yearly" ? (
-                        <>
-                          <strong>
-                            {ui.pricing.savePerMonth} ${planPrices[index].monthly - amount}
-                          </strong>
-                          <span>
-                            {ui.pricing.billedYearly} · ${amount * 12}
-                          </span>
-                        </>
-                      ) : (
-                        <span>{ui.pricing.notice}</span>
-                      )}
-                    </div>
-                    <button
-                      className={index === 1 ? "button primary-button" : "button secondary-button"}
-                      type="button"
-                      onClick={() => setToast(true)}
-                    >
-                      {ui.pricing.choose}
-                    </button>
-                    <div className="plan-rule" />
-                    <ul>
-                      {plan.features.map((feature) => (
-                        <li key={feature}>
-                          <Check size={17} weight="bold" />
-                          <span>{feature}</span>
-                        </li>
-                      ))}
-                    </ul>
-                  </article>
-                );
-              })}
-            </section>
-          </Grid>
-          <p className="pricing-footnote">{ui.pricing.footnote}</p>
-        </PageContainer>
-      </PageSection>
-
-      <PageSection className="pricing-closing-section" density="compact">
-        <PageContainer>
-          <Flex className="pricing-closing" align="end" justify="between" gap="7" wrap="wrap">
-            <div>
-              <h2>{ui.home.closingTitle}</h2>
-              <p>{ui.home.closingBody}</p>
-            </div>
-            <button
-              className="button primary-button"
-              type="button"
-              onClick={() => onNavigate("/workspace")}
-            >
-              {ui.home.primary}
-              <ArrowRight size={18} />
-            </button>
-          </Flex>
-        </PageContainer>
-      </PageSection>
-
-      <Footer ui={ui} language={language} onNavigate={onNavigate} />
-      {toast && (
-        <div className="toast" role="status">
-          <LockKey size={18} />
-          {ui.pricing.toast}
-        </div>
-      )}
     </main>
   );
 }
@@ -4347,95 +2868,6 @@ function ProviderIcon({ provider }: { provider: string }) {
   return <UserCircle size={19} />;
 }
 
-function LoginDialog({
-  ui,
-  open,
-  busy,
-  error,
-  providers,
-  onClose,
-  onSelect,
-}: {
-  ui: UiCopy;
-  open: boolean;
-  busy: boolean;
-  error: string;
-  providers: AuthProvider[];
-  onClose: () => void;
-  onSelect: (identity: AuthChoice) => void;
-}) {
-  return (
-    <Dialog.Root open={open} onOpenChange={(nextOpen) => !nextOpen && onClose()}>
-      <Dialog.Portal>
-        <Dialog.Backdrop className="modal-backdrop" />
-        <Dialog.Viewport className="dialog-viewport">
-          <Dialog.Popup className="login-dialog">
-        <Dialog.Close className="dialog-close" aria-label={ui.auth.close}>
-          <X size={20} />
-        </Dialog.Close>
-        <p className="dialog-label">FigFox</p>
-        <Dialog.Title id="login-title">{ui.auth.title}</Dialog.Title>
-        <Dialog.Description>{ui.auth.body}</Dialog.Description>
-        <div className="login-actions">
-          {providers.map((provider) => {
-            const enabled =
-              apiConfigured && provider.enabled && provider.id !== "wechat";
-            const label =
-              provider.id === "google"
-                ? ui.auth.google
-                : provider.id === "github"
-                  ? ui.auth.github
-                  : ui.auth.wechat;
-            const status =
-              provider.id === "wechat"
-                ? ui.auth.comingSoon
-                : enabled
-                  ? ""
-                  : ui.auth.deployRequired;
-
-            return (
-              <button
-                key={provider.id}
-                className="oauth-button"
-                type="button"
-                disabled={busy || !enabled}
-                onClick={() => onSelect(provider.id)}
-              >
-                <span className="oauth-button-icon">
-                  <ProviderIcon provider={provider.id} />
-                </span>
-                <span className="oauth-button-label">{label}</span>
-                {status && <small>{status}</small>}
-              </button>
-            );
-          })}
-          <button
-            className="guest-button"
-            type="button"
-            disabled={busy}
-            onClick={() => onSelect("guest")}
-          >
-            <UserCircle size={19} />
-            <span>
-              <strong>{busy ? ui.auth.connecting : ui.auth.guest}</strong>
-              <small>{ui.auth.guestNote}</small>
-            </span>
-          </button>
-        </div>
-        {error && (
-          <p className="dialog-error" role="alert" aria-live="polite">
-            {error}
-          </p>
-        )}
-        <p className="dialog-demo-note">
-          {apiConfigured ? ui.auth.demo : ui.auth.noProvider}
-        </p>
-          </Dialog.Popup>
-        </Dialog.Viewport>
-      </Dialog.Portal>
-    </Dialog.Root>
-  );
-}
 
 function AccountDialog({
   ui,
@@ -4693,6 +3125,10 @@ function AccountDialog({
 export default function App() {
   const initialRoute = routeFromLocation(window.location.pathname);
   const [route, setRoute] = useState<RoutePath>(initialRoute);
+  const currentRoute = useRef<RoutePath>(initialRoute);
+  const transitionPage = usePageTransition();
+  const [workspaceVisited, setWorkspaceVisited] = useState(initialRoute === "/workspace");
+  useEffect(() => { if (route === "/workspace") setWorkspaceVisited(true); }, [route]);
   const [language, setLanguage] = useState<Language>(() => {
     const stored = window.localStorage.getItem("autodraftman-language");
     return stored === "en" ? "en" : "zh";
@@ -4703,12 +3139,19 @@ export default function App() {
   const [providers, setProviders] = useState<AuthProvider[]>(defaultAuthProviders);
   const [boundIdentities, setBoundIdentities] = useState<BoundIdentity[]>([]);
   const [creditTransactions, setCreditTransactions] = useState<CreditTransaction[]>([]);
-  const [loginOpen, setLoginOpen] = useState(false);
+  const [authReturnRoute, setAuthReturnRoute] = useState<RoutePath>(() => {
+    try {
+      const saved = window.sessionStorage.getItem("figfox-auth-return-route");
+      if (saved && isRoutePath(saved) && saved !== "/login") return saved;
+    } catch { /* Direct sign-in still has a local workspace to return to. */ }
+    return "/workspace";
+  });
   const [accountOpen, setAccountOpen] = useState(false);
   const [authBusy, setAuthBusy] = useState(false);
   const [authError, setAuthError] = useState("");
   const [accountError, setAccountError] = useState("");
   const pendingAction = useRef<(() => void) | null>(null);
+  const site = useRef<HTMLDivElement>(null);
   const ui = copy[language];
 
   const applyServerIdentity = (current: CurrentIdentity) => {
@@ -4719,11 +3162,17 @@ export default function App() {
 
   useEffect(() => {
     const handlePopState = () => {
-      setRoute(routeFromLocation(window.location.pathname));
+      pendingAction.current = null;
+      const nextRoute = routeFromLocation(window.location.pathname);
+      transitionPage(routeTransition(currentRoute.current, nextRoute), () => {
+        currentRoute.current = nextRoute;
+        setRoute(nextRoute);
+        if (nextRoute === "/login" || nextRoute === "/editor") window.scrollTo({ top: 0, behavior: "instant" });
+      });
     };
     window.addEventListener("popstate", handlePopState);
     return () => window.removeEventListener("popstate", handlePopState);
-  }, []);
+  }, [transitionPage]);
 
   useEffect(() => {
     if (!apiConfigured) return;
@@ -4797,7 +3246,14 @@ export default function App() {
             ? ui.auth.conflict
           : ui.auth.loginFailed,
       );
-      setLoginOpen(true);
+      const returnRoute = routeFromLocation(url.pathname);
+      if (returnRoute !== "/login") {
+        setAuthReturnRoute(returnRoute);
+        try { window.sessionStorage.setItem("figfox-auth-return-route", returnRoute); } catch { /* In-memory return route remains available. */ }
+      }
+      url.pathname = routeHref("/login");
+      currentRoute.current = "/login";
+      setRoute("/login");
     }
     url.searchParams.delete("auth");
     url.searchParams.delete("auth_error");
@@ -4812,18 +3268,30 @@ export default function App() {
   }, [language]);
 
   const navigate = (path: RoutePath) => {
-    const nextHref = routeHref(path);
-    if (window.location.pathname !== nextHref) {
-      window.history.pushState({}, "", nextHref);
+    const previousRoute = currentRoute.current;
+    if (previousRoute === "/login" && path !== "/login") pendingAction.current = null;
+    if (path === "/workspace" && previousRoute === "/editor") {
+      try { window.sessionStorage.setItem("figfox-workspace-view", "documents"); } catch { /* The workspace can still open without persisted view state. */ }
     }
-    setRoute(path);
-    window.scrollTo({ top: 0, behavior: "smooth" });
+    transitionPage(routeTransition(previousRoute, path), () => {
+      const nextHref = routeHref(path);
+      if (window.location.pathname !== nextHref) {
+        window.history.pushState({}, "", nextHref);
+      }
+      currentRoute.current = path;
+      setRoute(path);
+      window.scrollTo({ top: 0, behavior: routeTransition(previousRoute, path) ? "instant" : "smooth" });
+    });
   };
 
   const openLogin = (action?: () => void) => {
     pendingAction.current = action ?? null;
     setAuthError("");
-    setLoginOpen(true);
+    if (route !== "/login") {
+      setAuthReturnRoute(route);
+      try { window.sessionStorage.setItem("figfox-auth-return-route", route); } catch { /* Retain the return route in React state. */ }
+    }
+    navigate("/login");
   };
 
   const requestAuth = (action: () => void) => {
@@ -4839,17 +3307,13 @@ export default function App() {
 
     if (choice === "google" || choice === "github") {
       if (!apiConfigured) return;
-      window.location.assign(oauthStartUrl(choice));
+      window.location.assign(oauthStartUrl(choice, "login", routeHref(authReturnRoute)));
       return;
     }
 
     if (!apiConfigured) {
-      setIdentity("guest");
-      setCredits(1);
-      setLoginOpen(false);
-      const action = pendingAction.current;
       pendingAction.current = null;
-      window.setTimeout(() => action?.(), 0);
+      navigate("/workspace");
       return;
     }
 
@@ -4859,10 +3323,9 @@ export default function App() {
       const current = await createOrRestoreGuest();
       applyServerIdentity(current);
       window.localStorage.setItem(sessionMarker, "active");
-      setLoginOpen(false);
-
       const action = pendingAction.current;
       pendingAction.current = null;
+      navigate(action ? authReturnRoute : "/workspace");
       window.setTimeout(() => action?.(), 0);
     } catch {
       setAuthError(ui.auth.connectionError);
@@ -4980,43 +3443,41 @@ export default function App() {
   };
 
   return (
-    <>
+    <div className={route === "/" ? "figfox-site" : "figfox-site product-site"} ref={site} lang={language === "zh" ? "zh-CN" : "en"}>
+      <FigFoxCursor site={site} route={route} />
       <a
         className="skip-link"
         href={route === "/editor" ? "#editor-canvas" : "#main-content"}
       >
         {ui.nav.skip}
       </a>
-      {route !== "/editor" && (
-        <Header
+      {route !== "/editor" && route !== "/" && route !== "/login" && (
+        <ProductHeader
           language={language}
-          identity={identity}
-          accountName={currentIdentity?.display_name ?? null}
-          ui={ui}
           route={route}
-          onLanguageChange={() =>
-            setLanguage((value) => (value === "zh" ? "en" : "zh"))
-          }
+          accountName={identity === "user" ? currentIdentity?.display_name || ui.nav.account : null}
+          hrefFor={routeHref}
           onNavigate={navigate}
-          onSignIn={() => {
-            if (identity === "user") {
-              void openAccount();
-            } else {
-              openLogin();
-            }
-          }}
+          onLanguageChange={() => setLanguage(value => value === "zh" ? "en" : "zh")}
+          onAccount={() => identity === "user" ? void openAccount() : openLogin()}
         />
       )}
 
       <div id="main-content">
         {route === "/" && (
-          <HomePage ui={ui} language={language} onNavigate={navigate} />
+          <FigFoxDemoPage
+            language={language}
+            onLanguageChange={() => setLanguage((value) => value === "zh" ? "en" : "zh")}
+            onNavigate={navigate}
+            hrefFor={routeHref}
+          />
         )}
         {route === "/examples" && (
           <ExamplesPage ui={ui} language={language} onNavigate={navigate} />
         )}
-        {route === "/workspace" && (
+        {(route === "/workspace" || route === "/login" && authReturnRoute === "/workspace" || route === "/editor" && workspaceVisited) && <div hidden={route !== "/workspace"} inert={route !== "/workspace" ? true : undefined}>
           <WorkspacePage
+            active={route === "/workspace"}
             ui={ui}
             language={language}
             identity={identity}
@@ -5024,6 +3485,7 @@ export default function App() {
             credits={credits}
             requestAuth={requestAuth}
             onOpenEditor={() => navigate("/editor")}
+            onViewTransition={(update, animate) => transitionPage(animate ? "workspace" : null, update)}
             onAccount={() => {
               if (identity === "user") {
                 void openAccount();
@@ -5032,29 +3494,25 @@ export default function App() {
               }
             }}
           />
-        )}
+        </div>}
+        {route === "/login" && <ProductLoginPage language={language} providers={providers} busy={authBusy} error={authError} onSelect={choice => void selectIdentity(choice)} onBack={() => { pendingAction.current = null; setAuthError(""); navigate(authReturnRoute); }} onLanguageChange={() => setLanguage(value => value === "zh" ? "en" : "zh")} hrefFor={routeHref} onNavigate={navigate} />}
         {route === "/editor" && (
-          <SvgEditorPage
-            ui={ui}
-            language={language}
-            onLanguageChange={() =>
-              setLanguage((value) => (value === "zh" ? "en" : "zh"))
-            }
-            onNavigate={navigate}
-          />
+          <ProductEditorRoute ui={ui} language={language} onLanguageChange={() => setLanguage(value => value === "zh" ? "en" : "zh")} onNavigate={navigate} hrefFor={routeHref} />
         )}
         {route === "/pricing" && (
-          <PricingPage ui={ui} language={language} onNavigate={navigate} />
+          <ProductPricingPage language={language} onNavigate={navigate} hrefFor={routeHref} />
         )}
-        {route === "/feedback" && (
+        {route === "/feedback" && !apiConfigured && <PublicFeedbackPage language={language} onNavigate={navigate} hrefFor={routeHref} />}
+        {route === "/feedback" && apiConfigured && (
           <>
             <FeedbackPage language={language} onNavigate={navigate} />
             <Footer ui={ui} language={language} onNavigate={navigate} />
           </>
         )}
+        {route === "/docs" && <ProductGuidePage language={language} onNavigate={navigate} hrefFor={routeHref} />}
         {(
-          ["/docs", "/privacy", "/terms", "/content-policy"] as const
-        ).includes(route as "/docs" | "/privacy" | "/terms" | "/content-policy") && (
+          [ "/privacy", "/terms", "/content-policy"] as const
+        ).includes(route as "/privacy" | "/terms" | "/content-policy") && (
           <>
             <ProductInformationPage
               route={route as "/docs" | "/privacy" | "/terms" | "/content-policy"}
@@ -5067,19 +3525,6 @@ export default function App() {
         )}
       </div>
 
-      <LoginDialog
-        ui={ui}
-        open={loginOpen}
-        busy={authBusy}
-        error={authError}
-        providers={providers}
-        onClose={() => {
-          pendingAction.current = null;
-          setAuthError("");
-          setLoginOpen(false);
-        }}
-        onSelect={selectIdentity}
-      />
       <AccountDialog
         ui={ui}
         open={accountOpen}
@@ -5099,6 +3544,6 @@ export default function App() {
         onLogout={() => void handleLogout()}
         onDeleteAccount={() => void handleDeleteAccount()}
       />
-    </>
+    </div>
   );
 }

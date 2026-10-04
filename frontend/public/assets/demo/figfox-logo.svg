@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg"
+     xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+     width="800" height="654" viewBox="260 286 800 654"
+     fill="none" color-interpolation="sRGB" role="img" aria-labelledby="logo-title logo-description">
+  <title id="logo-title">FigFox — editable vector logo</title>
+  <desc id="logo-description">Editable reconstruction of the supplied final logo: a purple tail, deep purple border and recessed edge, one orange sweep and two separate white sweeps. All artwork is made of cubic Bézier paths and editable SVG gradients. No embedded bitmap.</desc>
+  <defs>
+    <linearGradient id="purple-gradient" gradientUnits="userSpaceOnUse"
+        x1="463.755" y1="891.938" x2="928.695" y2="350.255">
+      <stop offset="0.0000" stop-color="#4a21cf"/>
+      <stop offset="0.1667" stop-color="#4921d0"/>
+      <stop offset="0.3333" stop-color="#542ae2"/>
+      <stop offset="0.5000" stop-color="#6032f5"/>
+      <stop offset="0.6667" stop-color="#7648fa"/>
+      <stop offset="0.8333" stop-color="#8f64fc"/>
+      <stop offset="1.0000" stop-color="#a179fb"/>
+    </linearGradient>
+    <linearGradient id="edge-gradient" gradientUnits="userSpaceOnUse" x1="320" y1="850" x2="990" y2="355">
+      <stop offset="0" stop-color="#230560"/>
+      <stop offset="0.55" stop-color="#22035f"/>
+      <stop offset="1" stop-color="#20045f"/>
+    </linearGradient>
+    <linearGradient id="recess-gradient" gradientUnits="userSpaceOnUse" x1="323" y1="742" x2="585" y2="546">
+      <stop offset="0" stop-color="#22035f"/>
+      <stop offset="0.48" stop-color="#301374"/>
+      <stop offset="1" stop-color="#371887"/>
+    </linearGradient>
+    <linearGradient id="orange-gradient" gradientUnits="userSpaceOnUse"
+        x1="463.419" y1="813.771" x2="553.547" y2="554.941">
+      <stop offset="0.0000" stop-color="#fd6314"/>
+      <stop offset="0.5000" stop-color="#fe913f"/>
+      <stop offset="1.0000" stop-color="#fe9544"/>
+    </linearGradient>
+    <clipPath id="silhouette-clip" clipPathUnits="userSpaceOnUse">
+      <path d="M 984,334
+        C 950.88,370.46 926.93,399.94 880,420.19
+        C 814.92,448.27 740.43,451.75 671,457.08
+        C 602.29,462.36 533.22,476.87 472,509.73
+        C 435,529.59 399.86,554.44 371.92,586
+        C 332.47,630.56 308,678.76 308,739
+        C 319.6,726.11 362.71,676.88 374.33,670.03
+        C 375.04,669.61 377.71,669.22 378,669
+        C 347.01,704.82 322.9,746.41 313,793
+        C 335.73,808.91 358.08,824.78 383,837.24
+        C 494.29,892.88 639.37,911.87 758,870.55
+        C 850.62,838.3 927.79,766.51 969.29,678
+        C 1000.75,610.9 1016.19,536.21 1010.92,462
+        C 1007.8,418.01 996.64,376.12 984,334
+        Z"/>
+    </clipPath>
+  </defs>
+  <g id="figfox-logo" inkscape:groupmode="layer" inkscape:label="02 · FigFox 标志 / Logo">
+    <g id="dark-edge" inkscape:label="深色外轮廓 / Dark outer contour">
+      <path id="outer-contour" fill="url(#edge-gradient)" d="M 984,334
+        C 950.88,370.46 926.93,399.94 880,420.19
+        C 814.92,448.27 740.43,451.75 671,457.08
+        C 602.29,462.36 533.22,476.87 472,509.73
+        C 435,529.59 399.86,554.44 371.92,586
+        C 332.47,630.56 308,678.76 308,739
+        C 319.6,726.11 362.71,676.88 374.33,670.03
+        C 375.04,669.61 377.71,669.22 378,669
+        C 347.01,704.82 322.9,746.41 313,793
+        C 335.73,808.91 358.08,824.78 383,837.24
+        C 494.29,892.88 639.37,911.87 758,870.55
+        C 850.62,838.3 927.79,766.51 969.29,678
+        C 1000.75,610.9 1016.19,536.21 1010.92,462
+        C 1007.8,418.01 996.64,376.12 984,334
+        Z"/>
+    </g>
+    <g id="recessed-edge" inkscape:label="内侧沉边 / Recessed edge" clip-path="url(#silhouette-clip)">
+      <path id="inner-shadow" fill="url(#recess-gradient)" d="M 308,739
+        L 331,687
+        C 403.49,593.13 498.17,543.16 617,538
+        C 590.1,546.97 563.6,556.43 538,568.75
+        C 448.32,611.94 362.3,687.32 333,785
+        L 313,793
+        C 326,743 353,703 378,669
+        Z"/>
+    </g>
+    <g id="purple-tail" inkscape:label="紫色主体 / Purple body">
+      <path id="purple-body" fill="url(#purple-gradient)" d="M 977,370
+        C 943.7,403.01 916.39,425.53 872,442.61
+        C 827.1,459.87 777.46,466.03 730,470.08
+        C 620.93,479.38 524.98,488.3 433,555.61
+        C 386.57,589.59 351.06,633.55 332,688
+        C 404.49,594.13 499.17,544.16 617,538
+        C 590.1,546.97 563.6,556.43 538,568.75
+        C 448.32,611.94 362.3,687.32 333,785
+        C 397.37,831.43 474.47,859.05 553,869.2
+        C 677.73,885.33 791.28,862.72 883,771
+        C 923.51,730.49 953.58,680.26 971.67,626
+        C 987.53,578.41 997.48,524.28 993.98,474
+        C 991.51,438.59 985.19,404.57 977,370
+        Z"/>
+    </g>
+    <g id="orange-sweep" inkscape:label="橙色曲线 / Orange accent">
+      <path id="orange-accent" fill="url(#orange-gradient)" d="M 691,552
+        C 608.31,585.78 529.16,635.16 461,700
+        C 451.69,697.52 442.44,694.77 433,696
+        C 408.3,719.44 384.24,743.39 363,770
+        C 382.66,783.1 403.06,794.12 424,805
+        C 488.88,702.56 590.99,618.68 691,552
+        Z"/>
+    </g>
+    <g id="white-upper" inkscape:label="上方白线 / Upper white accent">
+      <path id="upper-white-accent" fill="#ffffff" d="M 791.5,501.5
+        C 784.63,501.48 777.92,501.15 771,502.2
+        C 749.73,505.43 718.42,519.75 698,528.19
+        C 602.33,567.77 511.67,624.39 435,694
+        C 443.61,696.87 452.22,699.66 461,702
+        C 517.35,649.1 584.07,606.64 652,570.27
+        C 667.06,562.21 682.86,555.57 698,547.73
+        C 728.95,531.71 758.98,514.3 791.5,501.5
+        Z"/>
+    </g>
+    <g id="white-lower" inkscape:label="下方白线 / Lower white accent">
+      <path id="lower-white-accent" fill="#ffffff" d="M 640,629.5
+        C 547.82,678.51 490.8,731.63 431,817
+        C 436,819 441,821 446,823
+        C 496.58,747.35 562.53,677.82 640,629.5
+        Z"/>
+    </g>
+  </g>
+</svg>

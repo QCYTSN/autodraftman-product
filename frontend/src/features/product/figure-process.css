@@ -1,0 +1,42 @@
+.figure-process-graphic { display: block; width: 100%; height: auto; overflow: visible; font-family: var(--font-body); }
+.figure-process-flow { stroke: #8b71cb; stroke-width: 3; stroke-dasharray: 3 40; animation: figure-flow 2.6s linear infinite; }
+.figure-process-scan { animation: figure-inspect 3.6s cubic-bezier(.45, 0, .25, 1) infinite; }
+.figure-process-graphic.is-paused :is(.figure-process-flow, .figure-process-scan) { animation-play-state: paused; }
+@keyframes figure-flow { to { stroke-dashoffset: -86; } }
+@keyframes figure-inspect { 0%, 100% { transform: translateX(0); opacity: 0; } 15%, 80% { opacity: .65; } 85% { transform: translateX(117px); opacity: 0; } }
+.figure-process-preview { max-width: 840px; width: 100%; margin-inline: auto; border: 1px solid #ebe6f2; border-radius: 21px; background: #fff; box-shadow: 0 9px 38px rgb(49 33 83 / .035); padding: 23px 32px 24px; animation: figure-preview-enter 420ms cubic-bezier(.22, 1, .36, 1) both; }
+@keyframes figure-preview-enter { from { opacity: 0; transform: translateY(9px); } to { opacity: 1; transform: translateY(0); } }
+.figure-process-preview-header { display: flex; justify-content: space-between; align-items: center; }
+.figure-process-preview-header > span { display: flex; gap: 8px; align-items: center; color: #8a7c9e; font-size: 12px; }
+.figure-process-preview-header i { width: 5px; height: 5px; border-radius: 50%; background: #a28bcb; }
+.figure-process-preview-header > button { padding: 7px; background: transparent; color: #898491; border-radius: 7px; }
+.figure-process-preview .figure-process-graphic { width: min(480px, 100%); margin: 8px auto 0; }
+.figure-process-caption { min-height: 74px; margin: -3px auto 28px; text-align: center; }
+.product-site .figure-process-caption h2 { margin: 0 0 9px; font-size: 21px; font-weight: 550; letter-spacing: -.5px; line-height: 1.45; }
+.figure-process-caption p { margin: 0; color: #786c86; font-size: 13px; line-height: 1.8; }
+.figure-process-steps { display: grid; grid-template-columns: repeat(var(--process-steps), minmax(0, 1fr)); gap: 9px; margin: 0; padding: 0; list-style: none; }
+.figure-process-steps button { display: flex; align-items: center; justify-content: center; gap: 9px; min-height: 46px; padding: 7px; width: 100%; background: transparent; border-radius: 8px; color: #766a83; transition: background 450ms ease, color 450ms ease; }
+.figure-process-steps button > span { display: grid; place-items: center; flex: 0 0 21px; height: 21px; color: inherit; background: #f6f4f8; border-radius: 50%; font-size: 10px; }
+.figure-process-steps strong { font-size: 12px; font-weight: 450; line-height: 1.5; }
+.figure-process-steps [data-state="current"] button { background: #f7f4fd; color: #7053b1; }
+.figure-process-steps [data-state="current"] button > span { background: #ece4f8; }
+.figure-process-steps [data-state="done"] button { color: #8b78aa; }
+.figure-process-preview-footer { display: flex; justify-content: space-between; align-items: center; gap: 16px; margin-top: 30px; }
+.figure-process-preview-footer p { color: #786c86; font-size: 12px; margin: 0; line-height: 1.7; }
+.figure-process-preview-footer > div { display: flex; gap: 15px; flex-shrink: 0; }
+.figure-process-preview-footer button { display: inline-flex; gap: 6px; align-items: center; padding: 3px 0; color: #796c8d; background: transparent; font-size: 12px; }
+@media (max-width: 650px) {
+  .figure-process-preview { padding: 18px 17px 22px; border-radius: 16px; }
+  .figure-process-preview .figure-process-graphic { margin-block: 10px 3px; }
+  .figure-process-caption { min-height: 80px; margin-bottom: 15px; }
+  .figure-process-caption p { font-size: 12px; }
+  .figure-process-steps { gap: 3px; }
+  .figure-process-steps button { flex-direction: column; gap: 7px; min-height: 69px; padding: 8px 3px; }
+  .figure-process-steps strong { font-size: 10px; }
+  .figure-process-preview-footer { flex-direction: column; gap: 13px; margin-top: 23px; text-align: center; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .figure-process-flow, .figure-process-scan, .figure-process-preview { animation: none; }
+  .figure-process-scan { opacity: 0; }
+  .figure-process-steps button { transition: none; }
+}

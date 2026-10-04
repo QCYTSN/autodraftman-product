@@ -250,6 +250,12 @@ export async function importSvgDocument(file: File): Promise<ImportedSvgDocument
   if (!hasSvgExtension || !hasSvgMime) throw new SvgImportError("format");
 
   const source = await file.text();
+  return restoreSvgDocument(source, file.name);
+}
+
+// Edited documents can grow beyond the file-picker limit after embedding images.
+// Keep the same structural validation and sanitization when restoring local work.
+export function restoreSvgDocument(source: string, fileName: string): ImportedSvgDocument {
   const original = parseSvg(source);
   const originalCount = original.root.querySelectorAll("*").length;
   if (originalCount > maxSvgElements) throw new SvgImportError("complex");
@@ -265,9 +271,15 @@ export async function importSvgDocument(file: File): Promise<ImportedSvgDocument
 
   const purified = DOMPurify.sanitize(source, {
     USE_PROFILES: { svg: true, svgFilters: true },
+    // Preserve reusable SVG symbols; cleanExternalReferences below restricts hrefs.
+    ADD_TAGS: ["use"],
     FORBID_TAGS: forbiddenTags,
+    RETURN_DOM: true,
   });
-  const sanitized = parseSvg(purified);
+  const purifiedRoot = purified instanceof Element ? purified.querySelector("svg") : null;
+  if (!purifiedRoot) throw new SvgImportError("invalid");
+  // HTML serialization introduces entities such as &nbsp; that SVG XML rejects.
+  const sanitized = parseSvg(new XMLSerializer().serializeToString(purifiedRoot));
   const removedReferences = cleanExternalReferences(sanitized.root);
   const elementCount = sanitized.root.querySelectorAll("*").length;
   if (elementCount > maxSvgElements) throw new SvgImportError("complex");
@@ -276,7 +288,7 @@ export async function importSvgDocument(file: File): Promise<ImportedSvgDocument
   const markup = new XMLSerializer().serializeToString(sanitized.root);
 
   return {
-    fileName: file.name,
+    fileName,
     markup,
     byteSize: new Blob([markup], { type: "image/svg+xml" }).size,
     elementCount,
@@ -286,4 +298,12 @@ export async function importSvgDocument(file: File): Promise<ImportedSvgDocument
     layers: collectLayers(sanitized.root),
     sanitized: sourceHadUnsafeContent || removedReferences > 0,
   };
+}
+
+export async function sanitizeSvgMarkup(source: string, fileName = "figure.svg") {
+  const safeFileName = fileName.toLowerCase().endsWith(".svg")
+    ? fileName
+    : `${fileName}.svg`;
+  const document = restoreSvgDocument(source, safeFileName);
+  return document.markup;
 }
