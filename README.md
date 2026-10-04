@@ -52,7 +52,10 @@ npm run dev
 The frontend is available at `http://127.0.0.1:5173` and the API at
 `http://127.0.0.1:8000`.
 
-The public homepage prototype can run without the API. During local development,
+The showcase and product pages can run without the API. The static release includes
+a real local SVG editor, browser draft storage, a guide and proposed pricing.
+Account sign-in, subscriptions and generation are visibly unavailable until their
+services are deployed. During local development,
 three experiment examples are read from an explicit allowlist in `FigFox-926`.
 Those research images and outputs are neither committed here nor included in a
 production build. See `docs/research/figfox-demo-design-2026-10-03.md`.
@@ -66,7 +69,7 @@ The bilingual product interface includes:
 - `/terms` — internal-test terms draft
 - `/content-policy` — responsible-use and scientific-integrity rules
 
-These pages are intentionally marked as drafts. The operating entity, formal
+The policy and terms pages are intentionally marked as drafts. The operating entity, formal
 contact channel, deployment regions, generation providers, payment terms, and
 governing law must be confirmed before public testing.
 
@@ -77,6 +80,7 @@ Set-Location frontend
 npm ci
 npm run build
 npm run review:quality
+npm run review:product
 
 Set-Location ..\backend
 python -m pip install -e ".[dev]"

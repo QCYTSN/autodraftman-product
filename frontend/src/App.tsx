@@ -41,6 +41,7 @@ import { Tabs } from "@base-ui/react/tabs";
 import { Toolbar } from "@base-ui/react/toolbar";
 import { Collapsible } from "@base-ui/react/collapsible";
 import { Dialog } from "@base-ui/react/dialog";
+import { AlertDialog } from "@base-ui/react/alert-dialog";
 import { Progress } from "@base-ui/react/progress";
 import { Switch } from "@base-ui/react/switch";
 import { Toggle } from "@base-ui/react/toggle";
@@ -54,6 +55,8 @@ import {
   type KeyboardEvent as ReactKeyboardEvent,
   type ReactNode,
   useEffect,
+  lazy,
+  Suspense,
   useRef,
   useState,
 } from "react";
@@ -95,6 +98,7 @@ import {
 } from "./api";
 import {
   draftFingerprint,
+  draftInput,
   draftTitle,
   makeLocalDraft,
   readCachedDrafts,
@@ -107,21 +111,13 @@ import {
   type ProductRoute,
 } from "./ProductPages";
 import { FigFoxMark, FigFoxWordmark } from "./components/brand/FigFoxBrand";
-import { FigFoxEditorChrome } from "./components/editor/FigFoxEditorChrome";
+import { ProductHeader } from "./features/product/ProductHeader";
+import { ProductPricingPage } from "./features/product/ProductPricingPage";
+import { ProductGuidePage } from "./features/product/ProductGuidePage";
+import "./features/product/product.css";
 import { FigFoxSelect } from "./components/ui/FigFoxSelect";
 import { FigFoxDemoPage } from "./features/demo/FigFoxDemoPage";
-import {
-  SvgEditHost,
-  type SvgEditHandle,
-  type SvgEditState,
-} from "./components/editor/SvgEditHost";
-import {
-  importSvgDocument,
-  sanitizeSvgMarkup,
-  SvgImportError,
-  type ImportedSvgDocument,
-  type SvgImportErrorCode,
-} from "./svgDocument";
+const ProductSvgEditorPage = lazy(() => import("./features/product/ProductSvgEditorPage").then(module => ({ default: module.ProductSvgEditorPage })));
 
 type Language = ProductLanguage;
 type Identity = "guest" | "user" | null;
@@ -134,9 +130,9 @@ type DraftSaveState =
   | "offline"
   | "failed"
   | "session-expired";
-type BillingCycle = "monthly" | "yearly";
 type ReferenceUploadStatus =
   | "idle"
+  | "local"
   | "preparing"
   | "uploading"
   | "verifying"
@@ -481,7 +477,7 @@ const copy = {
       cancelled: "你取消了登录授权，账户没有发生变化。",
       conflict: "这个登录身份已经属于另一个 FigFox 账户。",
       loginFailed: "登录没有完成，请稍后重试。",
-      connectionError: "暂时无法连接本地后端，请确认 Docker 服务仍在运行。",
+      connectionError: "暂时无法连接服务，请稍后重试。",
       connecting: "正在连接…",
       accountTitle: "你的账户",
       accountBody: "在这里管理登录方式、草稿默认状态和额度记录。",
@@ -526,7 +522,7 @@ const copy = {
       backHome: "Back to home",
       signIn: "Sign in",
       guest: "Guest",
-      account: "Demo account",
+      account: "Account",
       menu: "Open menu",
       primaryLabel: "Primary navigation",
       mobileLabel: "Mobile navigation",
@@ -823,7 +819,7 @@ const copy = {
       cancelled: "Authorization was cancelled. Your account was not changed.",
       conflict: "This login identity already belongs to another FigFox account.",
       loginFailed: "Sign-in did not complete. Please try again.",
-      connectionError: "The local API is unavailable. Check that Docker is still running.",
+      connectionError: "The service is unavailable. Please try again later.",
       connecting: "Connecting…",
       accountTitle: "Your account",
       accountBody: "Different login methods can open the same FigFox account.",
@@ -859,7 +855,7 @@ const copy = {
   },
 } as const;
 
-type UiCopy = (typeof copy)[Language];
+export type UiCopy = (typeof copy)[Language];
 
 function isRoutePath(value: string): value is RoutePath {
   return [
@@ -960,162 +956,6 @@ function EditorialMotif({ kind }: { kind: "thread" | "privacy" }) {
       <circle className="motif-node clay" cx="84" cy="62" r="8" />
       <circle className="motif-node" cx="136" cy="50" r="7" />
     </svg>
-  );
-}
-
-const planMarkSources = [
-  sitePath("/assets/pricing-sketch-v2.png"),
-  sitePath("/assets/pricing-folio-v2.png"),
-  sitePath("/assets/pricing-atlas-v2.png"),
-];
-
-function PlanMark({ level, label }: { level: number; label: string }) {
-  return (
-    <figure className={`plan-mark plan-mark-${level}`}>
-      <img
-        src={planMarkSources[level]}
-        alt={label}
-        width={1254}
-        height={1254}
-      />
-    </figure>
-  );
-}
-
-function Header({
-  language,
-  identity,
-  accountName,
-  ui,
-  route,
-  onLanguageChange,
-  onNavigate,
-  onSignIn,
-}: {
-  language: Language;
-  identity: Identity;
-  accountName: string | null;
-  ui: UiCopy;
-  route: RoutePath;
-  onLanguageChange: () => void;
-  onNavigate: (path: RoutePath) => void;
-  onSignIn: () => void;
-}) {
-  const [menuOpen, setMenuOpen] = useState(false);
-  const navigate = (path: RoutePath) => {
-    setMenuOpen(false);
-    onNavigate(path);
-  };
-
-  return (
-    <header
-      className={route === "/workspace" ? "site-header workspace-site-header" : "site-header"}
-    >
-      <div className="header-inner shell">
-        <div className="header-leading">
-          <Brand onNavigate={navigate} />
-          {route === "/workspace" && (
-            <InternalLink
-              className="workspace-home-link"
-              href="/"
-              onNavigate={navigate}
-              aria-label={ui.nav.backHome}
-            >
-              <CaretLeft size={17} aria-hidden="true" />
-              <span>{ui.nav.backHome}</span>
-            </InternalLink>
-          )}
-        </div>
-        <nav className="desktop-nav" aria-label={ui.nav.primaryLabel}>
-          {(
-            [
-              ["/", ui.nav.product],
-              ["/examples", ui.nav.examples],
-              ["/docs", ui.nav.docs],
-              ["/pricing", ui.nav.pricing],
-              ["/workspace", ui.nav.workspace],
-            ] as const
-          ).map(([path, label]) => (
-            <InternalLink
-              key={path}
-              className={route === path ? "nav-link active" : "nav-link"}
-              href={path}
-              onNavigate={navigate}
-            >
-              {label}
-            </InternalLink>
-          ))}
-        </nav>
-        <div className="header-actions">
-          <button
-            className="language-button"
-            type="button"
-            onClick={onLanguageChange}
-            aria-label={language === "zh" ? "Switch to English" : "切换到中文"}
-          >
-            <Globe size={16} />
-            <span>{language === "zh" ? "EN" : "中文"}</span>
-          </button>
-          {route === "/" ? (
-            <button
-              className="account-button header-workspace-button"
-              type="button"
-              onClick={() => navigate("/workspace")}
-            >
-              <span>{ui.nav.start}</span>
-              <ArrowRight size={16} aria-hidden="true" />
-            </button>
-          ) : route !== "/workspace" ? (
-            <button className="account-button" type="button" onClick={onSignIn}>
-              <span>
-                {identity === "guest"
-                  ? ui.nav.guest
-                  : identity === "user"
-                    ? accountName || ui.nav.account
-                    : ui.nav.signIn}
-              </span>
-            </button>
-          ) : null}
-          <button
-            className="mobile-menu-button"
-            type="button"
-            aria-label={ui.nav.menu}
-            aria-expanded={menuOpen}
-            onClick={() => setMenuOpen((open) => !open)}
-          >
-            {menuOpen ? <X size={20} /> : <List size={20} />}
-          </button>
-        </div>
-      </div>
-      {menuOpen && (
-        <nav className="mobile-nav" aria-label={ui.nav.mobileLabel}>
-          <InternalLink href="/" onNavigate={navigate}>
-            {ui.nav.product}
-          </InternalLink>
-          <InternalLink href="/examples" onNavigate={navigate}>
-            {ui.nav.examples}
-          </InternalLink>
-          <InternalLink href="/docs" onNavigate={navigate}>
-            {ui.nav.docs}
-          </InternalLink>
-          <InternalLink href="/pricing" onNavigate={navigate}>
-            {ui.nav.pricing}
-          </InternalLink>
-          <InternalLink href="/workspace" onNavigate={navigate}>
-            {ui.nav.workspace}
-          </InternalLink>
-          {route !== "/" && route !== "/workspace" && (
-            <button className="mobile-nav-account" type="button" onClick={onSignIn}>
-              {identity === "guest"
-                ? ui.nav.guest
-                : identity === "user"
-                  ? accountName || ui.nav.account
-                  : ui.nav.signIn}
-            </button>
-          )}
-        </nav>
-      )}
-    </header>
   );
 }
 
@@ -1318,12 +1158,13 @@ function ExamplesPage({
                   <button
                     type="button"
                     className="ff-library-item"
+                    data-allow-wrap="true"
                     data-active={index === activeIndex}
                     aria-current={index === activeIndex ? "true" : undefined}
                     onClick={() => setActiveIndex(index)}
                     key={example.id}
                   >
-                    <span className="ff-library-thumb"><img src={example.src} alt="" /></span>
+                    <span className="ff-library-thumb"><img src={example.src} alt="" width={example.width} height={example.height} /></span>
                     <span><small>{String(index + 1).padStart(2, "0")} · {example.category}</small><strong>{example.title}</strong></span>
                     <CaretRight size={15} />
                   </button>
@@ -1376,7 +1217,9 @@ function WorkspaceAccountSummary({
   onActivate: () => void;
 }) {
   const label =
-    identity === "user"
+    !apiConfigured
+      ? ui.nav.signIn === "登录" ? "本地工作台" : "Local workspace"
+      : identity === "user"
       ? currentIdentity?.display_name || ui.nav.account
       : identity === "guest"
         ? ui.nav.guest
@@ -1397,648 +1240,15 @@ function WorkspaceAccountSummary({
       data-allow-wrap="true"
     >
       <span className="workspace-account-avatar" aria-hidden="true">
-        {identity === "user" && currentIdentity?.avatar_url ? (
+        {!apiConfigured ? <FileImage size={17} /> : identity === "user" && currentIdentity?.avatar_url ? (
           <img src={currentIdentity.avatar_url} alt="" referrerPolicy="no-referrer" />
         ) : (
           monogram
         )}
       </span>
       <strong>{label}</strong>
-      <span className="workspace-account-plan">{ui.workspace.freePlan}</span>
+      <span className="workspace-account-plan">{apiConfigured ? ui.workspace.freePlan : "SVG"}</span>
     </button>
-  );
-}
-
-function LegacySvgEditorPanel({
-  ui,
-  svgDocument,
-  previewUrl,
-  importError,
-  importing,
-  onOpenFile,
-  onDropFile,
-}: {
-  ui: UiCopy;
-  svgDocument: ImportedSvgDocument | null;
-  previewUrl: string;
-  importError: SvgImportErrorCode | null;
-  importing: boolean;
-  onOpenFile: () => void;
-  onDropFile: (file: File) => void;
-}) {
-  const [dragActive, setDragActive] = useState(false);
-  const tools = [
-    { label: ui.workspace.editorSelect, Icon: CursorClick },
-    { label: ui.workspace.editorNodes, Icon: VectorThree },
-    { label: ui.workspace.editorShape, Icon: BoundingBox },
-    { label: ui.workspace.editorText, Icon: TextT },
-  ];
-  const errorMessage =
-    importError === "empty"
-      ? ui.workspace.editorErrorInvalid
-      : importError === "format"
-        ? ui.workspace.editorErrorFormat
-        : importError === "large"
-          ? ui.workspace.editorErrorLarge
-          : importError === "complex"
-            ? ui.workspace.editorErrorComplex
-            : importError === "invalid"
-              ? ui.workspace.editorErrorInvalid
-              : "";
-  const aspectClass = !svgDocument
-    ? "ratio-16-9"
-    : svgDocument.aspectRatio >= 2
-      ? "aspect-wide"
-      : svgDocument.aspectRatio > 1.15
-        ? "aspect-landscape"
-        : svgDocument.aspectRatio >= 0.85
-          ? "aspect-square"
-          : "aspect-portrait";
-  const aspectLabel = svgDocument
-    ? svgDocument.aspectRatio >= 0.98 && svgDocument.aspectRatio <= 1.02
-      ? "1:1"
-      : svgDocument.aspectRatio >= 1.31 && svgDocument.aspectRatio <= 1.36
-        ? "4:3"
-        : svgDocument.aspectRatio >= 1.75 && svgDocument.aspectRatio <= 1.8
-          ? "16:9"
-          : `${svgDocument.aspectRatio.toFixed(2)}:1`
-    : "";
-
-  function acceptDrag(event: ReactDragEvent<HTMLElement>) {
-    event.preventDefault();
-    event.dataTransfer.dropEffect = "copy";
-    setDragActive(true);
-  }
-
-  function leaveDrag(event: ReactDragEvent<HTMLElement>) {
-    if (event.currentTarget.contains(event.relatedTarget as Node | null)) return;
-    setDragActive(false);
-  }
-
-  function dropFile(event: ReactDragEvent<HTMLElement>) {
-    event.preventDefault();
-    setDragActive(false);
-    const file = event.dataTransfer.files[0];
-    if (file) onDropFile(file);
-  }
-
-  if (!svgDocument) {
-    return (
-      <section
-        className={`svg-import-stage ${dragActive ? "drag-active" : ""}`}
-        aria-labelledby="svg-import-title"
-        onDragEnter={acceptDrag}
-        onDragOver={acceptDrag}
-        onDragLeave={leaveDrag}
-        onDrop={dropFile}
-      >
-        <div className="svg-import-copy">
-          <div className="svg-import-symbol" aria-hidden="true">
-            <UploadSimple size={25} weight="duotone" />
-          </div>
-          <span className="svg-import-local">{ui.workspace.editorLocal}</span>
-          <h2 id="svg-import-title">
-            {importing ? ui.workspace.editorLoading : ui.workspace.editorDropTitle}
-          </h2>
-          <p>{ui.workspace.editorDropBody}</p>
-          {errorMessage && (
-            <p className="svg-import-error" role="alert">
-              {errorMessage}
-            </p>
-          )}
-          <div className="svg-import-actions">
-            <button
-              className="svg-import-button"
-              type="button"
-              onClick={onOpenFile}
-              disabled={importing}
-            >
-              <UploadSimple size={17} aria-hidden="true" />
-              {errorMessage
-                ? ui.workspace.editorTryAgain
-                : ui.workspace.editorDropAction}
-            </button>
-            <small>{ui.workspace.editorDropHint}</small>
-          </div>
-          <p className="svg-mobile-note svg-import-mobile-note">
-            {ui.workspace.editorMobile}
-          </p>
-        </div>
-
-        <div className="svg-import-diagram" aria-hidden="true">
-          <svg viewBox="0 0 620 430">
-            <path
-              className="svg-import-paper"
-              d="M93 58H488L543 113V365H93Z"
-            />
-            <path className="svg-import-fold" d="M488 58V113H543" />
-            <path
-              className="svg-import-path"
-              d="M160 278C205 178 276 316 326 207C368 116 430 143 475 195"
-            />
-            <path className="svg-import-guide" d="M160 278L326 207L475 195" />
-            <circle className="svg-import-node" cx="160" cy="278" r="10" />
-            <circle className="svg-import-node clay" cx="326" cy="207" r="10" />
-            <circle className="svg-import-node" cx="475" cy="195" r="10" />
-            <path className="svg-import-caption-line" d="M160 318H258" />
-            <path className="svg-import-caption-line short" d="M160 338H218" />
-          </svg>
-          <span className="svg-import-diagram-label path">PATH</span>
-          <span className="svg-import-diagram-label node">NODE</span>
-          <span className="svg-import-diagram-label text">TEXT</span>
-        </div>
-
-        <div className="svg-import-specs" aria-hidden="true">
-          <span>SVG</span>
-          <span>≤ 5 MB</span>
-          <span>LOCAL</span>
-        </div>
-
-        {dragActive && (
-          <div className="svg-drop-overlay">
-            <UploadSimple size={24} />
-            <strong>{ui.workspace.editorDropActive}</strong>
-          </div>
-        )}
-      </section>
-    );
-  }
-
-  return (
-    <div className="svg-editor-shell">
-      <aside className="svg-toolrail" aria-label={ui.workspace.editorTools}>
-        <span className="svg-toolrail-label">{ui.workspace.editorTools}</span>
-        <div>
-          {tools.map(({ label, Icon }) => (
-            <button
-              key={label}
-              type="button"
-              aria-label={`${label}. ${ui.workspace.editorUnavailable}`}
-              title={ui.workspace.editorUnavailable}
-              disabled
-            >
-              <Icon size={18} />
-            </button>
-          ))}
-        </div>
-      </aside>
-
-      <section className="svg-workbench" aria-label={ui.workspace.editorCanvas}>
-        <header className="svg-workbench-toolbar">
-          <div>
-            <BezierCurve size={17} weight="duotone" />
-            <strong>{ui.workspace.editorDocument}</strong>
-            <span>
-              {svgDocument
-                ? `${svgDocument.fileName} · ${svgDocument.elementCount} ${ui.workspace.editorObjects}`
-                : ui.workspace.editorStatus}
-            </span>
-          </div>
-          <div className="svg-zoom-controls" aria-label={ui.workspace.editorZoom}>
-            <button
-              type="button"
-              aria-label={`${ui.workspace.editorZoom} -. ${ui.workspace.editorUnavailable}`}
-              disabled
-            >
-              <MagnifyingGlassMinus size={16} />
-            </button>
-            <span>—</span>
-            <button
-              type="button"
-              aria-label={`${ui.workspace.editorZoom} +. ${ui.workspace.editorUnavailable}`}
-              disabled
-            >
-              <MagnifyingGlassPlus size={16} />
-            </button>
-          </div>
-        </header>
-
-        <div
-          className={[
-            "svg-canvas-viewport",
-            svgDocument ? "document-open" : "pending",
-            dragActive ? "drag-active" : "",
-          ]
-            .filter(Boolean)
-            .join(" ")}
-          onDragEnter={acceptDrag}
-          onDragOver={acceptDrag}
-          onDragLeave={leaveDrag}
-          onDrop={dropFile}
-        >
-          <div
-            className={[
-              "svg-artboard",
-              svgDocument ? "has-document" : "",
-              aspectClass,
-            ]
-              .filter(Boolean)
-              .join(" ")}
-            style={
-              svgDocument
-                ? ({
-                    "--svg-aspect-ratio": svgDocument.aspectRatio,
-                  } as CSSProperties)
-                : undefined
-            }
-          >
-            {svgDocument && previewUrl ? (
-              <div className="svg-document-preview">
-                <img src={previewUrl} alt={ui.workspace.editorPreviewAlt} />
-              </div>
-            ) : (
-              <div className="svg-artboard-empty svg-import-empty">
-                <UploadSimple size={30} weight="duotone" aria-hidden="true" />
-                <div>
-                  <span id="svg-editor-unavailable">
-                    {dragActive
-                      ? ui.workspace.editorDropActive
-                      : ui.workspace.editorLocal}
-                  </span>
-                  <h2>
-                    {importing
-                      ? ui.workspace.editorLoading
-                      : ui.workspace.editorDropTitle}
-                  </h2>
-                  <p>{ui.workspace.editorDropBody}</p>
-                  {errorMessage && (
-                    <p className="svg-import-error" role="alert">
-                      {errorMessage}
-                    </p>
-                  )}
-                  <button
-                    className="svg-import-button"
-                    type="button"
-                    onClick={onOpenFile}
-                    disabled={importing}
-                  >
-                    <UploadSimple size={17} aria-hidden="true" />
-                    {errorMessage
-                      ? ui.workspace.editorTryAgain
-                      : ui.workspace.editorDropAction}
-                  </button>
-                  <small>{ui.workspace.editorDropHint}</small>
-                </div>
-              </div>
-            )}
-          </div>
-          {errorMessage && svgDocument && (
-            <div className="svg-canvas-alert" role="alert">
-              <WarningCircle size={18} weight="fill" aria-hidden="true" />
-              <span>{errorMessage}</span>
-              <button type="button" onClick={onOpenFile}>
-                {ui.workspace.editorTryAgain}
-              </button>
-            </div>
-          )}
-          {dragActive && (
-            <div className="svg-drop-overlay" aria-hidden="true">
-              <UploadSimple size={24} />
-              <strong>{ui.workspace.editorDropActive}</strong>
-            </div>
-          )}
-          <p className="svg-mobile-note">{ui.workspace.editorMobile}</p>
-        </div>
-      </section>
-
-      <aside className="svg-inspector" aria-label={ui.workspace.editorInspector}>
-        <header>
-          <SlidersHorizontal size={17} />
-          <strong>{ui.workspace.editorInspector}</strong>
-        </header>
-        <section>
-          <h3>
-            <Stack size={15} />
-            {ui.workspace.editorStructure}
-          </h3>
-          {svgDocument ? (
-            <ol className="svg-layer-list">
-              {svgDocument.layers.map((layer, index) => (
-                <li key={`${layer.id}-${index}`}>
-                  <span aria-hidden="true">{String(index + 1).padStart(2, "0")}</span>
-                  <div>
-                    <strong>{layer.label}</strong>
-                    <small>
-                      {layer.tag}
-                      {layer.childCount > 0 ? ` · ${layer.childCount}` : ""}
-                    </small>
-                  </div>
-                </li>
-              ))}
-            </ol>
-          ) : (
-            <div className="svg-inspector-empty">
-              <Selection size={18} weight="duotone" />
-              <p>{ui.workspace.editorNoLayers}</p>
-            </div>
-          )}
-        </section>
-        <section>
-          <h3>
-            <PaintBrush size={15} />
-            {ui.workspace.editorSelection}
-          </h3>
-          <p>
-            {svgDocument
-              ? ui.workspace.editorSelectionReady
-              : ui.workspace.editorNoSelection}
-          </p>
-          {svgDocument && (
-            <dl className="svg-document-facts">
-              <div>
-                <dt>{ui.workspace.editorObjects}</dt>
-                <dd>{svgDocument.elementCount}</dd>
-              </div>
-              <div>
-                <dt>{ui.workspace.editorTexts}</dt>
-                <dd>{svgDocument.textCount}</dd>
-              </div>
-              <div>
-                <dt>KB</dt>
-                <dd>{Math.max(1, Math.round(svgDocument.byteSize / 1024))}</dd>
-              </div>
-              <div>
-                <dt>{ui.workspace.editorAspect}</dt>
-                <dd>{aspectLabel}</dd>
-              </div>
-            </dl>
-          )}
-          {svgDocument?.sanitized && (
-            <p className="svg-safety-note">
-              <Check size={15} weight="bold" aria-hidden="true" />
-              {ui.workspace.editorSanitized}
-            </p>
-          )}
-          {svgDocument && svgDocument.fontFamilies.length > 0 && (
-            <p className="svg-font-note">
-              <TextT size={15} weight="bold" aria-hidden="true" />
-              <span>
-                <strong>
-                  {ui.workspace.editorFonts}: {svgDocument.fontFamilies.join(", ")}
-                </strong>
-                {ui.workspace.editorFontNotice}
-              </span>
-            </p>
-          )}
-        </section>
-      </aside>
-    </div>
-  );
-}
-
-function SvgEditorPanel({
-  ui,
-  language,
-  svgDocument,
-  previewUrl,
-  importError,
-  importing,
-  onOpenFile,
-  onDropFile,
-  editedMarkup,
-  editorReady,
-  onMarkupChange,
-  onReadyChange,
-}: {
-  ui: UiCopy;
-  language: Language;
-  svgDocument: ImportedSvgDocument | null;
-  previewUrl: string;
-  importError: SvgImportErrorCode | null;
-  importing: boolean;
-  onOpenFile: () => void;
-  onDropFile: (file: File) => void;
-  editedMarkup: string;
-  editorReady: boolean;
-  onMarkupChange: (markup: string) => void;
-  onReadyChange: (ready: boolean) => void;
-}) {
-  const editorRef = useRef<SvgEditHandle>(null);
-  const [editorState, setEditorState] = useState<SvgEditState>({
-    mode: "select",
-    hasSelection: false,
-    canUndo: false,
-    canRedo: false,
-    zoom: 100,
-    fill: "#ffffff",
-    stroke: "#20152b",
-    strokeWidth: 1,
-    opacity: 100,
-    selectionCount: 0,
-    selection: null,
-    layers: [],
-    gridVisible: false,
-    wireframe: false,
-  });
-
-  if (!svgDocument) {
-    return (
-      <LegacySvgEditorPanel
-        ui={ui}
-        svgDocument={svgDocument}
-        previewUrl={previewUrl}
-        importError={importError}
-        importing={importing}
-        onOpenFile={onOpenFile}
-        onDropFile={onDropFile}
-      />
-    );
-  }
-
-  const liveError =
-    importError === "large"
-      ? ui.workspace.editorErrorLarge
-      : importError === "complex"
-        ? ui.workspace.editorErrorComplex
-        : importError
-          ? ui.workspace.editorErrorInvalid
-          : "";
-
-  return (
-    <div className="svg-edit-live-shell">
-      {liveError && (
-        <div className="svg-canvas-alert" role="alert">
-          <WarningCircle size={18} weight="fill" aria-hidden="true" />
-          <span>{liveError}</span>
-          <button type="button" onClick={onOpenFile}>
-            {ui.workspace.editorTryAgain}
-          </button>
-        </div>
-      )}
-      <FigFoxEditorChrome
-        language={language}
-        ready={editorReady}
-        state={editorState}
-        editor={editorRef.current}
-        sourceMarkup={editedMarkup || svgDocument.markup}
-        onSourceApply={async (source) => {
-          onMarkupChange(await sanitizeSvgMarkup(source, svgDocument.fileName));
-        }}
-      >
-        <SvgEditHost
-          ref={editorRef}
-          language={language}
-          markup={editedMarkup || svgDocument.markup}
-          loadingLabel={ui.workspace.editorLoading}
-          onMarkupChange={onMarkupChange}
-          onReadyChange={onReadyChange}
-          onStateChange={setEditorState}
-        />
-      </FigFoxEditorChrome>
-    </div>
-  );
-}
-
-function SvgEditorPage({
-  ui,
-  language,
-  onLanguageChange,
-  onNavigate,
-}: {
-  ui: UiCopy;
-  language: Language;
-  onLanguageChange: () => void;
-  onNavigate: (path: RoutePath) => void;
-}) {
-  const latestDraft = readCachedDrafts()[0];
-  const fileInputRef = useRef<HTMLInputElement>(null);
-  const [svgDocument, setSvgDocument] = useState<ImportedSvgDocument | null>(null);
-  const [previewUrl, setPreviewUrl] = useState("");
-  const [importError, setImportError] = useState<SvgImportErrorCode | null>(null);
-  const [importing, setImporting] = useState(false);
-  const [editedMarkup, setEditedMarkup] = useState("");
-  const [editorReady, setEditorReady] = useState(false);
-  const fallbackTitle = latestDraft?.title?.trim() || ui.workspace.editorUntitled;
-  const documentTitle = svgDocument?.fileName || fallbackTitle;
-
-  useEffect(() => {
-    if (!svgDocument) {
-      setPreviewUrl("");
-      return undefined;
-    }
-
-    const url = URL.createObjectURL(
-      new Blob([svgDocument.markup], { type: "image/svg+xml" }),
-    );
-    setPreviewUrl(url);
-    return () => URL.revokeObjectURL(url);
-  }, [svgDocument]);
-
-  async function openSvg(file: File) {
-    setImporting(true);
-    setImportError(null);
-    try {
-      const imported = await importSvgDocument(file);
-      setSvgDocument(imported);
-      setEditedMarkup(imported.markup);
-      setEditorReady(false);
-    } catch (error) {
-      setImportError(error instanceof SvgImportError ? error.code : "invalid");
-    } finally {
-      setImporting(false);
-    }
-  }
-
-  function handleSvgInput(event: ChangeEvent<HTMLInputElement>) {
-    const file = event.target.files?.[0];
-    event.target.value = "";
-    if (file) void openSvg(file);
-  }
-
-  function exportSvg() {
-    if (!svgDocument || !editedMarkup) return;
-
-    const url = URL.createObjectURL(
-      new Blob([editedMarkup], { type: "image/svg+xml" }),
-    );
-    const link = window.document.createElement("a");
-    const stem = svgDocument.fileName.replace(/\.svg$/i, "");
-    link.href = url;
-      link.download = `${stem}-figfox.svg`;
-    link.click();
-    window.setTimeout(() => URL.revokeObjectURL(url), 0);
-  }
-
-  return (
-    <div className="editor-app page-enter">
-      <input
-        ref={fileInputRef}
-        className="sr-only"
-        type="file"
-        accept=".svg,image/svg+xml"
-        aria-label={ui.workspace.editorOpenFile}
-        onChange={handleSvgInput}
-      />
-      <header className="editor-app-header">
-        <div className="editor-app-left">
-          <Brand onNavigate={onNavigate} />
-          <InternalLink
-            className="editor-back-button"
-            href="/workspace"
-            onNavigate={onNavigate}
-          >
-            <CaretLeft size={17} aria-hidden="true" />
-            <span>{ui.workspace.editorBack}</span>
-          </InternalLink>
-        </div>
-        <div className="editor-document-title" aria-live="polite">
-          <strong>{documentTitle}</strong>
-          <span>
-            {svgDocument
-              ? `${editorReady ? ui.workspace.editorReady : ui.workspace.editorLoading} · ${ui.workspace.editorLocal}`
-              : ui.workspace.editorStatus}
-          </span>
-        </div>
-        <Toolbar.Root className="editor-app-actions" aria-label={ui.workspace.editorTitle}>
-          <Toolbar.Button
-            className="language-button"
-            onClick={onLanguageChange}
-            aria-label={language === "zh" ? "Switch to English" : "切换到中文"}
-          >
-            <Globe size={16} />
-            <span>{language === "zh" ? "EN" : "中文"}</span>
-          </Toolbar.Button>
-          <Toolbar.Separator className="editor-action-separator" />
-          <Toolbar.Button
-            className="editor-open-file-button"
-            onClick={() => fileInputRef.current?.click()}
-            disabled={importing}
-          >
-            <UploadSimple size={17} aria-hidden="true" />
-            <span>
-              {svgDocument
-                ? ui.workspace.editorReplaceFile
-                : ui.workspace.editorOpenFile}
-            </span>
-          </Toolbar.Button>
-          <Toolbar.Button
-            className="editor-export-button"
-            onClick={exportSvg}
-            disabled={!svgDocument || !editorReady}
-            title={!svgDocument ? ui.workspace.editorStatus : undefined}
-          >
-            <DownloadSimple size={17} aria-hidden="true" />
-            <span>{ui.workspace.editorExport}</span>
-          </Toolbar.Button>
-        </Toolbar.Root>
-      </header>
-      <main className="editor-page" id="editor-canvas">
-        <SvgEditorPanel
-          ui={ui}
-          language={language}
-          svgDocument={svgDocument}
-          previewUrl={previewUrl}
-          importError={importError}
-          importing={importing}
-          onOpenFile={() => fileInputRef.current?.click()}
-          onDropFile={(file) => void openSvg(file)}
-          editedMarkup={editedMarkup}
-          editorReady={editorReady}
-          onMarkupChange={setEditedMarkup}
-          onReadyChange={setEditorReady}
-        />
-      </main>
-    </div>
   );
 }
 
@@ -2103,6 +1313,27 @@ function WorkspacePage({
   const draftSaveTimerRef = useRef<number | null>(null);
   const draftSaveSequenceRef = useRef(0);
   const lastSavedDraftRef = useRef("");
+  const latestDraftRef = useRef<WorkspaceDraft | null>(null);
+
+  const flushLocalDraft = () => {
+    const draft = latestDraftRef.current;
+    if (!draft) return null;
+    const cached = readCachedDrafts();
+    const previous = cached.find(item => item.id === draft.id);
+    if (previous && draftFingerprint(draftInput(previous)) === draftFingerprint(draftInput(draft))) return previous;
+    const updated = { ...draft, updated_at: new Date().toISOString() };
+    writeCachedDrafts([updated, ...cached.filter(item => item.id !== draft.id)]);
+    return updated;
+  };
+
+  useEffect(() => {
+    const flush = () => flushLocalDraft();
+    window.addEventListener("pagehide", flush);
+    return () => { window.removeEventListener("pagehide", flush); flush(); };
+  }, []);
+
+  const currentDraft = drafts.find(draft => draft.id === activeDraftId);
+  latestDraftRef.current = draftsReady && currentDraft ? { ...currentDraft, title: activeDraftTitle, prompt, mode, aspect_ratio: ratio as WorkspaceDraftInput["aspect_ratio"], output_format: format as WorkspaceDraftInput["output_format"], visibility: isPublic ? "public" : "private", reference_asset_id: referenceAssetId } : null;
 
   const uploadBusy = ["preparing", "uploading", "verifying"].includes(
     referenceStatus,
@@ -2227,8 +1458,9 @@ function WorkspacePage({
       const available =
         sorted.length > 0 ? sorted : [makeLocalDraft(blankDraftInput())];
       setDrafts(available);
-      writeCachedDrafts(available);
+      const locallySaved = writeCachedDrafts(available);
       applyDraft(available[0]);
+      if (!locallySaved && !apiConfigured) setDraftSaveState("failed");
       setDraftsReady(true);
     };
 
@@ -2308,22 +1540,17 @@ function WorkspacePage({
       const now = new Date().toISOString();
       const fallbackId = activeDraftId || `local-${crypto.randomUUID()}`;
       setActiveDraftId(fallbackId);
-      setDrafts((current) => {
-        const existing = current.find((draft) => draft.id === fallbackId);
-        const localDraft: WorkspaceDraft = existing
-          ? { ...existing, ...input, updated_at: now }
-          : makeLocalDraft(input, fallbackId);
-        const next = [
-          localDraft,
-          ...current.filter((draft) => draft.id !== fallbackId),
-        ];
-        writeCachedDrafts(next);
-        return next;
-      });
+      const existing = drafts.find((draft) => draft.id === fallbackId);
+      const localDraft: WorkspaceDraft = existing
+        ? { ...existing, ...input, updated_at: now }
+        : makeLocalDraft(input, fallbackId);
+      const next = [localDraft, ...drafts.filter((draft) => draft.id !== fallbackId)];
+      const locallySaved = writeCachedDrafts(next);
+      setDrafts(next);
 
       if (!apiConfigured) {
-        lastSavedDraftRef.current = fingerprint;
-        setDraftSaveState("saved");
+        if (locallySaved) lastSavedDraftRef.current = fingerprint;
+        setDraftSaveState(locallySaved ? "saved" : "failed");
         return;
       }
       if (!online) {
@@ -2504,8 +1731,8 @@ function WorkspacePage({
       return;
     }
     if (!apiConfigured) {
-      setReferenceStatus("error");
-      setReferenceError(ui.workspace.uploadRequiresApi);
+      setReferenceStatus("local");
+      setReferenceError("");
       return;
     }
     setReferenceStatus("idle");
@@ -2548,6 +1775,7 @@ function WorkspacePage({
   };
 
   const startNewDraft = () => {
+    const flushed = flushLocalDraft();
     uploadSequenceRef.current += 1;
     uploadAbortRef.current?.abort();
     uploadAbortRef.current = null;
@@ -2574,16 +1802,17 @@ function WorkspacePage({
     setMessage("");
     const next = makeLocalDraft(blankDraftInput());
     setActiveDraftId(next.id);
-    setDrafts((current) => {
-      const items = [next, ...current];
-      writeCachedDrafts(items);
-      return items;
-    });
+    const items = [next, ...drafts.map(item => item.id === flushed?.id ? flushed : item)];
+    const locallySaved = writeCachedDrafts(items);
+    setDrafts(items);
     lastSavedDraftRef.current = draftFingerprint(blankDraftInput());
-    setDraftSaveState("saved");
+    setDraftSaveState(locallySaved || apiConfigured ? "saved" : "failed");
   };
 
   const selectDraft = (draft: WorkspaceDraft) => {
+    if (draft.id === activeDraftId) { setHistoryOpen(false); return; }
+    const flushed = flushLocalDraft();
+    if (flushed) setDrafts(current => current.map(item => item.id === flushed.id ? flushed : item));
     applyDraft(draft);
     setHistoryOpen(false);
   };
@@ -2636,18 +1865,24 @@ function WorkspacePage({
       }
     }
     const remaining = drafts.filter((draft) => draft.id !== deletedId);
+    if (activeDraftId === deletedId) latestDraftRef.current = null;
     if (remaining.length > 0) {
       setDrafts(remaining);
       writeCachedDrafts(remaining);
       if (activeDraftId === deletedId) applyDraft(remaining[0]);
       return;
     }
-    setDrafts([]);
-    writeCachedDrafts([]);
-    startNewDraft();
+    const next = makeLocalDraft(blankDraftInput());
+    setDrafts([next]);
+    const locallySaved = writeCachedDrafts([next]);
+    setTaskMode("create");
+    setSettingsOpen(false);
+    applyDraft(next);
+    if (!locallySaved && !apiConfigured) setDraftSaveState("failed");
   };
 
   const referenceStatusLabel = (() => {
+    if (referenceStatus === "local") return language === "zh" ? "本地预览 · 刷新后需重新选择" : "Local preview · select again after refresh";
     if (referenceStatus === "preparing") return ui.workspace.uploadPreparing;
     if (referenceStatus === "uploading") {
       return `${ui.workspace.uploadProgress} · ${referenceProgress}%`;
@@ -2664,10 +1899,10 @@ function WorkspacePage({
       : draftSaveState === "offline"
         ? ui.workspace.draftOffline
         : draftSaveState === "failed"
-          ? ui.workspace.draftFailed
+          ? apiConfigured ? ui.workspace.draftFailed : language === "zh" ? "本地保存失败，请保留草稿内容" : "Local save failed. Keep a copy of your draft."
           : draftSaveState === "session-expired"
             ? ui.workspace.draftSessionExpired
-            : ui.workspace.draftSaved;
+          : apiConfigured ? ui.workspace.draftSaved : language === "zh" ? "已在当前浏览器保存" : "Saved in this browser";
 
   const handlePromptKeyDown = (
     event: ReactKeyboardEvent<HTMLTextAreaElement>,
@@ -2847,10 +2082,10 @@ function WorkspacePage({
               <ClockCounterClockwise size={17} />
               {ui.workspace.history}
             </button>
-            <div className="workspace-balance">
+            {apiConfigured && <div className="workspace-balance">
               <span>{ui.workspace.credits}</span>
               <strong>{credits ?? "—"}</strong>
-            </div>
+            </div>}
           </div>
         </header>
 
@@ -3146,7 +2381,7 @@ function WorkspacePage({
           <button
             className="generate-button"
             type="button"
-            disabled={status === "generating"}
+            disabled
             onClick={handleGenerate}
           >
             {status === "generating" ? (
@@ -3156,12 +2391,11 @@ function WorkspacePage({
               </>
             ) : (
               <>
-                {taskMode === "rebuild" ? workspaceCopy.rebuildAction : ui.workspace.generate}
-                <ArrowRight size={18} />
+                {language === "zh" ? taskMode === "rebuild" ? "重建服务尚未开放" : "生成服务尚未开放" : taskMode === "rebuild" ? "Reconstruction is not open yet" : "Generation is not open yet"}
               </>
             )}
           </button>
-          <p className="mock-note">{ui.workspace.mockNotice}</p>
+          <p className="mock-note">{language === "zh" ? "可以先准备内容，草稿会自动保存。" : "Prepare the content now. Your draft is saved automatically."}</p>
         </aside>
 
         <section className={`result-panel ${taskMode}`} aria-live="polite">
@@ -3184,17 +2418,6 @@ function WorkspacePage({
                 </span>
               )}
             </div>
-            <button
-              className="open-editor-button"
-              type="button"
-              data-allow-wrap="true"
-              onClick={onOpenEditor}
-              title={ui.workspace.editorUnavailable}
-            >
-              <BezierCurve size={15} aria-hidden="true" />
-              {ui.workspace.editorOpen}
-              <ArrowUpRight size={14} aria-hidden="true" />
-            </button>
             <div className="result-metadata" aria-label={ui.workspace.technicalSummary}>
               <span>{ratio}</span>
               <span>{format}</span>
@@ -3212,20 +2435,18 @@ function WorkspacePage({
                   </span>
                   <div>
                     <h2>
-                      {taskMode === "rebuild"
-                        ? workspaceCopy.rebuildTitle
-                        : ui.workspace.emptyTitle}
+                      {taskMode === "rebuild" && referencePreview ? language === "zh" ? "原图预览" : "Source preview" : language === "zh" ? "SVG 编辑器" : "SVG editor"}
                     </h2>
                     <p>
-                      {taskMode === "rebuild"
-                        ? workspaceCopy.rebuildBody
-                        : ui.workspace.emptyBody}
+                      {taskMode === "rebuild" && referencePreview ? language === "zh" ? "重建服务接入后，可将这张图转为 SVG。" : "Reconstruct this image once the service is available." : language === "zh" ? "打开 SVG 文档，调整文字、图形与布局。" : "Open an SVG to adjust its text, shapes and layout."}
                     </p>
                   </div>
+                  {taskMode === "rebuild" && referencePreview && <img className="product-workspace-source" src={referencePreview} alt={language === "zh" ? "准备重建的本地原图" : "Local source prepared for reconstruction"} />}
+                  <button type="button" className="product-button product-button-primary product-workspace-editor" onClick={onOpenEditor}>
+                    <BezierCurve size={17} />{language === "zh" ? "打开 SVG 编辑器" : "Open SVG editor"}<ArrowUpRight size={16} />
+                  </button>
+                  <span className="product-workspace-editor-note">{language === "zh" ? "本地文件 · 无需登录" : "Local files · no sign-in needed"}</span>
                 </div>
-                <span className="empty-sheet-meta">
-                  {ratio} · {format}
-                </span>
               </div>
             )}
             {status === "generating" && (
@@ -3282,26 +2503,18 @@ function WorkspacePage({
       </div>
       </div>
 
-      {historyOpen && (
-        <div
-          className="drawer-backdrop"
-          role="presentation"
-          onMouseDown={() => setHistoryOpen(false)}
-        >
-          <aside
-            className="history-drawer"
-            aria-label={ui.workspace.history}
-            onMouseDown={(event) => event.stopPropagation()}
-          >
+      <Dialog.Root open={historyOpen} onOpenChange={setHistoryOpen}>
+        <Dialog.Portal>
+          <Dialog.Backdrop className="modal-backdrop" />
+          <Dialog.Viewport className="product-history-viewport">
+          <Dialog.Popup className="history-drawer product-history-drawer">
             <div className="drawer-heading">
-              <h2>{ui.workspace.history}</h2>
-              <button
-                type="button"
+              <Dialog.Title>{ui.workspace.history}</Dialog.Title>
+              <Dialog.Close
                 aria-label={ui.workspace.closeHistory}
-                onClick={() => setHistoryOpen(false)}
               >
                 <X size={20} />
-              </button>
+              </Dialog.Close>
             </div>
             {drafts.length > 0 ? (
               <div className="history-draft-list">
@@ -3348,34 +2561,25 @@ function WorkspacePage({
               currentIdentity={currentIdentity}
               onActivate={onAccount}
             />
-          </aside>
-        </div>
-      )}
+          </Dialog.Popup>
+          </Dialog.Viewport>
+        </Dialog.Portal>
+      </Dialog.Root>
 
-      {draftToDelete && (
-        <div
-          className="dialog-backdrop"
-          role="presentation"
-          onMouseDown={() => setDraftToDelete(null)}
-        >
-          <section
-            className="draft-delete-dialog"
-            role="alertdialog"
-            aria-modal="true"
-            aria-labelledby="draft-delete-title"
-            onMouseDown={(event) => event.stopPropagation()}
-          >
+      <AlertDialog.Root open={!!draftToDelete} onOpenChange={open => { if (!open) setDraftToDelete(null); }}>
+        <AlertDialog.Portal>
+          <AlertDialog.Backdrop className="modal-backdrop" />
+          <AlertDialog.Viewport className="dialog-viewport">
+          <AlertDialog.Popup className="draft-delete-dialog product-delete-dialog">
             <p className="kicker">{ui.workspace.draftLabel}</p>
-            <h2 id="draft-delete-title">{ui.workspace.deleteDraftTitle}</h2>
-            <p>{ui.workspace.deleteDraftBody}</p>
+            <AlertDialog.Title>{ui.workspace.deleteDraftTitle}</AlertDialog.Title>
+            <AlertDialog.Description>{apiConfigured ? ui.workspace.deleteDraftBody : language === "zh" ? "删除后无法恢复这份本地草稿。" : "This local draft cannot be restored after deletion."}</AlertDialog.Description>
             <div>
-              <button
+              <AlertDialog.Close
                 className="button secondary-button"
-                type="button"
-                onClick={() => setDraftToDelete(null)}
               >
                 {ui.workspace.cancel}
-              </button>
+              </AlertDialog.Close>
               <button
                 className="button danger-button"
                 type="button"
@@ -3384,174 +2588,11 @@ function WorkspacePage({
                 {ui.workspace.deleteDraftConfirm}
               </button>
             </div>
-          </section>
-        </div>
-      )}
+          </AlertDialog.Popup>
+          </AlertDialog.Viewport>
+        </AlertDialog.Portal>
+      </AlertDialog.Root>
 
-    </main>
-  );
-}
-
-const planPrices = [
-  { monthly: 9, yearly: 7 },
-  { monthly: 19, yearly: 15 },
-  { monthly: 39, yearly: 31 },
-] as const;
-
-function PricingPage({
-  ui,
-  language,
-  onNavigate,
-}: {
-  ui: UiCopy;
-  language: Language;
-  onNavigate: (path: RoutePath) => void;
-}) {
-  const [billing, setBilling] = useState<BillingCycle>("monthly");
-  const [toast, setToast] = useState(false);
-
-  useEffect(() => {
-    if (!toast) return;
-    const timer = window.setTimeout(() => setToast(false), 2600);
-    return () => window.clearTimeout(timer);
-  }, [toast]);
-
-  return (
-    <main className="pricing-page page-enter">
-      <PageSection className="pricing-intro-section" density="compact">
-        <PageContainer measure="reading">
-          <Flex className="pricing-intro" direction="column" align="center">
-            <p className="kicker">{ui.pricing.kicker}</p>
-            <h1>{ui.pricing.title}</h1>
-            <p>{ui.pricing.body}</p>
-            <ToggleGroup
-              className={`billing-switch ${billing}`}
-              value={[billing]}
-              aria-label="Billing cycle"
-              onValueChange={(values) => {
-                const nextBilling = values.at(-1) as BillingCycle | undefined;
-                if (nextBilling) setBilling(nextBilling);
-              }}
-            >
-              <Toggle value="monthly">{ui.pricing.monthly}</Toggle>
-              <Toggle value="yearly" data-allow-wrap="true">
-                {ui.pricing.yearly}
-                <span>{ui.pricing.save}</span>
-              </Toggle>
-            </ToggleGroup>
-          </Flex>
-        </PageContainer>
-      </PageSection>
-
-      <PageSection className="pricing-plans-section" density="compact">
-        <PageContainer>
-          <Grid
-            asChild
-            columns={{ initial: "1", md: "repeat(3, minmax(0, 1fr))" }}
-            gap={{ initial: "5", md: "6" }}
-          >
-            <section
-              className="pricing-grid"
-              aria-label={ui.nav.pricing}
-              data-billing={billing}
-              key={billing}
-            >
-              {ui.pricing.plans.map((plan, index) => {
-                const amount =
-                  billing === "monthly"
-                    ? planPrices[index].monthly
-                    : planPrices[index].yearly;
-                return (
-                  <article
-                    className={index === 1 ? "pricing-card featured" : "pricing-card"}
-                    key={plan.name}
-                  >
-                    <div className="plan-topline">
-                      <span className="plan-ornament" aria-hidden="true">
-                        <i />
-                        <i />
-                      </span>
-                      {index === 1 && (
-                        <span className="plan-recommended">{ui.pricing.recommended}</span>
-                      )}
-                    </div>
-                    <PlanMark level={index} label={`${plan.name} ${ui.nav.pricing}`} />
-                    <div className="plan-heading">
-                      <h2>{plan.name}</h2>
-                      <p>{plan.description}</p>
-                    </div>
-                    <div className="plan-price">
-                      {billing === "yearly" && amount > 0 && (
-                        <del>${planPrices[index].monthly}</del>
-                      )}
-                      <strong>${amount}</strong>
-                      {amount > 0 && <span>{ui.pricing.perMonth}</span>}
-                    </div>
-                    <div className="billing-detail">
-                      {billing === "yearly" ? (
-                        <>
-                          <strong>
-                            {ui.pricing.savePerMonth} ${planPrices[index].monthly - amount}
-                          </strong>
-                          <span>
-                            {ui.pricing.billedYearly} · ${amount * 12}
-                          </span>
-                        </>
-                      ) : (
-                        <span>{ui.pricing.notice}</span>
-                      )}
-                    </div>
-                    <button
-                      className={index === 1 ? "button primary-button" : "button secondary-button"}
-                      type="button"
-                      onClick={() => setToast(true)}
-                    >
-                      {ui.pricing.choose}
-                    </button>
-                    <div className="plan-rule" />
-                    <ul>
-                      {plan.features.map((feature) => (
-                        <li key={feature}>
-                          <Check size={17} weight="bold" />
-                          <span>{feature}</span>
-                        </li>
-                      ))}
-                    </ul>
-                  </article>
-                );
-              })}
-            </section>
-          </Grid>
-          <p className="pricing-footnote">{ui.pricing.footnote}</p>
-        </PageContainer>
-      </PageSection>
-
-      <PageSection className="pricing-closing-section" density="compact">
-        <PageContainer>
-          <Flex className="pricing-closing" align="end" justify="between" gap="7" wrap="wrap">
-            <div>
-              <h2>{ui.home.closingTitle}</h2>
-              <p>{ui.home.closingBody}</p>
-            </div>
-            <button
-              className="button primary-button"
-              type="button"
-              onClick={() => onNavigate("/workspace")}
-            >
-              {ui.home.primary}
-              <ArrowRight size={18} />
-            </button>
-          </Flex>
-        </PageContainer>
-      </PageSection>
-
-      <Footer ui={ui} language={language} onNavigate={onNavigate} />
-      {toast && (
-        <div className="toast" role="status">
-          <LockKey size={18} />
-          {ui.pricing.toast}
-        </div>
-      )}
     </main>
   );
 }
@@ -3958,7 +2999,7 @@ function LoginDialog({
         </Dialog.Close>
         <p className="dialog-label">FigFox</p>
         <Dialog.Title id="login-title">{ui.auth.title}</Dialog.Title>
-        <Dialog.Description>{ui.auth.body}</Dialog.Description>
+        <Dialog.Description>{apiConfigured ? ui.auth.body : ui.nav.signIn === "登录" ? "账户服务尚未开放。你可以直接使用本地工作台和 SVG 编辑器。" : "Account services are not open yet. The local workspace and SVG editor are available without sign-in."}</Dialog.Description>
         <div className="login-actions">
           {providers.map((provider) => {
             const enabled =
@@ -4000,8 +3041,8 @@ function LoginDialog({
           >
             <UserCircle size={19} />
             <span>
-              <strong>{busy ? ui.auth.connecting : ui.auth.guest}</strong>
-              <small>{ui.auth.guestNote}</small>
+              <strong>{busy ? ui.auth.connecting : apiConfigured ? ui.auth.guest : ui.nav.signIn === "登录" ? "继续使用工作台" : "Continue to workspace"}</strong>
+              <small>{apiConfigured ? ui.auth.guestNote : ui.nav.signIn === "登录" ? "无需登录 · 文件保存在当前浏览器" : "No sign-in · files stay in this browser"}</small>
             </span>
           </button>
         </div>
@@ -4427,12 +3468,9 @@ export default function App() {
     }
 
     if (!apiConfigured) {
-      setIdentity("guest");
-      setCredits(1);
       setLoginOpen(false);
-      const action = pendingAction.current;
       pendingAction.current = null;
-      window.setTimeout(() => action?.(), 0);
+      navigate("/workspace");
       return;
     }
 
@@ -4563,7 +3601,7 @@ export default function App() {
   };
 
   return (
-    <>
+    <div className={route === "/" ? undefined : "product-site"}>
       <a
         className="skip-link"
         href={route === "/editor" ? "#editor-canvas" : "#main-content"}
@@ -4571,23 +3609,14 @@ export default function App() {
         {ui.nav.skip}
       </a>
       {route !== "/editor" && route !== "/" && (
-        <Header
+        <ProductHeader
           language={language}
-          identity={identity}
-          accountName={currentIdentity?.display_name ?? null}
-          ui={ui}
           route={route}
-          onLanguageChange={() =>
-            setLanguage((value) => (value === "zh" ? "en" : "zh"))
-          }
+          accountName={identity === "user" ? currentIdentity?.display_name || ui.nav.account : null}
+          hrefFor={routeHref}
           onNavigate={navigate}
-          onSignIn={() => {
-            if (identity === "user") {
-              void openAccount();
-            } else {
-              openLogin();
-            }
-          }}
+          onLanguageChange={() => setLanguage(value => value === "zh" ? "en" : "zh")}
+          onAccount={() => identity === "user" ? void openAccount() : openLogin()}
         />
       )}
 
@@ -4622,17 +3651,12 @@ export default function App() {
           />
         )}
         {route === "/editor" && (
-          <SvgEditorPage
-            ui={ui}
-            language={language}
-            onLanguageChange={() =>
-              setLanguage((value) => (value === "zh" ? "en" : "zh"))
-            }
-            onNavigate={navigate}
-          />
+          <Suspense fallback={<div className="product-editor-loading" role="status">{language === "zh" ? "正在打开编辑器…" : "Opening editor…"}</div>}>
+            <ProductSvgEditorPage ui={ui} language={language} onLanguageChange={() => setLanguage(value => value === "zh" ? "en" : "zh")} onNavigate={navigate} hrefFor={routeHref} />
+          </Suspense>
         )}
         {route === "/pricing" && (
-          <PricingPage ui={ui} language={language} onNavigate={navigate} />
+          <ProductPricingPage language={language} onNavigate={navigate} hrefFor={routeHref} />
         )}
         {route === "/feedback" && (
           <>
@@ -4640,9 +3664,10 @@ export default function App() {
             <Footer ui={ui} language={language} onNavigate={navigate} />
           </>
         )}
+        {route === "/docs" && <ProductGuidePage language={language} onNavigate={navigate} hrefFor={routeHref} />}
         {(
-          ["/docs", "/privacy", "/terms", "/content-policy"] as const
-        ).includes(route as "/docs" | "/privacy" | "/terms" | "/content-policy") && (
+          [ "/privacy", "/terms", "/content-policy"] as const
+        ).includes(route as "/privacy" | "/terms" | "/content-policy") && (
           <>
             <ProductInformationPage
               route={route as "/docs" | "/privacy" | "/terms" | "/content-policy"}
@@ -4687,6 +3712,6 @@ export default function App() {
         onLogout={() => void handleLogout()}
         onDeleteAccount={() => void handleDeleteAccount()}
       />
-    </>
+    </div>
   );
 }

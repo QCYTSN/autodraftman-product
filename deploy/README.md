@@ -1,5 +1,39 @@
 # Deployment
 
+## Current static release
+
+The showcase, guide, proposed pricing, workspace and local SVG editor are published
+at `https://qcytsn.github.io/figfox/`. There is no hosted API in this release.
+`QCYTSN/autodraftman-product` remains the source repository;
+`QCYTSN/figfox` contains a GitHub Pages mirror deployed from its `site/` directory.
+
+Publish only after reviewing and committing the product source:
+
+```powershell
+Set-Location D:\Github_Ku\autodraftman-product\frontend
+npm run build:pages
+npm run review:pages
+Set-Location ..
+node deploy/publish-pages.mjs D:\Github_Ku\figfox-public-site
+Set-Location D:\Github_Ku\figfox-public-site
+git add site
+git diff --cached --check
+git commit -m "Publish FigFox product surfaces"
+git push origin main
+```
+
+The copier verifies the mirror repository, clean source and mirror checkouts,
+build base path, destination paths and copied bytes. It copies only static files,
+removes individual obsolete files under `site/`, and leaves historical root files
+alone. `_release.json` records the source revision. It does not push or change
+GitHub settings. Wait for the Pages workflow, then verify the live home, product
+routes, page refreshes, SVG editing and source revision.
+
+The source commit may be on a reviewed feature branch. Publishing does not imply
+merging that branch into source `main`.
+
+## Future API deployment
+
 The development Compose file is not a production deployment.
 
 The first shared environment will contain:

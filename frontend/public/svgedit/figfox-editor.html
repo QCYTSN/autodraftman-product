@@ -7,19 +7,19 @@
     <link href="./svgedit.css" rel="stylesheet" />
     <style>
       @font-face {
-        font-family: "Figtree Variable";
-        src: url("./figtree-latin-wght-normal.woff2") format("woff2-variations");
+        font-family: "Google Sans Flex";
+        src: url("../assets/demo/google-sans-flex-latin.woff2") format("woff2");
         font-style: normal;
-        font-weight: 300 900;
+        font-weight: 100 1000;
         font-display: swap;
       }
 
       :root {
-        --main-bg-color: #f8f7fa;
-        --text-color: #20152b;
-        --border-color: #ded9e5;
-        --canvas-bg-color: #eeecf2;
-        --link-color: #6b3df4;
+        --main-bg-color: #f4f4f8;
+        --text-color: #1e2437;
+        --border-color: #e3e3ed;
+        --canvas-bg-color: #f2f2f7;
+        --link-color: #6243ce;
         --ruler-color: #f4f2f7;
         --icon-bg-color: #fff;
         --icon-bg-color-hover: #eee8ff;
@@ -33,7 +33,7 @@
         grid-template-rows: minmax(0, 1fr);
         grid-template-columns: minmax(0, 1fr);
         grid-template-areas: "workarea";
-        font-family: "Figtree Variable", "Segoe UI", "Noto Sans SC", sans-serif;
+        font-family: "Google Sans Flex", "Noto Sans SC", sans-serif;
         font-size: 11px;
         background: #f8f7fa;
       }
@@ -53,9 +53,7 @@
         min-width: 0;
         min-height: 0;
         border: 0;
-        background: linear-gradient(#e7e4eb 1px, transparent 1px),
-          linear-gradient(90deg, #e7e4eb 1px, transparent 1px), #f0eef3;
-        background-size: 24px 24px;
+        background: #f2f2f7;
       }
       #svgcanvas { background: transparent; }
     </style>

@@ -10,6 +10,7 @@
     "preview": "vite preview --host 127.0.0.1",
     "review": "node scripts/run-visual-review.mjs",
     "review:quality": "node scripts/run-quality.mjs",
+    "review:product": "node scripts/product-check.mjs",
     "review:pages": "node scripts/run-pages-review.mjs"
   },
   "dependencies": {

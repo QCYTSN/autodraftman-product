@@ -10,6 +10,7 @@ const defaultRoutes = [
   "/",
   "/examples",
   "/workspace",
+  "/editor",
   "/pricing",
   "/docs",
   "/feedback",
@@ -48,6 +49,9 @@ for (const language of languages) {
     });
 
       await page.goto(`${baseUrl}${route}`, { waitUntil: "networkidle" });
+      if (route === "/editor") {
+        await page.locator(".product-editor-empty-footer").waitFor({ state: "visible" });
+      }
       if (route === "/workspace") {
         await page.locator(".mode-switch button").nth(1).click();
       }
@@ -221,7 +225,7 @@ for (const language of languages) {
         docsNavigationMissing:
           window.innerWidth >= 1280 &&
           ![...document.querySelectorAll(document.querySelector(".demo-site")
-            ? ".demo-footer nav a" : ".desktop-nav a")].some(
+            ? ".demo-footer nav a" : ".product-nav a, .product-editor-empty-footer a")].some(
             (link) => new URL(link.href).pathname.endsWith("/docs"),
           ),
       };
