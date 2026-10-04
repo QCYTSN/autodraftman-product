@@ -126,6 +126,8 @@ try {
   await page.getByRole("tab", { name: "创建图片", exact: true }).click();
   await page.getByRole("button", { name: "我的 SVG", exact: true }).click();
   record("The source preview and saved SVG library switch without discarding either");
+  await page.locator(".product-documents").waitFor({ state: "visible" });
+  await page.waitForTimeout(350);
   await page.waitForFunction(() => getComputedStyle(document.querySelector(".workspace-page")).opacity === "1");
   await page.locator(".product-document-preview img").evaluateAll(images => Promise.all(images.map(image => image.decode())));
   await page.screenshot({ path: output + "/library-desktop.png" });

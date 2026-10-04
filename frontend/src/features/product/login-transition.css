@@ -1,6 +1,6 @@
 /* Keep the brand and pointer steady while the surrounding page changes. */
-html[data-figfox-navigation] .product-header .product-brand,
-html[data-figfox-navigation] .product-login-header .product-brand { view-transition-name: figfox-brand; }
+html[data-figfox-navigation^="login-"] .product-header .product-brand,
+html[data-figfox-navigation^="login-"] .product-login-header .product-brand { view-transition-name: figfox-brand; }
 html[data-figfox-navigation] .figfox-cursor { view-transition-name: figfox-pointer; }
 html[data-figfox-navigation]::view-transition { pointer-events: none; }
 html[data-figfox-navigation]::view-transition-group(root) { animation: none; }

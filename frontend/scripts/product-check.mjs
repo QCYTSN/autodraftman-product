@@ -67,6 +67,7 @@ try {
   await page.locator(".product-documents").waitFor();
   assert.equal(await page.locator(".product-workspace-source:visible").count(), 0);
   await page.getByRole("button", { name: "原图预览", exact: true }).click();
+  await page.locator(".product-source-review .product-workspace-source").waitFor({ state: "visible" });
   assert.equal(await page.locator(".product-workspace-source:visible").count(), 1);
   record("Reference image previews locally without an upload or authentication request");
   while (await page.locator(".workspace-record-delete").count() > 1) {

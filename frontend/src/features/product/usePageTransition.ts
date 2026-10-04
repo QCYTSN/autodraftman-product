@@ -1,8 +1,11 @@
 import { useCallback, useEffect, useRef } from "react";
 import { flushSync } from "react-dom";
 import "./login-transition.css";
+import "./page-transition.css";
 
-export function useLoginTransition() {
+export type PageTransitionScope = "login-in" | "login-out" | "workspace" | "editor-in" | "editor-out";
+
+export function usePageTransition() {
   const active = useRef<ViewTransition | null>(null);
   const sequence = useRef(0);
 
@@ -12,19 +15,26 @@ export function useLoginTransition() {
     delete document.documentElement.dataset.figfoxNavigation;
   }, []);
 
-  return useCallback((from: string, to: string, update: () => void) => {
+  return useCallback((scope: PageTransitionScope | null, update: () => void) => {
     const current = ++sequence.current;
     active.current?.skipTransition();
     active.current = null;
     const root = document.documentElement;
     delete root.dataset.figfoxNavigation;
-    const loginNavigation = from !== to && (from === "/login" || to === "/login");
-    if (!loginNavigation || !document.startViewTransition || document.hidden || window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    if (!scope || document.hidden || window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
       update();
       return;
     }
+    if (!document.startViewTransition) {
+      flushSync(update);
+      if (scope === "workspace") document.querySelector(".workspace-layout")?.animate([
+        { opacity: .35, transform: "translateY(5px)" },
+        { opacity: 1, transform: "translateY(0)" },
+      ], { duration: 230, easing: "cubic-bezier(.22,1,.36,1)" });
+      return;
+    }
 
-    root.dataset.figfoxNavigation = to === "/login" ? "login-in" : "login-out";
+    root.dataset.figfoxNavigation = scope;
     try {
       const transition = document.startViewTransition(() => {
         // A newer navigation must win even if an older snapshot is still pending.

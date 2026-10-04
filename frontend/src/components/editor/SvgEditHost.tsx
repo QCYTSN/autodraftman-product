@@ -155,6 +155,7 @@ type SvgEditHostProps = {
   loadingLabel: string;
   onMarkupChange: (markup: string) => void;
   onReadyChange: (ready: boolean) => void;
+  onLoadError?: () => void;
   onStateChange?: (state: SvgEditState) => void;
 };
 
@@ -173,6 +174,7 @@ function SvgEditHost({
   loadingLabel,
   onMarkupChange,
   onReadyChange,
+  onLoadError,
   onStateChange,
 }, ref) {
   const frameRef = useRef<HTMLIFrameElement>(null);
@@ -181,6 +183,7 @@ function SvgEditHost({
   const editorMarkupQueueRef = useRef(new Set<string>());
   const onMarkupChangeRef = useRef(onMarkupChange);
   const onReadyChangeRef = useRef(onReadyChange);
+  const onLoadErrorRef = useRef(onLoadError);
   const onStateChangeRef = useRef(onStateChange);
   const [frameReady, setFrameReady] = useState(false);
   const [error, setError] = useState("");
@@ -190,8 +193,9 @@ function SvgEditHost({
   useEffect(() => {
     onMarkupChangeRef.current = onMarkupChange;
     onReadyChangeRef.current = onReadyChange;
+    onLoadErrorRef.current = onLoadError;
     onStateChangeRef.current = onStateChange;
-  }, [onMarkupChange, onReadyChange, onStateChange]);
+  }, [onMarkupChange, onReadyChange, onStateChange, onLoadError]);
 
   const sendCommand = (command: string, value?: unknown) => {
     frameRef.current?.contentWindow?.postMessage(
@@ -221,6 +225,11 @@ function SvgEditHost({
     lastEditorMarkupRef.current = "";
     editorMarkupQueueRef.current.clear();
     onReadyChangeRef.current(false);
+    const startupTimeout = window.setTimeout(() => {
+      setError(language === "zh" ? "编辑器未能完成加载，请返回工作台后重试。" : "The editor could not finish loading. Return to the workspace and try again.");
+      onReadyChangeRef.current(false);
+      onLoadErrorRef.current?.();
+    }, 15000);
 
     function receiveMessage(event: MessageEvent<SvgEditFrameMessage>) {
       if (event.source !== frameRef.current?.contentWindow) return;
@@ -238,6 +247,8 @@ function SvgEditHost({
         );
       }
       if (event.data.type === "loaded") {
+        window.clearTimeout(startupTimeout);
+        setError("");
         lastEditorMarkupRef.current = event.data.markup ?? latestMarkupRef.current;
         onReadyChangeRef.current(true);
       }
@@ -254,13 +265,16 @@ function SvgEditHost({
         onStateChangeRef.current?.(event.data.state);
       }
       if (event.data.type === "error") {
+        window.clearTimeout(startupTimeout);
         setError(event.data.message || "SVG-Edit failed to load.");
         onReadyChangeRef.current(false);
+        onLoadErrorRef.current?.();
       }
     }
 
     window.addEventListener("message", receiveMessage);
     return () => {
+      window.clearTimeout(startupTimeout);
       window.removeEventListener("message", receiveMessage);
       onReadyChangeRef.current(false);
     };

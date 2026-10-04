@@ -55,8 +55,7 @@ import {
   type KeyboardEvent as ReactKeyboardEvent,
   type ReactNode,
   useEffect,
-  lazy,
-  Suspense,
+  useLayoutEffect,
   useRef,
   useState,
 } from "react";
@@ -119,18 +118,26 @@ import { ProductPromptField } from "./features/product/ProductPromptField";
 import { FigureProcessPreview } from "./features/product/FigureProcess";
 import { ProductLoginPage } from "./features/product/ProductLoginPage";
 import { PublicFeedbackPage } from "./features/product/PublicFeedbackPage";
-import { useLoginTransition } from "./features/product/useLoginTransition";
+import { usePageTransition, type PageTransitionScope } from "./features/product/usePageTransition";
+import { ProductEditorRoute } from "./features/product/ProductEditorRoute";
 import "./features/product/product.css";
 import "./features/product/workspace.css";
 import { FigFoxSelect } from "./components/ui/FigFoxSelect";
 import { FigFoxCursor } from "./components/ui/FigFoxCursor";
 import { FigFoxDemoPage } from "./features/demo/FigFoxDemoPage";
-const ProductSvgEditorPage = lazy(() => import("./features/product/ProductSvgEditorPage").then(module => ({ default: module.ProductSvgEditorPage })));
 
 type Language = ProductLanguage;
 type Identity = "guest" | "user" | null;
 type AuthChoice = "guest" | "google" | "github" | "wechat";
 type RoutePath = ProductRoute;
+function routeTransition(from: RoutePath, to: RoutePath): PageTransitionScope | null {
+  if (from === to) return null;
+  if (to === "/login") return "login-in";
+  if (from === "/login") return "login-out";
+  if (to === "/editor") return "editor-in";
+  if (from === "/editor") return "editor-out";
+  return null;
+}
 type DraftSaveState =
   | "saved"
   | "saving"
@@ -1270,6 +1277,7 @@ function WorkspacePage({
   requestAuth,
   onAccount,
   onOpenEditor,
+  onViewTransition,
 }: {
   active?: boolean;
   ui: UiCopy;
@@ -1280,6 +1288,7 @@ function WorkspacePage({
   requestAuth: (action: () => void) => void;
   onAccount: () => void;
   onOpenEditor: () => void;
+  onViewTransition: (update: () => void, animate: boolean) => void;
 }) {
   const workspaceCopy = figFoxWorkspaceCopy[language];
   const [taskMode, setTaskMode] = useState<"create" | "rebuild">("create");
@@ -1292,6 +1301,15 @@ function WorkspacePage({
     catch { return "task"; }
   });
   const [processPreview, setProcessPreview] = useState(false);
+  useLayoutEffect(() => {
+    if (!active) return;
+    try {
+      if (window.sessionStorage.getItem("figfox-workspace-view") === "documents") {
+        setWorkspaceView("documents");
+        setProcessPreview(false);
+      }
+    } catch { /* The current view remains available without persisted navigation. */ }
+  }, [active]);
   useEffect(() => {
     try { window.sessionStorage.setItem("figfox-workspace-view", workspaceView); }
     catch { /* The current view remains usable when storage is unavailable. */ }
@@ -1939,11 +1957,14 @@ function WorkspacePage({
     }
   };
 
-  const returnToDraft = () => {
-    setWorkspaceView("task");
-    setProcessPreview(false);
-    window.requestAnimationFrame(() => document.getElementById("figure-prompt")?.focus({ preventScroll: true }));
+  const changeWorkspaceView = (nextView: "task" | "documents" | "source", focusPrompt = false) => {
+    onViewTransition(() => {
+      setWorkspaceView(nextView);
+      setProcessPreview(false);
+      if (focusPrompt) window.requestAnimationFrame(() => document.getElementById("figure-prompt")?.focus({ preventScroll: true }));
+    }, nextView !== workspaceView || processPreview);
   };
+  const returnToDraft = () => changeWorkspaceView("task", true);
 
   const promptField = <ProductPromptField
     active={active && workspaceView === "task" && !processPreview}
@@ -1959,6 +1980,8 @@ function WorkspacePage({
     message={message}
     invalid={message === ui.workspace.promptError}
   />;
+
+  if (!active) return null;
 
   return (
     <main
@@ -2122,7 +2145,7 @@ function WorkspacePage({
           </div>
           <div className="workspace-heading-actions">
             <button type="button" className="workspace-view-link" aria-pressed={workspaceView === "task" && !processPreview} onClick={returnToDraft}><NotePencil size={16} />{language === "zh" ? "当前草稿" : "Current draft"}</button>
-            <button type="button" className="workspace-view-link" aria-pressed={workspaceView === "documents"} onClick={() => { setProcessPreview(false); setWorkspaceView("documents"); }}><Stack size={16} />{language === "zh" ? "我的 SVG" : "My SVGs"}</button>
+            <button type="button" className="workspace-view-link" aria-pressed={workspaceView === "documents"} onClick={() => changeWorkspaceView("documents")}><Stack size={16} />{language === "zh" ? "我的 SVG" : "My SVGs"}</button>
             <button type="button" className="workspace-editor-link" onClick={onOpenEditor}><BezierCurve size={17} /><span>{language === "zh" ? "打开 SVG 编辑器" : "Open SVG editor"}</span><ArrowUpRight size={14} /></button>
             <button
               className="workspace-mobile-history"
@@ -2148,8 +2171,8 @@ function WorkspacePage({
         {workspaceView !== "task" && !processPreview && <section className={`result-panel ${taskMode}`}>
           <div className="workspace-documents-back"><button type="button" onClick={returnToDraft}><CaretLeft size={16} />{language === "zh" ? "返回草稿" : "Back to draft"}</button></div>
           {taskMode === "rebuild" && referencePreview && <header className="result-toolbar product-result-views" role="group" aria-label={language === "zh" ? "工作区视图" : "Workspace view"}>
-            <button type="button" aria-pressed={workspaceView === "documents"} onClick={() => setWorkspaceView("documents")}>{language === "zh" ? "文件列表" : "Documents"}</button>
-            <button type="button" aria-pressed={workspaceView === "source"} onClick={() => setWorkspaceView("source")}>{language === "zh" ? "原图预览" : "Source preview"}</button>
+            <button type="button" aria-pressed={workspaceView === "documents"} onClick={() => changeWorkspaceView("documents")}>{language === "zh" ? "文件列表" : "Documents"}</button>
+            <button type="button" aria-pressed={workspaceView === "source"} onClick={() => changeWorkspaceView("source")}>{language === "zh" ? "原图预览" : "Source preview"}</button>
           </header>}
           {taskMode === "rebuild" && referencePreview && workspaceView === "source" ? <div className="product-source-review">
             <div className="product-source-review-heading"><h2>{language === "zh" ? "原图预览" : "Source preview"}</h2><span>{referenceFile?.name}</span></div>
@@ -2248,7 +2271,7 @@ function WorkspacePage({
                   <UploadSimple size={15} />
                   {ui.workspace.replace}
                 </button>
-                {taskMode === "rebuild" && <button type="button" onClick={() => setWorkspaceView("source")}>{language === "zh" ? "原图预览" : "Source preview"}<ArrowUpRight size={13} /></button>}
+                {taskMode === "rebuild" && <button type="button" onClick={() => changeWorkspaceView("source")}>{language === "zh" ? "原图预览" : "Source preview"}<ArrowUpRight size={13} /></button>}
                 </div>
               )}
             </div>
@@ -3103,7 +3126,9 @@ export default function App() {
   const initialRoute = routeFromLocation(window.location.pathname);
   const [route, setRoute] = useState<RoutePath>(initialRoute);
   const currentRoute = useRef<RoutePath>(initialRoute);
-  const animateNavigation = useLoginTransition();
+  const transitionPage = usePageTransition();
+  const [workspaceVisited, setWorkspaceVisited] = useState(initialRoute === "/workspace");
+  useEffect(() => { if (route === "/workspace") setWorkspaceVisited(true); }, [route]);
   const [language, setLanguage] = useState<Language>(() => {
     const stored = window.localStorage.getItem("autodraftman-language");
     return stored === "en" ? "en" : "zh";
@@ -3139,15 +3164,15 @@ export default function App() {
     const handlePopState = () => {
       pendingAction.current = null;
       const nextRoute = routeFromLocation(window.location.pathname);
-      animateNavigation(currentRoute.current, nextRoute, () => {
+      transitionPage(routeTransition(currentRoute.current, nextRoute), () => {
         currentRoute.current = nextRoute;
         setRoute(nextRoute);
-        if (nextRoute === "/login") window.scrollTo({ top: 0, behavior: "instant" });
+        if (nextRoute === "/login" || nextRoute === "/editor") window.scrollTo({ top: 0, behavior: "instant" });
       });
     };
     window.addEventListener("popstate", handlePopState);
     return () => window.removeEventListener("popstate", handlePopState);
-  }, [animateNavigation]);
+  }, [transitionPage]);
 
   useEffect(() => {
     if (!apiConfigured) return;
@@ -3248,14 +3273,14 @@ export default function App() {
     if (path === "/workspace" && previousRoute === "/editor") {
       try { window.sessionStorage.setItem("figfox-workspace-view", "documents"); } catch { /* The workspace can still open without persisted view state. */ }
     }
-    animateNavigation(previousRoute, path, () => {
+    transitionPage(routeTransition(previousRoute, path), () => {
       const nextHref = routeHref(path);
       if (window.location.pathname !== nextHref) {
         window.history.pushState({}, "", nextHref);
       }
       currentRoute.current = path;
       setRoute(path);
-      window.scrollTo({ top: 0, behavior: previousRoute === "/login" || path === "/login" ? "instant" : "smooth" });
+      window.scrollTo({ top: 0, behavior: routeTransition(previousRoute, path) ? "instant" : "smooth" });
     });
   };
 
@@ -3450,7 +3475,7 @@ export default function App() {
         {route === "/examples" && (
           <ExamplesPage ui={ui} language={language} onNavigate={navigate} />
         )}
-        {(route === "/workspace" || route === "/login" && authReturnRoute === "/workspace") && <div hidden={route !== "/workspace"} inert={route !== "/workspace" ? true : undefined}>
+        {(route === "/workspace" || route === "/login" && authReturnRoute === "/workspace" || route === "/editor" && workspaceVisited) && <div hidden={route !== "/workspace"} inert={route !== "/workspace" ? true : undefined}>
           <WorkspacePage
             active={route === "/workspace"}
             ui={ui}
@@ -3460,6 +3485,7 @@ export default function App() {
             credits={credits}
             requestAuth={requestAuth}
             onOpenEditor={() => navigate("/editor")}
+            onViewTransition={(update, animate) => transitionPage(animate ? "workspace" : null, update)}
             onAccount={() => {
               if (identity === "user") {
                 void openAccount();
@@ -3471,9 +3497,7 @@ export default function App() {
         </div>}
         {route === "/login" && <ProductLoginPage language={language} providers={providers} busy={authBusy} error={authError} onSelect={choice => void selectIdentity(choice)} onBack={() => { pendingAction.current = null; setAuthError(""); navigate(authReturnRoute); }} onLanguageChange={() => setLanguage(value => value === "zh" ? "en" : "zh")} hrefFor={routeHref} onNavigate={navigate} />}
         {route === "/editor" && (
-          <Suspense fallback={<div className="product-editor-loading" role="status">{language === "zh" ? "正在打开编辑器…" : "Opening editor…"}</div>}>
-            <ProductSvgEditorPage ui={ui} language={language} onLanguageChange={() => setLanguage(value => value === "zh" ? "en" : "zh")} onNavigate={navigate} hrefFor={routeHref} />
-          </Suspense>
+          <ProductEditorRoute ui={ui} language={language} onLanguageChange={() => setLanguage(value => value === "zh" ? "en" : "zh")} onNavigate={navigate} hrefFor={routeHref} />
         )}
         {route === "/pricing" && (
           <ProductPricingPage language={language} onNavigate={navigate} hrefFor={routeHref} />
