@@ -1,3 +1,6 @@
+import { SelectionInspector } from "./SelectionInspector";
+import { DocumentPanel, LayerPanel, PaintDialog } from "./EditorPanels";
+import "./editor-controls.css";
 import {
   AlignBottom,
   AlignCenterHorizontal,
@@ -16,10 +19,7 @@ import {
   Copy,
   DotsThree,
   Eye,
-  EyeSlash,
   Eyedropper,
-  FlipHorizontal,
-  FlipVertical,
   GridFour,
   Hand,
   ImageSquare,
@@ -39,8 +39,6 @@ import {
   SlidersHorizontal,
   Stack,
   Star,
-  TextB,
-  TextItalic,
   TextT,
   Trash,
   UploadSimple,
@@ -60,7 +58,7 @@ import type {
   SvgEditCommand,
   SvgEditHandle,
   SvgEditMode,
-  SvgEditSelection,
+  SvgEditPaint,
   SvgEditState,
 } from "./SvgEditHost";
 
@@ -399,12 +397,20 @@ function ColorControl({
   label,
   value,
   onChange,
+  onAdvanced,
+  advancedLabel,
+  paint,
 }: {
+  paint?: SvgEditPaint;
+  onAdvanced: () => void;
+  advancedLabel: string;
   label: string;
   value: string;
   onChange: (value: string) => void;
 }) {
-  const visibleColor = value === "none" ? "transparent" : value;
+  const complexPaint = value === "mixed" || value.includes("url(");
+  const gradient = paint?.stops.length ? `${paint.kind === "radial" ? "radial-gradient(circle" : "linear-gradient(90deg"}, ${paint.stops.map(stop => `${stop.color} ${stop.offset * 100}%`).join(", ")})` : "repeating-linear-gradient(135deg, #ddd 0 4px, #fff 4px 8px)";
+  const visibleColor = complexPaint ? gradient : value === "none" ? "transparent" : value;
 
   return (
     <Popover.Root>
@@ -441,10 +447,11 @@ function ColorControl({
               <span>Custom</span>
               <input
                 type="color"
-                value={value === "none" ? "#ffffff" : value}
+                value={/^#[0-9a-f]{6}$/i.test(value) ? value : "#ffffff"}
                 onChange={(event) => onChange(event.target.value)}
               />
             </label>
+            <Popover.Close className="ff-inspector-wide-action" onClick={onAdvanced}>{advancedLabel}</Popover.Close>
           </Popover.Popup>
         </Popover.Positioner>
       </Popover.Portal>
@@ -479,239 +486,6 @@ function MenuAction({
   );
 }
 
-function InspectorNumber({
-  label,
-  value,
-  onChange,
-  min,
-}: {
-  label: string;
-  value: number;
-  onChange: (value: number) => void;
-  min?: number;
-}) {
-  return (
-    <label className="ff-inspector-number">
-      <span>{label}</span>
-      <input
-        type="number"
-        value={Number.isFinite(value) ? Math.round(value * 100) / 100 : 0}
-        min={min}
-        step="0.5"
-        onChange={(event) => {
-          if (event.target.value !== "") onChange(Number(event.target.value));
-        }}
-      />
-    </label>
-  );
-}
-
-function SelectionInspector({
-  zh,
-  selection,
-  mode,
-  editor,
-  onReplaceImage,
-}: {
-  zh: boolean;
-  selection: SvgEditSelection | null;
-  mode: SvgEditMode;
-  editor: SvgEditHandle | null;
-  onReplaceImage: () => void;
-}) {
-  const setAttribute = (name: string, value: string | number) =>
-    editor?.execute("attribute", { name, value });
-
-  if (!selection) {
-    return (
-      <div className="ff-inspector-empty">
-        <Selection size={24} weight="duotone" aria-hidden="true" />
-        <strong>{zh ? "还没有选中对象" : "Nothing selected"}</strong>
-        <p>{zh ? "选择画布中的对象后，这里会显示尺寸、样式和文字属性。" : "Select an object to edit its size, style, and text."}</p>
-      </div>
-    );
-  }
-
-  const isText = selection.type === "text";
-  const isImage = selection.type === "image";
-  const isPath = ["path", "line", "polyline", "polygon"].includes(selection.type);
-  const isEditablePath = selection.type === "path";
-  const isNodeEditing = isEditablePath && mode === "pathedit";
-  const canConvertToPath = ["rect", "circle", "ellipse", "line", "polyline", "polygon"].includes(selection.type);
-  const isRect = selection.type === "rect";
-
-  return (
-    <div className="ff-inspector-scroll">
-      <section className="ff-inspector-section ff-selection-summary">
-        <div>
-          <span>{selection.type}</span>
-          <strong>{selection.id || (zh ? "未命名对象" : "Unnamed object")}</strong>
-        </div>
-        <button
-          type="button"
-          className="ff-inspector-danger"
-          onClick={() => editor?.deleteSelection()}
-          aria-label={zh ? "删除对象" : "Delete object"}
-        >
-          <Trash size={16} />
-        </button>
-      </section>
-
-      <section className="ff-inspector-section">
-        <h3>{zh ? "位置与尺寸" : "Position & size"}</h3>
-        <div className="ff-inspector-grid">
-          <InspectorNumber label="X" value={selection.x} onChange={(value) => setAttribute("x", value)} />
-          <InspectorNumber label="Y" value={selection.y} onChange={(value) => setAttribute("y", value)} />
-          <InspectorNumber label="W" value={selection.width} min={0} onChange={(value) => setAttribute("width", value)} />
-          <InspectorNumber label="H" value={selection.height} min={0} onChange={(value) => setAttribute("height", value)} />
-          <InspectorNumber label={zh ? "旋转" : "Rotate"} value={selection.rotation} onChange={(value) => setAttribute("rotation", value)} />
-          {isRect && (
-            <InspectorNumber label={zh ? "圆角" : "Radius"} value={selection.radius} min={0} onChange={(value) => setAttribute("radius", value)} />
-          )}
-        </div>
-        <div className="ff-inspector-icon-row">
-          <button type="button" onClick={() => editor?.execute("rotate-left")} title={zh ? "向左旋转 15°" : "Rotate left 15°"}><ArrowCounterClockwise size={17} /></button>
-          <button type="button" onClick={() => editor?.execute("rotate-right")} title={zh ? "向右旋转 15°" : "Rotate right 15°"}><ArrowClockwise size={17} /></button>
-          <button type="button" onClick={() => editor?.execute("flip-horizontal")} title={zh ? "水平翻转" : "Flip horizontal"}><FlipHorizontal size={17} /></button>
-          <button type="button" onClick={() => editor?.execute("flip-vertical")} title={zh ? "垂直翻转" : "Flip vertical"}><FlipVertical size={17} /></button>
-        </div>
-      </section>
-
-      {isImage && (
-        <section className="ff-inspector-section">
-          <h3>{zh ? "图片" : "Image"}</h3>
-          <button type="button" className="ff-inspector-wide-action" onClick={onReplaceImage}>
-            <ImageSquare size={17} />
-            <span>{zh ? "替换图片内容" : "Replace image source"}</span>
-          </button>
-          <p className="ff-inspector-note">{zh ? "会保留当前对象的位置、尺寸和变换。" : "Position, size, and transforms stay unchanged."}</p>
-        </section>
-      )}
-
-      {isText && (
-        <section className="ff-inspector-section">
-          <h3>{zh ? "文字" : "Type"}</h3>
-          <textarea
-            className="ff-inspector-textarea"
-            value={selection.text}
-            rows={3}
-            onChange={(event) => editor?.execute("text-content", event.target.value)}
-          />
-          <label className="ff-inspector-select">
-            <span>{zh ? "字体" : "Font"}</span>
-            <select value={selection.fontFamily} onChange={(event) => editor?.execute("font-family", event.target.value)}>
-              <option value="Figtree">Figtree</option>
-              <option value="Noto Sans SC">Noto Sans SC</option>
-              <option value="Arial">Arial</option>
-              <option value="Helvetica">Helvetica</option>
-              <option value="Times New Roman">Times New Roman</option>
-              <option value="serif">Serif</option>
-              <option value="monospace">Monospace</option>
-            </select>
-          </label>
-          <div className="ff-type-controls">
-            <InspectorNumber label={zh ? "字号" : "Size"} value={selection.fontSize} min={1} onChange={(value) => editor?.execute("font-size", value)} />
-            <button type="button" data-active={selection.fontWeight === "bold"} onClick={() => editor?.execute("bold")}><TextB size={18} /></button>
-            <button type="button" data-active={selection.fontStyle === "italic"} onClick={() => editor?.execute("italic")}><TextItalic size={18} /></button>
-            <button type="button" onClick={() => editor?.execute("underline")}><span className="ff-underlined">U</span></button>
-            <button type="button" onClick={() => editor?.execute("strike")}><span className="ff-struck">S</span></button>
-            <button type="button" onClick={() => editor?.execute("overline")}><span className="ff-overlined">O</span></button>
-          </div>
-          <label className="ff-inspector-select">
-            <span>{zh ? "对齐" : "Anchor"}</span>
-            <select value={selection.textAnchor} onChange={(event) => setAttribute("text-anchor", event.target.value)}>
-              <option value="start">{zh ? "左对齐" : "Left"}</option>
-              <option value="middle">{zh ? "居中" : "Center"}</option>
-              <option value="end">{zh ? "右对齐" : "Right"}</option>
-            </select>
-          </label>
-        </section>
-      )}
-
-      <section className="ff-inspector-section">
-        <h3>{zh ? "描边细节" : "Stroke detail"}</h3>
-        <div className="ff-inspector-grid">
-          <label className="ff-inspector-select compact">
-            <span>{zh ? "端点" : "Cap"}</span>
-            <select value={selection.strokeLinecap} onChange={(event) => setAttribute("stroke-linecap", event.target.value)}>
-              <option value="butt">Butt</option>
-              <option value="round">Round</option>
-              <option value="square">Square</option>
-            </select>
-          </label>
-          <label className="ff-inspector-select compact">
-            <span>{zh ? "转角" : "Join"}</span>
-            <select value={selection.strokeLinejoin} onChange={(event) => setAttribute("stroke-linejoin", event.target.value)}>
-              <option value="miter">Miter</option>
-              <option value="round">Round</option>
-              <option value="bevel">Bevel</option>
-            </select>
-          </label>
-        </div>
-        <label className="ff-inspector-select">
-          <span>{zh ? "线型" : "Dash"}</span>
-          <select value={selection.strokeDasharray} onChange={(event) => setAttribute("stroke-dasharray", event.target.value)}>
-            <option value="none">{zh ? "实线" : "Solid"}</option>
-            <option value="2,2">····</option>
-            <option value="5,5">- - -</option>
-            <option value="10,5">— —</option>
-            <option value="10,5,2,5">— · —</option>
-          </select>
-        </label>
-        {isPath && (
-          <div className="ff-marker-grid">
-            <label className="ff-inspector-select compact">
-              <span>{zh ? "起点" : "Start"}</span>
-              <select onChange={(event) => editor?.execute("marker-start", event.target.value)}>
-                <option value="nomarker">{zh ? "无" : "None"}</option>
-                <option value="leftarrow">Arrow</option>
-                <option value="box">Box</option>
-                <option value="mcircle">Circle</option>
-              </select>
-            </label>
-            <label className="ff-inspector-select compact">
-              <span>{zh ? "终点" : "End"}</span>
-              <select onChange={(event) => editor?.execute("marker-end", event.target.value)}>
-                <option value="nomarker">{zh ? "无" : "None"}</option>
-                <option value="rightarrow">Arrow</option>
-                <option value="box">Box</option>
-                <option value="mcircle">Circle</option>
-              </select>
-            </label>
-          </div>
-        )}
-        <InspectorNumber label={zh ? "模糊" : "Blur"} value={selection.blur} min={0} onChange={(value) => setAttribute("blur", value)} />
-      </section>
-
-      {(isEditablePath || canConvertToPath) && (
-        <section className="ff-inspector-section">
-          <h3>{zh ? "路径" : "Path"}</h3>
-          <div className="ff-inspector-action-grid">
-            {canConvertToPath && (
-              <button type="button" onClick={() => editor?.execute("convert-path")}>{zh ? "转为路径" : "Convert to path"}</button>
-            )}
-            {isEditablePath && (
-              <>
-                <button type="button" data-active={isNodeEditing} onClick={() => editor?.execute("path-edit")}>{zh ? "编辑节点" : "Edit nodes"}</button>
-                <button type="button" onClick={() => editor?.execute("reorient-path")}>{zh ? "重置方向" : "Reorient"}</button>
-              </>
-            )}
-            {isNodeEditing && (
-              <>
-                <button type="button" onClick={() => editor?.execute("path-node-clone")}>{zh ? "复制节点" : "Clone node"}</button>
-                <button type="button" onClick={() => editor?.execute("path-node-delete")}>{zh ? "删除节点" : "Delete node"}</button>
-                <button type="button" onClick={() => editor?.execute("path-open-close")}>{zh ? "打开 / 闭合" : "Open / close"}</button>
-                <button type="button" onClick={() => editor?.execute("path-add-subpath")}>{zh ? "添加子路径" : "Add subpath"}</button>
-                <button type="button" onClick={() => editor?.execute("path-link-controls")}>{zh ? "链接控制点" : "Link controls"}</button>
-              </>
-            )}
-          </div>
-        </section>
-      )}
-    </div>
-  );
-}
-
 export function FigFoxEditorChrome({
   language,
   ready,
@@ -725,9 +499,11 @@ export function FigFoxEditorChrome({
   const [inspectorOpen, setInspectorOpen] = useState(
     () => typeof window === "undefined" || !window.matchMedia("(max-width: 1180px)").matches,
   );
-  const [inspectorTab, setInspectorTab] = useState<"layers" | "properties">("properties");
+  const [inspectorTab, setInspectorTab] = useState<"layers" | "properties" | "document">("properties");
   const [shapeLibraryOpen, setShapeLibraryOpen] = useState(false);
+  const [sourceDraft, setSourceDraft] = useState(sourceMarkup);
   const [sourceOpen, setSourceOpen] = useState(false);
+  const [paintType, setPaintType] = useState<"fill" | "stroke" | null>(null);
   const [imageDialogOpen, setImageDialogOpen] = useState(false);
   const [replaceImage, setReplaceImage] = useState(false);
   const run = (command: SvgEditCommand, value?: unknown) => editor?.execute(command, value);
@@ -744,8 +520,10 @@ export function FigFoxEditorChrome({
   }, []);
 
   return (
-    <div className="ff-editor-stage" data-ready={ready} data-panel={inspectorOpen ? "open" : "closed"}>
+    <div className="ff-editor-stage" data-ready={ready} data-panel={inspectorOpen && !state.nativeUI ? "open" : "closed"} data-native={state.nativeUI || undefined}>
       {children}
+      {state.nativeUI && <button className="ff-native-return" type="button" onClick={() => run("native-ui", false)}>{zh ? "返回 FigFox 工具" : "Return to FigFox tools"}</button>}
+      {!state.nativeUI && state.context && <button className="ff-editor-context" type="button" onClick={() => run("leave-context")} title={zh ? "退出组内编辑" : "Leave group editing"}><X size={14} /><span>{zh ? "正在编辑组" : "Editing group"} · {state.context.label}</span></button>}
 
       <div className="ff-editor-left-dock">
         <ToggleGroup
@@ -848,7 +626,8 @@ export function FigFoxEditorChrome({
                   <MenuAction label={zh ? "编组" : "Group"} icon={BoundingBox} disabled={state.selectionCount < 2} onClick={() => run("group")} />
                   <MenuAction label={zh ? "取消编组" : "Ungroup"} icon={VectorThree} disabled={!state.hasSelection} onClick={() => run("ungroup")} />
                   <MenuAction label={zh ? "删除" : "Delete"} icon={Trash} disabled={!state.hasSelection} onClick={() => run("delete")} />
-                  <MenuAction label={zh ? "查看源码" : "SVG source"} icon={Code} onClick={() => setSourceOpen(true)} />
+                  <MenuAction label={zh ? "查看源码" : "SVG source"} icon={Code} onClick={() => { const source = editor?.getMarkup(); if (source !== undefined) { setSourceDraft(source); setSourceOpen(true); } }} />
+                  <MenuAction label={zh ? "完整工具" : "All tools"} icon={SlidersHorizontal} onClick={() => run("native-ui", true)} />
                 </div>
               </Popover.Popup>
             </Popover.Positioner>
@@ -865,6 +644,7 @@ export function FigFoxEditorChrome({
             <Popover.Positioner sideOffset={10} className="ff-editor-popover-positioner">
               <Popover.Popup className="ff-editor-popover ff-editor-arrange-popover">
                 <Popover.Title className="ff-editor-popover-title">{zh ? "对齐与层级" : "Align & order"}</Popover.Title>
+                <label className="ff-inspector-select"><span>{zh ? "对齐参照" : "Relative to"}</span><select aria-label={zh ? "对齐参照" : "Align relative to"} value={state.alignRelative || "selected"} onChange={event => run("align-relative", event.target.value)}><option value="selected">{zh ? "选中对象" : "Selection"}</option><option value="page">{zh ? "画布" : "Page"}</option><option value="largest">{zh ? "最大对象" : "Largest object"}</option><option value="smallest">{zh ? "最小对象" : "Smallest object"}</option></select></label>
                 <div className="ff-arrange-label">{zh ? "对齐" : "Align"}</div>
                 <div className="ff-arrange-row">
                   {[
@@ -895,8 +675,8 @@ export function FigFoxEditorChrome({
         </Popover.Root>
 
         <Toolbar.Separator className="ff-editor-separator" />
-        <ColorControl label={zh ? "填充" : "Fill"} value={state.fill} onChange={(value) => editor?.setFill(value)} />
-        <ColorControl label={zh ? "描边" : "Stroke"} value={state.stroke} onChange={(value) => editor?.setStroke(value)} />
+        <ColorControl label={zh ? "填充" : "Fill"} value={state.fill} paint={state.paints?.fill} onAdvanced={() => setPaintType("fill")} advancedLabel={zh ? "渐变与透明度" : "Gradient & opacity"} onChange={(value) => editor?.setFill(value)} />
+        <ColorControl label={zh ? "描边" : "Stroke"} value={state.stroke} paint={state.paints?.stroke} onAdvanced={() => setPaintType("stroke")} advancedLabel={zh ? "渐变与透明度" : "Gradient & opacity"} onChange={(value) => editor?.setStroke(value)} />
 
         <NumberField.Root className="ff-editor-number-field" value={state.strokeWidth} min={0} max={64} step={0.5} disabled={!ready} onValueChange={(value) => editor?.setStrokeWidth(value ?? 0)}>
           <span className="ff-editor-field-label">{zh ? "线宽" : "Width"}</span>
@@ -946,17 +726,19 @@ export function FigFoxEditorChrome({
         <Toolbar.Button className="ff-editor-icon-button" data-active={inspectorOpen} disabled={!ready} onClick={() => setInspectorOpen((value) => !value)} aria-label={zh ? "打开属性面板" : "Toggle inspector"} title={zh ? "属性与图层" : "Inspector and layers"}><SlidersHorizontal size={18} /></Toolbar.Button>
       </Toolbar.Root>
 
-      {inspectorOpen && (
+      {inspectorOpen && ready && (
         <aside className="ff-editor-inspector" aria-label={zh ? "属性与图层" : "Inspector and layers"}>
-          <Tabs.Root value={inspectorTab} onValueChange={(value) => setInspectorTab(value as "layers" | "properties")}>
+          <Tabs.Root value={inspectorTab} onValueChange={(value) => setInspectorTab(value as "layers" | "properties" | "document")}>
             <Tabs.List className="ff-inspector-tabs">
               <Tabs.Tab value="properties"><SlidersHorizontal size={16} />{zh ? "属性" : "Properties"}</Tabs.Tab>
-              <Tabs.Tab value="layers"><Stack size={16} />{zh ? "图层" : "Layers"}<span>{state.layers.length}</span></Tabs.Tab>
+              <Tabs.Tab value="layers"><Stack size={16} />{zh ? "图层" : "Layers"}<span>{state.objectCount ?? state.layers.length}</span></Tabs.Tab>
+              <Tabs.Tab value="document"><Rectangle size={16} />{zh ? "页面" : "Page"}</Tabs.Tab>
               <Tabs.Indicator className="ff-inspector-tab-indicator" />
             </Tabs.List>
           </Tabs.Root>
           {inspectorTab === "properties" ? (
             <SelectionInspector
+              key={state.selection?.id || "empty"}
               zh={zh}
               selection={state.selection}
               mode={state.mode}
@@ -967,30 +749,12 @@ export function FigFoxEditorChrome({
               }}
             />
           ) : (
-            <div className="ff-layer-list">
-              {state.layers.length ? state.layers.map((layer) => (
-                <div className="ff-layer-row" data-selected={layer.selected} key={layer.id}>
-                  <button
-                    type="button"
-                    className="ff-layer-select"
-                    style={{ paddingLeft: `${0.45 + layer.depth * 0.55}rem` }}
-                    onClick={() => run("select-layer", layer.id)}
-                  >
-                    <span className="ff-layer-type">{layer.type.slice(0, 1).toUpperCase()}</span>
-                    <span><strong>{layer.label}</strong><small>{layer.type}</small></span>
-                  </button>
-                  <button type="button" className="ff-layer-visibility" onClick={() => run("toggle-layer", layer.id)} aria-label={layer.hidden ? (zh ? "显示图层" : "Show layer") : (zh ? "隐藏图层" : "Hide layer")}>
-                    {layer.hidden ? <EyeSlash size={16} /> : <Eye size={16} />}
-                  </button>
-                </div>
-              )) : (
-                <div className="ff-inspector-empty"><Stack size={24} weight="duotone" /><strong>{zh ? "文档里还没有对象" : "No objects yet"}</strong><p>{zh ? "绘制或导入内容后，图层会显示在这里。" : "Draw or import content to create layers."}</p></div>
-              )}
-            </div>
+            inspectorTab === "layers" ? <LayerPanel state={state} editor={editor} zh={zh} /> : <DocumentPanel state={state} editor={editor} zh={zh} />
           )}
         </aside>
       )}
 
+      <button className="ff-mobile-inspector" type="button" disabled={!ready} onClick={() => setInspectorOpen(value => !value)} aria-label={zh ? "属性、图层与页面" : "Properties, layers and page"}><SlidersHorizontal size={17} />{zh ? "面板" : "Panels"}</button>
       <Toolbar.Root className="ff-editor-zoom" aria-label={zh ? "画布缩放" : "Canvas zoom"}>
         <Toolbar.Button className="ff-editor-icon-button" disabled={!ready} onClick={() => editor?.zoomOut()} aria-label={zh ? "缩小" : "Zoom out"}><MagnifyingGlassMinus size={17} /></Toolbar.Button>
         <span className="ff-editor-zoom-value">{state.zoom}%</span>
@@ -1008,10 +772,11 @@ export function FigFoxEditorChrome({
           setShapeLibraryOpen(false);
         }}
       />
+      {paintType && <PaintDialog key={paintType} type={paintType} paint={state.paints?.[paintType]} editor={editor} zh={zh} onClose={() => setPaintType(null)} />}
       <SourceEditorDialog
         open={sourceOpen}
         zh={zh}
-        source={sourceMarkup}
+        source={sourceDraft}
         onClose={() => setSourceOpen(false)}
         onApply={onSourceApply}
       />

@@ -15,6 +15,7 @@ export type SvgEditMode =
   | "rect"
   | "ellipse"
   | "text"
+  | "textedit"
   | "image"
   | "zoom"
   | "ext-panning"
@@ -31,7 +32,20 @@ export type SvgEditLayer = {
   depth: number;
   hidden: boolean;
   selected: boolean;
+  parentId: string;
+  hasChildren: boolean;
 };
+
+export type SvgEditPaint = {
+  kind: "solid" | "linear" | "radial" | "reference" | "mixed";
+  color: string;
+  opacity: number;
+  id?: string;
+  stops: { offset: number; color: string; opacity: number }[];
+  attributes: Record<string, string>;
+};
+
+export type SvgEditDocument = { w: number; h: number; unit: string; snap: boolean; snapStep: number };
 
 export type SvgEditSelection = {
   id: string;
@@ -52,8 +66,17 @@ export type SvgEditSelection = {
   strokeLinecap: string;
   strokeLinejoin: string;
   markerStart: string;
+  markerMid: string;
   markerEnd: string;
   blur: number;
+  letterSpacing: number;
+  wordSpacing: number;
+  textLength: number;
+  lengthAdjust: string;
+  className: string;
+  textDecoration: string;
+  node: { x: number; y: number; type: number } | null;
+  geometry: Record<string, number>;
 };
 
 export type SvgEditState = {
@@ -71,9 +94,29 @@ export type SvgEditState = {
   layers: SvgEditLayer[];
   gridVisible: boolean;
   wireframe: boolean;
+  selectedIds?: string[];
+  objectCount?: number;
+  paints?: { fill: SvgEditPaint; stroke: SvgEditPaint };
+  document?: SvgEditDocument;
+  documentLayers?: { name: string; active: boolean; visible: boolean }[];
+  nativeUI?: boolean;
+  alignRelative?: string;
+  context?: { id: string; label: string } | null;
 };
 
 export type SvgEditCommand =
+  | "paint"
+  | "geometry"
+  | "layer-action"
+  | "node-attribute"
+  | "node-type"
+  | "align-relative"
+  | "leave-context"
+  | "export-raster"
+  | "document-settings"
+  | "preferences"
+  | "native-ui"
+  | "unlink-use"
   | "undo"
   | "redo"
   | "select-all"
@@ -135,6 +178,7 @@ export type SvgEditCommand =
   | "shape-library";
 
 export type SvgEditHandle = {
+  getMarkup: () => string;
   setMode: (mode: SvgEditMode) => void;
   undo: () => void;
   redo: () => void;
@@ -157,6 +201,7 @@ type SvgEditHostProps = {
   onReadyChange: (ready: boolean) => void;
   onLoadError?: () => void;
   onStateChange?: (state: SvgEditState) => void;
+  onDirty?: () => void;
 };
 
 type SvgEditFrameMessage = {
@@ -176,6 +221,7 @@ function SvgEditHost({
   onReadyChange,
   onLoadError,
   onStateChange,
+  onDirty,
 }, ref) {
   const frameRef = useRef<HTMLIFrameElement>(null);
   const latestMarkupRef = useRef(markup);
@@ -185,8 +231,11 @@ function SvgEditHost({
   const onReadyChangeRef = useRef(onReadyChange);
   const onLoadErrorRef = useRef(onLoadError);
   const onStateChangeRef = useRef(onStateChange);
+  const onDirtyRef = useRef(onDirty);
+  const lastStateRef = useRef<SvgEditState | null>(null);
   const [frameReady, setFrameReady] = useState(false);
   const [error, setError] = useState("");
+  const [commandError, setCommandError] = useState("");
 
   latestMarkupRef.current = markup;
 
@@ -195,16 +244,36 @@ function SvgEditHost({
     onReadyChangeRef.current = onReadyChange;
     onLoadErrorRef.current = onLoadError;
     onStateChangeRef.current = onStateChange;
-  }, [onMarkupChange, onReadyChange, onStateChange, onLoadError]);
+    onDirtyRef.current = onDirty;
+  }, [onMarkupChange, onReadyChange, onStateChange, onLoadError, onDirty]);
+
+  const rememberMarkup = (value: string) => {
+    lastEditorMarkupRef.current = value;
+    editorMarkupQueueRef.current.add(value);
+    if (editorMarkupQueueRef.current.size > 3) {
+      const oldest = editorMarkupQueueRef.current.values().next().value;
+      if (oldest) editorMarkupQueueRef.current.delete(oldest);
+    }
+  };
 
   const sendCommand = (command: string, value?: unknown) => {
-    frameRef.current?.contentWindow?.postMessage(
+    setCommandError("");
+    const frame = frameRef.current?.contentWindow as (Window & { figfoxCommand?: (command: string, value?: unknown) => void }) | null;
+    if (frame?.figfoxCommand) { frame.figfoxCommand(command, value); return; }
+    frame?.postMessage(
       { source: "figfox-app", type: "command", command, value },
       window.location.origin,
     );
   };
 
   useImperativeHandle(ref, () => ({
+    getMarkup: () => {
+      const frame = frameRef.current?.contentWindow as (Window & { figfoxSnapshot?: () => string }) | null;
+      if (!frame?.figfoxSnapshot) throw new Error("Editor is not ready");
+      const value = frame.figfoxSnapshot();
+      rememberMarkup(value);
+      return value;
+    },
     setMode: (mode) => sendCommand("set-mode", mode),
     undo: () => sendCommand("undo"),
     redo: () => sendCommand("redo"),
@@ -233,9 +302,11 @@ function SvgEditHost({
 
     function receiveMessage(event: MessageEvent<SvgEditFrameMessage>) {
       if (event.source !== frameRef.current?.contentWindow) return;
+      if (event.origin !== window.location.origin) return;
       if (event.data?.source !== "figfox-svgedit") return;
 
       if (event.data.type === "ready") {
+        lastEditorMarkupRef.current = latestMarkupRef.current;
         setFrameReady(true);
         frameRef.current?.contentWindow?.postMessage(
           {
@@ -250,19 +321,24 @@ function SvgEditHost({
         window.clearTimeout(startupTimeout);
         setError("");
         lastEditorMarkupRef.current = event.data.markup ?? latestMarkupRef.current;
+        if (event.data.markup) {
+          rememberMarkup(event.data.markup);
+          onMarkupChangeRef.current(event.data.markup);
+        }
         onReadyChangeRef.current(true);
       }
       if (event.data.type === "changed" && event.data.markup) {
-        lastEditorMarkupRef.current = event.data.markup;
-        editorMarkupQueueRef.current.add(event.data.markup);
-        if (editorMarkupQueueRef.current.size > 24) {
-          const oldestMarkup = editorMarkupQueueRef.current.values().next().value;
-          if (oldestMarkup) editorMarkupQueueRef.current.delete(oldestMarkup);
-        }
+        rememberMarkup(event.data.markup);
         onMarkupChangeRef.current(event.data.markup);
       }
       if (event.data.type === "state" && event.data.state) {
-        onStateChangeRef.current?.(event.data.state);
+        const state = { ...lastStateRef.current, ...event.data.state };
+        lastStateRef.current = state;
+        onStateChangeRef.current?.(state);
+      }
+      if (event.data.type === "dirty") onDirtyRef.current?.();
+      if (event.data.type === "command-error") {
+        setCommandError(event.data.message || (language === "zh" ? "操作未能完成" : "The operation could not be completed"));
       }
       if (event.data.type === "error") {
         window.clearTimeout(startupTimeout);
@@ -318,6 +394,7 @@ function SvgEditHost({
           {error}
         </div>
       )}
+      {commandError && <div className="ff-editor-command-error" role="alert"><span>{commandError}</span><button type="button" onClick={() => setCommandError("")} aria-label={language === "zh" ? "关闭提示" : "Dismiss"}>×</button></div>}
     </section>
   );
 });

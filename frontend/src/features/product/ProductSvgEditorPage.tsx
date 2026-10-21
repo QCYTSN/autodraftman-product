@@ -43,6 +43,7 @@ export function ProductSvgEditorPage({ language, ui, onLanguageChange, hrefFor, 
   const documentId = useRef("");
   const saveSequence = useRef(0);
   const importSequence = useRef(0);
+  const exportedMarkup = useRef<string | null>(null);
   const loadingPhase = busy ? "document" : !document || ready || loadingFailed ? "ready" : "canvas";
   useEffect(() => { onLoadingPhaseChange(loadingPhase); }, [loadingPhase, onLoadingPhaseChange]);
 
@@ -62,6 +63,7 @@ export function ProductSvgEditorPage({ language, ui, onLanguageChange, hrefFor, 
   useEffect(() => {
     const snapshot = latestSnapshot.current;
     if (!snapshot) return;
+    if (exportedMarkup.current === markup) { exportedMarkup.current = null; return; }
     const sequence = ++saveSequence.current;
     setSaveState("saving");
     const timer = window.setTimeout(() => {
@@ -70,7 +72,13 @@ export function ProductSvgEditorPage({ language, ui, onLanguageChange, hrefFor, 
     return () => window.clearTimeout(timer);
   }, [document, markup]);
   useEffect(() => {
-    const flush = () => { if (latestSnapshot.current) void saveEditorDocument(latestSnapshot.current).catch(() => undefined); };
+    const flush = () => {
+      if (!latestSnapshot.current) return;
+      try {
+        const markup = editorRef.current?.getMarkup() || latestSnapshot.current.markup;
+        void saveEditorDocument({ ...latestSnapshot.current, markup }).catch(() => undefined);
+      } catch { void saveEditorDocument(latestSnapshot.current).catch(() => undefined); }
+    };
     window.addEventListener("pagehide", flush);
     return () => { saveSequence.current++; window.removeEventListener("pagehide", flush); flush(); };
   }, []);
@@ -81,11 +89,11 @@ export function ProductSvgEditorPage({ language, ui, onLanguageChange, hrefFor, 
     try {
       const imported = await importSvgDocument(file);
       if (sequence !== importSequence.current) return;
-      if (latestSnapshot.current) await saveEditorDocument(latestSnapshot.current).catch(() => undefined);
+      if (latestSnapshot.current) await saveEditorDocument({ ...latestSnapshot.current, markup: editorRef.current?.getMarkup() || latestSnapshot.current.markup }).catch(() => undefined);
       if (sequence !== importSequence.current) return;
       documentId.current = crypto.randomUUID();
       setSaveState("saving");
-      setDocument(imported); setMarkup(imported.markup); setReady(false); setRestored(false);
+      setState(emptyEditorState); setLoadingFailed(false); setDocument(imported); setMarkup(imported.markup); setReady(false); setRestored(false);
     } catch (error) {
       if (sequence === importSequence.current) setImportError(error instanceof SvgImportError ? error.code : "invalid");
     } finally { if (sequence === importSequence.current) setBusy(false); }
@@ -94,7 +102,10 @@ export function ProductSvgEditorPage({ language, ui, onLanguageChange, hrefFor, 
   const createBlank = () => { setNewDocumentOpen(false); void openFile(new File([blankSvg], zh ? "未命名图像.svg" : "untitled-figure.svg", { type: "image/svg+xml" })); };
   async function exportFile() {
     if (!document || !markup || !ready || busy) return;
-    const snapshot = latestSnapshot.current;
+    const currentMarkup = editorRef.current?.getMarkup() || markup;
+    exportedMarkup.current = currentMarkup;
+    setMarkup(currentMarkup);
+    const snapshot = latestSnapshot.current ? { ...latestSnapshot.current, markup: currentMarkup } : null;
     const sequence = ++saveSequence.current;
     setBusy(true);
     try {
@@ -107,7 +118,7 @@ export function ProductSvgEditorPage({ language, ui, onLanguageChange, hrefFor, 
           if (sequence === saveSequence.current) setSaveState("failed");
         }
       }
-      const url = URL.createObjectURL(new Blob([markup], { type: "image/svg+xml" }));
+      const url = URL.createObjectURL(new Blob([currentMarkup], { type: "image/svg+xml" }));
       const link = window.document.createElement("a"); link.href = url; link.download = `${document.fileName.replace(/\.svg$/i, "")}-figfox.svg`; link.click();
       window.setTimeout(() => URL.revokeObjectURL(url), 1000);
     } finally { setBusy(false); }
@@ -123,7 +134,7 @@ export function ProductSvgEditorPage({ language, ui, onLanguageChange, hrefFor, 
     </header>
     <main id="editor-canvas" className="product-editor-main" tabIndex={-1}>
       {error && <div className="product-editor-error" role="alert"><WarningCircle size={18} /><span>{error}</span><button type="button" onClick={() => fileInput.current?.click()}>{zh ? "重新选择" : "Try another file"}</button></div>}
-      {!document ? busy ? <div className="product-editor-loading" role="status">{zh ? "正在读取本地文档…" : "Loading local document…"}</div> : <EditorEmptyState zh={zh} busy={busy} onOpen={() => fileInput.current?.click()} onBlank={createBlank} onDrop={file => void openFile(file)} /> : <FigFoxEditorChrome language={language} ready={ready} state={state} editor={editorRef.current} sourceMarkup={markup} onSourceApply={async source => { setMarkup(await sanitizeSvgMarkup(source, document.fileName)); }}><SvgEditHost ref={editorRef} language={language} markup={markup} loadingLabel={ui.workspace.editorLoading} onMarkupChange={setMarkup} onReadyChange={setReady} onStateChange={setState} onLoadError={() => setLoadingFailed(true)} /></FigFoxEditorChrome>}
+      {!document ? busy ? <div className="product-editor-loading" role="status">{zh ? "正在读取本地文档…" : "Loading local document…"}</div> : <EditorEmptyState zh={zh} busy={busy} onOpen={() => fileInput.current?.click()} onBlank={createBlank} onDrop={file => void openFile(file)} /> : <FigFoxEditorChrome language={language} ready={ready} state={state} editor={editorRef.current} sourceMarkup={markup} onSourceApply={async source => { setMarkup(await sanitizeSvgMarkup(source, document.fileName)); }}><SvgEditHost key={documentId.current} ref={editorRef} language={language} markup={markup} loadingLabel={ui.workspace.editorLoading} onMarkupChange={setMarkup} onReadyChange={setReady} onStateChange={setState} onLoadError={() => setLoadingFailed(true)} /></FigFoxEditorChrome>}
     </main>
     {!document && <footer className="product-editor-empty-footer"><span><Check size={15} />{zh ? "可编辑文字与路径" : "Editable text and paths"}</span><span><BezierCurve size={15} />{zh ? "原生 SVG 编辑" : "Native SVG editing"}</span><ProductLink route="/docs" hrefFor={hrefFor} onNavigate={onNavigate}>{zh ? "查看使用指南" : "Read the guide"}<ArrowRight size={15} /></ProductLink></footer>}
     <Dialog.Root open={newDocumentOpen} onOpenChange={setNewDocumentOpen}><Dialog.Portal><Dialog.Backdrop className="modal-backdrop" /><Dialog.Viewport className="dialog-viewport"><Dialog.Popup className="product-new-document-dialog"><Dialog.Close className="dialog-close" aria-label={zh ? "关闭" : "Close"}><X size={19} /></Dialog.Close><Dialog.Title>{zh ? "新建一张画布？" : "Create a new canvas?"}</Dialog.Title><Dialog.Description>{zh ? "新画布会另存为一份文档，当前文档保留在工作台中。本地保存失败时，请先导出。" : "The new canvas is saved separately. Your current document stays in the workspace. Export first if local saving has failed."}</Dialog.Description><div><Dialog.Close className="product-button product-button-secondary">{zh ? "继续编辑" : "Keep editing"}</Dialog.Close><button className="product-button product-button-primary" type="button" onClick={createBlank}>{zh ? "新建画布" : "Create canvas"}</button></div></Dialog.Popup></Dialog.Viewport></Dialog.Portal></Dialog.Root>
