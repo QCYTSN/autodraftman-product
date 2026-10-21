@@ -1,5 +1,5 @@
 // Remaining SVG-Edit controls exposed through the FigFox UI.
-export function createNativeControls(editor) {
+export function createNativeControls(editor, features) {
   const canvas = editor.svgCanvas;
   const fields = { points: "starNumPoints", ratio: "RadiusMultiplier", shift: "radialShift", sides: "polySides" };
   const selected = () => canvas.getSelectedElements().filter(Boolean);
@@ -79,8 +79,19 @@ export function createNativeControls(editor) {
         if (parsed.querySelectorAll("*").length + canvas.getSvgContent().querySelectorAll("*").length > 12000) throw new Error("插入后的对象数量过多 / Too many objects after insertion");
         const element = canvas.importSvgString(value.markup, Boolean(value.originalSize));
         if (!element) throw new Error("无法插入 SVG / Could not insert SVG");
-        canvas.alignSelectedElements("middle", "page"); canvas.alignSelectedElements("center", "page");
-        canvas.selectOnly([element], true); break;
+        canvas.selectOnly([element], true);
+        // A new <use> needs its referenced tree resolved before measuring. Place
+        // this node directly so centering stays part of the single import undo.
+        await new Promise(requestAnimationFrame);
+        if (!canvas.getSvgContent().contains(element)) break;
+        const box = features.bounds(element), { w, h } = canvas.getResolution();
+        const local = element.parentElement.getScreenCTM().inverse().multiply(canvas.getSvgContent().getScreenCTM());
+        const origin = new DOMPoint(0, 0).matrixTransform(local);
+        const target = new DOMPoint(w / 2 - box.x - box.width / 2, h / 2 - box.y - box.height / 2).matrixTransform(local);
+        element.setAttribute("transform", `translate(${target.x - origin.x} ${target.y - origin.y}) ${element.getAttribute("transform") || ""}`);
+        const selection = selected();
+        canvas.call("changed", [element]);
+        canvas.selectOnly(selection.filter(item => item.isConnected), true); break;
       }
       case "shape-parameter": shapeParameter(value); break;
       case "hyperlink": link(value); break;

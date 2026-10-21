@@ -20,6 +20,7 @@
     "review:editor-capabilities": "node scripts/editor-capabilities-check.mjs",
     "review:editor-selection": "node scripts/editor-selection-check.mjs",
     "review:editor-parity": "node scripts/editor-parity-check.mjs",
+    "review:editor-reliability": "node scripts/editor-reliability-check.mjs",
     "review:pages": "node scripts/run-pages-review.mjs"
   },
   "dependencies": {

@@ -98,6 +98,44 @@ export function installSelection(editor, onStateChange) {
   }
   canvas.getMouseTarget = resolve;
 
+  const topSelection = () => {
+    const elements = canvas.getSelectedElements().filter(Boolean);
+    return elements.filter(element => !elements.some(parent => parent !== element && parent.contains(element)));
+  };
+  const transforms = elements => elements.map(element => {
+    const inverse = element.parentElement.getScreenCTM()?.inverse();
+    if (!inverse || ![inverse.a, inverse.b, inverse.c, inverse.d, inverse.e, inverse.f].every(Number.isFinite)) return null;
+    let matrix = new DOMMatrix();
+    for (const transform of element.transform.baseVal) {
+      const m = transform.matrix;
+      matrix = matrix.multiply(new DOMMatrix([m.a, m.b, m.c, m.d, m.e, m.f]));
+    }
+    return { element, before: element.getAttribute("transform"), inverse, matrix };
+  }).filter(Boolean);
+  function translate(items, from, to) {
+    for (const item of items) {
+      const start = from.matrixTransform(item.inverse), end = to.matrixTransform(item.inverse);
+      const matrix = new DOMMatrix().translate(end.x - start.x, end.y - start.y).multiply(item.matrix);
+      item.element.setAttribute("transform", `matrix(${[matrix.a, matrix.b, matrix.c, matrix.d, matrix.e, matrix.f].join(" ")})`);
+      canvas.selectorManager.requestSelector(item.element).resize();
+    }
+  }
+  const nativeMove = editor.moveSelected.bind(editor);
+  editor.moveSelected = (dx, dy) => {
+    if (canvas.getMode() !== "select") return nativeMove(dx, dy);
+    const elements = topSelection();
+    if (!elements.length || (!dx && !dy)) return;
+    const items = transforms(elements), screen = canvas.getSvgContent().getScreenCTM();
+    if (!items.length || !screen) return;
+    const step = editor.configObj.curConfig.gridSnapping ? editor.configObj.curConfig.snappingStep || 10 : 1 / canvas.getZoom();
+    translate(items, new DOMPoint(0, 0).matrixTransform(screen), new DOMPoint(dx * step, dy * step).matrixTransform(screen));
+    const batch = new canvas.history.BatchCommand("Move selection");
+    for (const { element, before } of items) batch.addSubCommand(new canvas.history.ChangeElementCommand(element, { transform: before }));
+    canvas.addCommandToHistory(batch);
+    canvas.call("changed", elements);
+    onStateChange();
+  };
+
   container.addEventListener("mousemove", event => {
     pointer = event;
     if (hoverFrame) return;
@@ -116,6 +154,12 @@ export function installSelection(editor, onStateChange) {
   container.addEventListener("mousedown", event => {
     pressed = true;
     hide();
+    // SVG-Edit prevents the default mousedown focus change. Restore keyboard
+    // ownership after an outer FigFox field, without stealing text-edit focus.
+    if (canvas.getMode() === "select") {
+      window.focus();
+      if (document.activeElement?.matches("input, textarea, [contenteditable]")) document.activeElement.blur();
+    }
     // Native mouseup removes whole style attributes while cleaning its temporary
     // pointer styles. Preserve authored styles on the affected selection.
     restoreStyles();
@@ -144,15 +188,9 @@ export function installSelection(editor, onStateChange) {
   // selection inside rotated/scaled groups needs the delta in each parent's space.
   container.addEventListener("mousedown", event => {
     if (event.button !== 0 || canvas.spaceKey || canvas.getMode() !== "select" || event.target.closest?.("#selectorParentGroup")) return;
-    const selected = canvas.getSelectedElements().filter(Boolean);
-    const elements = selected.filter(element => !selected.some(parent => parent !== element && parent.contains(element)));
+    const elements = transforms(topSelection());
     if (!elements.length) return;
-    drag = { x: event.clientX, y: event.clientY, clientX: event.clientX, clientY: event.clientY, moved: false, screen: canvas.getSvgContent().getScreenCTM(), elements: elements.map(element => {
-      const inverse = element.parentElement.getScreenCTM().inverse();
-      let matrix = new DOMMatrix();
-      for (const transform of element.transform.baseVal) { const m = transform.matrix; matrix = matrix.multiply(new DOMMatrix([m.a, m.b, m.c, m.d, m.e, m.f])); }
-      return { element, before: element.getAttribute("transform"), inverse, matrix };
-    }) };
+    drag = { x: event.clientX, y: event.clientY, clientX: event.clientX, clientY: event.clientY, moved: false, screen: canvas.getSvgContent().getScreenCTM(), elements };
   });
   function previewDrag() {
     dragFrame = 0;
@@ -163,13 +201,7 @@ export function installSelection(editor, onStateChange) {
       const start = new DOMPoint(drag.x, drag.y).matrixTransform(inverse), point = end.matrixTransform(inverse);
       end = new DOMPoint(start.x + Math.round((point.x - start.x) / step) * step, start.y + Math.round((point.y - start.y) / step) * step).matrixTransform(drag.screen);
     }
-    for (const item of drag.elements) {
-      const start = new DOMPoint(drag.x, drag.y).matrixTransform(item.inverse);
-      const localEnd = end.matrixTransform(item.inverse);
-      const matrix = new DOMMatrix().translate(localEnd.x - start.x, localEnd.y - start.y).multiply(item.matrix);
-      item.element.setAttribute("transform", `matrix(${[matrix.a, matrix.b, matrix.c, matrix.d, matrix.e, matrix.f].join(" ")})`);
-      canvas.selectorManager.requestSelector(item.element).resize();
-    }
+    translate(drag.elements, new DOMPoint(drag.x, drag.y), end);
     canvas.call("transition", drag.elements.map(item => item.element));
   }
   container.addEventListener("mousemove", event => {

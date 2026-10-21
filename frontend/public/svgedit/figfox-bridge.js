@@ -214,7 +214,7 @@ const sendState = () => {
     wireframe: editor.workarea.classList.contains("wireframe"),
     nativeUI, alignRelative, selectionPolicy: selectionController?.policy || "object", nativeControls: nativeControls.state(),
     context: canvas.getCurrentGroup() ? { id: canvas.getCurrentGroup().id, label: elementLabel(canvas.getCurrentGroup(), 0) } : null,
-    document: { ...canvas.getResolution(), unit: editor.configObj.curConfig.baseUnit || "px", snap: Boolean(editor.configObj.curConfig.gridSnapping), snapStep: editor.configObj.curConfig.snappingStep || 10 },
+    document: { ...canvas.getResolution(), unit: features.documentUnit(), snap: Boolean(editor.configObj.curConfig.gridSnapping), snapStep: editor.configObj.curConfig.snappingStep || 10 },
     documentLayers: features.layers(),
   };
   let layers;
@@ -503,8 +503,8 @@ async function handleMessage(event) {
         case "stroke": canvas.setColor("stroke", String(event.data.value)); break;
         case "stroke-width": canvas.setStrokeWidth(Number(event.data.value)); break;
         case "opacity": canvas.setOpacity(Number(event.data.value) / 100); break;
-        case "zoom-in": editor.bottomPanel.changeZoom(String(Math.min(800, canvas.getZoom() * 120))); break;
-        case "zoom-out": editor.bottomPanel.changeZoom(String(Math.max(10, canvas.getZoom() * 80))); break;
+        case "zoom-in": editor.bottomPanel.changeZoom(String(Math.max(1, Math.min(6400, canvas.getZoom() * 120)))); break;
+        case "zoom-out": editor.bottomPanel.changeZoom(String(Math.max(1, Math.min(6400, canvas.getZoom() * 80)))); break;
         case "fit-canvas": editor.bottomPanel.changeZoom("canvas"); break;
         case "fit-selection": editor.bottomPanel.changeZoom("selection"); break;
         case "fit-content": editor.bottomPanel.changeZoom("content"); break;
@@ -559,9 +559,7 @@ async function handleMessage(event) {
     editingPathId = "";
     addingSubPath = false;
     linkedControls = false;
-    const incoming = features.prepareImport(event.data.markup);
-    await editor.loadFromString(incoming.markup, { noAlert: true });
-    incoming.restore();
+    await editor.loadFromString(event.data.markup, { noAlert: true });
     editor.zoomChanged(null, "canvas");
     observeDocument();
     treeDirty = true;
@@ -594,7 +592,7 @@ function observeDocument() {
 }
 editor.init().then(() => {
   features = createEditorFeatures(editor);
-  nativeControls = createNativeControls(editor);
+  nativeControls = createNativeControls(editor, features);
   selectionController = installSelection(editor, scheduleState);
   const savePreferences = editor.mainMenu.savePreferences.bind(editor.mainMenu);
   editor.mainMenu.savePreferences = async event => { await savePreferences(event); nativeControls.rulers(Boolean(editor.configObj.curConfig.showRulers)); scheduleState(); };

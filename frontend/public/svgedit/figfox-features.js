@@ -27,30 +27,30 @@ export function createEditorFeatures(editor) {
     return remove(element, key);
   };
 
-  function prepareImport(markup) {
-    // SVG-Edit's own allowlist predates several safe presentation attributes.
-    // Input has already passed the app sanitizer; preserve only these passive attributes.
-    const parsed = new DOMParser().parseFromString(markup, "image/svg+xml");
+  // Restore passive attributes before import IDs are remapped. This common engine
+  // boundary covers opening, inserting and native source edits, including undo/redo.
+  const prepareSvg = canvas.prepareSvg.bind(canvas);
+  canvas.prepareSvg = parsed => {
     const retained = [];
     const names = ["baseline-shift", "alignment-baseline", "vector-effect", "paint-order", "letter-spacing", "word-spacing", "lengthAdjust", "textLength", "visibility", "shape-rendering", "text-rendering", "shape", "point", "sides", "edge", "starRadiusMultiplier", "starradiusmultiplier", "radialshift", "r", "r2", "cx", "cy", "orient"];
-    const ids = new Set([...parsed.querySelectorAll("[id]")].map(element => element.id));
-    let serial = 0;
     for (const element of parsed.querySelectorAll("*")) {
       const attributes = names.filter(name => element.hasAttribute(name)).map(name => [name, element.getAttribute(name)]);
       if (!attributes.length) continue;
-      if (!element.id) { let id; do { id = `figfox_import_${++serial}`; } while (ids.has(id)); element.id = id; ids.add(id); }
-      retained.push({ id: element.id, tag: element.localName, attributes });
+      retained.push({ element, attributes });
     }
-    return {
-      markup: new XMLSerializer().serializeToString(parsed),
-      restore: () => {
-        for (const { id, tag, attributes } of retained) {
-          const element = document.getElementById(id);
-          if (element?.localName === tag && root().contains(element)) for (const [name, value] of attributes) element.setAttribute(name === "starradiusmultiplier" ? "starRadiusMultiplier" : name, value);
-        }
-      },
-    };
-  }
+    prepareSvg(parsed);
+    for (const { element, attributes } of retained) {
+      if (parsed.documentElement.contains(element)) for (const [name, value] of attributes) {
+        if (name === "starradiusmultiplier") element.removeAttribute(name);
+        element.setAttribute(name === "starradiusmultiplier" ? "starRadiusMultiplier" : name, value);
+      }
+    }
+  };
+
+  const fixedUnits = { px: 1, mm: 96 / 25.4, cm: 96 / 2.54, in: 96, pt: 96 / 72, pc: 16 };
+  // em/ex are native editor display preferences. A standalone document must not
+  // acquire a different intrinsic size from its viewer's font, so use pixels.
+  const documentUnit = () => Object.hasOwn(fixedUnits, editor.configObj.curConfig.baseUnit) ? editor.configObj.curConfig.baseUnit : "px";
 
   function snapshot() {
     // Serialize a detached copy: getSvgString() mutates live path/group editing state.
@@ -70,8 +70,8 @@ export function createEditorFeatures(editor) {
     copy.removeAttribute("y");
     copy.removeAttribute("overflow");
     copy.setAttribute("xmlns", ns);
-    const unit = editor.configObj.curConfig.baseUnit || "px";
-    const factor = ({ px: 1, mm: 96 / 25.4, cm: 96 / 2.54, in: 96, pt: 96 / 72, pc: 16 })[unit] || 1;
+    const unit = documentUnit();
+    const factor = fixedUnits[unit];
     copy.setAttribute("width", unit === "px" ? w : `${w / factor}${unit}`);
     copy.setAttribute("height", unit === "px" ? h : `${h / factor}${unit}`);
     copy.setAttribute("viewBox", `0 0 ${w} ${h}`);
@@ -305,7 +305,7 @@ export function createEditorFeatures(editor) {
     } finally { URL.revokeObjectURL(url); }
   }
 
-  return { snapshot, prepareImport, editText, textRuns, bounds, geometry, paint, applyPaint, layers, layerAction, raster, style, number, reference };
+  return { snapshot, documentUnit, editText, textRuns, bounds, geometry, paint, applyPaint, layers, layerAction, raster, style, number, reference };
 }
 
 // Canvas falls back to PNG for image/bmp. Write a real bottom-up 24-bit BMP.

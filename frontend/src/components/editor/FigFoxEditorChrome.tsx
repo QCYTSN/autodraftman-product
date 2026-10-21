@@ -706,11 +706,11 @@ export function FigFoxEditorChrome({
         <ColorControl label={zh ? "填充" : "Fill"} value={state.fill} paint={state.paints?.fill} onAdvanced={() => setPaintType("fill")} advancedLabel={zh ? "渐变与透明度" : "Gradient & opacity"} onChange={(value) => editor?.setFill(value)} />
         <ColorControl label={zh ? "描边" : "Stroke"} value={state.stroke} paint={state.paints?.stroke} onAdvanced={() => setPaintType("stroke")} advancedLabel={zh ? "渐变与透明度" : "Gradient & opacity"} onChange={(value) => editor?.setStroke(value)} />
 
-        <NumberField.Root className="ff-editor-number-field" value={state.strokeWidth} min={0} max={64} step={0.5} disabled={!ready} onValueChange={(value) => editor?.setStrokeWidth(value ?? 0)}>
+        <NumberField.Root className="ff-editor-number-field" value={state.strokeWidth} min={0} max={99} step={0.5} disabled={!ready} onValueChange={(value) => editor?.setStrokeWidth(value ?? 0)}>
           <span className="ff-editor-field-label">{zh ? "线宽" : "Width"}</span>
           <NumberField.Group className="ff-editor-number-group">
             <NumberField.Decrement className="ff-editor-step-button" aria-label={zh ? "减小线宽" : "Decrease width"}><Minus size={12} weight="bold" /></NumberField.Decrement>
-            <NumberField.Input className="ff-editor-number-input" aria-label={zh ? "线宽" : "Stroke width"} />
+            <NumberField.Input className="ff-editor-number-input" aria-label={zh ? "线宽" : "Stroke width"} onKeyDown={event => { if (event.key === "Enter") event.currentTarget.blur(); }} />
             <NumberField.Increment className="ff-editor-step-button" aria-label={zh ? "增大线宽" : "Increase width"}><Plus size={12} weight="bold" /></NumberField.Increment>
           </NumberField.Group>
         </NumberField.Root>
