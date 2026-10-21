@@ -26,6 +26,7 @@
     "review:editor-formula": "node scripts/editor-formula-check.mjs",
     "review:editor-formula-input": "node scripts/editor-formula-input-check.mjs",
     "review:editor-color": "node scripts/editor-color-check.mjs",
+    "review:editor-parity-repair": "node scripts/editor-parity-repair-check.mjs",
     "review:pages": "node scripts/run-pages-review.mjs"
   },
   "dependencies": {

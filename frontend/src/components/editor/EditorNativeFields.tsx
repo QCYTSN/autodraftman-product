@@ -19,7 +19,7 @@ export function ShapeToolFields({ state, editor, zh }: { state: SvgEditState; ed
   const shape = ["star", "polygon"].includes(state.mode) ? state.mode : state.nativeControls?.shape;
   if (shape !== "star" && shape !== "polygon") return null;
   const fields = shape === "star" ? [["points", "星角数", "Points"], ["ratio", "内外径比例", "Radius ratio"], ["shift", "偏移（弧度）", "Shift (radians)"]] : [["sides", "边数", "Sides"]];
-  return <section className="ff-inspector-section ff-shape-parameters"><h3>{zh ? "绘图参数" : "Shape settings"}</h3><div className="ff-inspector-grid">{fields.map(([name, cn, en]) => <InspectorNumber key={name} label={zh ? cn : en} value={state.nativeControls?.shapeParameters[name] ?? 5} min={name === "shift" ? 0 : name === "ratio" ? 1 : 3} max={name === "shift" ? Math.PI * 2 : 128} onChange={value => editor?.execute("shape-parameter", { name, value })} />)}</div></section>;
+  return <section className="ff-inspector-section ff-shape-parameters"><h3>{zh ? "绘图参数" : "Shape settings"}</h3><div className="ff-inspector-grid">{fields.map(([name, cn, en]) => <InspectorNumber key={name} label={zh ? cn : en} value={state.nativeControls?.shapeParameters[name] ?? 5} min={name === "shift" ? undefined : 1} onChange={value => editor?.execute("shape-parameter", { name, value })} />)}</div></section>;
 }
 
 export function NativeObjectFields({ selection, native, editor, zh }: { selection: SvgEditSelection; native?: SvgEditState["nativeControls"]; editor: SvgEditHandle | null; zh: boolean }) {

@@ -1,4 +1,4 @@
-import { InspectorNumber } from "./EditorFields";
+import { InspectorNumber, InspectorLength } from "./EditorFields";
 import { ArrowClockwise, ArrowCounterClockwise, FlipHorizontal, FlipVertical, ImageSquare, Selection, TextB, TextItalic, Trash } from "@phosphor-icons/react";
 import { useEffect, useRef, useState } from "react";
 import type { SvgEditHandle, SvgEditMode, SvgEditSelection } from "./SvgEditHost";
@@ -13,7 +13,9 @@ export function SelectionInspector({
   editor,
   onReplaceImage,
   native,
+  unit = "px",
 }: {
+  unit?: string;
   zh: boolean;
   selection: SvgEditSelection | null;
   mode: SvgEditMode;
@@ -65,13 +67,13 @@ export function SelectionInspector({
       {!isNodeEditing && <section className="ff-inspector-section">
         <h3>{zh ? "位置与尺寸" : "Position & size"}</h3>
         <div className="ff-inspector-grid">
-          <InspectorNumber label="X" value={selection.x} onChange={(value) => setAttribute("x", value)} />
-          <InspectorNumber label="Y" value={selection.y} onChange={(value) => setAttribute("y", value)} />
-          <InspectorNumber label="W" value={selection.width} min={0} onChange={(value) => setAttribute("width", value)} />
-          <InspectorNumber label="H" value={selection.height} min={0} onChange={(value) => setAttribute("height", value)} />
+          <InspectorLength unit={unit} label="X" value={selection.x} onChange={(value) => setAttribute("x", value)} />
+          <InspectorLength unit={unit} label="Y" value={selection.y} onChange={(value) => setAttribute("y", value)} />
+          <InspectorLength unit={unit} label="W" value={selection.width} min={0} onChange={(value) => setAttribute("width", value)} />
+          <InspectorLength unit={unit} label="H" value={selection.height} min={0} onChange={(value) => setAttribute("height", value)} />
           <InspectorNumber label={zh ? "旋转" : "Rotate"} value={selection.rotation} onChange={(value) => setAttribute("rotation", value)} />
           {isRect && (
-            <InspectorNumber label={zh ? "圆角" : "Radius"} value={selection.radius} min={0} onChange={(value) => setAttribute("radius", value)} />
+            <InspectorLength unit={unit} label={zh ? "圆角" : "Radius"} value={selection.radius} min={0} onChange={(value) => setAttribute("radius", value)} />
           )}
         </div>
         <div className="ff-inspector-icon-row">
@@ -169,7 +171,7 @@ export function SelectionInspector({
         <InspectorNumber label={zh ? "模糊" : "Blur"} value={selection.blur} min={0} onChange={(value) => setAttribute("blur", value)} />
       </section>
 
-      {selection.type !== "selection" && <AdvancedSelectionFields selection={selection} editor={editor} zh={zh} />}
+      {selection.type !== "selection" && <AdvancedSelectionFields unit={unit} selection={selection} editor={editor} zh={zh} />}
       <NativeObjectFields selection={selection} native={native} editor={editor} zh={zh} />
 
       {(isEditablePath || canConvertToPath) && (
@@ -190,8 +192,8 @@ export function SelectionInspector({
                 <button type="button" onClick={() => editor?.execute("path-node-clone")}>{zh ? "复制节点" : "Clone node"}</button>
                 <button type="button" onClick={() => editor?.execute("path-node-delete")}>{zh ? "删除节点" : "Delete node"}</button>
                 <button type="button" onClick={() => editor?.execute("path-open-close")}>{zh ? "打开 / 闭合" : "Open / close"}</button>
-                <button type="button" onClick={() => editor?.execute("path-add-subpath")}>{zh ? "添加子路径" : "Add subpath"}</button>
-                <button type="button" onClick={() => editor?.execute("path-link-controls")}>{zh ? "链接控制点" : "Link controls"}</button>
+                <button type="button" aria-pressed={native?.addingSubPath || false} data-active={native?.addingSubPath} onClick={() => editor?.execute("path-add-subpath")}>{zh ? "添加子路径" : "Add subpath"}</button>
+                <button type="button" aria-pressed={native?.linkedControls || false} data-active={native?.linkedControls} onClick={() => editor?.execute("path-link-controls")}>{zh ? "链接控制点" : "Link controls"}</button>
               </>
             )}
           </div>

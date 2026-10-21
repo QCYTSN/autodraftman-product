@@ -156,8 +156,10 @@ var ext_grid_default = {
 		window.figfoxToggleGrid = () => {
 			svgEditor.configObj.curConfig.showGrid = showGrid = !showGrid;
 			gridUpdate();
+			window.dispatchEvent(new Event('figfox-preferences-changed'));
 			return showGrid;
 		};
+		window.figfoxRefreshGrid = () => { showGrid = Boolean(svgEditor.configObj.curConfig.showGrid); gridUpdate(); };
 		return {
 			name: svgEditor.i18next.t(`${name}:name`),
 			zoomChanged(zoom) {

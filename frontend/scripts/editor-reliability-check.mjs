@@ -71,12 +71,12 @@ try {
   }
   checks.push('F5: Zoom buttons use 1–6400%, remain monotonic and stop at both boundaries');
   await field('%', 100); await pick('box');
-  for (const [requested, expected] of [[90, 90], [150, 99], [0, 0], [90, 90]]) {
+  for (const [requested, expected] of [[90, 90], [150, 150], [0, 0], [90, 90]]) {
     await field('线宽', requested);
     assert.equal(Number(await frame().locator('#box').getAttribute('stroke-width')), expected);
     assert.equal(Number(await page.getByLabel('线宽', { exact: true }).inputValue()), expected);
   }
-  checks.push('F6: Stroke width supports 90/99; clamping and zero agree with the displayed input');
+  checks.push('F6: Stroke width supports 90/150 and zero without an artificial 99 px cap; values agree with the displayed input');
   await page.screenshot({ path: output + '/stroke-width.png' });
 
   for (const zoom of [25, 100]) {
@@ -159,8 +159,8 @@ try {
   for (const unit of ['em', 'ex', 'mm']) {
     await open(sample, `${unit}-input.svg`);
     await command('preferences');
-    await frame().locator('#base_unit').selectOption(unit); await frame().locator('#tool_prefs_save').click(); await settle();
-    await pick('box'); await field('线宽', 9);
+    await page.getByRole('combobox', { name: '单位', exact: true }).selectOption(unit); await page.getByRole('tab', { name: '属性', exact: true }).click(); await settle();
+    await pick('box'); await field('线宽', '9px');
     const saved = await exported(`${unit}-saved.svg`);
     const size = await page.evaluate(async markup => {
       const url = URL.createObjectURL(new Blob([markup], { type: 'image/svg+xml' }));

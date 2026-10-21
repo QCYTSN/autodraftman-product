@@ -1,23 +1,55 @@
 import { CaretDown } from "@phosphor-icons/react";
 import { useState } from "react";
-import { InspectorNumber } from "./EditorFields";
+import { InspectorLength } from "./EditorFields";
 import { Popover } from "@base-ui/react/popover";
 import { Slider } from "@base-ui/react/slider";
 import type { SvgEditHandle, SvgEditPaint, SvgEditState } from "./SvgEditHost";
 import { colorHex, PrecisionColorPicker, readPaintColor } from "./EditorColorPicker";
 
 const palette = [
-  "#20152b",
-  "#ffffff",
-  "#6b3df4",
-  "#9b7cff",
-  "#ef5b2a",
-  "#f4b942",
-  "#24a37a",
-  "#2f6fe4",
-  "#d9446e",
-  "#697386",
-  "none",
+  // Todo: Make into configuration item?
+  'none',
+  '#000000',
+  '#3f3f3f',
+  '#7f7f7f',
+  '#bfbfbf',
+  '#ffffff',
+  '#ff0000',
+  '#ff7f00',
+  '#ffff00',
+  '#7fff00',
+  '#00ff00',
+  '#00ff7f',
+  '#00ffff',
+  '#007fff',
+  '#0000ff',
+  '#7f00ff',
+  '#ff00ff',
+  '#ff007f',
+  '#7f0000',
+  '#7f3f00',
+  '#7f7f00',
+  '#3f7f00',
+  '#007f00',
+  '#007f3f',
+  '#007f7f',
+  '#003f7f',
+  '#00007f',
+  '#3f007f',
+  '#7f007f',
+  '#7f003f',
+  '#ffaaaa',
+  '#ffd4aa',
+  '#ffffaa',
+  '#d4ffaa',
+  '#aaffaa',
+  '#aaffd4',
+  '#aaffff',
+  '#aad4ff',
+  '#aaaaff',
+  '#d4aaff',
+  '#ffaaff',
+  '#ffaad4'
 ];
 
 function ColorControl({
@@ -95,7 +127,7 @@ export function EditorAppearance({ state, editor, zh, ready, onPaint }: { state:
         <ColorControl key={`fill-${state.selection?.id}`} zh={zh} label={zh ? "填充" : "Fill"} value={state.fill} paint={state.paints?.fill} onAdvanced={() => onPaint("fill")} advancedLabel={zh ? "渐变与透明度" : "Gradient & opacity"} onChange={(value) => editor?.setFill(value)} onApply={(color, opacity) => editor?.execute("paint", { type: "fill", kind: "solid", color, opacity })} />
         <ColorControl key={`stroke-${state.selection?.id}`} zh={zh} label={zh ? "描边" : "Stroke"} value={state.stroke} paint={state.paints?.stroke} onAdvanced={() => onPaint("stroke")} advancedLabel={zh ? "渐变与透明度" : "Gradient & opacity"} onChange={(value) => editor?.setStroke(value)} onApply={(color, opacity) => editor?.execute("paint", { type: "stroke", kind: "solid", color, opacity })} />
 
-        <InspectorNumber label={zh ? "线宽" : "Width"} ariaLabel={zh ? "线宽" : "Stroke width"} value={state.strokeWidth} min={0} max={99} onChange={value => { if (ready) editor?.setStrokeWidth(value); }} />
+        <InspectorLength unit={state.document?.unit} label={zh ? "线宽" : "Width"} ariaLabel={zh ? "线宽" : "Stroke width"} value={state.strokeWidth} min={0} onChange={value => { if (ready) editor?.setStrokeWidth(value); }} />
 
         <Popover.Root>
           <Popover.Trigger className="ff-editor-opacity-trigger"><span>{zh ? "不透明度" : "Opacity"}</span><strong>{state.opacity}%</strong></Popover.Trigger>

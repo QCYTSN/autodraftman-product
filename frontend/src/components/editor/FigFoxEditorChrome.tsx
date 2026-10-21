@@ -1,6 +1,6 @@
 import { SelectionInspector } from "./SelectionInspector";
 import { FormulaEditor } from "./FormulaEditor";
-import { InspectorNumber } from "./EditorFields";
+import { InspectorNumber, LengthUnitsContext, lengthUnits } from "./EditorFields";
 import { ShapeToolFields } from "./EditorNativeFields";
 import { importSvgDocument } from "../../svgDocument";
 import { DocumentPanel, LayerPanel, PaintDialog } from "./EditorPanels";
@@ -55,12 +55,13 @@ import { Tabs } from "@base-ui/react/tabs";
 import { Toggle } from "@base-ui/react/toggle";
 import { ToggleGroup } from "@base-ui/react/toggle-group";
 import { Toolbar } from "@base-ui/react/toolbar";
-import { type ReactNode, useEffect, useRef, useState } from "react";
+import { type ReactNode, useEffect, useMemo, useRef, useState } from "react";
 import type {
   SvgEditCommand,
   SvgEditHandle,
   SvgEditMode,
   SvgEditState,
+  SvgEditRequest,
 } from "./SvgEditHost";
 
 type FigFoxEditorChromeProps = {
@@ -71,6 +72,7 @@ type FigFoxEditorChromeProps = {
   sourceMarkup: string;
   onSourceApply: (source: string) => Promise<void> | void;
   children: ReactNode;
+  request?: SvgEditRequest | null;
 };
 
 type EditorTool = {
@@ -234,6 +236,15 @@ function SourceEditorDialog({
   const [draft, setDraft] = useState(source);
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState("");
+  const sourceRoot = useMemo(() => open ? new DOMParser().parseFromString(draft, "image/svg+xml").documentElement : null, [open, draft]);
+  const responsive = Boolean(sourceRoot && (sourceRoot.getAttribute("data-figfox-dynamic") === "true" || !sourceRoot.hasAttribute("width") && !sourceRoot.hasAttribute("height")));
+  const toggleResponsive = (checked: boolean) => {
+    if (sourceRoot?.localName !== "svg") return;
+    sourceRoot.setAttribute("data-figfox-dynamic", String(checked));
+    if (checked) { sourceRoot.removeAttribute("width"); sourceRoot.removeAttribute("height"); }
+    else { const viewBox = sourceRoot.getAttribute("viewBox")?.split(/[\s,]+/) || []; sourceRoot.setAttribute("width", viewBox[2] || "1280"); sourceRoot.setAttribute("height", viewBox[3] || "720"); }
+    setDraft(new XMLSerializer().serializeToString(sourceRoot));
+  };
 
   useEffect(() => {
     if (open) {
@@ -269,6 +280,7 @@ function SourceEditorDialog({
               <Dialog.Close className="ff-editor-dialog-close" aria-label={zh ? "关闭" : "Close"}><X size={18} /></Dialog.Close>
             </header>
             <textarea className="ff-source-editor" value={draft} onChange={(event) => setDraft(event.target.value)} spellCheck={false} />
+            <label className="ff-editor-check"><input type="checkbox" checked={responsive} disabled={sourceRoot?.localName !== "svg"} onChange={event => toggleResponsive(event.target.checked)} />{zh ? "响应式 SVG 尺寸" : "Responsive SVG dimensions"}</label>
             <footer className="ff-editor-dialog-actions">
               <span>{error || `${draft.length.toLocaleString()} ${zh ? "个字符" : "characters"}`}</span>
               <div>
@@ -464,6 +476,7 @@ export function FigFoxEditorChrome({
   sourceMarkup,
   onSourceApply,
   children,
+  request,
 }: FigFoxEditorChromeProps) {
   const zh = language === "zh";
   const [inspectorOpen, setInspectorOpen] = useState(
@@ -483,6 +496,10 @@ export function FigFoxEditorChrome({
   const run = (command: SvgEditCommand, value?: unknown) => editor?.execute(command, value);
   const canArrange = ready && state.hasSelection;
   const canAlign = ready && state.hasSelection;
+  useEffect(() => {
+    if (request?.type === "paint-dialog" && request.paintType) setPaintType(request.paintType);
+    if (request?.type === "document-panel") { editor?.execute("native-ui", false); setInspectorTab("document"); setInspectorOpen(true); }
+  }, [request]);
 
   useEffect(() => {
     const compactViewport = window.matchMedia("(max-width: 900px)");
@@ -494,7 +511,7 @@ export function FigFoxEditorChrome({
   }, []);
 
   return (
-    <div className="ff-editor-stage ff-editor-workspace" data-ready={ready} data-panel={inspectorOpen && !state.nativeUI ? "open" : "closed"} data-native={state.nativeUI || undefined}>
+    <LengthUnitsContext.Provider value={state.unitFactors || lengthUnits}><div className="ff-editor-stage ff-editor-workspace" data-ready={ready} data-panel={inspectorOpen && !state.nativeUI ? "open" : "closed"} data-native={state.nativeUI || undefined}>
       {children}
       <input ref={insertSvgInput} type="file" accept=".svg,image/svg+xml" aria-label={zh ? "插入 SVG 文件" : "Insert SVG file"} hidden onChange={async event => {
         const file = event.target.files?.[0]; event.target.value = "";
@@ -613,7 +630,7 @@ export function FigFoxEditorChrome({
                   <MenuAction label={zh ? "编组" : "Group"} icon={BoundingBox} disabled={state.selectionCount < 2} onClick={() => run("group")} />
                   <MenuAction label={zh ? "取消编组" : "Ungroup"} icon={VectorThree} disabled={!state.hasSelection} onClick={() => run("ungroup")} />
                   <MenuAction label={zh ? "删除" : "Delete"} icon={Trash} disabled={!state.hasSelection} onClick={() => run("delete")} />
-                  <MenuAction label={zh ? "查看源码" : "SVG source"} icon={Code} onClick={() => { const source = editor?.getMarkup(); if (source !== undefined) { setSourceDraft(source); setSourceOpen(true); } }} />
+                  <MenuAction label={zh ? "查看源码" : "SVG source"} icon={Code} onClick={() => { const source = editor?.getSourceMarkup(); if (source !== undefined) { setSourceDraft(source); setSourceOpen(true); } }} />
                   <MenuAction label={zh ? "完整工具" : "All tools"} icon={SlidersHorizontal} onClick={() => run("native-ui", true)} />
                 </div>
               </Popover.Popup>
@@ -706,6 +723,7 @@ export function FigFoxEditorChrome({
               mode={state.mode}
               editor={editor}
               native={state.nativeControls}
+              unit={state.document?.unit}
               onReplaceImage={() => {
                 setReplaceImage(true);
                 setImageDialogOpen(true);
@@ -758,6 +776,6 @@ export function FigFoxEditorChrome({
         onClose={() => setImageDialogOpen(false)}
         onPick={(source) => run("image-source", { source, replace: replaceImage })}
       />
-    </div>
+    </div></LengthUnitsContext.Provider>
   );
 }

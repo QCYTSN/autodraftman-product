@@ -3,6 +3,7 @@ import { installSelection } from "./figfox-selection.js";
 import { createNativeControls } from "./figfox-native-controls.js";
 import { applyFormula } from "./figfox-formula.js";
 import { textToLatex } from "./figfox-text-latex.js";
+import { readSettings, installSettings } from "./figfox-settings.js";
 
 const targetOrigin = window.location.origin;
 const EditorCtor = (window.Editor && window.Editor.default) || window.Editor;
@@ -10,6 +11,7 @@ const editor = new EditorCtor(document.getElementById("container"));
 let features;
 let selectionController;
 let nativeControls;
+let settings;
 let nativeUI = false;
 let alignRelative = "selected";
 let textInputHome;
@@ -43,7 +45,6 @@ const selectedElements = () =>
 
 let editingPathId = "";
 let addingSubPath = false;
-let linkedControls = false;
 
 const selectedIds = () => {
   const ids = new Set(selectedElements().map((element) => element.id));
@@ -128,6 +129,7 @@ const selectionDetail = () => {
   }
   const text = ["text", "tspan", "textPath"].includes(element.localName) ? features.textRuns(element).map(node => node.data).join("") : "";
   const computed = (name, fallback) => features.style(element, name, fallback);
+  const length = name => element[name]?.baseVal?.value ?? toNumber(element.getAttribute(name));
   const formula = selectedElements().length <= 1 ? element.closest("g[data-figfox-latex]") : null;
   let node = null;
   if (editor.svgCanvas.getMode() === "pathedit") { try { node = editor.svgCanvas.pathActions.getNodePoint(); } catch { /* No active node. */ } }
@@ -142,7 +144,7 @@ const selectionDetail = () => {
     width: bbox.width,
     height: bbox.height,
     rotation: editor.svgCanvas.getRotationAngle(element),
-    radius: toNumber(element.getAttribute("rx"), 0),
+    radius: length('rx'),
     fontFamily: computed("font-family", "sans-serif"),
     fontSize: toNumber(computed("font-size", "24"), 24),
     fontWeight: computed("font-weight", "normal"),
@@ -156,12 +158,12 @@ const selectionDetail = () => {
     markerEnd: computed("marker-end", "none"),
     letterSpacing: toNumber(computed("letter-spacing", "0")),
     wordSpacing: toNumber(computed("word-spacing", "0")),
-    textLength: toNumber(element.getAttribute("textLength")),
+    textLength: length('textLength'),
     lengthAdjust: element.getAttribute("lengthAdjust") || "spacing",
     className: element.getAttribute("class") || "",
     textDecoration: computed("text-decoration-line", "none"),
     node,
-    geometry: Object.fromEntries(["cx", "cy", "r", "rx", "ry", "x1", "y1", "x2", "y2"].filter(name => element.hasAttribute(name)).map(name => [name, toNumber(element.getAttribute(name))])),
+    geometry: Object.fromEntries(["cx", "cy", "r", "rx", "ry", "x1", "y1", "x2", "y2"].filter(name => element.hasAttribute(name)).map(name => [name, length(name)])),
     blur:
       typeof editor.svgCanvas.getBlur === "function"
         ? Math.round(toNumber(editor.svgCanvas.getBlur(element)) * 10)
@@ -202,7 +204,7 @@ const sendState = () => {
   const detail = selectionDetail();
   const fillPaint = features.paint("fill"), strokePaint = features.paint("stroke");
   const state = {
-    mode: canvas.getMode() === "pathedit" ? "pathedit" : canvas.getMode(),
+    mode: addingSubPath ? "pathedit" : canvas.getMode(),
     hasSelection: selection.length > 0 || Boolean(detail),
     canUndo: canvas.undoMgr.getUndoStackSize() > 0,
     canRedo: canvas.undoMgr.getRedoStackSize() > 0,
@@ -217,9 +219,11 @@ const sendState = () => {
     selection: detail,
     gridVisible: Boolean(editor.configObj.curConfig.showGrid),
     wireframe: editor.workarea.classList.contains("wireframe"),
-    nativeUI, alignRelative, selectionPolicy: selectionController?.policy || "object", nativeControls: nativeControls.state(),
+    nativeUI, alignRelative, selectionPolicy: selectionController?.policy || "object", nativeControls: { ...nativeControls.state(), linkedControls: canvas.getLinkControlPts(), addingSubPath },
+    preferences: settings?.state(),
+    unitFactors: canvas.getTypeMap(),
     context: canvas.getCurrentGroup() ? { id: canvas.getCurrentGroup().id, label: elementLabel(canvas.getCurrentGroup(), 0) } : null,
-    document: { ...canvas.getResolution(), unit: features.documentUnit(), snap: Boolean(editor.configObj.curConfig.gridSnapping), snapStep: editor.configObj.curConfig.snappingStep || 10 },
+    document: { ...canvas.getResolution(), unit: editor.configObj.curConfig.baseUnit || "px", snap: Boolean(editor.configObj.curConfig.gridSnapping), snapStep: editor.configObj.curConfig.snappingStep || 10, dynamic: Boolean(editor.configObj.curConfig.dynamicOutput), images: editor.configObj.pref('img_save') === 'ref' ? 'ref' : 'embed' },
     documentLayers: features.layers(),
   };
   let layers;
@@ -240,6 +244,8 @@ window.figfoxSnapshot = () => {
   if (markup !== lastMarkup) { lastMarkup = markup; send("changed", { markup }); }
   return markup;
 };
+window.figfoxExport = () => features.exportSnapshot();
+window.figfoxSource = () => features.snapshot({ source: true });
 
 const toolIds = {
   select: "tool_select",
@@ -270,7 +276,6 @@ const activateMode = (mode) => {
     }
     editingPathId = "";
     addingSubPath = false;
-    linkedControls = false;
   }
   const button = byId(toolIds[mode]);
   if (button && !button.disabled) {
@@ -286,7 +291,6 @@ const enterPathEdit = () => {
   editingPathId = element.id || editor.svgCanvas.getNextId();
   if (!element.id) element.id = editingPathId;
   addingSubPath = false;
-  linkedControls = false;
   editor.svgCanvas.pathActions.toEditMode(element);
 };
 
@@ -385,6 +389,7 @@ editor.setConfig({
   canvas_expansion: 2,
   initFill: { color: "ffffff", opacity: 1 },
   initStroke: { color: "20152b", opacity: 1, width: 1 },
+  ...readSettings(),
 });
 
 async function handleMessage(event) {
@@ -417,16 +422,21 @@ async function handleMessage(event) {
         case "leave-context": canvas.leaveContext(); canvas.setMode("select"); break;
         case "export-raster": await features.raster(event.data.value); break;
         case "document-settings": {
-          const { w, h, unit, snap, snapStep } = event.data.value;
+          const { w, h, unit, snap, snapStep, dynamic, images } = event.data.value;
           if (!(w > 0 && h > 0 && w <= 100000 && h <= 100000)) throw new Error("请输入有效的画布尺寸 / Enter valid canvas dimensions");
-          if (!["px", "mm", "cm", "in", "pt", "pc"].includes(unit)) throw new Error("Invalid unit");
+          if (!["px", "mm", "cm", "in", "pt", "pc", "em", "ex"].includes(unit)) throw new Error("Invalid unit");
           editor.configObj.curConfig.baseUnit = unit;
           editor.configObj.curConfig.gridSnapping = Boolean(snap);
           editor.configObj.curConfig.snappingStep = Math.max(.1, Number(snapStep) || 10);
+          if (typeof dynamic === 'boolean') editor.configObj.curConfig.dynamicOutput = dynamic;
+          if (['embed', 'ref'].includes(images)) editor.configObj.pref('img_save', images);
+          canvas.setConfig(editor.configObj.curConfig);
           canvas.setResolution(Number(w), Number(h));
           editor.updateCanvas();
+          settings.persist(); scheduleDocument();
           break;
         }
+        case 'editor-preferences': settings.apply(event.data.value); break;
         case "preferences": editor.mainMenu.showPreferences(); break;
         case "native-ui": {
           nativeUI = Boolean(event.data.value);
@@ -483,12 +493,14 @@ async function handleMessage(event) {
           if (editingPathId) {
             addingSubPath = !addingSubPath;
             canvas.pathActions.addSubPath(addingSubPath);
+            byId('tool_add_subpath').pressed = addingSubPath;
           }
           break;
         case "path-link-controls":
           if (resumePathEdit()) {
-            linkedControls = !linkedControls;
-            canvas.pathActions.linkControlPoints(linkedControls);
+            const linked = !canvas.getLinkControlPts();
+            canvas.pathActions.linkControlPoints(linked);
+            byId('tool_node_link').pressed = linked;
           }
           break;
         case "bold": editor.topPanel.clickBold(); break;
@@ -499,6 +511,7 @@ async function handleMessage(event) {
         case "toggle-grid":
           if (typeof window.figfoxToggleGrid === "function") window.figfoxToggleGrid();
           else byId("view_grid")?.click();
+          settings.persist();
           break;
         case "toggle-wireframe":
           editor.topPanel.clickWireframe();
@@ -554,6 +567,7 @@ async function handleMessage(event) {
         }
         default: await nativeControls.execute(event.data.command, event.data.value);
       }
+      if (event.data.command === 'toggle-rulers') settings.persist();
       // Some SVG-Edit attribute setters do not emit changed. Observe document mutations
       // as the source of truth, and notify extensions once for explicit attribute edits.
       if (["attribute", "toggle-layer"].includes(event.data.command)) canvas.call("changed", selectedElements());
@@ -572,8 +586,11 @@ async function handleMessage(event) {
     documentDirty = false;
     editingPathId = "";
     addingSubPath = false;
-    linkedControls = false;
     await editor.loadFromString(event.data.markup, { noAlert: true });
+    const source = new DOMParser().parseFromString(event.data.markup, 'image/svg+xml').documentElement;
+    editor.configObj.curConfig.dynamicOutput = source.getAttribute('data-figfox-dynamic') === 'true' || (!source.hasAttribute('data-figfox-dynamic') && !source.hasAttribute('width') && !source.hasAttribute('height'));
+    editor.configObj.pref('img_save', source.getAttribute('data-figfox-images') === 'ref' ? 'ref' : 'embed');
+    editor.svgCanvas.setConfig(editor.configObj.curConfig);
     editor.zoomChanged(null, "canvas");
     observeDocument();
     treeDirty = true;
@@ -613,10 +630,27 @@ editor.setAll = (...args) => { setAll(...args); resolveShortcuts(); };
 editor.init().then(async () => {
   await shortcutsReady;
   features = createEditorFeatures(editor);
+  const embedImage = editor.svgCanvas.embedImage.bind(editor.svgCanvas);
+  editor.svgCanvas.embedImage = source => embedImage(source).catch(() => {
+    editor.svgCanvas.setEncodableImages(source, false);
+    send('command-error', { message: '图片链接无法读取，请替换图片或检查网址 / Could not load an image link. Replace the image or check its URL.' });
+    return false;
+  });
   nativeControls = createNativeControls(editor, features);
+  settings = installSettings(editor, scheduleState, send);
+  settings.apply(readSettings());
+  editor.mainMenu.showPreferences = editor.mainMenu.showDocProperties = () => send('document-panel');
+  for (const id of ['tool_docprops', 'tool_editor_prefs']) byId(id).addEventListener('click', event => { event.stopImmediatePropagation(); send('document-panel'); }, true);
+  for (const [name, id] of Object.entries({ points: 'starNumPoints', ratio: 'RadiusMultiplier', shift: 'radialShift', sides: 'polySides' })) byId(id).addEventListener('change', event => { event.stopImmediatePropagation(); window.figfoxCommand('shape-parameter', { name, value: byId(id).value }); }, true);
+  const addSubPath = editor.svgCanvas.pathActions.addSubPath.bind(editor.svgCanvas.pathActions);
+  editor.svgCanvas.pathActions.addSubPath = value => { addingSubPath = Boolean(value); byId('tool_add_subpath').pressed = addingSubPath; const result = addSubPath(value); scheduleState(); return result; };
+  byId('tool_add_subpath').addEventListener('click', event => { event.stopImmediatePropagation(); editor.svgCanvas.pathActions.addSubPath(!addingSubPath); }, true);
+  const linkControls = editor.svgCanvas.pathActions.linkControlPoints.bind(editor.svgCanvas.pathActions);
+  editor.svgCanvas.pathActions.linkControlPoints = value => { const result = linkControls(value); byId('tool_node_link').pressed = editor.svgCanvas.getLinkControlPts(); scheduleState(); return result; };
+  byId('tool_node_link').pressed = editor.svgCanvas.getLinkControlPts();
   selectionController = installSelection(editor, scheduleState);
-  const savePreferences = editor.mainMenu.savePreferences.bind(editor.mainMenu);
-  editor.mainMenu.savePreferences = async event => { await savePreferences(event); nativeControls.rulers(Boolean(editor.configObj.curConfig.showRulers)); scheduleState(); };
+  // Both layouts use the same complete FigFox paint editor.
+  for (const type of ['fill', 'stroke']) byId(`${type}_color`).setJGraduateMethod = () => send('paint-dialog', { paintType: type });
   const textInput = byId("text");
   textInputHome = document.createComment("FigFox native text input position");
   textInput.before(textInputHome);
@@ -624,10 +658,10 @@ editor.init().then(async () => {
   syncTextInput();
   const nativeRasterExport = editor.svgCanvas.rasterExport;
   const nativePdfExport = editor.svgCanvas.exportPDF;
-  editor.svgCanvas.exportPDF = (...args) => {
+  editor.svgCanvas.exportPDF = async (...args) => {
     const { w, h } = editor.svgCanvas.getResolution();
     if (w * h > 32_000_000) return Promise.reject(new Error("导出尺寸过大 / Export dimensions are too large"));
-    const clean = new DOMParser().parseFromString(features.snapshot(), "image/svg+xml").documentElement;
+    const clean = new DOMParser().parseFromString(await features.exportSnapshot({ raster: true }), "image/svg+xml").documentElement;
     const getContent = editor.svgCanvas.getSvgContent;
     // SVG-Edit 7.4.2 captures its export clone synchronously, before encoding it.
     // Supply our clean clone for that call and restore the live getter immediately.
@@ -678,7 +712,7 @@ editor.init().then(async () => {
   window.addEventListener("pagehide", flushDocument);
   document.addEventListener("keydown", event => {
     if (event.target === document.body && !event.ctrlKey && !event.metaKey && !event.altKey && event.key.toLowerCase() === "v") { activateMode("select"); scheduleState(); }
-    if ((event.ctrlKey || event.metaKey) && event.key.toLowerCase() === "s") { event.preventDefault(); event.stopImmediatePropagation(); flushDocument(); }
+    if ((event.ctrlKey || event.metaKey) && event.key.toLowerCase() === "s") { event.preventDefault(); event.stopImmediatePropagation(); flushDocument(); send('save-file', { saveAs: event.shiftKey }); }
   }, true);
   send("ready");
 }).catch((error) => {

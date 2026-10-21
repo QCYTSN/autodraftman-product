@@ -1,4 +1,5 @@
-export type LocalEditorDocument = { id?: string; fileName: string; markup: string; updatedAt: string };
+import type { EditorFileHandle } from "./editorFiles";
+export type LocalEditorDocument = { id?: string; fileName: string; markup: string; updatedAt: string; fileHandle?: EditorFileHandle };
 export type StoredEditorDocument = LocalEditorDocument & { id: string };
 let database: Promise<IDBDatabase> | null = null;
 export class EditorStorageBlockedError extends Error {

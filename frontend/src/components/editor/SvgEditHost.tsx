@@ -41,6 +41,8 @@ export type SvgEditLayer = {
 };
 
 export type SvgEditPaint = {
+  box?: { x: number; y: number; width: number; height: number };
+  viewport?: { width: number; height: number };
   kind: "solid" | "linear" | "radial" | "reference" | "mixed";
   color: string;
   opacity: number;
@@ -49,7 +51,8 @@ export type SvgEditPaint = {
   attributes: Record<string, string>;
 };
 
-export type SvgEditDocument = { w: number; h: number; unit: string; snap: boolean; snapStep: number };
+export type SvgEditDocument = { w: number; h: number; unit: string; snap: boolean; snapStep: number; dynamic?: boolean; images?: "embed" | "ref" };
+export type SvgEditPreferences = { baseUnit: string; showRulers: boolean; showGrid: boolean; gridSnapping: boolean; snappingStep: number; gridColor: string; bkgd_color: string; bkgd_url: string };
 
 export type SvgEditSelection = {
   id: string;
@@ -104,15 +107,18 @@ export type SvgEditState = {
   objectCount?: number;
   paints?: { fill: SvgEditPaint; stroke: SvgEditPaint };
   document?: SvgEditDocument;
+  preferences?: SvgEditPreferences;
+  unitFactors?: Record<string, number>;
   documentLayers?: { name: string; active: boolean; visible: boolean }[];
   nativeUI?: boolean;
   selectionPolicy?: "object" | "group";
-  nativeControls?: { rulers: boolean; title: string; shape: string | null; shapeParameters: Record<string, number>; link: string; groupTitle: string; layerView: boolean };
+  nativeControls?: { rulers: boolean; title: string; shape: string | null; shapeParameters: Record<string, number>; link: string; groupTitle: string; layerView: boolean; linkedControls: boolean; addingSubPath: boolean };
   alignRelative?: string;
   context?: { id: string; label: string } | null;
 };
 
 export type SvgEditCommand =
+  | "editor-preferences"
   | "formula"
   | "import-svg" | "select-next" | "select-previous"
   | "shape-parameter" | "hyperlink" | "remove-hyperlink" | "select-parent" | "group-title"
@@ -196,6 +202,8 @@ export type SvgEditCommand =
 
 export type SvgEditHandle = {
   getMarkup: () => string;
+  getSourceMarkup: () => string;
+  getExportMarkup: () => Promise<string>;
   setMode: (mode: SvgEditMode) => void;
   undo: () => void;
   redo: () => void;
@@ -219,7 +227,10 @@ type SvgEditHostProps = {
   onLoadError?: () => void;
   onStateChange?: (state: SvgEditState) => void;
   onDirty?: () => void;
+  onRequest?: (request: SvgEditRequest) => void;
 };
+
+export type SvgEditRequest = { type: string; paintType?: "fill" | "stroke"; saveAs?: boolean; language?: "zh" | "en" };
 
 type SvgEditFrameMessage = {
   source?: string;
@@ -227,6 +238,9 @@ type SvgEditFrameMessage = {
   markup?: string;
   message?: string;
   state?: SvgEditState;
+  paintType?: "fill" | "stroke";
+  saveAs?: boolean;
+  language?: "zh" | "en";
 };
 
 export const SvgEditHost = forwardRef<SvgEditHandle, SvgEditHostProps>(
@@ -239,6 +253,7 @@ function SvgEditHost({
   onLoadError,
   onStateChange,
   onDirty,
+  onRequest,
 }, ref) {
   const frameRef = useRef<HTMLIFrameElement>(null);
   const latestMarkupRef = useRef(markup);
@@ -249,6 +264,8 @@ function SvgEditHost({
   const onLoadErrorRef = useRef(onLoadError);
   const onStateChangeRef = useRef(onStateChange);
   const onDirtyRef = useRef(onDirty);
+  const onRequestRef = useRef(onRequest);
+  onRequestRef.current = onRequest;
   const lastStateRef = useRef<SvgEditState | null>(null);
   const [frameReady, setFrameReady] = useState(false);
   const [error, setError] = useState("");
@@ -284,6 +301,16 @@ function SvgEditHost({
   };
 
   useImperativeHandle(ref, () => ({
+    getSourceMarkup: () => {
+      const frame = frameRef.current?.contentWindow as (Window & { figfoxSource?: () => string }) | null;
+      if (!frame?.figfoxSource) throw new Error("Editor is not ready");
+      return frame.figfoxSource();
+    },
+    getExportMarkup: async () => {
+      const frame = frameRef.current?.contentWindow as (Window & { figfoxExport?: () => Promise<string> }) | null;
+      if (!frame?.figfoxExport) throw new Error("Editor is not ready");
+      return frame.figfoxExport();
+    },
     getMarkup: () => {
       const frame = frameRef.current?.contentWindow as (Window & { figfoxSnapshot?: () => string }) | null;
       if (!frame?.figfoxSnapshot) throw new Error("Editor is not ready");
@@ -321,6 +348,7 @@ function SvgEditHost({
       if (event.source !== frameRef.current?.contentWindow) return;
       if (event.origin !== window.location.origin) return;
       if (event.data?.source !== "figfox-svgedit") return;
+      if (["paint-dialog", "save-file", "language", "document-panel"].includes(event.data.type || "")) onRequestRef.current?.({ ...event.data, type: event.data.type! });
 
       if (event.data.type === "ready") {
         rememberMarkup(latestMarkupRef.current);

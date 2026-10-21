@@ -36,7 +36,7 @@ export function WorkspaceDocuments({language, onOpenEditor}: {language: ProductL
   const attempt = async (action: () => Promise<void>) => {
     setBusy(true); setError('');
     try {await action();} catch (failure) {
-      setError(failure instanceof EditorStorageBlockedError ? blockedMessage : failure instanceof SvgImportError ? zh ? '无法打开这个 SVG。请检查文件格式、5 MB 大小限制及内容。' : 'Could not open this SVG. Check its format, content and the 5 MB limit.' : zh ? '操作没有完成，文档仍保留。请重试或直接打开编辑器。' : 'The operation did not complete. Your documents are retained. Try again or open the editor directly.');
+      setError(failure instanceof EditorStorageBlockedError ? blockedMessage : failure instanceof SvgImportError ? zh ? '无法打开这个 SVG。请检查文件格式和内容复杂度。' : 'Could not open this SVG. Check its format and content complexity.' : zh ? '操作没有完成，文档仍保留。请重试或直接打开编辑器。' : 'The operation did not complete. Your documents are retained. Try again or open the editor directly.');
     } finally {setBusy(false);}
   };
   async function importFile(file: File) {

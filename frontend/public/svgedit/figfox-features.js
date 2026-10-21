@@ -38,7 +38,7 @@ export function createEditorFeatures(editor) {
     for (const parent of parsed.querySelectorAll("text, tspan, textPath")) for (const node of parent.childNodes) {
       if (node.nodeType === Node.TEXT_NODE) textNodes.push({ node, parent, next: node.nextSibling, value: node.data });
     }
-    const mathNames = ["data-figfox-latex", "data-figfox-math-scale"];
+    const mathNames = ["data-figfox-latex", "data-figfox-math-scale", "data-figfox-center-dx", "data-figfox-center-dy"];
     const names = ["baseline-shift", "alignment-baseline", "vector-effect", "paint-order", "letter-spacing", "word-spacing", "lengthAdjust", "textLength", "visibility", "shape-rendering", "text-rendering", "shape", "point", "sides", "edge", "starRadiusMultiplier", "starradiusmultiplier", "radialshift", "r", "r2", "cx", "cy", "orient"];
     for (const element of parsed.querySelectorAll("*")) {
       const attributes = [...names, ...mathNames].filter(name => element.hasAttribute(name)).map(name => [name, element.getAttribute(name)]);
@@ -63,7 +63,7 @@ export function createEditorFeatures(editor) {
   // acquire a different intrinsic size from its viewer's font, so use pixels.
   const documentUnit = () => Object.hasOwn(fixedUnits, editor.configObj.curConfig.baseUnit) ? editor.configObj.curConfig.baseUnit : "px";
 
-  function snapshot() {
+  function snapshot({ exporting = false, source = false, raster = false } = {}) {
     // Serialize a detached copy: getSvgString() mutates live path/group editing state.
     const copy = root().cloneNode(true);
     if (contextStyles.size) {
@@ -86,11 +86,43 @@ export function createEditorFeatures(editor) {
     copy.setAttribute("width", unit === "px" ? w : `${w / factor}${unit}`);
     copy.setAttribute("height", unit === "px" ? h : `${h / factor}${unit}`);
     copy.setAttribute("viewBox", `0 0 ${w} ${h}`);
+    const dynamic = Boolean(editor.configObj.curConfig.dynamicOutput);
+    const images = !raster && editor.configObj.pref('img_save') === 'ref' ? 'ref' : 'embed';
+    copy.setAttribute('data-figfox-dynamic', String(dynamic));
+    copy.setAttribute('data-figfox-images', images);
+    if (!raster && (exporting || source) && dynamic) { copy.removeAttribute('width'); copy.removeAttribute('height'); }
+    if (images === 'embed') for (const image of copy.querySelectorAll('image')) {
+      const source = canvas.getHref(image);
+      if (!source || source.startsWith('data:') || source.startsWith('#')) continue;
+      const embedded = canvas.getEncodableImages(source);
+      if (embedded) canvas.setHref(image, embedded.replace(/;svgedit_url=[^;]*/, ''));
+      else if (exporting) throw new Error('图片尚未嵌入，请重新选择本地图片或使用引用模式 / Image could not be embedded. Choose a local image or reference mode.');
+    }
     for (const layer of copy.querySelectorAll("g.layer")) {
       layer.style.removeProperty("pointer-events");
       if (!layer.getAttribute("style")) layer.removeAttribute("style");
     }
     return new XMLSerializer().serializeToString(copy);
+  }
+
+  async function exportSnapshot({ raster = false } = {}) {
+    if (raster || editor.configObj.pref('img_save') !== 'ref') {
+      const urls = [...new Set([...root().querySelectorAll('image')].map(image => canvas.getHref(image)).filter(url => /^https?:\/\//i.test(url || '')))];
+      const embed = async url => {
+        if (canvas.getEncodableImages(url)) return;
+        // Browser fetch observes CORS. Never silently export an unembedded URL.
+        const response = await fetch(url, { credentials: 'omit', signal: AbortSignal.timeout(15000) });
+        if (!response.ok) throw new Error('无法嵌入图片 / Could not embed image');
+        const blob = await response.blob();
+        if (!/^image\/(png|jpeg|webp|gif)$/i.test(blob.type)) throw new Error('请选择 PNG、JPEG、WebP 或 GIF 图片 / Unsupported image type');
+        const encoded = await new Promise((resolve, reject) => { const reader = new FileReader(); reader.onload = () => resolve(reader.result); reader.onerror = reject; reader.readAsDataURL(blob); });
+        canvas.setEncodableImages(url, encoded);
+      };
+      // Bound simultaneous decodes/fetches when a document has many images.
+      let cursor = 0;
+      await Promise.all(Array.from({ length: Math.min(4, urls.length) }, async () => { while (cursor < urls.length) await embed(urls[cursor++]); }));
+    }
+    return snapshot({ exporting: true, raster });
   }
 
   // This command preserves child nodes (tspan/textPath), unlike a #text attribute change.
@@ -190,13 +222,21 @@ export function createEditorFeatures(editor) {
     if (values.some(v => v !== value)) return { kind: "mixed", color: "mixed", opacity, stops: [], attributes: {} };
     const gradient = definition(value);
     const kind = gradient?.localName === "linearGradient" ? "linear" : gradient?.localName === "radialGradient" ? "radial" : value.includes("url(") ? "reference" : "solid";
-    let stops = gradient ? [...gradient.querySelectorAll("stop")].map(stop => ({
-      offset: stop.getAttribute("offset")?.includes("%") ? number(stop.getAttribute("offset")) / 100 : number(stop.getAttribute("offset")),
-      color: style(stop, "stop-color", "#000000"), opacity: number(style(stop, "stop-opacity", "1"), 1),
-    })) : [];
-    const href = gradient?.getAttribute("href") || gradient?.getAttributeNS("http://www.w3.org/1999/xlink", "href");
-    if (!stops.length && href?.startsWith("#")) stops = paintStops(document.getElementById(href.slice(1)));
-    return { kind, color: value, opacity, id: gradient?.id || "", stops, attributes: gradient ? Object.fromEntries([...gradient.attributes].filter(a => a.name !== "id").map(a => [a.name, a.value])) : {} };
+    // SVG gradients inherit both geometry and stops through href. Resolve the
+    // chain before editing, so applying an unchanged linked gradient is lossless.
+    const visited = new Set(), chain = [];
+    for (let node = gradient; node && !visited.has(node);) {
+      visited.add(node); chain.push(node);
+      const href = canvas.getHref(node);
+      node = href?.startsWith('#') ? document.getElementById(href.slice(1)) : null;
+      if (node && !['linearGradient', 'radialGradient'].includes(node.localName)) break;
+    }
+    const stops = paintStops(chain.find(node => node.querySelector(':scope > stop')));
+    const attributes = Object.assign({}, ...chain.reverse().map(node => Object.fromEntries([...node.attributes].filter(a => !['id', 'href', 'xlink:href'].includes(a.name)).map(a => [a.name, a.value]))));
+    let box;
+    try { const b = elements[0]?.getBBox(); if (b) box = { x: b.x, y: b.y, width: b.width || 100, height: b.height || 100 }; } catch { /* No rendered object. */ }
+    const resolution = canvas.getResolution();
+    return { kind, color: value, opacity, id: gradient?.id || "", box, viewport: { width: resolution.w, height: resolution.h }, stops, attributes };
   }
   function paintStops(element) {
     return element ? [...element.querySelectorAll("stop")].map(s => ({ offset: s.offset.baseVal, color: style(s, "stop-color", "#000000"), opacity: number(style(s, "stop-opacity", "1"), 1) })) : [];
@@ -297,7 +337,7 @@ export function createEditorFeatures(editor) {
     const width = Math.round(w * scale), height = Math.round(h * scale);
     if (width * height > 32_000_000 || !width || !height) throw new Error("导出尺寸过大 / Export dimensions are too large");
     await document.fonts.ready;
-    const url = URL.createObjectURL(new Blob([snapshot()], { type: "image/svg+xml" }));
+    const url = URL.createObjectURL(new Blob([await exportSnapshot({ raster: true })], { type: "image/svg+xml" }));
     try {
       const img = new Image();
       img.src = url;
@@ -316,7 +356,7 @@ export function createEditorFeatures(editor) {
     } finally { URL.revokeObjectURL(url); }
   }
 
-  return { snapshot, documentUnit, editText, textRuns, bounds, geometry, paint, applyPaint, layers, layerAction, raster, style, number, reference };
+  return { snapshot, exportSnapshot, documentUnit, editText, textRuns, bounds, geometry, paint, applyPaint, layers, layerAction, raster, style, number, reference };
 }
 
 // Canvas falls back to PNG for image/bmp. Write a real bottom-up 24-bit BMP.

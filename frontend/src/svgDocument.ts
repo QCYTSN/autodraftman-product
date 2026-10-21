@@ -1,6 +1,5 @@
 import DOMPurify from "dompurify";
 
-const maxSvgBytes = 5 * 1024 * 1024;
 const maxSvgElements = 12_000;
 const hiddenRootTags = new Set(["defs", "title", "desc", "metadata"]);
 const forbiddenTags = [
@@ -139,6 +138,7 @@ function cleanExternalReferences(root: SVGSVGElement) {
       if (
         (name === "href" || name === "xlink:href" || name === "src") &&
         !safeReference(value) &&
+        !(element.localName.toLowerCase() === "image" && /^https?:\/\//i.test(value.trim())) &&
         !(element.localName.toLowerCase() === "a" && /^(?:https?:\/\/|mailto:)/i.test(value.trim()))
       ) {
         element.removeAttribute(attribute.name);
@@ -243,7 +243,6 @@ function collectFontFamilies(root: SVGSVGElement) {
 
 export async function importSvgDocument(file: File): Promise<ImportedSvgDocument> {
   if (file.size === 0) throw new SvgImportError("empty");
-  if (file.size > maxSvgBytes) throw new SvgImportError("large");
 
   const hasSvgExtension = file.name.toLowerCase().endsWith(".svg");
   const hasSvgMime = file.type === "" || file.type === "image/svg+xml";

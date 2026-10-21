@@ -18,7 +18,9 @@ async function edit(page) {
   await ready(page);
   await page.frameLocator("iframe").locator("#export-panel").click({ position: { x: 20, y: 20 } });
   await page.getByRole("button", { name: /^填充:/ }).click();
-  await page.getByRole("option", { name: "#24a37a", exact: true }).click();
+  await page.getByRole("textbox", { name: "HEX", exact: true }).fill("#24a37a");
+  await page.getByRole("textbox", { name: "HEX", exact: true }).press("Enter");
+  await page.getByRole("button", { name: "应用颜色", exact: true }).click();
   await page.waitForFunction(() => document.querySelector("iframe").contentDocument.querySelector("#export-panel").getAttribute("fill") === "#24a37a");
 }
 async function exportSvg(page, name) {

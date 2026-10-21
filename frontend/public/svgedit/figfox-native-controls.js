@@ -14,26 +14,48 @@ export function createNativeControls(editor, features) {
   function shapeParameter({ name, value }) {
     const control = document.getElementById(fields[name]);
     if (!control || !Number.isFinite(Number(value))) return;
-    const limited = name === "shift" ? Math.max(0, Math.min(Math.PI * 2, Number(value))) : name === "ratio" ? Math.max(1, Math.min(128, Number(value))) : Math.round(Math.max(3, Math.min(128, Number(value))));
+    const limited = name === "shift" ? Number(value) : name === "ratio" ? Math.max(1, Number(value)) : Math.round(Math.max(1, Number(value)));
+    if (["points", "sides"].includes(name) && limited > 12000) throw new Error("单个形状最多支持 12,000 个顶点 / A shape supports up to 12,000 vertices");
     control.value = limited;
     const batch = new canvas.history.BatchCommand("Change shape parameters");
     for (const element of selected()) {
       const shape = element.getAttribute("shape");
       if (!["star", "regularPoly"].includes(shape)) continue;
       const list = [...element.points];
-      if (shape === "star" && list.length > 4 && Math.hypot(list[0].x - list.at(-2).x, list[0].y - list.at(-2).y) < .001 && Math.hypot(list[1].x - list.at(-1).x, list[1].y - list.at(-1).y) < .001) list.splice(-2);
-      if (list.length > 1 && Math.hypot(list[0].x - list.at(-1).x, list[0].y - list.at(-1).y) < .001) list.pop();
+      if (shape === "star" && list.length >= 4 && Math.hypot(list[0].x - list.at(-2).x, list[0].y - list.at(-2).y) < .001 && Math.hypot(list[1].x - list.at(-1).x, list[1].y - list.at(-1).y) < .001) list.splice(-2);
+      if (shape !== "star" && list.length > 1 && Math.hypot(list[0].x - list.at(-1).x, list[0].y - list.at(-1).y) < .001) list.pop();
       if (!list.length) continue;
-      const cx = list.reduce((total, p) => total + p.x, 0) / list.length, cy = list.reduce((total, p) => total + p.y, 0) / list.length;
+      const outer = shape === 'star' ? list.filter((_, i) => i % 2 === 0) : list;
+      let cx = outer.reduce((sum, p) => sum + p.x, 0) / outer.length, cy = outer.reduce((sum, p) => sum + p.y, 0) / outer.length;
+      if (outer.length === 1) {
+        // A single vertex has no intrinsic center. Retain a vector relative to
+        // that vertex only for this degenerate case; it follows later moves.
+        cx = list[0].x + Number(element.getAttribute('data-figfox-center-dx') ?? -40);
+        cy = list[0].y + Number(element.getAttribute('data-figfox-center-dy') ?? 0);
+        if (shape === 'star' && list[1]) {
+          const oldRatio = Number(element.getAttribute('starRadiusMultiplier')) || 3;
+          const angle = Math.PI + (Number(element.getAttribute('radialshift')) || 0);
+          const a = Math.cos(angle) / oldRatio - 1, b = Math.sin(angle) / oldRatio;
+          const determinant = a * a + b * b;
+          if (determinant > 1e-12) {
+            const dx = list[1].x - list[0].x, dy = list[1].y - list[0].y;
+            cx = list[0].x - (a * dx + b * dy) / determinant;
+            cy = list[0].y - (a * dy - b * dx) / determinant;
+          }
+        }
+      }
       const attribute = { points: "point", ratio: "starRadiusMultiplier", shift: "radialshift", sides: "sides" }[name];
-      const before = { [attribute]: element.getAttribute(attribute), points: element.getAttribute("points") };
+      const before = Object.fromEntries([attribute, 'points', 'data-figfox-center-dx', 'data-figfox-center-dy'].map(key => [key, element.getAttribute(key)]));
       element.setAttribute(attribute, limited);
-      const count = Math.max(3, Math.min(128, Math.round(Number(element.getAttribute(shape === "star" ? "point" : "sides")) || 5)));
+      const count = Math.max(1, Math.round(Number(element.getAttribute(shape === "star" ? "point" : "sides")) || 5));
       const radius = Math.hypot(list[0].x - cx, list[0].y - cy);
       const ratio = Number(element.getAttribute("starRadiusMultiplier")) || 3, shift = Number(element.getAttribute("radialshift")) || 0;
+      const orientation = Math.atan2(list[0].y - cy, list[0].x - cx);
+      if (count === 1) { element.setAttribute('data-figfox-center-dx', cx - list[0].x); element.setAttribute('data-figfox-center-dy', cy - list[0].y); }
+      else { element.removeAttribute('data-figfox-center-dx'); element.removeAttribute('data-figfox-center-dy'); }
       const points = [];
       for (let i = 0; i < count; i++) {
-        const angle = 2 * Math.PI * i / count - (shape === "star" ? Math.PI / 2 : 0);
+        const angle = 2 * Math.PI * i / count + orientation;
         points.push(`${cx + radius * Math.cos(angle)},${cy + radius * Math.sin(angle)}`);
         if (shape === "star") points.push(`${cx + radius / ratio * Math.cos(angle + Math.PI / count + shift)},${cy + radius / ratio * Math.sin(angle + Math.PI / count + shift)}`);
       }
