@@ -33,7 +33,10 @@ export function installSelection(editor, onStateChange) {
   const hide = () => { outline.removeAttribute("points"); overlay.removeAttribute("data-target"); };
   const invalidate = () => { cache = null; hide(); };
   const scope = () => canvas.getCurrentGroup() || canvas.getCurrentDrawing().getCurrentLayer();
-  const leaf = element => element?.closest?.("text") || element;
+  const leaf = element => {
+    const formula = element?.closest?.("g[data-figfox-latex]");
+    return (formula && scope().contains(formula) && formula !== scope()) ? formula : element?.closest?.("text") || element;
+  };
   const selectable = element => {
     if (!element?.getBBox || !scope().contains(element) || element === scope()) return false;
     if (element.closest("defs,clipPath,mask,pattern,marker")) return false;
@@ -60,10 +63,11 @@ export function installSelection(editor, onStateChange) {
     }
     return inside ? 0 : nearest;
   }
-  function textTargets() {
+  function precisionTargets() {
     if (!cache || cache.scope !== scope()) {
       const targets = [];
-      for (const element of scope().querySelectorAll("text")) {
+      for (const element of scope().querySelectorAll("text, g[data-figfox-latex]")) {
+        if (leaf(element) !== element) continue;
         if (!selectable(element)) continue;
         const points = quad(element);
         if (!points) continue;
@@ -81,9 +85,9 @@ export function installSelection(editor, onStateChange) {
     const chooseObjects = policy === "object" || event.ctrlKey || event.metaKey;
     // A 6 px halo is independent of SVG units and canvas zoom. Painted objects in
     // front of a label still win; hidden labels and other layers are excluded.
-    let best = direct?.localName === "text" && selectable(direct) ? direct : null;
+    let best = (direct?.localName === "text" || direct?.hasAttribute?.("data-figfox-latex")) && selectable(direct) ? direct : null;
     let nearest = best ? 0 : 6.01;
-    if (!best) for (const item of textTargets()) {
+    if (!best) for (const item of precisionTargets()) {
       if (event.clientX < item.left - 6 || event.clientX > item.right + 6 || event.clientY < item.top - 6 || event.clientY > item.bottom + 6) continue;
       if (selectable(direct) && direct !== item.element && !direct.contains(item.element) && (item.element.compareDocumentPosition(direct) & Node.DOCUMENT_POSITION_FOLLOWING)) continue;
       const gap = distance(item.points, event.clientX, event.clientY);

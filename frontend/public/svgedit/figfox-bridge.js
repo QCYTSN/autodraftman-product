@@ -1,6 +1,7 @@
 import { createEditorFeatures } from "./figfox-features.js";
 import { installSelection } from "./figfox-selection.js";
 import { createNativeControls } from "./figfox-native-controls.js";
+import { applyFormula } from "./figfox-formula.js";
 
 const targetOrigin = window.location.origin;
 const EditorCtor = (window.Editor && window.Editor.default) || window.Editor;
@@ -95,7 +96,7 @@ const collectLayers = () => {
         type: tag,
         depth,
         parentId: element.parentElement?.id || "",
-        hasChildren: [...element.children].some(child => drawableTags.has(child.localName)),
+        hasChildren: !element.hasAttribute("data-figfox-latex") && [...element.children].some(child => drawableTags.has(child.localName)),
         hidden:
           element.getAttribute("display") === "none" ||
           element.style.display === "none" ||
@@ -103,7 +104,7 @@ const collectLayers = () => {
         selected: false,
       });
     }
-    Array.from(element.children || []).reverse().forEach((child) => visit(child, depth + 1));
+    if (!element.hasAttribute("data-figfox-latex")) Array.from(element.children || []).reverse().forEach((child) => visit(child, depth + 1));
   };
   Array.from(root.children).reverse().forEach((element) => visit(element, 0));
   return items;
@@ -126,12 +127,14 @@ const selectionDetail = () => {
   }
   const text = ["text", "tspan", "textPath"].includes(element.localName) ? features.textRuns(element).map(node => node.data).join("") : "";
   const computed = (name, fallback) => features.style(element, name, fallback);
+  const formula = selectedElements().length <= 1 ? element.closest("g[data-figfox-latex]") : null;
   let node = null;
   if (editor.svgCanvas.getMode() === "pathedit") { try { node = editor.svgCanvas.pathActions.getNodePoint(); } catch { /* No active node. */ } }
   return {
     id: element.id || "",
     type: selectedElements().length > 1 ? "selection" : element.tagName.toLowerCase(),
     text,
+    formula: formula ? { id: formula.id, latex: formula.getAttribute("data-figfox-latex") } : null,
     x: bbox.x,
     y: bbox.y,
     width: bbox.width,
@@ -398,6 +401,7 @@ async function handleMessage(event) {
     try {
       const canvas = editor.svgCanvas;
       switch (event.data.command) {
+        case "formula": applyFormula(editor, event.data.value); treeDirty = true; previousSelection = undefined; break;
         case "selection-policy": selectionController.setPolicy(event.data.value); break;
         case "zoom-value": editor.bottomPanel.changeZoom(String(Math.max(1, Math.min(6400, Number(event.data.value) || 100)))); break;
         case "fit-layer": editor.bottomPanel.changeZoom("layer"); break;

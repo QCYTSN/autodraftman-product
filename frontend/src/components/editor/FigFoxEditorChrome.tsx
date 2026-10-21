@@ -1,4 +1,5 @@
 import { SelectionInspector } from "./SelectionInspector";
+import { FormulaEditor } from "./FormulaEditor";
 import { InspectorNumber } from "./EditorFields";
 import { ShapeToolFields } from "./EditorNativeFields";
 import { importSvgDocument } from "../../svgDocument";
@@ -475,6 +476,7 @@ export function FigFoxEditorChrome({
   const [paintType, setPaintType] = useState<"fill" | "stroke" | null>(null);
   const [imageDialogOpen, setImageDialogOpen] = useState(false);
   const [replaceImage, setReplaceImage] = useState(false);
+  const [formulaFocus, setFormulaFocus] = useState(0);
   const insertSvgInput = useRef<HTMLInputElement>(null);
   const originalInsertSize = useRef(false);
   const [insertError, setInsertError] = useState("");
@@ -605,6 +607,7 @@ export function FigFoxEditorChrome({
                   <MenuAction label={zh ? "粘贴" : "Paste"} icon={Stack} onClick={() => run("paste")} />
                   <MenuAction label={zh ? "原位粘贴" : "Paste in place"} icon={Stack} onClick={() => run("paste-in-place")} />
                   <MenuAction label={zh ? "插入 SVG" : "Insert SVG"} icon={UploadSimple} onClick={() => { originalInsertSize.current = false; insertSvgInput.current?.click(); }} />
+                  <MenuAction label={zh ? "LaTeX 公式" : "LaTeX formula"} icon={Code} onClick={() => { setInspectorOpen(true); setInspectorTab("properties"); setFormulaFocus(value => value + 1); }} />
                   <MenuAction label={zh ? "按原尺寸插入" : "Insert at original size"} icon={UploadSimple} onClick={() => { originalInsertSize.current = true; insertSvgInput.current?.click(); }} />
                   <MenuAction label={zh ? "创建副本" : "Duplicate"} icon={Copy} disabled={!state.hasSelection} onClick={() => run("duplicate")} />
                   <MenuAction label={zh ? "编组" : "Group"} icon={BoundingBox} disabled={state.selectionCount < 2} onClick={() => run("group")} />
@@ -696,7 +699,7 @@ export function FigFoxEditorChrome({
             </Tabs.List>
           </Tabs.Root><button className="ff-inspector-close" type="button" aria-label={zh ? "关闭面板" : "Close panels"} onClick={() => setInspectorOpen(false)}><X size={16} /></button></div>
           {inspectorTab === "properties" ? (
-            <div className="ff-inspector-scroll"><EditorAppearance state={state} editor={editor} zh={zh} ready={ready} onPaint={setPaintType} /><ShapeToolFields state={state} editor={editor} zh={zh} /><SelectionInspector
+            <div className="ff-inspector-scroll"><EditorAppearance state={state} editor={editor} zh={zh} ready={ready} onPaint={setPaintType} /><FormulaEditor zh={zh} selection={state.selection} editor={editor} focusRequest={formulaFocus} /><ShapeToolFields state={state} editor={editor} zh={zh} /><SelectionInspector
               key={state.selection?.id || "empty"}
               zh={zh}
               selection={state.selection}

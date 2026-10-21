@@ -32,9 +32,10 @@ export function createEditorFeatures(editor) {
   const prepareSvg = canvas.prepareSvg.bind(canvas);
   canvas.prepareSvg = parsed => {
     const retained = [];
+    const mathNames = ["data-figfox-latex", "data-figfox-math-scale"];
     const names = ["baseline-shift", "alignment-baseline", "vector-effect", "paint-order", "letter-spacing", "word-spacing", "lengthAdjust", "textLength", "visibility", "shape-rendering", "text-rendering", "shape", "point", "sides", "edge", "starRadiusMultiplier", "starradiusmultiplier", "radialshift", "r", "r2", "cx", "cy", "orient"];
     for (const element of parsed.querySelectorAll("*")) {
-      const attributes = names.filter(name => element.hasAttribute(name)).map(name => [name, element.getAttribute(name)]);
+      const attributes = [...names, ...mathNames].filter(name => element.hasAttribute(name)).map(name => [name, element.getAttribute(name)]);
       if (!attributes.length) continue;
       retained.push({ element, attributes });
     }

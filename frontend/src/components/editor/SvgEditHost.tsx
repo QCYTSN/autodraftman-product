@@ -55,6 +55,7 @@ export type SvgEditSelection = {
   id: string;
   type: string;
   text: string;
+  formula?: { id: string; latex: string } | null;
   x: number;
   y: number;
   width: number;
@@ -111,6 +112,7 @@ export type SvgEditState = {
 };
 
 export type SvgEditCommand =
+  | "formula"
   | "import-svg" | "select-next" | "select-previous"
   | "shape-parameter" | "hyperlink" | "remove-hyperlink" | "select-parent" | "group-title"
   | "document-title" | "document-properties" | "fit-page-content" | "toggle-rulers"

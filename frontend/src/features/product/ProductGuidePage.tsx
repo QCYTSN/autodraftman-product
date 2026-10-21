@@ -68,7 +68,7 @@ export function ProductGuidePage(props: ProductNavigation) {
             <div><dt><VectorThree size={18} />{zh ? "图形与路径" : "Shapes and paths"}</dt><dd>{zh ? "拖动、缩放和旋转，调整填充与描边；路径可进入节点编辑。" : "Move, resize and rotate. Adjust fill and stroke, or edit path nodes."}</dd></div>
             <div><dt><ImageSquare size={18} />{zh ? "嵌入图像" : "Embedded images"}</dt><dd>{zh ? "调整位置和尺寸，或替换图片；它本身仍是位图。" : "Move, resize or replace an image. It remains a raster image."}</dd></div>
           </dl>
-          <p>{zh ? "如果文字或公式已经转为矢量路径，就按图形编辑。更换表达式时需要重新排版。" : "Text or formulas converted to paths are edited as shapes. Changing an expression requires typesetting it again."}</p>
+          <p>{zh ? "在属性面板展开「公式 · LaTeX」，输入表达式并预览，再应用到公式或插入新公式。LaTeX 源码会随 SVG 保存。旧公式若只剩矢量路径，请先选中完整公式组，再输入 LaTeX 替换；原始源码无法自动还原。" : "Expand “Formula · LaTeX” in Properties, enter an expression, preview it, then apply or insert it. LaTeX is saved with the SVG. For older outlined formulas, select the whole group and enter LaTeX to replace it; the original source cannot be recovered automatically."}</p>
           <div className="product-guide-shortcuts"><strong>{zh ? "常用操作" : "Useful controls"}</strong><span><kbd>V</kbd>{zh ? "选择" : "Select"}</span><span><kbd>T</kbd>{zh ? "文字" : "Text"}</span><span><kbd>R</kbd>{zh ? "矩形" : "Rectangle"}</span><span><kbd>⌘ / Ctrl</kbd><kbd>Z</kbd>{zh ? "撤销" : "Undo"}</span></div>
         </section>
         <section className="product-guide-section" id="guide-export"><span className="product-guide-number">03</span><h2>{titles[2]}</h2><p>{zh ? "使用「适合画布」查看整张图，检查文字、连线、遮挡和边界。确认后点击右上角「导出 SVG」。" : "Use “Fit canvas” to inspect the full figure. Check text, connectors, overlaps and boundaries, then choose “Export SVG” in the top right."}</p>

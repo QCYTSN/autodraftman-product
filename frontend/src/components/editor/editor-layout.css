@@ -187,3 +187,28 @@
   .product-editor .ff-editor-left-dock .ff-editor-tool-button { min-height: 44px; flex-basis: 44px; }
   .product-editor .ff-inspector-close { min-height: 40px; }
 }
+.ff-formula-editor > summary { cursor: pointer; font-size: 12px; font-weight: 650; padding-block: 4px; }
+.ff-formula-body { display: grid; gap: 12px; min-width: 0; padding-top: 12px; }
+.ff-formula-label { display: grid; gap: 6px; font-size: 12px; }
+.ff-formula-label textarea {
+  box-sizing: border-box; width: 100%; min-width: 0; min-height: 92px; resize: vertical;
+  padding: 10px; border: 1px solid #ded8e5; border-radius: 8px;
+  background: #fff; color: #241b30; font: 12px/1.6 ui-monospace, Consolas, monospace;
+}
+.ff-formula-label textarea:focus-visible { outline: 2px solid #7952df; outline-offset: 2px; }
+.ff-formula-snippets, .ff-formula-actions { display: flex; flex-wrap: wrap; gap: 6px; }
+.ff-formula-snippets button, .ff-formula-actions button {
+  min-height: 30px; padding: 5px 9px; border: 1px solid #ded8e5;
+  border-radius: 6px; background: #fff; color: #493e55; font-size: 12px; cursor: pointer;
+}
+.ff-formula-snippets button:hover, .ff-formula-actions button:hover { background: #f5f1fc; }
+.ff-formula-actions .ff-formula-apply { background: #6e48c7; border-color: #6e48c7; color: #fff; }
+.ff-formula-actions .ff-formula-apply:hover { background: #5e3bb3; }
+.ff-formula-actions button:disabled { opacity: .45; cursor: default; }
+.ff-formula-preview {
+  display: flex; align-items: center; min-height: 80px; max-height: 220px; overflow: auto;
+  padding: 12px; border: 1px solid #e9e4ef; border-radius: 8px; background: #faf9fc;
+}
+.ff-formula-preview img { display: block; flex: none; width: auto; height: auto; max-width: none; font-size: 22px; margin: auto; }
+.ff-formula-preview > span { color: #776c83; font-size: 12px; line-height: 1.5; }
+.ff-formula-error { margin: 0; color: #a52c41; font-size: 12px; line-height: 1.5; overflow-wrap: anywhere; }
