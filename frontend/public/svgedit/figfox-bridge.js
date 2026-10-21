@@ -590,7 +590,14 @@ function observeDocument() {
   });
   observer.observe(getContentRoot(), { subtree: true, attributes: true, childList: true, characterData: true });
 }
-editor.init().then(() => {
+// init() starts extension loading without awaiting it. Native shortcuts are only
+// installed by setAll() afterwards; do not advertise an editable canvas earlier.
+let resolveShortcuts;
+const shortcutsReady = new Promise(resolve => { resolveShortcuts = resolve; });
+const setAll = editor.setAll.bind(editor);
+editor.setAll = (...args) => { setAll(...args); resolveShortcuts(); };
+editor.init().then(async () => {
+  await shortcutsReady;
   features = createEditorFeatures(editor);
   nativeControls = createNativeControls(editor, features);
   selectionController = installSelection(editor, scheduleState);

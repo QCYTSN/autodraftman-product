@@ -17,11 +17,16 @@ await writeFile(output + '/insert-copy.svg', inserted);
 const browser = await chromium.launch({ executablePath: process.env.CHROME_PATH || 'C:/Program Files/Google/Chrome/Application/chrome.exe', headless: true });
 const checks = [], errors = [];
 let page;
-async function open(markup, name) {
+let releaseExtension, extensionPending = false;
+async function open(markup, name, delayExtension = false) {
   if (page) { errors.push(...await page.evaluate(() => window.editorErrors || [])); await page.close(); }
   page = await browser.newPage({ viewport: { width: 1440, height: 1000 }, acceptDownloads: true });
   page.setDefaultTimeout(8000);
   page.on('pageerror', e => errors.push(e.message));
+  if (delayExtension) {
+    const gate = new Promise(resolve => { releaseExtension = resolve; });
+    await page.route('**/svgedit/extensions/ext-grid/ext-grid.js', async route => { extensionPending = true; await gate; await route.continue(); });
+  }
   await page.addInitScript(() => {
     localStorage.setItem('autodraftman-language', 'zh');
     window.editorErrors = [];
@@ -45,7 +50,21 @@ async function exported(name) {
   return readFile(output + '/' + name, 'utf8');
 }
 try {
-  await open(sample, 'reliability-copy.svg');
+  const opening = open(sample, 'reliability-copy.svg', true);
+  opening.catch(() => {});
+  const started = Date.now();
+  while (!extensionPending && Date.now() - started < 15000) await new Promise(resolve => setTimeout(resolve, 25));
+  assert.equal(extensionPending, true, 'Delayed extension request started');
+  await page.waitForTimeout(500);
+  assert.notEqual(await page.locator('.ff-editor-stage').getAttribute('data-ready'), 'true', 'Do not advertise readiness before native shortcuts/extensions are installed');
+  releaseExtension(); await opening;
+  await frame().locator('#rotated').click();
+  const readyBefore = await frame().locator('#rotated').boundingBox();
+  await page.keyboard.press('ArrowRight'); await settle();
+  const readyAfter = await frame().locator('#rotated').boundingBox();
+  near(readyAfter.x - readyBefore.x, 1, 'Immediate ArrowRight after delayed startup');
+  near(readyAfter.y - readyBefore.y, 0, 'Immediate ArrowRight vertical drift');
+  checks.push('F3 startup: Slow extension loading keeps the canvas unready; the first click and arrow key work immediately after readiness');
   for (const [zoom, button, expected] of [[1000, '放大', 1200], [5, '缩小', 4], [6400, '放大', 6400], [1, '缩小', 1]]) {
     await field('%', zoom); await page.getByRole('button', { name: button, exact: true }).click();
     await page.waitForFunction(expected => window.editorState.zoom === expected, expected);
@@ -157,6 +176,7 @@ try {
   errors.push(...await page.evaluate(() => window.editorErrors));
   assert.deepEqual(errors, []);
 } finally {
+  releaseExtension?.();
   if (page) await page.screenshot({ path: output + '/last-state.png' });
   await writeFile(output + '/checks.json', JSON.stringify({ checks, errors }, null, 2));
   await browser.close();
