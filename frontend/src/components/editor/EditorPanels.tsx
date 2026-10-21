@@ -4,6 +4,7 @@ import { CaretDown, CaretRight, Eye, EyeSlash, Plus, X } from "@phosphor-icons/r
 import type { SvgEditDocument, SvgEditHandle, SvgEditPaint, SvgEditSelection, SvgEditState } from "./SvgEditHost";
 import { InspectorNumber } from "./EditorFields";
 import { EditorTextField, MarkerOptions } from "./EditorNativeFields";
+import { colorCss, colorHex, GradientStopColor, PrecisionColorPicker, readPaintColor } from "./EditorColorPicker";
 
 type PanelProps = { state: SvgEditState; editor: SvgEditHandle | null; zh: boolean };
 const units: Record<string, number> = { px: 1, mm: 96 / 25.4, cm: 96 / 2.54, in: 96, pt: 96 / 72, pc: 16 };
@@ -131,34 +132,27 @@ export function AdvancedSelectionFields({ selection, editor, zh }: { selection: 
   </>;
 }
 
-function hex(color: string) {
-  const context = document.createElement("canvas").getContext("2d")!;
-  context.fillStyle = color;
-  const resolved = context.fillStyle;
-  if (/^#[0-9a-f]{6}$/i.test(resolved)) return resolved;
-  if (/^#[0-9a-f]{3}$/i.test(resolved)) return `#${resolved.slice(1).split("").map(c => c + c).join("")}`;
-  return "#000000";
-}
-
 export function PaintDialog({ type, paint, editor, zh, onClose }: { type: "fill" | "stroke"; paint?: SvgEditPaint; editor: SvgEditHandle | null; zh: boolean; onClose: () => void }) {
   const [kind, setKind] = useState(paint?.kind === "radial" ? "radial" : paint?.kind === "linear" ? "linear" : "solid");
-  const [color, setColor] = useState(hex(paint?.color || "#6243ce"));
+  const [solid, setSolid] = useState(() => readPaintColor(paint?.color || "#6243ce", paint?.opacity ?? 1));
+  const [valid, setValid] = useState(true);
+  const color = colorHex(solid);
   const [opacity, setOpacity] = useState(Math.round((paint?.opacity ?? 1) * 100));
-  const [stops, setStops] = useState(paint?.stops.length ? paint.stops.map(stop => ({ ...stop, color: hex(stop.color) })) : [{ offset: 0, color: "#6243ce", opacity: 1 }, { offset: 1, color: "#f4d2c3", opacity: 1 }]);
+  const [stops, setStops] = useState(paint?.stops.length ? paint.stops.map(stop => { const parsed = readPaintColor(stop.color, stop.opacity); return { ...stop, color: colorHex(parsed), opacity: parsed.a }; }) : [{ offset: 0, color: "#6243ce", opacity: 1 }, { offset: 1, color: "#f4d2c3", opacity: 1 }]);
   const [attributes, setAttributes] = useState<Record<string, string>>(paint?.attributes || {});
   const title = type === "fill" ? (zh ? "填充" : "Fill") : (zh ? "描边" : "Stroke");
-  const gradient = `${kind === "radial" ? "radial-gradient(circle" : "linear-gradient(90deg"}, ${[...stops].sort((a, b) => a.offset - b.offset).map(stop => `${stop.color} ${stop.offset * 100}%`).join(", ")})`;
-  return <Dialog.Root open onOpenChange={open => { if (!open) onClose(); }}><Dialog.Portal><Dialog.Backdrop className="modal-backdrop" /><Dialog.Viewport className="dialog-viewport"><Dialog.Popup className="ff-editor-dialog ff-paint-dialog">
+  const gradient = `${kind === "radial" ? "radial-gradient(circle" : "linear-gradient(90deg"}, ${[...stops].sort((a, b) => a.offset - b.offset).map(stop => `${colorCss(readPaintColor(stop.color, stop.opacity))} ${stop.offset * 100}%`).join(", ")})`;
+  return <Dialog.Root open onOpenChange={open => { if (!open) onClose(); }}><Dialog.Portal><Dialog.Backdrop className="ff-editor-dialog-backdrop" /><Dialog.Viewport className="ff-editor-dialog-viewport"><Dialog.Popup className="ff-editor-dialog ff-paint-dialog">
     <div className="ff-editor-dialog-heading"><div><Dialog.Title>{title}</Dialog.Title><Dialog.Description>{zh ? "颜色、渐变与独立透明度" : "Color, gradient and paint opacity"}</Dialog.Description></div><Dialog.Close aria-label={zh ? "关闭" : "Close"}><X size={20} /></Dialog.Close></div>
-    <div className="ff-paint-preview" style={{ background: kind === "solid" ? color : gradient, opacity: opacity / 100 }} />
+    <div className="ff-paint-preview" style={{ background: kind === "solid" ? colorCss(solid) : gradient, opacity: kind === "solid" ? 1 : opacity / 100 }} />
     <label className="ff-inspector-select"><span>{zh ? "类型" : "Type"}</span><select aria-label={zh ? "类型" : "Type"} value={kind} onChange={event => setKind(event.target.value)}><option value="solid">{zh ? "纯色" : "Solid"}</option><option value="linear">{zh ? "线性渐变" : "Linear gradient"}</option><option value="radial">{zh ? "径向渐变" : "Radial gradient"}</option></select></label>
-    {kind === "solid" ? <label className="ff-inspector-select"><span>{zh ? "颜色" : "Color"}</span><input type="color" value={color} onChange={event => setColor(event.target.value)} /></label> : <>
-      <div className="ff-gradient-stops">{stops.map((stop, index) => <div className="ff-gradient-stop" key={index}><input aria-label={`${zh ? "色标颜色" : "Stop color"} ${index + 1}`} type="color" value={stop.color} onChange={event => setStops(previous => previous.map((item, i) => i === index ? { ...item, color: event.target.value } : item))} /><label><span>{zh ? "位置 %" : "Position %"}</span><input type="number" min={0} max={100} value={Math.round(stop.offset * 100)} onChange={event => setStops(previous => previous.map((item, i) => i === index ? { ...item, offset: Math.max(0, Math.min(100, Number(event.target.value))) / 100 } : item))} /></label><label><span>{zh ? "透明度 %" : "Opacity %"}</span><input type="number" min={0} max={100} value={Math.round(stop.opacity * 100)} onChange={event => setStops(previous => previous.map((item, i) => i === index ? { ...item, opacity: Math.max(0, Math.min(100, Number(event.target.value))) / 100 } : item))} /></label><button type="button" aria-label={zh ? "删除色标" : "Delete stop"} disabled={stops.length <= 2} onClick={() => setStops(previous => previous.filter((_, i) => i !== index))}><X size={14} /></button></div>)}</div>
+    {kind === "solid" ? <PrecisionColorPicker value={solid} onChange={setSolid} onValidityChange={setValid} zh={zh} /> : <>
+      <div className="ff-gradient-stops">{stops.map((stop, index) => <div className="ff-gradient-stop" key={index}><GradientStopColor label={`${zh ? "色标颜色" : "Stop color"} ${index + 1}`} color={stop.color} opacity={stop.opacity} zh={zh} onChange={(color, opacity) => setStops(previous => previous.map((item, i) => i === index ? { ...item, color, opacity } : item))} /><label><span>{zh ? "位置 %" : "Position %"}</span><input type="number" min={0} max={100} value={Math.round(stop.offset * 100)} onChange={event => setStops(previous => previous.map((item, i) => i === index ? { ...item, offset: Math.max(0, Math.min(100, Number(event.target.value))) / 100 } : item))} /></label><label><span>{zh ? "透明度 %" : "Opacity %"}</span><input type="number" min={0} max={100} value={Math.round(stop.opacity * 100)} onChange={event => setStops(previous => previous.map((item, i) => i === index ? { ...item, opacity: Math.max(0, Math.min(100, Number(event.target.value))) / 100 } : item))} /></label><button type="button" aria-label={zh ? "删除色标" : "Delete stop"} disabled={stops.length <= 2} onClick={() => setStops(previous => previous.filter((_, i) => i !== index))}><X size={14} /></button></div>)}</div>
       <button className="ff-inspector-wide-action" type="button" disabled={stops.length >= 64} onClick={() => setStops(previous => [...previous, { offset: .5, color: "#b4a0eb", opacity: 1 }])}><Plus size={14} />{zh ? "添加色标" : "Add stop"}</button>
       <div className="ff-inspector-grid">{(kind === "linear" ? ["x1", "y1", "x2", "y2"] : ["cx", "cy", "r", "fx", "fy"]).map(name => <label className="ff-inspector-select" key={name}><span>{name}</span><input value={attributes[name] ?? (name === "x2" ? "100%" : ["x1", "y1", "y2"].includes(name) ? "0%" : "50%")} onChange={event => setAttributes(previous => ({ ...previous, [name]: event.target.value }))} /></label>)}</div>
       <label className="ff-inspector-select"><span>{zh ? "坐标单位" : "Coordinates"}</span><select value={attributes.gradientUnits || "objectBoundingBox"} onChange={event => setAttributes(previous => ({ ...previous, gradientUnits: event.target.value }))}><option value="objectBoundingBox">{zh ? "相对对象" : "Object bounds"}</option><option value="userSpaceOnUse">{zh ? "画布坐标" : "Canvas coordinates"}</option></select></label>
     </>}
-    <label className="ff-inspector-select"><span>{zh ? "透明度" : "Opacity"} {opacity}%</span><input type="range" min={0} max={100} value={opacity} onChange={event => setOpacity(Number(event.target.value))} /></label>
-    <div className="ff-editor-dialog-actions"><Dialog.Close className="product-button product-button-secondary">{zh ? "取消" : "Cancel"}</Dialog.Close><button className="product-button product-button-primary" type="button" onClick={() => { editor?.execute("paint", { type, kind, color, opacity: opacity / 100, stops, attributes }); onClose(); }}>{zh ? "应用" : "Apply"}</button></div>
+    {kind !== "solid" && <label className="ff-inspector-select"><span>{zh ? "透明度" : "Opacity"} {opacity}%</span><input type="range" min={0} max={100} value={opacity} onChange={event => setOpacity(Number(event.target.value))} /></label>}
+    <div className="ff-editor-dialog-actions"><Dialog.Close className="product-button product-button-secondary">{zh ? "取消" : "Cancel"}</Dialog.Close><button className="product-button product-button-primary" disabled={kind === "solid" && !valid} type="button" onClick={() => { editor?.execute("paint", { type, kind, color, opacity: kind === "solid" ? solid.a : opacity / 100, stops, attributes }); onClose(); }}>{zh ? "应用" : "Apply"}</button></div>
   </Dialog.Popup></Dialog.Viewport></Dialog.Portal></Dialog.Root>;
 }

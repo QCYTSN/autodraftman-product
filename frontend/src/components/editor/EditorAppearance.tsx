@@ -1,8 +1,10 @@
 import { CaretDown } from "@phosphor-icons/react";
+import { useState } from "react";
 import { InspectorNumber } from "./EditorFields";
 import { Popover } from "@base-ui/react/popover";
 import { Slider } from "@base-ui/react/slider";
 import type { SvgEditHandle, SvgEditPaint, SvgEditState } from "./SvgEditHost";
+import { colorHex, PrecisionColorPicker, readPaintColor } from "./EditorColorPicker";
 
 const palette = [
   "#20152b",
@@ -22,6 +24,7 @@ function ColorControl({
   label,
   value,
   onChange,
+  onApply,
   onAdvanced,
   advancedLabel,
   paint,
@@ -34,13 +37,17 @@ function ColorControl({
   label: string;
   value: string;
   onChange: (value: string) => void;
+  onApply: (color: string, opacity: number) => void;
 }) {
+  const [open, setOpen] = useState(false);
+  const [draft, setDraft] = useState(() => readPaintColor(value, paint?.opacity ?? 1));
+  const [valid, setValid] = useState(true);
   const complexPaint = value === "mixed" || value.includes("url(");
   const gradient = paint?.stops.length ? `${paint.kind === "radial" ? "radial-gradient(circle" : "linear-gradient(90deg"}, ${paint.stops.map(stop => `${stop.color} ${stop.offset * 100}%`).join(", ")})` : "repeating-linear-gradient(135deg, #ddd 0 4px, #fff 4px 8px)";
   const visibleColor = complexPaint ? gradient : value === "none" ? "transparent" : value;
 
   return (
-    <Popover.Root>
+    <Popover.Root open={open} onOpenChange={next => { if (next) { setDraft(readPaintColor(value, paint?.opacity ?? 1)); setValid(true); } setOpen(next); }}>
       <Popover.Trigger className="ff-editor-color-trigger" aria-label={`${label}: ${value}`}>
         <span
           className="ff-editor-color-chip"
@@ -51,9 +58,13 @@ function ColorControl({
         <CaretDown size={12} weight="bold" aria-hidden="true" />
       </Popover.Trigger>
       <Popover.Portal>
-        <Popover.Positioner sideOffset={10} className="ff-editor-popover-positioner">
-          <Popover.Popup className="ff-editor-popover ff-editor-palette-popover">
+        <Popover.Positioner sideOffset={10} collisionPadding={12} className="ff-editor-popover-positioner ff-color-positioner">
+          <Popover.Popup className="ff-editor-popover ff-editor-palette-popover ff-color-popover">
             <Popover.Title className="ff-editor-popover-title">{label}</Popover.Title>
+            <PrecisionColorPicker value={draft} onChange={setDraft} onValidityChange={setValid} zh={zh} />
+            {complexPaint && <p className="ff-inspector-note">{zh ? "应用颜色会改为纯色。编辑原有渐变请打开下方「渐变与透明度」。" : "Applying a color replaces this paint with a solid color. Use Gradient & opacity to edit the existing gradient."}</p>}
+            <div className="ff-color-actions"><Popover.Close>{zh ? "取消" : "Cancel"}</Popover.Close><button type="button" disabled={!valid} onClick={() => { onApply(colorHex(draft), draft.a); setOpen(false); }}>{zh ? "应用颜色" : "Apply color"}</button></div>
+            <details className="ff-color-quick"><summary>{zh ? "快捷色板" : "Quick colors"}</summary>
             <div className="ff-editor-palette" role="listbox" aria-label={label}>
               {palette.map((color) => (
                 <Popover.Close
@@ -70,14 +81,7 @@ function ColorControl({
                 />
               ))}
             </div>
-            <label className="ff-editor-custom-color">
-              <span>{zh ? "自定义" : "Custom"}</span>
-              <input
-                type="color"
-                value={/^#[0-9a-f]{6}$/i.test(value) ? value : "#ffffff"}
-                onChange={(event) => onChange(event.target.value)}
-              />
-            </label>
+            </details>
             <Popover.Close className="ff-inspector-wide-action" onClick={onAdvanced}>{advancedLabel}</Popover.Close>
           </Popover.Popup>
         </Popover.Positioner>
@@ -88,8 +92,8 @@ function ColorControl({
 
 export function EditorAppearance({ state, editor, zh, ready, onPaint }: { state: SvgEditState; editor: SvgEditHandle | null; zh: boolean; ready: boolean; onPaint: (type: "fill" | "stroke") => void }) {
   return <section className="ff-inspector-section ff-editor-appearance"><h3>{zh ? "外观" : "Appearance"}</h3><div className="ff-appearance-controls">
-        <ColorControl zh={zh} label={zh ? "填充" : "Fill"} value={state.fill} paint={state.paints?.fill} onAdvanced={() => onPaint("fill")} advancedLabel={zh ? "渐变与透明度" : "Gradient & opacity"} onChange={(value) => editor?.setFill(value)} />
-        <ColorControl zh={zh} label={zh ? "描边" : "Stroke"} value={state.stroke} paint={state.paints?.stroke} onAdvanced={() => onPaint("stroke")} advancedLabel={zh ? "渐变与透明度" : "Gradient & opacity"} onChange={(value) => editor?.setStroke(value)} />
+        <ColorControl key={`fill-${state.selection?.id}`} zh={zh} label={zh ? "填充" : "Fill"} value={state.fill} paint={state.paints?.fill} onAdvanced={() => onPaint("fill")} advancedLabel={zh ? "渐变与透明度" : "Gradient & opacity"} onChange={(value) => editor?.setFill(value)} onApply={(color, opacity) => editor?.execute("paint", { type: "fill", kind: "solid", color, opacity })} />
+        <ColorControl key={`stroke-${state.selection?.id}`} zh={zh} label={zh ? "描边" : "Stroke"} value={state.stroke} paint={state.paints?.stroke} onAdvanced={() => onPaint("stroke")} advancedLabel={zh ? "渐变与透明度" : "Gradient & opacity"} onChange={(value) => editor?.setStroke(value)} onApply={(color, opacity) => editor?.execute("paint", { type: "stroke", kind: "solid", color, opacity })} />
 
         <InspectorNumber label={zh ? "线宽" : "Width"} ariaLabel={zh ? "线宽" : "Stroke width"} value={state.strokeWidth} min={0} max={99} onChange={value => { if (ready) editor?.setStrokeWidth(value); }} />
 

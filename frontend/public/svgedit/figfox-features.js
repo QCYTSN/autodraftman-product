@@ -186,7 +186,7 @@ export function createEditorFeatures(editor) {
     const elements = selected();
     const values = elements.map(el => style(el, type, type === "fill" ? "#000000" : "none"));
     const value = values[0] || canvas.getColor(type) || "none";
-    const opacity = number(style(elements[0], `${type}-opacity`, "1"), 1);
+    const opacity = elements.length ? number(style(elements[0], `${type}-opacity`, "1"), 1) : canvas.getPaintOpacity(type);
     if (values.some(v => v !== value)) return { kind: "mixed", color: "mixed", opacity, stops: [], attributes: {} };
     const gradient = definition(value);
     const kind = gradient?.localName === "linearGradient" ? "linear" : gradient?.localName === "radialGradient" ? "radial" : value.includes("url(") ? "reference" : "solid";

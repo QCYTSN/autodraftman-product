@@ -1,0 +1,35 @@
+.ff-color-positioner { z-index: 160; }
+.ff-color-popover { width: 300px; min-width: 0; max-width: calc(100vw - 24px); max-height: min(var(--available-height, 90dvh), calc(100dvh - 24px)); overflow-y: auto; overscroll-behavior: contain; padding: 16px; background: #fff; color: #1e2437; }
+.ff-color-popover .ff-editor-popover-title { margin-bottom: 14px; font-size: 14px; }
+.ff-precision-color .react-colorful { width: 100%; height: 194px; gap: 12px; }
+.ff-precision-color .react-colorful__saturation { border: 0; border-radius: 7px; }
+.ff-precision-color .react-colorful__hue { flex: 0 0 14px; border-radius: 7px; }
+.ff-color-alpha { height: 14px; margin-top: 12px; border-radius: 7px; background: repeating-conic-gradient(#dedbe3 0% 25%, #fff 0% 50%) 0 0 / 10px 10px; }
+.ff-color-alpha input { display: block; width: 100%; height: 14px; margin: 0; padding: 0; border: 0; border-radius: 7px; appearance: none; cursor: pointer; }
+.ff-color-alpha input::-webkit-slider-thumb { width: 18px; height: 18px; border: 2px solid white; border-radius: 50%; background: transparent; box-shadow: 0 1px 4px #241b3066; appearance: none; }
+.ff-color-alpha input::-moz-range-thumb { width: 14px; height: 14px; border: 2px solid white; border-radius: 50%; background: transparent; box-shadow: 0 1px 4px #241b3066; }
+.ff-precision-color .react-colorful__pointer { width: 18px; height: 18px; }
+.ff-precision-color .react-colorful__interactive:focus-visible { outline: 2px solid #6243ce; outline-offset: 4px; }
+.ff-color-value-row { display: grid; grid-template-columns: 32px minmax(0, 1fr) 90px; gap: 8px; align-items: end; margin-top: 18px; }
+.ff-color-preview { display: block; position: relative; width: 32px; height: 34px; overflow: hidden; border: 1px solid #d9d2df; border-radius: 6px; background: repeating-conic-gradient(#dedbe3 0% 25%, #fff 0% 50%) 0 0 / 10px 10px; }
+.ff-color-preview > span { position: absolute; inset: 0; }
+.ff-color-hex { display: grid; gap: 5px; min-width: 0; font-size: 11px; font-weight: 600; color: #54495f; }
+.ff-color-hex input { width: 100%; min-width: 0; height: 34px; padding: 6px 8px; border: 1px solid #ded7e8; border-radius: 6px; color: #1e2437; background: #fff; font: inherit; font-size: 13px; font-variant-numeric: tabular-nums; }
+.ff-color-hex input[aria-invalid="true"] { border-color: #b63d39; }
+.ff-color-rgb { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; margin-top: 10px; }
+.ff-precision-color .ff-inspector-number { display: grid; grid-template-columns: minmax(0, 1fr); gap: 5px; min-width: 0; margin: 0; padding: 0; border: 0; background: transparent; }
+.ff-precision-color .ff-inspector-number > span { color: #54495f; font-size: 11px; font-weight: 600; white-space: nowrap; }
+.ff-precision-color .ff-inspector-number input { width: 100%; min-width: 0; height: 34px; padding: 6px 8px; border: 1px solid #ded7e8; border-radius: 6px; color: #1e2437; background: #fff; font-size: 13px; text-align: left; }
+.ff-color-error { margin: 8px 0 0; color: #a13330; font-size: 12px; line-height: 1.5; }
+.ff-color-actions { display: flex; gap: 8px; margin-top: 16px; }
+.ff-color-actions button { flex: 1; min-height: 36px; padding: 7px 10px; border: 1px solid #ded7e8; border-radius: 6px; background: #fff; color: #54495f; font: inherit; font-size: 12px; cursor: pointer; }
+.ff-color-actions button:last-child { background: #6243ce; color: #fff; border-color: #6243ce; }
+.ff-color-actions button:disabled { opacity: .45; cursor: default; }
+.ff-color-quick { margin-top: 16px; border-top: 1px solid #e7e2ee; padding-top: 12px; }
+.ff-color-quick summary { font-size: 12px; color: #54495f; cursor: pointer; }
+.ff-color-popover .ff-editor-palette { grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 8px; padding: 4px; }
+.ff-color-popover .ff-editor-swatch { width: 100%; height: 30px; }
+.ff-color-popover > .ff-inspector-wide-action { margin-top: 12px; }
+.ff-color-popover .ff-inspector-note { margin: 10px 0; }
+.ff-gradient-stop .ff-gradient-color-trigger { width: 32px; height: 34px; padding: 0; border: 1px solid #d9d2df; cursor: pointer; }
+.ff-paint-dialog .ff-precision-color { margin-top: 16px; }

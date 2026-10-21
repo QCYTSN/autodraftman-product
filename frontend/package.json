@@ -25,6 +25,7 @@
     "review:editor-image-url": "node scripts/editor-image-url-check.mjs",
     "review:editor-formula": "node scripts/editor-formula-check.mjs",
     "review:editor-formula-input": "node scripts/editor-formula-input-check.mjs",
+    "review:editor-color": "node scripts/editor-color-check.mjs",
     "review:pages": "node scripts/run-pages-review.mjs"
   },
   "dependencies": {
@@ -39,6 +40,7 @@
     "mathlive": "0.111.1",
     "motion": "^13.0.0",
     "react": "^19.1.1",
+    "react-colorful": "5.8.1",
     "react-dom": "^19.1.1",
     "svgedit": "^7.4.2"
   },
