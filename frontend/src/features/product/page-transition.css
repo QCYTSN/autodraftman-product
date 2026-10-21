@@ -1,0 +1,26 @@
+/* Workspace views share a content frame; navigation and history stay still. */
+html[data-figfox-navigation="workspace"] .workspace-layout { view-transition-name: figfox-workspace; }
+html[data-figfox-navigation="workspace"]::view-transition-group(root) { animation: none; }
+html[data-figfox-navigation="workspace"]::view-transition-old(root) { display: none; }
+html[data-figfox-navigation="workspace"]::view-transition-new(root) { animation: none; mix-blend-mode: normal; }
+html[data-figfox-navigation="workspace"]::view-transition-group(figfox-workspace) { animation-duration: 280ms; animation-timing-function: cubic-bezier(.22,1,.36,1); }
+html[data-figfox-navigation="workspace"]::view-transition-image-pair(figfox-workspace) { isolation: isolate; }
+html[data-figfox-navigation="workspace"]::view-transition-old(figfox-workspace) { animation: figfox-workspace-out 130ms ease-out both; mix-blend-mode: normal; }
+html[data-figfox-navigation="workspace"]::view-transition-new(figfox-workspace) { animation: figfox-workspace-in 260ms 20ms cubic-bezier(.22,1,.36,1) both; mix-blend-mode: normal; }
+@keyframes figfox-workspace-out { to { opacity: 0; transform: translateY(-4px); } }
+@keyframes figfox-workspace-in { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+
+html[data-figfox-navigation^="editor-"] .product-header .product-brand,
+html[data-figfox-navigation^="editor-"] .product-editor-loader-header .product-brand,
+html[data-figfox-navigation^="editor-"] .product-editor-route[data-covered="false"] .product-editor-leading .product-brand { view-transition-name: figfox-brand; }
+html[data-figfox-navigation^="editor-"]::view-transition-old(root) { animation: figfox-login-fade-out 150ms ease-out both; mix-blend-mode: normal; }
+html[data-figfox-navigation^="editor-"]::view-transition-new(root) { animation: figfox-login-fade-in 250ms 15ms cubic-bezier(.22,1,.36,1) both; mix-blend-mode: normal; }
+html[data-figfox-navigation^="editor-"]::view-transition-group(figfox-brand) { animation-duration: 265ms; }
+@media (prefers-reduced-motion: reduce) {
+  html[data-figfox-navigation="workspace"]::view-transition-group(*),
+  html[data-figfox-navigation="workspace"]::view-transition-old(*),
+  html[data-figfox-navigation="workspace"]::view-transition-new(*),
+  html[data-figfox-navigation^="editor-"]::view-transition-group(*),
+  html[data-figfox-navigation^="editor-"]::view-transition-old(*),
+  html[data-figfox-navigation^="editor-"]::view-transition-new(*) { animation: none; }
+}

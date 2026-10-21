@@ -221,8 +221,9 @@ export async function getAuthProviders(): Promise<AuthProvider[]> {
 export function oauthStartUrl(
   provider: "google" | "github",
   mode: "login" | "link" = "login",
+  returnPath?: string,
 ): string {
-  const returnUrl = new URL(window.location.href);
+  const returnUrl = new URL(returnPath ?? window.location.href, window.location.origin);
   returnUrl.searchParams.delete("auth");
   returnUrl.searchParams.delete("auth_error");
   returnUrl.searchParams.delete("provider");

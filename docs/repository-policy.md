@@ -2,9 +2,9 @@
 
 ## Source of truth
 
-This repository owns the product frontend and backend. The original
-`fyp_AutoDraftman` repository owns research experiments and the generation
-kernel. The public `QCYTSN/figfox` repository is currently a deployment
+This repository owns the product frontend and backend. The current
+`LawrenceRiver/FigFox` repository (locally `FigFox-926`) owns research experiments
+and the generation kernel. The public `QCYTSN/figfox` repository is currently a deployment
 mirror for the static preview and must not become a second feature-development
 source.
 
@@ -22,6 +22,10 @@ source.
 - Do not persist permanent public URLs for private images.
 - Do not commit uploads, generated images, database volumes, logs containing
   prompts, or production backups.
+- Exception: the explicitly selected static FigFox showcase images and SVGs live
+  under `frontend/public/assets/demo/cases/`, with a source and checksum manifest.
+  This implements the user's instruction to publish the designed showcase. Raw
+  experiments, prompts, model responses and user uploads remain outside it.
 
 ## Product boundaries
 
