@@ -212,3 +212,28 @@
 .ff-formula-preview img { display: block; flex: none; width: auto; height: auto; max-width: none; font-size: 22px; margin: auto; }
 .ff-formula-preview > span { color: #776c83; font-size: 12px; line-height: 1.5; }
 .ff-formula-error { margin: 0; color: #a52c41; font-size: 12px; line-height: 1.5; overflow-wrap: anywhere; }
+.ff-formula-editor { position: relative; }
+.ff-formula-editor > summary { padding-right: 82px; }
+.ff-formula-expand { position: absolute; right: 16px; top: 15px; border: 0; background: transparent; color: #6243ce; font-size: 11px; padding: 5px; cursor: pointer; }
+.ff-formula-editor:not([open]) > .ff-formula-expand { display: none; }
+.ff-formula-input-tabs, .ff-formula-mode { display: flex; gap: 6px; flex-wrap: wrap; }
+.ff-formula-input-tabs button, .ff-formula-mode button, .ff-formula-preview-heading button { min-height: 30px; border: 1px solid #ded8e5; border-radius: 6px; padding: 5px 9px; background: #fff; color: #493e55; font-size: 12px; cursor: pointer; }
+.ff-formula-input-tabs button[aria-selected="true"], .ff-formula-mode button[aria-pressed="true"] { color: #6243ce; background: #f0ecfa; border-color: #bba8e8; }
+.ff-mathfield-editor { display: grid; min-width: 0; gap: 8px; }
+.ff-mathfield-host { min-width: 0; }
+.ff-mathfield-host math-field { display: block; max-width: 100%; min-height: 64px; padding: 10px; border: 1px solid #ded8e5; border-radius: 8px; background: #fff; color: #241b30; font-size: 20px; --caret-color: #6243ce; --selection-background-color: #e9ddff; --contains-highlight-background-color: #f0ecfa; }
+.ff-mathfield-host math-field:focus-within { outline: 2px solid #7952df; outline-offset: 2px; }
+.ff-mathfield-host math-field::part(menu-toggle) { display: none; }
+.ff-formula-templates { font-size: 12px; }
+.ff-formula-templates summary { cursor: pointer; padding-block: 4px; }
+.ff-formula-templates .ff-formula-snippets { margin-top: 8px; }
+.ff-formula-preview-heading { display: flex; align-items: center; justify-content: space-between; gap: 8px; font-size: 11px; color: #6d7384; }
+.ff-formula-preview:not([data-actual-size]) img { max-width: 100%; min-width: 0; }
+.ff-formula-dialog { display: flex; flex-direction: column; width: min(860px, calc(100vw - 32px)); max-height: calc(100dvh - 32px); }
+.ff-formula-dialog > .ML__keyboard { flex: 0 0 auto; height: 0; }
+.ff-formula-dialog > .ML__keyboard.is-visible { height: var(--_keyboard-height); }
+.ff-formula-dialog-body { padding: 0 20px 20px; min-height: 0; overflow: auto; }
+.ff-formula-dialog .ff-formula-body { padding-top: 0; }
+.ff-formula-dialog .ff-mathfield-host math-field { min-height: 100px; font-size: 24px; }
+.ff-formula-dialog .ff-formula-label textarea { min-height: 140px; }
+.ff-formula-dialog .ff-formula-preview { min-height: 100px; }

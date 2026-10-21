@@ -24,6 +24,7 @@
     "review:editor-layout": "node scripts/editor-layout-check.mjs",
     "review:editor-image-url": "node scripts/editor-image-url-check.mjs",
     "review:editor-formula": "node scripts/editor-formula-check.mjs",
+    "review:editor-formula-input": "node scripts/editor-formula-input-check.mjs",
     "review:pages": "node scripts/run-pages-review.mjs"
   },
   "dependencies": {
@@ -35,6 +36,7 @@
     "@phosphor-icons/react": "^2.1.10",
     "@radix-ui/themes": "^3.3.0",
     "dompurify": "^3.4.13",
+    "mathlive": "0.111.1",
     "motion": "^13.0.0",
     "react": "^19.1.1",
     "react-dom": "^19.1.1",

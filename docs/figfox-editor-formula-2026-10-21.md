@@ -5,15 +5,19 @@ The inspector previously edited SVG text and paths, but had no mathematical type
 ## User flow
 
 1. Select an existing formula group or text object, or leave the canvas unselected to insert a new formula.
-2. Open Formula · LaTeX. Enter an expression or use the Greek letter, fraction, root, power, subscript, sum and matrix templates.
+2. Open Formula · LaTeX. Use visual editing or the LaTeX source tab. In visual editing, type `\theta` then Space, `_` for a subscript, or `^` for a superscript. Switch between Math and Text for expressions mixed with sentences. The symbol keyboard and collapsed templates supplement keyboard entry.
+   Expand editor opens a larger dialog; the output preview fits its width by default, with an optional actual-size view.
 3. Check the preview, then choose Replace selection, Apply to formula, or Insert formula. Ctrl/Cmd+Enter applies to the selection, or inserts when nothing is selected.
 4. Export SVG. Reopen the file in FigFox to continue editing the stored LaTeX.
 
-Plain SVG text is copied into the input as a starting point; its layout and superscripts still need comparison with the original. Outlined paths do not contain recoverable LaTeX: select the complete old formula group and enter its expression to replace it. There is no OCR or automatic path-to-LaTeX reconstruction.
+SVG text is converted into an editable draft using its text/tspan structure. Prose keeps spaces and basic bold/italic styling; Greek characters become commands, and explicit baseline-shift superscripts/subscripts remain attached to their base. For example, the diffusion demo title becomes `\text{\textbf{4. Conditional Denoising U-Net }}\varepsilon_{\theta}`. Positioned glyphs and text on a path require comparison with the original; a notice identifies these approximate conversions. Outlined paths do not contain recoverable LaTeX: select the complete old formula group and enter its expression to replace it. There is no OCR or automatic path-to-LaTeX reconstruction.
+
+The native SVG-Edit importer trimmed individual text nodes, losing spaces between tspans. The integration now restores original character data under surviving text nodes after sanitization. It does not restore removed elements or unsafe attributes.
 
 ## Implementation boundaries
 
-- MathJax 4.1.3, locally bundled with the TeX SVG font. Uses base, AMS, newcommand and boldsymbol packages, including fractions, radicals, accents, Greek letters, matrices and aligned equations. This is mathematical LaTeX input, not a complete LaTeX document compiler.
+- MathLive 0.111.1 supplies visual input, command completion and a symbol keyboard; it loads only when the visual formula field opens. Its 20 font files are served locally. Generated input markup is sanitized, and URL/HTML macros are disabled.
+- MathJax 4.1.3 renders saved SVG, locally bundled with the TeX SVG font via the direct-module `fontData` option. Uses base, AMS, newcommand, boldsymbol and textmacros packages, including fractions, radicals, accents, Greek letters, matrices and aligned equations. This is mathematical LaTeX input, not a complete LaTeX document compiler. Unsupported commands report an error before applying.
 - Input may include `$…$`, `$$…$$`, `\(…\)` or `\[…\]` delimiters.
 - A lazy worker handles debounced preview rendering; regular canvas editing does not load the 2.78 MB uncompressed renderer. No CDN runtime, formula uploads, require/autoload, HTML or URL extensions.
 - A new parser per render isolates macros. Input length, macro expansion, output length, vector count and worker timeout are bounded. Invalid input leaves the canvas unchanged.
@@ -35,6 +39,8 @@ Plain SVG text is copied into the input as a starting point; its layout and supe
 
 Evidence and edited copies: `frontend/.review/editor-formula/compiled/`. The existing selection checks (11) and reliability checks (8) also pass. These are disposable editor fixtures; they do not constitute D13/D14/D16 verification of any final research sample.
 
+The mixed-text and keyboard regression command is `npm run review:editor-formula-input`. It uses a copy of the diffusion demo's actual title and disposable script/accent fixtures, covering text and subscript preservation, export/reload, physical-keyboard command entry, text/math switching, integral/set commands beyond the templates, local font loading, and the expanded mobile symbol keyboard. Evidence and modified copies are in `frontend/.review/editor-formula-input/compiled/`.
+
 Reviewed correctness, boundaries, security, accessibility and performance before publication. The existing general bundle-size warning remains. The added renderer and font have no reported production advisory in the installation audit; the existing DOMPurify IN_PLACE advisories are outside this change and the app does not use IN_PLACE.
 
-Official implementation references: [MathJax direct module usage](https://docs.mathjax.org/en/latest/server/direct.html), [MathJax font support](https://docs.mathjax.org/en/latest/output/fonts.html).
+Official implementation references: [MathJax direct module usage](https://docs.mathjax.org/en/latest/server/direct.html), [MathJax font support](https://docs.mathjax.org/en/latest/output/fonts.html), [MathLive integration](https://mathlive.io/mathfield/guides/integration/), [MathLive keyboard input](https://mathlive.io/mathfield/guides/shortcuts/).

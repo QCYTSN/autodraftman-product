@@ -16,7 +16,7 @@ const input = page.getByLabel('LaTeX source', { exact: true });
 const getFormula = id => frame.locator(`#${id}`).getAttribute('data-figfox-latex');
 const waitSource = (id, latex) => page.waitForFunction(([id, latex]) => document.querySelector('iframe').contentDocument.getElementById(id)?.getAttribute('data-figfox-latex') === latex, [id, latex]);
 const bounds = id => frame.locator(`#${id}`).evaluate(el => { const b = el.getBBox(); return { x:b.x, y:b.y, width:b.width, height:b.height, transform:el.getAttribute('transform'), parent:el.parentElement.id }; });
-const open = async () => { if (!await page.locator('.ff-formula-editor').evaluate(el=>el.open)) await page.locator('.ff-formula-editor summary').click(); };
+const open = async () => { if (!await page.locator('.ff-formula-editor').evaluate(el=>el.open)) await page.locator('.ff-formula-editor > summary').click(); await page.getByRole('tab',{name:'LaTeX source',exact:true}).click(); };
 const render = async latex => { await open(); await input.fill(latex); await page.locator('.ff-formula-preview img').waitFor(); assert.equal(await page.locator('.ff-formula-error').count(), 0); };
 const sample = `<svg xmlns="http://www.w3.org/2000/svg" width="800" height="500"><g id="module" transform="translate(40 35) scale(1.1)"><text id="equation" x="65" y="110" font-size="32" fill="#6243ce" transform="rotate(12 65 110)">α + β</text><rect id="sibling" x="310" y="70" width="100" height="45" fill="#ddd"/></g></svg>`;
 try {
@@ -29,7 +29,7 @@ try {
   await page.locator('.ff-selection-summary').filter({ hasText: 'equation' }).waitFor();
   const before = await bounds('equation'), sibling = await frame.locator('#sibling').evaluate(el => el.outerHTML);
   const latex = String.raw`\frac{\alpha_t}{\sqrt{1+\beta^2}}`;
-  await open(); assert.equal(await input.inputValue(),'α + β');
+  await open(); assert.match(await input.inputValue(),/\\alpha\s*\+\s*\\beta/);
   await render(latex);
   await page.getByRole('button', { name: 'Replace selection', exact: true }).click();
   await waitSource('equation', latex);
@@ -66,6 +66,7 @@ try {
   await page.reload();
   await page.waitForFunction(()=>document.querySelector('.ff-editor-stage')?.dataset.ready==='true');
   await command('select-layer','equation'); await waitSource('equation',updated);
+  await open();
   await input.waitFor(); assert.equal(await input.inputValue(),updated);
   const reopened = await browser.newPage({viewport:{width:1440,height:900}});
   await reopened.addInitScript(()=>{localStorage.clear();localStorage.setItem('autodraftman-language','en');});
@@ -74,6 +75,7 @@ try {
   await reopened.waitForFunction(()=>document.querySelector('.ff-editor-stage')?.dataset.ready==='true'&&!document.querySelector('.product-editor-route-content')?.inert);
   await reopened.frameLocator('iframe').locator('#equation').waitFor();
   await reopened.evaluate(()=>document.querySelector('iframe').contentWindow.figfoxCommand('select-layer','equation'));
+  await reopened.getByRole('tab',{name:'LaTeX source',exact:true}).click();
   await reopened.getByLabel('LaTeX source',{exact:true}).waitFor();
   assert.equal(await reopened.getByLabel('LaTeX source',{exact:true}).inputValue(),updated);
   await reopened.getByLabel('LaTeX source',{exact:true}).fill(String.raw`E=mc^2`);
@@ -96,6 +98,7 @@ try {
   await page.setViewportSize({width:390,height:844});
   await command('select-layer','equation');
   await page.locator('.ff-inspector-toggle').click();
+  await open();
   await input.waitFor();
   assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),true);
   await page.screenshot({path:output+'/formula-mobile.png'});
@@ -105,11 +108,13 @@ try {
   await page.reload();
   await page.waitForFunction(()=>document.querySelector('.ff-editor-stage')?.dataset.ready==='true');
   await command('select-layer','equation');
+  await page.getByRole('tab',{name:'LaTeX 源码',exact:true}).click();
   await page.getByLabel('LaTeX 源码',{exact:true}).waitFor();
   await page.locator('.ff-formula-preview img').waitFor();
   await page.screenshot({path:output+'/formula-zh.png'});
   await page.setViewportSize({width:320,height:640});
   await page.locator('.ff-inspector-toggle').click();
+  await page.getByRole('tab',{name:'LaTeX 源码',exact:true}).click();
   await page.getByLabel('LaTeX 源码',{exact:true}).waitFor();
   assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),true);
   await page.getByRole('button',{name:'应用到公式',exact:true}).scrollIntoViewIfNeeded();

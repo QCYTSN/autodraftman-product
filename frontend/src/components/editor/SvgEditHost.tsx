@@ -56,6 +56,7 @@ export type SvgEditSelection = {
   type: string;
   text: string;
   formula?: { id: string; latex: string } | null;
+  textLatex?: { source: string; approximate: boolean } | null;
   x: number;
   y: number;
   width: number;

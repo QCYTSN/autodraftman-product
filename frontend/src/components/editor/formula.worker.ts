@@ -7,6 +7,7 @@ import { MathJaxTexFont } from "@mathjax/mathjax-tex-font/js/svg.js";
 import "@mathjax/src/js/input/tex/ams/AmsConfiguration.js";
 import "@mathjax/src/js/input/tex/newcommand/NewcommandConfiguration.js";
 import "@mathjax/src/js/input/tex/boldsymbol/BoldsymbolConfiguration.js";
+import "@mathjax/src/js/input/tex/textmacros/TextMacrosConfiguration.js";
 
 const adaptor = liteAdaptor();
 RegisterHTMLHandler(adaptor);
@@ -18,11 +19,11 @@ self.onmessage = (event: MessageEvent<{ id: number; latex: string }>) => {
     // autoload, HTML or URL extensions: rendering never fetches external files.
     const document = mathjax.document("", {
       InputJax: new TeX({
-        packages: ["base", "ams", "newcommand", "boldsymbol"],
+        packages: ["base", "ams", "newcommand", "boldsymbol", "textmacros"],
         maxBuffer: 16000, maxMacros: 1000,
         formatError: (_jax: unknown, error: Error) => { throw error; },
       }),
-      OutputJax: new SVG({ fontCache: "none", font: new MathJaxTexFont() }),
+      OutputJax: new SVG({ fontCache: "none", fontData: MathJaxTexFont }),
     });
     let expression = latex.trim();
     for (const [left, right] of [["$$", "$$"], ["\\[", "\\]"], ["\\(", "\\)"], ["$", "$"]]) {

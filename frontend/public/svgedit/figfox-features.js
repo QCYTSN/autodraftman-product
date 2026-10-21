@@ -32,6 +32,12 @@ export function createEditorFeatures(editor) {
   const prepareSvg = canvas.prepareSvg.bind(canvas);
   canvas.prepareSvg = parsed => {
     const retained = [];
+    // SVG-Edit trims every text node, including spaces that separate adjacent
+    // tspans. Keep character data under surviving SVG text nodes verbatim.
+    const textNodes = [];
+    for (const parent of parsed.querySelectorAll("text, tspan, textPath")) for (const node of parent.childNodes) {
+      if (node.nodeType === Node.TEXT_NODE) textNodes.push({ node, parent, next: node.nextSibling, value: node.data });
+    }
     const mathNames = ["data-figfox-latex", "data-figfox-math-scale"];
     const names = ["baseline-shift", "alignment-baseline", "vector-effect", "paint-order", "letter-spacing", "word-spacing", "lengthAdjust", "textLength", "visibility", "shape-rendering", "text-rendering", "shape", "point", "sides", "edge", "starRadiusMultiplier", "starradiusmultiplier", "radialshift", "r", "r2", "cx", "cy", "orient"];
     for (const element of parsed.querySelectorAll("*")) {
@@ -40,6 +46,10 @@ export function createEditorFeatures(editor) {
       retained.push({ element, attributes });
     }
     prepareSvg(parsed);
+    for (const { node, parent, next, value } of textNodes.reverse()) if (parsed.documentElement.contains(parent)) {
+      node.data = value;
+      if (node.parentNode !== parent) parent.insertBefore(node, next?.parentNode === parent ? next : null);
+    }
     for (const { element, attributes } of retained) {
       if (parsed.documentElement.contains(element)) for (const [name, value] of attributes) {
         if (name === "starradiusmultiplier") element.removeAttribute(name);

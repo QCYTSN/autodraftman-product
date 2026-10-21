@@ -2,6 +2,7 @@ import { createEditorFeatures } from "./figfox-features.js";
 import { installSelection } from "./figfox-selection.js";
 import { createNativeControls } from "./figfox-native-controls.js";
 import { applyFormula } from "./figfox-formula.js";
+import { textToLatex } from "./figfox-text-latex.js";
 
 const targetOrigin = window.location.origin;
 const EditorCtor = (window.Editor && window.Editor.default) || window.Editor;
@@ -134,6 +135,7 @@ const selectionDetail = () => {
     id: element.id || "",
     type: selectedElements().length > 1 ? "selection" : element.tagName.toLowerCase(),
     text,
+    textLatex: text ? textToLatex(element) : null,
     formula: formula ? { id: formula.id, latex: formula.getAttribute("data-figfox-latex") } : null,
     x: bbox.x,
     y: bbox.y,
