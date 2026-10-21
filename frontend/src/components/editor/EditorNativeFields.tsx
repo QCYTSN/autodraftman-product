@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useId, useRef, useState } from "react";
 import { InspectorNumber } from "./EditorFields";
 import type { SvgEditHandle, SvgEditSelection, SvgEditState } from "./SvgEditHost";
 
@@ -7,11 +7,12 @@ export function MarkerOptions({ zh }: { zh: boolean }) {
   return <><option value="existing" disabled>{zh ? "已有标记" : "Existing marker"}</option><option value="nomarker">{zh ? "无" : "None"}</option>{shapes.flatMap(([value, cn, en]) => [<option key={value} value={value}>{zh ? cn : en}</option>, <option key={value + "_o"} value={value + "_o"}>{zh ? `空心${cn}` : `Open ${en.toLowerCase()}`}</option>])}</>;
 }
 
-export function EditorTextField({ label, value, onCommit }: { label: string; value: string; onCommit: (value: string) => void }) {
+export function EditorTextField({ label, value, onCommit, suggestions }: { label: string; value: string; onCommit: (value: string) => void; suggestions?: string[] }) {
   const [draft, setDraft] = useState(value);
+  const listId = useId();
   const focused = useRef(false);
   useEffect(() => { if (!focused.current) setDraft(value); }, [value]);
-  return <label className="ff-inspector-select"><span>{label}</span><input value={draft} onFocus={() => { focused.current = true; }} onChange={event => setDraft(event.target.value)} onBlur={() => { focused.current = false; if (draft !== value) onCommit(draft); }} onKeyDown={event => { if (event.key === "Enter") event.currentTarget.blur(); }} /></label>;
+  return <label className="ff-inspector-select"><span>{label}</span><input value={draft} list={suggestions ? listId : undefined} onFocus={() => { focused.current = true; }} onChange={event => setDraft(event.target.value)} onBlur={() => { focused.current = false; if (draft !== value) onCommit(draft); }} onKeyDown={event => { if (event.key === "Enter") event.currentTarget.blur(); }} />{suggestions && <datalist id={listId}>{suggestions.map(font => <option key={font} value={font} />)}</datalist>}</label>;
 }
 
 export function ShapeToolFields({ state, editor, zh }: { state: SvgEditState; editor: SvgEditHandle | null; zh: boolean }) {

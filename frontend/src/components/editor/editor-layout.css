@@ -1,0 +1,189 @@
+/* Editor workspace: commands / tools / canvas / inspector / view controls.
+   This sheet owns the product editor layout; the showcase keeps its own layout. */
+.product-editor:has(.ff-editor-stage) { height: 100dvh; min-height: 0; display: flex; flex-direction: column; }
+.product-editor:has(.ff-editor-stage) .product-editor-header { flex: 0 0 auto; min-height: 64px; padding: 10px 20px; gap: 16px; border-bottom: 1px solid #e7e2ee; }
+.product-editor:has(.ff-editor-stage) .product-editor-main { flex: 1; height: auto; min-height: 0; }
+.product-editor .product-editor-title span { max-width: 100%; overflow-wrap: anywhere; text-align: center; line-height: 1.4; }
+.product-editor .product-editor-back { flex-shrink: 0; }
+.product-editor .ff-editor-stage:not([data-native]) {
+  --inspector-width: 320px;
+  --tool-width: 56px;
+  --command-height: 48px;
+  --status-height: 44px;
+  display: grid;
+  grid-template-columns: var(--tool-width) minmax(0, 1fr);
+  grid-template-rows: var(--command-height) minmax(0, 1fr) var(--status-height);
+}
+.product-editor .ff-editor-stage[data-panel="open"]:not([data-native]) { grid-template-columns: var(--tool-width) minmax(0, 1fr) var(--inspector-width); }
+.product-editor .ff-editor-stage:not([data-native]) .figfox-svgedit-host { position: relative; grid-column: 2; grid-row: 2; width: 100%; height: 100%; min-height: 0; transition: none; }
+.product-editor .ff-editor-stage:not([data-native]) .ff-editor-properties {
+  position: relative; inset: auto; grid-column: 1 / -1; grid-row: 1;
+  width: 100%; max-width: none; min-width: 0; min-height: 0; transform: none;
+  gap: 8px; padding: 6px 12px; overflow: visible; flex-wrap: nowrap;
+  border: 0; border-bottom: 1px solid #e7e2ee; border-radius: 0;
+  background: #fff; box-shadow: none; backdrop-filter: none;
+}
+.product-editor .ff-editor-properties .ff-editor-toolbar-trigger { font-size: 12px; gap: 6px; height: 36px; padding: 0 10px; box-shadow: none; backdrop-filter: none; }
+.product-editor .ff-editor-properties .ff-editor-history-group { display: flex; gap: 0; }
+.product-editor .ff-editor-properties .ff-editor-separator { display: block; height: 20px; margin: 0 4px; }
+.product-editor .ff-editor-properties .ff-editor-icon-button { width: 36px; height: 36px; }
+.product-editor .ff-editor-properties .ff-inspector-toggle { display: flex; align-items: center; justify-content: center; width: auto; gap: 8px; padding: 0 12px; margin-left: auto; font-size: 12px; }
+.product-editor .ff-editor-stage:not([data-native]) .ff-editor-left-dock {
+  position: relative; inset: auto; grid-column: 1; grid-row: 2 / 4;
+  display: flex; flex-direction: column; justify-content: flex-start; align-items: center;
+  min-height: 0; gap: 8px; padding: 12px 6px; transform: none;
+  border: 0; border-right: 1px solid #e7e2ee; border-radius: 0;
+  background: #fff; box-shadow: none; backdrop-filter: none;
+}
+.product-editor .ff-editor-left-dock .ff-editor-tools { display: flex; flex-direction: column; width: 100%; max-width: none; min-height: 0; flex: 0 1 auto; gap: 4px; overflow-y: auto; overflow-x: hidden; scrollbar-width: thin; }
+.product-editor .ff-editor-left-dock .ff-editor-tool-button { width: 40px; height: 40px; flex: 0 0 40px; border-radius: 6px; }
+.product-editor .ff-editor-left-dock .ff-editor-tool-button[data-pressed] { background: #f0ecfa; color: #6243ce; box-shadow: none; }
+.product-editor .ff-editor-left-dock .ff-editor-extra-trigger { border: 0; border-top: 1px solid #e7e2ee; flex: 0 0 40px; }
+.product-editor .ff-editor-stage:not([data-native]) .ff-editor-inspector {
+  position: relative; inset: auto; grid-column: 3; grid-row: 2 / 4;
+  width: 100%; min-width: 0; display: flex; flex-direction: column;
+  border: 0; border-left: 1px solid #e7e2ee; border-radius: 0;
+  background: #fff; box-shadow: none; backdrop-filter: none;
+}
+.ff-inspector-heading { display: flex; flex: 0 0 auto; align-items: center; padding: 4px 8px; border-bottom: 1px solid #e7e2ee; gap: 4px; background: #fcfcfe; }
+.ff-inspector-heading > div { flex: 1; min-width: 0; }
+.product-editor .ff-inspector-heading .ff-inspector-tabs { padding: 0; border: 0; background: transparent; }
+.product-editor .ff-inspector-tabs [role="tab"] { min-height: 40px; padding: 0 4px; gap: 6px; font-size: 12px; font-weight: 500; color: #606477; }
+.product-editor .ff-inspector-tabs [role="tab"] svg { display: none; }
+.product-editor .ff-inspector-tabs [role="tab"][data-active] { color: #6243ce; background: #f0ecfa; }
+.product-editor .ff-inspector-tab-indicator { display: none; }
+.ff-inspector-close { display: grid; place-items: center; flex: 0 0 32px; width: 32px; height: 36px; border: 0; border-radius: 6px; background: transparent; color: #606477; cursor: pointer; }
+.ff-inspector-close:hover { background: #f0ecfa; }
+.product-editor .ff-inspector-scroll { flex: 1; min-height: 0; min-width: 0; overflow: auto; scrollbar-gutter: stable; }
+.product-editor .ff-inspector-section { padding: 16px; }
+.product-editor .ff-inspector-section h3 { margin-bottom: 12px; font-size: 12px; line-height: 1.4; letter-spacing: 0; font-weight: 600; text-transform: none; color: #3f4558; }
+.product-editor .ff-inspector-note { font-size: 11px; line-height: 1.6; color: #6d7384; overflow-wrap: anywhere; }
+.product-editor .ff-inspector-select { grid-template-columns: minmax(0, 1fr); gap: 6px; margin-top: 12px; }
+.product-editor .ff-inspector-select > span, .product-editor .ff-inspector-number > span { font-size: 11px; line-height: 1.4; color: #606477; font-weight: 500; overflow-wrap: anywhere; }
+.product-editor .ff-inspector-select :is(input, select) { font-size: 12px; font-weight: 400; min-height: 36px; color: #1e2437; }
+.product-editor .ff-inspector-number { min-width: 0; min-height: 36px; gap: 8px; padding: 6px 8px; }
+.product-editor .ff-inspector-number input { min-width: 0; font-size: 13px; font-weight: 400; color: #1e2437; }
+.product-editor .ff-inspector-grid { align-items: stretch; gap: 8px; }
+.product-editor .ff-inspector-grid .ff-inspector-number { grid-template-columns: minmax(0, 1fr); gap: 4px; }
+.product-editor .ff-inspector-grid .ff-inspector-number input { text-align: left; }
+.product-editor .ff-inspector-grid .ff-inspector-select { margin-top: 0; }
+.product-editor .ff-inspector-action-grid { gap: 8px; }
+.product-editor .ff-inspector-action-grid button { min-width: 0; min-height: 36px; padding: 8px; font-size: 12px; font-weight: 400; line-height: 1.4; white-space: normal; overflow-wrap: anywhere; }
+.product-editor .ff-inspector-wide-action { min-height: 36px; height: auto; padding: 8px; font-size: 12px; line-height: 1.5; white-space: normal; overflow-wrap: anywhere; }
+.product-editor .ff-inspector-wide-action svg { flex-shrink: 0; }
+.product-editor .ff-inspector-textarea { font-size: 13px; line-height: 1.6; }
+.product-editor .ff-type-controls { gap: 8px; }
+.product-editor .ff-type-controls > button { height: 36px; min-width: 0; }
+.product-editor .ff-selection-summary { padding-block: 12px; }
+.product-editor .ff-selection-summary strong { font-size: 12px; color: #1e2437; }
+.product-editor .ff-selection-summary span { font-size: 10px; color: #6d7384; }
+.ff-appearance-controls { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+.ff-appearance-controls > * { min-width: 0; }
+.ff-appearance-controls .ff-editor-color-trigger { display: flex; height: 36px; width: 100%; padding: 0 8px; gap: 8px; border: 1px solid #e7e2ee; border-radius: 6px; font-size: 12px; }
+.ff-appearance-controls .ff-editor-color-trigger > svg { margin-left: auto; flex-shrink: 0; }
+.ff-appearance-controls .ff-editor-opacity-trigger { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 4px; min-height: 36px; height: auto; padding: 6px 8px; border: 1px solid #e7e2ee; border-radius: 6px; font-size: 11px; }
+.ff-appearance-controls .ff-editor-opacity-trigger > span { display: inline; }
+.ff-appearance-controls .ff-editor-opacity-trigger strong { font-size: 12px; }
+.product-editor .ff-editor-statusbar { grid-column: 2; grid-row: 3; display: flex; align-items: center; justify-content: space-between; min-width: 0; gap: 12px; padding: 4px 12px; background: #fff; border-top: 1px solid #e7e2ee; }
+.product-editor .ff-selection-policy { font-size: 12px; padding: 0; min-width: 0; gap: 4px; }
+.product-editor .ff-selection-policy select { width: 90px; height: 32px; min-width: 0; }
+.product-editor .ff-editor-statusbar .ff-editor-zoom { position: static; inset: auto; transform: none; display: flex; width: auto; flex: 0 0 auto; margin-left: auto; padding: 0; border: 0; border-radius: 0; box-shadow: none; background: transparent; backdrop-filter: none; }
+.product-editor .ff-editor-statusbar .ff-editor-zoom .ff-editor-icon-button { display: inline-grid; width: 32px; height: 32px; }
+.product-editor .ff-editor-statusbar .ff-editor-zoom .ff-editor-separator { display: block; height: 20px; }
+.product-editor .ff-editor-statusbar .ff-inspector-number { height: 32px; min-height: 32px; width: 80px; }
+.product-editor .ff-editor-statusbar .ff-inspector-number input { width: 100%; font-size: 12px; }
+.product-editor .ff-editor-context { position: static; inset: auto; max-width: 220px; min-width: 0; padding: 4px 8px; border: 0; background: #f0ecfa; font-size: 11px; }
+.product-editor .ff-editor-context svg { flex-shrink: 0; }
+.product-editor .ff-editor-stage[data-native] .ff-editor-statusbar { display: none; }
+.product-editor .ff-editor-stage[data-native] .figfox-svgedit-host { width: 100%; transition: none; }
+.product-editor .ff-layers-panel > .ff-inspector-section { padding: 12px 16px; }
+.ff-layer-settings { margin-top: 12px; }
+.ff-layer-settings summary { padding: 8px 0; font-size: 12px; color: #6243ce; cursor: pointer; }
+.product-editor .ff-object-viewport { min-height: 80px; }
+.product-editor .ff-layers-panel { overflow-y: auto; }
+.product-editor .ff-layer-select strong { font-size: 12px; }
+.product-editor .ff-layer-row .ff-layer-visibility { flex: 0 0 32px; }
+
+/* Portalled controls share the editor's density and fit the visual viewport. */
+.ff-editor-popover-positioner { max-width: calc(100vw - 16px); }
+.ff-editor-popover { box-sizing: border-box; min-width: 0; max-width: min(380px, calc(100vw - 24px)); max-height: min(580px, var(--available-height, calc(100dvh - 32px))); overflow: auto; padding: 16px; background: #fff; backdrop-filter: none; }
+.ff-editor-menu-action { min-width: 0; min-height: 40px; height: auto; gap: 8px; font-size: 12px; line-height: 1.4; white-space: normal; }
+.ff-editor-menu-action > span { overflow-wrap: anywhere; }
+.ff-editor-menu-action > svg { flex-shrink: 0; }
+.ff-editor-extra-tool { min-width: 0; height: auto; min-height: 72px; }
+.ff-editor-extra-tool span { white-space: normal; font-size: 11px; line-height: 1.4; overflow-wrap: anywhere; }
+.ff-editor-dialog { max-width: calc(100vw - 24px); max-height: calc(100dvh - 32px); }
+.ff-editor-dialog-header > div { min-width: 0; }
+.ff-editor-dialog-header h2 { font-size: 20px; line-height: 1.4; }
+.ff-editor-dialog-header p { overflow-wrap: anywhere; }
+.ff-editor-dialog-close { flex-shrink: 0; }
+.ff-editor-dialog-actions { flex-wrap: wrap; }
+.ff-editor-dialog-actions > span { flex: 1 1 180px; min-width: 0; overflow-wrap: anywhere; }
+.ff-editor-dialog-actions > div { flex-wrap: wrap; }
+.ff-image-dialog, .ff-source-dialog, .ff-shape-dialog { display: flex; flex-direction: column; }
+.ff-editor-dialog-header, .ff-editor-dialog-actions { flex: 0 0 auto; }
+.ff-image-dialog-body { min-height: 0; overflow-y: auto; }
+.ff-image-dropzone { min-height: clamp(120px, 24dvh, 220px); }
+.ff-image-dropzone strong { white-space: normal; }
+.ff-source-editor { flex: 1; min-height: 100px; height: min(56dvh, 540px); }
+.ff-shape-dialog { height: min(720px, calc(100dvh - 32px)); }
+.ff-shape-dialog .ff-shape-dialog-body { flex: 1; min-height: 0; }
+.ff-shape-dialog .ff-shape-browser { min-height: 0; }
+.ff-editor-dialog :is(input, select, textarea) { min-width: 0; }
+.ff-paint-dialog .ff-inspector-grid { gap: 12px; }
+.ff-paint-dialog .ff-inspector-select { grid-template-columns: minmax(0, 1fr); gap: 6px; }
+.ff-gradient-stop { grid-template-columns: 32px minmax(0, 1fr) minmax(0, 1fr) 28px; }
+.ff-gradient-stop input[type="color"] { width: 32px; }
+.ff-editor-dialog .ff-inspector-select > span { font-size: 12px; }
+.ff-editor-dialog .ff-inspector-select input { font-size: 13px; }
+.ff-image-dropzone strong { max-width: 100%; overflow-wrap: anywhere; }
+.product-editor :is(button, input, select, textarea):focus-visible,
+.ff-editor-popover :is(button, input, select):focus-visible,
+.ff-editor-dialog :is(button, input, select, textarea):focus-visible { outline: 2px solid #6243ce; outline-offset: 2px; }
+.product-editor .ff-inspector-number:focus-within { border-color: #6243ce; }
+
+@media (max-width: 1100px) {
+  .product-editor .ff-editor-stage:not([data-native]) { --inspector-width: 304px; }
+  .product-editor .product-editor-header { grid-template-columns: auto minmax(0, 1fr) auto; }
+}
+@media (max-width: 900px) {
+  .product-editor .ff-editor-stage[data-panel="open"]:not([data-native]) { grid-template-columns: var(--tool-width) minmax(0, 1fr); }
+  .product-editor .ff-editor-stage:not([data-native]) .ff-editor-inspector { position: absolute; grid-area: auto; top: var(--command-height); right: 0; bottom: var(--status-height); width: min(var(--inspector-width), calc(100% - var(--tool-width))); z-index: 10; box-shadow: -8px 8px 24px rgb(30 36 55 / 8%); }
+  .product-editor .ff-editor-context { max-width: 140px; }
+}
+@media (max-width: 720px) {
+  .ff-editor-dialog-actions > span { flex: 0 1 auto; }
+  .ff-editor-dialog-actions > div { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 600px) {
+  .product-editor:has(.ff-editor-stage) .product-editor-header { grid-template-columns: auto minmax(0, 1fr); gap: 8px; padding: 8px 12px; }
+  .product-editor .product-editor-title { grid-column: 1 / -1; grid-row: 2; justify-self: stretch; justify-items: start; max-width: 100%; display: flex; align-items: center; gap: 12px; padding: 0; }
+  .product-editor .product-editor-title strong { flex: 1; min-width: 0; font-size: 12px; }
+  .product-editor .product-editor-title span { flex: 0 1 50%; text-align: right; font-size: 10px; }
+  .product-editor .ff-editor-stage:not([data-native]) { --tool-width: 48px; --command-height: 48px; }
+  .product-editor .ff-editor-stage:not([data-native]) .ff-editor-properties { padding: 6px; gap: 4px; }
+  .product-editor .ff-editor-properties .ff-editor-toolbar-trigger { padding: 0 6px; gap: 4px; }
+  .product-editor .ff-editor-properties .ff-editor-toolbar-trigger > svg:first-child { display: none; }
+  .product-editor .ff-editor-properties .ff-editor-separator { margin: 0; }
+  .product-editor .ff-editor-properties .ff-editor-icon-button { width: 32px; }
+  .product-editor .ff-editor-properties .ff-inspector-toggle { padding: 0; width: 36px; }
+  .product-editor .ff-inspector-toggle > span { display: none; }
+  .product-editor .ff-editor-stage:not([data-native]) .ff-editor-left-dock { padding: 8px 4px; gap: 4px; }
+  .product-editor .ff-editor-statusbar { grid-column: 1 / -1; z-index: 7; gap: 4px; padding: 4px 8px; }
+  .product-editor .ff-editor-stage:not([data-native]) .ff-editor-left-dock { grid-row: 2; }
+  .product-editor .ff-selection-policy select { width: 76px; font-size: 11px; }
+  .product-editor .ff-editor-context { max-width: 60px; gap: 0; }
+  .ff-editor-menu-grid { grid-template-columns: minmax(0, 1fr); }
+  .ff-editor-popover { padding: 12px; }
+  .ff-editor-dialog-viewport { padding: 12px; }
+  .ff-editor-dialog-header { padding: 16px; gap: 12px; }
+  .ff-shape-dialog-body { grid-template-columns: minmax(0, 1fr); }
+  .ff-shape-categories { display: flex; overflow-x: auto; border: 0; padding: 8px; gap: 4px; }
+  .ff-shape-categories button { flex-shrink: 0; min-height: 36px; }
+  .ff-shape-browser { padding: 12px; min-height: 0; }
+  .ff-shape-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
+@media (pointer: coarse) {
+  .product-editor .ff-editor-left-dock .ff-editor-tool-button { min-height: 44px; flex-basis: 44px; }
+  .product-editor .ff-inspector-close { min-height: 40px; }
+}

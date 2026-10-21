@@ -3,7 +3,7 @@ import { ArrowClockwise, ArrowCounterClockwise, FlipHorizontal, FlipVertical, Im
 import { useEffect, useRef, useState } from "react";
 import type { SvgEditHandle, SvgEditMode, SvgEditSelection } from "./SvgEditHost";
 import { AdvancedSelectionFields } from "./EditorPanels";
-import { MarkerOptions, NativeObjectFields } from "./EditorNativeFields";
+import { EditorTextField, MarkerOptions, NativeObjectFields } from "./EditorNativeFields";
 import type { SvgEditState } from "./SvgEditHost";
 
 export function SelectionInspector({
@@ -34,6 +34,9 @@ export function SelectionInspector({
     );
   }
 
+  const bold = selection.fontWeight === "bold" || Number(selection.fontWeight) >= 600;
+  const dash = selection.strokeDasharray.replace(/px/g, "").trim().replace(/[\s,]+/g, ",");
+  const dashes = ["none", "2,2", "5,5", "10,5", "10,5,2,5", "5,2,2,2", "5,2,2,2,2,2"];
   const isText = ["text", "tspan", "textpath"].includes(selection.type);
   const isImage = selection.type === "image";
   const isPath = ["path", "line", "polyline", "polygon"].includes(selection.type);
@@ -43,7 +46,7 @@ export function SelectionInspector({
   const isRect = selection.type === "rect";
 
   return (
-    <div className="ff-inspector-scroll">
+    <div className="ff-selection-properties">
       <section className="ff-inspector-section ff-selection-summary">
         <div>
           <span>{selection.type}</span>
@@ -94,26 +97,14 @@ export function SelectionInspector({
         <section className="ff-inspector-section">
           <h3>{zh ? "文字" : "Type"}</h3>
           <TextContent value={selection.text} onCommit={text => editor?.execute("text-content", { text, targetId: selection.id })} zh={zh} />
-          <label className="ff-inspector-select">
-            <span>{zh ? "字体" : "Font"}</span>
-            <select value={selection.fontFamily} onChange={(event) => editor?.execute("font-family", event.target.value)}>
-              <option value={selection.fontFamily}>{selection.fontFamily}</option>
-              <option value="Figtree">Figtree</option>
-              <option value="Noto Sans SC">Noto Sans SC</option>
-              <option value="Arial">Arial</option>
-              <option value="Helvetica">Helvetica</option>
-              <option value="Times New Roman">Times New Roman</option>
-              <option value="serif">Serif</option>
-              <option value="monospace">Monospace</option>
-            </select>
-          </label>
+          <EditorTextField label={zh ? "字体（可输入）" : "Font family"} value={selection.fontFamily} suggestions={["Figtree", "Noto Sans SC", "Arial", "Helvetica", "Times New Roman", "Times", "Courier", "serif", "sans-serif", "monospace", "cursive", "fantasy"]} onCommit={value => { if (value.trim()) editor?.execute("font-family", value.trim()); }} />
           <div className="ff-type-controls">
             <InspectorNumber label={zh ? "字号" : "Size"} value={selection.fontSize} min={1} onChange={(value) => editor?.execute("font-size", value)} />
-            <button type="button" data-active={selection.fontWeight === "bold"} onClick={() => editor?.execute("bold")}><TextB size={18} /></button>
-            <button type="button" data-active={selection.fontStyle === "italic"} onClick={() => editor?.execute("italic")}><TextItalic size={18} /></button>
-            <button type="button" onClick={() => editor?.execute("underline")}><span className="ff-underlined">U</span></button>
-            <button type="button" onClick={() => editor?.execute("strike")}><span className="ff-struck">S</span></button>
-            <button type="button" onClick={() => editor?.execute("overline")}><span className="ff-overlined">O</span></button>
+            <button type="button" aria-label={zh ? "粗体" : "Bold"} aria-pressed={bold} data-active={bold} onClick={() => setAttribute("font-weight", bold ? "normal" : "bold")}><TextB size={18} /></button>
+            <button type="button" aria-label={zh ? "斜体" : "Italic"} aria-pressed={selection.fontStyle === "italic"} data-active={selection.fontStyle === "italic"} onClick={() => editor?.execute("italic")}><TextItalic size={18} /></button>
+            <button type="button" aria-label={zh ? "下划线" : "Underline"} aria-pressed={selection.textDecoration.includes("underline")} data-active={selection.textDecoration.includes("underline")} onClick={() => editor?.execute("underline")}><span className="ff-underlined">U</span></button>
+            <button type="button" aria-label={zh ? "删除线" : "Strikethrough"} aria-pressed={selection.textDecoration.includes("line-through")} data-active={selection.textDecoration.includes("line-through")} onClick={() => editor?.execute("strike")}><span className="ff-struck">S</span></button>
+            <button type="button" aria-label={zh ? "上划线" : "Overline"} aria-pressed={selection.textDecoration.includes("overline")} data-active={selection.textDecoration.includes("overline")} onClick={() => editor?.execute("overline")}><span className="ff-overlined">O</span></button>
           </div>
           <label className="ff-inspector-select">
             <span>{zh ? "对齐" : "Anchor"}</span>
@@ -148,12 +139,15 @@ export function SelectionInspector({
         </div>
         <label className="ff-inspector-select">
           <span>{zh ? "线型" : "Dash"}</span>
-          <select value={selection.strokeDasharray} onChange={(event) => setAttribute("stroke-dasharray", event.target.value)}>
+          <select aria-label={zh ? "线型" : "Dash"} value={dash} onChange={(event) => setAttribute("stroke-dasharray", event.target.value)}>
             <option value="none">{zh ? "实线" : "Solid"}</option>
             <option value="2,2">····</option>
             <option value="5,5">- - -</option>
             <option value="10,5">— —</option>
             <option value="10,5,2,5">— · —</option>
+            <option value="5,2,2,2">— · ·</option>
+            <option value="5,2,2,2,2,2">— · · ·</option>
+            {!dashes.includes(dash) && <option value={dash}>{zh ? "自定义" : "Custom"} · {dash}</option>}
           </select>
         </label>
         {isPath && (

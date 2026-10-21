@@ -2275,7 +2275,7 @@ body {
     flex-direction: column;
   }
 
-  .ff-editor-properties {
+  .ff-editor-stage:not(.ff-editor-workspace) .ff-editor-properties {
     right: 0.6rem;
     left: 0.6rem !important;
     max-width: none !important;

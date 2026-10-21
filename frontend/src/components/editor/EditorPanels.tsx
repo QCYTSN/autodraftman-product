@@ -7,16 +7,19 @@ import { EditorTextField, MarkerOptions } from "./EditorNativeFields";
 
 type PanelProps = { state: SvgEditState; editor: SvgEditHandle | null; zh: boolean };
 const units: Record<string, number> = { px: 1, mm: 96 / 25.4, cm: 96 / 2.54, in: 96, pt: 96 / 72, pc: 16 };
+const canvasPresets = ["640x480", "800x600", "1024x768", "1280x720", "1280x960", "1600x1200"];
 
 export function DocumentPanel({ state, editor, zh }: PanelProps) {
   const doc = state.document;
   const [scale, setScale] = useState(1);
+  const [quality, setQuality] = useState(95);
   if (!doc) return null;
   const update = (change: Partial<SvgEditDocument>) => editor?.execute("document-settings", { ...doc, ...change });
   const factor = units[doc.unit] || 1;
   return <div className="ff-inspector-scroll">
     <section className="ff-inspector-section"><h3>{zh ? "画布" : "Canvas"}</h3>
       <EditorTextField label={zh ? "文档标题" : "Document title"} value={state.nativeControls?.title || ""} onCommit={value => editor?.execute("document-title", value)} />
+      <label className="ff-inspector-select"><span>{zh ? "画布预设" : "Canvas preset"}</span><select aria-label={zh ? "画布预设" : "Canvas preset"} value={canvasPresets.includes(`${doc.w}x${doc.h}`) ? `${doc.w}x${doc.h}` : "custom"} onChange={event => { if (event.target.value === "custom") return; const [w, h] = event.target.value.split("x").map(Number); update({ w, h }); }}><option value="custom">{zh ? "自定义尺寸" : "Custom size"}</option>{canvasPresets.map(value => <option key={value} value={value}>{value.replace("x", " × ")} px</option>)}</select></label>
       <div className="ff-inspector-grid">
         <InspectorNumber label={zh ? "宽度" : "Width"} value={doc.w / factor} min={.1} onChange={value => update({ w: value * factor })} />
         <InspectorNumber label={zh ? "高度" : "Height"} value={doc.h / factor} min={.1} onChange={value => update({ h: value * factor })} />
@@ -35,7 +38,8 @@ export function DocumentPanel({ state, editor, zh }: PanelProps) {
     </section>
     <section className="ff-inspector-section"><h3>{zh ? "导出图片" : "Export image"}</h3>
       <label className="ff-inspector-select"><span>{zh ? "倍率" : "Scale"}</span><select value={scale} onChange={event => setScale(Number(event.target.value))}>{[1, 2, 3, 4].map(value => <option key={value} value={value}>{value}×</option>)}</select></label>
-      <div className="ff-inspector-action-grid">{["png", "jpeg", "webp", "bmp"].map(format => <button type="button" key={format} onClick={() => editor?.execute("export-raster", { format, scale })}>{format.toUpperCase()}</button>)}<button type="button" onClick={() => editor?.execute("export-pdf")}>PDF</button></div>
+      <InspectorNumber label={zh ? "JPEG / WebP 质量 %" : "JPEG / WebP quality %"} value={quality} min={0} max={100} onChange={setQuality} />
+      <div className="ff-inspector-action-grid">{["png", "jpeg", "webp", "bmp"].map(format => <button type="button" key={format} onClick={() => editor?.execute("export-raster", { format, scale, quality: quality / 100 })}>{format.toUpperCase()}</button>)}<button type="button" onClick={() => editor?.execute("export-pdf")}>PDF</button></div>
       <p className="ff-inspector-note">{zh ? "PDF 按原尺寸输出图像页面。" : "PDF uses an image page at the original size."}</p>
       <p className="ff-inspector-note">{zh ? "PNG 保留透明背景；JPEG 使用白色背景。" : "PNG preserves transparency. JPEG uses a white background."}</p>
     </section>
@@ -77,9 +81,10 @@ export function LayerPanel({ state, editor, zh }: PanelProps) {
   const uniqueName = (base: string) => { let name = base, suffix = 2; while (docLayers.some(layer => layer.name === name)) name = `${base} ${suffix++}`; return name; };
   return <div className="ff-layers-panel">
     <section className="ff-inspector-section">
+      <label className="ff-inspector-select"><span>{zh ? "当前图层" : "Current layer"}</span><select aria-label={zh ? "当前图层" : "Current layer"} value={active} onChange={event => action("select", event.target.value)}>{docLayers.map(layer => <option key={layer.name}>{layer.name}</option>)}</select></label>
+      <details className="ff-layer-settings"><summary>{zh ? "管理图层" : "Manage layers"}</summary>
       <label className="ff-editor-check"><input type="checkbox" checked={state.nativeControls?.layerView || false} onChange={() => editor?.execute("layer-view")} />{zh ? "只显示当前图层" : "Show current layer only"}</label>
       <button className="ff-inspector-wide-action" type="button" disabled={docLayers.length < 2} onClick={() => editor?.execute("merge-all-layers")}>{zh ? "合并全部图层" : "Merge all layers"}</button>
-      <label className="ff-inspector-select"><span>{zh ? "当前图层" : "Current layer"}</span><select aria-label={zh ? "当前图层" : "Current layer"} value={active} onChange={event => action("select", event.target.value)}>{docLayers.map(layer => <option key={layer.name}>{layer.name}</option>)}</select></label>
       <label className="ff-inspector-select"><span>{zh ? "名称" : "Name"}</span><input key={active} aria-label={zh ? "图层名称" : "Layer name"} defaultValue={active} onBlur={event => { if (event.target.value !== active) action("rename", event.target.value); }} onKeyDown={event => { if (event.key === "Enter") event.currentTarget.blur(); }} /></label>
       <div className="ff-inspector-action-grid">
         <button type="button" onClick={() => action("create", uniqueName(zh ? "图层" : "Layer"))}><Plus size={14} />{zh ? "新建图层" : "New layer"}</button>
@@ -90,6 +95,7 @@ export function LayerPanel({ state, editor, zh }: PanelProps) {
         <button type="button" disabled={docLayers.at(-1)?.active} onClick={() => action("down")}>{zh ? "下移图层" : "Layer down"}</button>
       </div>
       <label className="ff-inspector-select"><span>{zh ? "移动选区到" : "Move selection to"}</span><select aria-label={zh ? "移动选区到" : "Move selection to"} value="" disabled={!state.hasSelection} onChange={event => action("move-selection", event.target.value)}><option value="" disabled>{zh ? "选择图层" : "Choose layer"}</option>{docLayers.map(layer => <option key={layer.name}>{layer.name}</option>)}</select></label>
+      </details>
     </section>
     <label className="ff-layer-search"><input type="search" placeholder={zh ? "查找对象…" : "Find objects…"} aria-label={zh ? "查找对象" : "Find objects"} value={query} onChange={event => { setQuery(event.target.value); if (viewport.current) viewport.current.scrollTop = 0; }} /></label>
     <div ref={viewport} className="ff-object-viewport" onScroll={event => setScroll(event.currentTarget.scrollTop)} role="tree" aria-label={zh ? "对象结构" : "Object tree"}>

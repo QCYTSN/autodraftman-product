@@ -83,6 +83,7 @@ try {
   checks.push("One undo restores the previous gradient; redo restores all stops");
 
   await page.getByRole("tab", { name: "图层" }).click();
+  await page.locator('.ff-layer-settings summary').click();
   await page.getByRole("button", { name: "新建图层", exact: true }).click();
   await page.waitForFunction(() => window.editorStates.at(-1)?.documentLayers.length === 2);
   await page.getByRole("textbox", { name: "图层名称" }).fill("Annotations");

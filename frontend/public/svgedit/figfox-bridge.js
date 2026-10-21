@@ -521,7 +521,15 @@ async function handleMessage(event) {
           const source = String(event.data.value?.source || "");
           const replace = Boolean(event.data.value?.replace);
           if (source && replace && selectedElements()[0]?.tagName.toLowerCase() === "image") {
-            canvas.setImageURL(source);
+            // Replacing content preserves the user's geometry. The native
+            // setImageURL also resets width/height to the bitmap's intrinsic size.
+            const image = selectedElements()[0];
+            const previous = canvas.getHref(image);
+            if (previous !== source) {
+              canvas.setHref(image, source);
+              canvas.addCommandToHistory(new canvas.history.ChangeElementCommand(image, { "#href": previous }));
+              canvas.call("changed", [image]);
+            }
           } else if (source) {
             canvas.lastGoodImgUrl = source;
             activateMode("image");

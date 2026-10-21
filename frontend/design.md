@@ -56,6 +56,13 @@ mouse; touch input and system accessibility preferences keep native cursors.
 Editor entrance animates opacity only, keeping canvas coordinates stable.
 Reduced-motion and forced-color preferences disable decorative motion.
 
+The editor reserves distinct rows for commands and view controls, a narrow drawing
+tool rail, and a 304–320px inspector beside the canvas. Appearance belongs in the
+Properties tab; layer management expands above the object tree. Below 900px the
+inspector opens over the canvas on demand with an explicit close control. Numeric
+geometry fields stack labels above values, and property content shares one scroll
+region. Canvas sizing follows the available viewport height, including short screens.
+
 ## Interaction and copy
 
 Keep copy literal and tied to available actions. Do not present invented usage

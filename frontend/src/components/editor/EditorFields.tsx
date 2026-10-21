@@ -6,12 +6,14 @@ export function InspectorNumber({
   onChange,
   min,
   max,
+  ariaLabel,
 }: {
   label: string;
   value: number;
   onChange: (value: number) => void;
   min?: number;
   max?: number;
+  ariaLabel?: string;
 }) {
   const [draft, setDraft] = useState(String(value));
   const focused = useRef(false);
@@ -27,6 +29,7 @@ export function InspectorNumber({
       <span>{label}</span>
       <input
         type="number"
+        aria-label={ariaLabel}
         value={draft}
         min={min}
         max={max}

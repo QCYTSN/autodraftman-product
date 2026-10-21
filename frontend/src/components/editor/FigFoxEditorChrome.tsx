@@ -4,6 +4,8 @@ import { ShapeToolFields } from "./EditorNativeFields";
 import { importSvgDocument } from "../../svgDocument";
 import { DocumentPanel, LayerPanel, PaintDialog } from "./EditorPanels";
 import "./editor-controls.css";
+import "./editor-layout.css";
+import { EditorAppearance } from "./EditorAppearance";
 import {
   AlignBottom,
   AlignCenterHorizontal,
@@ -31,10 +33,8 @@ import {
   MagnifyingGlass,
   MagnifyingGlassMinus,
   MagnifyingGlassPlus,
-  Minus,
   Path,
   PencilSimple,
-  Plus,
   Polygon,
   Rectangle,
   Scissors,
@@ -49,9 +49,7 @@ import {
   X,
 } from "@phosphor-icons/react";
 import { Dialog } from "@base-ui/react/dialog";
-import { NumberField } from "@base-ui/react/number-field";
 import { Popover } from "@base-ui/react/popover";
-import { Slider } from "@base-ui/react/slider";
 import { Tabs } from "@base-ui/react/tabs";
 import { Toggle } from "@base-ui/react/toggle";
 import { ToggleGroup } from "@base-ui/react/toggle-group";
@@ -61,7 +59,6 @@ import type {
   SvgEditCommand,
   SvgEditHandle,
   SvgEditMode,
-  SvgEditPaint,
   SvgEditState,
 } from "./SvgEditHost";
 
@@ -74,20 +71,6 @@ type FigFoxEditorChromeProps = {
   onSourceApply: (source: string) => Promise<void> | void;
   children: ReactNode;
 };
-
-const palette = [
-  "#20152b",
-  "#ffffff",
-  "#6b3df4",
-  "#9b7cff",
-  "#ef5b2a",
-  "#f4b942",
-  "#24a37a",
-  "#2f6fe4",
-  "#d9446e",
-  "#697386",
-  "none",
-];
 
 type EditorTool = {
   mode: SvgEditMode;
@@ -192,7 +175,6 @@ function ShapeLibraryDialog({
           <Dialog.Popup className="ff-editor-dialog ff-shape-dialog">
             <header className="ff-editor-dialog-header">
               <div>
-                <span>SVG-EDIT / SHAPES</span>
                 <Dialog.Title>{zh ? "形状库" : "Shape library"}</Dialog.Title>
                 <Dialog.Description>{zh ? "选择形状后，在画布上拖拽放置。" : "Choose a shape, then drag on the canvas to place it."}</Dialog.Description>
               </div>
@@ -280,7 +262,6 @@ function SourceEditorDialog({
           <Dialog.Popup className="ff-editor-dialog ff-source-dialog">
             <header className="ff-editor-dialog-header">
               <div>
-                <span>SVG-EDIT / SOURCE</span>
                 <Dialog.Title>{zh ? "SVG 源代码" : "SVG source"}</Dialog.Title>
                 <Dialog.Description>{zh ? "修改后会先检查并清理不安全内容，再放回画布。" : "Changes are checked and unsafe content is removed before returning to the canvas."}</Dialog.Description>
               </div>
@@ -317,14 +298,62 @@ function ImageSourceDialog({
   const inputRef = useRef<HTMLInputElement>(null);
   const [source, setSource] = useState("");
   const [fileName, setFileName] = useState("");
+  const [imageUrl, setImageUrl] = useState("");
+  const [loadingImage, setLoadingImage] = useState(false);
+  const imageRequest = useRef<AbortController | null>(null);
   const [error, setError] = useState("");
 
   useEffect(() => {
     if (!open) return;
     setSource("");
     setFileName("");
+    setImageUrl("");
     setError("");
+    setLoadingImage(false);
+    return () => imageRequest.current?.abort();
   }, [open]);
+
+  const placeImage = async () => {
+    if (source) { onPick(source); onClose(); return; }
+    const url = imageUrl.trim();
+    if (!/^https?:\/\//i.test(url)) { setError(zh ? "请输入 http 或 https 图片网址。" : "Enter an HTTP or HTTPS image URL."); return; }
+    const request = new AbortController();
+    imageRequest.current?.abort();
+    imageRequest.current = request;
+    setLoadingImage(true);
+    setError("");
+    try {
+      const response = await fetch(url, { signal: request.signal, credentials: "omit" });
+      const type = response.headers.get("content-type")?.split(";")[0] || "";
+      if (!response.ok || !/^image\/(png|jpeg|webp|gif)$/i.test(type) || !response.body) throw new Error("image");
+      const reader = response.body.getReader();
+      const chunks: Uint8Array<ArrayBuffer>[] = [];
+      let size = 0;
+      while (true) {
+        const { done, value } = await reader.read();
+        if (done) break;
+        size += value.byteLength;
+        if (size > 10 * 1024 * 1024) { await reader.cancel(); throw new Error("large"); }
+        chunks.push(value);
+      }
+      const blob = new Blob(chunks, { type });
+      const decoded = await createImageBitmap(blob);
+      decoded.close();
+      const embedded = await new Promise<string>((resolve, reject) => {
+        const fileReader = new FileReader();
+        fileReader.onload = () => resolve(String(fileReader.result));
+        fileReader.onerror = reject;
+        fileReader.readAsDataURL(blob);
+      });
+      if (request.signal.aborted) return;
+      onPick(embedded);
+      onClose();
+    } catch (reason) {
+      if (!request.signal.aborted) setError(reason instanceof Error && reason.message === "large" ? (zh ? "图片不能超过 10 MB。" : "Images must be 10 MB or smaller.") : (zh ? "无法读取图片。请检查网址与跨域权限，或下载后从本地选择。" : "Could not read the image. Check the URL and cross-origin permissions, or choose a local file."));
+    } finally {
+      if (!request.signal.aborted) setLoadingImage(false);
+    }
+  };
 
   const readFile = (file?: File) => {
     if (!file) return;
@@ -340,6 +369,7 @@ function ImageSourceDialog({
     reader.addEventListener("load", () => {
       if (typeof reader.result !== "string") return;
       setSource(reader.result);
+      setImageUrl("");
       setFileName(file.name);
       setError("");
     });
@@ -355,7 +385,6 @@ function ImageSourceDialog({
           <Dialog.Popup className="ff-editor-dialog ff-image-dialog">
             <header className="ff-editor-dialog-header">
               <div>
-                <span>SVG-EDIT / IMAGE</span>
                 <Dialog.Title>{replace ? (zh ? "替换图片" : "Replace image") : (zh ? "放置图片" : "Place image")}</Dialog.Title>
                 <Dialog.Description>{replace ? (zh ? "新图片会保留当前对象的位置和尺寸。" : "The new image keeps the current object's position and size.") : (zh ? "选择图片后，回到画布拖拽出需要的尺寸。" : "Choose an image, then drag its size on the canvas.")}</Dialog.Description>
               </div>
@@ -369,27 +398,26 @@ function ImageSourceDialog({
                 hidden
                 onChange={(event) => readFile(event.target.files?.[0])}
               />
-              <button type="button" className="ff-image-dropzone" onClick={() => inputRef.current?.click()}>
+              <button type="button" className="ff-image-dropzone" disabled={loadingImage} onClick={() => inputRef.current?.click()}>
                 {source ? <img src={source} alt="" /> : <UploadSimple size={28} weight="duotone" />}
                 <strong>{source ? fileName : (zh ? "选择一张图片" : "Choose an image")}</strong>
                 <span>{zh ? "PNG、JPEG、WebP 或 GIF · 最大 10 MB" : "PNG, JPEG, WebP, or GIF · up to 10 MB"}</span>
               </button>
+              <label className="ff-inspector-select"><span>{zh ? "或使用图片网址" : "Or use an image URL"}</span><input type="url" disabled={loadingImage} value={imageUrl} placeholder="https://…" onChange={event => { setImageUrl(event.target.value); setSource(""); setFileName(""); setError(""); }} /></label>
+              <p className="ff-inspector-note">{zh ? "网址图片会嵌入文档，最大 10 MB；原站需允许跨域读取。" : "Images are embedded in the document, up to 10 MB. The source must allow cross-origin access."}</p>
               {error && <p className="ff-image-dialog-error">{error}</p>}
             </div>
             <footer className="ff-editor-dialog-actions">
-              <span>{zh ? "文件只在当前浏览器中读取。" : "The file is read only in this browser."}</span>
+              <span>{zh ? "本地文件只在当前浏览器中读取。" : "Local files are read only in this browser."}</span>
               <div>
                 <button type="button" className="ff-dialog-secondary" onClick={onClose}>{zh ? "取消" : "Cancel"}</button>
                 <button
                   type="button"
                   className="ff-dialog-primary"
-                  disabled={!source}
-                  onClick={() => {
-                    onPick(source);
-                    onClose();
-                  }}
+                  disabled={loadingImage || (!source && !imageUrl.trim())}
+                  onClick={() => void placeImage()}
                 >
-                  {replace ? (zh ? "替换图片" : "Replace image") : (zh ? "开始放置" : "Place on canvas")}
+                  {loadingImage ? (zh ? "读取中…" : "Loading…") : replace ? (zh ? "替换图片" : "Replace image") : (zh ? "开始放置" : "Place on canvas")}
                 </button>
               </div>
             </footer>
@@ -397,72 +425,6 @@ function ImageSourceDialog({
         </Dialog.Viewport>
       </Dialog.Portal>
     </Dialog.Root>
-  );
-}
-
-function ColorControl({
-  label,
-  value,
-  onChange,
-  onAdvanced,
-  advancedLabel,
-  paint,
-}: {
-  paint?: SvgEditPaint;
-  onAdvanced: () => void;
-  advancedLabel: string;
-  label: string;
-  value: string;
-  onChange: (value: string) => void;
-}) {
-  const complexPaint = value === "mixed" || value.includes("url(");
-  const gradient = paint?.stops.length ? `${paint.kind === "radial" ? "radial-gradient(circle" : "linear-gradient(90deg"}, ${paint.stops.map(stop => `${stop.color} ${stop.offset * 100}%`).join(", ")})` : "repeating-linear-gradient(135deg, #ddd 0 4px, #fff 4px 8px)";
-  const visibleColor = complexPaint ? gradient : value === "none" ? "transparent" : value;
-
-  return (
-    <Popover.Root>
-      <Popover.Trigger className="ff-editor-color-trigger" aria-label={`${label}: ${value}`}>
-        <span
-          className="ff-editor-color-chip"
-          style={{ background: visibleColor }}
-          data-none={value === "none"}
-        />
-        <span>{label}</span>
-        <CaretDown size={12} weight="bold" aria-hidden="true" />
-      </Popover.Trigger>
-      <Popover.Portal>
-        <Popover.Positioner sideOffset={10} className="ff-editor-popover-positioner">
-          <Popover.Popup className="ff-editor-popover ff-editor-palette-popover">
-            <Popover.Title className="ff-editor-popover-title">{label}</Popover.Title>
-            <div className="ff-editor-palette" role="listbox" aria-label={label}>
-              {palette.map((color) => (
-                <Popover.Close
-                  key={color}
-                  type="button"
-                  className="ff-editor-swatch"
-                  data-active={value.toLowerCase() === color}
-                  data-none={color === "none"}
-                  style={{ background: color === "none" ? "transparent" : color }}
-                  aria-label={color === "none" ? "None" : color}
-                  aria-selected={value.toLowerCase() === color}
-                  role="option"
-                  onClick={() => onChange(color)}
-                />
-              ))}
-            </div>
-            <label className="ff-editor-custom-color">
-              <span>Custom</span>
-              <input
-                type="color"
-                value={/^#[0-9a-f]{6}$/i.test(value) ? value : "#ffffff"}
-                onChange={(event) => onChange(event.target.value)}
-              />
-            </label>
-            <Popover.Close className="ff-inspector-wide-action" onClick={onAdvanced}>{advancedLabel}</Popover.Close>
-          </Popover.Popup>
-        </Popover.Positioner>
-      </Popover.Portal>
-    </Popover.Root>
   );
 }
 
@@ -504,7 +466,7 @@ export function FigFoxEditorChrome({
 }: FigFoxEditorChromeProps) {
   const zh = language === "zh";
   const [inspectorOpen, setInspectorOpen] = useState(
-    () => typeof window === "undefined" || !window.matchMedia("(max-width: 1180px)").matches,
+    () => typeof window === "undefined" || !window.matchMedia("(max-width: 900px)").matches,
   );
   const [inspectorTab, setInspectorTab] = useState<"layers" | "properties" | "document">("properties");
   const [shapeLibraryOpen, setShapeLibraryOpen] = useState(false);
@@ -521,7 +483,7 @@ export function FigFoxEditorChrome({
   const canAlign = ready && state.hasSelection;
 
   useEffect(() => {
-    const compactViewport = window.matchMedia("(max-width: 1180px)");
+    const compactViewport = window.matchMedia("(max-width: 900px)");
     const collapseInspector = (event: MediaQueryListEvent) => {
       if (event.matches) setInspectorOpen(false);
     };
@@ -530,7 +492,7 @@ export function FigFoxEditorChrome({
   }, []);
 
   return (
-    <div className="ff-editor-stage" data-ready={ready} data-panel={inspectorOpen && !state.nativeUI ? "open" : "closed"} data-native={state.nativeUI || undefined}>
+    <div className="ff-editor-stage ff-editor-workspace" data-ready={ready} data-panel={inspectorOpen && !state.nativeUI ? "open" : "closed"} data-native={state.nativeUI || undefined}>
       {children}
       <input ref={insertSvgInput} type="file" accept=".svg,image/svg+xml" aria-label={zh ? "插入 SVG 文件" : "Insert SVG file"} hidden onChange={async event => {
         const file = event.target.files?.[0]; event.target.value = "";
@@ -540,7 +502,7 @@ export function FigFoxEditorChrome({
       }} />
       {insertError && <div className="ff-editor-command-error" role="alert"><span>{insertError}</span><button type="button" onClick={() => setInsertError("")}>×</button></div>}
       {state.nativeUI && <button className="ff-native-return" type="button" onClick={() => run("native-ui", false)}>{zh ? "返回 FigFox 工具" : "Return to FigFox tools"}</button>}
-      {!state.nativeUI && state.context && <button className="ff-editor-context" type="button" onClick={() => run("leave-context")} title={zh ? "退出组内编辑" : "Leave group editing"}><X size={14} /><span>{zh ? "正在编辑组" : "Editing group"} · {state.context.label}</span></button>}
+
 
       <div className="ff-editor-left-dock">
         <ToggleGroup
@@ -596,7 +558,7 @@ export function FigFoxEditorChrome({
                             setReplaceImage(false);
                             setImageDialogOpen(true);
                           } else if (tool.mode === "shapelib") setShapeLibraryOpen(true);
-                          else editor?.setMode(tool.mode);
+                          else { editor?.setMode(tool.mode); if (["star", "polygon"].includes(tool.mode)) { setInspectorTab("properties"); setInspectorOpen(true); } }
                         }}
                       >
                         <Icon size={19} />
@@ -612,12 +574,6 @@ export function FigFoxEditorChrome({
       </div>
 
       <Toolbar.Root className="ff-editor-properties" aria-label={zh ? "对象属性" : "Object properties"}>
-        <label className="ff-selection-policy" title={zh ? "文字附近可点选；双击编辑；Shift 多选；Ctrl / ⌘ 穿透分组" : "Click near text; double-click to edit; Shift to multi-select; Ctrl / ⌘ to select inside groups"}>
-          <Selection size={16} />
-          <select aria-label={zh ? "选择方式" : "Selection mode"} disabled={!ready} value={state.selectionPolicy || "object"} onChange={event => run("selection-policy", event.target.value)}>
-            <option value="object">{zh ? "选对象" : "Objects"}</option><option value="group">{zh ? "选整组" : "Groups"}</option>
-          </select>
-        </label>
         <Toolbar.Group className="ff-editor-history-group">
           <Toolbar.Button className="ff-editor-icon-button" disabled={!ready || !state.canUndo} onClick={() => editor?.undo()} aria-label={zh ? "撤销" : "Undo"} title={zh ? "撤销 · Ctrl Z" : "Undo · Ctrl Z"}>
             <ArrowCounterClockwise size={18} />
@@ -683,7 +639,7 @@ export function FigFoxEditorChrome({
                     ["align-middle", AlignCenterVertical, zh ? "垂直居中" : "Center vertically"],
                     ["align-bottom", AlignBottom, zh ? "底对齐" : "Align bottom"],
                   ].map(([command, Icon, label]) => (
-                    <button key={String(command)} type="button" disabled={!canAlign} title={String(label)} onClick={() => run(command as SvgEditCommand)}>
+                    <button key={String(command)} type="button" disabled={!canAlign} aria-label={String(label)} title={String(label)} onClick={() => run(command as SvgEditCommand)}>
                       <Icon size={18} />
                     </button>
                   ))}
@@ -697,33 +653,6 @@ export function FigFoxEditorChrome({
                   <MenuAction label={zh ? "置于顶层" : "Bring to front"} icon={Stack} disabled={!canArrange} onClick={() => run("bring-front")} />
                   <MenuAction label={zh ? "置于底层" : "Send to back"} icon={Stack} disabled={!canArrange} onClick={() => run("send-back")} />
                 </div>
-              </Popover.Popup>
-            </Popover.Positioner>
-          </Popover.Portal>
-        </Popover.Root>
-
-        <Toolbar.Separator className="ff-editor-separator" />
-        <ColorControl label={zh ? "填充" : "Fill"} value={state.fill} paint={state.paints?.fill} onAdvanced={() => setPaintType("fill")} advancedLabel={zh ? "渐变与透明度" : "Gradient & opacity"} onChange={(value) => editor?.setFill(value)} />
-        <ColorControl label={zh ? "描边" : "Stroke"} value={state.stroke} paint={state.paints?.stroke} onAdvanced={() => setPaintType("stroke")} advancedLabel={zh ? "渐变与透明度" : "Gradient & opacity"} onChange={(value) => editor?.setStroke(value)} />
-
-        <NumberField.Root className="ff-editor-number-field" value={state.strokeWidth} min={0} max={99} step={0.5} disabled={!ready} onValueChange={(value) => editor?.setStrokeWidth(value ?? 0)}>
-          <span className="ff-editor-field-label">{zh ? "线宽" : "Width"}</span>
-          <NumberField.Group className="ff-editor-number-group">
-            <NumberField.Decrement className="ff-editor-step-button" aria-label={zh ? "减小线宽" : "Decrease width"}><Minus size={12} weight="bold" /></NumberField.Decrement>
-            <NumberField.Input className="ff-editor-number-input" aria-label={zh ? "线宽" : "Stroke width"} onKeyDown={event => { if (event.key === "Enter") event.currentTarget.blur(); }} />
-            <NumberField.Increment className="ff-editor-step-button" aria-label={zh ? "增大线宽" : "Increase width"}><Plus size={12} weight="bold" /></NumberField.Increment>
-          </NumberField.Group>
-        </NumberField.Root>
-
-        <Popover.Root>
-          <Popover.Trigger className="ff-editor-opacity-trigger"><span>{zh ? "不透明度" : "Opacity"}</span><strong>{state.opacity}%</strong></Popover.Trigger>
-          <Popover.Portal>
-            <Popover.Positioner sideOffset={10} className="ff-editor-popover-positioner">
-              <Popover.Popup className="ff-editor-popover ff-editor-opacity-popover">
-                <div className="ff-editor-opacity-heading"><Popover.Title className="ff-editor-popover-title">{zh ? "不透明度" : "Opacity"}</Popover.Title><strong>{state.opacity}%</strong></div>
-                <Slider.Root className="ff-editor-slider" value={state.opacity} min={0} max={100} step={1} onValueChange={(value) => editor?.setOpacity(value)}>
-                  <Slider.Control className="ff-editor-slider-control"><Slider.Track className="ff-editor-slider-track"><Slider.Indicator className="ff-editor-slider-indicator" /><Slider.Thumb className="ff-editor-slider-thumb" /></Slider.Track></Slider.Control>
-                </Slider.Root>
               </Popover.Popup>
             </Popover.Positioner>
           </Popover.Portal>
@@ -753,21 +682,21 @@ export function FigFoxEditorChrome({
             </Popover.Positioner>
           </Popover.Portal>
         </Popover.Root>
-        <Toolbar.Button className="ff-editor-icon-button" data-active={inspectorOpen} disabled={!ready} onClick={() => setInspectorOpen((value) => !value)} aria-label={zh ? "打开属性面板" : "Toggle inspector"} title={zh ? "属性与图层" : "Inspector and layers"}><SlidersHorizontal size={18} /></Toolbar.Button>
+        <Toolbar.Button className="ff-editor-icon-button ff-inspector-toggle" aria-expanded={inspectorOpen} aria-controls="figfox-inspector" data-active={inspectorOpen} disabled={!ready} onClick={() => setInspectorOpen((value) => !value)} aria-label={zh ? "打开属性面板" : "Toggle inspector"} title={zh ? "属性与图层" : "Inspector and layers"}><SlidersHorizontal size={18} /><span>{zh ? "面板" : "Panels"}</span></Toolbar.Button>
       </Toolbar.Root>
 
       {inspectorOpen && ready && (
-        <aside className="ff-editor-inspector" aria-label={zh ? "属性与图层" : "Inspector and layers"}>
-          <Tabs.Root value={inspectorTab} onValueChange={(value) => setInspectorTab(value as "layers" | "properties" | "document")}>
+        <aside id="figfox-inspector" className="ff-editor-inspector" aria-label={zh ? "属性与图层" : "Inspector and layers"}>
+          <div className="ff-inspector-heading"><Tabs.Root value={inspectorTab} onValueChange={(value) => setInspectorTab(value as "layers" | "properties" | "document")}>
             <Tabs.List className="ff-inspector-tabs">
               <Tabs.Tab value="properties"><SlidersHorizontal size={16} />{zh ? "属性" : "Properties"}</Tabs.Tab>
-              <Tabs.Tab value="layers"><Stack size={16} />{zh ? "图层" : "Layers"}<span>{state.objectCount ?? state.layers.length}</span></Tabs.Tab>
+              <Tabs.Tab value="layers"><Stack size={16} />{zh ? "图层" : "Layers"}</Tabs.Tab>
               <Tabs.Tab value="document"><Rectangle size={16} />{zh ? "页面" : "Page"}</Tabs.Tab>
               <Tabs.Indicator className="ff-inspector-tab-indicator" />
             </Tabs.List>
-          </Tabs.Root>
+          </Tabs.Root><button className="ff-inspector-close" type="button" aria-label={zh ? "关闭面板" : "Close panels"} onClick={() => setInspectorOpen(false)}><X size={16} /></button></div>
           {inspectorTab === "properties" ? (
-            <><ShapeToolFields state={state} editor={editor} zh={zh} /><SelectionInspector
+            <div className="ff-inspector-scroll"><EditorAppearance state={state} editor={editor} zh={zh} ready={ready} onPaint={setPaintType} /><ShapeToolFields state={state} editor={editor} zh={zh} /><SelectionInspector
               key={state.selection?.id || "empty"}
               zh={zh}
               selection={state.selection}
@@ -778,14 +707,21 @@ export function FigFoxEditorChrome({
                 setReplaceImage(true);
                 setImageDialogOpen(true);
               }}
-            /></>
+            /></div>
           ) : (
             inspectorTab === "layers" ? <LayerPanel state={state} editor={editor} zh={zh} /> : <DocumentPanel state={state} editor={editor} zh={zh} />
           )}
         </aside>
       )}
 
-      <button className="ff-mobile-inspector" type="button" disabled={!ready} onClick={() => setInspectorOpen(value => !value)} aria-label={zh ? "属性、图层与页面" : "Properties, layers and page"}><SlidersHorizontal size={17} />{zh ? "面板" : "Panels"}</button>
+      <footer className="ff-editor-statusbar">
+        <label className="ff-selection-policy" title={zh ? "文字附近可点选；双击编辑；Shift 多选；Ctrl / ⌘ 穿透分组" : "Click near text; double-click to edit; Shift to multi-select; Ctrl / ⌘ to select inside groups"}>
+          <Selection size={16} />
+          <select aria-label={zh ? "选择方式" : "Selection mode"} disabled={!ready} value={state.selectionPolicy || "object"} onChange={event => run("selection-policy", event.target.value)}>
+            <option value="object">{zh ? "选对象" : "Objects"}</option><option value="group">{zh ? "选整组" : "Groups"}</option>
+          </select>
+        </label>
+      {!state.nativeUI && state.context && <button className="ff-editor-context" type="button" onClick={() => run("leave-context")} title={zh ? "退出组内编辑" : "Leave group editing"}><X size={14} /><span>{zh ? "正在编辑组" : "Editing group"} · {state.context.label}</span></button>}
       <Toolbar.Root className="ff-editor-zoom" aria-label={zh ? "画布缩放" : "Canvas zoom"}>
         <Toolbar.Button className="ff-editor-icon-button" disabled={!ready} onClick={() => editor?.zoomOut()} aria-label={zh ? "缩小" : "Zoom out"}><MagnifyingGlassMinus size={17} /></Toolbar.Button>
         <InspectorNumber label="%" value={state.zoom} min={1} max={6400} onChange={value => run("zoom-value", value)} />
@@ -793,6 +729,7 @@ export function FigFoxEditorChrome({
         <Toolbar.Separator className="ff-editor-separator" />
         <Toolbar.Button className="ff-editor-icon-button" disabled={!ready} onClick={() => editor?.fitCanvas()} aria-label={zh ? "适合画布" : "Fit canvas"} title={zh ? "适合画布" : "Fit canvas"}><BoundingBox size={18} /></Toolbar.Button>
       </Toolbar.Root>
+      </footer>
 
       <ShapeLibraryDialog
         open={shapeLibraryOpen}
