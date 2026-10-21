@@ -13,7 +13,11 @@ export type SvgEditMode =
   | "fhpath"
   | "line"
   | "rect"
+  | "square"
+  | "fhrect"
   | "ellipse"
+  | "circle"
+  | "fhellipse"
   | "text"
   | "textedit"
   | "image"
@@ -100,11 +104,21 @@ export type SvgEditState = {
   document?: SvgEditDocument;
   documentLayers?: { name: string; active: boolean; visible: boolean }[];
   nativeUI?: boolean;
+  selectionPolicy?: "object" | "group";
+  nativeControls?: { rulers: boolean; title: string; shape: string | null; shapeParameters: Record<string, number>; link: string; groupTitle: string; layerView: boolean };
   alignRelative?: string;
   context?: { id: string; label: string } | null;
 };
 
 export type SvgEditCommand =
+  | "import-svg" | "select-next" | "select-previous"
+  | "shape-parameter" | "hyperlink" | "remove-hyperlink" | "select-parent" | "group-title"
+  | "document-title" | "document-properties" | "fit-page-content" | "toggle-rulers"
+  | "layer-view" | "merge-all-layers" | "export-pdf"
+  | "selection-policy"
+  | "zoom-value"
+  | "fit-layer"
+  | "paste-in-place"
   | "paint"
   | "geometry"
   | "layer-action"
@@ -306,7 +320,7 @@ function SvgEditHost({
       if (event.data?.source !== "figfox-svgedit") return;
 
       if (event.data.type === "ready") {
-        lastEditorMarkupRef.current = latestMarkupRef.current;
+        rememberMarkup(latestMarkupRef.current);
         setFrameReady(true);
         frameRef.current?.contentWindow?.postMessage(
           {

@@ -1,9 +1,13 @@
 import { createEditorFeatures } from "./figfox-features.js";
+import { installSelection } from "./figfox-selection.js";
+import { createNativeControls } from "./figfox-native-controls.js";
 
 const targetOrigin = window.location.origin;
 const EditorCtor = (window.Editor && window.Editor.default) || window.Editor;
 const editor = new EditorCtor(document.getElementById("container"));
 let features;
+let selectionController;
+let nativeControls;
 let nativeUI = false;
 let alignRelative = "selected";
 let textInputHome;
@@ -208,7 +212,7 @@ const sendState = () => {
     selection: detail,
     gridVisible: Boolean(editor.configObj.curConfig.showGrid),
     wireframe: editor.workarea.classList.contains("wireframe"),
-    nativeUI, alignRelative,
+    nativeUI, alignRelative, selectionPolicy: selectionController?.policy || "object", nativeControls: nativeControls.state(),
     context: canvas.getCurrentGroup() ? { id: canvas.getCurrentGroup().id, label: elementLabel(canvas.getCurrentGroup(), 0) } : null,
     document: { ...canvas.getResolution(), unit: editor.configObj.curConfig.baseUnit || "px", snap: Boolean(editor.configObj.curConfig.gridSnapping), snapStep: editor.configObj.curConfig.snappingStep || 10 },
     documentLayers: features.layers(),
@@ -238,7 +242,11 @@ const toolIds = {
   fhpath: "tool_fhpath",
   line: "tool_line",
   rect: "tool_rect",
+  square: "tool_square",
+  fhrect: "tool_fhrect",
   ellipse: "tool_ellipse",
+  circle: "tool_circle",
+  fhellipse: "tool_fhellipse",
   text: "tool_text",
   image: "tool_image",
   zoom: "tool_zoom",
@@ -390,6 +398,10 @@ async function handleMessage(event) {
     try {
       const canvas = editor.svgCanvas;
       switch (event.data.command) {
+        case "selection-policy": selectionController.setPolicy(event.data.value); break;
+        case "zoom-value": editor.bottomPanel.changeZoom(String(Math.max(1, Math.min(6400, Number(event.data.value) || 100)))); break;
+        case "fit-layer": editor.bottomPanel.changeZoom("layer"); break;
+        case "paste-in-place": canvas.pasteElements("in_place"); break;
         case "paint": features.applyPaint(event.data.value); break;
         case "geometry": features.geometry(event.data.value.name, Number(event.data.value.value)); break;
         case "layer-action": features.layerAction(event.data.value.action, event.data.value.value); treeDirty = true; break;
@@ -526,6 +538,7 @@ async function handleMessage(event) {
           }
           break;
         }
+        default: await nativeControls.execute(event.data.command, event.data.value);
       }
       // Some SVG-Edit attribute setters do not emit changed. Observe document mutations
       // as the source of truth, and notify extensions once for explicit attribute edits.
@@ -572,6 +585,7 @@ function observeDocument() {
     if (loading) return;
     records = records.filter(record => !(record.type === "attributes" && record.target === getContentRoot() && ["x", "y", "width", "height", "viewBox"].includes(record.attributeName)));
     if (!records.length) return;
+    selectionController?.invalidate();
     if (records.some(record => record.type === "childList" || ["id", "data-name", "aria-label", "display", "visibility"].includes(record.attributeName) || (record.type === "characterData" && record.target.parentElement?.localName === "title"))) treeDirty = true;
     scheduleDocument();
     scheduleState();
@@ -580,14 +594,29 @@ function observeDocument() {
 }
 editor.init().then(() => {
   features = createEditorFeatures(editor);
+  nativeControls = createNativeControls(editor);
+  selectionController = installSelection(editor, scheduleState);
+  const savePreferences = editor.mainMenu.savePreferences.bind(editor.mainMenu);
+  editor.mainMenu.savePreferences = async event => { await savePreferences(event); nativeControls.rulers(Boolean(editor.configObj.curConfig.showRulers)); scheduleState(); };
   const textInput = byId("text");
   textInputHome = document.createComment("FigFox native text input position");
   textInput.before(textInputHome);
   textInputStyle = textInput.getAttribute("style");
   syncTextInput();
   const nativeRasterExport = editor.svgCanvas.rasterExport;
+  const nativePdfExport = editor.svgCanvas.exportPDF;
+  editor.svgCanvas.exportPDF = (...args) => {
+    const { w, h } = editor.svgCanvas.getResolution();
+    if (w * h > 32_000_000) return Promise.reject(new Error("导出尺寸过大 / Export dimensions are too large"));
+    const clean = new DOMParser().parseFromString(features.snapshot(), "image/svg+xml").documentElement;
+    const getContent = editor.svgCanvas.getSvgContent;
+    // SVG-Edit 7.4.2 captures its export clone synchronously, before encoding it.
+    // Supply our clean clone for that call and restore the live getter immediately.
+    try { editor.svgCanvas.getSvgContent = () => clean; return nativePdfExport(...args); }
+    finally { editor.svgCanvas.getSvgContent = getContent; }
+  };
   editor.svgCanvas.rasterExport = (type = "PNG", quality = 1, ...args) => {
-    if (!["PNG", "JPEG", "WEBP"].includes(type)) return nativeRasterExport(type, quality, ...args);
+    if (!["PNG", "JPEG", "WEBP", "BMP"].includes(type)) return nativeRasterExport(type, quality, ...args);
     // Both layouts export the same clean document, including while editing a group.
     return features.raster({ format: type.toLowerCase(), quality }).catch(error => send("command-error", { message: error.message }));
   };
@@ -617,6 +646,7 @@ editor.init().then(() => {
   for (const event of ["changed", "selected", "contextset", "extension_added", "zoomDone"]) {
     const original = editor.svgCanvas.bind(event, (...args) => {
       original?.(...args);
+      if (["changed", "contextset", "zoomDone"].includes(event)) selectionController.invalidate();
       if (event === "changed") changed();
       else scheduleState();
     });
@@ -628,6 +658,7 @@ editor.init().then(() => {
   window.addEventListener("blur", endInteraction);
   window.addEventListener("pagehide", flushDocument);
   document.addEventListener("keydown", event => {
+    if (event.target === document.body && !event.ctrlKey && !event.metaKey && !event.altKey && event.key.toLowerCase() === "v") { activateMode("select"); scheduleState(); }
     if ((event.ctrlKey || event.metaKey) && event.key.toLowerCase() === "s") { event.preventDefault(); event.stopImmediatePropagation(); flushDocument(); }
   }, true);
   send("ready");

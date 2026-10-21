@@ -3,6 +3,8 @@ import { ArrowClockwise, ArrowCounterClockwise, FlipHorizontal, FlipVertical, Im
 import { useEffect, useRef, useState } from "react";
 import type { SvgEditHandle, SvgEditMode, SvgEditSelection } from "./SvgEditHost";
 import { AdvancedSelectionFields } from "./EditorPanels";
+import { MarkerOptions, NativeObjectFields } from "./EditorNativeFields";
+import type { SvgEditState } from "./SvgEditHost";
 
 export function SelectionInspector({
   zh,
@@ -10,12 +12,14 @@ export function SelectionInspector({
   mode,
   editor,
   onReplaceImage,
+  native,
 }: {
   zh: boolean;
   selection: SvgEditSelection | null;
   mode: SvgEditMode;
   editor: SvgEditHandle | null;
   onReplaceImage: () => void;
+  native?: SvgEditState["nativeControls"];
 }) {
   const setAttribute = (name: string, value: string | number) =>
     editor?.execute("attribute", { name, value, targetId: selection?.id });
@@ -156,22 +160,14 @@ export function SelectionInspector({
           <div className="ff-marker-grid">
             <label className="ff-inspector-select compact">
               <span>{zh ? "起点" : "Start"}</span>
-              <select value={markerValue(selection.markerStart)} onChange={(event) => editor?.execute("marker-start", event.target.value)}>
-                <option value="existing" disabled>{zh ? "已有标记" : "Existing marker"}</option>
-                <option value="nomarker">{zh ? "无" : "None"}</option>
-                <option value="leftarrow">Arrow</option>
-                <option value="box">Box</option>
-                <option value="mcircle">Circle</option>
+              <select aria-label={zh ? "起点" : "Start marker"} value={markerValue(selection.markerStart)} onChange={(event) => editor?.execute("marker-start", event.target.value)}>
+                <MarkerOptions zh={zh} />
               </select>
             </label>
             <label className="ff-inspector-select compact">
               <span>{zh ? "终点" : "End"}</span>
-              <select value={markerValue(selection.markerEnd)} onChange={(event) => editor?.execute("marker-end", event.target.value)}>
-                <option value="existing" disabled>{zh ? "已有标记" : "Existing marker"}</option>
-                <option value="nomarker">{zh ? "无" : "None"}</option>
-                <option value="rightarrow">Arrow</option>
-                <option value="box">Box</option>
-                <option value="mcircle">Circle</option>
+              <select aria-label={zh ? "终点" : "End marker"} value={markerValue(selection.markerEnd)} onChange={(event) => editor?.execute("marker-end", event.target.value)}>
+                <MarkerOptions zh={zh} />
               </select>
             </label>
           </div>
@@ -180,6 +176,7 @@ export function SelectionInspector({
       </section>
 
       {selection.type !== "selection" && <AdvancedSelectionFields selection={selection} editor={editor} zh={zh} />}
+      <NativeObjectFields selection={selection} native={native} editor={editor} zh={zh} />
 
       {(isEditablePath || canConvertToPath) && (
         <section className="ff-inspector-section">

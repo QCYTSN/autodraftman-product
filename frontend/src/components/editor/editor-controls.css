@@ -64,3 +64,11 @@
   .ff-layers-panel > .ff-inspector-section { padding: 10px; }
   .ff-native-return { left: auto; right: 8px; transform: none; }
 }
+.ff-selection-policy { display: flex; align-items: center; gap: 4px; flex: 0 0 auto; color: #6243ce; padding: 0 6px; }
+.ff-selection-policy select { color: inherit; background: transparent; border: 0; font: inherit; width: 78px; cursor: pointer; }
+.ff-editor-zoom .ff-inspector-number { width: 76px; margin: 0; padding: 4px; }
+.ff-editor-zoom .ff-inspector-number input { width: 45px; }
+.product-site .ff-editor-zoom { left: auto; width: max-content; }
+@media (min-width: 761px) {
+  .product-site .ff-editor-properties { width: max-content; }
+}

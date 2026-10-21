@@ -1,4 +1,7 @@
 import { SelectionInspector } from "./SelectionInspector";
+import { InspectorNumber } from "./EditorFields";
+import { ShapeToolFields } from "./EditorNativeFields";
+import { importSvgDocument } from "../../svgDocument";
 import { DocumentPanel, LayerPanel, PaintDialog } from "./EditorPanels";
 import "./editor-controls.css";
 import {
@@ -96,16 +99,20 @@ type EditorTool = {
 
 const mainTools: EditorTool[] = [
   { mode: "select", icon: Selection, zh: "选择", en: "Select", shortcut: "V" },
-  { mode: "path", icon: Path, zh: "钢笔", en: "Pen", shortcut: "B" },
-  { mode: "fhpath", icon: PencilSimple, zh: "自由绘制", en: "Draw", shortcut: "P" },
+  { mode: "path", icon: Path, zh: "钢笔", en: "Pen", shortcut: "P" },
+  { mode: "fhpath", icon: PencilSimple, zh: "自由绘制", en: "Draw", shortcut: "Q" },
   { mode: "line", icon: LineSegment, zh: "直线", en: "Line", shortcut: "L" },
   { mode: "rect", icon: Rectangle, zh: "矩形", en: "Rectangle", shortcut: "R" },
-  { mode: "ellipse", icon: Circle, zh: "椭圆", en: "Ellipse", shortcut: "O" },
+  { mode: "ellipse", icon: Circle, zh: "椭圆", en: "Ellipse", shortcut: "E" },
   { mode: "text", icon: TextT, zh: "文字", en: "Text", shortcut: "T" },
-  { mode: "connector", icon: LinkSimple, zh: "连接线", en: "Connector", shortcut: "C" },
+  { mode: "connector", icon: LinkSimple, zh: "连接线", en: "Connector" },
 ];
 
 const extraTools: EditorTool[] = [
+  { mode: "square", icon: Rectangle, zh: "正方形", en: "Square" },
+  { mode: "circle", icon: Circle, zh: "圆形", en: "Circle" },
+  { mode: "fhrect", icon: Rectangle, zh: "手绘矩形", en: "Freehand rectangle" },
+  { mode: "fhellipse", icon: Circle, zh: "手绘椭圆", en: "Freehand ellipse" },
   { mode: "image", icon: ImageSquare, zh: "图片", en: "Image" },
   { mode: "polygon", icon: Polygon, zh: "多边形", en: "Polygon" },
   { mode: "star", icon: Star, zh: "星形", en: "Star" },
@@ -506,6 +513,9 @@ export function FigFoxEditorChrome({
   const [paintType, setPaintType] = useState<"fill" | "stroke" | null>(null);
   const [imageDialogOpen, setImageDialogOpen] = useState(false);
   const [replaceImage, setReplaceImage] = useState(false);
+  const insertSvgInput = useRef<HTMLInputElement>(null);
+  const originalInsertSize = useRef(false);
+  const [insertError, setInsertError] = useState("");
   const run = (command: SvgEditCommand, value?: unknown) => editor?.execute(command, value);
   const canArrange = ready && state.hasSelection;
   const canAlign = ready && state.hasSelection;
@@ -522,6 +532,13 @@ export function FigFoxEditorChrome({
   return (
     <div className="ff-editor-stage" data-ready={ready} data-panel={inspectorOpen && !state.nativeUI ? "open" : "closed"} data-native={state.nativeUI || undefined}>
       {children}
+      <input ref={insertSvgInput} type="file" accept=".svg,image/svg+xml" aria-label={zh ? "插入 SVG 文件" : "Insert SVG file"} hidden onChange={async event => {
+        const file = event.target.files?.[0]; event.target.value = "";
+        if (!file) return;
+        try { setInsertError(""); const imported = await importSvgDocument(file); run("import-svg", { markup: imported.markup, originalSize: originalInsertSize.current }); }
+        catch { setInsertError(zh ? "无法插入此 SVG，请检查文件格式、大小与复杂度。" : "Could not insert this SVG. Check its format, size and complexity."); }
+      }} />
+      {insertError && <div className="ff-editor-command-error" role="alert"><span>{insertError}</span><button type="button" onClick={() => setInsertError("")}>×</button></div>}
       {state.nativeUI && <button className="ff-native-return" type="button" onClick={() => run("native-ui", false)}>{zh ? "返回 FigFox 工具" : "Return to FigFox tools"}</button>}
       {!state.nativeUI && state.context && <button className="ff-editor-context" type="button" onClick={() => run("leave-context")} title={zh ? "退出组内编辑" : "Leave group editing"}><X size={14} /><span>{zh ? "正在编辑组" : "Editing group"} · {state.context.label}</span></button>}
 
@@ -595,6 +612,12 @@ export function FigFoxEditorChrome({
       </div>
 
       <Toolbar.Root className="ff-editor-properties" aria-label={zh ? "对象属性" : "Object properties"}>
+        <label className="ff-selection-policy" title={zh ? "文字附近可点选；双击编辑；Shift 多选；Ctrl / ⌘ 穿透分组" : "Click near text; double-click to edit; Shift to multi-select; Ctrl / ⌘ to select inside groups"}>
+          <Selection size={16} />
+          <select aria-label={zh ? "选择方式" : "Selection mode"} disabled={!ready} value={state.selectionPolicy || "object"} onChange={event => run("selection-policy", event.target.value)}>
+            <option value="object">{zh ? "选对象" : "Objects"}</option><option value="group">{zh ? "选整组" : "Groups"}</option>
+          </select>
+        </label>
         <Toolbar.Group className="ff-editor-history-group">
           <Toolbar.Button className="ff-editor-icon-button" disabled={!ready || !state.canUndo} onClick={() => editor?.undo()} aria-label={zh ? "撤销" : "Undo"} title={zh ? "撤销 · Ctrl Z" : "Undo · Ctrl Z"}>
             <ArrowCounterClockwise size={18} />
@@ -619,9 +642,14 @@ export function FigFoxEditorChrome({
                 <div className="ff-editor-menu-grid">
                   <MenuAction label={zh ? "全选" : "Select all"} icon={Selection} onClick={() => run("select-all")} />
                   <MenuAction label={zh ? "取消选择" : "Deselect"} icon={X} disabled={!state.hasSelection} onClick={() => run("deselect")} />
+                  <MenuAction label={zh ? "下一个对象" : "Next object"} icon={Selection} onClick={() => run("select-next")} />
+                  <MenuAction label={zh ? "上一个对象" : "Previous object"} icon={Selection} onClick={() => run("select-previous")} />
                   <MenuAction label={zh ? "剪切" : "Cut"} icon={Scissors} disabled={!state.hasSelection} onClick={() => run("cut")} />
                   <MenuAction label={zh ? "复制" : "Copy"} icon={Copy} disabled={!state.hasSelection} onClick={() => run("copy")} />
                   <MenuAction label={zh ? "粘贴" : "Paste"} icon={Stack} onClick={() => run("paste")} />
+                  <MenuAction label={zh ? "原位粘贴" : "Paste in place"} icon={Stack} onClick={() => run("paste-in-place")} />
+                  <MenuAction label={zh ? "插入 SVG" : "Insert SVG"} icon={UploadSimple} onClick={() => { originalInsertSize.current = false; insertSvgInput.current?.click(); }} />
+                  <MenuAction label={zh ? "按原尺寸插入" : "Insert at original size"} icon={UploadSimple} onClick={() => { originalInsertSize.current = true; insertSvgInput.current?.click(); }} />
                   <MenuAction label={zh ? "创建副本" : "Duplicate"} icon={Copy} disabled={!state.hasSelection} onClick={() => run("duplicate")} />
                   <MenuAction label={zh ? "编组" : "Group"} icon={BoundingBox} disabled={state.selectionCount < 2} onClick={() => run("group")} />
                   <MenuAction label={zh ? "取消编组" : "Ungroup"} icon={VectorThree} disabled={!state.hasSelection} onClick={() => run("ungroup")} />
@@ -714,10 +742,12 @@ export function FigFoxEditorChrome({
                 <Popover.Title className="ff-editor-popover-title">{zh ? "画布视图" : "Canvas view"}</Popover.Title>
                 <div className="ff-editor-menu-grid">
                   <MenuAction label={zh ? "网格" : "Grid"} icon={GridFour} active={state.gridVisible} onClick={() => run("toggle-grid")} />
+                  <MenuAction label={zh ? "标尺" : "Rulers"} icon={Rectangle} active={state.nativeControls?.rulers} onClick={() => run("toggle-rulers")} />
                   <MenuAction label={zh ? "线框模式" : "Wireframe"} icon={Eye} active={state.wireframe} onClick={() => run("toggle-wireframe")} />
                   <MenuAction label={zh ? "适合画布" : "Fit canvas"} icon={BoundingBox} onClick={() => run("fit-canvas")} />
                   <MenuAction label={zh ? "适合选区" : "Fit selection"} icon={Selection} disabled={!state.hasSelection} onClick={() => run("fit-selection")} />
                   <MenuAction label={zh ? "适合内容" : "Fit content"} icon={MagnifyingGlass} onClick={() => run("fit-content")} />
+                  <MenuAction label={zh ? "适合当前图层" : "Fit current layer"} icon={Stack} onClick={() => run("fit-layer")} />
                 </div>
               </Popover.Popup>
             </Popover.Positioner>
@@ -737,17 +767,18 @@ export function FigFoxEditorChrome({
             </Tabs.List>
           </Tabs.Root>
           {inspectorTab === "properties" ? (
-            <SelectionInspector
+            <><ShapeToolFields state={state} editor={editor} zh={zh} /><SelectionInspector
               key={state.selection?.id || "empty"}
               zh={zh}
               selection={state.selection}
               mode={state.mode}
               editor={editor}
+              native={state.nativeControls}
               onReplaceImage={() => {
                 setReplaceImage(true);
                 setImageDialogOpen(true);
               }}
-            />
+            /></>
           ) : (
             inspectorTab === "layers" ? <LayerPanel state={state} editor={editor} zh={zh} /> : <DocumentPanel state={state} editor={editor} zh={zh} />
           )}
@@ -757,7 +788,7 @@ export function FigFoxEditorChrome({
       <button className="ff-mobile-inspector" type="button" disabled={!ready} onClick={() => setInspectorOpen(value => !value)} aria-label={zh ? "属性、图层与页面" : "Properties, layers and page"}><SlidersHorizontal size={17} />{zh ? "面板" : "Panels"}</button>
       <Toolbar.Root className="ff-editor-zoom" aria-label={zh ? "画布缩放" : "Canvas zoom"}>
         <Toolbar.Button className="ff-editor-icon-button" disabled={!ready} onClick={() => editor?.zoomOut()} aria-label={zh ? "缩小" : "Zoom out"}><MagnifyingGlassMinus size={17} /></Toolbar.Button>
-        <span className="ff-editor-zoom-value">{state.zoom}%</span>
+        <InspectorNumber label="%" value={state.zoom} min={1} max={6400} onChange={value => run("zoom-value", value)} />
         <Toolbar.Button className="ff-editor-icon-button" disabled={!ready} onClick={() => editor?.zoomIn()} aria-label={zh ? "放大" : "Zoom in"}><MagnifyingGlassPlus size={17} /></Toolbar.Button>
         <Toolbar.Separator className="ff-editor-separator" />
         <Toolbar.Button className="ff-editor-icon-button" disabled={!ready} onClick={() => editor?.fitCanvas()} aria-label={zh ? "适合画布" : "Fit canvas"} title={zh ? "适合画布" : "Fit canvas"}><BoundingBox size={18} /></Toolbar.Button>

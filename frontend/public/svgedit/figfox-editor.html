@@ -56,6 +56,8 @@
         background: #f2f2f7;
       }
       #svgcanvas { background: transparent; }
+      :root:not([data-native]):not([data-rulers]) #ruler_x, :root:not([data-native]):not([data-rulers]) #ruler_y, :root:not([data-native]):not([data-rulers]) #ruler_corner { display: none !important; }
+      :root:not([data-native])[data-rulers] .svg_editor, :root:not([data-native])[data-rulers] .svg_editor.open { grid-template-rows: 15px minmax(0, 1fr); grid-template-columns: 15px minmax(0, 1fr); grid-template-areas: "corner rulerX" "rulerY workarea"; }
       :root[data-native] .svg_editor { font-family: "Google Sans Flex", "Noto Sans SC", sans-serif; font-size: 12px; --top-toolbar-min-height: 90px; }
       :root[data-native] #workarea { background: #eeebf3; border-color: #ded7e8; }
       :root[data-native] #tools_left, :root[data-native] #tools_top, :root[data-native] #tools_bottom, :root[data-native] #sidepanels { background: #faf9fc; }

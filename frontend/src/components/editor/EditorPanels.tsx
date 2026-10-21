@@ -3,6 +3,7 @@ import { Dialog } from "@base-ui/react/dialog";
 import { CaretDown, CaretRight, Eye, EyeSlash, Plus, X } from "@phosphor-icons/react";
 import type { SvgEditDocument, SvgEditHandle, SvgEditPaint, SvgEditSelection, SvgEditState } from "./SvgEditHost";
 import { InspectorNumber } from "./EditorFields";
+import { EditorTextField, MarkerOptions } from "./EditorNativeFields";
 
 type PanelProps = { state: SvgEditState; editor: SvgEditHandle | null; zh: boolean };
 const units: Record<string, number> = { px: 1, mm: 96 / 25.4, cm: 96 / 2.54, in: 96, pt: 96 / 72, pc: 16 };
@@ -15,22 +16,27 @@ export function DocumentPanel({ state, editor, zh }: PanelProps) {
   const factor = units[doc.unit] || 1;
   return <div className="ff-inspector-scroll">
     <section className="ff-inspector-section"><h3>{zh ? "画布" : "Canvas"}</h3>
+      <EditorTextField label={zh ? "文档标题" : "Document title"} value={state.nativeControls?.title || ""} onCommit={value => editor?.execute("document-title", value)} />
       <div className="ff-inspector-grid">
         <InspectorNumber label={zh ? "宽度" : "Width"} value={doc.w / factor} min={.1} onChange={value => update({ w: value * factor })} />
         <InspectorNumber label={zh ? "高度" : "Height"} value={doc.h / factor} min={.1} onChange={value => update({ h: value * factor })} />
       </div>
       <label className="ff-inspector-select"><span>{zh ? "单位" : "Units"}</span><select aria-label={zh ? "单位" : "Units"} value={doc.unit} onChange={event => update({ unit: event.target.value })}>{Object.keys(units).map(unit => <option key={unit}>{unit}</option>)}</select></label>
       <p className="ff-inspector-note">{Math.round(doc.w)} × {Math.round(doc.h)} px</p>
+      <button type="button" className="ff-inspector-wide-action" onClick={() => editor?.execute("fit-page-content")}>{zh ? "按内容裁切画布" : "Fit page to artwork"}</button>
+      <button type="button" className="ff-inspector-wide-action" onClick={() => editor?.execute("document-properties")}>{zh ? "文档属性与图像存储" : "Document & image properties"}</button>
     </section>
     <section className="ff-inspector-section"><h3>{zh ? "网格与吸附" : "Grid & snapping"}</h3>
       <label className="ff-editor-check"><input type="checkbox" checked={state.gridVisible} onChange={() => editor?.execute("toggle-grid")} />{zh ? "显示网格" : "Show grid"}</label>
+      <label className="ff-editor-check"><input type="checkbox" checked={state.nativeControls?.rulers || false} onChange={event => editor?.execute("toggle-rulers", event.target.checked)} />{zh ? "显示标尺" : "Show rulers"}</label>
       <label className="ff-editor-check"><input type="checkbox" checked={doc.snap} onChange={event => update({ snap: event.target.checked })} />{zh ? "吸附到网格" : "Snap to grid"}</label>
       <InspectorNumber label={zh ? "间距 px" : "Spacing px"} value={doc.snapStep} min={.1} onChange={snapStep => update({ snapStep })} />
       <button type="button" className="ff-inspector-wide-action" onClick={() => editor?.execute("preferences")}>{zh ? "背景、标尺与偏好设置" : "Background, rulers & preferences"}</button>
     </section>
     <section className="ff-inspector-section"><h3>{zh ? "导出图片" : "Export image"}</h3>
       <label className="ff-inspector-select"><span>{zh ? "倍率" : "Scale"}</span><select value={scale} onChange={event => setScale(Number(event.target.value))}>{[1, 2, 3, 4].map(value => <option key={value} value={value}>{value}×</option>)}</select></label>
-      <div className="ff-inspector-action-grid">{["png", "jpeg"].map(format => <button type="button" key={format} onClick={() => editor?.execute("export-raster", { format, scale })}>{format.toUpperCase()}</button>)}</div>
+      <div className="ff-inspector-action-grid">{["png", "jpeg", "webp", "bmp"].map(format => <button type="button" key={format} onClick={() => editor?.execute("export-raster", { format, scale })}>{format.toUpperCase()}</button>)}<button type="button" onClick={() => editor?.execute("export-pdf")}>PDF</button></div>
+      <p className="ff-inspector-note">{zh ? "PDF 按原尺寸输出图像页面。" : "PDF uses an image page at the original size."}</p>
       <p className="ff-inspector-note">{zh ? "PNG 保留透明背景；JPEG 使用白色背景。" : "PNG preserves transparency. JPEG uses a white background."}</p>
     </section>
     <section className="ff-inspector-section"><h3>{zh ? "完整工具" : "All tools"}</h3>
@@ -71,6 +77,8 @@ export function LayerPanel({ state, editor, zh }: PanelProps) {
   const uniqueName = (base: string) => { let name = base, suffix = 2; while (docLayers.some(layer => layer.name === name)) name = `${base} ${suffix++}`; return name; };
   return <div className="ff-layers-panel">
     <section className="ff-inspector-section">
+      <label className="ff-editor-check"><input type="checkbox" checked={state.nativeControls?.layerView || false} onChange={() => editor?.execute("layer-view")} />{zh ? "只显示当前图层" : "Show current layer only"}</label>
+      <button className="ff-inspector-wide-action" type="button" disabled={docLayers.length < 2} onClick={() => editor?.execute("merge-all-layers")}>{zh ? "合并全部图层" : "Merge all layers"}</button>
       <label className="ff-inspector-select"><span>{zh ? "当前图层" : "Current layer"}</span><select aria-label={zh ? "当前图层" : "Current layer"} value={active} onChange={event => action("select", event.target.value)}>{docLayers.map(layer => <option key={layer.name}>{layer.name}</option>)}</select></label>
       <label className="ff-inspector-select"><span>{zh ? "名称" : "Name"}</span><input key={active} aria-label={zh ? "图层名称" : "Layer name"} defaultValue={active} onBlur={event => { if (event.target.value !== active) action("rename", event.target.value); }} onKeyDown={event => { if (event.key === "Enter") event.currentTarget.blur(); }} /></label>
       <div className="ff-inspector-action-grid">
@@ -108,7 +116,7 @@ export function AdvancedSelectionFields({ selection, editor, zh }: { selection: 
       <InspectorNumber label={zh ? "词距" : "Words"} value={selection.wordSpacing} onChange={value => attribute("word-spacing", value)} />
       <InspectorNumber label={zh ? "文字长度" : "Text length"} value={selection.textLength} min={0} onChange={value => attribute("textLength", value || "")} />
     </div><label className="ff-inspector-select"><span>{zh ? "长度调整" : "Length adjustment"}</span><select value={selection.lengthAdjust} onChange={event => attribute("lengthAdjust", event.target.value)}><option value="spacing">{zh ? "间距" : "Spacing"}</option><option value="spacingAndGlyphs">{zh ? "间距和字形" : "Spacing & glyphs"}</option></select></label></section>}
-    {["path", "line", "polyline", "polygon"].includes(selection.type) && <section className="ff-inspector-section"><label className="ff-inspector-select"><span>{zh ? "中间标记" : "Mid marker"}</span><select value={selection.markerMid && selection.markerMid !== "none" ? "existing" : "nomarker"} onChange={event => editor?.execute("marker-mid", event.target.value)}><option value="existing" disabled>{zh ? "已有标记" : "Existing marker"}</option><option value="nomarker">{zh ? "无" : "None"}</option><option value="rightarrow">Arrow</option><option value="box">Box</option><option value="mcircle">Circle</option></select></label></section>}
+    {["path", "line", "polyline", "polygon"].includes(selection.type) && <section className="ff-inspector-section"><label className="ff-inspector-select"><span>{zh ? "中间标记" : "Mid marker"}</span><select aria-label={zh ? "中间标记" : "Mid marker"} value={selection.markerMid && selection.markerMid !== "none" ? "existing" : "nomarker"} onChange={event => editor?.execute("marker-mid", event.target.value)}><MarkerOptions zh={zh} /></select></label></section>}
     <section className="ff-inspector-section"><h3>{zh ? "对象属性" : "Object properties"}</h3>
       <label className="ff-inspector-select"><span>ID</span><input key={`id-${selection.id}`} defaultValue={selection.id} onBlur={event => { if (event.target.value !== selection.id) attribute("id", event.target.value); }} onKeyDown={event => { if (event.key === "Enter") event.currentTarget.blur(); }} /></label>
       <label className="ff-inspector-select"><span>Class</span><input key={`class-${selection.id}`} defaultValue={selection.className} onBlur={event => { if (event.target.value !== selection.className) attribute("class", event.target.value); }} onKeyDown={event => { if (event.key === "Enter") event.currentTarget.blur(); }} /></label>

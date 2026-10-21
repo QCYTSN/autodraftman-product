@@ -138,7 +138,8 @@ function cleanExternalReferences(root: SVGSVGElement) {
 
       if (
         (name === "href" || name === "xlink:href" || name === "src") &&
-        !safeReference(value)
+        !safeReference(value) &&
+        !(element.localName.toLowerCase() === "a" && /^(?:https?:\/\/|mailto:)/i.test(value.trim()))
       ) {
         element.removeAttribute(attribute.name);
         removed += 1;
@@ -155,9 +156,8 @@ function cleanExternalReferences(root: SVGSVGElement) {
     }
 
     if (element.localName.toLowerCase() === "a") {
-      element.removeAttribute("href");
-      element.removeAttribute("xlink:href");
       element.removeAttribute("target");
+      element.setAttribute("rel", "noopener noreferrer");
     }
   }
 
@@ -273,6 +273,7 @@ export function restoreSvgDocument(source: string, fileName: string): ImportedSv
     USE_PROFILES: { svg: true, svgFilters: true },
     // Preserve reusable SVG symbols; cleanExternalReferences below restricts hrefs.
     ADD_TAGS: ["use"],
+    ADD_ATTR: ["shape", "point", "sides", "edge", "starRadiusMultiplier", "radialshift", "r2", "orient"],
     FORBID_TAGS: forbiddenTags,
     RETURN_DOM: true,
   });

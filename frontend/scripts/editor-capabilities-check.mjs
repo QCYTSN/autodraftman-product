@@ -15,7 +15,7 @@ await writeFile(`${output}/input-copy.svg`, sample);
 const browser = await chromium.launch({ executablePath: process.env.CHROME_PATH || (process.platform === "win32" ? "C:/Program Files/Google/Chrome/Application/chrome.exe" : "/usr/bin/google-chrome"), headless: true });
 const checks = [], errors = [];
 const page = await browser.newPage({ viewport: { width: 1440, height: 960 }, acceptDownloads: true });
-page.on("pageerror", error => errors.push(error.message));
+page.on("pageerror", error => { errors.push(error.message); console.error(error.stack); });
 await page.addInitScript(() => {
   localStorage.setItem("autodraftman-language", "zh");
   window.editorStates = [];
@@ -39,6 +39,7 @@ try {
   await page.locator('input[type="file"]').first().setInputFiles({ name: "capabilities-copy.svg", mimeType: "image/svg+xml", buffer: Buffer.from(sample) });
   await frame.locator("#test-circle").waitFor();
   await page.waitForFunction(() => !document.querySelector('button[aria-label="导出 SVG"]').disabled);
+  await page.waitForFunction(() => !document.querySelector('.product-editor-route-content')?.inert);
   await select("test-circle");
   await page.getByLabel("W", { exact: true }).fill("160");
   await page.getByLabel("W", { exact: true }).press("Enter");
@@ -137,6 +138,7 @@ try {
   checks.push("The exported SVG reopens with text structure, resized circle and gradient intact");
 
   const command = (command, value) => page.evaluate(({ command, value }) => document.querySelector("iframe").contentWindow.figfoxCommand(command, value), { command, value });
+  await command("selection-policy", "group");
   await select("test-text");
   await frame.locator("#test-text").dblclick(); // Enter the containing group.
   await frame.locator("#test-text").dblclick(); // Enter text editing.

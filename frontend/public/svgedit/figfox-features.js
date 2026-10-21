@@ -32,7 +32,7 @@ export function createEditorFeatures(editor) {
     // Input has already passed the app sanitizer; preserve only these passive attributes.
     const parsed = new DOMParser().parseFromString(markup, "image/svg+xml");
     const retained = [];
-    const names = ["baseline-shift", "alignment-baseline", "vector-effect", "paint-order", "letter-spacing", "word-spacing", "lengthAdjust", "textLength", "visibility", "shape-rendering", "text-rendering"];
+    const names = ["baseline-shift", "alignment-baseline", "vector-effect", "paint-order", "letter-spacing", "word-spacing", "lengthAdjust", "textLength", "visibility", "shape-rendering", "text-rendering", "shape", "point", "sides", "edge", "starRadiusMultiplier", "starradiusmultiplier", "radialshift", "r", "r2", "cx", "cy", "orient"];
     const ids = new Set([...parsed.querySelectorAll("[id]")].map(element => element.id));
     let serial = 0;
     for (const element of parsed.querySelectorAll("*")) {
@@ -46,7 +46,7 @@ export function createEditorFeatures(editor) {
       restore: () => {
         for (const { id, tag, attributes } of retained) {
           const element = document.getElementById(id);
-          if (element?.localName === tag && root().contains(element)) for (const [name, value] of attributes) element.setAttribute(name, value);
+          if (element?.localName === tag && root().contains(element)) for (const [name, value] of attributes) element.setAttribute(name === "starradiusmultiplier" ? "starRadiusMultiplier" : name, value);
         }
       },
     };
@@ -294,9 +294,9 @@ export function createEditorFeatures(editor) {
       const surface = document.createElement("canvas");
       surface.width = width; surface.height = height;
       const context = surface.getContext("2d");
-      if (format === "jpeg") { context.fillStyle = "white"; context.fillRect(0, 0, width, height); }
+      if (format === "jpeg" || format === "bmp") { context.fillStyle = "white"; context.fillRect(0, 0, width, height); }
       context.drawImage(img, 0, 0, width, height);
-      const blob = await new Promise(resolve => surface.toBlob(resolve, `image/${format}`, Math.max(0, Math.min(1, quality))));
+      const blob = format === "bmp" ? bitmap(surface) : await new Promise(resolve => surface.toBlob(resolve, `image/${format}`, Math.max(0, Math.min(1, quality))));
       if (!blob) throw new Error("无法导出图片 / Image export failed");
       const download = URL.createObjectURL(blob);
       const link = document.createElement("a");
@@ -306,4 +306,22 @@ export function createEditorFeatures(editor) {
   }
 
   return { snapshot, prepareImport, editText, textRuns, bounds, geometry, paint, applyPaint, layers, layerAction, raster, style, number, reference };
+}
+
+// Canvas falls back to PNG for image/bmp. Write a real bottom-up 24-bit BMP.
+function bitmap(surface) {
+  const { width, height } = surface;
+  const stride = Math.ceil(width * 3 / 4) * 4;
+  const bytes = new Uint8Array(54 + stride * height);
+  const header = new DataView(bytes.buffer);
+  bytes.set([0x42, 0x4d]);
+  header.setUint32(2, bytes.length, true); header.setUint32(10, 54, true);
+  header.setUint32(14, 40, true); header.setInt32(18, width, true); header.setInt32(22, height, true);
+  header.setUint16(26, 1, true); header.setUint16(28, 24, true); header.setUint32(34, stride * height, true);
+  const pixels = surface.getContext("2d").getImageData(0, 0, width, height).data;
+  for (let y = 0; y < height; y++) for (let x = 0; x < width; x++) {
+    const source = (y * width + x) * 4, target = 54 + (height - 1 - y) * stride + x * 3;
+    bytes[target] = pixels[source + 2]; bytes[target + 1] = pixels[source + 1]; bytes[target + 2] = pixels[source];
+  }
+  return new Blob([bytes], { type: "image/bmp" });
 }
