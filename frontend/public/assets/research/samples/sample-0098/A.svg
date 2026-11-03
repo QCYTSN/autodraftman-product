@@ -1,0 +1,160 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1494" height="450" viewBox="0 0 1494 450">
+  <title>Biased train/val distribution and unbiased test distribution</title>
+  <desc>
+    Inventory: two upper causal diagrams with variable labels, black circular nodes and left-pointing black arrows; the left diagram also has blue arrows from S/A/Y into a Selection node. Center legend explains encodings for Y, A and S. Bottom contains two horizontally partitioned distribution bars with double-headed probability-span arrows, colored orange/blue sections, white blocks and black diagonal hatch regions. Symmetry/equipartition basis: the left and right top causal diagrams share vertically aligned three-row node structure; bottom train and test bars share a horizontal segmentation structure but with different block widths.
+    SAM mapping confirmed from overview P-board: Original legend Y=0 icon - constructed legend_icon_Y0 - asset_sam_region_000020; A=0 - legend_icon_A0 - asset_sam_region_000019; S=0 - legend_icon_S0 - asset_sam_region_000024; Y=1 - legend_icon_Y1 - asset_sam_region_000022; A=1 - legend_icon_A1 - asset_sam_region_000021; S=1 - legend_icon_S1 - asset_sam_region_000023.
+  </desc>
+
+  <defs>
+    <marker id="arrowEndBlack" markerUnits="userSpaceOnUse" markerWidth="11" markerHeight="8" refX="10" refY="4" orient="auto">
+      <path d="M0,0 L10,4 L0,8 Z" fill="#000000" id="plus_node_0" />
+    </marker>
+    <marker id="arrowStartBlack" markerUnits="userSpaceOnUse" markerWidth="11" markerHeight="8" refX="1" refY="4" orient="auto">
+      <path d="M10,0 L0,4 L10,8 Z" fill="#000000" id="plus_node_1" />
+    </marker>
+    <marker id="arrowEndBlue" markerUnits="userSpaceOnUse" markerWidth="12" markerHeight="9" refX="11" refY="4.5" orient="auto">
+      <path d="M0,0 L11,4.5 L0,9 Z" fill="#0070c0" id="plus_node_2" />
+    </marker>
+    <pattern id="diagHatch" patternUnits="userSpaceOnUse" width="14" height="14">
+      <path d="M-4,14 L14,-4" stroke="#000000" stroke-width="5" stroke-linecap="butt" id="plus_node_3" fill="none" />
+    </pattern>
+    <style>
+      .title{font-family:Arial, Helvetica, sans-serif;font-size:31px;font-weight:700;fill:#000}
+      .label{font-family:Arial, Helvetica, sans-serif;font-size:35px;fill:#000}
+      .small{font-family:Arial, Helvetica, sans-serif;font-size:20px;fill:#000}
+      .prob{font-family:Arial, Helvetica, sans-serif;font-size:31px;fill:#000}
+      .legendText{font-family:Arial, Helvetica, sans-serif;font-size:22px;fill:#000}
+      .blueText{font-family:Arial, Helvetica, sans-serif;font-size:34px;fill:#0070c0}
+    </style>
+  </defs>
+
+  <rect id="background" x="0" y="0" width="1494" height="450" fill="#ffffff" />
+
+  
+  <rect id="f01" data-plus-kind="frame" x="160" y="18" width="430" height="292" fill="none" stroke="none" />
+  <rect id="f02" data-plus-kind="frame" x="920" y="16" width="325" height="294" fill="none" stroke="none" />
+  <rect id="f04" data-plus-kind="frame" x="35" y="342" width="677" height="80" fill="none" stroke="none" />
+  <rect id="f05" data-plus-kind="frame" x="792" y="342" width="677" height="80" fill="none" stroke="none" />
+
+  
+  <text id="title_left" class="title" x="391" y="56" text-anchor="middle">Biased train/val distribution</text>
+  <text id="title_right" class="title" x="1137" y="49" text-anchor="middle">Unbiased test distribution</text>
+
+  
+  <g id="left_causal_graph">
+    <desc>Origin for conduction is middle node A at (369,201); vertically above is S and below is Y. Each right node points left to corresponding X variable; all right nodes additionally point to blue Selection node.</desc>
+    <text id="lbl_left_Xs" class="label" x="228" y="102">X<tspan baseline-shift="sub" font-size="20">S</tspan></text>
+    <text id="lbl_left_Xa" class="label" x="228" y="178">X<tspan baseline-shift="sub" font-size="20">A</tspan></text>
+    <text id="lbl_left_Xy" class="label" x="228" y="255">X<tspan baseline-shift="sub" font-size="20">Y</tspan></text>
+    <text id="lbl_left_S" class="label" x="356" y="103">S</text>
+    <text id="lbl_left_A" class="label" x="356" y="179">A</text>
+    <text id="lbl_left_Y" class="label" x="356" y="255">Y</text>
+
+    <line id="left_arrow_S_to_Xs" x1="369" y1="129" x2="249" y2="129" stroke="#000" stroke-width="4" marker-end="url(#arrowEndBlack)" />
+    <line id="left_arrow_A_to_Xa" x1="369" y1="201" x2="250" y2="201" stroke="#000" stroke-width="4" marker-end="url(#arrowEndBlack)" />
+    <line id="left_arrow_Y_to_Xy" x1="369" y1="274" x2="250" y2="274" stroke="#000" stroke-width="4" marker-end="url(#arrowEndBlack)" />
+
+    <line id="left_blue_S_to_selection" x1="380" y1="130" x2="504" y2="196" stroke="#0070c0" stroke-width="4" marker-end="url(#arrowEndBlue)" />
+    <line id="left_blue_A_to_selection" x1="380" y1="201" x2="503" y2="202" stroke="#0070c0" stroke-width="4" marker-end="url(#arrowEndBlue)" />
+    <line id="left_blue_Y_to_selection" x1="380" y1="273" x2="504" y2="209" stroke="#0070c0" stroke-width="4" marker-end="url(#arrowEndBlue)" />
+    <circle id="node_left_Xs" cx="237" cy="129" r="11.5" fill="#000" />
+    <circle id="node_left_S" cx="369" cy="130" r="11.5" fill="#000" />
+    <circle id="node_left_Xa" cx="239" cy="202" r="11.5" fill="#000" />
+    <circle id="node_left_A" cx="368" cy="201" r="11.5" fill="#000" />
+    <circle id="node_left_Xy" cx="239" cy="274" r="11.5" fill="#000" />
+    <circle id="node_left_Y" cx="369" cy="274" r="11.5" fill="#000" />
+    <circle id="node_selection" cx="513" cy="203" r="11.5" fill="#0070c0" />
+    <text id="label_selection" class="blueText" x="506" y="179">Selection</text>
+  </g>
+
+  
+  <g id="right_causal_graph">
+    <desc>Origin for conduction is middle node A at (1133,201). The diagram is the same three-row causal structure as the left graph but lacks the selection node and blue selection arrows.</desc>
+    <text id="lbl_right_Xs" class="label" x="993" y="102">X<tspan baseline-shift="sub" font-size="20">S</tspan></text>
+    <text id="lbl_right_Xa" class="label" x="993" y="178">X<tspan baseline-shift="sub" font-size="20">A</tspan></text>
+    <text id="lbl_right_Xy" class="label" x="993" y="255">X<tspan baseline-shift="sub" font-size="20">Y</tspan></text>
+    <text id="lbl_right_S" class="label" x="1120" y="102">S</text>
+    <text id="lbl_right_A" class="label" x="1120" y="178">A</text>
+    <text id="lbl_right_Y" class="label" x="1120" y="255">Y</text>
+
+    <line id="right_arrow_S_to_Xs" x1="1132" y1="129" x2="1013" y2="129" stroke="#000" stroke-width="4" marker-end="url(#arrowEndBlack)" />
+    <line id="right_arrow_A_to_Xa" x1="1132" y1="201" x2="1014" y2="201" stroke="#000" stroke-width="4" marker-end="url(#arrowEndBlack)" />
+    <line id="right_arrow_Y_to_Xy" x1="1132" y1="274" x2="1014" y2="274" stroke="#000" stroke-width="4" marker-end="url(#arrowEndBlack)" />
+
+    <circle id="node_right_Xs" cx="1001" cy="128" r="11.5" fill="#000" />
+    <circle id="node_right_S" cx="1133" cy="130" r="11.5" fill="#000" />
+    <circle id="node_right_Xa" cx="1004" cy="202" r="11.5" fill="#000" />
+    <circle id="node_right_A" cx="1133" cy="201" r="11.5" fill="#000" />
+    <circle id="node_right_Xy" cx="1004" cy="274" r="11.5" fill="#000" />
+    <circle id="node_right_Y" cx="1133" cy="274" r="11.5" fill="#000" />
+  </g>
+
+  
+  <rect id="f03" data-plus-kind="frame" x="605" y="203" width="287" height="132" fill="#ffffff" stroke="#808080" stroke-width="3" />
+  <g id="legend">
+    <desc>Legend origin is the upper-left Y=0 icon. The two rows encode value 0 and 1 for Y, A, and S. Six icons are constructed first and then independently mapped to confirmed SAM picture crops.</desc>
+    <text id="legend_title" class="legendText" x="705" y="231">Legend:</text>
+
+    <text id="legend_txt_Y0" class="legendText" x="657" y="265">Y = 0</text>
+
+    <text id="legend_txt_A0" class="legendText" x="746" y="265">A = 0</text>
+
+    <text id="legend_txt_S0" class="legendText" x="839" y="265">S = 0</text>
+
+    <text id="legend_txt_Y1" class="legendText" x="657" y="318">Y = 1</text>
+
+    <text id="legend_txt_A1" class="legendText" x="746" y="318">A = 1</text>
+
+    <text id="legend_txt_S1" class="legendText" x="839" y="318">S = 1</text>
+  </g>
+
+  <g id="sam_legend_icon_replacements" data-plus-keeps="f03 legend_title legend_txt_Y0 legend_txt_A0 legend_txt_S0 legend_txt_Y1 legend_txt_A1 legend_txt_S1" transform="translate(0 0)">
+    <image id="sam_icon_Y0" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB0AAAAcCAYAAACdz7SqAAAAUUlEQVR4nO3WMQrAMAxDUUXkhr7/WVRKV69yoNGDrPp4C6pKAMaeJBDzdCKKRK3one8lakXvfC9RK3rne4n+LrquuRSJWtE7f3t0r8/75R/zALvGIhlpMKaqAAAAAElFTkSuQmCC" x="619" y="245" width="29" height="28" preserveAspectRatio="none" />
+    <g id="sam_icon_A0"><rect id="sam_icon_A0_bg" x="710" y="246" width="24" height="24" fill="#ffffff" /><rect id="sam_icon_A0_hatch_fill" x="710" y="246" width="24" height="24" fill="url(#diagHatch)" /><rect id="sam_icon_A0_border" x="710" y="246" width="24" height="24" fill="none" stroke="#000000" stroke-width="4" /></g><image id="sam_icon_S0" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB0AAAAcCAYAAACdz7SqAAAAkklEQVR4nGP8/+YKA8Nynf8M9AKm9YxMDPQH/wfCUoaBsJRxQIKXBaeUZhIDg0Yc+Ub/+c7AsNkTqxRuS6XtIZgSS3GAAUtI/wfCUsYR41O6Ayb6W8kwaukwtZSRznYyjlbiw89SFpwye+IZGK7Pp0l9yoJX49MDDLQATDQxddRSCGBkYWDhZGAQM4Py6QB4pBkAfVQX2OGREvkAAAAASUVORK5CYII=" x="800" y="244" width="29" height="28" preserveAspectRatio="none" />
+    <image id="sam_icon_Y1" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABwAAAAcCAYAAAByDd+UAAAAiElEQVR4nO2WwQnAIAxFv8FJHCDiLO7ibo6hA7iFZ3vpqdhC0eZQfRAQg/8RvATeewBoUkXnQQySlK0h1HeNlNJQcAgBMcbrteoKjTFg5iEhM/eEC/whbeFk2u8nxBZOh+ZHPrOFnwgVBNG9JaqUAmvtUHDO+Vb46sEo9Enq0kLtnFO1VrHt+wDMCTVIE32nJAAAAABJRU5ErkJggg==" x="619" y="298" width="28" height="28" preserveAspectRatio="none" />
+    <image id="sam_icon_A1" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABwAAAAdCAYAAAC5UQwxAAAAnklEQVR4nO2WwQnEIBBFv4MdaX02ZBEePCgIVuHRCkTIkoW9JdmwceeQ+MCDiPNEBv4I5xyMMQCw4P8IWWuF955DtrIQmKHbC+XugZTQWv9cOOeM1tp5YQjhslAptfmlXB36kKahKRwNDa/4hSkcDo0vecwU3jiAY4zovV/Kw02stWsesi0CM/QIoeAUilIKUkqf/dFAtfews0PY+/4L08VFnS8+bkcAAAAASUVORK5CYII=" x="708" y="297" width="28" height="29" preserveAspectRatio="none" />
+    <image id="sam_icon_S1" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABwAAAAdCAYAAAC5UQwxAAAAmklEQVR4nGMsP/H8PwOdgIs0DyPLjGvv6GUfAz8bEwMTA33Bf3pbyEB3C1lwSbBS4JTf/0i0cLqtFEOkigDZFn7/849BcvENrHLDPw6ZRi2kNmCiuokEwKiFQ95CxgHxISO9LfxPbwvpCpjoax3Df6z14a+//8GYXPDrH269jPzzrtItDssNRIZ/HDIMfwtZSvVF6GaZtQQ3IwCffh58B7m+CgAAAABJRU5ErkJggg==" x="801" y="296" width="28" height="29" preserveAspectRatio="none" />
+  </g>
+
+  
+  <g id="train_distribution">
+    <desc>Origin is the left edge of the train bar at (35,352). Conduction proceeds rightward through orange, blue, orange, and blue sections; hatching and white blocks are positioned relative to these segment boundaries.</desc>
+    <rect id="train_seg_orange_1" x="35" y="352" width="169" height="70" fill="#ff8c00" />
+    <rect id="train_seg_blue_1" x="204" y="352" width="170" height="70" fill="#19a1cb" />
+    <rect id="train_seg_orange_2" x="374" y="352" width="169" height="70" fill="#ff8c00" />
+    <rect id="train_seg_blue_2" x="543" y="352" width="169" height="70" fill="#19a1cb" />
+
+    <rect id="train_hatch_orange_1" x="46" y="363" width="132" height="47" fill="url(#diagHatch)" />
+    <rect id="train_hatch_blue_1" x="215" y="363" width="110" height="47" fill="url(#diagHatch)" />
+    <rect id="train_tiny_hatch" x="385" y="363" width="5" height="47" fill="#ffffff" />
+    <rect id="train_tiny_hatch_lines" x="385" y="363" width="5" height="47" fill="url(#diagHatch)" />
+    <rect id="train_white_orange_block" x="411" y="363" width="122" height="47" fill="#ffffff" />
+    <rect id="train_hatch_blue_2" x="553" y="363" width="28" height="47" fill="#ffffff" />
+    <rect id="train_hatch_blue_2_lines" x="553" y="363" width="28" height="47" fill="url(#diagHatch)" />
+    <rect id="train_white_blue_block" x="602" y="363" width="100" height="47" fill="#ffffff" />
+
+    <line id="train_prob_arrow" x1="43" y1="348" x2="706" y2="348" stroke="#000000" stroke-width="4" marker-start="url(#arrowStartBlack)" marker-end="url(#arrowEndBlack)" />
+    <text id="train_label" class="prob" x="385" y="336" text-anchor="middle">P<tspan baseline-shift="sub" font-size="20">train</tspan></text>
+  </g>
+
+  
+  <g id="test_distribution">
+    <desc>Origin is the left edge of the test bar at (792,352). Conduction proceeds rightward through orange, blue, orange, and blue sections; the probability arrow spans the complete bar and the label is centered above it.</desc>
+    <rect id="test_seg_orange_1" x="792" y="352" width="169" height="70" fill="#ff8c00" />
+    <rect id="test_seg_blue_1" x="961" y="352" width="169" height="70" fill="#19a1cb" />
+    <rect id="test_seg_orange_2" x="1130" y="352" width="169" height="70" fill="#ff8c00" />
+    <rect id="test_seg_blue_2" x="1299" y="352" width="170" height="70" fill="#19a1cb" />
+
+    <rect id="test_hatch_orange_1" x="805" y="363" width="61" height="47" fill="url(#diagHatch)" />
+    <rect id="test_hatch_blue_1" x="974" y="363" width="60" height="47" fill="url(#diagHatch)" />
+    <rect id="test_hatch_orange_2" x="1143" y="363" width="61" height="47" fill="#ffffff" />
+    <rect id="test_hatch_orange_2_lines" x="1143" y="363" width="61" height="47" fill="url(#diagHatch)" />
+    <rect id="test_white_orange_block" x="1226" y="363" width="62" height="47" fill="#ffffff" />
+    <rect id="test_hatch_blue_2" x="1309" y="363" width="62" height="47" fill="#ffffff" />
+    <rect id="test_hatch_blue_2_lines" x="1309" y="363" width="62" height="47" fill="url(#diagHatch)" />
+    <rect id="test_white_blue_block" x="1394" y="363" width="62" height="47" fill="#ffffff" />
+
+    <line id="test_prob_arrow" x1="799" y1="348" x2="1461" y2="348" stroke="#000000" stroke-width="4" marker-start="url(#arrowStartBlack)" marker-end="url(#arrowEndBlack)" />
+    <text id="test_label" class="prob" x="1137" y="337" text-anchor="middle">P<tspan baseline-shift="sub" font-size="20">test</tspan></text>
+  </g>
+</svg>

@@ -1,0 +1,72 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="609" height="277" viewBox="0 0 609 277">
+  <title>Fenwick tree node ranges and query arrows</title>
+  <desc>
+    Base-frame inventory: the figure contains light-blue Fenwick tree node frames arranged by hierarchy, seven grey deformation frames aligned along the bottom, and two colored query frames at the right. The upper wide node [4] connects to both query regions; the node [6] connects to both query regions; the node [7] connects to the lower query. The top section follows a Fenwick-tree hierarchical symmetry: one wide parent, two middle nodes, four leaf nodes. The bottom deformation row is an evenly spaced horizontal equipartition aligned with the leaf columns.
+  </desc>
+
+  <defs>
+    <marker id="arrowHeadTeal" markerUnits="userSpaceOnUse" markerWidth="10" markerHeight="8" refX="10" refY="4" orient="auto">
+      <path d="M0,0 L10,4 L0,8 Z" fill="#88bdd2" id="plus_node_0" />
+    </marker>
+    <marker id="arrowHeadPurple" markerUnits="userSpaceOnUse" markerWidth="10" markerHeight="8" refX="10" refY="4" orient="auto">
+      <path d="M0,0 L10,4 L0,8 Z" fill="#a5a4e7" id="plus_node_1" />
+    </marker>
+    <marker id="arrowHeadPurpleStartLarge" markerUnits="userSpaceOnUse" markerWidth="26" markerHeight="19" refX="0" refY="4" orient="auto-start-reverse">
+      <path d="M0,0 L10,4 L0,8 Z" fill="#a5a4e7" id="plus_node_2" />
+    </marker>
+    <marker id="arrowHeadPurpleEndLarge" markerUnits="userSpaceOnUse" markerWidth="26" markerHeight="19" refX="10" refY="4" orient="auto">
+      <path d="M0,0 L10,4 L0,8 Z" fill="#a5a4e7" id="plus_node_3" />
+    </marker>
+    <style>
+      .label { font-family: "Times New Roman", Times, serif; font-size: 15px; fill: #000; }
+      .math { font-family: "Times New Roman", Times, serif; font-size: 14px; fill: #000; }
+      .queryText { font-family: "Times New Roman", Times, serif; font-size: 15px; fill: #000; }
+      .nodeFill { fill: #d8eafb; }
+      .deformFill { fill: #b8ccdc; }
+      .tealFill { fill: #95c5d3; }
+      .purpleFill { fill: #aaa8e8; }
+    </style>
+  </defs>
+
+  <rect id="background" x="0" y="0" width="609" height="277" fill="#ffffff" />
+
+  
+  <rect id="f01_node_4" data-plus-kind="frame" class="nodeFill" x="126" y="36" width="210" height="51" />
+  <rect id="f02_node_2" data-plus-kind="frame" class="nodeFill" x="126" y="95" width="104" height="49" />
+  <rect id="f03_node_6" data-plus-kind="frame" class="nodeFill" x="342" y="95" width="106" height="49" />
+  <rect id="f04_node_1" data-plus-kind="frame" class="nodeFill" x="126" y="153" width="51" height="49" />
+  <rect id="f05_node_3" data-plus-kind="frame" class="nodeFill" x="234" y="153" width="50" height="49" />
+  <rect id="f06_node_5" data-plus-kind="frame" class="nodeFill" x="342" y="153" width="50" height="49" />
+  <rect id="f07_node_7" data-plus-kind="frame" class="nodeFill" x="449" y="153" width="50" height="49" />
+
+  <rect id="f08_deform_1" data-plus-kind="frame" class="deformFill" x="126" y="212" width="51" height="50" />
+  <rect id="f09_deform_2" data-plus-kind="frame" class="deformFill" x="180" y="212" width="51" height="50" />
+  <rect id="f10_deform_3" data-plus-kind="frame" class="deformFill" x="234" y="212" width="50" height="50" />
+  <rect id="f11_deform_4" data-plus-kind="frame" class="deformFill" x="288" y="212" width="50" height="50" />
+  <rect id="f12_deform_5" data-plus-kind="frame" class="deformFill" x="342" y="212" width="50" height="50" />
+  <rect id="f13_deform_6" data-plus-kind="frame" class="deformFill" x="396" y="212" width="49" height="50" />
+  <rect id="f14_deform_7" data-plus-kind="frame" class="deformFill" x="449" y="212" width="50" height="50" />
+
+  <rect id="f15_query_6" data-plus-kind="frame" class="tealFill" x="531" y="28" width="50" height="50" />
+  <rect id="f16_query_7" data-plus-kind="frame" class="purpleFill" x="531" y="124" width="50" height="50" />
+
+  
+  <path id="arrow_asset_sam_region_000002_node4_to_query6" d="M340 61 L528 50" fill="none" stroke="#88bdd2" stroke-width="2" marker-end="url(#arrowHeadTeal)" />
+  <path id="arrow_asset_sam_region_000000_node6_to_query6" d="M448 122 L529 56" fill="none" stroke="#88bdd2" stroke-width="2" marker-end="url(#arrowHeadTeal)" />
+
+  <path id="arrow_asset_sam_region_000003_node4_to_query7" d="M340 62 L528 140" fill="none" stroke="#a5a4e7" stroke-width="2" marker-end="url(#arrowHeadPurple)" />
+  <path id="arrow_asset_sam_region_000004_node6_to_query7" d="M449 119 L528 147" fill="none" stroke="#a5a4e7" stroke-width="2" marker-end="url(#arrowHeadPurple)" />
+  <path id="arrow_asset_sam_region_000001_node7_to_query7" d="M501 181 L528 156" fill="none" stroke="#a5a4e7" stroke-width="2" marker-start="url(#arrowHeadPurpleStartLarge)" marker-end="url(#arrowHeadPurpleEndLarge)" />
+
+  
+  <text id="label_fenwick_tree" class="label" x="37" y="116">Fenwick Tree</text>
+  <text id="label_nodes" class="label" x="58" y="132">Nodes</text>
+
+  <text id="label_deformation_1" class="label" x="38" y="224">Deformation</text>
+  <text id="label_deformation_2" class="label" x="34" y="241">relative to the</text>
+  <text id="label_deformation_3" class="label" x="32" y="258">previous frame</text>
+
+  
+  <text id="text_node_4" class="math"><tspan x="208.5" y="66" font-style="italic">r</tspan><tspan x="215" y="70" font-size="9" font-style="italic" fill="#0057a8">k</tspan><tspan x="217.3" y="59" font-size="9" fill="#0057a8">[4]</tspan><tspan x="228.8" y="66">, </tspan><tspan x="238.4" y="66" font-style="italic">T</tspan><tspan x="246.1" y="70" font-size="9" font-style="italic" fill="#0057a8">k</tspan><tspan x="248.4" y="59" font-size="9" fill="#0057a8">[4]</tspan></text><text id="text_node_2" class="math"><tspan x="155.5" y="125" font-style="italic">r</tspan><tspan x="162" y="129" font-size="9" font-style="italic" fill="#0057a8">k</tspan><tspan x="164.3" y="118" font-size="9" fill="#0057a8">[2]</tspan><tspan x="175.8" y="125">, </tspan><tspan x="185.4" y="125" font-style="italic">T</tspan><tspan x="193.1" y="129" font-size="9" font-style="italic" fill="#0057a8">k</tspan><tspan x="195.4" y="118" font-size="9" fill="#0057a8">[2]</tspan></text><text id="text_node_6" class="math"><tspan x="372.5" y="125" font-style="italic">r</tspan><tspan x="379" y="129" font-size="9" font-style="italic" fill="#0057a8">k</tspan><tspan x="381.3" y="118" font-size="9" fill="#0057a8">[6]</tspan><tspan x="392.8" y="125">, </tspan><tspan x="402.4" y="125" font-style="italic">T</tspan><tspan x="410.1" y="129" font-size="9" font-style="italic" fill="#0057a8">k</tspan><tspan x="412.4" y="118" font-size="9" fill="#0057a8">[6]</tspan></text><text id="text_node_1" class="math"><tspan x="129" y="183" font-style="italic">r</tspan><tspan x="135.5" y="187" font-size="9" font-style="italic" fill="#0057a8">k</tspan><tspan x="137.8" y="176" font-size="9" fill="#0057a8">[1]</tspan><tspan x="149.3" y="183">, </tspan><tspan x="158.9" y="183" font-style="italic">T</tspan><tspan x="166.6" y="187" font-size="9" font-style="italic" fill="#0057a8">k</tspan><tspan x="168.9" y="176" font-size="9" fill="#0057a8">[1]</tspan></text><text id="text_node_3" class="math"><tspan x="236.5" y="183" font-style="italic">r</tspan><tspan x="243" y="187" font-size="9" font-style="italic" fill="#0057a8">k</tspan><tspan x="245.3" y="176" font-size="9" fill="#0057a8">[3]</tspan><tspan x="256.8" y="183">, </tspan><tspan x="266.4" y="183" font-style="italic">T</tspan><tspan x="274.1" y="187" font-size="9" font-style="italic" fill="#0057a8">k</tspan><tspan x="276.4" y="176" font-size="9" fill="#0057a8">[3]</tspan></text><text id="text_node_5" class="math"><tspan x="344.5" y="183" font-style="italic">r</tspan><tspan x="351" y="187" font-size="9" font-style="italic" fill="#0057a8">k</tspan><tspan x="353.3" y="176" font-size="9" fill="#0057a8">[5]</tspan><tspan x="364.8" y="183">, </tspan><tspan x="374.4" y="183" font-style="italic">T</tspan><tspan x="382.1" y="187" font-size="9" font-style="italic" fill="#0057a8">k</tspan><tspan x="384.4" y="176" font-size="9" fill="#0057a8">[5]</tspan></text><text id="text_node_7" class="math"><tspan x="451.5" y="183" font-style="italic">r</tspan><tspan x="458" y="187" font-size="9" font-style="italic" fill="#0057a8">k</tspan><tspan x="460.3" y="176" font-size="9" fill="#0057a8">[7]</tspan><tspan x="471.8" y="183">, </tspan><tspan x="481.4" y="183" font-style="italic">T</tspan><tspan x="489.1" y="187" font-size="9" font-style="italic" fill="#0057a8">k</tspan><tspan x="491.4" y="176" font-size="9" fill="#0057a8">[7]</tspan></text><text id="label_query_6" class="queryText" x="535" y="94">Query:</text>
+  <text id="text_query_6" class="math"><tspan x="539" y="111" font-style="italic">r</tspan><tspan x="545.5" y="115" font-size="9" font-style="italic" fill="#0057a8">k</tspan><tspan x="548.2" y="104" font-size="9" fill="#0057a8">6</tspan><tspan x="555.2" y="111">, </tspan><tspan x="564.8" y="111" font-style="italic">T</tspan><tspan x="572.5" y="115" font-size="9" font-style="italic" fill="#0057a8">k</tspan><tspan x="575.2" y="104" font-size="9" fill="#0057a8">6</tspan></text><text id="label_query_7" class="queryText" x="535" y="191">Query:</text>
+  <text id="text_query_7" class="math"><tspan x="539" y="208" font-style="italic">r</tspan><tspan x="545.5" y="212" font-size="9" font-style="italic" fill="#0057a8">k</tspan><tspan x="548.2" y="201" font-size="9" fill="#0057a8">7</tspan><tspan x="555.2" y="208">, </tspan><tspan x="564.8" y="208" font-style="italic">T</tspan><tspan x="572.5" y="212" font-size="9" font-style="italic" fill="#0057a8">k</tspan><tspan x="575.2" y="201" font-size="9" fill="#0057a8">7</tspan></text></svg>

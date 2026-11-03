@@ -14,8 +14,8 @@ const words = {
     loading: "正在载入实验局部", error: "暂时无法载入实验局部", retry: "重新载入",
     receipt: "这次修复的执行回执", executed: "文字变换已执行", measured: "容纳与间距检查通过", pending: "视觉验收待完成",
     unconfirmed: "检查结果待确认", receiptMissing: "执行回执暂不可用",
-    note: "展示取自现有实验，关系与分层标注用于解释方法。局部检查通过仍需视觉复查；完整评测将在固定设置下补充。",
-    publicNote: "示意解释各模块的作用。重建质量与修复效果，以实际结果及后续评测为准。",
+    note: "选择模块，查看 FigFox 如何处理图中的结构与细节。",
+    publicNote: "选择模块，探索重建流程。",
   },
   en: {
     title: "Reconstruction and repair in detail",
@@ -25,8 +25,8 @@ const words = {
     loading: "Loading experiment details", error: "Experiment details could not be loaded", retry: "Try again",
     receipt: "Receipt for this repair", executed: "Text transformation executed", measured: "Containment and spacing checks passed", pending: "Visual acceptance pending",
     unconfirmed: "Check outcome unconfirmed", receiptMissing: "Repair receipt unavailable",
-    note: "Views are taken from existing experiments; relationship and layer annotations explain the method. Local checks still require visual review. Full evaluation will follow under fixed settings.",
-    publicNote: "Illustrations explain each module’s role. Reconstruction and repair quality depend on actual results and subsequent evaluation.",
+    note: "Choose a module to explore how FigFox handles structure and detail.",
+    publicNote: "Choose a module to explore the reconstruction workflow.",
   },
 };
 

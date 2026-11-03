@@ -1,0 +1,128 @@
+<svg viewBox="0 0 1644 471" width="1644" height="471" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <marker id="arrowSmallGrey" markerWidth="8" markerHeight="6" refX="7.2" refY="3" orient="auto" markerUnits="userSpaceOnUse">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#9e9e9e"/>
+    </marker>
+  </defs>
+
+  <rect x="0" y="0" width="1644" height="471" fill="#ffffff"/>
+
+  <!-- outer rounded frame -->
+  <rect x="258" y="25" width="1369" height="416" rx="28" ry="28" fill="#ffffff" stroke="#bdbdbd" stroke-width="1.6"/>
+
+  <!-- left side input text and icon -->
+  <text x="18" y="110" font-family="serif" font-size="27" font-style="italic" fill="#111">h = {x(m), a(m)}</text>
+  <text x="221" y="96" font-family="serif" font-size="17" font-style="italic" fill="#111">l−1</text>
+  <text x="205" y="126" font-family="serif" font-size="17" font-style="italic" fill="#111">m=0</text>
+
+  <image id="icon_RAS_01" x="90" y="162" width="52" height="75" href="data:image/png;base64,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" preserveAspectRatio="xMidYMid meet"/>
+
+  <text x="168" y="162" font-family="serif" font-size="23" font-style="italic" fill="#111">
+    π, K<tspan baseline-shift="sub" font-size="15">τ</tspan>, D<tspan baseline-shift="sub" font-size="15">τ</tspan>
+  </text>
+  <text x="168" y="207" font-family="serif" font-size="24" font-style="italic" fill="#111">r, F, l, c</text>
+  <text x="205" y="250" font-family="serif" font-size="24" font-style="italic" fill="#111">f = 0</text>
+  <line x1="143" y1="207" x2="255" y2="207" stroke="#9f9f9f" stroke-width="2.5" marker-end="url(#arrowSmallGrey)"/>
+
+  <!-- section headings -->
+  <text x="493" y="50" text-anchor="middle" font-family="serif" font-size="28" font-weight="700" fill="#0a0a0a">1) Information Retrieval</text>
+  <text x="944" y="50" text-anchor="middle" font-family="serif" font-size="28" font-weight="700" fill="#0a0a0a">2) Prompt Formulation</text>
+  <text x="1379" y="50" text-anchor="middle" font-family="serif" font-size="28" font-weight="700" fill="#0a0a0a">3) Generation</text>
+
+  <!-- information retrieval dashed container -->
+  <rect x="275" y="62" width="437" height="251" rx="20" ry="20" fill="none" stroke="#c7c7c7" stroke-width="2" stroke-dasharray="10 7"/>
+  <rect x="286" y="77" width="416" height="96" rx="15" ry="15" fill="#fff2f3"/>
+  <rect x="286" y="189" width="416" height="91" rx="15" ry="15" fill="#f5f9ff"/>
+
+  <text x="494" y="101" text-anchor="middle" font-family="serif" font-size="28" font-weight="700" fill="#111">Filter information</text>
+  <text x="494" y="141" text-anchor="middle" font-family="serif" font-size="23" font-style="italic" fill="#111">
+    K<tspan baseline-shift="sub" font-size="15">f</tspan> = {k<tspan baseline-shift="sub" font-size="15">i</tspan> ∈ K<tspan baseline-shift="sub" font-size="15">τ</tspan> | isRelevant(k<tspan baseline-shift="sub" font-size="15">i</tspan>, h)}
+  </text>
+  <text x="494" y="167" text-anchor="middle" font-family="serif" font-size="23" font-style="italic" fill="#111">
+    D<tspan baseline-shift="sub" font-size="15">f</tspan> = {d<tspan baseline-shift="sub" font-size="15">i</tspan> ∈ D<tspan baseline-shift="sub" font-size="15">τ</tspan> | isRelevant(d<tspan baseline-shift="sub" font-size="15">i</tspan>, h)}
+  </text>
+
+  <text x="494" y="217" text-anchor="middle" font-family="serif" font-size="28" font-weight="700" fill="#111">Select context samples</text>
+  <text x="494" y="258" text-anchor="middle" font-family="serif" font-size="22" font-style="italic" fill="#111">
+    C<tspan baseline-shift="sub" font-size="14">f</tspan> = arg top<tspan baseline-shift="sub" font-size="14">c</tspan>{d<tspan baseline-shift="sub" font-size="14">i</tspan> ∈ D<tspan baseline-shift="sub" font-size="14">f</tspan> | φ<tspan baseline-shift="sub" font-size="14">t</tspan>(h) · φ<tspan baseline-shift="sub" font-size="14">c</tspan>(d<tspan baseline-shift="sub" font-size="14">i</tspan>)}
+  </text>
+
+  <!-- prompt formulation dashed container -->
+  <rect x="726" y="62" width="437" height="296" rx="20" ry="20" fill="none" stroke="#c7c7c7" stroke-width="2" stroke-dasharray="10 7"/>
+  <text x="945" y="83" text-anchor="middle" font-family="serif" font-size="22" fill="#111">Prompt =</text>
+  <text x="945" y="129" text-anchor="middle" font-family="serif" font-size="22" fill="#111">
+    &lt;Data description in K<tspan baseline-shift="sub" font-size="15">f</tspan> &gt;
+  </text>
+  <text x="945" y="176" text-anchor="middle" font-family="serif" font-size="22" fill="#111">
+    &lt;Variable descriptions in K<tspan baseline-shift="sub" font-size="15">f</tspan> &gt;
+  </text>
+  <text x="945" y="222" text-anchor="middle" font-family="serif" font-size="22" fill="#111">
+    For c<tspan baseline-shift="sub" font-size="15">i</tspan> ∈ C<tspan baseline-shift="sub" font-size="15">f</tspan> :
+  </text>
+  <text x="945" y="263" text-anchor="middle" font-family="serif" font-size="22" fill="#111">
+    &lt;Sample c<tspan baseline-shift="sub" font-size="15">i</tspan> history&gt;, &lt;Sample c<tspan baseline-shift="sub" font-size="15">i</tspan> future&gt;
+  </text>
+  <text x="945" y="306" text-anchor="middle" font-family="serif" font-size="22" fill="#111">
+    &lt;Target history h &gt;
+  </text>
+  <text x="945" y="344" text-anchor="middle" font-family="serif" font-size="21" fill="#111">Simulate the next state of the target system.</text>
+
+  <!-- generation dashed container -->
+  <rect x="1176" y="62" width="433" height="351" rx="20" ry="20" fill="none" stroke="#c7c7c7" stroke-width="2" stroke-dasharray="10 7"/>
+
+  <rect x="1190" y="77" width="405" height="128" rx="15" ry="15" fill="#fffbe8"/>
+  <rect x="1190" y="215" width="405" height="62" rx="14" ry="14" fill="#fbf2ff"/>
+  <rect x="1190" y="290" width="405" height="86" rx="14" ry="14" fill="#f2fbf2"/>
+
+  <text x="1392" y="103" text-anchor="middle" font-family="serif" font-size="27" font-weight="700" fill="#111">Generate next state</text>
+  <text x="1283" y="145" text-anchor="middle" font-family="serif" font-size="25" font-style="italic" fill="#111">Φ̂ = LLM(Prompt) =</text>
+
+  <!-- small probability density sketch -->
+  <path d="M1353 171 C1362 138, 1375 104, 1397 101 C1420 98, 1429 132, 1442 151 C1459 122, 1474 108, 1492 123 C1507 136, 1514 156, 1518 171 Z"
+        fill="#9fcfec" stroke="none" opacity="0.75"/>
+  <path d="M1358 171 C1367 151, 1381 121, 1399 119 C1420 116, 1430 142, 1443 158 C1454 143, 1469 130, 1488 137 C1501 142, 1511 157, 1517 171 Z"
+        fill="#e7c56b" stroke="none" opacity="0.85"/>
+  <path d="M1361 171 C1374 147, 1387 129, 1405 127 C1424 125, 1435 145, 1447 160 C1462 139, 1477 123, 1495 134 C1506 141, 1513 157, 1518 171 Z"
+        fill="#ef9c8f" stroke="none" opacity="0.85"/>
+  <path d="M1354 171 C1363 139, 1376 104, 1397 101 C1420 99, 1429 132, 1443 151 C1459 122, 1474 108, 1492 123 C1507 136, 1514 156, 1518 171"
+        fill="none" stroke="#7ab8da" stroke-width="1.2"/>
+  <path d="M1358 171 C1371 147, 1386 126, 1405 126 C1425 126, 1435 145, 1447 160 C1462 139, 1478 124, 1495 134 C1506 141, 1513 157, 1518 171"
+        fill="none" stroke="#d18476" stroke-width="1.2"/>
+
+  <text x="1524" y="112" font-family="serif" font-size="21" font-style="italic" fill="#111">P(x<tspan baseline-shift="sub" font-size="14">1</tspan>)</text>
+  <text x="1524" y="138" font-family="serif" font-size="21" font-style="italic" fill="#111">P(x<tspan baseline-shift="sub" font-size="14">2</tspan>)</text>
+  <text x="1524" y="164" font-family="serif" font-size="21" font-style="italic" fill="#111">P(x<tspan baseline-shift="sub" font-size="14">3</tspan>)</text>
+  <text x="1539" y="190" font-family="serif" font-size="22" font-style="italic" fill="#111">⋮</text>
+
+  <text x="1285" y="173" text-anchor="middle" font-family="serif" font-size="24" font-style="italic" fill="#111">f = f + 1</text>
+  <text x="1285" y="199" text-anchor="middle" font-family="serif" font-size="24" font-style="italic" fill="#111">x(f) ~ Φ̂</text>
+
+  <text x="1392" y="242" text-anchor="middle" font-family="serif" font-size="27" font-weight="700" fill="#111">Generate next action</text>
+  <text x="1392" y="267" text-anchor="middle" font-family="serif" font-size="24" font-style="italic" fill="#111">
+    a(f) ~ π(x(f), f)
+  </text>
+
+  <text x="1392" y="317" text-anchor="middle" font-family="serif" font-size="27" font-weight="700" fill="#111">Update history</text>
+  <text x="1392" y="346" text-anchor="middle" font-family="serif" font-size="24" font-style="italic" fill="#111">
+    h = h ∪ {x(f), a(f)}
+  </text>
+  <text x="1392" y="373" text-anchor="middle" font-family="serif" font-size="24" font-style="italic" fill="#111">
+    h = {h<tspan baseline-shift="sub" font-size="16">i</tspan>}
+    <tspan baseline-shift="super" font-size="16">f</tspan>
+    <tspan baseline-shift="sub" font-size="16" dx="-8">i=f−l+1</tspan>
+  </text>
+
+  <!-- loop arrows at bottom: resized and label-cleared -->
+  <line x1="1168" y1="406" x2="362" y2="406" stroke="#b3b3b3" stroke-width="8" stroke-linecap="butt"/>
+  <line x1="362" y1="406" x2="362" y2="335" stroke="#b3b3b3" stroke-width="8" stroke-linecap="butt"/>
+  <polygon points="362,300 345,337 379,337" fill="#b3b3b3"/>
+  <line x1="762" y1="406" x2="762" y2="386" stroke="#b3b3b3" stroke-width="8" stroke-linecap="butt"/>
+  <polygon points="762,354 746,386 778,386" fill="#b3b3b3"/>
+
+  <text x="392" y="398" text-anchor="middle" font-family="serif" font-size="20" fill="#111">Else</text>
+  <text x="1033" y="398" text-anchor="middle" font-family="serif" font-size="22" fill="#111">While f &lt; F</text>
+  <text x="852" y="374" text-anchor="middle" font-family="serif" font-size="21" fill="#111">If f mod r ≠ 0 and</text>
+  <text x="852" y="397" text-anchor="middle" font-family="serif" font-size="21" font-style="italic" fill="#111">
+    a(f) ∈ h<tspan baseline-shift="sub" font-size="14">a</tspan>
+  </text>
+</svg>

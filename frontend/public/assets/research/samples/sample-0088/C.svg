@@ -1,0 +1,192 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1176" height="528" viewBox="0 0 1176 528">
+  <title>Lottery ticket sparse training and activation matching workflow diagram</title>
+  <desc>
+    Inventory and relationships: the figure is a white-background workflow. On the left, an initial dense model W_A at t=0 trains downward to W_A at t=T, is pruned downward to W_A at t=T masked by m_A, and is activation-matched rightward to W_B at t=T approximately pi(W_A at t=T). In the center/top, an initial dense W_B at t=0 receives a training relation from W_A and branches by training to W_B at t=T, downward to a sparse-training naive masked W_B, and diagonally to a permuted masked W_B. A dotted blue sparse-training frame encloses three vertical columns: red naive LTH problem, green permuted solution, and green LTH solution. The upper-right W_A masked-at-k box is reached by a gray mask arrow from above and trains downward to the LTH solution. A legend at upper right shows solid train, dashed mask, and dash-dot match line styles. Section symmetry: the sparse training panel is arranged as three nearly equally spaced vertical columns sharing aligned upper boxes, arrows, lower boxes, and captions; the left block is vertically aligned around a common center line with an activation-matching branch to the right.
+  </desc>
+
+  <defs>
+    <marker id="arrow-gray" markerUnits="userSpaceOnUse" markerWidth="24" markerHeight="20" viewBox="0 0 10 8" refX="10" refY="4" orient="auto">
+      <path d="M0,0 L10,4 L0,8 Z" fill="#9a9a9a" id="plus_node_0" />
+    </marker>
+    <marker id="arrow-green" markerUnits="userSpaceOnUse" markerWidth="24" markerHeight="20" viewBox="0 0 10 8" refX="10" refY="4" orient="auto">
+      <path d="M0,0 L10,4 L0,8 Z" fill="#8bc078" id="plus_node_1" />
+    </marker>
+    <marker id="arrow-red" markerUnits="userSpaceOnUse" markerWidth="24" markerHeight="20" viewBox="0 0 10 8" refX="10" refY="4" orient="auto">
+      <path d="M0,0 L10,4 L0,8 Z" fill="#e46166" id="plus_node_2" />
+    </marker>
+  </defs>
+
+  <rect id="canvas_background" x="0" y="0" width="1176" height="528" fill="#ffffff" />
+
+  
+  <path id="top_initial_connector" d="M123 52 V35 H628 V52" fill="none" stroke="#9a9a9a" stroke-width="4" stroke-linecap="square" />
+
+  
+  <rect id="f12" data-plus-kind="frame" x="519" y="166" width="631" height="330" fill="none" stroke="#4d86ff" stroke-width="4" stroke-dasharray="4 13" />
+
+  
+  <g id="legend">
+    <text id="legend_train_text" x="870" y="60" font-family="Arial, Helvetica, sans-serif" font-size="24" fill="#555555">train</text>
+    <path id="legend_train_line" d="M932 54 H1038" fill="none" stroke="#9a9a9a" stroke-width="4" />
+    <text id="legend_mask_text" x="860" y="95" font-family="Arial, Helvetica, sans-serif" font-size="24" fill="#555555">mask</text>
+    <path id="legend_mask_line" d="M932 92 H1038" fill="none" stroke="#9a9a9a" stroke-width="4" stroke-dasharray="16 14" />
+    <text id="legend_match_text" x="850" y="135" font-family="Arial, Helvetica, sans-serif" font-size="24" fill="#555555">match</text>
+    <path id="legend_match_line" d="M932 128 H1038" fill="none" stroke="#9a9a9a" stroke-width="4" stroke-dasharray="15 12 3 12" />
+  </g>
+
+  
+  <path id="arrow_train_A_initial_to_A_T" d="M123 126 V216" fill="none" stroke="#9a9a9a" stroke-width="4" marker-end="url(#arrow-gray)" />
+  <text id="label_train_left" x="177" y="184" font-family="Arial, Helvetica, sans-serif" font-size="32" fill="#555555">train</text>
+
+  <path id="arrow_prune_A_T_to_masked" d="M123 292 V373" fill="none" stroke="#9a9a9a" stroke-width="4" stroke-dasharray="17 13" marker-end="url(#arrow-gray)" />
+  <text id="label_prune" x="143" y="342" font-family="Arial, Helvetica, sans-serif" font-size="32" fill="#555555">prune</text>
+
+  <path id="arrow_activation_match" d="M217 254 H246 V411 H294" fill="none" stroke="#9a9a9a" stroke-width="4" stroke-dasharray="17 13" marker-end="url(#arrow-gray)" />
+  <text id="activation_match_formula" x="294" y="421" font-family="Georgia, 'Times New Roman', serif" font-size="27" fill="#555555">
+    <tspan font-weight="700">W</tspan><tspan dy="-14" font-size="18">t=T</tspan><tspan dy="14" font-size="27"> ≈ π(</tspan><tspan font-weight="700">W</tspan><tspan dy="-14" font-size="18">t=T</tspan><tspan dy="14" font-size="27">)</tspan>
+  </text>
+  <text id="activation_match_formula_sub_B" x="329" y="430" font-family="Georgia, 'Times New Roman', serif" font-size="18" fill="#555555">B</text>
+  <text id="activation_match_formula_sub_A" x="492" y="430" font-family="Georgia, 'Times New Roman', serif" font-size="18" fill="#555555">A</text>
+  <text id="label_activation_matching" x="291" y="467" font-family="Arial, Helvetica, sans-serif" font-size="24" fill="#555555">activation matching</text>
+
+  <path id="arrow_train_B_to_WBT" d="M536 88 L368 218" fill="none" stroke="#9a9a9a" stroke-width="4" marker-end="url(#arrow-gray)" />
+  <text id="label_train_B_left" x="390" y="136" font-family="Arial, Helvetica, sans-serif" font-size="32" fill="#555555">train</text>
+
+  
+  <path id="arrow_B0_to_B_maskA_k" d="M628 126 V218" fill="none" stroke="#9a9a9a" stroke-width="4" marker-end="url(#arrow-gray)" />
+  <path id="arrow_B0_to_B_perm_k" d="M721 88 L837 218" fill="none" stroke="#9a9a9a" stroke-width="4" marker-end="url(#arrow-gray)" />
+  <path id="arrow_mask_to_A_k" d="M1050 36 V218" fill="none" stroke="#9a9a9a" stroke-width="4" marker-end="url(#arrow-gray)" />
+  <text id="label_mask_right" x="1057" y="199" font-family="Arial, Helvetica, sans-serif" font-size="30" fill="#555555">mask</text>
+
+  <path id="arrow_naive_down" d="M629 292 V373" fill="none" stroke="#e46166" stroke-width="4" marker-end="url(#arrow-red)" />
+  <path id="arrow_permuted_down" d="M838 292 V373" fill="none" stroke="#8bc078" stroke-width="4" marker-end="url(#arrow-green)" />
+  <path id="arrow_lth_down" d="M1050 292 V373" fill="none" stroke="#8bc078" stroke-width="4" marker-end="url(#arrow-green)" />
+  <text id="label_train_right" x="1066" y="344" font-family="Arial, Helvetica, sans-serif" font-size="31" fill="#555555">train</text>
+
+  <text id="label_sparse_training" x="507" y="358" transform="rotate(-90 507 358)" font-family="Arial, Helvetica, sans-serif" font-size="28" fill="#4d86ff">Sparse Training</text>
+
+  
+  <rect id="f01" data-plus-kind="frame" x="30" y="52" width="185" height="73" rx="1" ry="1" fill="#ffffff" stroke="#999999" stroke-width="4" />
+  <rect id="f02" data-plus-kind="frame" x="29" y="216" width="188" height="76" rx="1" ry="1" fill="#ffffff" stroke="#93c47d" stroke-width="7" />
+  <rect id="f03" data-plus-kind="frame" x="29" y="374" width="188" height="75" rx="1" ry="1" fill="#ffffff" stroke="#93c47d" stroke-width="7" />
+
+  <rect id="f04" data-plus-kind="frame" x="274" y="218" width="186" height="73" rx="1" ry="1" fill="#ffffff" stroke="#999999" stroke-width="4" />
+  <rect id="f05" data-plus-kind="frame" x="536" y="52" width="185" height="73" rx="1" ry="1" fill="#ffffff" stroke="#999999" stroke-width="4" />
+
+  <rect id="f06" data-plus-kind="frame" x="536" y="218" width="185" height="73" rx="1" ry="1" fill="#ffffff" stroke="#999999" stroke-width="4" />
+  <rect id="f07" data-plus-kind="frame" x="745" y="218" width="186" height="73" rx="1" ry="1" fill="#ffffff" stroke="#999999" stroke-width="4" />
+  <rect id="f08" data-plus-kind="frame" x="957" y="218" width="186" height="73" rx="1" ry="1" fill="#ffffff" stroke="#999999" stroke-width="4" />
+
+  <rect id="f09" data-plus-kind="frame" x="535" y="373" width="187" height="76" rx="1" ry="1" fill="#ffffff" stroke="#e46166" stroke-width="7" />
+  <rect id="f10" data-plus-kind="frame" x="745" y="373" width="186" height="76" rx="1" ry="1" fill="#ffffff" stroke="#93c47d" stroke-width="7" />
+  <rect id="f11" data-plus-kind="frame" x="957" y="373" width="186" height="76" rx="1" ry="1" fill="#ffffff" stroke="#93c47d" stroke-width="7" />
+
+  
+  <g id="formula_A_t0" fill="#555555" font-family="Georgia, 'Times New Roman', serif">
+    <text x="41" y="99" font-size="34" font-weight="700" id="plus_node_3">W</text>
+    <text x="70" y="81" font-size="23" font-style="italic" id="plus_node_4">t=0</text>
+    <text x="75" y="108" font-size="22" font-style="italic" id="plus_node_5">A</text>
+    <text x="129" y="99" font-size="34" id="plus_node_6">∼</text>
+    <text x="171" y="99" font-size="39" font-style="italic" id="plus_node_7">𝒩</text>
+  </g>
+
+  
+  <g id="formula_A_tT" fill="#555555" font-family="Georgia, 'Times New Roman', serif">
+    <text x="81" y="263" font-size="34" font-weight="700" id="plus_node_8">W</text>
+    <text x="111" y="246" font-size="23" font-style="italic" id="plus_node_9">t=T</text>
+    <text x="116" y="272" font-size="22" font-style="italic" id="plus_node_10">A</text>
+  </g>
+
+  
+  <g id="formula_A_tT_mask" fill="#555555" font-family="Georgia, 'Times New Roman', serif">
+    <text x="43" y="421" font-size="32" font-weight="700" id="plus_node_11">W</text>
+    <text x="72" y="405" font-size="21" font-style="italic" id="plus_node_12">t=T</text>
+    <text x="76" y="430" font-size="20" font-style="italic" id="plus_node_13">A</text>
+    <text x="121" y="421" font-size="31" id="plus_node_14">⊙</text>
+    <text x="154" y="421" font-size="34" id="plus_node_15">m</text>
+    <text x="186" y="430" font-size="20" font-style="italic" id="plus_node_16">A</text>
+  </g>
+
+  
+  <g id="formula_B_tT" fill="#555555" font-family="Georgia, 'Times New Roman', serif">
+    <text x="328" y="265" font-size="34" font-weight="700" id="plus_node_17">W</text>
+    <text x="357" y="248" font-size="23" font-style="italic" id="plus_node_18">t=T</text>
+    <text x="363" y="273" font-size="22" font-style="italic" id="plus_node_19">B</text>
+  </g>
+
+  
+  <g id="formula_B_t0" fill="#555555" font-family="Georgia, 'Times New Roman', serif">
+    <text x="546" y="99" font-size="34" font-weight="700" id="plus_node_20">W</text>
+    <text x="575" y="81" font-size="23" font-style="italic" id="plus_node_21">t=0</text>
+    <text x="581" y="108" font-size="22" font-style="italic" id="plus_node_22">B</text>
+    <text x="634" y="99" font-size="34" id="plus_node_23">∼</text>
+    <text x="676" y="99" font-size="39" font-style="italic" id="plus_node_24">𝒩</text>
+  </g>
+
+  
+  <g id="formula_B_tk_maskA" fill="#555555" font-family="Georgia, 'Times New Roman', serif">
+    <text x="552" y="264" font-size="30" font-weight="700" id="plus_node_25">W</text>
+    <text x="579" y="248" font-size="19" font-style="italic" id="plus_node_26">t=k</text>
+    <text x="584" y="272" font-size="18" font-style="italic" id="plus_node_27">B</text>
+    <text x="625" y="264" font-size="29" id="plus_node_28">⊙</text>
+    <text x="659" y="264" font-size="31" id="plus_node_29">m</text>
+    <text x="690" y="272" font-size="18" font-style="italic" id="plus_node_30">A</text>
+  </g>
+
+  
+  <g id="formula_B_tk_perm_maskA" fill="#555555" font-family="Georgia, 'Times New Roman', serif">
+    <text x="756" y="264" font-size="30" font-weight="700" id="plus_node_31">W</text>
+    <text x="783" y="248" font-size="19" font-style="italic" id="plus_node_32">t=k</text>
+    <text x="788" y="272" font-size="18" font-style="italic" id="plus_node_33">B</text>
+    <text x="823" y="264" font-size="29" id="plus_node_34">⊙</text>
+    <text x="858" y="264" font-size="30" id="plus_node_35">π(m</text>
+    <text x="915" y="272" font-size="18" font-style="italic" id="plus_node_36">A</text>
+    <text x="926" y="264" font-size="30" id="plus_node_37">)</text>
+  </g>
+
+  
+  <g id="formula_A_tk_maskA" fill="#555555" font-family="Georgia, 'Times New Roman', serif">
+    <text x="974" y="264" font-size="30" font-weight="700" id="plus_node_38">W</text>
+    <text x="1001" y="248" font-size="19" font-style="italic" id="plus_node_39">t=k</text>
+    <text x="1006" y="272" font-size="18" font-style="italic" id="plus_node_40">A</text>
+    <text x="1045" y="264" font-size="29" id="plus_node_41">⊙</text>
+    <text x="1079" y="264" font-size="31" id="plus_node_42">m</text>
+    <text x="1110" y="272" font-size="18" font-style="italic" id="plus_node_43">A</text>
+  </g>
+
+  
+  <g id="formula_naive_lower" fill="#555555" font-family="Georgia, 'Times New Roman', serif">
+    <text x="552" y="421" font-size="30" font-weight="700" id="plus_node_44">W</text>
+    <text x="579" y="405" font-size="19" font-style="italic" id="plus_node_45">t=T</text>
+    <text x="584" y="429" font-size="18" font-style="italic" id="plus_node_46">B</text>
+    <text x="624" y="421" font-size="29" id="plus_node_47">⊙</text>
+    <text x="658" y="421" font-size="31" id="plus_node_48">m</text>
+    <text x="689" y="429" font-size="18" font-style="italic" id="plus_node_49">A</text>
+  </g>
+
+  
+  <g id="formula_permuted_lower" fill="#555555" font-family="Georgia, 'Times New Roman', serif">
+    <text x="756" y="421" font-size="30" font-weight="700" id="plus_node_50">W</text>
+    <text x="783" y="405" font-size="19" font-style="italic" id="plus_node_51">t=T</text>
+    <text x="788" y="429" font-size="18" font-style="italic" id="plus_node_52">B</text>
+    <text x="824" y="421" font-size="29" id="plus_node_53">⊙</text>
+    <text x="858" y="421" font-size="30" id="plus_node_54">π(m</text>
+    <text x="915" y="429" font-size="18" font-style="italic" id="plus_node_55">A</text>
+    <text x="926" y="421" font-size="30" id="plus_node_56">)</text>
+  </g>
+
+  
+  <g id="formula_lth_lower" fill="#555555" font-family="Georgia, 'Times New Roman', serif">
+    <text x="974" y="421" font-size="30" font-weight="700" id="plus_node_57">W</text>
+    <text x="1001" y="405" font-size="19" font-style="italic" id="plus_node_58">t=T</text>
+    <text x="1006" y="429" font-size="18" font-style="italic" id="plus_node_59">A</text>
+    <text x="1045" y="421" font-size="29" id="plus_node_60">⊙</text>
+    <text x="1079" y="421" font-size="31" id="plus_node_61">m</text>
+    <text x="1110" y="429" font-size="18" font-style="italic" id="plus_node_62">A</text>
+  </g>
+
+  
+  <text id="caption_naive" x="535" y="478" font-family="Arial, Helvetica, sans-serif" font-size="20" fill="#ff0000">LTH Problem (Naive)</text>
+  <text id="caption_permuted" x="730" y="478" font-family="Arial, Helvetica, sans-serif" font-size="20" fill="#7fbf5b">Our Solution (Permuted)</text>
+  <text id="caption_lth" x="993" y="478" font-family="Arial, Helvetica, sans-serif" font-size="20" fill="#8bc078">LTH Solution</text>
+</svg>

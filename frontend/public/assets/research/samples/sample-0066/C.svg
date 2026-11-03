@@ -1,0 +1,228 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1539" height="504" viewBox="0 0 1539 504">
+  <title>Reconstruction of three-panel figure: model architecture, Hopfield energy, and neural activities</title>
+  <desc>
+    Base frames f01, f02, and f03 contain panels (a), (b), and (c). Panel (a) inventories two input distributions I1/I2 above state nodes x1/x2, vertical arrows to nodes and to actions, and a bidirectional curved coupling loop between nodes. Panel (b) inventories a square energy heatmap with axes x1/x2, colorbar, white trajectory scatter, green nullcline-like guides, and a red path. Panel (c) inventories a time-series plot of x1 and x2, legend, axes labels, and right-side marginal density curves. Symmetry basis: panel (a) is approximately bilateral around the midpoint between x1 and x2; panel (b) is square-coordinate symmetry with opposing low/high regions; panel (c) is horizontal time progression with state values on the vertical axis.
+  </desc>
+
+  <defs>
+    <marker id="arrowHeadBlack" markerUnits="userSpaceOnUse" markerWidth="25" markerHeight="20" viewBox="0 0 10 8" refX="9.3" refY="4" orient="auto">
+      <path d="M0,0 L10,4 L0,8 Z" fill="#000000" id="plus_node_0" />
+    </marker>
+    <marker id="arrowHeadGray" markerUnits="userSpaceOnUse" markerWidth="8" markerHeight="8" viewBox="0 0 10 8" refX="9.3" refY="4" orient="auto">
+      <path d="M0,0 L10,4 L0,8 Z" fill="#777777" id="plus_node_1" />
+    </marker>
+    <marker id="arrowHeadCurve" markerUnits="userSpaceOnUse" markerWidth="15" markerHeight="12" viewBox="0 0 10 8" refX="9.2" refY="4" orient="auto">
+      <path d="M0,0 L10,4 L0,8 Z" fill="#000000" id="plus_node_2" />
+    </marker>
+
+    <linearGradient id="greenBell" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#b5e2b8" />
+      <stop offset="0.55" stop-color="#42a34c" />
+      <stop offset="1" stop-color="#8dc98b" />
+    </linearGradient>
+    <linearGradient id="magentaBell" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#f1bbf7" />
+      <stop offset="0.5" stop-color="#df48ec" />
+      <stop offset="1" stop-color="#f4c9f9" />
+    </linearGradient>
+
+    <filter id="softBlur" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="9" />
+    </filter>
+
+    <clipPath id="clipHeat">
+      <rect x="418" y="122" width="292" height="273" id="plus_node_3" />
+    </clipPath>
+    <clipPath id="clipC">
+      <rect x="916" y="122" width="518" height="273" id="plus_node_4" />
+    </clipPath>
+
+    <linearGradient id="viridisBar" x1="0" y1="1" x2="0" y2="0">
+      <stop offset="0" stop-color="#440154" />
+      <stop offset="0.32" stop-color="#3b528b" />
+      <stop offset="0.60" stop-color="#21918c" />
+      <stop offset="0.78" stop-color="#7ad151" />
+      <stop offset="1" stop-color="#fde725" />
+    </linearGradient>
+    <radialGradient id="heatYellowA" cx="0.20" cy="0.78" r="0.58">
+      <stop offset="0" stop-color="#fde725" />
+      <stop offset="0.58" stop-color="#e6e84a" />
+      <stop offset="0.80" stop-color="#2aa179" />
+      <stop offset="1" stop-color="#440154" />
+    </radialGradient>
+    <radialGradient id="heatYellowB" cx="0.83" cy="0.23" r="0.58">
+      <stop offset="0" stop-color="#fde725" />
+      <stop offset="0.58" stop-color="#e7e84a" />
+      <stop offset="0.82" stop-color="#2a9d82" />
+      <stop offset="1" stop-color="#440154" />
+    </radialGradient>
+  </defs>
+
+  <rect id="canvas_background" x="0" y="0" width="1539" height="504" fill="#ffffff" />
+  <rect id="f01" data-plus-kind="frame" x="0" y="0" width="380" height="504" fill="none" stroke="none" />
+  <rect id="f02" data-plus-kind="frame" x="380" y="0" width="420" height="504" fill="none" stroke="none" />
+  <rect id="f03" data-plus-kind="frame" x="800" y="0" width="739" height="504" fill="none" stroke="none" />
+
+  
+  <g id="panel_a">
+    <text id="title_a" x="48" y="55" font-family="Arial, Helvetica, sans-serif" font-size="29" font-weight="700" fill="#000000">(a) Model architecture</text>
+
+    <g id="input_I1" transform="translate(22,116)">
+      <title>I1 green input density with small gray axes</title>
+      <path d="M0,68 V0" fill="none" stroke="#8a8a8a" stroke-width="2" marker-end="url(#arrowHeadGray)" id="plus_node_5" />
+      <path d="M0,68 H112" fill="none" stroke="#8a8a8a" stroke-width="2" id="plus_node_6" />
+      <path d="M15,67 C27,66 35,56 44,42 C54,26 65,25 75,45 C82,59 88,66 100,67 Z" fill="url(#greenBell)" stroke="none" opacity="0.95" id="plus_node_7" />
+      <line x1="64" y1="68" x2="64" y2="31" stroke="#7bd37e" stroke-width="1.7" id="plus_node_8" />
+      <text x="49" y="-7" font-family="Georgia, 'Times New Roman', serif" font-size="32" font-weight="700" fill="#49a453" id="plus_node_9">I1</text>
+    </g>
+
+    <g id="input_I2" transform="translate(226,116)">
+      <title>I2 magenta input density with small gray axes</title>
+      <path d="M0,68 V0" fill="none" stroke="#8a8a8a" stroke-width="2" marker-end="url(#arrowHeadGray)" id="plus_node_10" />
+      <path d="M0,68 H111" fill="none" stroke="#8a8a8a" stroke-width="2" id="plus_node_11" />
+      <path d="M16,67 C26,66 31,61 35,50 C40,31 43,3 36,0 C46,6 47,47 56,58 C66,69 82,67 101,67 Z" fill="url(#magentaBell)" stroke="none" opacity="0.95" id="plus_node_12" />
+      <line x1="36" y1="68" x2="36" y2="5" stroke="#f28df5" stroke-width="1.7" id="plus_node_13" />
+      <text x="20" y="-7" font-family="Georgia, 'Times New Roman', serif" font-size="32" font-weight="700" fill="#e052eb" id="plus_node_14">I2</text>
+    </g>
+
+    <path id="arrow_I1_to_x1" d="M85,199 V248" fill="none" stroke="#000000" stroke-width="4.3" marker-end="url(#arrowHeadBlack)" />
+    <path id="arrow_I2_to_x2" d="M268,199 V248" fill="none" stroke="#000000" stroke-width="4.3" marker-end="url(#arrowHeadBlack)" />
+
+    <g id="nodes_and_recurrent_architecture">
+      <circle id="node_x1" cx="93" cy="294" r="37" fill="#a9bce8" stroke="#000000" stroke-width="4" />
+      <circle id="node_x2" cx="266" cy="294" r="37" fill="#ffdf71" stroke="#000000" stroke-width="4" />
+      <text id="node_x1_label" x="80" y="307" font-family="Georgia, 'Times New Roman', serif" font-size="29" font-style="italic" fill="#000000">x<tspan baseline-shift="-25%" font-size="18">1</tspan></text>
+      <text id="node_x2_label" x="255" y="307" font-family="Georgia, 'Times New Roman', serif" font-size="29" font-style="italic" fill="#000000">x<tspan baseline-shift="-25%" font-size="18">2</tspan></text>
+
+      <path id="recurrent_top_arc" d="M129,271 C160,232 221,233 249,270" fill="none" stroke="#000000" stroke-width="4" stroke-linecap="round" />
+      <path id="recurrent_bottom_arc" d="M118,322 C151,366 217,367 250,325" fill="none" stroke="#000000" stroke-width="4" stroke-linecap="round" />
+      <line id="inhibitory_bar_top_left" x1="119" y1="253" x2="145" y2="270" stroke="#000000" stroke-width="4" stroke-linecap="butt" />
+      <line id="inhibitory_bar_bottom_right" x1="212" y1="326" x2="238" y2="344" stroke="#000000" stroke-width="4" stroke-linecap="butt" />
+    </g>
+
+    <path id="arrow_x1_to_action1" d="M85,332 V398" fill="none" stroke="#000000" stroke-width="4.3" marker-end="url(#arrowHeadBlack)" />
+    <path id="arrow_x2_to_action2" d="M269,332 V398" fill="none" stroke="#000000" stroke-width="4.3" marker-end="url(#arrowHeadBlack)" />
+    <text id="label_action1" x="34" y="445" font-family="Georgia, 'Times New Roman', serif" font-size="25" font-weight="700" fill="#7542a6">P(Action 1)</text>
+    <text id="label_action2" x="225" y="445" font-family="Georgia, 'Times New Roman', serif" font-size="25" font-weight="700" fill="#bd6c2f">P(Action 2)</text>
+  </g>
+
+  
+  <g id="panel_b">
+    <text id="title_b" x="456" y="55" font-family="Arial, Helvetica, sans-serif" font-size="29" font-weight="700" fill="#000000">(b) Hopfield energy</text>
+
+    <g id="heatmap_plot">
+      <rect id="heat_bg" x="418" y="122" width="292" height="273" fill="#440154" />
+      <g clip-path="url(#clipHeat)" id="plus_node_15">
+        <rect x="418" y="122" width="292" height="273" fill="url(#heatYellowA)" id="plus_node_16" />
+        <rect x="418" y="122" width="292" height="273" fill="url(#heatYellowB)" opacity="0.98" id="plus_node_17" />
+        <rect x="418" y="122" width="292" height="273" fill="#440154" opacity="0.18" id="plus_node_18" />
+        <rect x="542" y="121" width="35" height="276" fill="#1f9b87" opacity="0.65" filter="url(#softBlur)" id="plus_node_19" />
+        <rect x="416" y="220" width="296" height="32" fill="#9bd447" opacity="0.70" filter="url(#softBlur)" id="plus_node_20" />
+        <rect x="610" y="253" width="100" height="142" fill="#3d0052" opacity="0.65" filter="url(#softBlur)" id="plus_node_21" />
+        <rect x="418" y="122" width="106" height="92" fill="#3c0454" opacity="0.78" filter="url(#softBlur)" id="plus_node_22" />
+      </g>
+
+      <g id="heat_scatter" clip-path="url(#clipHeat)" fill="#ffffff" opacity="0.92">
+        <circle cx="488" cy="158" r="1.5" id="plus_node_23" /><circle cx="496" cy="151" r="1.2" id="plus_node_24" /><circle cx="502" cy="164" r="1.3" id="plus_node_25" /><circle cx="483" cy="174" r="1.2" id="plus_node_26" /><circle cx="494" cy="178" r="1.5" id="plus_node_27" />
+        <circle cx="506" cy="185" r="1.1" id="plus_node_28" /><circle cx="488" cy="190" r="1.4" id="plus_node_29" /><circle cx="501" cy="199" r="1.5" id="plus_node_30" /><circle cx="512" cy="207" r="1.1" id="plus_node_31" /><circle cx="489" cy="213" r="1.3" id="plus_node_32" />
+        <circle cx="506" cy="220" r="1.4" id="plus_node_33" /><circle cx="519" cy="229" r="1.1" id="plus_node_34" /><circle cx="496" cy="234" r="1.4" id="plus_node_35" /><circle cx="531" cy="241" r="1.2" id="plus_node_36" /><circle cx="548" cy="249" r="1.3" id="plus_node_37" />
+        <circle cx="567" cy="257" r="1.4" id="plus_node_38" /><circle cx="584" cy="264" r="1.2" id="plus_node_39" /><circle cx="604" cy="271" r="1.2" id="plus_node_40" /><circle cx="623" cy="279" r="1.4" id="plus_node_41" /><circle cx="642" cy="286" r="1.1" id="plus_node_42" />
+        <circle cx="613" cy="303" r="1.4" id="plus_node_43" /><circle cx="622" cy="314" r="1.5" id="plus_node_44" /><circle cx="632" cy="327" r="1.3" id="plus_node_45" /><circle cx="614" cy="338" r="1.2" id="plus_node_46" /><circle cx="626" cy="350" r="1.6" id="plus_node_47" />
+        <circle cx="607" cy="363" r="1.5" id="plus_node_48" /><circle cx="627" cy="373" r="1.3" id="plus_node_49" /><circle cx="613" cy="384" r="1.5" id="plus_node_50" /><circle cx="640" cy="361" r="1.0" id="plus_node_51" /><circle cx="597" cy="341" r="1.1" id="plus_node_52" />
+        <circle cx="477" cy="147" r="1.0" id="plus_node_53" /><circle cx="482" cy="153" r="1.2" id="plus_node_54" /><circle cx="490" cy="166" r="1.1" id="plus_node_55" /><circle cx="492" cy="171" r="1.4" id="plus_node_56" /><circle cx="498" cy="189" r="1.0" id="plus_node_57" />
+        <circle cx="503" cy="196" r="1.0" id="plus_node_58" /><circle cx="485" cy="202" r="1.2" id="plus_node_59" /><circle cx="507" cy="210" r="1.4" id="plus_node_60" /><circle cx="514" cy="218" r="1.0" id="plus_node_61" /><circle cx="523" cy="226" r="1.1" id="plus_node_62" />
+        <circle cx="535" cy="234" r="1.3" id="plus_node_63" /><circle cx="549" cy="241" r="1.1" id="plus_node_64" /><circle cx="560" cy="250" r="1.2" id="plus_node_65" /><circle cx="576" cy="255" r="1.0" id="plus_node_66" /><circle cx="590" cy="263" r="1.0" id="plus_node_67" />
+        <circle cx="606" cy="278" r="1.3" id="plus_node_68" /><circle cx="617" cy="286" r="1.0" id="plus_node_69" /><circle cx="629" cy="294" r="1.2" id="plus_node_70" /><circle cx="640" cy="306" r="1.0" id="plus_node_71" /><circle cx="651" cy="319" r="1.2" id="plus_node_72" />
+        <circle cx="618" cy="324" r="1.0" id="plus_node_73" /><circle cx="630" cy="337" r="1.4" id="plus_node_74" /><circle cx="638" cy="346" r="1.0" id="plus_node_75" /><circle cx="618" cy="356" r="1.4" id="plus_node_76" /><circle cx="633" cy="368" r="1.0" id="plus_node_77" />
+        <circle cx="604" cy="376" r="1.2" id="plus_node_78" /><circle cx="619" cy="389" r="1.3" id="plus_node_79" /><circle cx="602" cy="391" r="1.1" id="plus_node_80" /><circle cx="612" cy="398" r="1.0" id="plus_node_81" />
+        <circle cx="472" cy="177" r="1.1" id="plus_node_82" /><circle cx="480" cy="187" r="1.0" id="plus_node_83" /><circle cx="477" cy="197" r="1.0" id="plus_node_84" /><circle cx="491" cy="221" r="1.0" id="plus_node_85" /><circle cx="518" cy="244" r="1.0" id="plus_node_86" />
+        <circle cx="551" cy="268" r="1.1" id="plus_node_87" /><circle cx="588" cy="284" r="1.0" id="plus_node_88" /><circle cx="654" cy="297" r="1.0" id="plus_node_89" /><circle cx="657" cy="345" r="1.0" id="plus_node_90" /><circle cx="585" cy="352" r="1.0" id="plus_node_91" />
+        <circle cx="482" cy="160" r="1.0" id="plus_node_92" /><circle cx="496" cy="138" r="1.1" id="plus_node_93" /><circle cx="507" cy="154" r="1.0" id="plus_node_94" /><circle cx="493" cy="242" r="1.0" id="plus_node_95" /><circle cx="615" cy="259" r="1.0" id="plus_node_96" />
+        <circle cx="634" cy="269" r="1.0" id="plus_node_97" /><circle cx="662" cy="285" r="1.1" id="plus_node_98" /><circle cx="650" cy="372" r="1.1" id="plus_node_99" /><circle cx="598" cy="368" r="1.0" id="plus_node_100" /><circle cx="625" cy="397" r="1.2" id="plus_node_101" />
+      </g>
+
+      <path id="heat_green_guides" d="M418,218 H505 C532,219 546,235 555,259 C566,288 578,327 610,327 H710 M491,122 V190 C493,224 516,255 564,273 C594,284 617,292 619,395" fill="none" stroke="#40ad22" stroke-width="1.8" />
+      <path id="heat_red_path" d="M491,127 C492,157 487,190 501,220 C514,244 550,259 580,275 C604,287 620,300 620,326 C619,349 614,371 615,394" fill="none" stroke="#d63b27" stroke-width="2.1" />
+      <rect id="heat_border" x="418" y="122" width="292" height="273" fill="none" stroke="#555555" stroke-width="1.2" />
+
+      <g id="heat_axes_text" font-family="Arial, Helvetica, sans-serif" fill="#1a1a1a">
+        <text x="413" y="419" font-size="24" text-anchor="middle" id="plus_node_102">0</text>
+        <text x="491" y="419" font-size="24" text-anchor="middle" id="plus_node_103">5</text>
+        <text x="564" y="419" font-size="24" text-anchor="middle" id="plus_node_104">10</text>
+        <text x="637" y="419" font-size="24" text-anchor="middle" id="plus_node_105">15</text>
+        <text x="710" y="419" font-size="24" text-anchor="middle" id="plus_node_106">20</text>
+        <text x="405" y="401" font-size="24" text-anchor="end" id="plus_node_107">0</text>
+        <text x="405" y="333" font-size="24" text-anchor="end" id="plus_node_108">5</text>
+        <text x="405" y="265" font-size="24" text-anchor="end" id="plus_node_109">10</text>
+        <text x="405" y="197" font-size="24" text-anchor="end" id="plus_node_110">15</text>
+        <text x="405" y="130" font-size="24" text-anchor="end" id="plus_node_111">20</text>
+        <text x="561" y="455" font-family="Georgia, 'Times New Roman', serif" font-size="33" font-style="italic" id="plus_node_112">x<tspan baseline-shift="-25%" font-size="20">1</tspan></text>
+        <text x="379" y="260" font-family="Georgia, 'Times New Roman', serif" font-size="33" font-style="italic" text-anchor="middle" id="plus_node_113">x<tspan baseline-shift="-25%" font-size="20">2</tspan></text>
+      </g>
+
+      <g id="heat_ticks" stroke="#333333" stroke-width="1">
+        <line x1="418" y1="395" x2="418" y2="400" id="plus_node_114" /><line x1="491" y1="395" x2="491" y2="400" id="plus_node_115" /><line x1="564" y1="395" x2="564" y2="400" id="plus_node_116" /><line x1="637" y1="395" x2="637" y2="400" id="plus_node_117" /><line x1="710" y1="395" x2="710" y2="400" id="plus_node_118" />
+        <line x1="413" y1="395" x2="418" y2="395" id="plus_node_119" /><line x1="413" y1="327" x2="418" y2="327" id="plus_node_120" /><line x1="413" y1="259" x2="418" y2="259" id="plus_node_121" /><line x1="413" y1="190" x2="418" y2="190" id="plus_node_122" /><line x1="413" y1="122" x2="418" y2="122" id="plus_node_123" />
+      </g>
+
+      <g id="colorbar">
+        <rect x="729" y="122" width="14" height="273" fill="url(#viridisBar)" stroke="#555555" stroke-width="1" id="plus_node_124" />
+        <text x="753" y="396" font-family="Arial, Helvetica, sans-serif" font-size="22" fill="#333333" id="plus_node_125">−11.0</text>
+        <text x="753" y="331" font-family="Arial, Helvetica, sans-serif" font-size="22" fill="#333333" id="plus_node_126">−10.5</text>
+        <text x="753" y="264" font-family="Arial, Helvetica, sans-serif" font-size="22" fill="#333333" id="plus_node_127">−10.0</text>
+        <text x="753" y="197" font-family="Arial, Helvetica, sans-serif" font-size="22" fill="#333333" id="plus_node_128">−9.5</text>
+      </g>
+    </g>
+  </g>
+
+  
+  <g id="panel_c">
+    <text id="title_c" x="1016" y="55" font-family="Arial, Helvetica, sans-serif" font-size="29" font-weight="700" fill="#000000">(c) Neural activities</text>
+
+    <g id="activity_axes">
+      <rect x="916" y="122" width="518" height="273" fill="#ffffff" stroke="#5b5b5b" stroke-width="1.2" id="plus_node_129" />
+      <g id="activity_grid_ticks" stroke="#333333" stroke-width="1">
+        <line x1="940" y1="395" x2="940" y2="400" id="plus_node_130" /><line x1="1034" y1="395" x2="1034" y2="400" id="plus_node_131" /><line x1="1128" y1="395" x2="1128" y2="400" id="plus_node_132" /><line x1="1222" y1="395" x2="1222" y2="400" id="plus_node_133" /><line x1="1316" y1="395" x2="1316" y2="400" id="plus_node_134" /><line x1="1410" y1="395" x2="1410" y2="400" id="plus_node_135" />
+        <line x1="911" y1="395" x2="916" y2="395" id="plus_node_136" /><line x1="911" y1="361" x2="916" y2="361" id="plus_node_137" /><line x1="911" y1="327" x2="916" y2="327" id="plus_node_138" /><line x1="911" y1="294" x2="916" y2="294" id="plus_node_139" /><line x1="911" y1="260" x2="916" y2="260" id="plus_node_140" /><line x1="911" y1="226" x2="916" y2="226" id="plus_node_141" /><line x1="911" y1="192" x2="916" y2="192" id="plus_node_142" /><line x1="911" y1="159" x2="916" y2="159" id="plus_node_143" /><line x1="911" y1="125" x2="916" y2="125" id="plus_node_144" />
+      </g>
+      <g id="activity_tick_labels" font-family="Arial, Helvetica, sans-serif" font-size="22" fill="#222222">
+        <text x="940" y="420" text-anchor="middle" id="plus_node_145">0</text>
+        <text x="1034" y="420" text-anchor="middle" id="plus_node_146">1000</text>
+        <text x="1128" y="420" text-anchor="middle" id="plus_node_147">2000</text>
+        <text x="1222" y="420" text-anchor="middle" id="plus_node_148">3000</text>
+        <text x="1316" y="420" text-anchor="middle" id="plus_node_149">4000</text>
+        <text x="1410" y="420" text-anchor="middle" id="plus_node_150">5000</text>
+        <text x="907" y="393" text-anchor="end" id="plus_node_151">0.0</text>
+        <text x="907" y="359" text-anchor="end" id="plus_node_152">2.5</text>
+        <text x="907" y="325" text-anchor="end" id="plus_node_153">5.0</text>
+        <text x="907" y="292" text-anchor="end" id="plus_node_154">7.5</text>
+        <text x="907" y="258" text-anchor="end" id="plus_node_155">10.0</text>
+        <text x="907" y="224" text-anchor="end" id="plus_node_156">12.5</text>
+        <text x="907" y="190" text-anchor="end" id="plus_node_157">15.0</text>
+        <text x="907" y="157" text-anchor="end" id="plus_node_158">17.5</text>
+        <text x="907" y="130" text-anchor="end" id="plus_node_159">20.0</text>
+      </g>
+      <text id="xlabel_time" x="1175" y="447" font-family="Arial, Helvetica, sans-serif" font-size="23" fill="#222222" text-anchor="middle">time</text>
+      <text id="ylabel_network_state" x="861" y="263" transform="rotate(-90 861 263)" font-family="Arial, Helvetica, sans-serif" font-size="23" fill="#222222" text-anchor="middle">network state</text>
+    </g>
+
+    <g id="activity_lines" clip-path="url(#clipC)" fill="none" stroke-linecap="butt" stroke-linejoin="round">
+      <path id="activity_x1_blue" d="         M940,326 L945,322 L950,330 L955,318 L960,325 L965,321 L970,326 L975,323 L980,221 L985,216 L990,224 L995,218         L1000,225 L1005,212 L1010,220 L1015,215 L1020,222 L1025,217 L1030,226 L1035,222 L1040,223 L1045,226 L1050,215         L1055,219 L1060,222 L1065,218 L1070,226 L1075,222 L1080,326 L1085,317 L1090,329 L1095,321 L1100,331 L1105,320         L1110,326 L1115,318 L1120,329 L1125,216 L1130,224 L1135,219 L1140,215 L1145,226 L1150,217 L1155,223 L1160,220         L1165,225 L1170,218 L1175,221 L1180,216 L1185,222 L1190,219 L1195,225 L1200,223 L1205,322 L1210,331 L1215,319         L1220,326 L1225,322 L1230,331 L1235,318 L1240,326 L1245,322 L1250,329 L1255,217 L1260,223 L1265,220 L1270,226         L1275,219 L1280,224 L1285,215 L1290,222 L1295,218 L1300,225 L1305,221 L1310,224 L1315,220 L1320,223 L1325,218         L1330,226 L1335,323 L1340,330 L1345,319 L1350,326 L1355,322 L1360,331 L1365,319 L1370,326 L1375,322 L1380,326         L1385,321 L1390,330 L1395,320 L1400,326 L1405,322 L1410,329" stroke="#377eb8" stroke-width="1.8" />
+      <path id="activity_x2_orange" d="         M940,210 L944,170 L948,250 L952,158 L956,236 L960,175 L964,258 L968,155 L972,220 L976,190 L980,310 L984,346         L988,300 L992,360 L996,318 L1000,335 L1004,304 L1008,352 L1012,330 L1016,314 L1020,178 L1024,220 L1028,156         L1032,198 L1036,148 L1040,210 L1044,164 L1048,225 L1052,154 L1056,190 L1060,162 L1064,215 L1068,174 L1072,290         L1076,335 L1080,310 L1084,352 L1088,326 L1092,378 L1096,304 L1100,360 L1104,292 L1108,340 L1112,318 L1116,355         L1120,312 L1124,176 L1128,151 L1132,210 L1136,140 L1140,180 L1144,206 L1148,162 L1152,225 L1156,170 L1160,258         L1164,305 L1168,332 L1172,270 L1176,345 L1180,282 L1184,322 L1188,300 L1192,352 L1196,314 L1200,335 L1204,292         L1208,350 L1212,318 L1216,330 L1220,186 L1224,214 L1228,158 L1232,230 L1236,170 L1240,205 L1244,150 L1248,238         L1252,190 L1256,215 L1260,172 L1264,245 L1268,304 L1272,335 L1276,292 L1280,352 L1284,310 L1288,370 L1292,300         L1296,356 L1300,320 L1304,344 L1308,316 L1312,358 L1316,300 L1320,338 L1324,318 L1328,362 L1332,294 L1336,340         L1340,322 L1344,350 L1348,306 L1352,206 L1356,160 L1360,228 L1364,148 L1368,198 L1372,176 L1376,235 L1380,160         L1384,210 L1388,172 L1392,246 L1396,186 L1400,215 L1404,170 L1408,260 L1412,205" stroke="#ff7f2a" stroke-width="1.7" />
+    </g>
+
+    <g id="activity_legend">
+      <line x1="1372" y1="354" x2="1400" y2="354" stroke="#377eb8" stroke-width="2" id="plus_node_160" />
+      <text x="1405" y="360" font-family="Georgia, 'Times New Roman', serif" font-size="22" font-style="italic" fill="#000000" id="plus_node_161">x<tspan baseline-shift="-25%" font-size="14">1</tspan></text>
+      <line x1="1372" y1="379" x2="1400" y2="379" stroke="#ff7f2a" stroke-width="2" id="plus_node_162" />
+      <text x="1405" y="385" font-family="Georgia, 'Times New Roman', serif" font-size="22" font-style="italic" fill="#000000" id="plus_node_163">x<tspan baseline-shift="-25%" font-size="14">2</tspan></text>
+    </g>
+
+    <g id="right_marginal_density">
+      <line x1="1441" y1="122" x2="1441" y2="395" stroke="#d7d7d7" stroke-width="1" id="plus_node_164" />
+      <line x1="1441" y1="357" x2="1527" y2="357" stroke="#e6e6e6" stroke-width="1" id="plus_node_165" />
+      <path id="density_x1" d="M1441,325 C1456,323 1477,318 1509,309 C1476,301 1457,298 1441,295 Z                               M1441,232 C1458,231 1480,224 1513,215 C1480,207 1458,201 1441,199 Z" fill="#6aa5d7" stroke="#377eb8" stroke-width="1.5" opacity="0.62" />
+      <path id="density_x2" d="M1441,385 C1448,363 1452,337 1450,316 C1448,287 1441,271 1438,244 C1435,211 1441,176 1449,151                               C1446,176 1457,189 1470,199 C1463,219 1454,244 1455,268 C1456,298 1466,326 1460,350 C1457,365 1450,377 1441,385 Z" fill="#f6b16d" stroke="#ff7f2a" stroke-width="1.2" opacity="0.55" />
+    </g>
+  </g>
+</svg>

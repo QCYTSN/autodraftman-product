@@ -1,0 +1,407 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="804" height="526" viewBox="0 0 804 526">
+  <title>Occupancy prediction framework diagram reconstructed as editable SVG</title>
+  <desc>
+    Inventory and conduction summary: the figure contains five aligned base regions: T-frame surround-view images at top-left, a green top pipeline region with image encoder, D2-VFormer, R2-EFormer, OCC decoder and occupancy prediction, a pink Depth Cues region containing MoGe-2 and derived depth products, a blue D2-VFormer region containing image features, voxel pooling, sparse voxel features and depth-guided voxel refinement, and an orange R2-EFormer region containing occupancy semantic feature, recursion block and full-region voxel feature. Origins were established per frame at the upper-left major object; content was conducted rightward and downward from those origins. Symmetry/equipartition basis: the overall figure is divided into left/middle/right functional columns, with repeated cubes and vertical arrows aligned on common center lines.
+  </desc>
+
+  <defs>
+    <marker id="arrowBlack" markerUnits="userSpaceOnUse" markerWidth="14" markerHeight="14" viewBox="0 0 10 8" refX="9.2" refY="4" orient="auto">
+      <path d="M0,0 L10,4 L0,8 Z" fill="#111" id="plus_node_0" />
+    </marker>
+    <marker id="arrowBlackStart" markerUnits="userSpaceOnUse" markerWidth="14" markerHeight="14" viewBox="0 0 10 8" refX=".8" refY="4" orient="auto-start-reverse">
+      <path d="M10,0 L0,4 L10,8 Z" fill="#111" id="plus_node_1" />
+    </marker>
+    <marker id="arrowBlue" markerUnits="userSpaceOnUse" markerWidth="13" markerHeight="13" viewBox="0 0 10 8" refX="9.2" refY="4" orient="auto">
+      <path d="M0,0 L10,4 L0,8 Z" fill="#173a6b" id="plus_node_2" />
+    </marker>
+    <marker id="arrowWhite" markerUnits="userSpaceOnUse" markerWidth="34" markerHeight="39" viewBox="0 0 10 8" refX="9.2" refY="4" orient="auto">
+      <path d="M0,0 L10,4 L0,8 Z" fill="#fff" stroke="#102b54" stroke-width=".8" id="plus_node_3" />
+    </marker>
+    <marker id="arrowSmall" markerUnits="userSpaceOnUse" markerWidth="9" markerHeight="10" viewBox="0 0 10 8" refX="9.2" refY="4" orient="auto">
+      <path d="M0,0 L10,4 L0,8 Z" fill="#111" id="plus_node_4" />
+    </marker>
+    <linearGradient id="imgGrad" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#cfd5db" />
+      <stop offset=".35" stop-color="#737e88" />
+      <stop offset=".65" stop-color="#e8edf1" />
+      <stop offset="1" stop-color="#5c6873" />
+    </linearGradient>
+    <linearGradient id="roadGrad" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#98a1a9" />
+      <stop offset=".52" stop-color="#eef2f5" />
+      <stop offset="1" stop-color="#6a747b" />
+    </linearGradient>
+    <linearGradient id="cubeFaceA" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#00dec5" />
+      <stop offset="1" stop-color="#f7c16c" />
+    </linearGradient>
+    <linearGradient id="cubeFaceB" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#d8e6f4" />
+      <stop offset="1" stop-color="#eaa7b1" />
+    </linearGradient>
+    <filter id="softShadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="1" dy="1" stdDeviation="1.2" flood-color="#777" flood-opacity=".35" />
+    </filter>
+  </defs>
+
+  <rect x="0" y="0" width="804" height="526" fill="#ffffff" id="plus_node_5" />
+
+  
+  <rect id="f01" data-plus-kind="frame" x="20" y="16" width="222" height="111" rx="12" ry="12" fill="#f7f7f7" stroke="#111" stroke-width="1.4" stroke-dasharray="5 4" />
+  <rect id="f02" data-plus-kind="frame" x="20" y="137" width="222" height="382" rx="13" ry="13" fill="#fff2f4" stroke="#ff9aa4" stroke-width="1.3" stroke-dasharray="6 4" />
+  <rect id="f03" data-plus-kind="frame" x="255" y="17" width="543" height="110" rx="13" ry="13" fill="#f5fff0" stroke="#5a8d39" stroke-width="1.3" stroke-dasharray="5 4" />
+  <rect id="f04" data-plus-kind="frame" x="254" y="137" width="376" height="382" rx="12" ry="12" fill="#dff4ff" stroke="#348ed6" stroke-width="1.3" stroke-dasharray="6 4" />
+  <rect id="f05" data-plus-kind="frame" x="642" y="137" width="156" height="382" rx="10" ry="10" fill="#fff7e9" stroke="#ff7b1c" stroke-width="1.3" stroke-dasharray="6 4" />
+  <rect id="f06" data-plus-kind="frame" x="35" y="148" width="191" height="104" rx="10" ry="10" fill="#ffcfd7" stroke="none" />
+  <rect id="f07" data-plus-kind="frame" x="437" y="157" width="170" height="201" rx="18" ry="18" fill="#ffffff" stroke="none" />
+  <rect id="f08" data-plus-kind="frame" x="437" y="363" width="166" height="96" rx="17" ry="17" fill="#ffffff" stroke="none" />
+  <rect id="f09" data-plus-kind="frame" x="665" y="271" width="111" height="103" rx="18" ry="18" fill="#ffffff" stroke="#172344" stroke-width="1.4" />
+
+  
+  <g id="tframe-surround-images">
+    <desc>Top-left frame inventory: a multi-camera surround-view collage with a car at center, labels It and It-1 to It-4, and a lower caption. The collage is the origin; labels are conducted around it.</desc>
+    <path d="M33 40 L81 22 L149 29 L205 55 L162 102 L73 103 Z" fill="url(#imgGrad)" opacity=".78" id="plus_node_6" />
+    <path d="M48 48 L88 32 L147 36 L189 58 L150 91 L77 92 Z" fill="url(#roadGrad)" stroke="#afb8bf" stroke-width=".8" id="plus_node_7" />
+    <path d="M76 62 L100 55 L128 58 L146 69 L126 78 L93 77 Z" fill="#dceaf2" stroke="#2b4254" stroke-width="1" id="plus_node_8" />
+    <path d="M88 66 L99 57 L126 60 L137 68 L119 72 L96 72 Z" fill="#fff" stroke="#263a49" stroke-width=".8" id="plus_node_9" />
+    <circle cx="95" cy="74" r="4" fill="#1d2830" id="plus_node_10" />
+    <circle cx="126" cy="74" r="4" fill="#1d2830" id="plus_node_11" />
+    <path d="M29 39 L75 58 L72 99" fill="none" stroke="#e8edf0" stroke-width="3" opacity=".65" id="plus_node_12" />
+    <path d="M204 58 L148 65 L160 99" fill="none" stroke="#e8edf0" stroke-width="3" opacity=".65" id="plus_node_13" />
+    <path d="M75 25 L91 56" fill="none" stroke="#47525b" stroke-width=".7" opacity=".5" id="plus_node_14" />
+    <path d="M149 30 L131 58" fill="none" stroke="#47525b" stroke-width=".7" opacity=".5" id="plus_node_15" />
+    <text x="91" y="39" font-family="Arial, sans-serif" font-size="14" font-weight="700" fill="#111" id="plus_node_16">I<tspan baseline-shift="sub" font-size="9">t</tspan></text>
+    <text x="159" y="52" font-family="Arial, sans-serif" font-size="13" font-weight="700" fill="#111" id="plus_node_17">I<tspan baseline-shift="sub" font-size="8">t−1</tspan></text>
+    <text x="203" y="52" font-family="Arial, sans-serif" font-size="13" font-weight="700" fill="#111" id="plus_node_18">I<tspan baseline-shift="sub" font-size="8">t−2</tspan></text>
+    <text x="180" y="77" font-family="Arial, sans-serif" font-size="13" font-weight="700" fill="#111" id="plus_node_19">I<tspan baseline-shift="sub" font-size="8">t−3</tspan></text>
+    <text x="163" y="103" font-family="Arial, sans-serif" font-size="13" font-weight="700" fill="#111" id="plus_node_20">I<tspan baseline-shift="sub" font-size="8">t−4</tspan></text>
+    <circle cx="197" cy="96" r="3.2" fill="#111" id="plus_node_21" />
+    <circle cx="212" cy="96" r="3.2" fill="#111" id="plus_node_22" />
+    <text x="41" y="119" font-family="Arial, sans-serif" font-size="14" font-weight="700" fill="#111" id="plus_node_23">T-frame Surround-view Images</text>
+  </g>
+
+  
+  <path id="arrow-tframe-to-top-encoder" d="M222 80 H287" fill="none" stroke="#111" stroke-width="4" marker-end="url(#arrowBlack)" />
+  <path id="arrow-tframe-to-moge" d="M131 127 V144" fill="none" stroke="#111" stroke-width="4" />
+  <path d="M119 132 H143 V144" fill="none" stroke="#111" stroke-width="4" id="plus_node_24" />
+
+  
+  <g id="top-pipeline">
+    <desc>Green pipeline origin: image encoder trapezoid at left. Rightward conduction reaches D2-VFormer label, a semantic cube, R2-EFormer label, OCC decoder, a white arrow and an occupancy prediction map.</desc>
+    <path id="image-encoder-top" d="M287 37 H352 V91 H287 Z" fill="#76d9e9" />
+    <path d="M287 37 L321 48 L321 80 L287 91 Z" fill="#6fd2e2" id="plus_node_25" />
+    <text x="321" y="63" text-anchor="middle" font-family="Arial, sans-serif" font-size="16" font-weight="700" fill="#fff" id="plus_node_26">Image</text>
+    <text x="321" y="84" text-anchor="middle" font-family="Arial, sans-serif" font-size="16" font-weight="700" fill="#fff" id="plus_node_27">Encoder</text>
+
+    <rect id="top-d2v-label" x="368" y="23" width="35" height="97" rx="4" fill="#ecf8ff" stroke="#1986db" stroke-width="1.5" stroke-dasharray="5 3" />
+    <text x="389" y="31" transform="rotate(90 389 31)" font-family="Arial, sans-serif" font-size="15" font-weight="700" font-style="italic" fill="#111" id="plus_node_28">D²-VFormer</text>
+
+    <g id="top-semantic-cube" transform="translate(421 38)">
+      <polygon points="0,16 17,0 65,0 65,49 0,49" fill="#f9d190" stroke="#111" stroke-width="1.2" id="plus_node_29" />
+      <polygon points="0,16 17,0 17,49 0,49" fill="#d6bd7d" stroke="#111" stroke-width="1" id="plus_node_30" />
+      <rect x="17" y="0" width="48" height="49" fill="url(#cubeFaceA)" stroke="#111" stroke-width="1" id="plus_node_31" />
+      <g stroke="#111" stroke-width=".8" id="plus_node_32">
+        <path d="M29 0 V49M41 0 V49M53 0 V49M17 12 H65M17 25 H65M17 38 H65" id="plus_node_33" />
+        <path d="M5 14 L22 0M9 25 L26 9M11 36 L29 20M0 49 L17 35" id="plus_node_34" />
+      </g>
+      <rect x="25" y="9" width="10" height="12" fill="#ffaf3d" opacity=".8" id="plus_node_35" />
+      <rect x="48" y="25" width="12" height="9" fill="#4b5dbb" opacity=".8" id="plus_node_36" />
+      <rect x="32" y="31" width="8" height="13" fill="#4bd687" opacity=".8" id="plus_node_37" />
+    </g>
+
+    <rect id="top-r2e-label" x="504" y="23" width="36" height="97" rx="4" fill="#fff8e9" stroke="#ff7b1c" stroke-width="1.5" stroke-dasharray="5 3" />
+    <text x="526" y="31" transform="rotate(90 526 31)" font-family="Arial, sans-serif" font-size="15" font-weight="700" font-style="italic" fill="#111" id="plus_node_38">R²-EFormer</text>
+
+    <path id="occ-decoder-top" d="M555 50 L618 36 V102 L555 88 Z" fill="#75d8e9" />
+    <text x="586" y="67" text-anchor="middle" font-family="Arial, sans-serif" font-size="15" font-weight="700" fill="#fff" id="plus_node_39">OCC</text>
+    <text x="586" y="87" text-anchor="middle" font-family="Arial, sans-serif" font-size="15" font-weight="700" fill="#fff" id="plus_node_40">Decoder</text>
+
+    <path id="top-white-arrow" d="M625 48 L661 68 L625 88 Z" fill="#fff" stroke="#111" stroke-width="3" />
+
+    <g id="occupancy-prediction-map" transform="translate(663 38)">
+      <rect x="0" y="0" width="111" height="63" fill="#d6bea1" id="plus_node_41" />
+      <path d="M3 11 C18 4 29 14 44 7 C58 0 66 9 83 5 C96 3 102 13 111 10 V0 H0 Z" fill="#f2e6c9" id="plus_node_42" />
+      <path d="M0 41 C20 32 30 45 51 35 C72 24 87 40 111 28 V63 H0 Z" fill="#0d8e89" id="plus_node_43" />
+      <path d="M12 24 C25 17 45 20 55 27 C43 35 25 37 10 31 Z" fill="#e38b23" id="plus_node_44" />
+      <path d="M58 18 L73 9 L92 13 L91 25 L71 25 Z" fill="#00b275" id="plus_node_45" />
+      <path d="M80 35 L101 30 L104 48 L89 55 L77 45 Z" fill="#5d268e" id="plus_node_46" />
+      <path d="M37 44 L55 41 L64 51 L50 60 L34 55 Z" fill="#ce5b17" id="plus_node_47" />
+      <path d="M14 8 L31 11 L28 22 L9 19 Z" fill="#2fb370" id="plus_node_48" />
+      <text x="55" y="81" text-anchor="middle" font-family="Arial, sans-serif" font-size="13" fill="#111" id="plus_node_49">Occupancy Prediction</text>
+    </g>
+    <path d="M352 64 H368" stroke="#111" stroke-width="3" fill="none" marker-end="url(#arrowBlack)" id="plus_node_50" />
+    <path d="M403 64 H421" stroke="#111" stroke-width="3" fill="none" marker-end="url(#arrowBlack)" id="plus_node_51" />
+    <path d="M486 64 H504" stroke="#111" stroke-width="3" fill="none" marker-end="url(#arrowBlack)" id="plus_node_52" />
+    <path d="M540 69 H555" stroke="#111" stroke-width="3" fill="none" marker-end="url(#arrowBlack)" id="plus_node_53" />
+  </g>
+
+  
+  <path id="arrow-topencoder-to-imagefeatures" d="M320 91 V137" fill="none" stroke="#111" stroke-width="2.2" marker-end="url(#arrowBlack)" />
+
+  
+  <g id="depth-cues">
+    <desc>Depth Cues origin: MoGe-2 rounded box. Downward conduction includes depth encoder/decoder, a large down arrow, depth feature thumbnail, surround-view depth image thumbnail, pseudo point cloud, depth occupancy grid, curved projection arrows and bottom title.</desc>
+    <text x="80" y="173" font-family="Arial, sans-serif" font-size="20" font-weight="700" font-style="italic" fill="#111" id="plus_node_54">❄ MoGe-2</text>
+    <path id="depth-encoder-block" d="M51 176 L107 187 V242 L51 252 Z" fill="#ef6975" />
+    <path id="depth-decoder-block" d="M140 187 L215 176 V252 L140 242 Z" fill="#ef6975" />
+    <text x="80" y="205" text-anchor="middle" font-family="Arial, sans-serif" font-size="16" font-weight="700" fill="#fff" id="plus_node_55">Depth</text>
+    <text x="80" y="224" text-anchor="middle" font-family="Arial, sans-serif" font-size="16" font-weight="700" fill="#fff" id="plus_node_56">Encoder</text>
+    <text x="178" y="205" text-anchor="middle" font-family="Arial, sans-serif" font-size="16" font-weight="700" fill="#fff" id="plus_node_57">Depth</text>
+    <text x="178" y="224" text-anchor="middle" font-family="Arial, sans-serif" font-size="16" font-weight="700" fill="#fff" id="plus_node_58">Decoder</text>
+
+    <path id="arrow-moge-down" d="M132 254 V285" fill="none" stroke="#111" stroke-width="3.5" marker-end="url(#arrowWhite)" />
+
+    <g id="depth-features-thumb" transform="translate(46 299)">
+      <rect x="0" y="0" width="72" height="38" fill="#fff7b1" stroke="#111" stroke-width="1" id="plus_node_59" />
+      <g stroke="#0e4366" stroke-width="1" id="plus_node_60">
+        <path d="M8 3 V36M18 3 V36M28 3 V36M38 3 V36M48 3 V36M58 3 V36M68 3 V36" id="plus_node_61" />
+        <path d="M0 8 H72M0 17 H72M0 26 H72M0 34 H72" id="plus_node_62" />
+      </g>
+      <rect x="5" y="8" width="17" height="8" fill="#00cfc1" opacity=".7" id="plus_node_63" />
+      <rect x="42" y="4" width="20" height="13" fill="#ef445f" opacity=".78" id="plus_node_64" />
+      <rect x="22" y="22" width="26" height="11" fill="#37a8e0" opacity=".75" id="plus_node_65" />
+    </g>
+    <text x="82" y="354" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" fill="#111" id="plus_node_66">Depth</text>
+    <text x="82" y="369" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" fill="#111" id="plus_node_67">Features</text>
+
+    <g id="surround-depth-images-thumb" transform="translate(132 296)">
+      <rect x="0" y="0" width="81" height="42" rx="2" fill="#d5eef2" stroke="none" id="plus_node_68" />
+      <path d="M0 36 C19 20 26 33 44 16 C57 4 66 13 81 5 V42 H0 Z" fill="#5dc0e9" id="plus_node_69" />
+      <path d="M0 8 C21 8 31 16 42 16 C62 16 64 4 81 5 V0 H0 Z" fill="#86cc74" id="plus_node_70" />
+      <path d="M13 27 L38 23 L60 31 L43 40 Z" fill="#eaa236" id="plus_node_71" />
+      <path d="M47 13 L67 12 L73 26 L53 24 Z" fill="#4373c8" id="plus_node_72" />
+      <g opacity=".55" stroke="#fff" stroke-width="1" id="plus_node_73"><path d="M5 6 L79 38" id="plus_node_74" /><path d="M4 38 L78 9" id="plus_node_75" /></g>
+    </g>
+    <text x="173" y="354" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" fill="#111" id="plus_node_76">Surround-view</text>
+    <text x="173" y="369" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" fill="#111" id="plus_node_77">Depth Images</text>
+
+    <g id="pseudo-point-cloud" transform="translate(49 378)">
+      <path d="M8 15 C42 0 79 12 113 4 C132 0 147 11 168 16" stroke="#c44" stroke-width="1" fill="none" id="plus_node_78" />
+      <path d="M0 11 C27 14 47 19 76 17 C109 15 132 22 174 21" stroke="#119c51" stroke-width="1.2" fill="none" id="plus_node_79" />
+      <path d="M12 6 C40 30 74 5 103 29 C124 47 154 24 178 36" stroke="#d8b320" stroke-width="1" fill="none" id="plus_node_80" />
+      <g fill="#1d9a4a" id="plus_node_81">
+        <circle cx="14" cy="13" r="1.4" id="plus_node_82" /><circle cx="24" cy="9" r="1.2" id="plus_node_83" /><circle cx="33" cy="17" r="1.5" id="plus_node_84" />
+        <circle cx="42" cy="21" r="1.3" id="plus_node_85" /><circle cx="54" cy="13" r="1.4" id="plus_node_86" /><circle cx="62" cy="9" r="1.3" id="plus_node_87" />
+        <circle cx="75" cy="22" r="1.5" id="plus_node_88" /><circle cx="88" cy="17" r="1.2" id="plus_node_89" /><circle cx="101" cy="27" r="1.2" id="plus_node_90" />
+        <circle cx="116" cy="13" r="1.4" id="plus_node_91" /><circle cx="132" cy="19" r="1.5" id="plus_node_92" /><circle cx="150" cy="24" r="1.2" id="plus_node_93" />
+      </g>
+      <g fill="#dc3131" id="plus_node_94">
+        <circle cx="20" cy="20" r="1.3" id="plus_node_95" /><circle cx="45" cy="8" r="1.3" id="plus_node_96" /><circle cx="70" cy="14" r="1.1" id="plus_node_97" />
+        <circle cx="94" cy="5" r="1.3" id="plus_node_98" /><circle cx="121" cy="30" r="1.2" id="plus_node_99" /><circle cx="160" cy="12" r="1.4" id="plus_node_100" />
+      </g>
+    </g>
+    <text x="112" y="425" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" fill="#111" id="plus_node_101">Pseudo Point Cloud</text>
+
+    <g id="depth-occupancy-grid" transform="translate(65 436)">
+      <path d="M0 16 L22 4 L112 19 L88 34 Z" fill="#dadde0" stroke="#bbb" stroke-width=".5" id="plus_node_102" />
+      <path d="M3 22 L25 11 L112 27 L88 40 Z" fill="#eff0f2" stroke="#bbb" stroke-width=".5" id="plus_node_103" />
+      <path d="M13 27 L35 17 L95 27 L74 38 Z" fill="#c5c8ca" opacity=".75" id="plus_node_104" />
+      <g stroke="#c33" stroke-width=".7" id="plus_node_105">
+        <path d="M10 20 L96 35" id="plus_node_106" /><path d="M24 13 L110 27" id="plus_node_107" /><path d="M42 16 L20 28" id="plus_node_108" /><path d="M65 19 L43 31" id="plus_node_109" /><path d="M89 23 L66 35" id="plus_node_110" />
+      </g>
+      <g fill="#4e4e4e" opacity=".6" id="plus_node_111">
+        <circle cx="19" cy="21" r="1.3" id="plus_node_112" /><circle cx="32" cy="15" r="1.1" id="plus_node_113" /><circle cx="51" cy="24" r="1.3" id="plus_node_114" /><circle cx="74" cy="28" r="1.1" id="plus_node_115" /><circle cx="91" cy="25" r="1.2" id="plus_node_116" />
+      </g>
+    </g>
+    <text x="121" y="486" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" fill="#111" id="plus_node_117">Depth Occupancy Grid</text>
+
+    <path id="curved-back-projection-1" d="M205 330 C243 340 242 374 185 390" fill="none" stroke="#172344" stroke-width="1.6" marker-end="url(#arrowBlue)" />
+    <path id="curved-voxelization-1" d="M206 381 C244 395 244 439 185 449" fill="none" stroke="#172344" stroke-width="1.6" marker-end="url(#arrowBlue)" />
+    <text x="232" y="331" transform="rotate(90 232 331)" font-family="Arial, sans-serif" font-size="10" fill="#111" id="plus_node_118">Back Projection</text>
+    <text x="225" y="399" transform="rotate(90 225 399)" font-family="Arial, sans-serif" font-size="10" fill="#111" id="plus_node_119">Voxelization</text>
+    <rect x="20" y="491" width="222" height="28" fill="#fff0f1" stroke="#ff9aa4" stroke-width="1" id="plus_node_120" />
+    <text x="131" y="513" text-anchor="middle" font-family="Times New Roman, serif" font-size="22" font-weight="700" font-style="italic" fill="#111" id="plus_node_121">Depth Cues</text>
+  </g>
+
+  
+  <g id="d2vformer-main">
+    <desc>Blue D2-VFormer origin: image feature thumbnail below the top encoder. Conducted downward to voxel pooling, voxel encoder and sparse voxel cube; conducted rightward to depth-guided refinement and densification, then to the right output arrow.</desc>
+
+    <g id="image-features" transform="translate(285 147)">
+      <rect x="0" y="0" width="74" height="39" fill="#32465a" stroke="#111" stroke-width="1" id="plus_node_122" />
+      <rect x="8" y="5" width="58" height="29" fill="#6f7c8b" stroke="#111" stroke-width=".7" id="plus_node_123" />
+      <g stroke="#1b2630" stroke-width=".7" id="plus_node_124">
+        <path d="M15 5 V34M25 5 V34M36 5 V34M47 5 V34M57 5 V34" id="plus_node_125" />
+        <path d="M8 13 H66M8 22 H66M8 30 H66" id="plus_node_126" />
+      </g>
+      <rect x="23" y="12" width="20" height="13" fill="#b7c2ca" opacity=".7" id="plus_node_127" />
+      <path d="M3 36 L72 36" stroke="#111" stroke-width="1" id="plus_node_128" />
+    </g>
+    <text x="322" y="200" text-anchor="middle" font-family="Arial, sans-serif" font-size="13" fill="#111" id="plus_node_129">Image Features</text>
+
+    <path id="arrow-imagefeat-to-pool" d="M321 205 V214" fill="none" stroke="#111" stroke-width="2.2" marker-end="url(#arrowBlack)" />
+
+    <g id="voxel-pooling" transform="translate(272 212)">
+      <path d="M13 0 H93 Q105 0 105 12 V124 Q105 136 93 136 H13 Q0 136 0 124 V12 Q0 0 13 0 Z" fill="#9ee4ff" opacity=".95" id="plus_node_130" />
+      <path d="M8 10 H40 Q48 10 48 18 V53 Q48 61 40 61 H8 Z" fill="#1fb5ee" id="plus_node_131" />
+      <path d="M61 10 H93 Q101 10 101 18 V78 Q101 86 93 86 H61 Z" fill="#0ab3df" id="plus_node_132" />
+      <path d="M20 86 H85 L75 136 H8 Z" fill="#29bced" id="plus_node_133" />
+      <text x="25" y="20" transform="rotate(90 25 20)" font-family="Arial, sans-serif" font-size="15" font-weight="700" fill="#fff" id="plus_node_134">DepthNet</text>
+      <text x="78" y="18" transform="rotate(90 78 18)" font-family="Arial, sans-serif" font-size="15" font-weight="700" fill="#fff" id="plus_node_135">ContextNet</text>
+      <text x="55" y="108" text-anchor="middle" font-family="Arial, sans-serif" font-size="17" font-weight="700" fill="#fff" id="plus_node_136">Voxel</text>
+      <text x="55" y="128" text-anchor="middle" font-family="Arial, sans-serif" font-size="17" font-weight="700" fill="#fff" id="plus_node_137">Pooling</text>
+      <text x="110" y="16" transform="rotate(90 110 16)" font-family="Arial, sans-serif" font-size="12" font-weight="700" fill="#111" id="plus_node_138">Forward Projection</text>
+    </g>
+    <rect x="295" y="348" width="58" height="51" fill="#23bceb" id="plus_node_139" />
+    <text x="324" y="368" text-anchor="middle" font-family="Arial, sans-serif" font-size="16" font-weight="700" fill="#fff" id="plus_node_140">Voxel</text>
+    <text x="324" y="388" text-anchor="middle" font-family="Arial, sans-serif" font-size="16" font-weight="700" fill="#fff" id="plus_node_141">Encoder</text>
+
+    <path id="arrow-pooling-to-encoder" d="M324 348 V399" fill="none" stroke="#111" stroke-width="2.5" marker-end="url(#arrowBlack)" />
+
+    <g id="sparse-voxel-features-cube" transform="translate(299 410)">
+      <polygon points="0,14 16,0 48,0 48,47 0,47" fill="#c5cbd0" stroke="#111" stroke-width="1" id="plus_node_142" />
+      <polygon points="0,14 16,0 16,47 0,47" fill="#aab1b6" stroke="#111" stroke-width=".8" id="plus_node_143" />
+      <rect x="16" y="0" width="32" height="47" fill="#d6dce0" stroke="#111" stroke-width=".8" id="plus_node_144" />
+      <g stroke="#111" stroke-width=".7" id="plus_node_145">
+        <path d="M24 0 V47M32 0 V47M40 0 V47" id="plus_node_146" />
+        <path d="M16 9 H48M16 18 H48M16 27 H48M16 36 H48" id="plus_node_147" />
+        <path d="M4 13 L20 0M8 24 L24 10M9 36 L25 22" id="plus_node_148" />
+      </g>
+      <rect x="24" y="9" width="8" height="8" fill="#333" opacity=".55" id="plus_node_149" />
+      <rect x="38" y="25" width="9" height="9" fill="#555" opacity=".5" id="plus_node_150" />
+    </g>
+    <text x="322" y="487" text-anchor="middle" font-family="Arial, sans-serif" font-size="13" fill="#111" id="plus_node_151">Sparse Voxel Features</text>
+    <path d="M324 399 V410" fill="none" stroke="#111" stroke-width="2.5" marker-end="url(#arrowBlack)" id="plus_node_152" />
+
+    <rect id="downsample-label" x="350" y="437" width="75" height="24" fill="#fff" stroke="#111" stroke-width="1.3" />
+    <text x="387.5" y="454" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" fill="#111" id="plus_node_153">downsample</text>
+    <path id="arrow-sparse-to-refine" d="M347 433 H438" fill="none" stroke="#111" stroke-width="2.2" marker-end="url(#arrowBlack)" />
+
+    
+    <rect x="414" y="142" width="204" height="343" rx="26" ry="26" fill="#9ee3f7" opacity=".9" id="plus_node_154" />
+    <text x="430" y="257" transform="rotate(-90 430 257)" font-family="Arial, sans-serif" font-size="13" font-weight="700" fill="#111" id="plus_node_155">Backward Projection</text>
+
+    <g id="depth-guided-nonempty-voxel-refinement">
+      <text x="522" y="174" text-anchor="middle" font-family="Arial, sans-serif" font-size="13" fill="#111" id="plus_node_156">Depth-Guided Non-Empty</text>
+      <text x="522" y="189" text-anchor="middle" font-family="Arial, sans-serif" font-size="13" fill="#111" id="plus_node_157">Voxel Refinement</text>
+
+      <g id="row1-point-cloud" transform="translate(451 205)">
+        <path d="M0 18 C16 5 34 25 53 12 C65 4 80 12 91 18" stroke="#c44" stroke-width=".8" fill="none" id="plus_node_158" />
+        <path d="M4 23 C31 17 48 21 72 28" stroke="#1a984c" stroke-width=".8" fill="none" id="plus_node_159" />
+        <g fill="#888" id="plus_node_160"><circle cx="9" cy="19" r="1" id="plus_node_161" /><circle cx="18" cy="14" r="1" id="plus_node_162" /><circle cx="31" cy="23" r="1" id="plus_node_163" /><circle cx="47" cy="18" r="1" id="plus_node_164" /><circle cx="59" cy="11" r="1" id="plus_node_165" /><circle cx="78" cy="23" r="1" id="plus_node_166" /></g>
+      </g>
+      <g id="row1-small-cube" transform="translate(480 239)">
+        <polygon points="0,7 8,0 23,0 23,21 0,21" fill="#eee" stroke="#111" stroke-width=".8" id="plus_node_167" />
+        <rect x="8" y="0" width="15" height="21" fill="#2bd8bd" stroke="#111" stroke-width=".6" id="plus_node_168" />
+        <path d="M15 0 V21M8 10 H23" stroke="#111" stroke-width=".5" id="plus_node_169" />
+        <rect x="15" y="10" width="8" height="8" fill="#f6a033" id="plus_node_170" />
+      </g>
+      <g id="row1-grid" transform="translate(525 200)">
+        <rect x="0" y="0" width="64" height="65" fill="#556070" stroke="#111" stroke-width="1" id="plus_node_171" />
+        <g stroke="#0a1730" stroke-width=".8" id="plus_node_172"><path d="M13 0 V65M26 0 V65M39 0 V65M52 0 V65" id="plus_node_173" /><path d="M0 13 H64M0 26 H64M0 39 H64M0 52 H64" id="plus_node_174" /></g>
+        <g stroke="#e72243" stroke-width="1.2" fill="none" id="plus_node_175">
+          <path d="M8 49 L22 30 L36 45 L51 22 L62 38" id="plus_node_176" />
+          <path d="M18 58 L18 41 L32 41 L32 29" id="plus_node_177" />
+        </g>
+        <g fill="#fff" stroke="#173a6b" stroke-width=".8" id="plus_node_178">
+          <circle cx="9" cy="49" r="4" id="plus_node_179" /><circle cx="22" cy="30" r="4" id="plus_node_180" /><circle cx="36" cy="45" r="4" id="plus_node_181" /><circle cx="51" cy="22" r="4" id="plus_node_182" /><circle cx="62" cy="38" r="4" id="plus_node_183" />
+        </g>
+        <g fill="#ff4747" id="plus_node_184"><path d="M18 58 L14 65 H22 Z" id="plus_node_185" /><path d="M33 53 L29 60 H37 Z" id="plus_node_186" /><path d="M48 50 L44 57 H52 Z" id="plus_node_187" /></g>
+      </g>
+      <path d="M498 242 H526" stroke="#e72243" stroke-width="1" marker-end="url(#arrowSmall)" id="plus_node_188" />
+
+      <g id="row2-point-cloud" transform="translate(451 286)">
+        <path d="M0 15 C23 3 37 18 56 11 C70 6 83 16 95 23" stroke="#c44" stroke-width=".8" fill="none" id="plus_node_189" />
+        <path d="M7 27 C25 17 51 28 75 19" stroke="#1a984c" stroke-width=".8" fill="none" id="plus_node_190" />
+        <g fill="#888" id="plus_node_191"><circle cx="11" cy="20" r="1" id="plus_node_192" /><circle cx="23" cy="13" r="1" id="plus_node_193" /><circle cx="40" cy="21" r="1" id="plus_node_194" /><circle cx="58" cy="13" r="1" id="plus_node_195" /><circle cx="77" cy="23" r="1" id="plus_node_196" /></g>
+      </g>
+      <g id="row2-cubes" transform="translate(454 306)">
+        <rect x="2" y="6" width="13" height="13" fill="#fff" stroke="#111" stroke-width="1" id="plus_node_197" />
+        <polygon points="20,10 32,2 44,7 44,21 31,28 20,21" fill="#e8e8e8" stroke="#111" stroke-width="1" id="plus_node_198" />
+        <path d="M32 2 V16 L20 21M32 16 L44 21" stroke="#111" stroke-width=".7" id="plus_node_199" />
+      </g>
+      <g id="row2-grid" transform="translate(525 281)">
+        <rect x="0" y="0" width="64" height="52" fill="#efcb74" stroke="#111" stroke-width="1" id="plus_node_200" />
+        <g stroke="#0a1730" stroke-width=".8" id="plus_node_201"><path d="M13 0 V52M26 0 V52M39 0 V52M52 0 V52" id="plus_node_202" /><path d="M0 13 H64M0 26 H64M0 39 H64" id="plus_node_203" /></g>
+        <rect x="0" y="13" width="13" height="13" fill="#ffbd25" id="plus_node_204" /><rect x="26" y="0" width="13" height="13" fill="#0bc5bb" id="plus_node_205" /><rect x="39" y="26" width="13" height="13" fill="#dc4055" id="plus_node_206" /><rect x="52" y="13" width="12" height="13" fill="#ff9f1a" id="plus_node_207" />
+        <g stroke="#e72243" stroke-width="1.2" fill="none" id="plus_node_208"><path d="M5 39 L17 23 L33 31 L46 18 L60 27" id="plus_node_209" /></g>
+        <g fill="#fff" stroke="#173a6b" stroke-width=".8" id="plus_node_210"><circle cx="5" cy="39" r="4" id="plus_node_211" /><circle cx="17" cy="23" r="4" id="plus_node_212" /><circle cx="33" cy="31" r="4" id="plus_node_213" /><circle cx="46" cy="18" r="4" id="plus_node_214" /><circle cx="60" cy="27" r="4" id="plus_node_215" /></g>
+        <g fill="#ff4747" id="plus_node_216"><path d="M13 46 L9 52 H17 Z" id="plus_node_217" /><path d="M28 43 L24 50 H32 Z" id="plus_node_218" /><path d="M48 44 L44 51 H52 Z" id="plus_node_219" /></g>
+      </g>
+      <path d="M498 319 H526" stroke="#e72243" stroke-width="1" marker-end="url(#arrowSmall)" id="plus_node_220" />
+    </g>
+
+    <g id="backward-projection-densification">
+      <text x="519" y="383" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" fill="#111" id="plus_node_221">Backward Projection</text>
+      <text x="519" y="397" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" fill="#111" id="plus_node_222">Densification</text>
+      <g transform="translate(459 402)" id="plus_node_223">
+        <polygon points="0,9 9,0 19,0 19,18 0,18" fill="#bfc5c9" stroke="#111" stroke-width=".8" id="plus_node_224" />
+        <rect x="9" y="0" width="10" height="18" fill="#848d96" stroke="#111" stroke-width=".7" id="plus_node_225" />
+        <path d="M14 0 V18M9 9 H19" stroke="#111" stroke-width=".5" id="plus_node_226" />
+      </g>
+      <g transform="translate(511 402)" id="plus_node_227">
+        <rect x="0" y="0" width="62" height="56" fill="#566070" stroke="#111" stroke-width="1" id="plus_node_228" />
+        <g stroke="#0a1730" stroke-width=".8" id="plus_node_229"><path d="M12 0 V56M24 0 V56M36 0 V56M48 0 V56" id="plus_node_230" /><path d="M0 12 H62M0 24 H62M0 36 H62M0 48 H62" id="plus_node_231" /></g>
+        <g stroke="#e72243" stroke-width="1.2" fill="none" id="plus_node_232"><path d="M6 41 L19 29 L31 36 L45 20 L59 31" id="plus_node_233" /></g>
+        <g fill="#fff" stroke="#173a6b" stroke-width=".8" id="plus_node_234"><circle cx="6" cy="41" r="3.5" id="plus_node_235" /><circle cx="19" cy="29" r="3.5" id="plus_node_236" /><circle cx="31" cy="36" r="3.5" id="plus_node_237" /><circle cx="45" cy="20" r="3.5" id="plus_node_238" /><circle cx="59" cy="31" r="3.5" id="plus_node_239" /></g>
+        <g fill="#ff4747" id="plus_node_240"><path d="M15 48 L11 55 H19 Z" id="plus_node_241" /><path d="M31 47 L27 54 H35 Z" id="plus_node_242" /><path d="M48 45 L44 52 H52 Z" id="plus_node_243" /></g>
+      </g>
+      <path d="M478 412 H511" stroke="#e72243" stroke-width="1" marker-end="url(#arrowSmall)" id="plus_node_244" />
+    </g>
+
+    <path id="large-white-arrow-to-r2e" d="M608 179 H635 V164 L674 195 L635 226 V211 H608 Z" fill="#fff" stroke="#173a6b" stroke-width="3" />
+    <path id="large-white-arrow-to-r2e-2" d="M608 218 H635" stroke="#173a6b" stroke-width="3" fill="none" />
+    <rect x="254" y="491" width="376" height="28" fill="#d8f2ff" stroke="#348ed6" stroke-width="1" id="plus_node_245" />
+    <text x="442" y="513" text-anchor="middle" font-family="Times New Roman, serif" font-size="22" font-weight="700" font-style="italic" fill="#111" id="plus_node_246">D²-VFormer</text>
+    <path id="bottom-dashed-flow" d="M215 508 H363" fill="none" stroke="#173a6b" stroke-width="1.4" stroke-dasharray="7 4" marker-end="url(#arrowBlue)" />
+  </g>
+
+  
+  <g id="r2eformer-main">
+    <desc>Orange R2-EFormer origin: occupancy semantic feature cube at the top. Conducted downward through dashed vertical connections to the recursion block, then through arrows to the full-region voxel feature cube and the bottom title.</desc>
+    <g id="occupancy-semantic-feature-cube" transform="translate(685 151)">
+      <polygon points="0,18 18,0 64,0 64,67 0,67" fill="#f8cf8f" stroke="#111" stroke-width="1.2" id="plus_node_247" />
+      <polygon points="0,18 18,0 18,67 0,67" fill="#dac183" stroke="#111" stroke-width="1" id="plus_node_248" />
+      <rect x="18" y="0" width="46" height="67" fill="url(#cubeFaceA)" stroke="#111" stroke-width="1" id="plus_node_249" />
+      <g stroke="#111" stroke-width=".8" id="plus_node_250">
+        <path d="M29 0 V67M41 0 V67M53 0 V67" id="plus_node_251" />
+        <path d="M18 13 H64M18 27 H64M18 41 H64M18 55 H64" id="plus_node_252" />
+        <path d="M4 17 L22 0M7 31 L25 14M8 45 L26 28M0 67 L18 50" id="plus_node_253" />
+      </g>
+      <rect x="28" y="7" width="13" height="10" fill="#0bd0b7" opacity=".9" id="plus_node_254" />
+      <rect x="45" y="25" width="12" height="13" fill="#e6544c" opacity=".78" id="plus_node_255" />
+      <rect x="22" y="43" width="14" height="12" fill="#eda63b" opacity=".85" id="plus_node_256" />
+      <rect x="50" y="50" width="10" height="13" fill="#2765c5" opacity=".8" id="plus_node_257" />
+    </g>
+    <text x="720" y="241" text-anchor="middle" font-family="Arial, sans-serif" font-size="13" fill="#111" id="plus_node_258">Occupancy</text>
+    <text x="720" y="256" text-anchor="middle" font-family="Arial, sans-serif" font-size="13" fill="#111" id="plus_node_259">Semantic Feature</text>
+
+    <g id="semantic-to-recursion-arrows">
+      <path d="M693 270 V360" stroke="#111" stroke-width="1.4" stroke-dasharray="6 4" fill="none" marker-end="url(#arrowBlack)" id="plus_node_260" />
+      <path d="M709 270 V360" stroke="#111" stroke-width="1.4" stroke-dasharray="6 4" fill="none" marker-end="url(#arrowBlack)" id="plus_node_261" />
+      <path d="M725 270 V360" stroke="#111" stroke-width="1.4" stroke-dasharray="6 4" fill="none" marker-end="url(#arrowBlack)" id="plus_node_262" />
+      <path d="M741 270 V360" stroke="#111" stroke-width="1.4" stroke-dasharray="6 4" fill="none" marker-end="url(#arrowBlack)" id="plus_node_263" />
+      <path d="M757 270 V360" stroke="#111" stroke-width="1.4" stroke-dasharray="6 4" fill="none" marker-end="url(#arrowBlack)" id="plus_node_264" />
+    </g>
+
+    <text x="720" y="320" text-anchor="middle" font-family="Arial, sans-serif" font-size="16" fill="#111" id="plus_node_265">Recursion</text>
+    <text x="720" y="338" text-anchor="middle" font-family="Arial, sans-serif" font-size="16" fill="#111" id="plus_node_266">Block</text>
+    <path id="recursion-icon" d="M756 280 C766 280 771 287 768 296 M768 296 L772 291 M768 296 L762 293 M756 298 C746 298 742 291 746 283 M746 283 L741 288 M746 283 L752 285" stroke="#111" stroke-width="4" fill="none" />
+
+    <g id="recursion-to-fullregion-arrows">
+      <path d="M693 374 V394" stroke="#111" stroke-width="1.4" fill="none" marker-end="url(#arrowBlack)" id="plus_node_267" />
+      <path d="M709 374 V394" stroke="#111" stroke-width="1.4" fill="none" marker-end="url(#arrowBlack)" id="plus_node_268" />
+      <path d="M725 374 V394" stroke="#111" stroke-width="1.4" fill="none" marker-end="url(#arrowBlack)" id="plus_node_269" />
+      <path d="M741 374 V394" stroke="#111" stroke-width="1.4" fill="none" marker-end="url(#arrowBlack)" id="plus_node_270" />
+    </g>
+
+    <g id="full-region-voxel-feature-cube" transform="translate(686 397)">
+      <polygon points="0,16 16,0 64,0 64,50 0,50" fill="#cfb7c8" stroke="#111" stroke-width="1.1" id="plus_node_271" />
+      <polygon points="0,16 16,0 16,50 0,50" fill="#c6aebe" stroke="#111" stroke-width=".9" id="plus_node_272" />
+      <rect x="16" y="0" width="48" height="50" fill="url(#cubeFaceB)" stroke="#111" stroke-width=".9" id="plus_node_273" />
+      <g stroke="#111" stroke-width=".75" id="plus_node_274">
+        <path d="M32 0 V50M48 0 V50" id="plus_node_275" />
+        <path d="M16 17 H64M16 34 H64" id="plus_node_276" />
+        <path d="M5 15 L21 0M7 31 L23 16M0 50 L16 34" id="plus_node_277" />
+      </g>
+    </g>
+    <text x="720" y="461" text-anchor="middle" font-family="Arial, sans-serif" font-size="13" fill="#111" id="plus_node_278">Full-Region</text>
+    <text x="720" y="476" text-anchor="middle" font-family="Arial, sans-serif" font-size="13" fill="#111" id="plus_node_279">Voxel Feature</text>
+    <rect x="642" y="491" width="156" height="28" fill="#fff3df" stroke="#ff7b1c" stroke-width="1" id="plus_node_280" />
+    <text x="720" y="513" text-anchor="middle" font-family="Times New Roman, serif" font-size="22" font-weight="700" font-style="italic" fill="#111" id="plus_node_281">R²-EFormer</text>
+  </g>
+
+  
+  <path id="arrow-d2v-to-r2e-top" d="M630 195 H642" stroke="#173a6b" stroke-width="3" fill="none" />
+  <path id="top-r2e-to-right-column" d="M720 127 V151" stroke="#111" stroke-width="2" fill="none" marker-end="url(#arrowBlack)" />
+</svg>

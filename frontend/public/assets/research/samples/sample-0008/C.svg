@@ -1,0 +1,436 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1177" height="608" viewBox="0 0 1177 608">
+  <title>Multi-frame recurrent propagation architecture diagram</title>
+  <desc>Editable reconstruction of a five-panel technical figure. Base frames f01 through f05 bound panels (a) to (d) and legend. Content is built with native SVG: feature cubes, buffers, recurrent blocks, arrows, braces, and labels.</desc>
+  <defs>
+    <linearGradient id="grad-volume" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#e9f5ff" />
+      <stop offset=".18" stop-color="#8cb5ff" />
+      <stop offset=".35" stop-color="#b471ff" />
+      <stop offset=".55" stop-color="#ed41d2" />
+      <stop offset=".78" stop-color="#ff4ca7" />
+      <stop offset="1" stop-color="#ff7b93" />
+    </linearGradient>
+    <linearGradient id="grad-blue" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#d8efff" />
+      <stop offset=".55" stop-color="#87b5ff" />
+      <stop offset="1" stop-color="#5790ff" />
+    </linearGradient>
+    <linearGradient id="grad-purple" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#f1ddff" />
+      <stop offset=".55" stop-color="#d050e5" />
+      <stop offset="1" stop-color="#a23ad4" />
+    </linearGradient>
+    <linearGradient id="grad-magenta" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#ffe5ff" />
+      <stop offset=".55" stop-color="#fb4dde" />
+      <stop offset="1" stop-color="#df22c4" />
+    </linearGradient>
+    <linearGradient id="grad-red" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#ffe8ec" />
+      <stop offset=".55" stop-color="#ff648e" />
+      <stop offset="1" stop-color="#ff446f" />
+    </linearGradient>
+    <linearGradient id="grad-peach" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#fff6ed" />
+      <stop offset="1" stop-color="#ffe1cc" />
+    </linearGradient>
+    <linearGradient id="grad-buffer-blue" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#e4ecff" />
+      <stop offset="1" stop-color="#d6def0" />
+    </linearGradient>
+    <linearGradient id="grad-buffer-orange" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#ffe8d2" />
+      <stop offset="1" stop-color="#f5c7a6" />
+    </linearGradient>
+    <filter id="grain" x="-10%" y="-10%" width="120%" height="120%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" seed="7" result="noise" />
+      <feColorMatrix type="saturate" values="0.35" />
+      <feBlend in="SourceGraphic" in2="noise" mode="multiply" />
+    </filter>
+    <marker id="arrow-black" viewBox="0 0 10 8" refX="10" refY="4" markerWidth="10" markerHeight="8" orient="auto" markerUnits="userSpaceOnUse">
+      <path d="M0,0 L10,4 L0,8 Z" fill="#000" id="plus_node_0" />
+    </marker>
+    <marker id="arrow-black-start" viewBox="0 0 10 8" refX="0" refY="4" markerWidth="10" markerHeight="8" orient="auto-start-reverse" markerUnits="userSpaceOnUse">
+      <path d="M0,0 L10,4 L0,8 Z" fill="#000" id="plus_node_1" />
+    </marker>
+    <marker id="arrow-red" viewBox="0 0 10 8" refX="10" refY="4" markerWidth="10" markerHeight="8" orient="auto" markerUnits="userSpaceOnUse">
+      <path d="M0,0 L10,4 L0,8 Z" fill="#d50000" id="plus_node_2" />
+    </marker>
+    <marker id="arrow-blue" viewBox="0 0 10 8" refX="10" refY="4" markerWidth="10" markerHeight="8" orient="auto" markerUnits="userSpaceOnUse">
+      <path d="M0,0 L10,4 L0,8 Z" fill="#0072bd" id="plus_node_3" />
+    </marker>
+    <marker id="arrow-blue-start" viewBox="0 0 10 8" refX="0" refY="4" markerWidth="10" markerHeight="8" orient="auto-start-reverse" markerUnits="userSpaceOnUse">
+      <path d="M0,0 L10,4 L0,8 Z" fill="#0072bd" id="plus_node_4" />
+    </marker>
+    <marker id="arrow-orange" viewBox="0 0 10 8" refX="10" refY="4" markerWidth="10" markerHeight="8" orient="auto" markerUnits="userSpaceOnUse">
+      <path d="M0,0 L10,4 L0,8 Z" fill="#ff8500" id="plus_node_5" />
+    </marker>
+    <marker id="arrow-gray" viewBox="0 0 10 8" refX="10" refY="4" markerWidth="10" markerHeight="8" orient="auto" markerUnits="userSpaceOnUse">
+      <path d="M0,0 L10,4 L0,8 Z" fill="#a0a0a0" id="plus_node_6" />
+    </marker>
+    <marker id="arrow-green-hollow" viewBox="0 0 14 10" refX="13" refY="5" markerWidth="14" markerHeight="10" orient="auto" markerUnits="userSpaceOnUse">
+      <path d="M1,1 L13,5 L1,9 Z" fill="#eef7d5" stroke="#86a95d" stroke-width="1.2" id="plus_node_7" />
+    </marker>
+    <symbol id="sym-cube" viewBox="0 0 60 58">
+      <polygon points="12,12 42,5 54,14 23,21" fill="var(--top,#d9ecff)" stroke="#ffffff" stroke-width="1" id="plus_node_8" />
+      <polygon points="12,12 23,21 23,50 12,40" fill="var(--left,#b3d0ff)" stroke="#ffffff" stroke-width="1" id="plus_node_9" />
+      <polygon points="23,21 54,14 54,43 23,50" fill="var(--front,#80a9ff)" stroke="#ffffff" stroke-width="1" id="plus_node_10" />
+      <path d="M29 19 L29 48 M36 17 L36 46 M44 16 L44 44 M18 18 L48 11 M18 27 L52 20 M18 36 L52 29 M18 45 L52 38" stroke="#fff" stroke-width=".55" opacity=".7" id="plus_node_11" />
+    </symbol>
+    <symbol id="sym-fe" viewBox="0 0 55 30">
+      <rect x="1.5" y="1.5" width="52" height="27" rx="5" fill="#f7eee8" stroke="#777" stroke-width="2" id="plus_node_12" />
+      <text x="27.5" y="21" text-anchor="middle" font-family="Arial, sans-serif" font-size="18" id="plus_node_13">FE</text>
+    </symbol>
+    <symbol id="sym-rp1" viewBox="0 0 60 31">
+      <rect x="1.5" y="1.5" width="57" height="28" rx="5" fill="#eff9fb" stroke="#008bd2" stroke-width="2" stroke-dasharray="3,3" id="plus_node_14" />
+      <text x="30" y="21" text-anchor="middle" font-family="Arial, sans-serif" font-size="17" id="plus_node_15">RP-I</text>
+    </symbol>
+    <symbol id="sym-rp2" viewBox="0 0 67 31">
+      <rect x="1.5" y="1.5" width="64" height="28" rx="5" fill="#eff9fb" stroke="#008bd2" stroke-width="2" stroke-dasharray="3,3" id="plus_node_16" />
+      <text x="33.5" y="21" text-anchor="middle" font-family="Arial, sans-serif" font-size="17" id="plus_node_17">RP-II</text>
+    </symbol>
+    <symbol id="sym-u" viewBox="0 0 55 30">
+      <rect x="1.5" y="1.5" width="52" height="27" rx="5" fill="#fff6cf" stroke="#d49a00" stroke-width="2" id="plus_node_18" />
+      <text x="27.5" y="21" text-anchor="middle" font-family="Times New Roman, serif" font-style="italic" font-size="20" id="plus_node_19">U</text>
+    </symbol>
+    <symbol id="sym-slab" viewBox="0 0 30 58">
+      <polygon points="3,16 17,2 27,5 13,20" fill="#fff1bd" stroke="#000" stroke-width="2" id="plus_node_20" />
+      <polygon points="13,20 27,5 27,42 13,56" fill="#ffe6a6" stroke="#000" stroke-width="2" id="plus_node_21" />
+      <polygon points="3,16 13,20 13,56 3,52" fill="#fff5d4" stroke="#000" stroke-width="2" id="plus_node_22" />
+    </symbol>
+  </defs>
+  <style>
+    .panel-label{font-family:"Times New Roman",serif;font-size:22px;font-weight:bold}
+    .math{font-family:"Times New Roman",serif;font-style:italic}
+    .plain{font-family:Arial,Helvetica,sans-serif}
+    .small{font-size:15px}
+    .mid{font-size:18px}
+    .large{font-size:24px}
+    .dash-red{stroke:#d50000;stroke-width:2;stroke-dasharray:3,4;fill:none}
+    .dash-blue{stroke:#0072bd;stroke-width:3;stroke-dasharray:3,4;fill:none}
+    .dash-gray{stroke:#9a9a9a;stroke-width:2;stroke-dasharray:3,3;fill:none}
+    .black-line{stroke:#000;stroke-width:2;fill:none}
+    .thin{stroke-width:1.4}
+  </style>
+
+  
+  <rect id="f01" data-plus-kind="frame" x="10" y="11" width="486" height="588" fill="#fff" stroke="#ff55d9" stroke-width="1.5" />
+  <rect id="f02" data-plus-kind="frame" x="510" y="11" width="283" height="185" fill="#f3f8ff" stroke="#00a2e8" stroke-width="1.5" />
+  <rect id="f03" data-plus-kind="frame" x="800" y="11" width="364" height="185" fill="#fff7ee" stroke="#ff6b18" stroke-width="1.5" />
+  <rect id="f04" data-plus-kind="frame" x="510" y="207" width="654" height="280" fill="#fbfdf6" stroke="#77a63e" stroke-width="1.5" />
+  <rect id="f05" data-plus-kind="frame" x="510" y="502" width="654" height="98" fill="#fff" stroke="#7f7f7f" stroke-width="2" stroke-dasharray="3,4" />
+
+  
+  <g id="panel-a">
+    <desc>Panel (a) contains the origin volume, coordinate axes, divide arrow, time axis, five frame columns, feature extraction blocks, two feature buffers, recurrent propagation blocks, upsample blocks, propagation arrows and final image labels. Columns are arranged symmetrically along the horizontal time axis.</desc>
+    <text x="468" y="35" class="panel-label" id="plus_node_23">(a)</text>
+
+    
+    <g id="origin-volume">
+      <polygon points="121,43 318,38 348,49 150,63" fill="url(#grad-volume)" opacity=".86" filter="url(#grain)" stroke="#7d7d7d" stroke-width=".8" id="plus_node_24" />
+      <polygon points="150,63 348,49 348,105 150,100" fill="url(#grad-volume)" opacity=".82" filter="url(#grain)" stroke="#7d7d7d" stroke-width=".8" id="plus_node_25" />
+      <polygon points="121,43 150,63 150,100 121,96" fill="#d8eaff" opacity=".75" filter="url(#grain)" stroke="#777" stroke-width=".8" id="plus_node_26" />
+      <path d="M139 42 L139 99 M160 41 L160 101 M181 41 L181 101 M202 40 L202 101 M224 40 L224 102 M245 39 L245 103 M267 39 L267 103 M289 38 L289 104 M311 38 L311 104 M126 52 L325 44 M127 62 L341 53 M128 72 L346 65 M128 82 L347 78 M128 92 L347 91" stroke="#222" stroke-width=".7" opacity=".65" id="plus_node_27" />
+      <path d="M169 39 L169 15" class="black-line" marker-end="url(#arrow-black)" id="plus_node_28" />
+      <path d="M169 39 L111 103" class="black-line" marker-end="url(#arrow-black)" id="plus_node_29" />
+      <path d="M169 39 L367 103" class="black-line" marker-end="url(#arrow-black)" id="plus_node_30" />
+      <text x="176" y="28" class="math mid" id="plus_node_31">y</text>
+      <text x="99" y="106" class="math mid" id="plus_node_32">x</text>
+      <text x="379" y="112" class="plain small" id="plus_node_33">Time</text>
+      <text x="137" y="35" class="math mid" id="plus_node_34">W</text>
+      <text x="102" y="78" class="math mid" id="plus_node_35">H</text>
+      <line x1="244" y1="111" x2="244" y2="137" stroke="#ff8500" stroke-width="1.5" id="plus_node_36" />
+      <path d="M235,137 L253,137 L253,144 L262,144 L244,154 L226,144 L235,144 Z" fill="#fff" stroke="#ff8500" stroke-width="1" id="plus_node_37" />
+      <text x="273" y="131" class="plain small" id="plus_node_38">Divide</text>
+    </g>
+
+    <path id="time-axis-a" d="M25 148 H472" class="black-line" marker-end="url(#arrow-black)" />
+    <text x="434" y="131" class="plain mid" id="plus_node_39">Time</text>
+
+    
+    <g id="left-columns">
+      
+      <rect id="buffer-F-left" x="42" y="315" width="410" height="10" fill="url(#grad-buffer-blue)" opacity=".7" stroke="#d5d8e7" stroke-dasharray="2,2" />
+      <rect id="buffer-M-left" x="42" y="405" width="410" height="10" fill="url(#grad-buffer-orange)" opacity=".7" stroke="#e5c8b0" stroke-dasharray="2,2" />
+
+      <g id="col0" transform="translate(57,0)">
+        <use href="#sym-cube" x="-26" y="179" width="56" height="54" style="--top:#dff1ff;--left:#b9d2ff;--front:#77a7ff" id="plus_node_40" />
+        <text x="0" y="169" text-anchor="middle" class="math large" id="plus_node_41">B<tspan baseline-shift="sub" font-size="15">0</tspan></text>
+        <path d="M0 233 V255" class="black-line" marker-end="url(#arrow-black)" id="plus_node_42" />
+        <use href="#sym-fe" x="-27" y="256" width="55" height="30" id="plus_node_43" />
+        <text x="-24" y="305" class="math large" id="plus_node_44">Y<tspan baseline-shift="sub" font-size="15">0</tspan></text>
+        <path d="M-10 287 V347" class="dash-red" marker-end="url(#arrow-red)" id="plus_node_45" />
+        <path d="M15 347 V326" class="dash-blue" marker-end="url(#arrow-blue)" id="plus_node_46" />
+        <path d="M0 286 V346" class="black-line" marker-end="url(#arrow-black)" id="plus_node_47" />
+        <use href="#sym-rp1" x="-27" y="349" width="60" height="31" id="plus_node_48" />
+        <text x="-24" y="397" class="math large" id="plus_node_49">F<tspan baseline-shift="sub" font-size="15">0</tspan></text>
+        <path d="M-10 381 V437" class="dash-red" marker-end="url(#arrow-red)" id="plus_node_50" />
+        <path d="M15 437 V416" class="dash-blue" marker-end="url(#arrow-blue)" id="plus_node_51" />
+        <path d="M0 380 V437" class="black-line" marker-end="url(#arrow-black)" id="plus_node_52" />
+        <use href="#sym-rp2" x="-31" y="441" width="67" height="31" id="plus_node_53" />
+        <text x="-36" y="491" class="math large" id="plus_node_54">M<tspan baseline-shift="sub" font-size="15">0</tspan></text>
+        <path d="M0 472 V499" class="black-line" marker-end="url(#arrow-black)" id="plus_node_55" />
+        <use href="#sym-u" x="-27" y="500" width="55" height="30" id="plus_node_56" />
+        <path d="M0 530 V555" class="black-line" marker-end="url(#arrow-black)" id="plus_node_57" />
+        <text x="-13" y="583" class="math large" id="plus_node_58">I<tspan baseline-shift="sub" font-size="15">0</tspan></text>
+      </g>
+
+      <g id="col1" transform="translate(172,0)">
+        <use href="#sym-cube" x="-26" y="179" width="56" height="54" style="--top:#f2d4ff;--left:#dab5ff;--front:#be5ee9" id="plus_node_59" />
+        <text x="0" y="169" text-anchor="middle" class="math large" id="plus_node_60">B<tspan baseline-shift="sub" font-size="15">i−1</tspan></text>
+        <path d="M0 233 V255" class="black-line" marker-end="url(#arrow-black)" id="plus_node_61" />
+        <use href="#sym-fe" x="-27" y="256" width="55" height="30" id="plus_node_62" />
+        <text x="-44" y="306" class="math large" id="plus_node_63">Y<tspan baseline-shift="sub" font-size="15">i−1</tspan></text>
+        <path d="M-10 287 V347" class="dash-red" marker-end="url(#arrow-red)" id="plus_node_64" />
+        <path d="M15 347 V326" class="dash-blue" marker-end="url(#arrow-blue)" id="plus_node_65" />
+        <path d="M0 286 V346" class="black-line" marker-end="url(#arrow-black)" id="plus_node_66" />
+        <use href="#sym-rp1" x="-27" y="349" width="60" height="31" id="plus_node_67" />
+        <text x="-41" y="397" class="math large" id="plus_node_68">F<tspan baseline-shift="sub" font-size="15">i−1</tspan></text>
+        <path d="M-10 381 V437" class="dash-red" marker-end="url(#arrow-red)" id="plus_node_69" />
+        <path d="M15 437 V416" class="dash-blue" marker-end="url(#arrow-blue)" id="plus_node_70" />
+        <path d="M0 380 V437" class="black-line" marker-end="url(#arrow-black)" id="plus_node_71" />
+        <use href="#sym-rp2" x="-31" y="441" width="67" height="31" id="plus_node_72" />
+        <text x="-58" y="491" class="math large" id="plus_node_73">M<tspan baseline-shift="sub" font-size="15">i−1</tspan></text>
+        <path d="M0 472 V499" class="black-line" marker-end="url(#arrow-black)" id="plus_node_74" />
+        <use href="#sym-u" x="-27" y="500" width="55" height="30" id="plus_node_75" />
+        <path d="M0 530 V555" class="black-line" marker-end="url(#arrow-black)" id="plus_node_76" />
+        <text x="-40" y="583" class="math large" id="plus_node_77">I<tspan baseline-shift="sub" font-size="15">t−1</tspan></text>
+      </g>
+
+      <g id="col2" transform="translate(254,0)">
+        <use href="#sym-cube" x="-26" y="179" width="56" height="54" style="--top:#ffd4ff;--left:#ffadef;--front:#ef3bd5" id="plus_node_78" />
+        <text x="0" y="169" text-anchor="middle" class="math large" id="plus_node_79">B<tspan baseline-shift="sub" font-size="15">i</tspan></text>
+        <path d="M0 233 V255" class="black-line" marker-end="url(#arrow-black)" id="plus_node_80" />
+        <use href="#sym-fe" x="-27" y="256" width="55" height="30" id="plus_node_81" />
+        <text x="-14" y="306" class="math large" id="plus_node_82">Y<tspan baseline-shift="sub" font-size="15">i</tspan></text>
+        <path d="M-10 287 V347" class="dash-red" marker-end="url(#arrow-red)" id="plus_node_83" />
+        <path d="M15 347 V326" class="dash-blue" marker-end="url(#arrow-blue)" id="plus_node_84" />
+        <path d="M0 286 V346" class="black-line" marker-end="url(#arrow-black)" id="plus_node_85" />
+        <use href="#sym-rp1" x="-27" y="349" width="60" height="31" id="plus_node_86" />
+        <text x="-14" y="397" class="math large" id="plus_node_87">F<tspan baseline-shift="sub" font-size="15">i</tspan></text>
+        <path d="M-10 381 V437" class="dash-red" marker-end="url(#arrow-red)" id="plus_node_88" />
+        <path d="M15 437 V416" class="dash-blue" marker-end="url(#arrow-blue)" id="plus_node_89" />
+        <path d="M0 380 V437" class="black-line" marker-end="url(#arrow-black)" id="plus_node_90" />
+        <use href="#sym-rp2" x="-31" y="441" width="67" height="31" id="plus_node_91" />
+        <text x="-25" y="491" class="math large" id="plus_node_92">M<tspan baseline-shift="sub" font-size="15">i</tspan></text>
+        <path d="M0 472 V499" class="black-line" marker-end="url(#arrow-black)" id="plus_node_93" />
+        <use href="#sym-u" x="-27" y="500" width="55" height="30" id="plus_node_94" />
+        <path d="M0 530 V555" class="black-line" marker-end="url(#arrow-black)" id="plus_node_95" />
+        <text x="-20" y="583" class="math large" id="plus_node_96">I<tspan baseline-shift="sub" font-size="15">t</tspan></text>
+      </g>
+
+      <g id="col3" transform="translate(335,0)">
+        <use href="#sym-cube" x="-26" y="179" width="56" height="54" style="--top:#ffe0ef;--left:#ffafd7;--front:#f944a3" id="plus_node_97" />
+        <text x="0" y="169" text-anchor="middle" class="math large" id="plus_node_98">B<tspan baseline-shift="sub" font-size="15">i+1</tspan></text>
+        <path d="M0 233 V255" class="black-line" marker-end="url(#arrow-black)" id="plus_node_99" />
+        <use href="#sym-fe" x="-27" y="256" width="55" height="30" id="plus_node_100" />
+        <text x="-41" y="306" class="math large" id="plus_node_101">Y<tspan baseline-shift="sub" font-size="15">i+1</tspan></text>
+        <path d="M-10 287 V347" class="dash-red" marker-end="url(#arrow-red)" id="plus_node_102" />
+        <path d="M15 347 V326" class="dash-blue" marker-end="url(#arrow-blue)" id="plus_node_103" />
+        <path d="M0 286 V346" class="black-line" marker-end="url(#arrow-black)" id="plus_node_104" />
+        <use href="#sym-rp1" x="-27" y="349" width="60" height="31" id="plus_node_105" />
+        <text x="-41" y="397" class="math large" id="plus_node_106">F<tspan baseline-shift="sub" font-size="15">i+1</tspan></text>
+        <path d="M-10 381 V437" class="dash-red" marker-end="url(#arrow-red)" id="plus_node_107" />
+        <path d="M15 437 V416" class="dash-blue" marker-end="url(#arrow-blue)" id="plus_node_108" />
+        <path d="M0 380 V437" class="black-line" marker-end="url(#arrow-black)" id="plus_node_109" />
+        <use href="#sym-rp2" x="-31" y="441" width="67" height="31" id="plus_node_110" />
+        <text x="-58" y="491" class="math large" id="plus_node_111">M<tspan baseline-shift="sub" font-size="15">i+1</tspan></text>
+        <path d="M0 472 V499" class="black-line" marker-end="url(#arrow-black)" id="plus_node_112" />
+        <use href="#sym-u" x="-27" y="500" width="55" height="30" id="plus_node_113" />
+        <path d="M0 530 V555" class="black-line" marker-end="url(#arrow-black)" id="plus_node_114" />
+        <text x="-40" y="583" class="math large" id="plus_node_115">I<tspan baseline-shift="sub" font-size="15">t+1</tspan></text>
+      </g>
+
+      <g id="col4" transform="translate(448,0)">
+        <use href="#sym-cube" x="-26" y="179" width="56" height="54" style="--top:#ffe1e7;--left:#ffb6c8;--front:#ff5f82" id="plus_node_116" />
+        <text x="-4" y="169" text-anchor="middle" class="math large" id="plus_node_117">B<tspan baseline-shift="sub" font-size="15">N−1</tspan></text>
+        <path d="M0 233 V255" class="black-line" marker-end="url(#arrow-black)" id="plus_node_118" />
+        <use href="#sym-fe" x="-27" y="256" width="55" height="30" id="plus_node_119" />
+        <text x="-55" y="306" class="math large" id="plus_node_120">Y<tspan baseline-shift="sub" font-size="15">N−1</tspan></text>
+        <path d="M-10 287 V347" class="dash-red" marker-end="url(#arrow-red)" id="plus_node_121" />
+        <path d="M15 347 V326" class="dash-blue" marker-end="url(#arrow-blue)" id="plus_node_122" />
+        <path d="M0 286 V346" class="black-line" marker-end="url(#arrow-black)" id="plus_node_123" />
+        <use href="#sym-rp1" x="-27" y="349" width="60" height="31" id="plus_node_124" />
+        <text x="-57" y="397" class="math large" id="plus_node_125">F<tspan baseline-shift="sub" font-size="15">N−1</tspan></text>
+        <path d="M-10 381 V437" class="dash-red" marker-end="url(#arrow-red)" id="plus_node_126" />
+        <path d="M15 437 V416" class="dash-blue" marker-end="url(#arrow-blue)" id="plus_node_127" />
+        <path d="M0 380 V437" class="black-line" marker-end="url(#arrow-black)" id="plus_node_128" />
+        <use href="#sym-rp2" x="-31" y="441" width="67" height="31" id="plus_node_129" />
+        <text x="-70" y="491" class="math large" id="plus_node_130">M<tspan baseline-shift="sub" font-size="15">N−1</tspan></text>
+        <path d="M0 472 V499" class="black-line" marker-end="url(#arrow-black)" id="plus_node_131" />
+        <use href="#sym-u" x="-27" y="500" width="55" height="30" id="plus_node_132" />
+        <path d="M0 530 V555" class="black-line" marker-end="url(#arrow-black)" id="plus_node_133" />
+        <text x="-58" y="583" class="math large" id="plus_node_134">I<tspan baseline-shift="sub" font-size="15">N−1</tspan></text>
+      </g>
+
+      <text x="103" y="209" class="plain large" id="plus_node_135">...</text>
+      <text x="386" y="209" class="plain large" id="plus_node_136">...</text>
+      <text x="103" y="582" class="plain large" id="plus_node_137">...</text>
+      <text x="386" y="582" class="plain large" id="plus_node_138">...</text>
+
+      
+      <g id="propagation-arrows-left" stroke="#86a95d" stroke-width="2" fill="none" marker-end="url(#arrow-green-hollow)">
+        <path d="M88 365 H135" id="plus_node_139" />
+        <path d="M201 365 H222" id="plus_node_140" />
+        <path d="M284 365 H303" id="plus_node_141" />
+        <path d="M365 365 H414" id="plus_node_142" />
+        <path d="M88 455 H135" id="plus_node_143" />
+        <path d="M201 455 H222" id="plus_node_144" />
+        <path d="M284 455 H303" id="plus_node_145" />
+        <path d="M365 455 H414" id="plus_node_146" />
+      </g>
+    </g>
+  </g>
+
+  
+  <g id="panel-b">
+    <desc>Panel (b) shows first-layer recurrent propagation. Origin is RP-I near the lower right, driven by current feature Yi and Fi, with dashed red links from K preceding features and dashed blue feedback.</desc>
+    <text x="515" y="181" class="panel-label" id="plus_node_147">(b)</text>
+    <g id="b-feature-boxes">
+      <rect x="522" y="28" width="50" height="32" rx="6" fill="#edf4ff" stroke="#8db1ff" stroke-width="2" stroke-dasharray="3,4" id="plus_node_148" />
+      <rect x="612" y="28" width="50" height="32" rx="6" fill="#edf4ff" stroke="#8db1ff" stroke-width="2" stroke-dasharray="3,4" id="plus_node_149" />
+      <rect x="672" y="28" width="50" height="32" rx="6" fill="#edf4ff" stroke="#8db1ff" stroke-width="2" stroke-dasharray="3,4" id="plus_node_150" />
+      <rect x="728" y="28" width="50" height="32" rx="6" fill="#edf4ff" stroke="#8db1ff" stroke-width="2" stroke-dasharray="3,4" id="plus_node_151" />
+      <text x="547" y="47" text-anchor="middle" class="math mid" id="plus_node_152">F<tspan baseline-shift="sub" font-size="12">i−K</tspan></text>
+      <text x="637" y="47" text-anchor="middle" class="math mid" id="plus_node_153">F<tspan baseline-shift="sub" font-size="12">i−2</tspan></text>
+      <text x="697" y="47" text-anchor="middle" class="math mid" id="plus_node_154">F<tspan baseline-shift="sub" font-size="12">i−1</tspan></text>
+      <text x="753" y="47" text-anchor="middle" class="math mid" id="plus_node_155">F<tspan baseline-shift="sub" font-size="12">i</tspan></text>
+      <text x="582" y="42" class="plain large" id="plus_node_156">···</text>
+      <path d="M524 65 Q524 70 529 70 H713 Q718 70 718 65" stroke="#846bb8" fill="none" stroke-width="1.4" id="plus_node_157" />
+      <text x="527" y="95" class="math mid" id="plus_node_158">K</text>
+      <path d="M548 60 V86 H724 V112" class="dash-red" marker-end="url(#arrow-red)" id="plus_node_159" />
+      <path d="M637 60 V86" class="dash-red" id="plus_node_160" />
+      <path d="M694 60 V86" class="dash-red" id="plus_node_161" />
+      <use href="#sym-rp1" x="691" y="112" width="60" height="31" id="plus_node_162" />
+      <text x="631" y="133" class="math large" id="plus_node_163">Y<tspan baseline-shift="sub" font-size="15">i</tspan></text>
+      <path d="M659 126 H689" class="black-line" marker-end="url(#arrow-black)" id="plus_node_164" />
+      <path d="M721 143 V165" class="black-line" marker-end="url(#arrow-black)" id="plus_node_165" />
+      <text x="712" y="188" class="math large" id="plus_node_166">F<tspan baseline-shift="sub" font-size="15">i</tspan></text>
+      <path d="M755 113 V60" class="dash-blue" marker-end="url(#arrow-blue)" id="plus_node_167" />
+      <path d="M755 90 H769 V60" class="dash-blue" id="plus_node_168" />
+    </g>
+  </g>
+
+  
+  <g id="panel-c">
+    <desc>Panel (c) shows second-layer recurrent propagation with 2K preceding modulation features, RP-II, current Fi and output Mi. The composition mirrors panel (b) with orange-coded memory features.</desc>
+    <text x="810" y="181" class="panel-label" id="plus_node_169">(c)</text>
+    <g id="c-feature-boxes">
+      <rect x="809" y="28" width="58" height="32" rx="6" fill="#fff0e4" stroke="#f29b59" stroke-width="2" stroke-dasharray="3,4" id="plus_node_170" />
+      <rect x="894" y="28" width="58" height="32" rx="6" fill="#fff0e4" stroke="#f29b59" stroke-width="2" stroke-dasharray="3,4" id="plus_node_171" />
+      <rect x="951" y="28" width="58" height="32" rx="6" fill="#fff0e4" stroke="#f29b59" stroke-width="2" stroke-dasharray="3,4" id="plus_node_172" />
+      <rect x="1006" y="28" width="58" height="32" rx="6" fill="#fff0e4" stroke="#f29b59" stroke-width="2" stroke-dasharray="3,4" id="plus_node_173" />
+      <rect x="1062" y="28" width="58" height="32" rx="6" fill="#fff0e4" stroke="#f29b59" stroke-width="2" stroke-dasharray="3,4" id="plus_node_174" />
+      <rect x="1118" y="28" width="39" height="32" rx="6" fill="#fff0e4" stroke="#f29b59" stroke-width="2" stroke-dasharray="3,4" id="plus_node_175" />
+      <text x="838" y="47" text-anchor="middle" class="math mid" id="plus_node_176">M<tspan baseline-shift="sub" font-size="12">i−2K</tspan></text>
+      <text x="923" y="47" text-anchor="middle" class="math mid" id="plus_node_177">M<tspan baseline-shift="sub" font-size="12">i−4</tspan></text>
+      <text x="980" y="47" text-anchor="middle" class="math mid" id="plus_node_178">M<tspan baseline-shift="sub" font-size="12">i−3</tspan></text>
+      <text x="1035" y="47" text-anchor="middle" class="math mid" id="plus_node_179">M<tspan baseline-shift="sub" font-size="12">i−2</tspan></text>
+      <text x="1091" y="47" text-anchor="middle" class="math mid" id="plus_node_180">M<tspan baseline-shift="sub" font-size="12">i−1</tspan></text>
+      <text x="1140" y="47" text-anchor="middle" class="math mid" id="plus_node_181">M<tspan baseline-shift="sub" font-size="12">i</tspan></text>
+      <text x="875" y="42" class="plain large" id="plus_node_182">···</text>
+      <path d="M813 66 Q813 71 818 71 H1102 Q1107 71 1107 66" stroke="#846bb8" fill="none" stroke-width="1.4" id="plus_node_183" />
+      <text x="814" y="103" class="math mid" id="plus_node_184">2K</text>
+      <path d="M839 60 V86 H1119 V112" class="dash-red" marker-end="url(#arrow-red)" id="plus_node_185" />
+      <path d="M924 60 V86" class="dash-red" id="plus_node_186" />
+      <path d="M1030 60 V86" class="dash-red" id="plus_node_187" />
+      <use href="#sym-rp2" x="1092" y="112" width="67" height="31" id="plus_node_188" />
+      <text x="1031" y="133" class="math large" id="plus_node_189">F<tspan baseline-shift="sub" font-size="15">i</tspan></text>
+      <path d="M1060 126 H1089" class="black-line" marker-end="url(#arrow-black)" id="plus_node_190" />
+      <path d="M1125 143 V165" class="black-line" marker-end="url(#arrow-black)" id="plus_node_191" />
+      <text x="1113" y="188" class="math large" id="plus_node_192">M<tspan baseline-shift="sub" font-size="15">i</tspan></text>
+      <path d="M1138 113 V60" class="dash-blue" marker-end="url(#arrow-blue)" id="plus_node_193" />
+      <path d="M1138 91 H1155 V61" class="dash-blue" id="plus_node_194" />
+    </g>
+  </g>
+
+  
+  <g id="panel-d">
+    <desc>Panel (d) contains MFCA and CMF modules. K preceding features are represented by three slanted feature slabs feeding MFCA; MFCA outputs aligned features to CMF together with Yi, and CMF produces Fi. The panel is balanced horizontally with a dashed explanatory legend at the right.</desc>
+    <text x="515" y="476" class="panel-label" id="plus_node_195">(d)</text>
+
+    <use href="#sym-rp1" x="536" y="220" width="60" height="31" id="plus_node_196" />
+    <use href="#sym-rp2" x="601" y="220" width="67" height="31" id="plus_node_197" />
+
+    <g id="d-right-legend">
+      <rect x="918" y="219" width="244" height="103" fill="none" stroke="#888" stroke-width="2" stroke-dasharray="3,3" id="plus_node_198" />
+      <rect x="927" y="230" width="67" height="27" fill="#fff" stroke="#777" id="plus_node_199" />
+      <text x="960" y="249" text-anchor="middle" class="plain mid" id="plus_node_200">MFCA</text>
+      <text x="1000" y="237" class="plain small" id="plus_node_201">Multi-Frame Consistency</text>
+      <text x="1000" y="255" class="plain small" id="plus_node_202">Guided Alignment</text>
+      <rect x="927" y="276" width="67" height="27" fill="#fff" stroke="#777" id="plus_node_203" />
+      <text x="960" y="295" text-anchor="middle" class="plain mid" id="plus_node_204">CMF</text>
+      <text x="1000" y="291" class="plain small" id="plus_node_205">Content-Aware</text>
+      <text x="1000" y="309" class="plain small" id="plus_node_206">Modulation Fusion</text>
+    </g>
+
+    <text x="518" y="327" class="math mid" id="plus_node_207">K</text>
+    <text x="534" y="327" class="plain small" id="plus_node_208">preceding</text>
+    <text x="530" y="346" class="plain small" id="plus_node_209">features</text>
+    <path d="M607 316 H633 V372 H607 Z" fill="none" stroke="#999" stroke-dasharray="2,3" id="plus_node_210" />
+    <text x="620" y="301" class="math large" id="plus_node_211">F<tspan baseline-shift="sub" font-size="15">i−K</tspan></text>
+    <text x="651" y="325" class="plain large" id="plus_node_212">:</text>
+    <text x="651" y="347" class="plain large" id="plus_node_213">:</text>
+    <text x="620" y="376" class="math large" id="plus_node_214">F<tspan baseline-shift="sub" font-size="15">i−1</tspan></text>
+
+    <use href="#sym-slab" x="664" y="258" width="30" height="58" id="plus_node_215" />
+    <use href="#sym-slab" x="664" y="346" width="30" height="58" id="plus_node_216" />
+    <use href="#sym-slab" x="664" y="408" width="30" height="58" id="plus_node_217" />
+
+    <path d="M694 290 H733" class="black-line" marker-end="url(#arrow-black)" id="plus_node_218" />
+    <rect x="733" y="289" width="86" height="31" rx="2" fill="#fff" stroke="#777" stroke-width="1.5" id="plus_node_219" />
+    <text x="776" y="311" text-anchor="middle" class="plain large" id="plus_node_220">MFCA</text>
+    <path d="M694 376 H717 V305 H733" class="black-line" id="plus_node_221" />
+    <path d="M694 444 H734 V320" class="black-line" marker-end="url(#arrow-black)" id="plus_node_222" />
+
+    <path d="M819 305 H849" class="black-line" marker-end="url(#arrow-black)" id="plus_node_223" />
+    <rect x="851" y="264" width="55" height="93" rx="5" fill="#fff" stroke="#bcbcbc" stroke-dasharray="2,3" id="plus_node_224" />
+    <text x="858" y="286" class="math large" id="plus_node_225">F<tspan baseline-shift="sub" font-size="15">i−K</tspan></text>
+    <text x="872" y="310" class="plain large" id="plus_node_226">:</text>
+    <text x="872" y="333" class="plain large" id="plus_node_227">:</text>
+    <text x="858" y="350" class="math large" id="plus_node_228">F<tspan baseline-shift="sub" font-size="15">i−1</tspan></text>
+    <path d="M876 357 V422" class="black-line" marker-end="url(#arrow-black)" id="plus_node_229" />
+
+    <text x="632" y="440" class="math large" id="plus_node_230">Y<tspan baseline-shift="sub" font-size="15">i</tspan></text>
+    <path d="M694 444 H833" class="black-line" marker-end="url(#arrow-black)" id="plus_node_231" />
+    <rect x="834" y="428" width="84" height="32" rx="3" fill="#fff" stroke="#777" stroke-width="1.3" id="plus_node_232" />
+    <text x="876" y="451" text-anchor="middle" class="plain large" id="plus_node_233">CMF</text>
+    <use href="#sym-slab" x="958" y="407" width="30" height="58" id="plus_node_234" />
+    <path d="M918 444 H958" class="black-line" marker-end="url(#arrow-black)" id="plus_node_235" />
+    <text x="997" y="448" class="math large" id="plus_node_236">F<tspan baseline-shift="sub" font-size="15">i</tspan></text>
+    <path d="M906 363 C928 363 927 371 943 371" class="dash-gray" marker-end="url(#arrow-gray)" id="plus_node_237" />
+    <text x="951" y="376" class="math mid" id="plus_node_238">K</text>
+    <text x="966" y="376" class="plain small" id="plus_node_239">aligned features</text>
+  </g>
+
+  
+  <g id="legend">
+    <desc>Legend explains FE, upsample, RP-I/RP-II, propagation direction and two horizontal feature buffers.</desc>
+    <use href="#sym-fe" x="518" y="519" width="55" height="30" id="plus_node_240" />
+    <text x="581" y="533" class="plain small" id="plus_node_241">Feature</text>
+    <text x="581" y="549" class="plain small" id="plus_node_242">Extraction</text>
+
+    <use href="#sym-u" x="644" y="519" width="55" height="30" id="plus_node_243" />
+    <text x="708" y="537" class="plain small" id="plus_node_244">Upsample</text>
+
+    <path d="M761 534 H779" stroke="#86a95d" stroke-width="2" marker-end="url(#arrow-green-hollow)" id="plus_node_245" />
+    <text x="790" y="527" class="plain small" id="plus_node_246">Propagation</text>
+    <text x="790" y="544" class="plain small" id="plus_node_247">Direction</text>
+
+    <rect x="866" y="523" width="94" height="16" fill="url(#grad-buffer-blue)" opacity=".75" stroke="#d5d8e7" stroke-dasharray="2,2" id="plus_node_248" />
+    <text x="1004" y="540" class="plain small" id="plus_node_249">Layer-I Feature</text>
+    <text x="1114" y="540" class="math small" id="plus_node_250">(F<tspan baseline-shift="sub" font-size="10">i</tspan>)</text>
+    <text x="1137" y="540" class="plain small" id="plus_node_251">Buffer</text>
+
+    <use href="#sym-rp1" x="518" y="558" width="60" height="31" id="plus_node_252" />
+    <text x="585" y="580" class="plain small" id="plus_node_253">/</text>
+    <use href="#sym-rp2" x="594" y="558" width="67" height="31" id="plus_node_254" />
+    <text x="647" y="565" class="plain small" id="plus_node_255">(First Layer / Second Layer)</text>
+    <text x="647" y="585" class="plain small" id="plus_node_256">Recurrent Propagation</text>
+
+    <rect x="866" y="566" width="94" height="16" fill="url(#grad-buffer-orange)" opacity=".75" stroke="#e5c8b0" stroke-dasharray="2,2" id="plus_node_257" />
+    <text x="1004" y="581" class="plain small" id="plus_node_258">Layer-II Feature</text>
+    <text x="1120" y="581" class="math small" id="plus_node_259">(M<tspan baseline-shift="sub" font-size="10">i</tspan>)</text>
+    <text x="1146" y="581" class="plain small" id="plus_node_260">Buffer</text>
+  </g>
+</svg>

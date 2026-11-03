@@ -1,0 +1,94 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 609 277" width="609" height="277">
+  <rect x="0" y="0" width="609" height="277" fill="#ffffff"/>
+
+  <defs>
+    <marker id="arrowCyan" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto" markerUnits="userSpaceOnUse">
+      <path d="M0,0 L7,3 L0,6" fill="none" stroke="#8bbccb" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+    </marker>
+    <marker id="arrowPurple" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto" markerUnits="userSpaceOnUse">
+      <path d="M0,0 L7,3 L0,6" fill="none" stroke="#a7a2dc" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+    </marker>
+  </defs>
+
+  <!-- Fenwick tree nodes -->
+  <rect x="126" y="36" width="211" height="52" fill="#d8ebff"/>
+  <rect x="126" y="94" width="104" height="49" fill="#d8ebff"/>
+  <rect x="341" y="94" width="104" height="49" fill="#d8ebff"/>
+  <rect x="126" y="152" width="50" height="43" fill="#d8ebff"/>
+  <rect x="235" y="152" width="49" height="43" fill="#d8ebff"/>
+  <rect x="341" y="152" width="49" height="43" fill="#d8ebff"/>
+  <rect x="449" y="152" width="49" height="43" fill="#d8ebff"/>
+
+  <!-- deformation blocks -->
+  <rect x="126" y="211" width="50" height="49" fill="#b8cad8"/>
+  <rect x="180" y="211" width="49" height="49" fill="#b8cad8"/>
+  <rect x="234" y="211" width="49" height="49" fill="#b8cad8"/>
+  <rect x="288" y="211" width="49" height="49" fill="#b8cad8"/>
+  <rect x="342" y="211" width="49" height="49" fill="#b8cad8"/>
+  <rect x="396" y="211" width="49" height="49" fill="#b8cad8"/>
+  <rect x="450" y="211" width="49" height="49" fill="#b8cad8"/>
+
+  <!-- query boxes -->
+  <rect x="531" y="28" width="50" height="56" fill="#92c7d3"/>
+  <rect x="531" y="124" width="50" height="68" fill="#aca8e0"/>
+
+  <!-- arrows -->
+  <path d="M337 61 L529 49" fill="none" stroke="#8bbccb" stroke-width="2" marker-end="url(#arrowCyan)"/>
+  <path d="M445 119 L529 53" fill="none" stroke="#8bbccb" stroke-width="2" marker-end="url(#arrowCyan)"/>
+
+  <path d="M337 62 L529 141" fill="none" stroke="#a7a2dc" stroke-width="2" marker-end="url(#arrowPurple)"/>
+  <path d="M445 119 L529 145" fill="none" stroke="#a7a2dc" stroke-width="2" marker-end="url(#arrowPurple)"/>
+  <path d="M498 174 L529 154" fill="none" stroke="#a7a2dc" stroke-width="2" marker-end="url(#arrowPurple)"/>
+
+  <!-- left labels -->
+  <text x="36" y="114" font-family="Times New Roman, serif" font-size="14.5" font-weight="400" fill="#111">
+    <tspan x="36" dy="0">Fenwick Tree</tspan>
+    <tspan x="60" dy="16">Nodes</tspan>
+  </text>
+
+  <text x="36" y="199" font-family="Times New Roman, serif" font-size="14" font-weight="400" fill="#111">
+    <tspan x="36" dy="0">Deformation</tspan>
+    <tspan x="36" dy="16">relative to the</tspan>
+    <tspan x="36" dy="16">previous frame</tspan>
+  </text>
+
+  <!-- node labels -->
+  <text x="231.5" y="65" text-anchor="middle" font-family="Times New Roman, serif" font-size="13.2" font-weight="400" fill="#111">
+    <tspan font-style="italic">r</tspan><tspan font-size="8.4" baseline-shift="sub" font-style="italic">k</tspan><tspan font-size="8.4" baseline-shift="super">[4]</tspan><tspan>, </tspan><tspan font-style="italic">T</tspan><tspan font-size="8.4" baseline-shift="sub" font-style="italic">k</tspan><tspan font-size="8.4" baseline-shift="super">[4]</tspan>
+  </text>
+
+  <text x="178" y="123" text-anchor="middle" font-family="Times New Roman, serif" font-size="13.2" font-weight="400" fill="#111">
+    <tspan font-style="italic">r</tspan><tspan font-size="8.4" baseline-shift="sub" font-style="italic">k</tspan><tspan font-size="8.4" baseline-shift="super">[2]</tspan><tspan>, </tspan><tspan font-style="italic">T</tspan><tspan font-size="8.4" baseline-shift="sub" font-style="italic">k</tspan><tspan font-size="8.4" baseline-shift="super">[2]</tspan>
+  </text>
+
+  <text x="393" y="123" text-anchor="middle" font-family="Times New Roman, serif" font-size="13.2" font-weight="400" fill="#111">
+    <tspan font-style="italic">r</tspan><tspan font-size="8.4" baseline-shift="sub" font-style="italic">k</tspan><tspan font-size="8.4" baseline-shift="super">[6]</tspan><tspan>, </tspan><tspan font-style="italic">T</tspan><tspan font-size="8.4" baseline-shift="sub" font-style="italic">k</tspan><tspan font-size="8.4" baseline-shift="super">[6]</tspan>
+  </text>
+
+  <text x="151" y="178" text-anchor="middle" font-family="Times New Roman, serif" font-size="13.2" font-weight="400" fill="#111">
+    <tspan font-style="italic">r</tspan><tspan font-size="8.4" baseline-shift="sub" font-style="italic">k</tspan><tspan font-size="8.4" baseline-shift="super">[1]</tspan><tspan>, </tspan><tspan font-style="italic">T</tspan><tspan font-size="8.4" baseline-shift="sub" font-style="italic">k</tspan><tspan font-size="8.4" baseline-shift="super">[1]</tspan>
+  </text>
+
+  <text x="259.5" y="178" text-anchor="middle" font-family="Times New Roman, serif" font-size="13.2" font-weight="400" fill="#111">
+    <tspan font-style="italic">r</tspan><tspan font-size="8.4" baseline-shift="sub" font-style="italic">k</tspan><tspan font-size="8.4" baseline-shift="super">[3]</tspan><tspan>, </tspan><tspan font-style="italic">T</tspan><tspan font-size="8.4" baseline-shift="sub" font-style="italic">k</tspan><tspan font-size="8.4" baseline-shift="super">[3]</tspan>
+  </text>
+
+  <text x="365.5" y="178" text-anchor="middle" font-family="Times New Roman, serif" font-size="13.2" font-weight="400" fill="#111">
+    <tspan font-style="italic">r</tspan><tspan font-size="8.4" baseline-shift="sub" font-style="italic">k</tspan><tspan font-size="8.4" baseline-shift="super">[5]</tspan><tspan>, </tspan><tspan font-style="italic">T</tspan><tspan font-size="8.4" baseline-shift="sub" font-style="italic">k</tspan><tspan font-size="8.4" baseline-shift="super">[5]</tspan>
+  </text>
+
+  <text x="473.5" y="178" text-anchor="middle" font-family="Times New Roman, serif" font-size="13.2" font-weight="400" fill="#111">
+    <tspan font-style="italic">r</tspan><tspan font-size="8.4" baseline-shift="sub" font-style="italic">k</tspan><tspan font-size="8.4" baseline-shift="super">[7]</tspan><tspan>, </tspan><tspan font-style="italic">T</tspan><tspan font-size="8.4" baseline-shift="sub" font-style="italic">k</tspan><tspan font-size="8.4" baseline-shift="super">[7]</tspan>
+  </text>
+
+  <!-- query labels -->
+  <text x="535" y="94" font-family="Times New Roman, serif" font-size="15" font-weight="400" fill="#111">Query:</text>
+  <text x="548" y="115" font-family="Times New Roman, serif" font-size="14.2" font-weight="400" fill="#111">
+    <tspan font-style="italic">r</tspan><tspan font-size="9" baseline-shift="sub" font-style="italic">k</tspan><tspan font-size="9" baseline-shift="super">6</tspan><tspan>, </tspan><tspan font-style="italic">T</tspan><tspan font-size="9" baseline-shift="sub" font-style="italic">k</tspan><tspan font-size="9" baseline-shift="super">6</tspan>
+  </text>
+
+  <text x="535" y="207" font-family="Times New Roman, serif" font-size="15" font-weight="400" fill="#111">Query:</text>
+  <text x="548" y="228" font-family="Times New Roman, serif" font-size="14.2" font-weight="400" fill="#111">
+    <tspan font-style="italic">r</tspan><tspan font-size="9" baseline-shift="sub" font-style="italic">k</tspan><tspan font-size="9" baseline-shift="super">7</tspan><tspan>, </tspan><tspan font-style="italic">T</tspan><tspan font-size="9" baseline-shift="sub" font-style="italic">k</tspan><tspan font-size="9" baseline-shift="super">7</tspan>
+  </text>
+</svg>

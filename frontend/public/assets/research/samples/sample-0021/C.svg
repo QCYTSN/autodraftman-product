@@ -1,0 +1,298 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1259" height="185" viewBox="0 0 1259 185">
+  <title>Multi-panel comparison figure with legend, four boxplot charts, and radar chart</title>
+  <desc>Inventory: a top legend showing five dataset color swatches and two statistic glyphs; four horizontally aligned base chart frames for Camera Pose Rotation, Depth, Flow Magnitude, and Brightness, each with log/grid axes, dense grouped boxplots, category labels, and vertical axis captions; a right radar chart comparing category performance with three colored polygons and radial labels.</desc>
+  <defs>
+    <style>
+      .font{font-family:Arial, Helvetica, sans-serif}
+      .title{font-family:Arial, Helvetica, sans-serif;font-size:15px;font-weight:700;fill:#111}
+      .label{font-family:Arial, Helvetica, sans-serif;font-size:11px;fill:#111}
+      .tiny{font-family:Arial, Helvetica, sans-serif;font-size:6px;fill:#111}
+      .axis{stroke:#111;stroke-width:1;fill:none}
+      .grid{stroke:#bfbfbf;stroke-width:.7;stroke-dasharray:1.5 2.5;fill:none}
+      .minor{stroke:#dedede;stroke-width:.6;stroke-dasharray:1 3;fill:none}
+      .median{stroke:#111;stroke-width:1.25}
+      .whisk{stroke:#111;stroke-width:.9;fill:none}
+      .mean{fill:#fff;stroke:#111;stroke-width:1}
+    </style>
+
+    <symbol id="bp-low" viewBox="0 0 16 80">
+      <path class="whisk" d="M8 19V74M4 19H12M4 74H12" id="plus_node_0" />
+      <rect x="4.2" y="51" width="7.6" height="15" fill="currentColor" stroke="#111" stroke-width=".8" id="plus_node_1" />
+      <line class="median" x1="4.2" y1="58.5" x2="11.8" y2="58.5" id="plus_node_2" />
+      <circle class="mean" cx="8" cy="46" r="2.1" id="plus_node_3" />
+    </symbol>
+    <symbol id="bp-mid" viewBox="0 0 16 80">
+      <path class="whisk" d="M8 9V70M4 9H12M4 70H12" id="plus_node_4" />
+      <rect x="4.2" y="37" width="7.6" height="20" fill="currentColor" stroke="#111" stroke-width=".8" id="plus_node_5" />
+      <line class="median" x1="4.2" y1="47" x2="11.8" y2="47" id="plus_node_6" />
+      <circle class="mean" cx="8" cy="32" r="2.1" id="plus_node_7" />
+    </symbol>
+    <symbol id="bp-high" viewBox="0 0 16 80">
+      <path class="whisk" d="M8 0V58M4 0H12M4 58H12" id="plus_node_8" />
+      <rect x="4.2" y="20" width="7.6" height="18" fill="currentColor" stroke="#111" stroke-width=".8" id="plus_node_9" />
+      <line class="median" x1="4.2" y1="29" x2="11.8" y2="29" id="plus_node_10" />
+      <circle class="mean" cx="8" cy="17" r="2.1" id="plus_node_11" />
+    </symbol>
+    <symbol id="bp-wide" viewBox="0 0 16 80">
+      <path class="whisk" d="M8 4V76M4 4H12M4 76H12" id="plus_node_12" />
+      <rect x="4.2" y="26" width="7.6" height="32" fill="currentColor" stroke="#111" stroke-width=".8" id="plus_node_13" />
+      <line class="median" x1="4.2" y1="43" x2="11.8" y2="43" id="plus_node_14" />
+      <circle class="mean" cx="8" cy="20" r="2.1" id="plus_node_15" />
+    </symbol>
+    <symbol id="bp-bright" viewBox="0 0 16 80">
+      <path class="whisk" d="M8 11V72M4 11H12M4 72H12" id="plus_node_16" />
+      <rect x="4.2" y="31" width="7.6" height="22" fill="currentColor" stroke="#111" stroke-width=".8" id="plus_node_17" />
+      <line class="median" x1="4.2" y1="42" x2="11.8" y2="42" id="plus_node_18" />
+      <circle class="mean" cx="8" cy="27" r="2.1" id="plus_node_19" />
+    </symbol>
+  </defs>
+
+  <rect id="background" x="0" y="0" width="1259" height="185" fill="#fff" />
+
+  <g id="f01-legend" data-plus-kind="frame">
+    <rect x="74" y="22" width="937" height="24" rx="3" ry="3" fill="#fff" stroke="#dddddd" id="plus_node_20" />
+    <rect x="80" y="28" width="27" height="11" fill="#ff9634" id="plus_node_21" />
+    <text class="label" x="118" y="37" id="plus_node_22">HD-Epic</text>
+    <rect x="200" y="28" width="29" height="11" fill="#4f95c2" id="plus_node_23" />
+    <text class="label" x="240" y="37" id="plus_node_24">Walking Tours</text>
+    <rect x="361" y="28" width="29" height="11" fill="#58b65c" id="plus_node_25" />
+    <text class="label" x="401" y="37" id="plus_node_26">Anonymous Lives Dataset</text>
+    <rect x="606" y="28" width="28" height="11" fill="#e34b50" id="plus_node_27" />
+    <text class="label" x="645" y="37" id="plus_node_28">Other</text>
+    <rect x="711" y="28" width="29" height="11" fill="#9b9b9b" id="plus_node_29" />
+    <text class="label" x="751" y="37" id="plus_node_30">K400</text>
+    <circle cx="826" cy="33.5" r="4" fill="#fff" stroke="#111" stroke-width="1" id="plus_node_31" />
+    <text class="label" x="849" y="37" id="plus_node_32">Mean</text>
+    <line x1="916" y1="33" x2="945" y2="33" stroke="#111" stroke-width="1.5" id="plus_node_33" />
+    <text class="label" x="955" y="37" id="plus_node_34">Median</text>
+  </g>
+
+  
+  <g id="f02-camera-pose" data-plus-kind="frame">
+    <title>Camera Pose Rotation panel</title>
+    <desc>Origin is the left lower plotting area; boxplots proceed left to right from HD-Epic through K400. Symmetry basis: aligned vertical categories with shared horizontal grid levels.</desc>
+    <text class="title" x="89" y="70" id="plus_node_35">Camera Pose Rotation</text>
+    <rect x="74" y="75" width="212" height="84" fill="#fff" stroke="#111" id="plus_node_36" />
+    <line class="grid" x1="74" y1="83" x2="286" y2="83" id="plus_node_37" />
+    <line class="grid" x1="74" y1="109" x2="286" y2="109" id="plus_node_38" />
+    <line class="grid" x1="74" y1="139" x2="286" y2="139" id="plus_node_39" />
+    <text class="tiny" x="50" y="87" id="plus_node_40">10<tspan dy="-3" font-size="5">2</tspan></text>
+    <text class="tiny" x="51" y="113" id="plus_node_41">10<tspan dy="-3" font-size="5">1</tspan></text>
+    <text class="tiny" x="51" y="143" id="plus_node_42">10<tspan dy="-3" font-size="5">0</tspan></text>
+    <text class="label" transform="translate(45 132) rotate(-90)" id="plus_node_43">degrees</text>
+    <g id="cam-boxplots">
+      <use href="#bp-low" x="75" y="76" width="16" height="80" color="#ff9634" id="plus_node_44" />
+      <use href="#bp-low" x="84" y="76" width="16" height="80" color="#ff9634" id="plus_node_45" />
+      <use href="#bp-low" x="93" y="76" width="16" height="80" color="#ff9634" id="plus_node_46" />
+      <use href="#bp-low" x="102" y="76" width="16" height="80" color="#ff9634" id="plus_node_47" />
+      <use href="#bp-low" x="111" y="76" width="16" height="80" color="#ff9634" id="plus_node_48" />
+      <use href="#bp-low" x="120" y="76" width="16" height="80" color="#ff9634" id="plus_node_49" />
+      <use href="#bp-low" x="129" y="76" width="16" height="80" color="#ff9634" id="plus_node_50" />
+      <use href="#bp-wide" x="138" y="76" width="16" height="80" color="#4f95c2" id="plus_node_51" />
+      <use href="#bp-low" x="147" y="76" width="16" height="80" color="#4f95c2" id="plus_node_52" />
+      <use href="#bp-low" x="156" y="76" width="16" height="80" color="#4f95c2" id="plus_node_53" />
+      <use href="#bp-low" x="165" y="76" width="16" height="80" color="#4f95c2" id="plus_node_54" />
+      <use href="#bp-low" x="174" y="76" width="16" height="80" color="#4f95c2" id="plus_node_55" />
+      <use href="#bp-wide" x="183" y="76" width="16" height="80" color="#4f95c2" id="plus_node_56" />
+      <use href="#bp-low" x="192" y="76" width="16" height="80" color="#58b65c" id="plus_node_57" />
+      <use href="#bp-low" x="201" y="76" width="16" height="80" color="#58b65c" id="plus_node_58" />
+      <use href="#bp-low" x="210" y="76" width="16" height="80" color="#58b65c" id="plus_node_59" />
+      <use href="#bp-low" x="219" y="76" width="16" height="80" color="#58b65c" id="plus_node_60" />
+      <use href="#bp-low" x="263" y="76" width="16" height="80" color="#e34b50" id="plus_node_61" />
+      <use href="#bp-low" x="274" y="76" width="16" height="80" color="#9b9b9b" id="plus_node_62" />
+    </g>
+    <g class="tiny" id="cam-xlabels">
+      <text transform="translate(80 164) rotate(90)" id="plus_node_63">P01</text><text transform="translate(89 164) rotate(90)" id="plus_node_64">P02</text>
+      <text transform="translate(98 164) rotate(90)" id="plus_node_65">P03</text><text transform="translate(107 164) rotate(90)" id="plus_node_66">P04</text>
+      <text transform="translate(116 164) rotate(90)" id="plus_node_67">P05</text><text transform="translate(125 164) rotate(90)" id="plus_node_68">P06</text>
+      <text transform="translate(134 164) rotate(90)" id="plus_node_69">P07</text><text transform="translate(146 164) rotate(90)" id="plus_node_70">WT1</text>
+      <text transform="translate(155 164) rotate(90)" id="plus_node_71">WT3</text><text transform="translate(164 164) rotate(90)" id="plus_node_72">WT4</text>
+      <text transform="translate(173 164) rotate(90)" id="plus_node_73">WT6</text><text transform="translate(182 164) rotate(90)" id="plus_node_74">WT8</text>
+      <text transform="translate(191 164) rotate(90)" id="plus_node_75">WT9</text><text transform="translate(200 164) rotate(90)" id="plus_node_76">Life1</text>
+      <text transform="translate(209 164) rotate(90)" id="plus_node_77">Life2</text><text transform="translate(218 164) rotate(90)" id="plus_node_78">Life3</text>
+      <text transform="translate(227 164) rotate(90)" id="plus_node_79">Life4</text><text transform="translate(268 164) rotate(90)" id="plus_node_80">O3</text>
+      <text transform="translate(279 164) rotate(90)" id="plus_node_81">K400</text>
+    </g>
+  </g>
+
+  
+  <g id="f03-depth" data-plus-kind="frame">
+    <title>Depth panel</title>
+    <desc>Depth boxplots use the same left-to-right category ordering. Orange groups are low-to-mid, blue walking-tour groups cluster high, green/red/gray sit at the right. Symmetry basis: equal category spacing along a shared log-scaled y axis.</desc>
+    <text class="title" x="401" y="70" id="plus_node_82">Depth</text>
+    <rect x="317" y="75" width="212" height="84" fill="#fff" stroke="#111" id="plus_node_83" />
+    <line class="grid" x1="317" y1="76" x2="529" y2="76" id="plus_node_84" />
+    <line class="grid" x1="317" y1="102" x2="529" y2="102" id="plus_node_85" />
+    <line class="grid" x1="317" y1="132" x2="529" y2="132" id="plus_node_86" />
+    <line class="minor" x1="317" y1="153" x2="529" y2="153" id="plus_node_87" />
+    <text class="tiny" x="296" y="79" id="plus_node_88">10<tspan dy="-3" font-size="5">2</tspan></text>
+    <text class="tiny" x="296" y="106" id="plus_node_89">10<tspan dy="-3" font-size="5">1</tspan></text>
+    <text class="tiny" x="296" y="136" id="plus_node_90">10<tspan dy="-3" font-size="5">0</tspan></text>
+    <text class="label" transform="translate(308 126) rotate(-90)" id="plus_node_91">meters</text>
+    <g id="depth-boxplots">
+      <use href="#bp-low" x="319" y="76" width="16" height="80" color="#ff9634" id="plus_node_92" />
+      <use href="#bp-low" x="328" y="76" width="16" height="80" color="#ff9634" id="plus_node_93" />
+      <use href="#bp-low" x="337" y="76" width="16" height="80" color="#ff9634" id="plus_node_94" />
+      <use href="#bp-low" x="346" y="76" width="16" height="80" color="#ff9634" id="plus_node_95" />
+      <use href="#bp-low" x="355" y="76" width="16" height="80" color="#ff9634" id="plus_node_96" />
+      <use href="#bp-low" x="364" y="76" width="16" height="80" color="#ff9634" id="plus_node_97" />
+      <use href="#bp-low" x="373" y="76" width="16" height="80" color="#ff9634" id="plus_node_98" />
+      <use href="#bp-high" x="383" y="76" width="16" height="80" color="#4f95c2" id="plus_node_99" />
+      <use href="#bp-high" x="392" y="76" width="16" height="80" color="#4f95c2" id="plus_node_100" />
+      <use href="#bp-high" x="401" y="76" width="16" height="80" color="#4f95c2" id="plus_node_101" />
+      <use href="#bp-high" x="410" y="76" width="16" height="80" color="#4f95c2" id="plus_node_102" />
+      <use href="#bp-high" x="419" y="76" width="16" height="80" color="#4f95c2" id="plus_node_103" />
+      <use href="#bp-high" x="428" y="76" width="16" height="80" color="#4f95c2" id="plus_node_104" />
+      <use href="#bp-low" x="452" y="76" width="16" height="80" color="#58b65c" id="plus_node_105" />
+      <use href="#bp-low" x="461" y="76" width="16" height="80" color="#58b65c" id="plus_node_106" />
+      <use href="#bp-mid" x="491" y="76" width="16" height="80" color="#e34b50" id="plus_node_107" />
+      <use href="#bp-high" x="502" y="76" width="16" height="80" color="#9b9b9b" id="plus_node_108" />
+    </g>
+    <g class="tiny" id="depth-xlabels">
+      <text transform="translate(324 164) rotate(90)" id="plus_node_109">P01</text><text transform="translate(333 164) rotate(90)" id="plus_node_110">P02</text>
+      <text transform="translate(342 164) rotate(90)" id="plus_node_111">P03</text><text transform="translate(351 164) rotate(90)" id="plus_node_112">P04</text>
+      <text transform="translate(360 164) rotate(90)" id="plus_node_113">P05</text><text transform="translate(369 164) rotate(90)" id="plus_node_114">P06</text>
+      <text transform="translate(378 164) rotate(90)" id="plus_node_115">P07</text><text transform="translate(388 164) rotate(90)" id="plus_node_116">WT1</text>
+      <text transform="translate(397 164) rotate(90)" id="plus_node_117">WT2</text><text transform="translate(406 164) rotate(90)" id="plus_node_118">WT3</text>
+      <text transform="translate(415 164) rotate(90)" id="plus_node_119">WT4</text><text transform="translate(424 164) rotate(90)" id="plus_node_120">WT5</text>
+      <text transform="translate(433 164) rotate(90)" id="plus_node_121">WT6</text><text transform="translate(458 164) rotate(90)" id="plus_node_122">Life1</text>
+      <text transform="translate(467 164) rotate(90)" id="plus_node_123">Life2</text><text transform="translate(497 164) rotate(90)" id="plus_node_124">O1</text>
+      <text transform="translate(509 164) rotate(90)" id="plus_node_125">K400</text>
+    </g>
+  </g>
+
+  
+  <g id="f04-flow" data-plus-kind="frame">
+    <title>Flow Magnitude panel</title>
+    <desc>Flow panel shows many similarly scaled distributions and a rightmost group with higher spread. The construction starts from the lower-left axis origin and proceeds across uniformly spaced categories; symmetry is horizontal grid alignment.</desc>
+    <text class="title" x="603" y="70" id="plus_node_126">Flow Magnitude</text>
+    <rect x="558" y="75" width="209" height="84" fill="#fff" stroke="#111" id="plus_node_127" />
+    <line class="grid" x1="558" y1="89" x2="767" y2="89" id="plus_node_128" />
+    <line class="grid" x1="558" y1="116" x2="767" y2="116" id="plus_node_129" />
+    <line class="grid" x1="558" y1="143" x2="767" y2="143" id="plus_node_130" />
+    <text class="tiny" x="541" y="92" id="plus_node_131">10<tspan dy="-3" font-size="5">2</tspan></text>
+    <text class="tiny" x="541" y="119" id="plus_node_132">10<tspan dy="-3" font-size="5">1</tspan></text>
+    <text class="tiny" x="541" y="146" id="plus_node_133">10<tspan dy="-3" font-size="5">0</tspan></text>
+    <text class="label" transform="translate(535 143) rotate(-90)" id="plus_node_134">pixels per frame</text>
+    <g id="flow-boxplots">
+      <use href="#bp-mid" x="560" y="76" width="16" height="80" color="#ff9634" id="plus_node_135" />
+      <use href="#bp-mid" x="569" y="76" width="16" height="80" color="#ff9634" id="plus_node_136" />
+      <use href="#bp-mid" x="578" y="76" width="16" height="80" color="#ff9634" id="plus_node_137" />
+      <use href="#bp-mid" x="587" y="76" width="16" height="80" color="#ff9634" id="plus_node_138" />
+      <use href="#bp-mid" x="596" y="76" width="16" height="80" color="#ff9634" id="plus_node_139" />
+      <use href="#bp-mid" x="605" y="76" width="16" height="80" color="#ff9634" id="plus_node_140" />
+      <use href="#bp-mid" x="614" y="76" width="16" height="80" color="#4f95c2" id="plus_node_141" />
+      <use href="#bp-mid" x="623" y="76" width="16" height="80" color="#4f95c2" id="plus_node_142" />
+      <use href="#bp-mid" x="632" y="76" width="16" height="80" color="#4f95c2" id="plus_node_143" />
+      <use href="#bp-mid" x="641" y="76" width="16" height="80" color="#4f95c2" id="plus_node_144" />
+      <use href="#bp-mid" x="650" y="76" width="16" height="80" color="#4f95c2" id="plus_node_145" />
+      <use href="#bp-mid" x="659" y="76" width="16" height="80" color="#4f95c2" id="plus_node_146" />
+      <use href="#bp-mid" x="668" y="76" width="16" height="80" color="#4f95c2" id="plus_node_147" />
+      <use href="#bp-low" x="693" y="76" width="16" height="80" color="#58b65c" id="plus_node_148" />
+      <use href="#bp-mid" x="702" y="76" width="16" height="80" color="#58b65c" id="plus_node_149" />
+      <use href="#bp-mid" x="711" y="76" width="16" height="80" color="#58b65c" id="plus_node_150" />
+      <use href="#bp-wide" x="720" y="76" width="16" height="80" color="#58b65c" id="plus_node_151" />
+      <use href="#bp-wide" x="752" y="76" width="16" height="80" color="#e34b50" id="plus_node_152" />
+      <use href="#bp-mid" x="760" y="76" width="16" height="80" color="#9b9b9b" id="plus_node_153" />
+    </g>
+    <g class="tiny" id="flow-xlabels">
+      <text transform="translate(565 164) rotate(90)" id="plus_node_154">P01</text><text transform="translate(574 164) rotate(90)" id="plus_node_155">P02</text>
+      <text transform="translate(583 164) rotate(90)" id="plus_node_156">P03</text><text transform="translate(592 164) rotate(90)" id="plus_node_157">P04</text>
+      <text transform="translate(601 164) rotate(90)" id="plus_node_158">P05</text><text transform="translate(610 164) rotate(90)" id="plus_node_159">P06</text>
+      <text transform="translate(619 164) rotate(90)" id="plus_node_160">WT1</text><text transform="translate(628 164) rotate(90)" id="plus_node_161">WT2</text>
+      <text transform="translate(637 164) rotate(90)" id="plus_node_162">WT3</text><text transform="translate(646 164) rotate(90)" id="plus_node_163">WT4</text>
+      <text transform="translate(655 164) rotate(90)" id="plus_node_164">WT5</text><text transform="translate(664 164) rotate(90)" id="plus_node_165">WT6</text>
+      <text transform="translate(673 164) rotate(90)" id="plus_node_166">WT7</text><text transform="translate(699 164) rotate(90)" id="plus_node_167">Life1</text>
+      <text transform="translate(708 164) rotate(90)" id="plus_node_168">Life2</text><text transform="translate(717 164) rotate(90)" id="plus_node_169">Life3</text>
+      <text transform="translate(726 164) rotate(90)" id="plus_node_170">Life4</text><text transform="translate(757 164) rotate(90)" id="plus_node_171">O3</text>
+      <text transform="translate(765 164) rotate(90)" id="plus_node_172">K400</text>
+    </g>
+  </g>
+
+  
+  <g id="f05-brightness" data-plus-kind="frame">
+    <title>Brightness panel</title>
+    <desc>Brightness panel uses a linear 0.0-1.0 scale. Category distributions are drawn left-to-right and the right edge includes other and K400 groups. Symmetry basis: shared equally spaced vertical categories and horizontal linear grid.</desc>
+    <text class="title" x="869" y="70" id="plus_node_173">Brightness</text>
+    <rect x="786" y="75" width="223" height="84" fill="#fff" stroke="#111" id="plus_node_174" />
+    <line class="grid" x1="786" y1="86" x2="1009" y2="86" id="plus_node_175" />
+    <line class="grid" x1="786" y1="112" x2="1009" y2="112" id="plus_node_176" />
+    <line class="grid" x1="786" y1="137" x2="1009" y2="137" id="plus_node_177" />
+    <text class="tiny" x="775" y="90" id="plus_node_178">0.6</text>
+    <text class="tiny" x="775" y="116" id="plus_node_179">0.4</text>
+    <text class="tiny" x="775" y="141" id="plus_node_180">0.2</text>
+    <text class="label" transform="translate(784 129) rotate(-90)" id="plus_node_181">scale 0.0–1.0</text>
+    <g id="brightness-boxplots">
+      <use href="#bp-bright" x="791" y="76" width="16" height="80" color="#ff9634" id="plus_node_182" />
+      <use href="#bp-bright" x="800" y="76" width="16" height="80" color="#ff9634" id="plus_node_183" />
+      <use href="#bp-bright" x="809" y="76" width="16" height="80" color="#ff9634" id="plus_node_184" />
+      <use href="#bp-bright" x="818" y="76" width="16" height="80" color="#ff9634" id="plus_node_185" />
+      <use href="#bp-bright" x="827" y="76" width="16" height="80" color="#ff9634" id="plus_node_186" />
+      <use href="#bp-bright" x="836" y="76" width="16" height="80" color="#ff9634" id="plus_node_187" />
+      <use href="#bp-bright" x="845" y="76" width="16" height="80" color="#ff9634" id="plus_node_188" />
+      <use href="#bp-high" x="875" y="76" width="16" height="80" color="#4f95c2" id="plus_node_189" />
+      <use href="#bp-high" x="884" y="76" width="16" height="80" color="#4f95c2" id="plus_node_190" />
+      <use href="#bp-mid" x="893" y="76" width="16" height="80" color="#4f95c2" id="plus_node_191" />
+      <use href="#bp-high" x="902" y="76" width="16" height="80" color="#4f95c2" id="plus_node_192" />
+      <use href="#bp-wide" x="911" y="76" width="16" height="80" color="#4f95c2" id="plus_node_193" />
+      <use href="#bp-high" x="920" y="76" width="16" height="80" color="#4f95c2" id="plus_node_194" />
+      <use href="#bp-high" x="929" y="76" width="16" height="80" color="#4f95c2" id="plus_node_195" />
+      <use href="#bp-bright" x="947" y="76" width="16" height="80" color="#58b65c" id="plus_node_196" />
+      <use href="#bp-bright" x="956" y="76" width="16" height="80" color="#58b65c" id="plus_node_197" />
+      <use href="#bp-bright" x="965" y="76" width="16" height="80" color="#58b65c" id="plus_node_198" />
+      <use href="#bp-mid" x="981" y="76" width="16" height="80" color="#e34b50" id="plus_node_199" />
+      <use href="#bp-bright" x="1000" y="76" width="16" height="80" color="#9b9b9b" id="plus_node_200" />
+    </g>
+    <g class="tiny" id="brightness-xlabels">
+      <text transform="translate(796 164) rotate(90)" id="plus_node_201">P01</text><text transform="translate(805 164) rotate(90)" id="plus_node_202">P02</text>
+      <text transform="translate(814 164) rotate(90)" id="plus_node_203">P03</text><text transform="translate(823 164) rotate(90)" id="plus_node_204">P04</text>
+      <text transform="translate(832 164) rotate(90)" id="plus_node_205">P05</text><text transform="translate(841 164) rotate(90)" id="plus_node_206">P06</text>
+      <text transform="translate(850 164) rotate(90)" id="plus_node_207">P07</text><text transform="translate(881 164) rotate(90)" id="plus_node_208">WT1</text>
+      <text transform="translate(890 164) rotate(90)" id="plus_node_209">WT2</text><text transform="translate(899 164) rotate(90)" id="plus_node_210">WT3</text>
+      <text transform="translate(908 164) rotate(90)" id="plus_node_211">WT4</text><text transform="translate(917 164) rotate(90)" id="plus_node_212">WT5</text>
+      <text transform="translate(926 164) rotate(90)" id="plus_node_213">WT6</text><text transform="translate(935 164) rotate(90)" id="plus_node_214">WT7</text>
+      <text transform="translate(953 164) rotate(90)" id="plus_node_215">Life1</text><text transform="translate(962 164) rotate(90)" id="plus_node_216">Life2</text>
+      <text transform="translate(971 164) rotate(90)" id="plus_node_217">Life3</text><text transform="translate(987 164) rotate(90)" id="plus_node_218">O1</text>
+      <text transform="translate(1006 164) rotate(90)" id="plus_node_219">K400</text>
+    </g>
+  </g>
+
+  
+  <g id="f06-radar" data-plus-kind="frame">
+    <title>Radar category chart</title>
+    <desc>The radar chart is anchored at center 1129,101. Ten category axes radiate to drawer, phone, table, animal, t-shirt, people, plant, car, food, and knife labels. Three semi-transparent polygons represent the datasets; symmetry basis is radial rotational partitioning.</desc>
+    <rect x="1062" y="21" width="160" height="148" fill="none" stroke="none" id="plus_node_220" />
+    <g id="radar-grid" transform="translate(1129 101)">
+      <polygon points="0,-61 35.9,-49.3 58,18.9 35.9,49.3 0,61 -35.9,49.3 -58,18.9 -35.9,-49.3" fill="none" stroke="#9b9b9b" stroke-width=".7" id="plus_node_221" />
+      <polygon points="0,-49 28.8,-39.6 46.6,15.2 28.8,39.6 0,49 -28.8,39.6 -46.6,15.2 -28.8,-39.6" fill="none" stroke="#b5b5b5" stroke-width=".7" id="plus_node_222" />
+      <polygon points="0,-36.5 21.5,-29.5 34.7,11.3 21.5,29.5 0,36.5 -21.5,29.5 -34.7,11.3 -21.5,-29.5" fill="none" stroke="#c8c8c8" stroke-width=".7" id="plus_node_223" />
+      <polygon points="0,-24 14.1,-19.4 22.8,7.4 14.1,19.4 0,24 -14.1,19.4 -22.8,7.4 -14.1,-19.4" fill="none" stroke="#d6d6d6" stroke-width=".7" id="plus_node_224" />
+      <polygon points="0,-12 7.1,-9.7 11.4,3.7 7.1,9.7 0,12 -7.1,9.7 -11.4,3.7 -7.1,-9.7" fill="none" stroke="#e1e1e1" stroke-width=".7" id="plus_node_225" />
+      <line x1="0" y1="0" x2="0" y2="-61" stroke="#999" stroke-width=".7" id="plus_node_226" />
+      <line x1="0" y1="0" x2="35.9" y2="-49.3" stroke="#999" stroke-width=".7" id="plus_node_227" />
+      <line x1="0" y1="0" x2="58" y2="18.9" stroke="#999" stroke-width=".7" id="plus_node_228" />
+      <line x1="0" y1="0" x2="35.9" y2="49.3" stroke="#999" stroke-width=".7" id="plus_node_229" />
+      <line x1="0" y1="0" x2="0" y2="61" stroke="#999" stroke-width=".7" id="plus_node_230" />
+      <line x1="0" y1="0" x2="-35.9" y2="49.3" stroke="#999" stroke-width=".7" id="plus_node_231" />
+      <line x1="0" y1="0" x2="-58" y2="18.9" stroke="#999" stroke-width=".7" id="plus_node_232" />
+      <line x1="0" y1="0" x2="-35.9" y2="-49.3" stroke="#999" stroke-width=".7" id="plus_node_233" />
+      <polygon id="radar-hd-epic" points="-16,-31 2,-39 20,-13 17,6 7,11 -14,7 -51,1 -26,-25" fill="#ff9634" fill-opacity=".45" stroke="#ff9634" stroke-width="1" />
+      <polygon id="radar-walking" points="0,-6 9,-12 25,8 39,17 9,39 -4,24 -17,12 -10,-6" fill="#4f95c2" fill-opacity=".45" stroke="#4f95c2" stroke-width="1" />
+      <polygon id="radar-anonymous" points="6,-34 30,-39 54,-12 16,9 42,30 4,20 -12,5 -2,-18" fill="#58b65c" fill-opacity=".45" stroke="#58b65c" stroke-width="1" />
+      <text class="tiny" x="-6" y="5" id="plus_node_234">0</text>
+      <text class="tiny" x="-20" y="23" id="plus_node_235">0.25</text>
+      <text class="tiny" x="-28" y="37" id="plus_node_236">0.50</text>
+      <text class="tiny" x="-33" y="51" id="plus_node_237">0.75</text>
+      <text class="tiny" x="-9" y="-66" id="plus_node_238">drawer</text>
+      <text class="tiny" x="26" y="-67" id="plus_node_239">phone</text>
+      <text class="tiny" x="51" y="-42" id="plus_node_240">table</text>
+      <text class="tiny" x="63" y="3" id="plus_node_241">animal</text>
+      <text class="tiny" x="44" y="50" id="plus_node_242">t-shirt</text>
+      <text class="tiny" x="-5" y="76" id="plus_node_243">people</text>
+      <text class="tiny" x="-49" y="74" id="plus_node_244">plant</text>
+      <text class="tiny" x="-78" y="49" id="plus_node_245">car</text>
+      <text class="tiny" x="-100" y="4" id="plus_node_246">food</text>
+      <text class="tiny" x="-86" y="-43" id="plus_node_247">knife</text>
+    </g>
+  </g>
+</svg>

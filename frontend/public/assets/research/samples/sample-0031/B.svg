@@ -1,0 +1,262 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1355" height="344" viewBox="0 0 1355 344">
+  <title>Illustration of MoEraser architecture and noise injection-restore tuning</title>
+  <desc>
+    Frame inventory: f01 contains panel (a) two dashed Erase/Preserve side modules, text embedding projector, MoEraser, colored arrows and the large MoE architecture block with router, experts, scale/layernorm/MLP, alpha/beta/gamma routing and a gated linear unit. f06 contains panel (b) NIR tuning: text embedding projector plus structured noise creates corrupted projector, then restore process with corrupted projector, MoEraser, MoEraser*, embeddings, opposing red transition arrows, spiderweb corruption marks, flame erasing icon, snowflake preserving icon, and bottom feature/noise labels. Symmetry basis: panel (a) is left-to-right flow from dual inputs into a central rounded architecture; panel (b) is left-to-right corruption and restoration separated by a vertical dashed divider.
+  </desc>
+
+  <defs>
+    <marker id="arrowBlue" viewBox="0 0 10 8" refX="9" refY="4" markerWidth="12" markerHeight="10" markerUnits="userSpaceOnUse" orient="auto">
+      <path d="M0,0 L10,4 L0,8 Z" fill="#0a69ad" id="plus_node_0" />
+    </marker>
+    <marker id="arrowBlueStart" viewBox="0 0 10 8" refX="1" refY="4" markerWidth="12" markerHeight="10" markerUnits="userSpaceOnUse" orient="auto-start-reverse">
+      <path d="M0,0 L10,4 L0,8 Z" fill="#0a69ad" id="plus_node_1" />
+    </marker>
+    <marker id="arrowRed" viewBox="0 0 10 8" refX="9" refY="4" markerWidth="12" markerHeight="10" markerUnits="userSpaceOnUse" orient="auto">
+      <path d="M0,0 L10,4 L0,8 Z" fill="#f05245" id="plus_node_2" />
+    </marker>
+    <marker id="arrowRedStart" viewBox="0 0 10 8" refX="1" refY="4" markerWidth="12" markerHeight="10" markerUnits="userSpaceOnUse" orient="auto-start-reverse">
+      <path d="M0,0 L10,4 L0,8 Z" fill="#f05245" id="plus_node_3" />
+    </marker>
+    <marker id="arrowDark" viewBox="0 0 10 8" refX="9" refY="4" markerWidth="12" markerHeight="10" markerUnits="userSpaceOnUse" orient="auto">
+      <path d="M0,0 L10,4 L0,8 Z" fill="#16324c" id="plus_node_4" />
+    </marker>
+    <marker id="arrowGreen" viewBox="0 0 10 8" refX="9" refY="4" markerWidth="12" markerHeight="10" markerUnits="userSpaceOnUse" orient="auto">
+      <path d="M0,0 L10,4 L0,8 Z" fill="#238a31" id="plus_node_5" />
+    </marker>
+    <linearGradient id="noiseGrad" x1="0" x2="1" y1="0" y2="0">
+      <stop offset="0" stop-color="#d9d8e8" />
+      <stop offset="0.2" stop-color="#a69bc1" />
+      <stop offset="0.45" stop-color="#efb24d" />
+      <stop offset="0.7" stop-color="#5fa6ba" />
+      <stop offset="1" stop-color="#85528a" />
+    </linearGradient>
+    <linearGradient id="redFadeL" x1="0" x2="1">
+      <stop offset="0" stop-color="#ff2d2d" />
+      <stop offset="0.75" stop-color="#ff2d2d" />
+      <stop offset="1" stop-color="#ff2d2d" stop-opacity="0" />
+    </linearGradient>
+    <linearGradient id="redFadeR" x1="0" x2="1">
+      <stop offset="0" stop-color="#ff2d2d" stop-opacity="0" />
+      <stop offset="0.25" stop-color="#ff2d2d" />
+      <stop offset="1" stop-color="#ff2d2d" />
+    </linearGradient>
+    <symbol id="flameSymbol" viewBox="0 0 36 50">
+      <path d="M17 48 C4 43 0 31 8 21 C10 18 10 13 9 7 C16 10 20 17 18 24 C24 20 24 11 23 3 C33 12 38 26 31 38 C28 43 23 47 17 48 Z" fill="#ff441e" id="plus_node_6" />
+      <path d="M16 47 C9 42 8 34 13 27 C16 23 17 20 17 15 C24 23 25 31 21 37 C25 35 27 31 28 27 C31 35 26 45 16 47 Z" fill="#ff9b16" id="plus_node_7" />
+      <path d="M15 45 C12 40 13 35 18 30 C19 36 23 39 15 45 Z" fill="#ffd13f" id="plus_node_8" />
+    </symbol>
+    <symbol id="webSymbol" viewBox="0 0 48 48"><g id="web_sparse_g" fill="none" stroke="#111" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path id="web_sparse_spokes" d="M22 24 L8 4 M22 24 L2 20 M22 24 L6 39 M22 24 L24 46 M22 24 L40 39 M22 24 L45 18 M22 24 L32 5 M22 24 L14 12" /><path id="web_sparse_outer" d="M8 4 L14 12 L32 5 L45 18 L40 39 L24 46 L6 39 L2 20 Z" /><path id="web_sparse_mid" d="M14 12 L18 17 L30 13 L37 21 L34 33 L24 38 L12 33 L9 22 Z" /><path id="web_sparse_inner" d="M18 17 L22 20 L28 18 L32 23 L30 29 L24 32 L17 29 L15 23 Z" /></g></symbol><symbol id="snowSymbol" viewBox="0 0 48 48">
+      <g stroke="#249bdc" stroke-width="3" stroke-linecap="round" fill="none" id="plus_node_14">
+        <path d="M24 4 L24 44 M7 14 L41 34 M7 34 L41 14" id="plus_node_15" />
+        <path d="M18 9 L24 15 L30 9 M18 39 L24 33 L30 39" id="plus_node_16" />
+        <path d="M10 19 L18 21 L16 13 M38 29 L30 27 L32 35" id="plus_node_17" />
+        <path d="M10 29 L18 27 L16 35 M38 19 L30 21 L32 13" id="plus_node_18" />
+      </g>
+    </symbol>
+  </defs>
+
+  <rect id="canvas_bg" x="0" y="0" width="1355" height="344" fill="#ffffff" />
+
+  
+  <rect id="f02" data-plus-kind="frame" x="28" y="50" width="96" height="244" rx="20" ry="20" fill="none" stroke="#f05245" stroke-width="2" stroke-dasharray="6 4" />
+  <rect id="f03" data-plus-kind="frame" x="129" y="50" width="96" height="244" rx="20" ry="20" fill="none" stroke="#226fb7" stroke-width="2" stroke-dasharray="6 4" />
+  <rect id="f01" data-plus-kind="frame" x="247" y="5" width="525" height="311" rx="43" ry="43" fill="#dcecf8" stroke="#0d5a87" stroke-width="1.5" />
+  <path id="f05" data-plus-kind="frame" d="M590 59 L742 59 Q763 59 763 82 L763 256 Q763 279 741 279 L591 279 Q564 279 560 251 L546 88 Q544 59 590 59 Z" fill="#d8f1d8" stroke="#39a03d" stroke-width="2" stroke-dasharray="6 4" />
+  <rect id="f06" data-plus-kind="frame" x="790" y="49" width="530" height="259" rx="8" ry="8" fill="none" stroke="none" />
+  <rect id="f07" data-plus-kind="frame" x="988" y="143" width="327" height="163" rx="2" fill="#eef8e9" stroke="none" />
+
+  
+  <text id="txt_erase" x="58" y="45" font-family="Arial, Helvetica, sans-serif" font-size="16" font-weight="700" fill="#f05245">Erase</text>
+  <text id="txt_preserve" x="146" y="45" font-family="Arial, Helvetica, sans-serif" font-size="16" font-weight="700" fill="#0a69ad">Preserve</text>
+
+  <text id="txt_wmap" x="36" y="70" font-family="Arial, Helvetica, sans-serif" font-size="16" font-weight="700" font-style="italic" fill="#f05245">W</text>
+  <text x="51" y="73" font-family="Arial, Helvetica, sans-serif" font-size="12" font-weight="700" fill="#f05245" id="plus_node_19">proj,fmap</text>
+  <text id="txt_wanc" x="140" y="70" font-family="Arial, Helvetica, sans-serif" font-size="16" font-weight="700" font-style="italic" fill="#0a69ad">W</text>
+  <text x="155" y="73" font-family="Arial, Helvetica, sans-serif" font-size="12" font-weight="700" fill="#0a69ad" id="plus_node_20">proj,fanc</text>
+
+  <path id="arrow_erase_up" d="M90 97 V78" stroke="#f05245" stroke-width="3" fill="none" marker-end="url(#arrowRed)" />
+  <path id="arrow_preserve_up" d="M164 97 V78" stroke="#0a69ad" stroke-width="3" fill="none" marker-end="url(#arrowBlue)" />
+
+  <rect id="proj_a" x="47" y="98" width="158" height="58" rx="6" fill="#f2f2f2" stroke="#888" stroke-width="1.4" />
+  <text x="126" y="123" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="700" fill="#000" id="plus_node_21">Text emb.</text>
+  <text x="126" y="145" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="700" fill="#000" id="plus_node_22">Projector</text>
+
+  <rect id="moeraser_a" x="47" y="166" width="158" height="80" rx="9" fill="#d9ecfb" stroke="#126da3" stroke-width="1.7" />
+  <text x="126" y="219" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="24" font-weight="700" fill="#000" id="plus_node_23">MoEraser</text>
+  <use id="flame_a" href="#flameSymbol" x="31" y="150" width="36" height="50" />
+
+  <path id="red_flow_a" d="M36 188 L36 259 L92 259 L92 247" stroke="#f05245" stroke-width="3" fill="none" />
+  <path id="red_mid_a" d="M62 166 H91 V156" stroke="#f05245" stroke-width="2.5" fill="none" marker-end="url(#arrowRed)" />
+  <path id="red_to_moe_a" d="M58 166 H92" stroke="#f05245" stroke-width="2.5" fill="none" marker-end="url(#arrowRed)" />
+  <text id="ftar_a" x="70" y="287" font-family="Arial, Helvetica, sans-serif" font-size="26" font-style="italic" fill="#f05245">f</text>
+  <text x="83" y="290" font-family="Arial, Helvetica, sans-serif" font-size="18" fill="#f05245" id="plus_node_24">tar</text>
+  <path d="M92 253 V247" stroke="#f05245" stroke-width="3" marker-end="url(#arrowRed)" fill="none" id="plus_node_25" />
+
+  <path id="blue_flow_a" d="M219 259 H164 V247" stroke="#0a69ad" stroke-width="3" fill="none" marker-end="url(#arrowBlue)" />
+  <path id="blue_outer_a" d="M219 259 V166 H164 V156" stroke="#0a69ad" stroke-width="3" fill="none" marker-end="url(#arrowBlue)" />
+  <path id="blue_proj_a" d="M190 166 H164" stroke="#0a69ad" stroke-width="2.5" fill="none" marker-end="url(#arrowBlue)" />
+  <text id="fanc_a" x="151" y="287" font-family="Arial, Helvetica, sans-serif" font-size="26" font-style="italic" fill="#0a69ad">f</text>
+  <text x="164" y="290" font-family="Arial, Helvetica, sans-serif" font-size="18" fill="#0a69ad" id="plus_node_26">anc</text>
+  <path id="side_to_main" d="M224 166 L247 73" stroke="#0a69ad" stroke-width="2" fill="none" />
+
+  
+  <text id="alpha_txt" x="293" y="29" font-family="Times New Roman, serif" font-size="18" font-style="italic" fill="#000">α</text>
+  <path id="main_left_bus" d="M336 33 H264 V240 H342" stroke="#16324c" stroke-width="3" fill="none" marker-end="url(#arrowDark)" />
+  <rect id="scale_top" x="339" y="22" width="131" height="22" rx="3" fill="#f7f7f7" stroke="#000" stroke-width="2" />
+  <text x="404.5" y="38" text-anchor="middle" font-family="Times New Roman, serif" font-size="16" font-weight="700" id="plus_node_27">Scale</text>
+  <path id="arrow_alpha_to_scale" d="M303 33 H337" stroke="#16324c" stroke-width="2.4" fill="none" marker-end="url(#arrowDark)" />
+
+  <g id="gate_cross_a" stroke="#16324c" stroke-width="1.5" fill="none">
+    <circle cx="404" cy="75" r="11" fill="#dcecf8" id="plus_node_28" />
+    <path d="M404 59 V91 M388 75 H420" id="plus_node_29" />
+  </g>
+  <path id="cross_to_scale_up" d="M404 64 V48" stroke="#16324c" stroke-width="2.4" fill="none" marker-end="url(#arrowDark)" />
+  <path id="scale_to_cross_top" d="M404 22 V8" stroke="#16324c" stroke-width="2.4" fill="none" marker-end="url(#arrowDark)" />
+
+  <path id="inner_expert_loop" d="M265 75 H393 M415 75 H501 V223" stroke="#16324c" stroke-width="3" fill="none" marker-end="url(#arrowDark)" />
+  <rect id="expert1" x="271" y="110" width="77" height="30" rx="6" fill="#dcf6d9" stroke="#000" stroke-width="2" />
+  <text x="309.5" y="130" text-anchor="middle" font-family="Times New Roman, serif" font-size="17" id="plus_node_30">Expert 1</text>
+  <rect id="expert2" x="353" y="110" width="77" height="30" rx="6" fill="#dcf6d9" stroke="#000" stroke-width="2" />
+  <text x="391.5" y="130" text-anchor="middle" font-family="Times New Roman, serif" font-size="17" id="plus_node_31">Expert 2</text>
+  <text x="442" y="130" font-family="Arial, Helvetica, sans-serif" font-size="22" font-weight="700" id="plus_node_32">...</text>
+  <rect id="expertN" x="458" y="110" width="86" height="30" rx="6" fill="#dcf6d9" stroke="#000" stroke-width="2" />
+  <text x="501" y="130" text-anchor="middle" font-family="Times New Roman, serif" font-size="17" id="plus_node_33">Expert <tspan font-style="italic">N</tspan></text>
+
+  <path id="expert1_down" d="M309 157 V142" stroke="#16324c" stroke-width="2.6" fill="none" marker-end="url(#arrowDark)" />
+  <path id="expert2_down_router" d="M368 140 V158 H413 V199" stroke="#16324c" stroke-width="2.6" fill="none" marker-end="url(#arrowDark)" />
+  <path id="expertN_down" d="M502 140 V158 H454 V199" stroke="#16324c" stroke-width="2.6" fill="none" marker-end="url(#arrowDark)" />
+
+  <rect id="router_base" x="344" y="203" width="133" height="20" rx="4" fill="#ffffff" stroke="#8e268d" stroke-width="2" />
+  <rect id="router_col1" x="358" y="181" width="18" height="20" fill="#df63cf" />
+  <rect id="router_col2" x="376" y="190" width="64" height="11" fill="#df63cf" />
+  <rect id="router_col3" x="440" y="170" width="15" height="31" fill="#7a126e" />
+  <text x="411" y="218" text-anchor="middle" font-family="Times New Roman, serif" font-size="17" id="plus_node_34">Router</text>
+  <text x="420" y="190" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="700" id="plus_node_35">...</text>
+  <text x="461" y="190" font-family="Times New Roman, serif" font-size="17" font-style="italic" id="plus_node_36">k = 2</text>
+
+  <rect id="scale_mid" x="345" y="228" width="133" height="20" rx="3" fill="#f7f7f7" stroke="#000" stroke-width="2" />
+  <text x="411.5" y="244" text-anchor="middle" font-family="Times New Roman, serif" font-size="16" id="plus_node_37">Scale</text>
+  <rect id="mlp_a" x="265" y="257" width="73" height="22" rx="3" fill="#f7f7f7" stroke="#000" stroke-width="2" />
+  <text x="301.5" y="274" text-anchor="middle" font-family="Times New Roman, serif" font-size="16" font-weight="700" id="plus_node_38">MLP</text>
+  <rect id="layernorm_a" x="345" y="257" width="132" height="22" rx="3" fill="#f7f7f7" stroke="#000" stroke-width="2" />
+  <text x="411" y="274" text-anchor="middle" font-family="Times New Roman, serif" font-size="16" id="plus_node_39">LayerNorm</text>
+
+  <path id="router_to_scale" d="M411 224 V228" stroke="#16324c" stroke-width="2" />
+  <path id="scale_to_layer" d="M411 248 V256" stroke="#16324c" stroke-width="2" marker-end="url(#arrowDark)" />
+  <path id="layer_bottom_loop" d="M412 279 V292 H300 V280" stroke="#16324c" stroke-width="3" fill="none" marker-end="url(#arrowDark)" />
+  <path id="mlp_to_router" d="M302 257 V224 H344" stroke="#16324c" stroke-width="3" fill="none" />
+  <text x="308" y="238" font-family="Times New Roman, serif" font-size="18" font-style="italic" id="plus_node_40">β, γ</text>
+
+  
+  <text id="glu_title" x="631" y="80" font-family="Arial, Helvetica, sans-serif" font-size="14" font-weight="700">Gated Linear Unit</text>
+  <polygon id="win_poly" points="590,89 638,89 658,124 570,124" fill="#a8e7a4" stroke="#16671d" stroke-width="1.6" />
+  <text x="614" y="114" text-anchor="middle" font-family="Times New Roman, serif" font-size="23" font-style="italic" id="plus_node_41">W<tspan baseline-shift="sub" font-size="15">in</tspan></text>
+  <polygon id="wout_poly" points="590,209 658,209 638,243 570,243" fill="#a8e7a4" stroke="#16671d" stroke-width="1.6" />
+  <text x="614" y="233" text-anchor="middle" font-family="Times New Roman, serif" font-size="23" font-style="italic" id="plus_node_42">W<tspan baseline-shift="sub" font-size="15">out</tspan></text>
+  <polygon id="v_poly" points="687,209 755,209 735,243 667,243" fill="#a8e7a4" stroke="#16671d" stroke-width="1.6" />
+  <text x="711" y="233" text-anchor="middle" font-family="Times New Roman, serif" font-size="23" font-style="italic" id="plus_node_43">V</text>
+  <circle id="glu_mult" cx="613" cy="150" r="12" fill="#d8f1d8" stroke="#000" stroke-width="1.5" />
+  <text x="613" y="156" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="700" id="plus_node_44">•</text>
+  <circle id="glu_sigma" cx="613" cy="184" r="12" fill="#d8f1d8" stroke="#000" stroke-width="1.5" />
+  <text x="613" y="189" text-anchor="middle" font-family="Times New Roman, serif" font-size="17" font-style="italic" id="plus_node_45">σ</text>
+  <path id="glu_vertical1" d="M614 88 V74" stroke="#238a31" stroke-width="3" fill="none" marker-end="url(#arrowGreen)" />
+  <path id="glu_vertical2" d="M614 139 V127" stroke="#238a31" stroke-width="3" fill="none" marker-end="url(#arrowGreen)" />
+  <path id="glu_vertical3" d="M614 172 V162" stroke="#238a31" stroke-width="3" fill="none" marker-end="url(#arrowGreen)" />
+  <path id="glu_vertical4" d="M614 209 V197" stroke="#238a31" stroke-width="3" fill="none" marker-end="url(#arrowGreen)" />
+  <path id="glu_bottom_path" d="M614 244 V259 H709 V244" stroke="#238a31" stroke-width="3" fill="none" marker-end="url(#arrowGreen)" />
+  <path id="glu_right_path" d="M625 149 H709 V208" stroke="#238a31" stroke-width="3" fill="none" marker-end="url(#arrowGreen)" />
+
+  
+  <rect id="proj_b_text" x="797" y="54" width="149" height="55" rx="7" fill="#f6f6f6" stroke="#909090" stroke-width="1.4" />
+  <text x="871.5" y="78" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="19" font-weight="700" id="plus_node_46">Text emb.</text>
+  <text x="871.5" y="99" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="19" font-weight="700" id="plus_node_47">Projector</text>
+  <text id="plus_b" x="870" y="140" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="46" font-weight="700" fill="#0980b0">+</text>
+
+  <polygon id="ptar_poly" points="797,131 868,145 868,180 797,172" fill="#e9e9e9" stroke="#000" stroke-width="1.4" />
+  <text x="833" y="164" text-anchor="middle" font-family="Times New Roman, serif" font-size="19" font-style="italic" id="plus_node_48">p<tspan baseline-shift="sub" font-size="13">tar</tspan></text>
+  <rect id="structured_label" x="799" y="187" width="149" height="24" fill="#eef8e9" />
+  <text x="873.5" y="204" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="15" font-weight="700" id="plus_node_57">Structured noise</text>
+  <path id="down_to_corrupt" d="M870 211 V234" stroke="#0b7290" stroke-width="7" fill="none" marker-end="url(#arrowBlue)" />
+  <rect id="proj_b_corrupt" x="797" y="241" width="149" height="54" rx="7" fill="#d8d8d8" stroke="#000" stroke-width="1.4" />
+  <text x="871.5" y="263" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="19" font-weight="700" id="plus_node_58">Corrupted</text>
+  <text x="871.5" y="285" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="19" font-weight="700" id="plus_node_59">Projector</text>
+  <use id="web_b_bot" href="#webSymbol" x="779" y="226" width="48" height="48" />
+
+  <line id="divider_b" x1="963" y1="49" x2="963" y2="301" stroke="#000" stroke-width="2.5" stroke-dasharray="8 4" />
+
+  
+  <g id="top_embeddings_left">
+    <rect x="1018" y="59" width="14" height="14" fill="#b9e5b6" stroke="#1c7a2b" stroke-width="1" id="plus_node_60" />
+    <rect x="1032" y="59" width="14" height="14" fill="#b9e5b6" stroke="#1c7a2b" stroke-width="1" id="plus_node_61" />
+    <rect x="1046" y="59" width="14" height="14" fill="#b9e5b6" stroke="#1c7a2b" stroke-width="1" id="plus_node_62" />
+    <rect x="1060" y="59" width="14" height="14" fill="#b9e5b6" stroke="#1c7a2b" stroke-width="1" id="plus_node_63" />
+    <rect x="1074" y="59" width="14" height="14" fill="#b9e5b6" stroke="#1c7a2b" stroke-width="1" id="plus_node_64" />
+    <rect x="1088" y="59" width="16" height="14" fill="#b9e5b6" stroke="#1c7a2b" stroke-width="1" id="plus_node_65" />
+  </g>
+  <g id="top_embeddings_right">
+    <rect x="1203" y="59" width="14" height="14" fill="#c9efc6" stroke="#1c7a2b" stroke-width="1" id="plus_node_66" />
+    <rect x="1217" y="59" width="14" height="14" fill="#c9efc6" stroke="#1c7a2b" stroke-width="1" id="plus_node_67" />
+    <rect x="1231" y="59" width="14" height="14" fill="#c9efc6" stroke="#1c7a2b" stroke-width="1" id="plus_node_68" />
+    <rect x="1245" y="59" width="14" height="14" fill="#c9efc6" stroke="#1c7a2b" stroke-width="1" id="plus_node_69" />
+    <rect x="1259" y="59" width="14" height="14" fill="#c9efc6" stroke="#1c7a2b" stroke-width="1" id="plus_node_70" />
+    <rect x="1273" y="59" width="15" height="14" fill="#c9efc6" stroke="#1c7a2b" stroke-width="1" id="plus_node_71" />
+  </g>
+  <polygon id="red_arrow_lr" points="1105,57 1134,57 1134,49 1160,65 1134,81 1134,73 1105,73" fill="#ff2d2d" /><polygon id="red_arrow_rl" points="1203,57 1174,57 1174,49 1148,65 1174,81 1174,73 1203,73" fill="#ff2d2d" /><rect id="corrupted_restore" x="988" y="91" width="148" height="54" rx="6" fill="#d8d8d8" stroke="#000" stroke-width="1.4" />
+  <text x="1062" y="114" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="19" font-weight="700" id="plus_node_72">Corrupted</text>
+  <text x="1062" y="136" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="19" font-weight="700" id="plus_node_73">Projector</text>
+  <use id="web_restore" href="#webSymbol" x="971" y="80" width="48" height="48" />
+
+  <rect id="text_restore" x="1172" y="94" width="149" height="54" rx="6" fill="#f6f6f6" stroke="#909090" stroke-width="1.4" />
+  <text x="1246.5" y="117" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="19" font-weight="700" id="plus_node_74">Text emb.</text>
+  <text x="1246.5" y="139" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="19" font-weight="700" id="plus_node_75">Projector</text>
+
+  <rect id="moeraser_b" x="988" y="166" width="148" height="68" rx="8" fill="#d9ecfb" stroke="#126da3" stroke-width="1.6" />
+  <text x="1062" y="209" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="23" font-weight="700" id="plus_node_76">MoEraser</text>
+  <use id="flame_b" href="#flameSymbol" x="976" y="153" width="36" height="50" />
+  <rect id="moeraser_star_b" x="1173" y="166" width="148" height="68" rx="8" fill="#d9ecfb" stroke="#126da3" stroke-width="1.6" />
+  <text x="1247" y="209" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="23" font-weight="700" id="plus_node_77">MoEraser*</text>
+  <use id="snow_b" href="#snowSymbol" x="1155" y="154" width="48" height="48" />
+
+  <path id="top_to_corrupt" d="M1062 91 V76" stroke="#16324c" stroke-width="2.5" fill="none" marker-end="url(#arrowDark)" />
+  <path id="corrupt_to_moe" d="M1062 164 V146" stroke="#16324c" stroke-width="2.5" fill="none" marker-end="url(#arrowDark)" />
+  <path id="moe_feedback_left" d="M978 157 H1058" stroke="#16324c" stroke-width="3" fill="none" marker-end="url(#arrowDark)" />
+  <path id="text_to_star" d="M1246 164 V149" stroke="#16324c" stroke-width="2.5" fill="none" marker-end="url(#arrowDark)" />
+  <path id="star_feedback" d="M1160 157 H1242" stroke="#16324c" stroke-width="3" fill="none" marker-end="url(#arrowDark)" />
+  <path id="bottom_to_moe" d="M1062 251 V237" stroke="#16324c" stroke-width="2.5" fill="none" marker-end="url(#arrowDark)" />
+  <path id="bottom_to_star" d="M1245 251 V237" stroke="#16324c" stroke-width="2.5" fill="none" marker-end="url(#arrowDark)" />
+  <path id="right_emb_up" d="M1245 91 V76" stroke="#16324c" stroke-width="2.5" fill="none" marker-end="url(#arrowDark)" />
+
+  <g id="bottom_ftar_blocks">
+    <rect x="998" y="260" width="14" height="14" fill="#ffe6c9" stroke="#ff6b25" stroke-width="1" id="plus_node_78" />
+    <rect x="1012" y="260" width="14" height="14" fill="#ffe6c9" stroke="#ff6b25" stroke-width="1" id="plus_node_79" />
+    <rect x="1026" y="260" width="14" height="14" fill="#ffe6c9" stroke="#ff6b25" stroke-width="1" id="plus_node_80" />
+    <rect x="1040" y="260" width="14" height="14" fill="#ffe6c9" stroke="#ff6b25" stroke-width="1" id="plus_node_81" />
+    <rect x="1054" y="260" width="14" height="14" fill="#ffe6c9" stroke="#ff6b25" stroke-width="1" id="plus_node_82" />
+    <rect x="1068" y="260" width="17" height="14" fill="#ffe6c9" stroke="#ff6b25" stroke-width="1" id="plus_node_83" />
+  </g>
+  <g id="bottom_fanc_blocks">
+    <rect x="1109" y="260" width="14" height="14" fill="#d8edf8" stroke="#0a69ad" stroke-width="1" id="plus_node_84" />
+    <rect x="1123" y="260" width="14" height="14" fill="#d8edf8" stroke="#0a69ad" stroke-width="1" id="plus_node_85" />
+    <rect x="1137" y="260" width="14" height="14" fill="#d8edf8" stroke="#0a69ad" stroke-width="1" id="plus_node_86" />
+    <rect x="1151" y="260" width="14" height="14" fill="#d8edf8" stroke="#0a69ad" stroke-width="1" id="plus_node_87" />
+    <rect x="1165" y="260" width="14" height="14" fill="#d8edf8" stroke="#0a69ad" stroke-width="1" id="plus_node_88" />
+    <rect x="1179" y="260" width="17" height="14" fill="#d8edf8" stroke="#0a69ad" stroke-width="1" id="plus_node_89" />
+  </g>
+  <g id="bottom_noise_blocks">
+    <rect x="1218" y="260" width="14" height="14" fill="#777" stroke="#000" stroke-width="1" id="plus_node_90" />
+    <rect x="1232" y="260" width="14" height="14" fill="#777" stroke="#000" stroke-width="1" id="plus_node_91" />
+    <rect x="1246" y="260" width="14" height="14" fill="#777" stroke="#000" stroke-width="1" id="plus_node_92" />
+    <rect x="1260" y="260" width="14" height="14" fill="#777" stroke="#000" stroke-width="1" id="plus_node_93" />
+    <rect x="1274" y="260" width="14" height="14" fill="#777" stroke="#000" stroke-width="1" id="plus_node_94" />
+    <rect x="1288" y="260" width="16" height="14" fill="#777" stroke="#000" stroke-width="1" id="plus_node_95" />
+    </g>
+  <text x="1018" y="296" font-family="Times New Roman, serif" font-size="26" font-style="italic" fill="#f05245" id="plus_node_100">f</text>
+  <text x="1031" y="299" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="700" fill="#f05245" id="plus_node_101">tar</text>
+  <text x="1127" y="296" font-family="Times New Roman, serif" font-size="26" font-style="italic" fill="#0a69ad" id="plus_node_102">f</text>
+  <text x="1140" y="299" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="700" fill="#0a69ad" id="plus_node_103">anc</text>
+  <text x="1238" y="298" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="700" fill="#000" id="plus_node_104">Noise</text>
+
+  
+  <text id="caption_a" x="210" y="336" font-family="Times New Roman, serif" font-size="20" font-weight="700" fill="#000">(a) Illustration of our MoEraser architecture.</text>
+  <text id="caption_b" x="827" y="336" font-family="Times New Roman, serif" font-size="20" font-weight="700" fill="#000">(b) Illustration of noise injection-restore (NIR) tuning.</text>
+<image id="src_structured_noise_patch_B2" x="877" y="131" width="69" height="49" href="data:image/png;base64,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" /></svg>

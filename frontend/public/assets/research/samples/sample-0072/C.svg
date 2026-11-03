@@ -1,0 +1,210 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1776" height="309" viewBox="0 0 1776 309">
+  <title>Diffusion module workflow diagram</title>
+  <desc>Editable reconstruction of the original workflow: input enters a conditioning trunk, sequence/pair representations and a point cloud feed a diffusion module, which iteratively denoises structure and sequence to produce intermediate and final protein results.</desc>
+  <defs>
+    <marker id="arrow" markerUnits="userSpaceOnUse" markerWidth="10" markerHeight="8" refX="9" refY="4" orient="auto">
+      <path d="M0,0 L10,4 L0,8 Z" fill="#000" id="plus_node_0" />
+    </marker>
+    <marker id="arrowSmall" markerUnits="userSpaceOnUse" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+      <path d="M0,0 L10,4 L0,8 Z" fill="#000" id="plus_node_1" />
+    </marker>
+    <marker id="arrowDoubleStart" markerUnits="userSpaceOnUse" markerWidth="19" markerHeight="14" refX="1" refY="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,4 L0,8 Z" fill="#000" transform="translate(0,3)" id="plus_node_2" />
+    </marker>
+    <marker id="arrowDoubleEnd" markerUnits="userSpaceOnUse" markerWidth="19" markerHeight="14" refX="18" refY="7" orient="auto">
+      <path d="M0,0 L10,4 L0,8 Z" fill="#000" transform="translate(8,3)" id="plus_node_3" />
+    </marker>
+    <linearGradient id="proteinTeal" x1="0" x2="1">
+      <stop offset="0" stop-color="#d9f0ef" />
+      <stop offset="0.55" stop-color="#78aaa8" />
+      <stop offset="1" stop-color="#1e5556" />
+    </linearGradient>
+    <linearGradient id="proteinTan" x1="0" x2="1">
+      <stop offset="0" stop-color="#f1d8b8" />
+      <stop offset="0.55" stop-color="#b9895b" />
+      <stop offset="1" stop-color="#5f4228" />
+    </linearGradient>
+    <style>
+      .serif{font-family:"Times New Roman", Times, serif;}
+      .navy{stroke:#183056;}
+      .frame{fill:#fff;stroke:#000;stroke-width:1;stroke-dasharray:1.1 2.2;}
+      .mainFrame{fill:#fff;stroke:#183056;stroke-width:3;}
+      .arrowLine{fill:none;stroke:#000;stroke-width:2.2;stroke-linecap:square;stroke-linejoin:miter;}
+      .thinArrow{fill:none;stroke:#000;stroke-width:2;stroke-linecap:square;stroke-linejoin:miter;}
+      .gridLine{stroke:#1e4267;stroke-width:1.2;}
+      .label{font-family:"Times New Roman", Times, serif;fill:#000;}
+      .red{fill:#d51616;}
+      .yellow{fill:#dfd700;}
+    </style>
+  </defs>
+
+  <rect id="background" x="0" y="0" width="1776" height="309" fill="#fff" />
+
+  
+  <rect id="f01" data-plus-kind="frame" x="124" y="56" width="152" height="206" rx="27" ry="27" fill="#d3d3d3" stroke="#183056" stroke-width="3" />
+  <rect id="f02" data-plus-kind="frame" x="306" y="56" width="211" height="206" rx="17" ry="17" class="frame" />
+  <rect id="f03" data-plus-kind="frame" x="531" y="56" width="190" height="206" rx="28" ry="28" class="frame" />
+  <rect id="f04" data-plus-kind="frame" x="752" y="56" width="575" height="206" rx="34" ry="34" class="mainFrame" />
+  <rect id="f05" data-plus-kind="frame" x="1348" y="56" width="193" height="206" rx="32" ry="32" class="frame" />
+  <rect id="f06" data-plus-kind="frame" x="1560" y="56" width="188" height="206" rx="30" ry="30" class="frame" />
+
+  
+  <text id="title_diffusion" class="serif" x="1039" y="46" font-size="30" text-anchor="middle">Diffusion Module</text>
+  <text id="title_final" class="serif" x="1654" y="46" font-size="30" text-anchor="middle">Final Result</text>
+
+  <path id="arrow_top_iteration" class="arrowLine" d="M412 56 L412 31 L872 31 L872 56" marker-end="url(#arrow)" />
+  <path id="arrow_bottom_iteration" class="arrowLine" d="M1445 262 L1445 293 L734 293 L734 158" marker-end="url(#arrow)" />
+  <text id="label_diffusion_iterations" class="serif" x="1452" y="282" font-size="20">Diffusion Iterations</text>
+
+  
+  <g id="grp_input_conditioning">
+    <desc>Origin section: the word Input sits left of a rightward arrow leading into the conditioning trunk; the rounded trunk frame contains two centered text lines.</desc>
+    <text id="txt_input" class="serif" x="30" y="167" font-size="32">Input</text>
+    <path id="arrow_input_to_trunk" class="arrowLine" d="M98 159 L123 159" marker-end="url(#arrow)" />
+    <text id="txt_conditioning" class="serif" x="200" y="151" font-size="25" text-anchor="middle">Conditioning</text>
+    <text id="txt_trunk" class="serif" x="200" y="195" font-size="25" text-anchor="middle">Trunk</text>
+    <path id="arrow_trunk_to_repr" class="arrowLine" d="M276 159 L304 159" marker-end="url(#arrow)" />
+  </g>
+
+  
+  <g id="grp_representations">
+    <desc>Inside the representation frame: two thin horizontal sequence embeddings sit above a square pair-representation grid; mathematical labels are left-aligned to the data blocks.</desc>
+    <text id="txt_s_inputs" class="serif" x="316" y="81" font-size="21">
+      {s<tspan baseline-shift="sub" font-size="13">i</tspan><tspan baseline-shift="super" font-size="13">inputs</tspan>}
+    </text>
+    <g id="seq_inputs_bars">
+      <rect x="382" y="71" width="121" height="13" fill="#b8cce3" stroke="#1e4267" stroke-width="0.9" id="plus_node_4" />
+      <path class="gridLine" d="M395 71 V84 M409 71 V84 M423 71 V84 M437 71 V84 M451 71 V84 M465 71 V84 M479 71 V84 M493 71 V84" id="plus_node_5" />
+    </g>
+    <text id="txt_s_trunk" class="serif" x="316" y="112" font-size="21">
+      {s<tspan baseline-shift="sub" font-size="13">i</tspan><tspan baseline-shift="super" font-size="13">trunk</tspan>}
+    </text>
+    <g id="seq_trunk_bars">
+      <rect x="382" y="101" width="121" height="13" fill="#f0d4de" stroke="#1e4267" stroke-width="0.9" id="plus_node_6" />
+      <path class="gridLine" d="M395 101 V114 M409 101 V114 M423 101 V114 M437 101 V114 M451 101 V114 M465 101 V114 M479 101 V114 M493 101 V114" id="plus_node_7" />
+    </g>
+    <text id="txt_z_trunk" class="serif" x="324" y="197" font-size="21">
+      {z<tspan baseline-shift="sub" font-size="13">ij</tspan><tspan baseline-shift="super" font-size="13">trunk</tspan>}
+    </text>
+    <g id="pair_grid">
+      <rect x="382" y="131" width="122" height="119" fill="#d9a8d7" stroke="#1e4267" stroke-width="1.2" id="plus_node_8" />
+      <path class="gridLine" d="M396 131 V250 M410 131 V250 M424 131 V250 M438 131 V250 M452 131 V250 M466 131 V250 M480 131 V250 M494 131 V250" id="plus_node_9" />
+      <path class="gridLine" d="M382 144 H504 M382 158 H504 M382 172 H504 M382 186 H504 M382 200 H504 M382 214 H504 M382 228 H504 M382 242 H504" id="plus_node_10" />
+    </g>
+    <path id="arrow_repr_to_cloud" class="arrowLine" d="M517 159 L529 159" marker-end="url(#arrow)" />
+  </g>
+
+  
+  <g id="grp_point_cloud">
+    <desc>The cloud frame contains a dense multicolor residue point cloud centered above a peptide sequence; the red CDR label is directly below the highlighted X region.</desc>
+    <g id="point_cloud_dots" opacity="0.96">
+      <circle cx="596" cy="79" r="3.5" fill="#edbd00" id="plus_node_11" /><circle cx="604" cy="77" r="3.4" fill="#6ba23c" id="plus_node_12" /><circle cx="618" cy="83" r="3.6" fill="#d96a00" id="plus_node_13" /><circle cx="590" cy="88" r="3.5" fill="#e39a00" id="plus_node_14" />
+      <circle cx="624" cy="92" r="4" fill="#7baa41" id="plus_node_15" /><circle cx="637" cy="88" r="3.6" fill="#edbd00" id="plus_node_16" /><circle cx="651" cy="96" r="3.8" fill="#6ca742" id="plus_node_17" /><circle cx="661" cy="101" r="3.5" fill="#d96800" id="plus_node_18" />
+      <circle cx="580" cy="101" r="3.9" fill="#5aa745" id="plus_node_19" /><circle cx="593" cy="104" r="3.8" fill="#edbd00" id="plus_node_20" /><circle cx="607" cy="101" r="4.1" fill="#e87700" id="plus_node_21" /><circle cx="620" cy="108" r="4" fill="#79ae43" id="plus_node_22" />
+      <circle cx="633" cy="106" r="3.8" fill="#eaa400" id="plus_node_23" /><circle cx="647" cy="111" r="3.6" fill="#d86e00" id="plus_node_24" /><circle cx="662" cy="113" r="4" fill="#63a84c" id="plus_node_25" /><circle cx="676" cy="119" r="3.9" fill="#e9b300" id="plus_node_26" />
+      <circle cx="566" cy="116" r="3.9" fill="#65a746" id="plus_node_27" /><circle cx="578" cy="119" r="4" fill="#e87300" id="plus_node_28" /><circle cx="591" cy="120" r="3.6" fill="#f0b000" id="plus_node_29" /><circle cx="604" cy="117" r="4.2" fill="#6da83e" id="plus_node_30" />
+      <circle cx="617" cy="121" r="3.7" fill="#df6c00" id="plus_node_31" /><circle cx="630" cy="119" r="3.9" fill="#edbf00" id="plus_node_32" /><circle cx="643" cy="124" r="4.1" fill="#5fa849" id="plus_node_33" /><circle cx="657" cy="126" r="3.7" fill="#d86a00" id="plus_node_34" />
+      <circle cx="670" cy="130" r="3.8" fill="#e8af00" id="plus_node_35" /><circle cx="685" cy="133" r="3.8" fill="#6aaa42" id="plus_node_36" /><circle cx="697" cy="139" r="3.5" fill="#de6b00" id="plus_node_37" />
+      <circle cx="556" cy="132" r="4" fill="#e6a400" id="plus_node_38" /><circle cx="569" cy="135" r="4" fill="#72aa43" id="plus_node_39" /><circle cx="582" cy="134" r="3.8" fill="#df6900" id="plus_node_40" /><circle cx="596" cy="136" r="4.2" fill="#ebbc00" id="plus_node_41" />
+      <circle cx="610" cy="134" r="3.9" fill="#57a747" id="plus_node_42" /><circle cx="624" cy="137" r="4" fill="#dc6900" id="plus_node_43" /><circle cx="638" cy="138" r="4" fill="#edb200" id="plus_node_44" /><circle cx="652" cy="141" r="4" fill="#75a842" id="plus_node_45" />
+      <circle cx="666" cy="143" r="3.8" fill="#df6900" id="plus_node_46" /><circle cx="681" cy="147" r="4" fill="#efb900" id="plus_node_47" /><circle cx="694" cy="150" r="3.7" fill="#68a843" id="plus_node_48" /><circle cx="708" cy="154" r="3.4" fill="#da6900" id="plus_node_49" />
+      <circle cx="548" cy="149" r="3.7" fill="#63a746" id="plus_node_50" /><circle cx="560" cy="150" r="4" fill="#e26b00" id="plus_node_51" /><circle cx="573" cy="151" r="4" fill="#edba00" id="plus_node_52" /><circle cx="586" cy="150" r="4.1" fill="#75aa43" id="plus_node_53" />
+      <circle cx="600" cy="151" r="3.9" fill="#df6a00" id="plus_node_54" /><circle cx="614" cy="151" r="4.2" fill="#efb700" id="plus_node_55" /><circle cx="628" cy="151" r="4" fill="#6da641" id="plus_node_56" /><circle cx="642" cy="153" r="3.9" fill="#d76a00" id="plus_node_57" />
+      <circle cx="656" cy="155" r="4.2" fill="#edbc00" id="plus_node_58" /><circle cx="671" cy="157" r="4" fill="#5fa64d" id="plus_node_59" /><circle cx="685" cy="161" r="3.8" fill="#d86c00" id="plus_node_60" /><circle cx="699" cy="165" r="3.6" fill="#edb800" id="plus_node_61" />
+      <circle cx="560" cy="166" r="3.8" fill="#eaa900" id="plus_node_62" /><circle cx="573" cy="168" r="4" fill="#62a84a" id="plus_node_63" /><circle cx="587" cy="169" r="3.8" fill="#df6d00" id="plus_node_64" /><circle cx="600" cy="169" r="4" fill="#eeb600" id="plus_node_65" />
+      <circle cx="614" cy="168" r="4.1" fill="#6ca640" id="plus_node_66" /><circle cx="628" cy="169" r="4" fill="#d96a00" id="plus_node_67" /><circle cx="642" cy="170" r="4" fill="#edbd00" id="plus_node_68" /><circle cx="657" cy="171" r="3.8" fill="#68a844" id="plus_node_69" />
+      <circle cx="671" cy="174" r="3.8" fill="#d96a00" id="plus_node_70" /><circle cx="686" cy="177" r="3.8" fill="#e8b100" id="plus_node_71" /><circle cx="575" cy="183" r="3.5" fill="#66a847" id="plus_node_72" /><circle cx="589" cy="184" r="3.6" fill="#e07100" id="plus_node_73" />
+      <circle cx="604" cy="184" r="3.7" fill="#edb400" id="plus_node_74" /><circle cx="619" cy="185" r="3.8" fill="#6ba641" id="plus_node_75" /><circle cx="634" cy="184" r="3.8" fill="#d66a00" id="plus_node_76" /><circle cx="649" cy="185" r="3.7" fill="#edb900" id="plus_node_77" />
+      <circle cx="664" cy="188" r="3.6" fill="#65a849" id="plus_node_78" /><circle cx="611" cy="197" r="3.2" fill="#df6d00" id="plus_node_79" /><circle cx="626" cy="198" r="3.3" fill="#eeb800" id="plus_node_80" /><circle cx="642" cy="198" r="3.4" fill="#6aa640" id="plus_node_81" />
+      <circle cx="596" cy="93" r="2.7" fill="#e06a00" id="plus_node_82" /><circle cx="611" cy="91" r="2.9" fill="#65a647" id="plus_node_83" /><circle cx="632" cy="78" r="2.8" fill="#d96b00" id="plus_node_84" /><circle cx="648" cy="86" r="2.8" fill="#eeba00" id="plus_node_85" />
+      <circle cx="671" cy="94" r="2.8" fill="#5fa845" id="plus_node_86" /><circle cx="686" cy="111" r="2.9" fill="#dd6e00" id="plus_node_87" /><circle cx="699" cy="124" r="2.9" fill="#eeae00" id="plus_node_88" /><circle cx="704" cy="144" r="2.8" fill="#62a744" id="plus_node_89" />
+      <circle cx="542" cy="122" r="2.8" fill="#d66b00" id="plus_node_90" /><circle cx="550" cy="141" r="2.9" fill="#efb900" id="plus_node_91" /><circle cx="555" cy="157" r="2.8" fill="#5fa647" id="plus_node_92" /><circle cx="571" cy="103" r="2.9" fill="#eeb700" id="plus_node_93" />
+      <circle cx="584" cy="91" r="2.8" fill="#6ca641" id="plus_node_94" /><circle cx="608" cy="111" r="2.9" fill="#dd6a00" id="plus_node_95" /><circle cx="635" cy="96" r="2.8" fill="#efbb00" id="plus_node_96" /><circle cx="654" cy="104" r="2.8" fill="#69a844" id="plus_node_97" />
+      <circle cx="675" cy="141" r="2.7" fill="#df6b00" id="plus_node_98" /><circle cx="692" cy="172" r="2.7" fill="#69a844" id="plus_node_99" />
+    </g>
+    <text id="txt_cloud_seq" class="serif" x="627" y="230" font-size="14" font-weight="bold" text-anchor="middle">···CEV<tspan fill="#d51616">XXXXX</tspan>WGQG···</text>
+    <text id="txt_cloud_cdr" class="serif" x="627" y="246" font-size="15" fill="#d51616" font-weight="bold" text-anchor="middle">CDR</text>
+    <path id="arrow_cloud_to_module" class="arrowLine" d="M721 159 L750 159" marker-end="url(#arrow)" />
+  </g>
+
+  
+  <g id="grp_diffusion_module">
+    <desc>The diffusion module is horizontally symmetric: a feature extractor feeds atom-level and residue-level representation boxes; those in turn connect to structure and sequence denoising boxes.</desc>
+    <rect id="box_feature_extractor" x="764" y="81" width="99" height="153" rx="16" ry="16" fill="#cbd4e4" stroke="#183056" stroke-width="1.2" />
+    <text id="txt_feature_1" class="serif" x="813.5" y="151" font-size="19" font-weight="bold" text-anchor="middle">Feature</text>
+    <text id="txt_feature_2" class="serif" x="813.5" y="184" font-size="19" font-weight="bold" text-anchor="middle">Extractor</text>
+
+    <rect id="box_atom_rep" x="912" y="81" width="171" height="62" rx="10" ry="10" fill="#e6efd8" stroke="#183056" stroke-width="1.1" />
+    <text id="txt_atom_rep_1" class="serif" x="997.5" y="107" font-size="18" font-weight="bold" text-anchor="middle">Atom-level</text>
+    <text id="txt_atom_rep_2" class="serif" x="997.5" y="129" font-size="18" font-weight="bold" text-anchor="middle">Representations</text>
+
+    <rect id="box_residue_rep" x="912" y="171" width="171" height="62" rx="10" ry="10" fill="#efe8c9" stroke="#183056" stroke-width="1.1" />
+    <text id="txt_residue_rep_1" class="serif" x="997.5" y="197" font-size="18" font-weight="bold" text-anchor="middle">Residue-level</text>
+    <text id="txt_residue_rep_2" class="serif" x="997.5" y="219" font-size="18" font-weight="bold" text-anchor="middle">Representations</text>
+
+    <rect id="box_structure_denoise" x="1131" y="81" width="186" height="62" rx="9" ry="9" fill="#ecd7c6" stroke="#183056" stroke-width="1.1" />
+    <text id="txt_structure_denoise" class="serif" x="1224" y="117" font-size="18" font-weight="bold" text-anchor="middle">Structure Denoising</text>
+
+    <rect id="box_sequence_denoise" x="1131" y="170" width="186" height="62" rx="9" ry="9" fill="#c9b6de" stroke="#183056" stroke-width="1.1" />
+    <text id="txt_sequence_denoise" class="serif" x="1224" y="207" font-size="18" font-weight="bold" text-anchor="middle">Sequence Denoising</text>
+
+    <path id="arrow_feature_atom" class="thinArrow" d="M863 111 L910 111" marker-end="url(#arrowSmall)" />
+    <path id="arrow_feature_residue" class="thinArrow" d="M863 199 L910 199" marker-end="url(#arrowSmall)" />
+    <path id="arrow_atom_structure" class="thinArrow" d="M1083 111 L1129 111" marker-end="url(#arrowSmall)" />
+    <path id="arrow_residue_sequence" class="thinArrow" d="M1083 201 L1129 201" marker-end="url(#arrowSmall)" />
+    <path id="connector_cross_rep_to_denoise" class="thinArrow" d="M1106 100 L1106 136 L1130 136" />
+    <path id="connector_cross_res_to_denoise" class="thinArrow" d="M1106 201 L1106 136" />
+    <path id="arrow_module_to_intermediate" class="arrowLine" d="M1327 159 L1346 159" marker-end="url(#arrow)" />
+  </g>
+
+  
+  <g id="grp_intermediate_result">
+    <desc>Intermediate result frame: a teal protein cartoon with red and yellow highlighted loop/sequence elements appears above a sequence label where XXTYX is emphasized; CDR label is red below.</desc>
+    <g id="protein_intermediate" transform="translate(1357 77)">
+      <path d="M42 23 C52 8 72 11 75 28 C65 23 54 22 42 23 Z" fill="#eef8f7" stroke="#6ca9a8" stroke-width="1.2" id="plus_node_100" />
+      <path d="M78 13 C101 19 123 9 145 3 C150 14 144 28 131 33 C109 28 93 31 78 13 Z" fill="url(#proteinTeal)" opacity="0.75" id="plus_node_101" />
+      <path d="M107 20 C124 31 144 48 151 66 C143 70 130 68 120 59 C112 48 102 37 92 32 Z" fill="#3f7777" opacity="0.9" id="plus_node_102" />
+      <path d="M23 36 C38 31 49 45 43 62 C33 61 24 56 17 48 Z" fill="#2f6464" opacity="0.9" id="plus_node_103" />
+      <path d="M53 39 C67 51 75 74 66 96 C56 91 51 72 49 51 Z" fill="#86bdbc" opacity="0.85" id="plus_node_104" />
+      <path d="M77 60 C95 51 116 52 136 63 C123 73 99 76 81 68 Z" fill="#ccebea" opacity="0.9" id="plus_node_105" />
+      <path d="M91 84 C111 90 130 87 151 80 C149 95 137 105 119 108 C104 103 94 96 91 84 Z" fill="#244f50" opacity="0.88" id="plus_node_106" />
+      <path d="M36 75 C49 83 53 101 44 119 C34 111 28 96 28 80 Z" fill="#f2f9f8" stroke="#75aaaa" stroke-width="1" id="plus_node_107" />
+      <path d="M55 112 C69 119 83 118 96 112 C99 126 88 139 70 139 C59 133 54 124 55 112 Z" fill="#76aaaa" opacity="0.9" id="plus_node_108" />
+      <path d="M105 116 C124 121 143 116 160 105 C161 121 148 137 131 140 C119 134 111 126 105 116 Z" fill="#dcefed" opacity="0.95" id="plus_node_109" />
+      <path d="M21 26 C10 15 5 12 0 22 C-5 35 14 31 22 34" fill="none" stroke="#8bc1bf" stroke-width="1.6" id="plus_node_110" />
+      <path d="M138 0 C132 -10 145 -15 150 -5 C152 1 147 5 142 5" fill="none" stroke="#8bc1bf" stroke-width="1.4" id="plus_node_111" />
+      <path d="M23 47 C39 54 48 54 53 44 C59 31 68 32 72 43 C76 56 81 61 90 56" fill="none" stroke="#cf4d45" stroke-width="2.2" id="plus_node_112" />
+      <path d="M71 96 C84 89 86 80 80 72 C77 66 80 60 89 56" fill="none" stroke="#cf4d45" stroke-width="2.2" id="plus_node_113" />
+      <path d="M101 18 C113 29 119 35 132 42 C140 47 147 55 151 65" fill="none" stroke="#183b3c" stroke-width="1.6" opacity="0.8" id="plus_node_114" />
+      <path d="M68 132 C55 145 38 145 28 134" fill="none" stroke="#8bc1bf" stroke-width="1.4" id="plus_node_115" />
+    </g>
+    <text id="txt_intermediate_seq" class="serif" x="1444" y="230" font-size="14" font-weight="bold" text-anchor="middle">···CEV<tspan fill="#d51616">XX</tspan><tspan fill="#dfd700">T</tspan><tspan fill="#d51616">Y</tspan><tspan fill="#d51616">X</tspan>WGQG···</text>
+    <text id="txt_intermediate_cdr" class="serif" x="1444" y="247" font-size="15" fill="#d51616" font-weight="bold" text-anchor="middle">CDR</text>
+    <path id="arrow_intermediate_to_final" class="arrowLine" d="M1541 159 L1558 159" marker-end="url(#arrow)" />
+  </g>
+
+  
+  <g id="grp_final_result">
+    <desc>Final result frame: a tan protein cartoon with a yellow highlighted CDR loop is shown above the final sequence CEVINTYWGQG, where INTY is highlighted yellow and CDR appears below in red.</desc>
+    <g id="protein_final" transform="translate(1574 77)">
+      <path d="M28 21 C38 8 58 12 59 30 C49 24 39 22 28 21 Z" fill="#fff7ec" stroke="#c39970" stroke-width="1.2" id="plus_node_116" />
+      <path d="M78 12 C101 20 125 8 147 3 C151 18 142 31 128 35 C108 28 92 31 78 12 Z" fill="url(#proteinTan)" opacity="0.78" id="plus_node_117" />
+      <path d="M106 24 C124 34 144 49 151 68 C142 73 128 69 119 59 C112 48 101 38 91 33 Z" fill="#7c5839" opacity="0.9" id="plus_node_118" />
+      <path d="M18 37 C34 31 46 45 39 62 C29 62 20 56 13 48 Z" fill="#6e4b2d" opacity="0.9" id="plus_node_119" />
+      <path d="M49 39 C63 52 71 75 61 96 C51 91 47 72 45 51 Z" fill="#cca27a" opacity="0.86" id="plus_node_120" />
+      <path d="M76 61 C95 51 116 53 135 63 C123 74 98 76 80 68 Z" fill="#f0d9bb" opacity="0.95" id="plus_node_121" />
+      <path d="M90 84 C112 91 132 88 151 80 C149 96 136 106 119 108 C103 104 94 97 90 84 Z" fill="#5b3e28" opacity="0.88" id="plus_node_122" />
+      <path d="M31 75 C44 84 48 102 38 120 C28 111 23 96 24 80 Z" fill="#fff6ea" stroke="#c1946b" stroke-width="1" id="plus_node_123" />
+      <path d="M54 112 C68 120 82 118 96 112 C99 126 88 140 70 140 C59 134 54 124 54 112 Z" fill="#c39870" opacity="0.9" id="plus_node_124" />
+      <path d="M104 116 C123 121 143 116 160 105 C160 122 147 137 130 140 C118 134 111 126 104 116 Z" fill="#f0d9bd" opacity="0.95" id="plus_node_125" />
+      <path d="M16 28 C6 16 1 14 -4 23 C-9 35 9 32 18 34" fill="none" stroke="#c9a078" stroke-width="1.6" id="plus_node_126" />
+      <path d="M140 1 C134 -10 148 -15 153 -5 C155 2 149 6 144 6" fill="none" stroke="#c9a078" stroke-width="1.4" id="plus_node_127" />
+      <path d="M53 101 C66 92 71 80 67 67 C64 57 69 48 82 43 C91 40 99 43 105 53" fill="none" stroke="#d7cf00" stroke-width="3.3" stroke-linecap="round" id="plus_node_128" />
+      <path d="M105 53 C111 65 107 75 98 82" fill="none" stroke="#d7cf00" stroke-width="3.3" stroke-linecap="round" id="plus_node_129" />
+      <path d="M101 19 C114 30 119 35 132 42 C141 48 148 56 151 66" fill="none" stroke="#4f3522" stroke-width="1.6" opacity="0.78" id="plus_node_130" />
+      <path d="M67 132 C54 145 37 145 27 134" fill="none" stroke="#c39a72" stroke-width="1.4" id="plus_node_131" />
+    </g>
+    <text id="txt_final_seq" class="serif" x="1654" y="230" font-size="14" font-weight="bold" text-anchor="middle">···CEV<tspan fill="#dfd700">INTY</tspan>WGQG···</text>
+    <text id="txt_final_cdr" class="serif" x="1654" y="247" font-size="15" fill="#d51616" font-weight="bold" text-anchor="middle">CDR</text>
+  </g>
+</svg>

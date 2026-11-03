@@ -1,0 +1,124 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="2048" height="1055" viewBox="0 0 2048 1055">
+  <defs>
+    <marker id="arrow-gray" markerWidth="16" markerHeight="14" refX="14" refY="7" orient="auto" markerUnits="userSpaceOnUse">
+      <path d="M1,1 L14,7 L1,13 Z" fill="#bdcccc" data-pb-role="decorative" data-pb-editable="true"/>
+    </marker>
+  </defs>
+  <rect id="background" x="0" y="0" width="2048" height="1055" fill="#ffffff" data-pb-role="background" data-pb-editable="true"/>
+
+  <g id="flow-chat" data-pb-role="panel" data-pb-editable="true">
+    <rect id="module-chat-prompt" x="180" y="104" width="297" height="84" fill="#617f8f" stroke="#587382" stroke-width="2" data-pb-role="node" data-pb-editable="true"/>
+    <text id="label-chat-prompt" x="328.5" y="160" font-family="Courier New, monospace" font-size="54" font-weight="400" font-style="normal" fill="#fff4d9" text-anchor="middle" data-pb-role="label" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="horizontal">Prompt</text>
+    <line id="connector-chat-prompt-llm" x1="329" y1="188" x2="329" y2="314" stroke="#bdcccc" stroke-width="4" marker-end="url(#arrow-gray)" data-pb-role="connector" data-pb-editable="true"/>
+    <rect id="module-chat-llm" x="181" y="321" width="298" height="93" rx="20" ry="20" fill="#deedf7" stroke="#0b5d91" stroke-width="5" data-pb-role="node" data-pb-editable="true"/>
+    <text id="label-chat-llm" x="330" y="386" font-family="Courier New, monospace" font-size="54" font-weight="400" font-style="normal" fill="#086092" text-anchor="middle" data-pb-role="label" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="horizontal">LLM</text>
+    <line id="connector-chat-llm-response" x1="329" y1="414" x2="329" y2="542" stroke="#bdcccc" stroke-width="4" marker-end="url(#arrow-gray)" data-pb-role="connector" data-pb-editable="true"/>
+    <rect id="module-chat-response" x="190" y="546" width="279" height="85" fill="#078f8f" stroke="#087d81" stroke-width="2" data-pb-role="node" data-pb-editable="true"/>
+    <text id="label-chat-response" x="329.5" y="604" font-family="Courier New, monospace" font-size="54" font-weight="400" font-style="normal" fill="#fff7df" text-anchor="middle" data-pb-role="label" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="horizontal">Response</text>
+    <line id="connector-chat-response-yc" x1="287" y1="631" x2="206" y2="838" stroke="#bdcccc" stroke-width="4" marker-end="url(#arrow-gray)" data-pb-role="connector" data-pb-editable="true"/>
+    <line id="connector-chat-response-yr" x1="351" y1="631" x2="456" y2="838" stroke="#bdcccc" stroke-width="4" marker-end="url(#arrow-gray)" data-pb-role="connector" data-pb-editable="true"/>
+    <text id="label-direct-copy" x="88" y="728" font-family="Times New Roman, serif" font-size="43" font-weight="700" font-style="italic" fill="#008a16" data-pb-role="label" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="horizontal">Direct</text>
+    <text id="label-direct-copy-2" x="110" y="779" font-family="Times New Roman, serif" font-size="43" font-weight="700" font-style="italic" fill="#008a16" data-pb-role="label" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="horizontal">Copy</text>
+    <text id="label-inject-error" x="452" y="738" font-family="Times New Roman, serif" font-size="43" font-weight="700" font-style="italic" fill="#cf5b5b" data-pb-role="label" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="horizontal">Inject</text>
+    <text id="label-inject-error-2" x="457" y="790" font-family="Times New Roman, serif" font-size="43" font-weight="700" font-style="italic" fill="#cf5b5b" data-pb-role="label" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="horizontal">Error</text>
+    <rect id="module-chat-yc" x="58" y="842" width="247" height="85" fill="#f2fff2" stroke="#008f17" stroke-width="5" data-pb-role="node" data-pb-editable="true"/>
+    <g id="formula-chat-yc" data-pb-role="formula" data-pb-editable="true" data-pb-formula-bbox="142 849 76 69" data-pb-formula-latex-b64="eV9j">
+      <text id="formula-chat-yc-fallback" x="181" y="904" font-family="Times New Roman, serif" font-size="54" font-weight="700" font-style="italic" fill="#008a16" text-anchor="middle" data-pb-role="formula" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="horizontal">y<tspan baseline-shift="sub" font-size="34">c</tspan></text>
+      <desc>LaTeX: y_c</desc>
+    </g>
+    <rect id="module-chat-yr" x="353" y="842" width="249" height="86" fill="#fff0f0" stroke="#cf5b5b" stroke-width="5" data-pb-role="node" data-pb-editable="true"/>
+    <g id="formula-chat-yr" data-pb-role="formula" data-pb-editable="true" data-pb-formula-bbox="438 851 71 66" data-pb-formula-latex-b64="eV9y">
+      <text id="formula-chat-yr-fallback" x="477" y="904" font-family="Times New Roman, serif" font-size="54" font-weight="700" font-style="italic" fill="#cf5b5b" text-anchor="middle" data-pb-role="formula" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="horizontal">y<tspan baseline-shift="sub" font-size="34">r</tspan></text>
+      <desc>LaTeX: y_r</desc>
+    </g>
+    <text id="caption-chat" x="325" y="1002" font-family="Times New Roman, serif" font-size="44" font-weight="700" font-style="normal" fill="#000000" text-anchor="middle" data-pb-role="label" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="horizontal">(1) Chat</text>
+  </g>
+
+  <g id="flow-code-math" data-pb-role="panel" data-pb-editable="true">
+    <rect id="module-code-prompt" x="828" y="105" width="297" height="83" fill="#617f8f" stroke="#587382" stroke-width="2" data-pb-role="node" data-pb-editable="true"/>
+    <text id="label-code-prompt" x="976.5" y="160" font-family="Courier New, monospace" font-size="54" font-weight="400" font-style="normal" fill="#fff4d9" text-anchor="middle" data-pb-role="label" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="horizontal">Prompt</text>
+    <line id="connector-code-prompt-llm" x1="976" y1="188" x2="976" y2="318" stroke="#bdcccc" stroke-width="4" marker-end="url(#arrow-gray)" data-pb-role="connector" data-pb-editable="true"/>
+    <rect id="module-code-llm" x="828" y="322" width="296" height="93" rx="20" ry="20" fill="#deedf7" stroke="#0b5d91" stroke-width="5" data-pb-role="node" data-pb-editable="true"/>
+    <text id="label-code-llm" x="976" y="386" font-family="Courier New, monospace" font-size="54" font-weight="400" font-style="normal" fill="#086092" text-anchor="middle" data-pb-role="label" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="horizontal">LLM</text>
+    <line id="connector-code-llm-r1" x1="930" y1="415" x2="796" y2="552" stroke="#bdcccc" stroke-width="4" marker-end="url(#arrow-gray)" data-pb-role="connector" data-pb-editable="true"/>
+    <line id="connector-code-llm-ra" x1="964" y1="415" x2="936" y2="478" stroke="#bdcccc" stroke-width="4" marker-end="url(#arrow-gray)" data-pb-role="connector" data-pb-editable="true"/>
+    <line id="connector-code-llm-rb" x1="988" y1="415" x2="1015" y2="478" stroke="#bdcccc" stroke-width="4" marker-end="url(#arrow-gray)" data-pb-role="connector" data-pb-editable="true"/>
+    <line id="connector-code-llm-rn" x1="1018" y1="415" x2="1148" y2="552" stroke="#bdcccc" stroke-width="4" marker-end="url(#arrow-gray)" data-pb-role="connector" data-pb-editable="true"/>
+    <rect id="module-code-resp1" x="729" y="482" width="66" height="214" fill="#078f8f" stroke="#087d81" stroke-width="2" data-pb-role="node" data-pb-editable="true"/>
+    <text id="label-code-resp1" x="762" y="592" transform="rotate(-90 762 592)" font-family="Courier New, monospace" font-size="45" font-weight="400" font-style="normal" fill="#fff7df" text-anchor="middle" data-pb-role="label" data-pb-editable="true" data-pb-text-source="visual_inferred" data-pb-orientation="vertical-rl">Resp. #1</text>
+    <rect id="module-code-respa" x="870" y="482" width="66" height="214" fill="#078f8f" stroke="#087d81" stroke-width="2" data-pb-role="node" data-pb-editable="true"/>
+    <text id="label-code-respa" x="903" y="592" transform="rotate(-90 903 592)" font-family="Courier New, monospace" font-size="45" font-weight="400" font-style="normal" fill="#fff7df" text-anchor="middle" data-pb-role="label" data-pb-editable="true" data-pb-text-source="visual_inferred" data-pb-orientation="vertical-rl">Resp. #a</text>
+    <rect id="module-code-respb" x="1009" y="482" width="67" height="214" fill="#078f8f" stroke="#087d81" stroke-width="2" data-pb-role="node" data-pb-editable="true"/>
+    <text id="label-code-respb" x="1042" y="592" transform="rotate(-90 1042 592)" font-family="Courier New, monospace" font-size="45" font-weight="400" font-style="normal" fill="#fff7df" text-anchor="middle" data-pb-role="label" data-pb-editable="true" data-pb-text-source="visual_inferred" data-pb-orientation="vertical-rl">Resp. #b</text>
+    <rect id="module-code-respn" x="1151" y="482" width="66" height="214" fill="#078f8f" stroke="#087d81" stroke-width="2" data-pb-role="node" data-pb-editable="true"/>
+    <text id="label-code-respn" x="1184" y="592" transform="rotate(-90 1184 592)" font-family="Courier New, monospace" font-size="45" font-weight="400" font-style="normal" fill="#fff7df" text-anchor="middle" data-pb-role="label" data-pb-editable="true" data-pb-text-source="visual_inferred" data-pb-orientation="vertical-rl">Resp. #n</text>
+    <text id="ellipsis-code-left" x="830" y="592" font-family="Courier New, monospace" font-size="43" font-weight="700" font-style="normal" fill="#078f8f" text-anchor="middle" data-pb-role="label" data-pb-editable="true" data-pb-text-source="visual_inferred" data-pb-orientation="horizontal">...</text>
+    <text id="ellipsis-code-middle" x="974" y="592" font-family="Courier New, monospace" font-size="43" font-weight="700" font-style="normal" fill="#078f8f" text-anchor="middle" data-pb-role="label" data-pb-editable="true" data-pb-text-source="visual_inferred" data-pb-orientation="horizontal">...</text>
+    <text id="ellipsis-code-right" x="1116" y="592" font-family="Courier New, monospace" font-size="43" font-weight="700" font-style="normal" fill="#078f8f" text-anchor="middle" data-pb-role="label" data-pb-editable="true" data-pb-text-source="visual_inferred" data-pb-orientation="horizontal">...</text>
+    <text id="label-eval-correct" x="683" y="746" font-family="Times New Roman, serif" font-size="43" font-weight="700" font-style="italic" fill="#008a16" data-pb-role="label" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="horizontal">Eval as</text>
+    <text id="label-eval-correct-2" x="680" y="800" font-family="Times New Roman, serif" font-size="43" font-weight="700" font-style="italic" fill="#008a16" data-pb-role="label" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="horizontal">Correct</text>
+    <text id="label-eval-wrong" x="1133" y="752" font-family="Times New Roman, serif" font-size="43" font-weight="700" font-style="italic" fill="#cf5b5b" data-pb-role="label" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="horizontal">Eval as</text>
+    <text id="label-eval-wrong-2" x="1138" y="807" font-family="Times New Roman, serif" font-size="43" font-weight="700" font-style="italic" fill="#cf5b5b" data-pb-role="label" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="horizontal">Wrong</text>
+    <line id="connector-code-respa-yc" x1="879" y1="696" x2="836" y2="838" stroke="#bdcccc" stroke-width="4" marker-end="url(#arrow-gray)" data-pb-role="connector" data-pb-editable="true"/>
+    <line id="connector-code-respb-yr" x1="1068" y1="696" x2="1116" y2="838" stroke="#bdcccc" stroke-width="4" marker-end="url(#arrow-gray)" data-pb-role="connector" data-pb-editable="true"/>
+    <rect id="module-code-yc" x="703" y="842" width="249" height="86" fill="#f2fff2" stroke="#008f17" stroke-width="5" data-pb-role="node" data-pb-editable="true"/>
+    <g id="formula-code-yc" data-pb-role="formula" data-pb-editable="true" data-pb-formula-bbox="789 849 75 69" data-pb-formula-latex-b64="eV9j">
+      <text id="formula-code-yc-fallback" x="828" y="904" font-family="Times New Roman, serif" font-size="54" font-weight="700" font-style="italic" fill="#008a16" text-anchor="middle" data-pb-role="formula" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="horizontal">y<tspan baseline-shift="sub" font-size="34">c</tspan></text>
+      <desc>LaTeX: y_c</desc>
+    </g>
+    <rect id="module-code-yr" x="999" y="842" width="249" height="85" fill="#fff0f0" stroke="#cf5b5b" stroke-width="5" data-pb-role="node" data-pb-editable="true"/>
+    <g id="formula-code-yr" data-pb-role="formula" data-pb-editable="true" data-pb-formula-bbox="1086 851 71 66" data-pb-formula-latex-b64="eV9y">
+      <text id="formula-code-yr-fallback" x="1125" y="904" font-family="Times New Roman, serif" font-size="54" font-weight="700" font-style="italic" fill="#cf5b5b" text-anchor="middle" data-pb-role="formula" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="horizontal">y<tspan baseline-shift="sub" font-size="34">r</tspan></text>
+      <desc>LaTeX: y_r</desc>
+    </g>
+    <text id="caption-code-math" x="970" y="1002" font-family="Times New Roman, serif" font-size="44" font-weight="700" font-style="normal" fill="#000000" text-anchor="middle" data-pb-role="label" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="horizontal">(2) Code &amp; Math</text>
+  </g>
+
+  <g id="flow-safety-response" data-pb-role="panel" data-pb-editable="true">
+    <rect id="module-safe-prompt" x="1433" y="64" width="369" height="85" fill="#617f8f" stroke="#587382" stroke-width="2" data-pb-role="node" data-pb-editable="true"/>
+    <text id="label-safe-prompt" x="1617.5" y="119" font-family="Courier New, monospace" font-size="51" font-weight="400" font-style="normal" fill="#fff4d9" text-anchor="middle" data-pb-role="label" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="horizontal">Safe Prompt</text>
+    <line id="connector-safe-prompt-llm" x1="1568" y1="149" x2="1501" y2="202" stroke="#bdcccc" stroke-width="4" marker-end="url(#arrow-gray)" data-pb-role="connector" data-pb-editable="true"/>
+    <line id="connector-safe-prompt-wary" x1="1669" y1="149" x2="1737" y2="202" stroke="#bdcccc" stroke-width="4" marker-end="url(#arrow-gray)" data-pb-role="connector" data-pb-editable="true"/>
+    <rect id="module-safe-llm" x="1311" y="206" width="261" height="93" rx="20" ry="20" fill="#deedf7" stroke="#0b5d91" stroke-width="5" data-pb-role="node" data-pb-editable="true"/>
+    <text id="label-safe-llm" x="1441.5" y="267" font-family="Courier New, monospace" font-size="51" font-weight="400" font-style="normal" fill="#086092" text-anchor="middle" data-pb-role="label" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="horizontal">LLM</text>
+    <rect id="module-wary-llm" x="1665" y="206" width="261" height="93" rx="20" ry="20" fill="#f6e6f6" stroke="#8a078a" stroke-width="5" data-pb-role="node" data-pb-editable="true"/>
+    <text id="label-wary-llm" x="1795.5" y="263" font-family="Courier New, monospace" font-size="45" font-weight="400" font-style="normal" fill="#97008d" text-anchor="middle" data-pb-role="label" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="horizontal">Wary LLM</text>
+    <line id="connector-safe-llm-yc" x1="1442" y1="299" x2="1442" y2="383" stroke="#bdcccc" stroke-width="4" marker-end="url(#arrow-gray)" data-pb-role="connector" data-pb-editable="true"/>
+    <line id="connector-wary-llm-yr" x1="1796" y1="299" x2="1796" y2="383" stroke="#bdcccc" stroke-width="4" marker-end="url(#arrow-gray)" data-pb-role="connector" data-pb-editable="true"/>
+    <rect id="module-safe-yc" x="1318" y="387" width="247" height="85" fill="#f2fff2" stroke="#008f17" stroke-width="5" data-pb-role="node" data-pb-editable="true"/>
+    <g id="formula-safe-yc" data-pb-role="formula" data-pb-editable="true" data-pb-formula-bbox="1408 397 73 61" data-pb-formula-latex-b64="eV9j">
+      <text id="formula-safe-yc-fallback" x="1444" y="449" font-family="Times New Roman, serif" font-size="50" font-weight="700" font-style="italic" fill="#008a16" text-anchor="middle" data-pb-role="formula" data-pb-editable="true" data-pb-text-source="visual_inferred" data-pb-orientation="horizontal">y<tspan baseline-shift="sub" font-size="32">c</tspan></text>
+      <desc>LaTeX: y_c</desc>
+    </g>
+    <rect id="module-safe-yr" x="1672" y="387" width="248" height="85" fill="#fff0f0" stroke="#cf5b5b" stroke-width="5" data-pb-role="node" data-pb-editable="true"/>
+    <g id="formula-safe-yr" data-pb-role="formula" data-pb-editable="true" data-pb-formula-bbox="1757 396 72 62" data-pb-formula-latex-b64="eV9y">
+      <text id="formula-safe-yr-fallback" x="1796" y="449" font-family="Times New Roman, serif" font-size="50" font-weight="700" font-style="italic" fill="#cf5b5b" text-anchor="middle" data-pb-role="formula" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="horizontal">y<tspan baseline-shift="sub" font-size="32">r</tspan></text>
+      <desc>LaTeX: y_r</desc>
+    </g>
+    <text id="caption-safety-response" x="1610" y="540" font-family="Times New Roman, serif" font-size="42" font-weight="700" font-style="normal" fill="#000000" text-anchor="middle" data-pb-role="label" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="horizontal">(3.a) Safety-Should-Response</text>
+  </g>
+
+  <g id="flow-safety-refuse" data-pb-role="panel" data-pb-editable="true">
+    <rect id="module-unsafe-prompt" x="1402" y="559" width="432" height="87" fill="#617f8f" stroke="#587382" stroke-width="2" data-pb-role="node" data-pb-editable="true"/>
+    <text id="label-unsafe-prompt" x="1618" y="617" font-family="Courier New, monospace" font-size="51" font-weight="400" font-style="normal" fill="#fff4d9" text-anchor="middle" data-pb-role="label" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="horizontal">Unsafe Prompt</text>
+    <line id="connector-unsafe-prompt-llm" x1="1568" y1="646" x2="1500" y2="700" stroke="#bdcccc" stroke-width="4" marker-end="url(#arrow-gray)" data-pb-role="connector" data-pb-editable="true"/>
+    <line id="connector-unsafe-prompt-unc" x1="1668" y1="646" x2="1738" y2="700" stroke="#bdcccc" stroke-width="4" marker-end="url(#arrow-gray)" data-pb-role="connector" data-pb-editable="true"/>
+    <rect id="module-unsafe-llm" x="1311" y="704" width="262" height="93" rx="20" ry="20" fill="#deedf7" stroke="#0b5d91" stroke-width="5" data-pb-role="node" data-pb-editable="true"/>
+    <text id="label-unsafe-llm" x="1442" y="766" font-family="Courier New, monospace" font-size="51" font-weight="400" font-style="normal" fill="#086092" text-anchor="middle" data-pb-role="label" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="horizontal">LLM</text>
+    <rect id="module-unc-llm" x="1664" y="704" width="263" height="93" rx="20" ry="20" fill="#f6e6f6" stroke="#8a078a" stroke-width="5" data-pb-role="node" data-pb-editable="true"/>
+    <text id="label-unc-llm" x="1795.5" y="766" font-family="Courier New, monospace" font-size="45" font-weight="400" font-style="normal" fill="#97008d" text-anchor="middle" data-pb-role="label" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="horizontal">Unc. LLM</text>
+    <line id="connector-unsafe-llm-yc" x1="1442" y1="797" x2="1442" y2="881" stroke="#bdcccc" stroke-width="4" marker-end="url(#arrow-gray)" data-pb-role="connector" data-pb-editable="true"/>
+    <line id="connector-unc-llm-yr" x1="1796" y1="797" x2="1796" y2="882" stroke="#bdcccc" stroke-width="4" marker-end="url(#arrow-gray)" data-pb-role="connector" data-pb-editable="true"/>
+    <rect id="module-unsafe-yc" x="1318" y="885" width="248" height="86" fill="#f2fff2" stroke="#008f17" stroke-width="5" data-pb-role="node" data-pb-editable="true"/>
+    <g id="formula-unsafe-yc" data-pb-role="formula" data-pb-editable="true" data-pb-formula-bbox="1405 895 70 63" data-pb-formula-latex-b64="eV9j">
+      <text id="formula-unsafe-yc-fallback" x="1443" y="940" font-family="Times New Roman, serif" font-size="50" font-weight="700" font-style="italic" fill="#008a16" text-anchor="middle" data-pb-role="formula" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="horizontal">y<tspan baseline-shift="sub" font-size="32">c</tspan></text>
+      <desc>LaTeX: y_c</desc>
+    </g>
+    <rect id="module-unsafe-yr" x="1672" y="886" width="248" height="84" fill="#fff0f0" stroke="#cf5b5b" stroke-width="5" data-pb-role="node" data-pb-editable="true"/>
+    <g id="formula-unsafe-yr" data-pb-role="formula" data-pb-editable="true" data-pb-formula-bbox="1757 893 72 63" data-pb-formula-latex-b64="eV9y">
+      <text id="formula-unsafe-yr-fallback" x="1796" y="940" font-family="Times New Roman, serif" font-size="50" font-weight="700" font-style="italic" fill="#cf5b5b" text-anchor="middle" data-pb-role="formula" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="horizontal">y<tspan baseline-shift="sub" font-size="32">r</tspan></text>
+      <desc>LaTeX: y_r</desc>
+    </g>
+    <text id="caption-safety-refuse" x="1611" y="1040" font-family="Times New Roman, serif" font-size="42" font-weight="700" font-style="normal" fill="#000000" text-anchor="middle" data-pb-role="label" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="horizontal">(3.b) Safety-Should-Refuse</text>
+  </g>
+</svg>

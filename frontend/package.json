@@ -27,7 +27,9 @@
     "review:editor-formula-input": "node scripts/editor-formula-input-check.mjs",
     "review:editor-color": "node scripts/editor-color-check.mjs",
     "review:editor-parity-repair": "node scripts/editor-parity-repair-check.mjs",
-    "review:pages": "node scripts/run-pages-review.mjs"
+    "review:pages": "node scripts/run-pages-review.mjs",
+    "research:export": "python scripts/export-research.py",
+    "review:research": "node scripts/research-check.mjs"
   },
   "dependencies": {
     "@base-ui/react": "^1.7.0",

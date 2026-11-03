@@ -1,0 +1,218 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="587" height="476" viewBox="0 0 587 476">
+  <title>CME-CAD reasoning correction diagram</title>
+  <desc>
+    Inventory: a dashed top input-images frame contains three gray CAD dimension sketches and one shaded triangular-prism model.
+    Three rounded reasoning boxes below contain red Wrong Answer stamps, think tags, icons, multi-line explanations with colored emphasis,
+    and are connected by black curved arrows from the input origin. Curved arrows from the wrong boxes converge to a CME-CAD robot icon,
+    which leads to a green final answer bar at the bottom. Symmetry basis: the three reasoning boxes are horizontally aligned and nearly
+    equally partitioned around a central vertical axis through the input origin, middle box, robot, and output bar. Confirmed SAM mappings:
+    top-right model draft_model_3d -&gt; asset_sam_region_000028; left icon draft_icon_purple -&gt; asset_sam_region_000024;
+    middle portrait draft_icon_person -&gt; asset_sam_region_000026; right OpenAI icon draft_icon_openai -&gt; asset_sam_region_000023;
+    robot draft_robot -&gt; asset_sam_region_000025. Red P-board labels are annotation metadata and are not reproduced.
+  </desc>
+
+  <defs>
+    <marker id="arrowBlack" markerUnits="userSpaceOnUse" markerWidth="11" markerHeight="9" refX="10" refY="4.5" orient="auto">
+      <path d="M0,0 L10,4.5 L0,9 Z" fill="#000" id="plus_node_0" />
+    </marker>
+    <marker id="arrowBlackStart" markerUnits="userSpaceOnUse" markerWidth="11" markerHeight="9" refX="1" refY="4.5" orient="auto-start-reverse">
+      <path d="M10,0 L0,4.5 L10,9 Z" fill="#000" id="plus_node_1" />
+    </marker>
+    <marker id="dimArrow" markerUnits="userSpaceOnUse" markerWidth="6" markerHeight="5" refX="3" refY="2.5" orient="auto">
+      <path d="M0,0 L6,2.5 L0,5 Z" fill="#222" id="plus_node_2" />
+    </marker>
+    <marker id="dimArrowStart" markerUnits="userSpaceOnUse" markerWidth="6" markerHeight="5" refX="3" refY="2.5" orient="auto-start-reverse">
+      <path d="M6,0 L0,2.5 L6,5 Z" fill="#222" id="plus_node_3" />
+    </marker>
+    <style>
+      .serif { font-family: "Times New Roman", Times, serif; }
+      .sans { font-family: Arial, Helvetica, sans-serif; }
+      .thin { stroke:#777; stroke-width:.7; fill:none; }
+      .dim { stroke:#222; stroke-width:.7; fill:none; marker-start:url(#dimArrowStart); marker-end:url(#dimArrow); }
+      .dimtxt { font-family:Arial, Helvetica, sans-serif; font-size:5.8px; fill:#111; }
+      .boxtext { font-family:"Times New Roman", Times, serif; font-size:14px; fill:#000; }
+      .emred { fill:#d00; }
+      .emgreen { fill:#008b28; }
+      .emblue { fill:#0060c8; }
+      .think { font-family:"Times New Roman", Times, serif; font-size:13px; font-weight:bold; fill:#000; }
+      .stamp { font-family:"Times New Roman", Times, serif; font-size:11px; font-weight:bold; fill:#ff2b2b; }
+    </style>
+  </defs>
+
+  
+  <rect id="f01" data-plus-kind="frame" x="23" y="20" width="551" height="112" fill="#fff" stroke="#000" stroke-width="1.2" stroke-dasharray="8 9" />
+  <rect id="f02" data-plus-kind="frame" x="26" y="185" width="166" height="152" rx="22" ry="22" fill="#f8f8f8" stroke="#8c8c8c" stroke-width="1.1" />
+  <rect id="f03" data-plus-kind="frame" x="215" y="185" width="165" height="152" rx="22" ry="22" fill="#f8f8f8" stroke="#8c8c8c" stroke-width="1.1" />
+  <rect id="f04" data-plus-kind="frame" x="407" y="185" width="166" height="152" rx="22" ry="22" fill="#f8f8f8" stroke="#8c8c8c" stroke-width="1.1" />
+  <rect id="f05" data-plus-kind="frame" x="23" y="413" width="551" height="51" rx="6" ry="6" fill="#dff3d8" stroke="#6fc36b" stroke-width="1" />
+
+  
+  <g id="top_input_content">
+    <text id="title_input_images" x="294" y="42" text-anchor="middle" class="sans" font-size="14" font-weight="700">input images</text>
+
+    
+    <g id="input_sketch_left" transform="translate(40,48)">
+      <rect x="0" y="0" width="73" height="70" fill="none" stroke="#9b9b9b" stroke-width=".8" id="plus_node_4" />
+      <line x1="0" y1="38.5" x2="73" y2="38.5" class="thin" id="plus_node_5" />
+      <line x1="0" y1="55" x2="73" y2="55" class="thin" id="plus_node_6" />
+      <line x1="73" y1="0" x2="78" y2="0" class="thin" id="plus_node_7" />
+      <line x1="73" y1="70" x2="78" y2="70" class="thin" id="plus_node_8" />
+      <line x1="75" y1="0" x2="75" y2="70" class="dim" id="plus_node_9" />
+      <text x="80" y="25" class="dimtxt" transform="rotate(90 80,25)" id="plus_node_10">15.98</text>
+      <line x1="73" y1="38.5" x2="78" y2="38.5" class="thin" id="plus_node_11" />
+      <line x1="73" y1="55" x2="78" y2="55" class="thin" id="plus_node_12" />
+      <line x1="79" y1="38.5" x2="79" y2="55" class="dim" id="plus_node_13" />
+      <text x="84" y="47.8" class="dimtxt" transform="rotate(90 84,47.8)" id="plus_node_14">4.66</text>
+      <line x1="0" y1="70" x2="0" y2="74" class="thin" id="plus_node_15" />
+      <line x1="73" y1="70" x2="73" y2="74" class="thin" id="plus_node_16" />
+      <line x1="0" y1="72" x2="73" y2="72" class="dim" id="plus_node_17" />
+      <text x="34" y="80" class="dimtxt" id="plus_node_18">30</text>
+    </g>
+
+    
+    <g id="input_sketch_center" transform="translate(181,51)">
+      <path d="M0,72 L11,55 L18,55 C20,50 20,45 17,41 C21,36 26,28 29,18 L39,2 L80,72 L64,72 L64,61 L47,61 L47,72 L0,72 Z" fill="none" stroke="#777" stroke-width=".8" id="plus_node_19" />
+      <circle cx="38" cy="23" r="6.5" fill="none" stroke="#777" stroke-width=".8" id="plus_node_20" />
+      <line x1="38" y1="23" x2="38" y2="45" class="thin" id="plus_node_21" />
+      <text x="30" y="38" class="dimtxt" id="plus_node_22">11</text>
+      <line x1="39" y1="2" x2="59" y2="35" class="dim" id="plus_node_23" />
+      <text x="50" y="9" class="dimtxt" transform="rotate(55 50,9)" id="plus_node_24">R3</text>
+      <line x1="37" y1="59" x2="64" y2="59" class="dim" id="plus_node_25" />
+      <text x="48" y="56" class="dimtxt" id="plus_node_26">19</text>
+      <line x1="65" y1="71" x2="85" y2="71" class="thin" id="plus_node_27" />
+      <line x1="73" y1="60" x2="73" y2="72" class="thin" id="plus_node_28" />
+    </g>
+
+    
+    <g id="input_sketch_right" transform="translate(330,52)">
+      <rect x="0" y="0" width="64" height="58" fill="none" stroke="#999" stroke-width=".8" id="plus_node_29" />
+      <line x1="7" y1="0" x2="7" y2="58" class="thin" id="plus_node_30" />
+      <line x1="15" y1="0" x2="15" y2="58" class="thin" id="plus_node_31" />
+      <line x1="34" y1="0" x2="34" y2="58" class="thin" id="plus_node_32" />
+      <line x1="64" y1="0" x2="70" y2="0" class="thin" id="plus_node_33" />
+      <line x1="64" y1="58" x2="70" y2="58" class="thin" id="plus_node_34" />
+      <line x1="68" y1="0" x2="68" y2="58" class="dim" id="plus_node_35" />
+      <text x="72" y="33" class="dimtxt" transform="rotate(90 72,33)" id="plus_node_36">30</text>
+      <line x1="0" y1="58" x2="0" y2="63" class="thin" id="plus_node_37" />
+      <line x1="7" y1="58" x2="7" y2="63" class="thin" id="plus_node_38" />
+      <line x1="15" y1="58" x2="15" y2="63" class="thin" id="plus_node_39" />
+      <line x1="34" y1="58" x2="34" y2="63" class="thin" id="plus_node_40" />
+      <line x1="64" y1="58" x2="64" y2="63" class="thin" id="plus_node_41" />
+      <text x="-3" y="62" class="dimtxt" id="plus_node_42">3.73</text>
+      <text x="6" y="68" class="dimtxt" id="plus_node_43">5.25</text>
+      <text x="25" y="65" class="dimtxt" id="plus_node_44">7.39</text>
+      <text x="53" y="65" class="dimtxt" id="plus_node_45">7.97</text>
+    </g>
+
+    
+    </g>
+
+  
+  <g id="input_to_reasoning_arrows" fill="none" stroke="#000" stroke-width="1.8" stroke-linecap="round">
+    <path id="arrow_input_left" d="M299,132 C291,151 253,158 183,158 C129,158 109,166 108,184" marker-end="url(#arrowBlack)" />
+    <path id="arrow_input_center" d="M299,132 L299,184" marker-end="url(#arrowBlack)" />
+    <path id="arrow_input_right" d="M299,132 C307,151 343,158 413,158 C468,158 489,166 490,184" marker-end="url(#arrowBlack)" />
+  </g>
+
+  
+  <g id="left_reasoning_content">
+    <g id="stamp_left_wrong">
+      <ellipse cx="52" cy="190" rx="23" ry="14" fill="none" stroke="#ff2b2b" stroke-width=".8" transform="rotate(-9 52 190)" id="plus_node_54" />
+      <text x="53" y="186" text-anchor="middle" class="stamp" id="plus_node_55">Wrong</text>
+      <text x="51" y="200" text-anchor="middle" class="stamp" id="plus_node_56">Answer</text>
+    </g>
+    <text id="left_think_top" x="108" y="203" text-anchor="middle" class="think">&lt;think&gt;</text>
+    <text id="left_box_paragraph" class="boxtext">
+      <tspan x="109" y="234" text-anchor="middle">Equilateral triangular base</tspan>
+      <tspan x="109" y="250" text-anchor="middle">(side length 38), extrusion</tspan>
+      <tspan x="109" y="266" text-anchor="middle">height 30, </tspan>
+      <tspan class="emred">central hole</tspan>
+      <tspan x="109" y="282" text-anchor="middle" class="emred">diameter 7, hole positioned 11</tspan>
+      <tspan x="109" y="298" text-anchor="middle">from the bottom.</tspan>
+      <tspan x="109" y="315" text-anchor="middle">...</tspan>
+    </text>
+    <text id="left_think_bottom" x="109" y="329" text-anchor="middle" class="think">&lt;/think&gt;</text>
+  </g>
+
+  
+  <g id="middle_reasoning_content">
+    <g id="stamp_middle_wrong">
+      <ellipse cx="240" cy="190" rx="23" ry="14" fill="none" stroke="#ff2b2b" stroke-width=".8" transform="rotate(-8 240 190)" id="plus_node_60" />
+      <text x="241" y="186" text-anchor="middle" class="stamp" id="plus_node_61">Wrong</text>
+      <text x="239" y="200" text-anchor="middle" class="stamp" id="plus_node_62">Answer</text>
+    </g>
+    <text id="middle_think_top" x="297" y="203" text-anchor="middle" class="think">&lt;think&gt;</text>
+    <text id="middle_box_paragraph" class="boxtext">
+      <tspan x="297" y="239" text-anchor="middle">Create a new workplane </tspan>
+      <tspan class="emred">on</tspan>
+      <tspan x="297" y="255" text-anchor="middle" class="emred">the top face</tspan>
+      <tspan>, start with an</tspan>
+      <tspan x="297" y="271" text-anchor="middle">equilateral triangular base</tspan>
+      <tspan x="297" y="287" text-anchor="middle">of side length 38</tspan>
+      <tspan x="297" y="304" text-anchor="middle">...</tspan>
+    </text>
+    <text id="middle_think_bottom" x="297" y="321" text-anchor="middle" class="think">&lt;/think&gt;</text>
+  </g>
+
+  
+  <g id="right_reasoning_content">
+    <g id="stamp_right_wrong">
+      <ellipse cx="432" cy="190" rx="23" ry="14" fill="none" stroke="#ff2b2b" stroke-width=".8" transform="rotate(-8 432 190)" id="plus_node_70" />
+      <text x="433" y="186" text-anchor="middle" class="stamp" id="plus_node_71">Wrong</text>
+      <text x="431" y="200" text-anchor="middle" class="stamp" id="plus_node_72">Answer</text>
+    </g>
+    <text id="right_think_top" x="489" y="203" text-anchor="middle" class="think">&lt;think&gt;</text>
+    <text id="right_box_paragraph" class="boxtext">
+      <tspan x="490" y="233" text-anchor="middle">Select the front face as the</tspan>
+      <tspan x="490" y="249" text-anchor="middle">reference plane, then create a</tspan>
+      <tspan x="490" y="265" text-anchor="middle">triangular prism with an</tspan>
+      <tspan x="490" y="281" text-anchor="middle" class="emred">equilateral base</tspan>
+      <tspan x="490" y="297" text-anchor="middle" class="emred">(side length 32)</tspan>
+      <tspan> and height 30</tspan>
+      <tspan x="490" y="314" text-anchor="middle">...</tspan>
+    </text>
+    <text id="right_think_bottom" x="490" y="329" text-anchor="middle" class="think">&lt;/think&gt;</text>
+  </g>
+
+  
+  <g id="box_to_robot_arrows" fill="none" stroke="#000" stroke-width="1.8" stroke-linecap="round">
+    <path id="arrow_left_to_robot" d="M109,337 C111,364 176,385 265,386" marker-end="url(#arrowBlack)" />
+    <path id="arrow_middle_to_robot" d="M298,337 L298,365" marker-end="url(#arrowBlack)" />
+    <path id="arrow_right_to_robot" d="M489,337 C487,365 423,384 333,386" marker-end="url(#arrowBlack)" />
+  </g>
+
+  <text id="cme_cad_label" x="299" y="366" text-anchor="middle" class="sans" font-size="9" font-weight="700" fill="#00509b">CME-CAD</text>
+  <g id="bottom_answer_content">
+    <text id="bottom_answer_text" class="boxtext" font-size="13">
+      <tspan x="31" y="434" font-weight="700">&lt;think&gt;</tspan>
+      <tspan>...Place a triangular prism </tspan>
+      <tspan class="emgreen">on the front face</tspan>
+      <tspan>, creates a solid with an </tspan>
+      <tspan class="emgreen">equilateral base</tspan>
+      <tspan> (</tspan>
+      <tspan class="emgreen">side length</tspan>
+      <tspan x="72" y="450">38</tspan>
+      <tspan>) and height 30. Drill a </tspan>
+      <tspan class="emgreen">through-hole</tspan>
+      <tspan> with radius 3....</tspan>
+      <tspan font-weight="700">&lt;/think&gt;</tspan>
+    </text>
+  </g>
+
+  
+  <g id="sam_replace_model_3d" data-plus-keeps="f01 title_input_images input_sketch_left input_sketch_center input_sketch_right" transform="translate(0 0)">
+    <image href="data:image/png;base64,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" x="464" y="45" width="81" height="80" id="plus_node_90" preserveAspectRatio="none" />
+  </g>
+  <g id="sam_replace_left_icon" data-plus-keeps="f02 stamp_left_wrong left_think_top left_box_paragraph left_think_bottom" transform="translate(0 0)">
+    <image href="data:image/png;base64,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" x="149" y="189" width="31" height="31" id="plus_node_91" preserveAspectRatio="none" />
+  </g>
+  <g id="sam_replace_middle_icon" data-plus-keeps="f03 stamp_middle_wrong middle_think_top middle_box_paragraph middle_think_bottom" transform="translate(0 0)">
+    <image href="data:image/png;base64,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" x="342" y="188" width="31" height="30" id="plus_node_92" preserveAspectRatio="none" />
+  </g>
+  <g id="sam_replace_right_icon" data-plus-keeps="f04 stamp_right_wrong right_think_top right_box_paragraph right_think_bottom" transform="translate(0 0)">
+    <image href="data:image/png;base64,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" x="532" y="189" width="31" height="31" id="plus_node_93" preserveAspectRatio="none" />
+  </g>
+  <g id="sam_replace_robot" data-plus-keeps="cme_cad_label f05 bottom_answer_content" transform="translate(0 0)">
+    <image href="data:image/png;base64,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" x="286" y="370" width="26" height="42" id="plus_node_94" preserveAspectRatio="none" />
+  </g>
+</svg>

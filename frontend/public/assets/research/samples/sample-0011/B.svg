@@ -1,0 +1,207 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="561" height="607" viewBox="0 0 561 607">
+  <title>Teacher sequence, data stores, checkpoint transitions, and logits/KL divergence diagram</title>
+  <desc>
+    Complete native SVG reconstruction. Base frames: teacher stack at upper left with diagonal Teacher Sequence arrow to central teacher block; left cylindrical data store with Ds, Di, De and two small illustrative image thumbnails; central stacked state blocks Tt, St, S(t-1) connected by black/gray/red/dotted arrows; right red/gray logits bars connected by black arrows and teal KL divergence links; bottom legend.
+  </desc>
+
+  <defs>
+    <filter id="softShadow" x="-25%" y="-25%" width="150%" height="150%">
+      <feDropShadow dx="2.5" dy="2.5" stdDeviation="2" flood-color="#000000" flood-opacity="0.28" />
+    </filter>
+
+    <linearGradient id="blueCardGrad" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#d9e8ff" />
+      <stop offset="100%" stop-color="#c4d9f7" />
+    </linearGradient>
+    <linearGradient id="orangeCardGrad" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#ffe6ad" />
+      <stop offset="100%" stop-color="#ffd05b" />
+    </linearGradient>
+    <linearGradient id="cylinderGrad" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#eadbf5" stop-opacity="0.60" />
+      <stop offset="55%" stop-color="#ffffff" stop-opacity="0.32" />
+      <stop offset="100%" stop-color="#d9c0e8" stop-opacity="0.55" />
+    </linearGradient>
+
+    <marker id="arrowBlack" markerWidth="10" markerHeight="8" refX="9" refY="4" orient="auto" markerUnits="userSpaceOnUse">
+      <path d="M0,0 L10,4 L0,8 Z" fill="#000000" id="plus_node_0" />
+    </marker>
+    <marker id="arrowGray" markerWidth="10" markerHeight="8" refX="9" refY="4" orient="auto" markerUnits="userSpaceOnUse">
+      <path d="M0,0 L10,4 L0,8 Z" fill="#666666" id="plus_node_1" />
+    </marker>
+    <marker id="arrowRed" markerWidth="10" markerHeight="8" refX="9" refY="4" orient="auto" markerUnits="userSpaceOnUse">
+      <path d="M0,0 L10,4 L0,8 Z" fill="#e00000" id="plus_node_2" />
+    </marker>
+    <marker id="dotArrowGray" markerWidth="10" markerHeight="8" refX="9" refY="4" orient="auto" markerUnits="userSpaceOnUse">
+      <path d="M0,0 L10,4 L0,8 Z" fill="#5c5c5c" id="plus_node_3" />
+    </marker>
+
+    <clipPath id="clipTopPhoto">
+      <rect x="164" y="301" width="48" height="37" id="plus_node_4" />
+    </clipPath>
+    <clipPath id="clipBottomPhoto">
+      <rect x="164" y="352" width="48" height="37" id="plus_node_5" />
+    </clipPath>
+
+    <g id="snowflakeSymbol" stroke="#111111" stroke-width="1.65" stroke-linecap="round" stroke-linejoin="round" fill="none"><line id="snowflake_main_h" x1="-8.8" y1="0" x2="8.8" y2="0" /><line id="snowflake_main_v" x1="0" y1="-9.4" x2="0" y2="9.4" /><line id="snowflake_main_d1" x1="-6.8" y1="-6.8" x2="6.8" y2="6.8" /><line id="snowflake_main_d2" x1="-6.8" y1="6.8" x2="6.8" y2="-6.8" /><path id="snowflake_branches_v" d="M0 -7.4 L-3.0 -4.6 M0 -7.4 L3.0 -4.6 M0 7.4 L-3.0 4.6 M0 7.4 L3.0 4.6" /><path id="snowflake_branches_h" d="M-7.2 0 L-4.4 -3.0 M-7.2 0 L-4.4 3.0 M7.2 0 L4.4 -3.0 M7.2 0 L4.4 3.0" /><path id="snowflake_branches_d1" d="M-5.6 -5.6 L-5.7 -1.9 M-5.6 -5.6 L-1.9 -5.7 M5.6 5.6 L5.7 1.9 M5.6 5.6 L1.9 5.7" /><path id="snowflake_branches_d2" d="M-5.6 5.6 L-1.9 5.7 M-5.6 5.6 L-5.7 1.9 M5.6 -5.6 L1.9 -5.7 M5.6 -5.6 L5.7 -1.9" /><circle id="snowflake_center" cx="0" cy="0" r="1.55" fill="#111111" stroke="none" /></g></defs>
+
+  <rect id="f00" data-plus-kind="frame" x="0" y="0" width="561" height="607" fill="#ffffff" stroke="none" />
+  <g id="base_frames">
+    <desc>Transparent editable base frames for aligned diagram regions; sibling frames are separated and contained within the full canvas frame.</desc>
+    <rect id="f01" data-plus-kind="frame" x="48" y="48" width="184" height="170" fill="none" stroke="none" />
+    <rect id="f02" data-plus-kind="frame" x="49" y="244" width="168" height="177" fill="none" stroke="none" />
+    <rect id="f03" data-plus-kind="frame" x="220" y="197" width="160" height="294" fill="none" stroke="none" />
+    <rect id="f04" data-plus-kind="frame" x="381" y="219" width="122" height="262" fill="none" stroke="none" />
+    <rect id="f05" data-plus-kind="frame" x="101" y="498" width="309" height="73" fill="none" stroke="none" />
+  </g>
+
+  <g id="teacher_stack_and_sequence">
+    <desc>Upper-left teacher sequence frame inventory: four overlapping light-blue teacher sheets, a front Tt sheet with a snowflake, and a black diagonal arrow labeled Teacher Sequence pointing toward the front sheet and then to central Tt.</desc>
+    <g id="teacher_stack" filter="url(#softShadow)">
+      <path id="teacher_sheet_back_1" d="M62 61 L153 80 L153 146 L62 165 Z" fill="#d9e8ff" stroke="#678fc7" stroke-width="3" />
+      <path id="teacher_sheet_back_2" d="M75 75 L166 94 L166 160 L75 179 Z" fill="#d9e8ff" stroke="#678fc7" stroke-width="3" />
+      <path id="teacher_sheet_back_3" d="M88 91 L178 111 L178 176 L88 195 Z" fill="#d9e8ff" stroke="#678fc7" stroke-width="3" />
+      <path id="teacher_sheet_front" d="M101 108 L191 128 L191 191 L101 210 Z" fill="url(#blueCardGrad)" stroke="#678fc7" stroke-width="3" />
+      <text id="teacher_stack_text" x="144" y="168" text-anchor="middle" font-family="Times New Roman, serif" font-size="31" font-style="italic" fill="#000">
+        T<tspan baseline-shift="sub" font-size="18">t</tspan>
+      </text>
+      <use href="#snowflakeSymbol" id="teacher_stack_snow" x="115" y="190" width="16" height="16" />
+    </g>
+
+    <path id="teacher_sequence_arrow" d="M145 49 L226 130" fill="none" stroke="#000" stroke-width="4" marker-end="url(#arrowBlack)" />
+    <text id="teacher_sequence_label" x="203" y="73" font-family="Times New Roman, serif" font-size="18" font-style="italic" fill="#000" transform="rotate(50 203 73)" text-anchor="middle">
+      Teacher Sequence
+    </text>
+  </g>
+
+  <g id="left_data_cylinder">
+    <desc>Left data frame inventory: purple transparent cylinder containing top region Ds and two white disks labeled Di and De. Two thumbnail images sit on the cylinder's right edge; the lower thumbnail has a red outline and feeds red checkpoint arrows.</desc>
+    <path id="cylinder_body" d="M51 265 C51 239 158 239 158 265 L158 401 C158 427 51 427 51 401 Z" fill="url(#cylinderGrad)" stroke="#9b77b1" stroke-width="4" />
+    <ellipse id="cylinder_top" cx="104.5" cy="265" rx="53.5" ry="19" fill="none" stroke="#9b77b1" stroke-width="4" />
+    <ellipse id="cylinder_bottom" cx="104.5" cy="401" rx="53.5" ry="19" fill="none" stroke="#9b77b1" stroke-width="4" />
+    <path id="cylinder_left_stripe" d="M76 251 C54 288 54 368 76 416" fill="none" stroke="#9b77b1" stroke-width="2" opacity="0.55" />
+    <path id="cylinder_right_stripe" d="M135 251 C156 287 156 369 135 416" fill="none" stroke="#9b77b1" stroke-width="2" opacity="0.55" />
+
+    <text id="Ds_label" x="104" y="278" text-anchor="middle" font-family="Times New Roman, serif" font-size="32" font-style="italic" fill="#000">
+      D<tspan baseline-shift="super" font-size="18">s</tspan>
+    </text>
+
+    <g id="Di_disk" filter="url(#softShadow)">
+      <path d="M70 306 C70 287 140 287 140 306 L140 334 C140 353 70 353 70 334 Z" fill="#ffffff" stroke="#000" stroke-width="4" id="plus_node_11" />
+      <ellipse cx="105" cy="306" rx="35" ry="14" fill="#ffffff" stroke="#000" stroke-width="4" id="plus_node_12" />
+      <text x="104" y="335" text-anchor="middle" font-family="Times New Roman, serif" font-size="29" font-style="italic" fill="#000" id="plus_node_13">
+        D<tspan baseline-shift="sub" font-size="17">i</tspan>
+      </text>
+    </g>
+
+    <g id="De_disk" filter="url(#softShadow)">
+      <path d="M70 365 C70 346 140 346 140 365 L140 393 C140 412 70 412 70 393 Z" fill="#ffffff" stroke="#000" stroke-width="4" id="plus_node_14" />
+      <ellipse cx="105" cy="365" rx="35" ry="14" fill="#ffffff" stroke="#000" stroke-width="4" id="plus_node_15" />
+      <text x="104" y="394" text-anchor="middle" font-family="Times New Roman, serif" font-size="29" font-style="italic" fill="#000" id="plus_node_16">
+        D<tspan baseline-shift="sub" font-size="17">e</tspan>
+      </text>
+    </g>
+
+    <image id="restored_top_thumbnail_photo" x="164" y="300" width="49" height="39" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADEAAAAnCAIAAAApcTfNAAAPTklEQVR4nM2YyY8d13XGz7lTDe/VG/u97mZzkERSJDWYkuXEkS0kWTmIYxkBDCNAssoii/wn8TK7ANnEQRAEQZJNZCAe4FixZVuTBcmWQJFUk2z2+PpNNd/5ZkHZbAFZZOlaVN1C1S388N1T53z34Kuvvgq/ZQd7dAkhhBD+/9MQ8fHg8cRw5umjVxB+fYKzn8f/YwQA3vvHTFLK+/fvPWLjIorjDiIqrayzjMXgnVLKOgUhEIKUECGiKIqTpJNGXDBg3hLTctd2qBlyGI4m463tbDSJuiOW9lEkjlBrbQgAQAHgETMhiIR8eoMYAH74xs8Pjk/YZxgRGOVpp9fp9L0L1uY+aEaF9dr7AAE4JSGA876u27pukOac0SyNB2mUoBMQEDwAQnAEAgVPMBAEikgoQWAhACIBSkIABACKhBAMNCAgBAAgBB/rhIicC8ZFnHTSbl+IjtGKC849o5QaJY3RIrRfuv5cXlcfPDhAJoIH58FqhwwDxTL4IaeCxp4iAQ/BBUAexVGSEiK8t9RbAIi7g2i4QdMsOP9o3YKzbdvqpjFGfyaeEDGOUxEl3WwYJZn3TlpLKOOcKCWVbp3X185f/MIzzyO6Ue/W6x99xOOBBWacDbxD0qGxegG2tk453+URSQfDS89ML10VSdfVeXV6YE0BABHrpVHcHU1ZklDKKCUBQCndVHme50y8eZaJMB5zHsVpRgjVWjmvQwCpZFXlraxE8E+de+LC9Enl5fUn1aLIP3i4ysYj7R1SIeJEiMGjuD5pi3ppsifGNy9/bvvSk8RaXacZ1AqOSagpi7zt798rfvbOB9KYV7/xzeefvRG812rcNG3ayc4wEYzjKBIxImrdGqMQiXOqqYu6KUiwo6Rz7cJV6ekqbxoZht1sq1tLwPM7FwOhhFBjnHOOUkribqHlD97fzc7vbp27OMyihArQxAYE58vmwd//y4/efu/e+c2tvGmrsnruW3/DOeOciYgJwc8wAcZREkVdsFa3NXgPLqi2km2B3gnOssFgMtk8mB1IB6W0tbRJJGSzbJos7vSNVFVZAngklIso4jwg+d6PfozEffXLLwzoOtgFpXD7oPrWP/wk6PjmlSuCi5S3+Xy/OD1Kuj0g3Pngnf1MPBGEEIwxxjtvrambSuk2eE8ppZQTwkUSDTcuVspqF6Llsp0vWDDy9NAYs14tdSuRoPM+TtIoStK0a4x57buvF8effO2FcT9ufvL+7t/+4xv9OJpO+xyTXmfDmJUga3v8cS4ySyIONqjqMdOj5BW8U7L1AYwxdbV2ug3oKI2ipBOnHdmoC9sX7xwv2oAqIFJe5MX5rUHR1HGSdtLYGUcJsd7rttSyNp0eo5P/eW8Xmzy083/+7lsMOPayOBpr1od4QCJzZdun+v5qzbVnBCtQqzNMITjrtDFKKcYFAITgEQLnMWfxYLgdKBmMt7W1AqyUarXOV6tcG3NyOrt+48Uf/uLtK1efHZzbEiJBAAS3OD3WWrZNZXn8b//9vsrnZaUGwyzpbiS9LR6Lqlg1zXK6ORUxkqqyeRt4BV4BAPlNUVBGtm3jvXfWGiMJAmWcs2gyuZB0R1Xb3Ll/a1mow/nx6eL4dH4cMDgP86I6Xa/Xp0cff/iubqqmLlpZGeNEkmW90f7D+2+9+XonTmbzExNC0u0nneHWzhPDrL85HJZ1fu2pS0fHxcHe7MHD2eH+Srf27NoFgOCcs9ZqrYyVQnDv2Wi81R8O1/laVtWP3vjeyy+9wmik2sJaFSDM87U2bvXumxCwKYsP3vv5dGtnOBpTGvngVovZ7HiPEfbwcM94nPQ3hr1xkqYRsEmvfzC7nzB0i/ZBnq+WhVSmIr5u/WOdIABACMEao5zViJ5SnqZZmnTWy/nRwb2iqrbOXaSAWjX3Dx8sy8I4zxgHAGM0AAKSpi5OTw60agnafHWyd/+Olq1S7e7ebqNUWS5MW/fjXoR2WdbIulc2+2FddYLYSNIOQxcwIH2sU4CglbRGB2+RkE6apWmfc26MOTx4cLqYR1G0N1/cvPkHswe310WxrupK6gAo4oRzJlvpgg/BI/iHe7tRnHgtrZacC601orfOKi2rqmAU5tV62J/sfvL2N770NGxfHox3CCX9Yt1I/VbxBpSHv4lxIISKKAYESmnWHSZJtlqfzheni+VMShXH8Y9/8ea6qvrZsGp1kmZaGyYiEXFwjgAWZY6MtE3JRSLb2moZvAOAJEkCeIoYAl3k60W+StF/543vXNzs8uHW6OYrG9s7lDFjlHMh++gOHPyGCSGKE2MtIHTSXgA8nZ+s8/lsdiylct4hkhDwl7dvBQ/T7R2lZOzdYDDmFLw1WittlA9OG4vUOqshOC6YNY5zEadZAGjbhimVCE6IuHHtBXDHJE7602na7yJiDDEAMH4mjxNCOOeM01428N6v8+X+wYOiKJVW1tp+f3z1yg2p2uVyYZFn401S5kksep2ulvW6Ltu25ZyVVYXIvHMQwBjDGQwGg+l0M06HCkhVrBIuHiznhVK3bv/iL7/yclvky6MDQgkhzDpHEJ1zn6ktkUhDIHm5mM2O8jyvqrJt2wABAC5eeirrb4Qqn/DMBs8IiaKIBbs6+JhRWqzXZdNQHgUPhIJgzHuiVKONkVK2TdPvb3IuCBDOojc/eD8R7AtPP/HC01dbb04+fGdx72NrXCsbSDrl+mzORGzqam//3vHxYdvKs06YCZ5m/apVj0xfU1dccAR49vK1Lz/V/879aTQrP3n3++sqDwCUMeec8y6EgAjWurqutdaciygSjEbb5y80ZXH36OT7v7z/ystfdN62x/tyvWqltEib9eIzeXy1OJod7mlrCcEQwPmAiMGHgMwaE/GERal1VjAeixiRWopPXx7+3U/nwNI/eGn64/cXRVkwEhAcBocBwLmIeBpFSZjXpwuX9EmKXrdxxKpi/fbD5df+6uXt8ZAAaK10WTVt9c7i27AqPmWyzi4WcwCIhFDaeu8BP7X33vu6KYTgSmkAFEJIKQnj60p/dHrhC1fXWi2SenB+g3yiJRAaR7FSCgAmG/3B1vmd61++Ln7lq/D6fcUiK6WMoojHsQkk6vTSfgcJiUPmJ+OBC0mvf6a2BIiSbqfb88577z918YBIQDAqGLdGK1kzSiilzvvg3Xy1/Ncf3p4dQb0kd2cZck5ZPBpuMiYoIVzQy9ubLzzTO7337udvXjWdJ/v9LQyhaSsqRNIb3nzx85EQtXRNa6xzGIAS/0iHx//daLwlREJZar0xxnjvjDFSt9aYPC82NsR4PDVGtW2NwbRVQxARcOXjiHch8/t3bhMUsm2btgFwnMWG9WcP2mvnt/7rTXtcNMYb3eSdTgcQIxHffOGFoq6M4ymPvSOUExbsZ/yTs6ZYLbP+YDo9Z8FbYyngycnhwdGesdY77Z0uVnNjdFlXhDAI0FaASDiPgCXeNoDMOhkAoyip6xIYk5gBTY/urmjUIjLBgrd20B8xHn391T/dmWygVV6BBqqkPLz9/uLex6d7n5xh8m6Zz4A4StED8T5EsZhMpiLiJ6czJaXRSsqGIOmkUVW11jqjNaOcEkIoCd6ONybLRRiPz2kjjfPD0aYQURRH4LtCiNXqeLlcxWnHWH35ylM3blxjHK3Rpi4f7H54+uGbvCr7vUyEM3vOSa//xy9+7uPDg2J5XLcyAPAoTuJOHKfj4WS5nDd1jQhlUzBGH+3DKMXgrZJSmXmapt1Ov5Om5849GRCPDu8bB3HElSytblW7aqp58B68M7Lau3/Hymrv1sHy/i0yezBEe2Fre+vF3082z/3k31+DfPdTpjQSf/a7X2wa2Wpbte2iaRe1nlf1cV4a2VIhiqrqpMlgOKrKkhBCCeOcEwwUHRdJcN55e2/3I2MsZ2Tv4e72hWvBmWo9l01RVmtCwnCwQcDNT09FkG+99u2dybmeXHdMQwBomzeHdyk4b9RjnWiaXvqjvzA+YAhVnZNWlqeHzdFeUxWzSr1xa/ej/QeeRowxrMq6LAgVaadrjaKqiZyL4sxaNxlPBHoIEPGUUZSybprCW5VlvbZpjo/2A4RI8N+5cemLn39eG9Q5OOgHrRaiW7ukLZXSZ2LcW1kdv9MdTaznQWvsTze2L3Zf/kNA4Qn7ineNtNJo2+gP3vvpa//xT3fu7qq2ao0TCQdETikJAb0vlgcWGI/StlgZ06KRW4P+1tYoEmTY6zxxbnt7MunHQlXSBHjpq38+2rkYd1LOOSJBQn9wbwZHv+4XpJ34+RtdV91z5UONeb3qffSr/nzRsjiJky6LEt7teOOq+fHUyr/+5qs9gMXdX77zyf5/vvdhUZUEQprEjDESjRPVPPfU1jM70yc2h3FvON3qiERxbOM04YJZg40kUiNgvLz7hjy9k4w3ozQbbu6k3T5iOFNbnG5XJ1ZqZXYWVU/bHvpmczQybe3zBWHcnKiIwiQA8kjLOnSz7ede+vrnfu+VP/nG7slqNjtdLmbo/flJ/9mdiUNvXNBapuPe1ugki9osG2BMSDygnQFh3RB8QA5WBuscnnjzgBa39WFpy8PHTErD7r2EuK5fL0OIg202uIj6Y3H+KRoLZCyNuC4WdjlrZyfVainLkyrqssGYU3plgzw92pRySJMsm+50J1ud4SjtpOB9UzfrxfFs/smGzUcDiIUg0IN4CvGA8C4ABecpZRBq0Gse73P23lmdQlKuCOtkV6+nW+dZfyTSTiCojcVg0YVQztfrk3a1aOpSe2+dlTrXjpkkG27vbF+60h1OhtOpSGNAQACChOCjhtkzVn5pfrh/64OfubtHgzEMprbbr0V3wOOu95qEABCCyYl1gOSMf3I29SqbXORbUxpzLwtpKm+Mns/q01lVrHVVyGqdF1XhkA3OZ5Pt0WRr+8nL2WgiYsEYASQBwHtPGUUABLDWOucgBAheZN0oGx/v79Xl0f69IwiYJDEXiEABgvOOIhFcFCt9hikSerwxr07x/ZO2VUY76x0y4Yyq60p6aD3Gg+nw2itXr1zb2NzkcRQACCEAAQKEAD74R95Qt1LW5eL4cH6w55oWnKHgdJ0H1XYFjaiggICeORtKTZOeVtIZ7SkpTa7b9kxtgbAmxvrcON04n1dtLW1bBwvgrGWcDbafnFx/iXc68zJflgUSfOTaQggQEACstXVRFKtVfnpUL2eqLrNO0okiZlriPSJ65ygEIWIuOBJKCQ0YQaONMkZp8J4G56wDAPwt7Pv+LwebpfmFANhAAAAAAElFTkSuQmCC" /><image id="restored_bottom_thumbnail_duck" x="164" y="342" width="49" height="49" href="data:image/png;base64,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" /></g>
+
+  <g id="central_flow">
+    <desc>Central flow frame inventory: origin is the central teacher Tt card. It receives a black teacher-sequence arrow from above/left and gray input arrows from the left. Below it are orange St and blue S(t-1), with red checkpoint-change paths from De/photo area and a dotted downward relation between St and S(t-1). The section is vertically partitioned by the three state cards, with arrows exiting right toward logits.</desc>
+
+    <path id="teacher_to_central_arrow" d="M191 164 H326 V203" fill="none" stroke="#000" stroke-width="3" marker-end="url(#arrowBlack)" />
+
+    <path id="gray_arrow_to_Tt" d="M225 321 V229 H281" fill="none" stroke="#666" stroke-width="4" marker-end="url(#arrowGray)" />
+    <path id="gray_arrow_from_Di" d="M213 321 H281" fill="none" stroke="#666" stroke-width="4" marker-end="url(#arrowGray)" />
+
+    <path id="red_path_to_St" d="M139 370 H278" fill="none" stroke="#e00000" stroke-width="3" marker-end="url(#arrowRed)" />
+    <path id="red_path_to_lower_state" d="M212 370 H244 V463 H281" fill="none" stroke="#e00000" stroke-width="3" marker-end="url(#arrowRed)" />
+    <path id="red_path_from_top_change" d="M212 319 H244 V280 H280" fill="none" stroke="#e00000" stroke-width="3" marker-end="url(#arrowRed)" />
+    <path id="red_brace_at_photos" d="M214 313 C221 313 221 322 214 322 M214 322 C221 322 221 326 214 326" fill="none" stroke="#e00000" stroke-width="3" />
+
+    <g id="central_Tt_card" filter="url(#softShadow)">
+      <path id="central_Tt_shape" d="M282 203 L376 222 L376 285 L282 309 Z" fill="url(#blueCardGrad)" stroke="#678fc7" stroke-width="3" />
+      <text x="329" y="259" text-anchor="middle" font-family="Times New Roman, serif" font-size="32" font-style="italic" fill="#000" id="plus_node_32">
+        T<tspan baseline-shift="sub" font-size="18">t</tspan>
+      </text>
+      <use href="#snowflakeSymbol" id="central_Tt_snow" x="297" y="286" width="16" height="16" />
+    </g>
+
+    <g id="central_St_card" filter="url(#softShadow)">
+      <path id="central_St_shape" d="M282 309 L354 331 L354 371 L282 389 Z" fill="#ffe3c4" stroke="#d39a0d" stroke-width="3" />
+      <text x="318" y="358" text-anchor="middle" font-family="Times New Roman, serif" font-size="29" font-style="italic" fill="#000" id="plus_node_33">
+        S<tspan baseline-shift="sub" font-size="17">t</tspan>
+      </text>
+      <g id="flame_symbol"><path id="student_flame_outer" d="M294.5 379 C289.0 377.0 286.0 373.0 286.4 368.0 C286.7 363.7 289.5 361.1 291.4 357.2 C292.0 361.5 294.5 364.0 296.6 366.5 C297.1 361.8 301.0 358.2 301.6 353.8 C306.0 359.1 309.5 364.2 309.0 370.0 C308.5 376.0 302.4 380.5 294.5 379 Z" fill="#ffa12a" stroke="#4f78b5" stroke-width="1.45" stroke-linejoin="round" /><path id="student_flame_inner" d="M295.0 376.0 C291.9 374.5 290.4 371.8 290.8 368.8 C291.0 366.4 292.7 364.5 294.1 362.1 C294.5 365.1 296.3 367.0 298.0 368.9 C298.7 366.4 300.3 364.4 301.7 361.9 C304.0 365.3 305.0 368.6 304.3 371.4 C303.4 375.0 299.5 377.2 295.0 376.0 Z" fill="#ffcc55" stroke="#e87722" stroke-width="0.9" stroke-linejoin="round" /></g></g>
+
+    <path id="dotted_St_to_lower" d="M321 373 V407" fill="none" stroke="#666" stroke-width="4" stroke-linecap="round" stroke-dasharray="2 7" marker-end="url(#arrowGray)" />
+
+    <g id="central_Stminus1_card" filter="url(#softShadow)">
+      <path id="central_Stminus1_shape" d="M282 407 L354 426 L354 469 L282 486 Z" fill="url(#blueCardGrad)" stroke="#678fc7" stroke-width="3" />
+      <text x="318" y="455" text-anchor="middle" font-family="Times New Roman, serif" font-size="29" font-style="italic" fill="#000" id="plus_node_34">
+        S<tspan baseline-shift="sub" font-size="17">t−1</tspan>
+      </text>
+      <use href="#snowflakeSymbol" id="central_Stminus1_snow" x="297" y="470" width="16" height="16" />
+    </g>
+
+    <path id="arrow_Tt_to_logits" d="M382 250 H438" fill="none" stroke="#000" stroke-width="3" marker-end="url(#arrowBlack)" />
+    <path id="arrow_St_to_logits" d="M359 350 H438" fill="none" stroke="#000" stroke-width="3" marker-end="url(#arrowBlack)" />
+    <path id="arrow_Stminus1_to_logits" d="M359 446 H438" fill="none" stroke="#000" stroke-width="3" marker-end="url(#arrowBlack)" />
+  </g>
+
+  <g id="logits_and_kl">
+    <desc>Right logits frame inventory: red logits from De and dark gray logits from Di are vertical bars aligned in rows. Teal diamond-ended KL divergence links connect corresponding consecutive logits vertically between rows.</desc>
+    <g id="top_logits">
+      <rect id="logits_De_top" x="442" y="222" width="19" height="58" fill="#e00000" stroke="#750000" stroke-width="2" />
+      <rect id="logits_Di_top" x="479" y="222" width="19" height="58" fill="#4e4e4e" stroke="#202020" stroke-width="2" />
+    </g>
+    <g id="middle_logits">
+      <rect id="logits_De_mid" x="442" y="321" width="19" height="59" fill="#e00000" stroke="#750000" stroke-width="2" />
+      <rect id="logits_Di_mid" x="479" y="321" width="19" height="59" fill="#4e4e4e" stroke="#202020" stroke-width="2" />
+    </g>
+    <g id="bottom_logits">
+      <rect id="logits_De_bottom" x="442" y="421" width="19" height="59" fill="#e00000" stroke="#750000" stroke-width="2" />
+    </g>
+
+    <g id="kl_links" stroke="#75aaa2" stroke-width="3" fill="#ffffff">
+      <line x1="451.5" y1="288" x2="451.5" y2="315" id="plus_node_35" />
+      <rect x="447.5" y="282" width="8" height="8" transform="rotate(45 451.5 286)" id="plus_node_36" />
+      <rect x="447.5" y="311" width="8" height="8" transform="rotate(45 451.5 315)" id="plus_node_37" />
+
+      <line x1="488.5" y1="288" x2="488.5" y2="315" id="plus_node_38" />
+      <rect x="484.5" y="282" width="8" height="8" transform="rotate(45 488.5 286)" id="plus_node_39" />
+      <rect x="484.5" y="311" width="8" height="8" transform="rotate(45 488.5 315)" id="plus_node_40" />
+
+      <line x1="451.5" y1="387" x2="451.5" y2="416" id="plus_node_41" />
+      <rect x="447.5" y="381" width="8" height="8" transform="rotate(45 451.5 385)" id="plus_node_42" />
+      <rect x="447.5" y="412" width="8" height="8" transform="rotate(45 451.5 416)" id="plus_node_43" />
+    </g>
+  </g>
+
+  <g id="legend">
+    <desc>Bottom legend inventory: dotted gray checkpoint arrow, red bar labeled logits from De, teal diamond-ended KL divergence line, and gray bar labeled logits from Di. Items are aligned in two columns.</desc>
+    <g id="legend_checkpoint">
+      <g id="plus_node_44" fill="#5c5c5c" stroke="none"><circle id="checkpoint_dot_1" cx="106" cy="518" r="3" /><circle id="checkpoint_dot_2" cx="119" cy="518" r="3" /><circle id="checkpoint_dot_3" cx="132" cy="518" r="3" /><path id="checkpoint_arrow_head" d="M141 512 L154 518 L141 524 Z" /></g><text x="167" y="512" font-family="Times New Roman, serif" font-size="18" fill="#000" id="plus_node_45">Checkpoint at</text>
+      <text x="177" y="532" font-family="Times New Roman, serif" font-size="18" fill="#000" id="plus_node_46">task change</text>
+    </g>
+
+    <g id="legend_kl" stroke="#75aaa2" stroke-width="3" fill="#ffffff">
+      <line x1="110" y1="565" x2="143" y2="565" id="plus_node_47" />
+      <rect x="104" y="561" width="8" height="8" transform="rotate(45 108 565)" id="plus_node_48" />
+      <rect x="139" y="561" width="8" height="8" transform="rotate(45 143 565)" id="plus_node_49" />
+      <text x="166" y="571" font-family="Times New Roman, serif" font-size="18" fill="#000" stroke="none" id="plus_node_50">KL divergence</text>
+    </g>
+
+    <g id="legend_red_logits">
+      <rect x="309" y="501" width="13" height="29" fill="#e00000" stroke="#750000" stroke-width="1.5" id="plus_node_51" />
+      <text x="337" y="523" font-family="Times New Roman, serif" font-size="18" fill="#000" id="plus_node_52">
+        logits from <tspan font-style="italic">D</tspan><tspan baseline-shift="sub" font-size="12">e</tspan>
+      </text>
+    </g>
+
+    <g id="legend_gray_logits">
+      <rect x="309" y="548" width="13" height="29" fill="#4e4e4e" stroke="#202020" stroke-width="1.5" id="plus_node_53" />
+      <text x="337" y="570" font-family="Times New Roman, serif" font-size="18" fill="#000" id="plus_node_54">
+        logits from <tspan font-style="italic">D</tspan><tspan baseline-shift="sub" font-size="12">i</tspan>
+      </text>
+    </g>
+  </g>
+</svg>

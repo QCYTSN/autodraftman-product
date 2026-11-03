@@ -1,0 +1,185 @@
+<svg viewBox="0 0 1731 445" width="1731" height="445" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <marker id="arrowBlack" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#000"/>
+    </marker>
+  </defs>
+
+  <rect x="0" y="0" width="1731" height="445" fill="#ffffff"/>
+  <line x1="866" y1="0" x2="866" y2="445" stroke="#dedede" stroke-width="2"/>
+
+  <!-- Left panel headings -->
+  <text x="23" y="43" font-family="sans-serif" font-size="24" fill="#000">New Input Prompts</text>
+  <text x="542" y="43" font-family="sans-serif" font-size="24" fill="#000">Sampled Responses</text>
+
+  <!-- left database -->
+  <g stroke="#000" stroke-width="2.2" fill="#fff">
+    <path d="M61 82 C61 61 135 61 135 82 L135 146 C135 166 61 166 61 146 Z"/>
+    <ellipse cx="98" cy="82" rx="37" ry="12"/>
+    <path d="M61 146 C61 166 135 166 135 146" fill="none"/>
+  </g>
+  <text x="82" y="121" font-family="sans-serif" font-size="27" fill="#000">{x}</text>
+
+  <!-- arrows left top -->
+  <line x1="136" y1="112" x2="253" y2="112" stroke="#000" stroke-width="1.8" marker-end="url(#arrowBlack)"/>
+
+  <!-- current model left -->
+  <rect x="255" y="72" width="137" height="82" fill="#fff" stroke="#000" stroke-width="2.1"/>
+  <text x="287" y="107" font-family="sans-serif" font-size="22" fill="#000">Current</text>
+  <text x="286" y="139" font-family="sans-serif" font-size="22" fill="#000">LLM πθ</text>
+
+  <line x1="392" y1="112" x2="477" y2="112" stroke="#000" stroke-width="1.8" marker-end="url(#arrowBlack)"/>
+
+  <!-- sampled responses container -->
+  <rect x="480" y="64" width="331" height="111" rx="17" ry="17" fill="#fff" stroke="#000" stroke-width="2" stroke-dasharray="8 5"/>
+
+  <!-- sampled response stacks -->
+  <g fill="#fff" stroke="#000" stroke-width="2">
+    <path d="M528 86 H619 V147 H528 Z"/>
+    <path d="M520 91 H611 V152 H520 Z"/>
+    <path d="M512 96 H603 V157 H512 Z"/>
+    <path d="M504 101 H595 V162 H504 Z"/>
+  </g>
+  <text x="534" y="139" font-family="sans-serif" font-size="31" fill="#000">{y<tspan baseline-shift="sub" font-size="65%">1</tspan>}</text>
+
+  <g fill="#fff" stroke="#000" stroke-width="2">
+    <path d="M697 86 H788 V147 H697 Z"/>
+    <path d="M689 91 H780 V152 H689 Z"/>
+    <path d="M681 96 H772 V157 H681 Z"/>
+    <path d="M673 101 H764 V162 H673 Z"/>
+  </g>
+  <text x="704" y="139" font-family="sans-serif" font-size="31" fill="#000">{y<tspan baseline-shift="sub" font-size="65%">2</tspan>}</text>
+
+  <!-- implicit reward label and dashed guide -->
+  <rect x="351" y="181" width="263" height="34" fill="#eaf6f6"/>
+  <text x="375" y="205" font-family="sans-serif" font-size="20" fill="#000">Label with Implicit Reward</text>
+  <path d="M323 154 L323 224 L503 224" fill="none" stroke="#000" stroke-width="1.5" stroke-dasharray="8 5" marker-end="url(#arrowBlack)"/>
+
+  <!-- reference model left -->
+  <rect x="255" y="254" width="142" height="88" fill="#fff" stroke="#000" stroke-width="2.1"/>
+  <text x="285" y="291" font-family="sans-serif" font-size="22" fill="#000">Reference</text>
+  <text x="283" y="323" font-family="sans-serif" font-size="22" fill="#000">LLM πᵣₑf</text>
+
+  <!-- arrow down from sampled responses to preference judgment -->
+  <line x1="644" y1="175" x2="644" y2="250" stroke="#000" stroke-width="1.8" marker-end="url(#arrowBlack)"/>
+
+  <!-- preference judgment box -->
+  <rect x="478" y="251" width="334" height="88" rx="13" ry="13" fill="#fff" stroke="#000" stroke-width="2"/>
+
+  <!-- winning response stack -->
+  <g fill="#fff" stroke="#168ee5" stroke-width="3">
+    <path d="M529 271 H617 V327 H529 Z"/>
+    <path d="M520 276 H608 V332 H520 Z"/>
+    <path d="M511 281 H599 V337 H511 Z"/>
+    <path d="M502 286 H590 V342 H502 Z"/>
+  </g>
+  <text x="520" y="319" font-family="sans-serif" font-size="26" fill="#168ee5">{y<tspan baseline-shift="sub" font-size="65%">w</tspan>}</text>
+
+  <!-- blue thumbs-up icon next to winning stack -->
+  <g id="RAS_03" fill="#168ee5" stroke="#168ee5" stroke-width="1.2" stroke-linejoin="round">
+    <path d="M606 270 L612 270 L615 259 C616 255 621 256 621 260 L621 268 L630 268 C633 268 635 271 633 274 L630 286 C629 290 626 292 622 292 L611 292 C607 292 604 289 604 285 L604 274 C604 272 605 271 606 270 Z"/>
+    <path d="M598 272 H604 V291 H598 Z"/>
+  </g>
+
+  <text x="625" y="316" font-family="sans-serif" font-size="49" font-weight="700" fill="#000">&gt;</text>
+
+  <!-- losing response stack -->
+  <g id="RAS_04" fill="#fff" stroke="#ff0000" stroke-width="3">
+    <path d="M704 271 H792 V327 H704 Z"/>
+    <path d="M695 276 H783 V332 H695 Z"/>
+    <path d="M686 281 H774 V337 H686 Z"/>
+    <path d="M677 286 H765 V342 H677 Z"/>
+  </g>
+  <text x="694" y="319" font-family="sans-serif" font-size="26" fill="#ff0000">{y<tspan baseline-shift="sub" font-size="65%">l</tspan>}</text>
+  <g fill="#ff0000" stroke="#ff0000" stroke-width="1.2" stroke-linejoin="round">
+    <path d="M778 272 L772 272 L769 283 C768 287 763 286 763 282 L763 274 L754 274 C751 274 749 271 751 268 L754 256 C755 252 758 250 762 250 L773 250 C777 250 780 253 780 257 L780 268 C780 270 779 271 778 272 Z"/>
+    <path d="M780 251 H786 V270 H780 Z"/>
+  </g>
+
+  <text x="568" y="367" font-family="sans-serif" font-size="22" fill="#000">Preference Judgment</text>
+
+  <!-- bottom left band and title, moved upward with shortened bottom whitespace -->
+  <rect x="166" y="395" width="640" height="39" rx="9" ry="9" fill="#fff9ef"/>
+  <text x="174" y="424" font-family="sans-serif" font-size="31" fill="#000">New Preference Data Generation</text>
+
+  <!-- Right panel headings -->
+  <text x="902" y="43" font-family="sans-serif" font-size="24" fill="#000">New Preference Data</text>
+  <text x="1393" y="43" font-family="sans-serif" font-size="24" fill="#000">Noise Identified Data</text>
+
+  <!-- right database -->
+  <g stroke="#000" stroke-width="2.2" fill="#fff">
+    <path d="M911 82 C911 62 1057 62 1057 82 L1057 146 C1057 166 911 166 911 146 Z"/>
+    <ellipse cx="984" cy="82" rx="73" ry="12"/>
+    <path d="M911 146 C911 166 1057 166 1057 146" fill="none"/>
+  </g>
+  <text x="927" y="121" font-family="sans-serif" font-size="17" fill="#000">{(x, y_w, y_l)}</text>
+
+  <line x1="1058" y1="112" x2="1125" y2="112" stroke="#000" stroke-width="1.8" marker-end="url(#arrowBlack)"/>
+
+  <!-- simulated llm -->
+  <rect x="1127" y="58" width="179" height="91" fill="#fff" stroke="#000" stroke-width="2" stroke-dasharray="8 5"/>
+  <text x="1162" y="95" font-family="sans-serif" font-size="21" fill="#000">Simulated</text>
+  <text x="1164" y="127" font-family="sans-serif" font-size="22" fill="#000">LLM π̃θ</text>
+
+  <line x1="1306" y1="112" x2="1382" y2="112" stroke="#000" stroke-width="1.8" marker-end="url(#arrowBlack)"/>
+
+  <!-- noise identified container -->
+  <rect x="1383" y="66" width="310" height="125" rx="18" ry="18" fill="#fff" stroke="#000" stroke-width="2"/>
+
+  <g fill="#fff" stroke="#00b050" stroke-width="3">
+    <path d="M1426 91 C1426 76 1517 76 1517 91 L1517 153 C1517 168 1426 168 1426 153 Z"/>
+    <ellipse cx="1471.5" cy="91" rx="45.5" ry="12"/>
+    <path d="M1426 153 C1426 168 1517 168 1517 153" fill="none"/>
+  </g>
+
+  <g fill="#fff" stroke="#ff0000" stroke-width="3">
+    <path d="M1573 91 C1573 76 1663 76 1663 91 L1663 153 C1663 168 1573 168 1573 153 Z"/>
+    <ellipse cx="1618" cy="91" rx="45" ry="12"/>
+    <path d="M1573 153 C1573 168 1663 168 1663 153" fill="none"/>
+  </g>
+  <circle cx="1668" cy="85" r="13" fill="#fff" stroke="#ff0000" stroke-width="3"/>
+  <line x1="1662" y1="79" x2="1674" y2="91" stroke="#ff0000" stroke-width="3" stroke-linecap="round"/>
+  <line x1="1674" y1="79" x2="1662" y2="91" stroke="#ff0000" stroke-width="3" stroke-linecap="round"/>
+
+  <!-- callout -->
+  <rect x="861" y="183" width="325" height="64" fill="#eaf6f6"/>
+  <text x="870" y="207" font-family="sans-serif" font-size="20" fill="#000">
+    <tspan x="870" dy="0">Simulate Strongly Aligned LLM</tspan>
+    <tspan x="870" dy="26">for Noisy Label Detection</tspan>
+  </text>
+
+  <!-- lower LLM boxes and merge, raised to match original -->
+  <rect x="984" y="235" width="153" height="91" fill="#fff" stroke="#000" stroke-width="2.1"/>
+  <text x="1016" y="272" font-family="sans-serif" font-size="22" fill="#000">Reference</text>
+  <text x="1015" y="304" font-family="sans-serif" font-size="22" fill="#000">LLM πᵣₑf</text>
+  <text x="1083" y="256" font-family="sans-serif" font-size="31" fill="#1b8fe8">❄</text>
+
+  <rect x="1224" y="235" width="139" height="91" fill="#fff" stroke="#000" stroke-width="2.1"/>
+  <text x="1255" y="272" font-family="sans-serif" font-size="22" fill="#000">Current</text>
+  <text x="1256" y="304" font-family="sans-serif" font-size="22" fill="#000">LLM πθ</text>
+
+  <circle cx="1174" cy="215" r="12" fill="#fff" stroke="#000" stroke-width="1.8"/>
+  <line x1="1167" y1="215" x2="1181" y2="215" stroke="#000" stroke-width="2"/>
+  <line x1="1174" y1="208" x2="1174" y2="222" stroke="#000" stroke-width="2"/>
+  <line x1="1138" y1="235" x2="1164" y2="225" stroke="#000" stroke-width="1.8"/>
+  <line x1="1224" y1="235" x2="1184" y2="225" stroke="#000" stroke-width="1.8"/>
+  <line x1="1174" y1="203" x2="1174" y2="150" stroke="#000" stroke-width="1.8" marker-end="url(#arrowBlack)"/>
+
+  <!-- refinement loop and label, lifted with the raised current model -->
+  <path d="M1547 191 C1543 230 1498 262 1365 286" fill="none" stroke="#000" stroke-width="1.8" marker-end="url(#arrowBlack)"/>
+  <rect x="1441" y="276" width="261" height="67" fill="#eef8f4"/>
+  <text x="1451" y="302" font-family="sans-serif" font-size="22" fill="#000">
+    <tspan x="1451" dy="0">Learning with</tspan>
+    <tspan x="1451" dy="27">Refined Preference</tspan>
+  </text>
+
+  <!-- bottom right band and title, moved upward with shortened bottom whitespace -->
+  <rect x="986" y="395" width="627" height="39" rx="9" ry="9" fill="#eff7ff"/>
+  <text x="1006" y="424" font-family="sans-serif" font-size="31" fill="#000">Preference Learning with Self- Refinement</text>
+
+  <!-- raster placeholders -->
+  <image id="icon_RAS_01" x="365" y="62" width="23" height="26" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABcAAAAYCAYAAAARfGZ1AAAFaElEQVR4nGWVX6hnVRXHP2vvfc753d/vN3euXq252VxndGx0mKR8cIo0InqoTEjrxRnsYUwxEKTCRpiQXvIhgl6yBAkxCsp6iEKCEkQbNEIoahzIB2X+eZnrzJ177/x+5+/ee8U+vzs26IYF+7D3WWuvtb7f75IYI7MlgPL+JRpRDCIBfvETZXUdDj8CO5YE3bovgsa0196NIDNPyXkyVd2yiKZv79GuRZuGWFWzsyeOaMzQ8OkD6n//vEZVYtcRmqa/199N/235M3JFpJnJ7DUpI68QAxp0djYewVWLyFun0AceJDzztIpziPf9vcvrsi+zlQd9ileaMWDTmSB5BpfWiSdOQNsg80OcGMzRo+gLf1QZDokhou/zY/5f3Jmj9/YEyDLUOiRz+Nf/of7Ya7BtHm1KdH4OKWv0xz9Cz5xWGQygTRnE98x0ZUkyX1f4qiImx397UfXbDysrZxTn8JtrGp99BleW6GiAGkGNoldvR4//m+5PfyCgdBrw3uObBl/XXNHILSsntF+9Wz1o+YPva31hVcsnj2p73aLGvbs13LSscc9OjTdep3rzLu2uHWt5+D7VED7gS5762VNph287ugg7jv+HL/7lryxMNtiwBrt3D+PVFUxbozbv+6Nu1g/NLGaz5tKuG3j9mw9zcbwdfEdQKKvmg+BeBF7a+RFujoFJWTGwDjPMsRowGsFaQpERC0cQZaiGty9N+MKp87x1mTI2wzmHO3ToIBoFiR4f4cPTKeHNE8i7q8wNB4jLER9nPTZb6EnbEBGTONExbzseuP1WLly/h20rpzl19iQvX2yQtmlm0AkBmladc+J/85zqkcfJ1EAx1yenmcygaROQIuQWBgnjLdPoiY8eYbRjCfv0T2lPnuSxsxu4GDokKmIEyYzEvMDsXCYUOTRdjwxieqslpaaDBvn4Aqx1cCGCsxTW0T7/a6rz62RrEwo13DvIMZnNyEZj5MU/K7/7lZo8S+lgu3YG+cS83iJMa8I1FRx2yOdB45TYAW3ErZxn0CpuOERzy74ix/Xtb1vkty+gr7yE7r5J9fi/0KqE4QhiS0+9rsPHCrnFIUurcGeENz36cofJ50gV1GiQvqnKtc7gJMuI75zSsPoOdlLhv/M9zGQDOx6DNSSApAdo6WFJMHdkiFbonMfcm6Nna/R4hx0UxCBEa/DGUGS9loJeXCesXUC2j7CTKSYBfjxEnaCFQcYFPjfEfRn2Bp3pSAW67JGDOSx1PfVNUsPQom0Ldb2lLaFDxfe1kqEDY2E5Q+4Zwl6fsIKMc+wnC1hIGp+RtEQakNsUc/8QPwpEld5hz4fO98hF5rfDVfOIdj2eNWnyrQYeMZiHlLivRm53ZAdyiCA2I5UTO0RVkM9lmM+MCGKRwRwkFc3yFCRgPros9rN30jYVaQCQGWSxA3sJ9oF9rMA9mhhW0mtEon56lrWoZoRtAge2YRYKjEnszPoApp9MWU5+6BvEW/biT7+LSaqlDdJ1yLSD8QTG66iviNGj2kEyUikMQQzxQw7Gjhgcxln+SUjOtW+A7P6Y5E/+kHr/HqYr59CNQPDSS2ioO7T2aEh63SKhQWIDdDMOpNlgBK8NptrgtIHHNxuMpiImba5L3G2fkrlfPsv04Ncp354Sz03wTmYc6odJGtQWNRZNjFWHsYYMxZ08w+baebqHvsWZ7z7B34NLepXSS6GF2HpkUBDKju6V57SwP8csvpE0pyfJZQmdzSuLhJyYWXRwNc0bdzCd+wrX3HOfvHrsNb37ri+RQvdQ6//KC7QJmMIw+PKDQvs1qP6rcfMY1OdQbRFJ9U5ZJFYuEAa7CKNPIPv3y8gKokrbNn2m/wPpWSYMC8R9HAAAAABJRU5ErkJggg==" preserveAspectRatio="xMidYMid meet"/>
+  <image id="icon_RAS_02" x="360" y="244" width="35" height="34" href="data:image/png;base64,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" preserveAspectRatio="xMidYMid meet"/>
+  <image id="icon_RAS_06" x="1376" y="246" width="23" height="29" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABcAAAAYCAYAAAARfGZ1AAAFlElEQVR4nG2VW6ieRxWGnzXzHf7D/vcxdjeJ6Y6mqY2VaHfNjaKpQUkgEIzYGhCs9cJEEMESr0TBHqCIF9HiAaWNlSAIeiOKUHsjaMEYs7trMdmSYjy0Ztscug///51mZsl8fxsq+sGCYWa+NfOu9b7vEEJAVdsIMUJAnUOrahxlOZ5/6YLW+z+g/stf1bA5HM81DSHurWtCDOcI3uNDaPPwf5PXNVoU6Gh0M7mONvH33qsh7Wk4dFjDhRVt/4l7ioIwKvB1jXceFxQfFAOMk8cBIOMJ3vy168VwvPvWW+HcWfRTn0b/elml2wVjIE0QY9sEooqgmJimTaUBDeObh7jUHqDgHCJCWFoiXLqIuE1kcgJWLuAf+hI6LNAsQ5IEsaY93wTfHmDaOjUNvqnxdYH6BuNHEByu8XgFWVvHPf1DeOUKeIduvAYTHeTXv8J/+wmNZWvqGldXNGVJU1X4unkd8pvj5RXdOPJhLU59XTWi8croydM67HY0DHoaZiY0zA40vGVOw/SkjhYXVdfW/zePKsnDjz2qmQgSlJ427H3+ee74+W9Ye/Eyq1ev63RnwLYzTzOjgZB1wAqaGlQMNu3SvHKFX37h87q6uK9FXzjPqByx+J7Ftn//1b37gR8tvJOV8gaPrv6L/RNdPjfZR/GoTQhZhs8TVIXUB6iU43/7B6dvEsK2e+e3L5B85sEHEe9xqnivfGh5Cff3VW6xwonJKXb2Oy0b4k1vNk1M5AJqhMwUHLl9B1d23UGmDeeW/8y1tQ26ecpYMG+EKtX3vqXrItrMzauf2aJuZlbr2Vl183Pqt21Rv2Ne/du2q7t9Qd2du7S8bUZvPHKy5bz7wcP6kzu36tY01Z0Lb1fxw+GYds4peVd05U/aHLsPc/kKkth2zYpgImkjn8WATaCbE3JBjcfd9Q78zCy93/4O43ucXH2V04NJjEkzTJ5hpiZF8hS7e5ck79sHZYFNLUkURJSyAwoPoQDbwLBBygZxij37AukvnqWuAorjUCdn3nuMRmUhhJ+eUV44p9KbRqcnkNQg/Q7SS5GuRZIMtEaO9ZCTU5CvIUVAygrrA8YmSBXl33B3UA6Wbyj05X+qPvY4+t1voldfUr26CpO9Frr2MujlhERgj4GPKxzegGM52CHGGYx32KogqSt0OGKuqjmaW0zkYlg+j1zfxDz3R9zxE9jzF7H9afCC2AyxHbyFcKgP24DaIZ+YggMdUA9Jt0VqjIkygMyyJzUkGhrC+SXssIJOB/vci0iWgAoED5K2tQ7zgvlgiiTRMS0MKuSzfbg6gr8kkPVb64CkvZSpS4yMSnj131AO2ya2NllWhP6QMB39oSbQYO8Gu+DRBsRaqD2ys4DjXfQWDxFhvwsTGQwydNDFkObo9tvwoUJcDbFubCIPOOxXAuGtm9SdEbo/QVKPlB6NiKJ/bJawWMDHkvEbEKcl2rfiehMk5Bn2Iwdpnvo+ycYIlZSwpYR9DtnbYMoO9rIh2dOgo+p1s4iCAyoHtoL399BnFS4ZtJ8go8ClJI8aVux77xH55APUlUd6kWY5UhtYV3hXTXakRvIhRBsNDfgaCVWLIIwcYa7C74XGGBJvuFg5Tq3FmgfXQsy++BD+o0dx6+sRDsanrRglwh2VqBs/h2PsPnKshR+iuKPXDDKsd2yI8kjteCYTjDbRVxpkelo6T5yS+sRxims1LBWg3ZZmmGheGZgcJI67IF2M6WDTnHTTEP5wjbLX5amJKX68VjKVphhNUtRGDwmYwYDe418T/caTjK7fg19JCNRoiC9T1YZGusRoy+MRK9gbW/H77ic58zPO7n438fmKuk/U2LGpa2hpFx25d99R8YcPwI1lDbIMw9+De23sMa3V5mB6SDqNZnfhdhyge3C3xEyN/U7bchH4DzcHegLLkh1hAAAAAElFTkSuQmCC" preserveAspectRatio="xMidYMid meet"/>
+  <image id="icon_RAS_07" x="1498" y="71" width="27" height="29" href="data:image/png;base64,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" preserveAspectRatio="xMidYMid meet"/>
+</svg>

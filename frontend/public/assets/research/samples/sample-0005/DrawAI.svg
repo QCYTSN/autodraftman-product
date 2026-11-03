@@ -1,0 +1,96 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="2048" height="932" viewBox="0 0 2048 932">
+  <defs>
+    <marker id="arrow-teal" markerWidth="34" markerHeight="34" refX="31" refY="17" orient="auto" markerUnits="userSpaceOnUse">
+      <path d="M0,0 L34,17 L0,34 Z" fill="#67aebe" opacity="0.72"/>
+    </marker>
+    <marker id="arrow-purple" markerWidth="34" markerHeight="34" refX="31" refY="17" orient="auto" markerUnits="userSpaceOnUse">
+      <path d="M0,0 L34,17 L0,34 Z" fill="#8688d6" opacity="0.72"/>
+    </marker>
+  </defs>
+  <rect id="background" data-pb-role="background" data-pb-editable="true" x="0" y="0" width="2048" height="932" fill="#ffffff"/>
+
+  <g id="panel-fenwick-tree-nodes" data-pb-role="panel" data-pb-editable="true">
+    <rect id="node-4-box" data-pb-role="node" data-pb-editable="true" x="426" y="122" width="706" height="167" fill="#d7e9fa"/>
+    <rect id="node-2-box" data-pb-role="node" data-pb-editable="true" x="424" y="316" width="347" height="168" fill="#d7e9fa"/>
+    <rect id="node-6-box" data-pb-role="node" data-pb-editable="true" x="1151" y="316" width="359" height="168" fill="#d7e9fa"/>
+    <rect id="node-1-box" data-pb-role="node" data-pb-editable="true" x="424" y="515" width="168" height="168" fill="#d7e9fa"/>
+    <rect id="node-3-box" data-pb-role="node" data-pb-editable="true" x="787" y="516" width="168" height="167" fill="#d7e9fa"/>
+    <rect id="node-5-box" data-pb-role="node" data-pb-editable="true" x="1147" y="515" width="167" height="168" fill="#d7e9fa"/>
+    <rect id="node-7-box" data-pb-role="node" data-pb-editable="true" x="1510" y="521" width="168" height="169" fill="#d7e9fa"/>
+  </g>
+
+  <g id="panel-deformation-cells" data-pb-role="panel" data-pb-editable="true">
+    <rect id="deformation-cell-1" data-pb-role="node" data-pb-editable="true" x="427" y="714" width="168" height="168" fill="#bbcfde"/>
+    <rect id="deformation-cell-2" data-pb-role="node" data-pb-editable="true" x="606" y="714" width="167" height="168" fill="#bbcfde"/>
+    <rect id="deformation-cell-3" data-pb-role="node" data-pb-editable="true" x="787" y="714" width="168" height="167" fill="#bbcfde"/>
+    <rect id="deformation-cell-4" data-pb-role="node" data-pb-editable="true" x="969" y="714" width="167" height="168" fill="#bbcfde"/>
+    <rect id="deformation-cell-5" data-pb-role="node" data-pb-editable="true" x="1147" y="714" width="167" height="167" fill="#bbcfde"/>
+    <rect id="deformation-cell-6" data-pb-role="node" data-pb-editable="true" x="1329" y="713" width="167" height="168" fill="#bbcfde"/>
+    <rect id="deformation-cell-7" data-pb-role="node" data-pb-editable="true" x="1510" y="713" width="168" height="168" fill="#bbcfde"/>
+  </g>
+
+  <g id="connector-arrows" data-pb-role="connector" data-pb-editable="true" fill="none" stroke-linecap="butt" stroke-linejoin="miter">
+    <line id="arrow-node4-to-query6" data-pb-role="connector" data-pb-editable="true" x1="1144" y1="205" x2="1772" y2="166" stroke="#67aebe" stroke-width="6" opacity="0.72" marker-end="url(#arrow-teal)"/>
+    <line id="arrow-node6-to-query6" data-pb-role="connector" data-pb-editable="true" x1="1522" y1="401" x2="1773" y2="185" stroke="#67aebe" stroke-width="6" opacity="0.72" marker-end="url(#arrow-teal)"/>
+    <line id="arrow-node4-to-query7-long" data-pb-role="connector" data-pb-editable="true" x1="1144" y1="205" x2="1772" y2="476" stroke="#8688d6" stroke-width="6" opacity="0.72" marker-end="url(#arrow-purple)"/>
+    <line id="arrow-node6-to-query7-mid" data-pb-role="connector" data-pb-editable="true" x1="1522" y1="400" x2="1773" y2="503" stroke="#8688d6" stroke-width="6" opacity="0.72" marker-end="url(#arrow-purple)"/>
+    <line id="arrow-node7-to-query7" data-pb-role="connector" data-pb-editable="true" x1="1686" y1="607" x2="1774" y2="523" stroke="#8688d6" stroke-width="6" opacity="0.72" marker-end="url(#arrow-purple)"/>
+  </g>
+
+  <g id="panel-query-results" data-pb-role="panel" data-pb-editable="true">
+    <rect id="query-6-square" data-pb-role="node" data-pb-editable="true" x="1787" y="94" width="167" height="169" fill="#8ec2d0" opacity="0.95"/>
+    <rect id="query-7-square" data-pb-role="node" data-pb-editable="true" x="1787" y="416" width="167" height="170" fill="#a0a1dc" opacity="0.95"/>
+  </g>
+
+  <g id="labels-left" data-pb-role="label" data-pb-editable="true">
+    <text id="label-fenwick-tree" data-pb-role="label" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="horizontal" x="257" y="387" font-family="Times New Roman, Times, serif" font-size="46" font-style="normal" font-weight="400" fill="#000000" text-anchor="middle">Fenwick Tree</text>
+    <text id="label-nodes" data-pb-role="label" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="horizontal" x="257" y="445" font-family="Times New Roman, Times, serif" font-size="46" font-style="normal" font-weight="400" fill="#000000" text-anchor="middle">Nodes</text>
+    <text id="label-deformation-1" data-pb-role="label" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="horizontal" x="256" y="757" font-family="Times New Roman, Times, serif" font-size="46" font-style="normal" font-weight="400" fill="#000000" text-anchor="middle">Deformation</text>
+    <text id="label-deformation-2" data-pb-role="label" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="horizontal" x="256" y="814" font-family="Times New Roman, Times, serif" font-size="46" font-style="normal" font-weight="400" fill="#000000" text-anchor="middle">relative to the</text>
+    <text id="label-deformation-3" data-pb-role="label" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="horizontal" x="256" y="873" font-family="Times New Roman, Times, serif" font-size="46" font-style="normal" font-weight="400" fill="#000000" text-anchor="middle">previous frame</text>
+  </g>
+
+  <g id="formulas-node-labels" data-pb-role="formula" data-pb-editable="true">
+    <g id="formula-node-4" data-pb-role="formula" data-pb-editable="true" data-pb-formula-bbox="704 177 153 55" data-pb-formula-latex-b64="cl9rXntbNF19LCBUX2tee1s0XX0=">
+      <text id="formula-node-4-fallback" data-pb-role="formula" data-pb-editable="true" data-pb-text-source="visual_inferred" data-pb-orientation="horizontal" x="779" y="222" font-family="Times New Roman, Times, serif" font-size="36" font-style="italic" font-weight="700" fill="#111111" text-anchor="middle">r<tspan baseline-shift="sub" font-size="22">k</tspan><tspan baseline-shift="super" font-size="20" font-style="normal">[4]</tspan><tspan font-style="normal">, </tspan>T<tspan baseline-shift="sub" font-size="22">k</tspan><tspan baseline-shift="super" font-size="20" font-style="normal">[4]</tspan></text>
+      <desc>LaTeX: r_k^{[4]}, T_k^{[4]}</desc>
+    </g>
+    <g id="formula-node-2" data-pb-role="formula" data-pb-editable="true" data-pb-formula-bbox="525 376 146 55" data-pb-formula-latex-b64="cl9rXntbMl19LCBUX2tee1syXX0=">
+      <text id="formula-node-2-fallback" data-pb-role="formula" data-pb-editable="true" data-pb-text-source="visual_inferred" data-pb-orientation="horizontal" x="598" y="421" font-family="Times New Roman, Times, serif" font-size="36" font-style="italic" font-weight="700" fill="#111111" text-anchor="middle">r<tspan baseline-shift="sub" font-size="22">k</tspan><tspan baseline-shift="super" font-size="20" font-style="normal">[2]</tspan><tspan font-style="normal">, </tspan>T<tspan baseline-shift="sub" font-size="22">k</tspan><tspan baseline-shift="super" font-size="20" font-style="normal">[2]</tspan></text>
+      <desc>LaTeX: r_k^{[2]}, T_k^{[2]}</desc>
+    </g>
+    <g id="formula-node-6" data-pb-role="formula" data-pb-editable="true" data-pb-formula-bbox="1254 376 168 55" data-pb-formula-latex-b64="cl9rXntbNl19LCBUX2tee1s2XX0=">
+      <text id="formula-node-6-fallback" data-pb-role="formula" data-pb-editable="true" data-pb-text-source="visual_inferred" data-pb-orientation="horizontal" x="1335" y="421" font-family="Times New Roman, Times, serif" font-size="36" font-style="italic" font-weight="700" fill="#111111" text-anchor="middle">r<tspan baseline-shift="sub" font-size="22">k</tspan><tspan baseline-shift="super" font-size="20" font-style="normal">[6]</tspan><tspan font-style="normal">, </tspan>T<tspan baseline-shift="sub" font-size="22">k</tspan><tspan baseline-shift="super" font-size="20" font-style="normal">[6]</tspan></text>
+      <desc>LaTeX: r_k^{[6]}, T_k^{[6]}</desc>
+    </g>
+    <g id="formula-node-1" data-pb-role="formula" data-pb-editable="true" data-pb-formula-bbox="431 575 127 55" data-pb-formula-latex-b64="cl9rXntbMV19LCBUX2tee1sxXX0=">
+      <text id="formula-node-1-fallback" data-pb-role="formula" data-pb-editable="true" data-pb-text-source="visual_inferred" data-pb-orientation="horizontal" x="509" y="620" font-family="Times New Roman, Times, serif" font-size="36" font-style="italic" font-weight="700" fill="#111111" text-anchor="middle">r<tspan baseline-shift="sub" font-size="22">k</tspan><tspan baseline-shift="super" font-size="20" font-style="normal">[1]</tspan><tspan font-style="normal">, </tspan>T<tspan baseline-shift="sub" font-size="22">k</tspan><tspan baseline-shift="super" font-size="20" font-style="normal">[1]</tspan></text>
+      <desc>LaTeX: r_k^{[1]}, T_k^{[1]}</desc>
+    </g>
+    <g id="formula-node-3" data-pb-role="formula" data-pb-editable="true" data-pb-formula-bbox="796 575 126 55" data-pb-formula-latex-b64="cl9rXntbM119LCBUX2tee1szXX0=">
+      <text id="formula-node-3-fallback" data-pb-role="formula" data-pb-editable="true" data-pb-text-source="visual_inferred" data-pb-orientation="horizontal" x="870" y="620" font-family="Times New Roman, Times, serif" font-size="36" font-style="italic" font-weight="700" fill="#111111" text-anchor="middle">r<tspan baseline-shift="sub" font-size="22">k</tspan><tspan baseline-shift="super" font-size="20" font-style="normal">[3]</tspan><tspan font-style="normal">, </tspan>T<tspan baseline-shift="sub" font-size="22">k</tspan><tspan baseline-shift="super" font-size="20" font-style="normal">[3]</tspan></text>
+      <desc>LaTeX: r_k^{[3]}, T_k^{[3]}</desc>
+    </g>
+    <g id="formula-node-5" data-pb-role="formula" data-pb-editable="true" data-pb-formula-bbox="1156 575 126 55" data-pb-formula-latex-b64="cl9rXntbNV19LCBUX2tee1s1XX0=">
+      <text id="formula-node-5-fallback" data-pb-role="formula" data-pb-editable="true" data-pb-text-source="visual_inferred" data-pb-orientation="horizontal" x="1231" y="620" font-family="Times New Roman, Times, serif" font-size="36" font-style="italic" font-weight="700" fill="#111111" text-anchor="middle">r<tspan baseline-shift="sub" font-size="22">k</tspan><tspan baseline-shift="super" font-size="20" font-style="normal">[5]</tspan><tspan font-style="normal">, </tspan>T<tspan baseline-shift="sub" font-size="22">k</tspan><tspan baseline-shift="super" font-size="20" font-style="normal">[5]</tspan></text>
+      <desc>LaTeX: r_k^{[5]}, T_k^{[5]}</desc>
+    </g>
+    <g id="formula-node-7" data-pb-role="formula" data-pb-editable="true" data-pb-formula-bbox="1522 581 126 55" data-pb-formula-latex-b64="cl9rXntbN119LCBUX2tee1s3XX0=">
+      <text id="formula-node-7-fallback" data-pb-role="formula" data-pb-editable="true" data-pb-text-source="visual_inferred" data-pb-orientation="horizontal" x="1594" y="626" font-family="Times New Roman, Times, serif" font-size="36" font-style="italic" font-weight="700" fill="#111111" text-anchor="middle">r<tspan baseline-shift="sub" font-size="22">k</tspan><tspan baseline-shift="super" font-size="20" font-style="normal">[7]</tspan><tspan font-style="normal">, </tspan>T<tspan baseline-shift="sub" font-size="22">k</tspan><tspan baseline-shift="super" font-size="20" font-style="normal">[7]</tspan></text>
+      <desc>LaTeX: r_k^{[7]}, T_k^{[7]}</desc>
+    </g>
+  </g>
+
+  <g id="labels-query" data-pb-role="label" data-pb-editable="true">
+    <text id="label-query-6" data-pb-role="label" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="horizontal" x="1876" y="318" font-family="Times New Roman, Times, serif" font-size="48" font-style="normal" font-weight="700" fill="#000000" text-anchor="middle">Query:</text>
+    <g id="formula-query-6" data-pb-role="formula" data-pb-editable="true" data-pb-formula-bbox="1840 334 93 55" data-pb-formula-latex-b64="cl9rXjYsIFRfa142">
+      <text id="formula-query-6-fallback" data-pb-role="formula" data-pb-editable="true" data-pb-text-source="visual_inferred" data-pb-orientation="horizontal" x="1886" y="379" font-family="Times New Roman, Times, serif" font-size="40" font-style="italic" font-weight="700" fill="#111111" text-anchor="middle">r<tspan baseline-shift="sub" font-size="24">k</tspan><tspan baseline-shift="super" font-size="22" font-style="normal">6</tspan><tspan font-style="normal">, </tspan>T<tspan baseline-shift="sub" font-size="24">k</tspan><tspan baseline-shift="super" font-size="22" font-style="normal">6</tspan></text>
+      <desc>LaTeX: r_k^6, T_k^6</desc>
+    </g>
+    <text id="label-query-7" data-pb-role="label" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="horizontal" x="1877" y="638" font-family="Times New Roman, Times, serif" font-size="48" font-style="normal" font-weight="700" fill="#000000" text-anchor="middle">Query:</text>
+    <g id="formula-query-7" data-pb-role="formula" data-pb-editable="true" data-pb-formula-bbox="1840 654 94 55" data-pb-formula-latex-b64="cl9rXjcsIFRfa143">
+      <text id="formula-query-7-fallback" data-pb-role="formula" data-pb-editable="true" data-pb-text-source="visual_inferred" data-pb-orientation="horizontal" x="1886" y="699" font-family="Times New Roman, Times, serif" font-size="40" font-style="italic" font-weight="700" fill="#111111" text-anchor="middle">r<tspan baseline-shift="sub" font-size="24">k</tspan><tspan baseline-shift="super" font-size="22" font-style="normal">7</tspan><tspan font-style="normal">, </tspan>T<tspan baseline-shift="sub" font-size="24">k</tspan><tspan baseline-shift="super" font-size="22" font-style="normal">7</tspan></text>
+      <desc>LaTeX: r_k^7, T_k^7</desc>
+    </g>
+  </g>
+</svg>

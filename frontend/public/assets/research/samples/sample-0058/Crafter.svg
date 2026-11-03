@@ -1,0 +1,186 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1455 519" width="1455" height="519">
+  <defs>
+    <marker id="arrowBlack" markerWidth="8" markerHeight="6" viewBox="0 -3 8 6" refX="8" refY="0" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,-3 L8,0 L0,3 Z" fill="#000"/>
+    </marker>
+    <style>
+      .label { font-family: sans-serif; fill: #000; }
+      .italic { font-family: sans-serif; font-style: italic; fill: #000; }
+      .smalltoken { stroke:#000; stroke-width:2; rx:4; ry:4; }
+      .green { fill:#dcebd8; }
+      .peach { fill:#f8dfc5; }
+      .yellow { fill:#fff3cf; }
+      .blue { fill:#dceafa; }
+      .dash { stroke:#000; stroke-width:1.8; stroke-dasharray:8 6; fill:none; }
+    </style>
+  </defs>
+
+  <rect x="0" y="0" width="1455" height="519" fill="#ffffff"/>
+
+  <!-- left text labels -->
+  <text x="64" y="72" class="label" font-size="26">Better</text>
+  <text x="66" y="118" class="label" font-size="26">_text</text>
+  <text x="78" y="163" class="label" font-size="26">_to</text>
+  <text x="49" y="207" class="label" font-size="26">_speech</text>
+
+  <text x="29" y="262" class="italic" font-size="25">Silence</text>
+  <text x="145" y="246" text-anchor="end" class="label" font-size="23">s1</text>
+  <text x="145" y="292" text-anchor="end" class="label" font-size="23">s2</text>
+
+  <text x="30" y="351" class="italic" font-size="25">spoken</text>
+  <text x="31" y="383" class="italic" font-size="25">word 1</text>
+  <text x="145" y="336" text-anchor="end" class="label" font-size="23">s3</text>
+  <text x="145" y="381" text-anchor="end" class="label" font-size="23">s4</text>
+  <text x="145" y="426" text-anchor="end" class="label" font-size="23">s5</text>
+
+  <text x="72" y="454" font-family="sans-serif" font-size="24" fill="#888888">HuBERT</text>
+  <text x="72" y="484" font-family="sans-serif" font-size="24" fill="#888888">Tokens</text>
+
+  <!-- left dashed token frame and grouping divider -->
+  <rect x="164" y="34" width="63" height="421" class="dash"/>
+  <line x1="8" y1="301" x2="229" y2="301" stroke="#000" stroke-width="1.8" stroke-dasharray="8 6"/>
+
+  <!-- left token blocks -->
+  <rect x="176" y="52" width="39" height="20" class="smalltoken green"/>
+  <rect x="176" y="97" width="39" height="20" class="smalltoken green"/>
+  <rect x="176" y="142" width="39" height="20" class="smalltoken green"/>
+  <rect x="176" y="187" width="39" height="20" class="smalltoken green"/>
+  <rect x="176" y="232" width="39" height="20" class="smalltoken peach"/>
+  <rect x="176" y="277" width="39" height="20" class="smalltoken peach"/>
+  <rect x="176" y="322" width="39" height="20" class="smalltoken peach"/>
+  <rect x="176" y="367" width="39" height="20" class="smalltoken peach"/>
+  <rect x="176" y="412" width="39" height="20" class="smalltoken peach"/>
+
+  <!-- dashed text-token bypasses -->
+  <line x1="241" y1="62" x2="563" y2="62" stroke="#000" stroke-width="2" stroke-dasharray="15 15"/>
+  <line x1="241" y1="107" x2="563" y2="107" stroke="#000" stroke-width="2" stroke-dasharray="15 15"/>
+  <line x1="241" y1="152" x2="563" y2="152" stroke="#000" stroke-width="2" stroke-dasharray="15 15"/>
+  <line x1="241" y1="197" x2="563" y2="197" stroke="#000" stroke-width="2" stroke-dasharray="15 15"/>
+
+  <!-- Patch Encoder -->
+  <rect x="252" y="220" width="104" height="200" rx="2" ry="2" fill="#d6e5f6" stroke="#000" stroke-width="2"/>
+  <text x="304" y="314" text-anchor="middle" class="label" font-size="25">Patch</text>
+  <text x="304" y="343" text-anchor="middle" class="label" font-size="25">Encoder</text>
+
+  <!-- latent patch groups -->
+  <rect x="386" y="219" width="54" height="74" rx="8" ry="8" fill="#ffffff" stroke="#000" stroke-width="2"/>
+  <rect x="394" y="230" width="38" height="20" rx="4" ry="4" class="smalltoken yellow"/>
+  <rect x="394" y="264" width="38" height="20" rx="4" ry="4" class="smalltoken yellow"/>
+
+  <rect x="386" y="302" width="58" height="123" rx="8" ry="8" fill="#ffffff" stroke="#000" stroke-width="2"/>
+  <rect x="394" y="313" width="39" height="20" rx="4" ry="4" class="smalltoken yellow"/>
+  <rect x="394" y="358" width="39" height="20" rx="4" ry="4" class="smalltoken yellow"/>
+  <rect x="394" y="403" width="39" height="20" rx="4" ry="4" class="smalltoken yellow"/>
+
+  <line x1="443" y1="257" x2="562" y2="242" stroke="#000" stroke-width="2"/>
+  <line x1="443" y1="364" x2="562" y2="318" stroke="#000" stroke-width="2"/>
+
+  <!-- small blocks before transformer -->
+  <rect x="562" y="52" width="38" height="20" class="smalltoken green"/>
+  <rect x="562" y="97" width="38" height="20" class="smalltoken green"/>
+  <rect x="562" y="142" width="38" height="20" class="smalltoken green"/>
+  <rect x="562" y="187" width="38" height="20" class="smalltoken green"/>
+  <rect x="562" y="232" width="38" height="20" class="smalltoken blue"/>
+  <rect x="562" y="310" width="38" height="20" class="smalltoken blue"/>
+
+  <text x="550" y="356" font-family="sans-serif" font-size="25" fill="#8b8b8b">Latent</text>
+  <text x="506" y="386" font-family="sans-serif" font-size="25" fill="#8b8b8b">Representation</text>
+
+  <!-- transformer -->
+  <rect x="651" y="19" width="162" height="307" rx="24" ry="24" fill="#dceeee" stroke="#000" stroke-width="4"/>
+  <text x="733" y="153" text-anchor="middle" class="label" font-size="24">Latent</text>
+  <text x="733" y="181" text-anchor="middle" class="label" font-size="24">Speech-Text</text>
+  <text x="733" y="209" text-anchor="middle" class="label" font-size="24">Transformer</text>
+
+  <!-- blocks after transformer -->
+  <rect x="845" y="51" width="38" height="20" class="smalltoken green"/>
+  <rect x="845" y="96" width="38" height="20" class="smalltoken green"/>
+  <rect x="845" y="141" width="38" height="20" class="smalltoken green"/>
+  <rect x="845" y="187" width="38" height="20" class="smalltoken blue"/>
+  <rect x="845" y="232" width="38" height="20" class="smalltoken blue"/>
+  <rect x="845" y="278" width="38" height="20" class="smalltoken blue"/>
+
+  <!-- right dashed input frame -->
+  <rect x="942" y="39" width="64" height="420" class="dash"/>
+  <line x1="942" y1="303" x2="1006" y2="303" stroke="#000" stroke-width="1.8" stroke-dasharray="8 6"/>
+
+  <!-- right internal token blocks -->
+  <rect x="957" y="51" width="39" height="20" class="smalltoken green"/>
+  <rect x="957" y="96" width="39" height="20" class="smalltoken green"/>
+  <rect x="957" y="141" width="39" height="20" class="smalltoken green"/>
+  <rect x="957" y="186" width="39" height="20" class="smalltoken green"/>
+  <rect x="957" y="231" width="39" height="20" class="smalltoken peach"/>
+  <rect x="957" y="276" width="39" height="20" class="smalltoken peach"/>
+  <rect x="957" y="321" width="39" height="20" class="smalltoken peach"/>
+  <rect x="957" y="366" width="39" height="20" class="smalltoken peach"/>
+  <rect x="957" y="411" width="39" height="20" class="smalltoken peach"/>
+  <rect x="957" y="436" width="39" height="20" class="smalltoken peach"/>
+
+  <!-- arrows from right token stack into transformer-output blocks -->
+  <line x1="957" y1="61" x2="883" y2="61" stroke="#000" stroke-width="1.7" marker-end="url(#arrowBlack)"/>
+  <line x1="957" y1="106" x2="883" y2="106" stroke="#000" stroke-width="1.7" marker-end="url(#arrowBlack)"/>
+  <line x1="957" y1="151" x2="883" y2="151" stroke="#000" stroke-width="1.7" marker-end="url(#arrowBlack)"/>
+  <line x1="957" y1="196" x2="883" y2="196" stroke="#000" stroke-width="1.7" marker-end="url(#arrowBlack)"/>
+  <line x1="957" y1="241" x2="883" y2="241" stroke="#000" stroke-width="1.7" marker-end="url(#arrowBlack)"/>
+  <line x1="957" y1="286" x2="883" y2="241" stroke="#000" stroke-width="1.7" marker-end="url(#arrowBlack)"/>
+  <line x1="957" y1="331" x2="883" y2="287" stroke="#000" stroke-width="1.7" marker-end="url(#arrowBlack)"/>
+  <line x1="957" y1="376" x2="883" y2="287" stroke="#000" stroke-width="1.7" marker-end="url(#arrowBlack)"/>
+  <line x1="957" y1="421" x2="883" y2="287" stroke="#000" stroke-width="1.7" marker-end="url(#arrowBlack)"/>
+  <line x1="957" y1="446" x2="883" y2="287" stroke="#000" stroke-width="1.7" marker-end="url(#arrowBlack)"/>
+
+  <!-- right labels beside dashed frame -->
+  <text x="1012" y="72" class="label" font-size="26">Better</text>
+  <text x="1014" y="118" class="label" font-size="26">_text</text>
+  <text x="1024" y="163" class="label" font-size="26">_to</text>
+  <text x="1008" y="207" class="label" font-size="26">_speech</text>
+  <text x="1014" y="252" class="label" font-size="23">s1</text>
+  <text x="1014" y="297" class="label" font-size="23">s2</text>
+  <text x="1014" y="342" class="label" font-size="23">s3</text>
+  <text x="1014" y="387" class="label" font-size="23">s4</text>
+  <text x="1014" y="432" class="label" font-size="23">s5</text>
+  <text x="1014" y="456" class="label" font-size="23">s6</text>
+
+  <!-- bottom return connector -->
+  <path d="M195 455 L195 498 L973 498 L973 459" fill="none" stroke="#000" stroke-width="2" marker-end="url(#arrowBlack)"/>
+
+  <!-- Patch Decoder -->
+  <rect x="1092" y="40" width="103" height="433" rx="2" ry="2" fill="#d6e5f6" stroke="#000" stroke-width="2"/>
+  <text x="1143.5" y="250" text-anchor="middle" class="label" font-size="25">Patch</text>
+  <text x="1143.5" y="280" text-anchor="middle" class="label" font-size="25">Decoder</text>
+
+  <!-- decoded output token column -->
+  <rect x="1204" y="50" width="39" height="20" class="smalltoken green"/>
+  <rect x="1204" y="95" width="39" height="20" class="smalltoken green"/>
+  <rect x="1204" y="140" width="39" height="20" class="smalltoken green"/>
+  <rect x="1204" y="186" width="39" height="20" class="smalltoken peach"/>
+  <rect x="1204" y="231" width="39" height="20" class="smalltoken peach"/>
+  <rect x="1204" y="271" width="39" height="20" class="smalltoken peach"/>
+  <rect x="1204" y="315" width="39" height="20" class="smalltoken peach"/>
+  <rect x="1204" y="360" width="39" height="20" class="smalltoken peach"/>
+  <rect x="1204" y="405" width="39" height="20" class="smalltoken peach"/>
+  <rect x="1204" y="450" width="39" height="20" class="smalltoken peach"/>
+
+  <!-- output labels -->
+  <text x="1270" y="67" class="label" font-size="23">_text</text>
+  <text x="1270" y="112" class="label" font-size="23">_to</text>
+  <text x="1269" y="157" class="label" font-size="23">_speech</text>
+
+  <text x="1278" y="203" class="label" font-size="23">s1</text>
+  <text x="1278" y="248" class="label" font-size="23">s2</text>
+  <text x="1278" y="293" class="label" font-size="23">s3</text>
+  <text x="1278" y="338" class="label" font-size="23">s4</text>
+  <text x="1278" y="383" class="label" font-size="23">s5</text>
+  <text x="1278" y="428" class="label" font-size="23">s6</text>
+  <text x="1278" y="473" class="label" font-size="23">s7</text>
+
+  <text x="1320" y="203" class="italic" font-size="25">Silence</text>
+
+  <line x1="1197" y1="258" x2="1455" y2="258" stroke="#000" stroke-width="1.8" stroke-dasharray="8 6"/>
+  <line x1="1197" y1="394" x2="1455" y2="394" stroke="#000" stroke-width="1.8" stroke-dasharray="8 6"/>
+
+  <text x="1320" y="296" class="italic" font-size="25">spoken</text>
+  <text x="1320" y="329" class="italic" font-size="25">word 1</text>
+
+  <text x="1320" y="432" class="italic" font-size="25">spoken</text>
+  <text x="1320" y="464" class="italic" font-size="25">word 2</text>
+</svg>

@@ -26,9 +26,11 @@ export const demoCases: DemoCase[] = [
     category: { zh: "模型架构图", en: "Model architecture" },
     width: 1536, height: 1024,
   },
+  { id: 'sample-0001', name: {zh:'类别统一的目标跟踪',en:'Category-unified tracking'}, category: {zh:'正式 80 图',en:'Formal cohort'}, width:968, height:510 },
 ];
 
 export function demoAsset(id: string, file: "input.png" | "result.png" | "result.svg" | "baseline.svg") {
+  if(id === 'sample-0001') { const name = {'input.png':'source.webp','result.png':'A.webp','result.svg':'A.svg','baseline.svg':'C.svg'}[file]; return import.meta.env.BASE_URL+'assets/research/samples/sample-0001/'+name; }
   return import.meta.env.BASE_URL + "assets/demo/cases/" + id + "/" + file;
 }
 

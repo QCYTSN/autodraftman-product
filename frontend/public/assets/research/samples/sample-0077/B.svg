@@ -1,0 +1,170 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1475" height="600" viewBox="0 0 1475 600">
+  <title>Training and inference pipeline diagram</title>
+  <desc>Inventory and relationships: two large dashed rounded base frames divide the figure into a left training phase and a right inference phase. In the training frame, a pink optional pretraining panel contains a general-dataset cylinder, a pretrain arrow, and a blue regressor; below it a domain-specific scatter training set trains another regressor, with a dashed vertical transfer from the pretrained regressor to the trained regressor and a dashed connector to the inference regressor. In the inference frame, query/reference dots feed a regressor and an external ranker; rankings feed a rank-based estimator; uncertainties and predictions feed inverse variance weighting, producing a refined prediction. Symmetry basis: left and right sections are horizontally arranged with aligned top and bottom dashed frames; most arrows follow left-to-right or top-to-bottom orthogonal flow.</desc>
+
+  <defs>
+    <marker id="arrow-gray" markerUnits="userSpaceOnUse" markerWidth="14" markerHeight="10" refX="10" refY="4" orient="auto">
+      <path d="M0,0 L10,4 L0,8 Z" fill="#555a60" id="plus_node_0" />
+    </marker>
+    <marker id="arrow-purple" markerUnits="userSpaceOnUse" markerWidth="14" markerHeight="10" refX="10" refY="4" orient="auto">
+      <path d="M0,0 L10,4 L0,8 Z" fill="#a29bf0" id="plus_node_1" />
+    </marker>
+    <style>
+      .txt{font-family: Georgia, "Times New Roman", serif; fill:#4e555c;}
+      .label{font-size:34px;}
+      .small{font-size:27px;}
+      .med{font-size:31px;}
+      .bold{font-weight:700;}
+      .frameDash{fill:none;stroke:#596068;stroke-width:3.6;stroke-dasharray:7 7;}
+      .thinDash{fill:none;stroke:#596068;stroke-width:3.6;stroke-dasharray:7 7;stroke-linecap:round;}
+      .arrow{fill:none;stroke:#555a60;stroke-width:3.7;marker-end:url(#arrow-gray);}
+      .arrow-thin{fill:none;stroke:#555a60;stroke-width:3.2;marker-end:url(#arrow-gray);}
+      .dashArrow{fill:none;stroke:#555a60;stroke-width:3.4;stroke-dasharray:7 7;marker-end:url(#arrow-gray);}
+      .purpleArrow{fill:none;stroke:#a29bf0;stroke-width:3.5;marker-end:url(#arrow-purple);}
+      .regBox{fill:#cbd8e8;stroke:none;}
+    </style>
+  </defs>
+
+  
+  <rect id="f01" data-plus-kind="frame" x="38" y="31" width="516" height="549" rx="66" ry="66" class="frameDash" />
+  <rect id="f02" data-plus-kind="frame" x="681" y="31" width="754" height="549" rx="68" ry="68" class="frameDash" />
+  <rect id="f03" data-plus-kind="frame" x="50" y="108" width="497" height="185" rx="45" ry="45" fill="#f7e9e9" stroke="none" />
+  <rect id="f04" data-plus-kind="frame" x="748" y="132" width="213" height="39" rx="12" ry="12" class="thinDash" />
+  <rect id="f05" data-plus-kind="frame" x="1262" y="132" width="128" height="119" rx="13" ry="13" class="thinDash" />
+  <rect id="f06" data-plus-kind="frame" x="902" y="272" width="51" height="113" rx="12" ry="12" class="thinDash" />
+  <rect id="f07" data-plus-kind="frame" x="1134" y="272" width="51" height="113" rx="12" ry="12" class="thinDash" />
+
+  
+  <text id="title-training" class="txt label bold" x="439" y="52" text-anchor="middle">training phase</text>
+  <text id="subtitle-training" class="txt label bold" x="439" y="90" text-anchor="middle">(only regressor)</text>
+  <text id="title-inference" class="txt label bold" x="1348" y="54" text-anchor="middle">inference</text>
+
+  
+  <g id="training-pretrain-block">
+    <desc>Origin object is the general dataset cylinder; the pretrain arrow points right to the pretrained regressor. Optional status is written below the arrow.</desc>
+    <g id="general-dataset-cylinder">
+      <path d="M87 129 C87 109 250 109 250 129 L250 220 C250 239 87 239 87 220 Z" fill="#f7e9e9" stroke="#555a60" stroke-width="3.5" id="plus_node_2" />
+      <ellipse cx="168.5" cy="129" rx="81.5" ry="14.5" fill="#f7e9e9" stroke="#555a60" stroke-width="3.8" id="plus_node_3" />
+      <text class="txt med" x="168" y="171" text-anchor="middle" id="plus_node_4">general</text>
+      <text class="txt med" x="168" y="213" text-anchor="middle" id="plus_node_5">dataset</text>
+    </g>
+
+    <text id="pretrain-label" class="txt med" x="270" y="165">pretrain</text>
+    <line id="arrow-pretrain" x1="280" y1="191" x2="354" y2="191" class="arrow" />
+    <rect id="pretrain-regressor-box" x="394" y="162" width="143" height="54" rx="11" ry="11" class="regBox" />
+    <text id="pretrain-regressor-text" class="txt med" x="466" y="199" text-anchor="middle">regressor</text>
+    <text id="optional-label" class="txt med bold" x="317" y="263" text-anchor="middle">(optional)</text>
+  </g>
+
+  
+  <g id="training-domain-specific-block">
+    <desc>The origin is the coordinate axes of the domain-specific training set. Points lie around an increasing dashed trend line. A train arrow points right to the lower regressor.</desc>
+    <text class="txt med" x="185" y="355" text-anchor="middle" id="plus_node_6">domain-specific</text>
+    <text class="txt med" x="185" y="394" text-anchor="middle" id="plus_node_7">training set</text>
+
+    <g id="training-scatter-plot">
+      <line id="scatter-y-axis" x1="78" y1="562" x2="78" y2="378" class="arrow-thin" />
+      <line id="scatter-x-axis" x1="65" y1="548" x2="271" y2="548" class="arrow-thin" />
+      <line id="scatter-trend" x1="91" y1="537" x2="224" y2="420" stroke="#111111" stroke-width="3.2" stroke-dasharray="7 7" />
+      <circle cx="101" cy="514" r="9.5" fill="#f5cf8d" id="plus_node_8" />
+      <circle cx="136" cy="519" r="10" fill="#e8c5c7" id="plus_node_9" />
+      <circle cx="147" cy="475" r="10" fill="#bdd9cc" id="plus_node_10" />
+      <circle cx="173" cy="444" r="10" fill="#bd8cb4" id="plus_node_11" />
+      <circle cx="187" cy="484" r="9.5" fill="#6f8994" id="plus_node_12" />
+      <circle cx="205" cy="429" r="10" fill="#ec8900" id="plus_node_13" />
+    </g>
+
+    <text id="train-label" class="txt med" x="334" y="442" text-anchor="middle">train</text>
+    <line id="arrow-train" x1="299" y1="468" x2="371" y2="468" class="arrow" />
+    <rect id="trained-regressor-box" x="394" y="441" width="143" height="55" rx="11" ry="11" class="regBox" />
+    <text id="trained-regressor-text" class="txt med" x="466" y="479" text-anchor="middle">regressor</text>
+  </g>
+
+  
+  <path id="arrow-pretrain-to-train-regressor" d="M465 258 L465 420" class="dashArrow" />
+  <path id="arrow-trained-to-inference-regressor" d="M537 475 H633 V354 H690" class="dashArrow" />
+
+  
+  <g id="inference-query-reference-block">
+    <desc>The query/reference dotted frame is the origin in the inference section. The query dot sends a downward purple arrow to the inference regressor; reference dots go right to the external ranker.</desc>
+    <text class="txt med" x="756" y="118" text-anchor="middle" id="plus_node_14">query</text>
+    <text class="txt med" x="910" y="118" text-anchor="middle" id="plus_node_15">reference</text>
+
+    <circle id="query-dot" cx="782" cy="152" r="10" fill="#9e98ef" />
+    <circle id="ref-dot-1" cx="858" cy="152" r="10" fill="#bfd8cb" />
+    <circle id="ref-dot-2" cx="892" cy="152" r="10" fill="#e88700" />
+    <circle id="ref-dot-3" cx="926" cy="152" r="10" fill="#edcccf" />
+
+    <path id="arrow-query-to-regressor" d="M781 173 V295" class="purpleArrow" />
+    <rect id="inference-regressor-box" x="705" y="326" width="143" height="54" rx="11" ry="11" class="regBox" />
+    <text id="inference-regressor-text" class="txt med" x="776" y="361" text-anchor="middle">regressor</text>
+
+    <line id="arrow-reference-to-ranker" x1="987" y1="152" x2="1040" y2="152" class="arrow-thin" />
+  </g>
+
+  
+  <g id="external-ranker-block">
+    <desc>The external ranker receives the reference set and outputs rankings to the right; the rankings are then passed downward to a rank-based estimator.</desc>
+    <text class="txt med" x="1102" y="73" text-anchor="middle" id="plus_node_16">external</text>
+    <text class="txt med" x="1102" y="111" text-anchor="middle" id="plus_node_17">ranker</text>
+
+    
+    <g id="brain-icon" fill="#596068" stroke="#ffffff" stroke-width="1.2" stroke-linecap="round">
+      <path d="M1070 155 C1067 146 1073 138 1083 138 C1086 133 1096 132 1102 137 C1108 133 1119 135 1122 142 C1133 142 1139 151 1135 161 C1132 169 1123 172 1115 169 C1110 177 1097 178 1090 171 C1081 174 1070 168 1070 155 Z" id="plus_node_18" />
+      <path d="M1081 141 C1083 147 1090 146 1093 151" id="plus_node_19" />
+      <path d="M1097 138 C1095 145 1100 150 1108 150" id="plus_node_20" />
+      <path d="M1118 143 C1115 149 1120 154 1128 154" id="plus_node_21" />
+      <path d="M1073 158 C1082 157 1085 162 1091 167" id="plus_node_22" />
+      <path d="M1091 153 C1098 154 1103 159 1104 169" id="plus_node_23" />
+      <path d="M1107 157 C1114 158 1120 163 1123 169" id="plus_node_24" />
+    </g>
+
+    <line id="arrow-ranker-to-rankings" x1="1161" y1="150" x2="1214" y2="150" class="arrow-thin" />
+
+    <g id="rankings-content">
+      <circle cx="1294" cy="158" r="10" fill="#9e98ef" id="plus_node_25" />
+      <text class="txt small" x="1324" y="168" text-anchor="middle" id="plus_node_26">&gt;</text>
+      <circle cx="1356" cy="158" r="10" fill="#bfd8cb" id="plus_node_27" />
+
+      <circle cx="1294" cy="191" r="10" fill="#9e98ef" id="plus_node_28" />
+      <text class="txt small" x="1324" y="201" text-anchor="middle" id="plus_node_29">&lt;</text>
+      <circle cx="1356" cy="191" r="10" fill="#e88700" id="plus_node_30" />
+
+      <circle cx="1294" cy="224" r="10" fill="#9e98ef" id="plus_node_31" />
+      <text class="txt small" x="1324" y="234" text-anchor="middle" id="plus_node_32">&gt;</text>
+      <circle cx="1356" cy="224" r="10" fill="#edcccf" id="plus_node_33" />
+    </g>
+
+    <path id="arrow-rankings-to-estimator" d="M1329 261 V301" class="arrow-thin" />
+    <rect id="rank-estimator-box" x="1254" y="309" width="155" height="88" rx="12" ry="12" fill="#bfd6c8" />
+    <text id="rank-estimator-text-1" class="txt med" x="1332" y="344" text-anchor="middle">rank-based</text>
+    <text id="rank-estimator-text-2" class="txt med" x="1332" y="383" text-anchor="middle">estimator</text>
+  </g>
+
+  
+  <g id="inference-uncertainty-prediction-block">
+    <desc>The inference regressor feeds uncertainties; the rank-based estimator feeds predictions from the right. Both vertical framed columns point down into inverse variance weighting.</desc>
+    <line id="arrow-regressor-to-uncertainty" x1="848" y1="353" x2="901" y2="353" class="arrow-thin" />
+
+    <rect id="uncertainty-top-square" x="915" y="288" width="24" height="24" fill="#b8cada" />
+    <rect id="uncertainty-bottom-square" x="916" y="339" width="24" height="24" fill="#0878bd" />
+
+    <text id="uncertainties-label" class="txt med" x="1044" y="302" text-anchor="middle">uncertainties</text>
+    <text id="predictions-label" class="txt med" x="1044" y="364" text-anchor="middle">predictions</text>
+
+    <rect id="prediction-top-square" x="1148" y="288" width="24" height="24" fill="#bdd4c8" />
+    <rect id="prediction-bottom-square" x="1148" y="339" width="24" height="24" fill="#098d43" />
+
+    <path id="arrow-estimator-to-predictions" d="M1241 354 H1195" class="arrow-thin" />
+
+    <path id="arrow-uncertainties-to-weighting" d="M926 385 V429" class="arrow-thin" />
+    <path id="arrow-predictions-to-weighting" d="M1159 385 V429" class="arrow-thin" />
+
+    <rect id="inverse-variance-weighting-box" x="851" y="435" width="393" height="55" rx="10" ry="10" fill="#f7bd51" />
+    <text id="inverse-variance-weighting-text" class="txt" x="1047" y="474" text-anchor="middle" style="font-size:31px;">inverse variance weighting</text>
+
+    <path id="arrow-weighting-to-refined" d="M1047 498 V536" class="arrow-thin" />
+    <rect id="refined-prediction-square" x="1035" y="542" width="25" height="25" fill="#2c9da8" />
+    <text id="refined-prediction-text" class="txt med" x="1081" y="565">refined prediction</text>
+  </g>
+<style id="repair-white-canvas">svg{background-color:#ffffff;}</style></svg>

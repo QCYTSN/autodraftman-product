@@ -1,0 +1,236 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1222" height="587" viewBox="0 0 1222 587">
+  <title>VLA model pipeline diagram</title>
+  <desc>Editable reconstruction of a VLA model training and inference schematic. The figure contains an actions panel, next-scene multi-view image panel, central dashed VLA model frame with language model, tokenizers, instructions, ego state, aspects, command, projector, vision encoder, MovQGAN encoder/decoder, multi-view image inputs and arrows, plus right-side stage descriptions separated by a vertical divider.</desc>
+
+  <defs>
+    <marker id="arrowBlack" markerUnits="userSpaceOnUse" markerWidth="9" markerHeight="8" refX="8.5" refY="4" orient="auto">
+      <path d="M0,0 L9,4 L0,8 Z" fill="#111" id="plus_node_0" />
+    </marker>
+    <marker id="arrowBlackStart" markerUnits="userSpaceOnUse" markerWidth="9" markerHeight="8" refX="0.5" refY="4" orient="auto-start-reverse">
+      <path d="M9,0 L0,4 L9,8 Z" fill="#111" id="plus_node_1" />
+    </marker>
+
+    <symbol id="carSymbol" viewBox="0 0 60 45">
+      <g stroke="#111" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round" id="plus_node_2">
+        <path d="M13 21 L18 11 L42 11 L48 21 Z" fill="#ffd31a" id="plus_node_3" />
+        <rect x="9" y="20" width="42" height="14" rx="4" fill="#ffd31a" id="plus_node_4" />
+        <path d="M20 12 L24 6 L36 6 L40 12" fill="none" id="plus_node_5" />
+        <path d="M22 14 L27 14 M33 14 L39 14" stroke="#1e91d2" id="plus_node_6" />
+        <path d="M14 25 H46" stroke="#111" id="plus_node_7" />
+        <circle cx="18" cy="35" r="5" fill="#303030" id="plus_node_8" />
+        <circle cx="42" cy="35" r="5" fill="#303030" id="plus_node_9" />
+        <circle cx="18" cy="35" r="2" fill="#eee" id="plus_node_10" />
+        <circle cx="42" cy="35" r="2" fill="#eee" id="plus_node_11" />
+        <path d="M5 27 H11 M49 27 H56" stroke="#c99a00" id="plus_node_12" />
+        <path d="M27 4 Q30 1 33 4" fill="none" id="plus_node_13" />
+        <path d="M24 2 Q30 -4 36 2" fill="none" id="plus_node_14" />
+      </g>
+    </symbol>
+
+    <symbol id="personSymbol" viewBox="0 0 22 35">
+      <g fill="#45a85a" stroke="#45a85a" stroke-linecap="round" stroke-width="3" id="plus_node_15">
+        <circle cx="11" cy="6" r="4" id="plus_node_16" />
+        <path d="M11 12 V23" id="plus_node_17" />
+        <path d="M4 17 L11 13 L18 17" id="plus_node_18" />
+        <path d="M11 23 L5 32" id="plus_node_19" />
+        <path d="M11 23 L17 32" id="plus_node_20" />
+      </g>
+    </symbol>
+
+    <symbol id="smallDocIcon" viewBox="0 0 24 30">
+      <rect x="3" y="2" width="18" height="25" rx="2" fill="none" stroke="#c9a43b" stroke-width="2" id="plus_node_21" />
+      <path d="M7 9 H17 M7 14 H17 M7 19 H14" stroke="#c9a43b" stroke-width="2" stroke-linecap="round" id="plus_node_22" />
+      <path d="M16 2 L21 7 H16 Z" fill="#f3e3aa" stroke="#c9a43b" stroke-width="1.5" id="plus_node_23" />
+    </symbol>
+
+    <symbol id="smallChecklistIcon" viewBox="0 0 28 28">
+      <rect x="3" y="4" width="21" height="21" rx="3" fill="none" stroke="#c9a43b" stroke-width="2" id="plus_node_24" />
+      <path d="M7 11 L10 14 L16 8 M7 19 L10 22 L18 16" fill="none" stroke="#c9a43b" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" id="plus_node_25" />
+      <path d="M16 11 H22 M19 20 H23" stroke="#c9a43b" stroke-width="1.7" id="plus_node_26" />
+    </symbol>
+
+    <symbol id="personShieldIcon" viewBox="0 0 38 34">
+      <g fill="none" stroke="#c9a43b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" id="plus_node_27">
+        <circle cx="12" cy="8" r="5" id="plus_node_28" />
+        <path d="M12 14 V24 M5 30 Q12 23 19 30" id="plus_node_29" />
+        <path d="M25 10 L34 14 V21 Q34 28 25 32 Q16 28 16 21 V14 Z" id="plus_node_30" />
+        <path d="M21 21 L24 24 L30 17" id="plus_node_31" />
+      </g>
+    </symbol>
+
+    <symbol id="nodeMolecule" viewBox="0 0 70 50">
+      <g fill="#3d3d3d" stroke="#3d3d3d" stroke-width="3" id="plus_node_32">
+        <circle cx="35" cy="25" r="7" id="plus_node_33" />
+        <circle cx="18" cy="11" r="5" id="plus_node_34" />
+        <circle cx="53" cy="11" r="5" id="plus_node_35" />
+        <circle cx="18" cy="39" r="5" id="plus_node_36" />
+        <circle cx="53" cy="39" r="5" id="plus_node_37" />
+        <line x1="30" y1="21" x2="21" y2="14" id="plus_node_38" />
+        <line x1="40" y1="21" x2="50" y2="14" id="plus_node_39" />
+        <line x1="30" y1="29" x2="21" y2="36" id="plus_node_40" />
+        <line x1="40" y1="29" x2="50" y2="36" id="plus_node_41" />
+      </g>
+    </symbol>
+  </defs>
+
+  <rect id="background" x="0" y="0" width="1222" height="587" fill="#ffffff" />
+
+  
+  <rect id="f_actions" data-plus-kind="frame" x="50" y="58" width="310" height="87" rx="12" ry="12" fill="#ffffff" stroke="#111111" stroke-width="2.4" />
+  <rect id="f_next_scene" data-plus-kind="frame" x="365" y="58" width="536" height="60" rx="12" ry="12" fill="#ffffff" stroke="#0b78b9" stroke-width="2.2" />
+  <rect id="f_vla_model" data-plus-kind="frame" x="51" y="157" width="850" height="291" rx="14" ry="14" fill="#ffffff" stroke="#777777" stroke-width="2.6" stroke-dasharray="5 5" />
+  <rect id="f_instruction_panel" data-plus-kind="frame" x="95" y="355" width="238" height="78" rx="5" ry="5" fill="#ffffff" stroke="#c69b23" stroke-width="2.1" />
+  <rect id="f_bottom_multiview" data-plus-kind="frame" x="335" y="501" width="534" height="59" rx="12" ry="12" fill="#ffffff" stroke="#0b78b9" stroke-width="2.2" />
+  <rect id="f_right_training" data-plus-kind="frame" x="925" y="68" width="2" height="490" fill="#707070" stroke="none" />
+  <rect id="f_stage1" data-plus-kind="frame" x="950" y="182" width="220" height="57" rx="6" ry="6" fill="#bddbeb" stroke="none" />
+  <rect id="f_stage2a" data-plus-kind="frame" x="939" y="322" width="126" height="57" rx="6" ry="6" fill="#bddbeb" stroke="none" />
+  <rect id="f_stage2b" data-plus-kind="frame" x="1078" y="322" width="109" height="57" rx="6" ry="6" fill="#efe1aa" stroke="none" />
+
+  
+  <text id="title_actions" x="62" y="49" fill="#333" font-family="Arial, Helvetica, sans-serif" font-size="14" font-weight="700">Actions</text>
+  <text id="title_next_scene" x="546" y="48" fill="#333" font-family="Arial, Helvetica, sans-serif" font-size="14" font-weight="700">Next Scene Multi-view Images</text>
+  <text id="title_vla" x="743" y="154" fill="#333" font-family="Arial, Helvetica, sans-serif" font-size="30" font-weight="800">VLA model</text>
+
+  
+  <g id="actions_content">
+    <desc>Inside the actions base frame are four small autonomous car icons progressing left to right with colored trajectory shadows and pedestrian silhouettes. Labels underneath read Safety, Progress, Comfort, and Optimal. A selection label and arrow point toward the optimal action. The layout is horizontally equipartitioned across the panel.</desc>
+    <g id="action_item_safety" transform="translate(63 67)"><path id="act_safety_shadow" d="M12 57 L42 49 L61 59 L29 66 Z" fill="#9aa0a6" opacity="0.55" /><path id="act_safety_route" d="M12 60 C15 48 28 44 35 34" fill="none" stroke="#9b64d8" stroke-width="8" stroke-linecap="round" /><path id="act_safety_dots" d="M17 54 C23 47 29 43 35 36" fill="none" stroke="#ffffff" stroke-width="3" stroke-linecap="round" stroke-dasharray="1 7" /><g id="act_safety_car" stroke="#111" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"><path d="M11 19 L16 8 H39 L44 19 Z" fill="#ffd31a" /><rect x="8" y="18" width="39" height="15" rx="3" fill="#ffd31a" /><path d="M18 10 H37" stroke="#1e91d2" /><circle cx="16" cy="33" r="4" fill="#303030" /><circle cx="39" cy="33" r="4" fill="#303030" /><circle cx="16" cy="33" r="1.6" fill="#eeeeee" /><circle cx="39" cy="33" r="1.6" fill="#eeeeee" /><rect x="18" y="24" width="18" height="4" fill="#111" /><path d="M27 7 V1" fill="none" /><path d="M23 1 Q27 -3 31 1" fill="none" /><path d="M21 -2 Q27 -7 33 -2" fill="none" /></g><g id="act_safety_tree" fill="#69a843"><rect x="46" y="38" width="4" height="18" rx="1" /><circle cx="48" cy="33" r="7" /><circle cx="43" cy="37" r="5" /><circle cx="53" cy="38" r="5" /></g><text id="act_safety_label" x="0" y="74" fill="#333" font-family="Arial, Helvetica, sans-serif" font-size="13" font-weight="700">Safety</text></g><g id="action_item_progress" transform="translate(132 67)"><path id="act_progress_shadow" d="M12 57 L42 49 L61 59 L29 66 Z" fill="#9aa0a6" opacity="0.55" /><path id="act_progress_route" d="M12 60 C20 50 26 41 36 30" fill="none" stroke="#45c0c7" stroke-width="8" stroke-linecap="round" /><path id="act_progress_dots" d="M18 55 C24 48 30 40 36 32" fill="none" stroke="#ffffff" stroke-width="3" stroke-linecap="round" stroke-dasharray="1 7" /><g id="act_progress_car" stroke="#111" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"><path d="M11 19 L16 8 H39 L44 19 Z" fill="#ffd31a" /><rect x="8" y="18" width="39" height="15" rx="3" fill="#ffd31a" /><path d="M18 10 H37" stroke="#1e91d2" /><circle cx="16" cy="33" r="4" fill="#303030" /><circle cx="39" cy="33" r="4" fill="#303030" /><circle cx="16" cy="33" r="1.6" fill="#eeeeee" /><circle cx="39" cy="33" r="1.6" fill="#eeeeee" /><rect x="18" y="24" width="18" height="4" fill="#111" /><path d="M27 7 V1" fill="none" /><path d="M23 1 Q27 -3 31 1" fill="none" /><path d="M21 -2 Q27 -7 33 -2" fill="none" /></g><g id="act_progress_tree" fill="#69a843"><rect x="46" y="38" width="4" height="18" rx="1" /><circle cx="48" cy="33" r="7" /><circle cx="43" cy="37" r="5" /><circle cx="53" cy="38" r="5" /></g><text id="act_progress_label" x="-2" y="74" fill="#333" font-family="Arial, Helvetica, sans-serif" font-size="13" font-weight="700">Progress</text></g><g id="action_item_comfort" transform="translate(202 67)"><path id="act_comfort_shadow" d="M12 57 L42 49 L61 59 L29 66 Z" fill="#9aa0a6" opacity="0.55" /><path id="act_comfort_route" d="M18 60 C23 48 31 41 41 29" fill="none" stroke="#43c34b" stroke-width="8" stroke-linecap="round" /><path id="act_comfort_dots" d="M22 55 C28 48 34 40 41 32" fill="none" stroke="#ffffff" stroke-width="3" stroke-linecap="round" stroke-dasharray="1 7" /><g id="act_comfort_car" stroke="#111" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"><path d="M11 19 L16 8 H39 L44 19 Z" fill="#ffd31a" /><rect x="8" y="18" width="39" height="15" rx="3" fill="#ffd31a" /><path d="M18 10 H37" stroke="#1e91d2" /><circle cx="16" cy="33" r="4" fill="#303030" /><circle cx="39" cy="33" r="4" fill="#303030" /><circle cx="16" cy="33" r="1.6" fill="#eeeeee" /><circle cx="39" cy="33" r="1.6" fill="#eeeeee" /><rect x="18" y="24" width="18" height="4" fill="#111" /><path d="M27 7 V1" fill="none" /><path d="M23 1 Q27 -3 31 1" fill="none" /><path d="M21 -2 Q27 -7 33 -2" fill="none" /></g><g id="act_comfort_tree" fill="#69a843"><rect x="46" y="38" width="4" height="18" rx="1" /><circle cx="48" cy="33" r="7" /><circle cx="43" cy="37" r="5" /><circle cx="53" cy="38" r="5" /></g><text id="act_comfort_label" x="-5" y="74" fill="#333" font-family="Arial, Helvetica, sans-serif" font-size="13" font-weight="700">Comfort</text></g><g id="action_item_optimal" transform="translate(305 67)"><path id="act_optimal_shadow" d="M4 57 L34 48 L54 59 L22 66 Z" fill="#9aa0a6" opacity="0.55" /><path id="act_optimal_route" d="M3 60 C12 50 21 41 33 29" fill="none" stroke="#ef5350" stroke-width="8" stroke-linecap="round" /><path id="act_optimal_dots" d="M8 55 C15 48 24 40 33 32" fill="none" stroke="#ffffff" stroke-width="3" stroke-linecap="round" stroke-dasharray="1 7" /><g id="act_optimal_car" stroke="#111" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"><path d="M3 19 L8 8 H31 L36 19 Z" fill="#ffd31a" /><rect x="0" y="18" width="39" height="15" rx="3" fill="#ffd31a" /><path d="M10 10 H29" stroke="#1e91d2" /><circle cx="8" cy="33" r="4" fill="#303030" /><circle cx="31" cy="33" r="4" fill="#303030" /><circle cx="8" cy="33" r="1.6" fill="#eeeeee" /><circle cx="31" cy="33" r="1.6" fill="#eeeeee" /><rect x="10" y="24" width="18" height="4" fill="#111" /><path d="M19 7 V1" fill="none" /><path d="M15 1 Q19 -3 23 1" fill="none" /><path d="M13 -2 Q19 -7 25 -2" fill="none" /></g><g id="act_optimal_tree" fill="#69a843"><rect x="38" y="38" width="4" height="18" rx="1" /><circle cx="40" cy="33" r="7" /><circle cx="35" cy="37" r="5" /><circle cx="45" cy="38" r="5" /></g><text id="act_optimal_label" x="-1" y="74" fill="#333" font-family="Arial, Helvetica, sans-serif" font-size="13" font-weight="700">Optimal</text></g><text id="label_selection" x="249" y="111" fill="#333" font-family="Arial, Helvetica, sans-serif" font-size="12" font-weight="700">Selection</text>
+    <path id="arrow_selection" d="M300 107 H317" stroke="#111" stroke-width="1.5" fill="none" marker-end="url(#arrowBlack)" />
+  </g>
+
+  
+  <g id="next_scene_content">
+    <desc>The top next-scene base frame holds six rounded blue-outlined image placeholders evenly spaced from left to right: front, front left, front right, back, back right, back left. The section is symmetric across a horizontal row.</desc>
+    <g id="next_slots" fill="#ffffff" stroke="#0b78b9" stroke-width="2.1">
+      <rect id="next_front" x="383" y="66" width="71" height="43" rx="5" />
+      <rect id="next_front_left" x="459" y="66" width="71" height="43" rx="5" />
+      <rect id="next_front_right" x="548" y="66" width="71" height="43" rx="5" />
+      <rect id="next_back" x="637" y="66" width="71" height="43" rx="5" />
+      <rect id="next_back_right" x="725" y="66" width="71" height="43" rx="5" />
+      <rect id="next_back_left" x="814" y="66" width="71" height="43" rx="5" />
+    </g>
+    <g fill="#111" font-family="Arial, Helvetica, sans-serif" font-size="10.5" font-weight="800" text-anchor="middle" id="plus_node_62">
+      <text x="418.5" y="86" id="plus_node_63">Front</text><text x="418.5" y="97" id="plus_node_64">Image</text>
+      <text x="494.5" y="84" id="plus_node_65">Front Left</text><text x="494.5" y="96" id="plus_node_66">Image</text>
+      <text x="583.5" y="84" id="plus_node_67">Front Right</text><text x="583.5" y="96" id="plus_node_68">Image</text>
+      <text x="672.5" y="86" id="plus_node_69">Back</text><text x="672.5" y="97" id="plus_node_70">Image</text>
+      <text x="760.5" y="84" id="plus_node_71">Back Right</text><text x="760.5" y="96" id="plus_node_72">Image</text>
+      <text x="849.5" y="84" id="plus_node_73">Back Left</text><text x="849.5" y="96" id="plus_node_74">Image</text>
+    </g>
+  </g>
+
+  
+  <g id="vla_content">
+    <desc>The central dashed VLA model frame contains text detokenization above a language model, token streams feeding and exiting the model, a MovQGAN decoder leading upward to next-scene images, a lower instruction/state/aspect/command panel feeding through a text tokenizer, a vision encoder and projector on the right fed by lower multi-view images, and a MovQGAN encoder in the lower center. Arrows are mostly vertical and horizontal orthogonal connectors, with symmetry organized around the large language-model band.</desc>
+
+    
+    <rect id="text_detokenizer" x="116" y="166" width="178" height="27" rx="5" fill="#fff1bd" stroke="#c99a23" stroke-width="2" />
+    <text x="205" y="184" fill="#333" font-family="Arial, Helvetica, sans-serif" font-size="14" font-weight="800" text-anchor="middle" id="plus_node_75">Text Detokenizer</text>
+    <g id="top_left_tokens" transform="translate(158 199)"><rect id="top_tok1_bg" x="0" y="0" width="43" height="17" rx="3" fill="#efd783" /><rect id="top_tok2_bg" x="49" y="0" width="43" height="17" rx="3" fill="#efd783" /><g id="top_tok_glyphs" fill="#c09220"><rect id="top_tok1_a" x="6" y="5" width="7" height="8" rx="1" /><circle id="top_tok1_d1" cx="19" cy="9" r="1.4" /><circle id="top_tok1_d2" cx="24" cy="9" r="1.4" /><circle id="top_tok1_d3" cx="29" cy="9" r="1.4" /><rect id="top_tok1_b" x="34" y="5" width="7" height="8" rx="1" /><rect id="top_tok2_a" x="55" y="5" width="7" height="8" rx="1" /><circle id="top_tok2_d1" cx="68" cy="9" r="1.4" /><circle id="top_tok2_d2" cx="73" cy="9" r="1.4" /><circle id="top_tok2_d3" cx="78" cy="9" r="1.4" /><rect id="top_tok2_b" x="83" y="5" width="7" height="8" rx="1" /></g></g><rect id="movqgan_decoder" x="461" y="126" width="192" height="27" rx="5" fill="#a9d0a8" stroke="#397b3b" stroke-width="2.1" />
+    <text x="557" y="144" fill="#333" font-family="Arial, Helvetica, sans-serif" font-size="13" font-weight="800" text-anchor="middle" id="plus_node_85">MovQGAN Decoder</text>
+    <path id="arrow_decoder_to_next" d="M555 126 V118" stroke="#111" stroke-width="1.5" fill="none" marker-end="url(#arrowBlack)" />
+
+    <rect id="decoder_token" x="532" y="198" width="48" height="20" rx="3" fill="#a9d0a8" />
+    <g fill="#397b3b" id="plus_node_86">
+      <rect x="539" y="204" width="7" height="8" rx="1" id="plus_node_87" />
+      <rect x="554" y="205" width="6" height="6" rx="1" id="plus_node_88" />
+      <rect x="566" y="204" width="7" height="8" rx="1" id="plus_node_89" />
+    </g>
+    <path id="arrow_decoder_up" d="M555 198 V158" stroke="#111" stroke-width="1.5" fill="none" marker-end="url(#arrowBlack)" />
+
+    
+    <rect id="language_model_box" x="73" y="222" width="808" height="70" rx="12" fill="#eeeeee" stroke="#7e7e7e" stroke-width="3.5" />
+    <text id="language_model_text" x="446" y="263" fill="#333" font-family="Arial, Helvetica, sans-serif" font-size="29" font-weight="800" text-anchor="middle">Language Model</text>
+    <use id="lm_molecule_icon" href="#nodeMolecule" x="540" y="230" width="70" height="50" />
+
+    
+    <g id="lower_left_tokens" transform="translate(133 297)"><rect id="low_tok1_bg" x="0" y="0" width="45" height="18" rx="3" fill="#efd783" /><rect id="low_tok2_bg" x="49" y="0" width="45" height="18" rx="3" fill="#efd783" /><rect id="low_tok3_bg" x="98" y="0" width="45" height="18" rx="3" fill="#efd783" /><g id="low_tok_glyphs" fill="#c09220"><rect id="low_tok1_a" x="7" y="5" width="7" height="8" rx="1" /><circle id="low_tok1_d1" cx="20" cy="9" r="1.35" /><circle id="low_tok1_d2" cx="25" cy="9" r="1.35" /><circle id="low_tok1_d3" cx="30" cy="9" r="1.35" /><rect id="low_tok1_b" x="35" y="5" width="7" height="8" rx="1" /><rect id="low_tok2_a" x="56" y="5" width="7" height="8" rx="1" /><circle id="low_tok2_d1" cx="69" cy="9" r="1.35" /><circle id="low_tok2_d2" cx="74" cy="9" r="1.35" /><circle id="low_tok2_d3" cx="79" cy="9" r="1.35" /><rect id="low_tok2_b" x="84" y="5" width="7" height="8" rx="1" /><rect id="low_tok3_a" x="105" y="5" width="7" height="8" rx="1" /><circle id="low_tok3_d1" cx="118" cy="9" r="1.35" /><circle id="low_tok3_d2" cx="123" cy="9" r="1.35" /><circle id="low_tok3_d3" cx="128" cy="9" r="1.35" /><rect id="low_tok3_b" x="133" y="5" width="7" height="8" rx="1" /></g></g><rect id="text_tokenizer" x="106" y="322" width="203" height="31" rx="5" fill="#fff1bd" stroke="#c99a23" stroke-width="2" />
+    <text x="208" y="342" fill="#333" font-family="Arial, Helvetica, sans-serif" font-size="14" font-weight="800" text-anchor="middle" id="plus_node_103">Text Tokenizer</text>
+
+    
+    <g id="instruction_panel_content">
+      <g id="instructions_icon" transform="translate(105 365)" fill="none" stroke="#c9a43b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path id="instr_book_left" d="M2 5 Q10 2 15 6 V31 Q9 27 2 30 Z" /><path id="instr_book_right" d="M15 6 Q21 2 29 5 V30 Q22 27 15 31 Z" /><path id="instr_book_spine" d="M15 6 V31" /><path id="instr_book_lines_l" d="M6 11 H12 M6 17 H12 M6 23 H12" /><path id="instr_book_lines_r" d="M19 11 H26 M19 17 H26 M19 23 H26" /></g><text x="146" y="380" fill="#111" font-family="Arial, Helvetica, sans-serif" font-size="14" font-weight="800" id="plus_node_104">Instructions</text>
+      <g id="ego_icon" transform="translate(226 366)" stroke="#c9a43b" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path id="ego_car_body" d="M2 20 L7 11 H24 L30 20 Z" /><rect id="ego_car_base" x="4" y="18" width="24" height="9" rx="3" /><circle id="ego_wheel_l" cx="9" cy="28" r="2.5" /><circle id="ego_wheel_r" cx="24" cy="28" r="2.5" /><path id="ego_window" d="M9 13 H22" /><path id="ego_marker" d="M27 2 C31 2 33 5 33 8 C33 12 27 17 27 17 C27 17 21 12 21 8 C21 5 23 2 27 2 Z" /><circle id="ego_marker_dot" cx="27" cy="8" r="2" /></g><text x="262" y="381" fill="#111" font-family="Arial, Helvetica, sans-serif" font-size="14" font-weight="800" id="plus_node_111">Ego States</text>
+      <g id="aspects_icon" transform="translate(106 398)" fill="none" stroke="#c9a43b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle id="asp_head" cx="10" cy="8" r="4" /><path id="asp_body" d="M10 13 V24 M4 32 Q10 25 17 32" /><path id="asp_arm" d="M10 18 L18 20" /><rect id="asp_board" x="19" y="2" width="13" height="21" rx="2" /><path id="asp_check1" d="M22 8 L24 10 L29 5" /><path id="asp_check2" d="M22 16 L24 18 L30 13" /><path id="asp_line" d="M20 26 H32" /></g><text x="146" y="422" fill="#111" font-family="Arial, Helvetica, sans-serif" font-size="14" font-weight="800" id="plus_node_112">Apects</text>
+      <g id="command_icon" transform="translate(223 400)" fill="none" stroke="#c9a43b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle id="cmd_head" cx="12" cy="8" r="5" /><path id="cmd_body" d="M12 14 V24 M5 31 Q12 24 20 31" /><path id="cmd_shield" d="M27 10 L36 14 V21 Q36 28 27 32 Q18 28 18 21 V14 Z" /><path id="cmd_check" d="M23 21 L26 24 L32 17" /></g><text x="263" y="422" fill="#111" font-family="Arial, Helvetica, sans-serif" font-size="14" font-weight="800" id="plus_node_113">Command</text>
+    </g>
+
+    <path id="arrow_text_tokenizer_to_lm" d="M310 340 H428 V294" stroke="#111" stroke-width="1.5" fill="none" marker-end="url(#arrowBlack)" />
+
+    
+    <rect id="movqgan_encoder" x="357" y="454" width="136" height="31" rx="5" fill="#a9d0a8" stroke="#397b3b" stroke-width="2.1" />
+    <text x="425" y="474" fill="#333" font-family="Arial, Helvetica, sans-serif" font-size="13" font-weight="800" text-anchor="middle" id="plus_node_114">MovQGAN Encoder</text>
+    <rect id="encoder_token" x="403" y="419" width="48" height="19" rx="3" fill="#a9d0a8" />
+    <g fill="#397b3b" id="plus_node_115">
+      <rect x="410" y="425" width="7" height="7" rx="1" id="plus_node_116" />
+      <rect x="425" y="426" width="6" height="5" rx="1" id="plus_node_117" />
+      <rect x="438" y="425" width="7" height="7" rx="1" id="plus_node_118" />
+    </g>
+    <path id="arrow_encoder_to_token" d="M427 454 V439" stroke="#111" stroke-width="1.5" fill="none" marker-end="url(#arrowBlack)" />
+    <path id="arrow_token_to_lm_left" d="M427 419 V340 H310" stroke="#111" stroke-width="1.5" fill="none" marker-end="url(#arrowBlack)" />
+
+    
+    <g id="right_lm_tokens" transform="translate(587 302)"><rect id="orange_tok1_bg" x="0" y="0" width="47" height="19" rx="3" fill="#e7a56e" /><rect id="orange_tok2_bg" x="51" y="0" width="47" height="19" rx="3" fill="#e7a56e" /><rect id="orange_tok3_bg" x="102" y="0" width="47" height="19" rx="3" fill="#e7a56e" /><rect id="orange_tok4_bg" x="153" y="0" width="47" height="19" rx="3" fill="#e7a56e" /><rect id="orange_tok5_bg" x="204" y="0" width="47" height="19" rx="3" fill="#e7a56e" /><g id="orange_tok_glyphs" fill="#a74e1e"><rect id="orange_tok1_a" x="7" y="6" width="7" height="7" rx="1" /><circle id="orange_tok1_d1" cx="20" cy="10" r="1.25" /><circle id="orange_tok1_d2" cx="25" cy="10" r="1.25" /><circle id="orange_tok1_d3" cx="30" cy="10" r="1.25" /><rect id="orange_tok1_b" x="35" y="5" width="8" height="8" rx="1" /><rect id="orange_tok2_a" x="58" y="6" width="7" height="7" rx="1" /><circle id="orange_tok2_d1" cx="71" cy="10" r="1.25" /><circle id="orange_tok2_d2" cx="76" cy="10" r="1.25" /><circle id="orange_tok2_d3" cx="81" cy="10" r="1.25" /><rect id="orange_tok2_b" x="86" y="5" width="8" height="8" rx="1" /><rect id="orange_tok3_a" x="109" y="6" width="7" height="7" rx="1" /><circle id="orange_tok3_d1" cx="122" cy="10" r="1.25" /><circle id="orange_tok3_d2" cx="127" cy="10" r="1.25" /><circle id="orange_tok3_d3" cx="132" cy="10" r="1.25" /><rect id="orange_tok3_b" x="137" y="5" width="8" height="8" rx="1" /><rect id="orange_tok4_a" x="160" y="6" width="7" height="7" rx="1" /><circle id="orange_tok4_d1" cx="173" cy="10" r="1.25" /><circle id="orange_tok4_d2" cx="178" cy="10" r="1.25" /><circle id="orange_tok4_d3" cx="183" cy="10" r="1.25" /><rect id="orange_tok4_b" x="188" y="5" width="8" height="8" rx="1" /><rect id="orange_tok5_a" x="211" y="6" width="7" height="7" rx="1" /><circle id="orange_tok5_d1" cx="224" cy="10" r="1.25" /><circle id="orange_tok5_d2" cx="229" cy="10" r="1.25" /><circle id="orange_tok5_d3" cx="234" cy="10" r="1.25" /><rect id="orange_tok5_b" x="239" y="5" width="8" height="8" rx="1" /></g></g><rect id="projector" x="562" y="328" width="297" height="26" rx="5" fill="#ffc28f" stroke="#c75f23" stroke-width="2" />
+    <text x="711" y="346" fill="#333" font-family="Arial, Helvetica, sans-serif" font-size="14" font-weight="800" text-anchor="middle" id="plus_node_140">Projector</text>
+
+    
+    <rect id="vision_encoder" x="517" y="398" width="366" height="32" rx="5" fill="#bfe5fb" stroke="#0578b8" stroke-width="2" />
+    <text x="700" y="419" fill="#333" font-family="Arial, Helvetica, sans-serif" font-size="14" font-weight="800" text-anchor="middle" id="plus_node_141">Vision Encoder</text>
+    <g id="vision_tokens" transform="translate(564 369)"><rect id="blue_tok1_bg" x="0" y="0" width="45" height="17" rx="3" fill="#8fd0f2" /><rect id="blue_tok2_bg" x="50" y="0" width="45" height="17" rx="3" fill="#8fd0f2" /><rect id="blue_tok3_bg" x="100" y="0" width="45" height="17" rx="3" fill="#8fd0f2" /><rect id="blue_tok4_bg" x="150" y="0" width="45" height="17" rx="3" fill="#8fd0f2" /><rect id="blue_tok5_bg" x="200" y="0" width="45" height="17" rx="3" fill="#8fd0f2" /><rect id="blue_tok6_bg" x="250" y="0" width="45" height="17" rx="3" fill="#8fd0f2" /><g id="blue_tok_glyphs" fill="#0d6d9e"><rect id="blue_tok1_a" x="7" y="6" width="8" height="6" rx="1" /><circle id="blue_tok1_d1" cx="21" cy="9" r="1.2" /><circle id="blue_tok1_d2" cx="25" cy="9" r="1.2" /><rect id="blue_tok1_b" x="30" y="5" width="9" height="7" rx="1" /><rect id="blue_tok2_a" x="57" y="6" width="8" height="6" rx="1" /><circle id="blue_tok2_d1" cx="71" cy="9" r="1.2" /><circle id="blue_tok2_d2" cx="75" cy="9" r="1.2" /><rect id="blue_tok2_b" x="80" y="5" width="9" height="7" rx="1" /><rect id="blue_tok3_a" x="107" y="6" width="8" height="6" rx="1" /><circle id="blue_tok3_d1" cx="121" cy="9" r="1.2" /><circle id="blue_tok3_d2" cx="125" cy="9" r="1.2" /><rect id="blue_tok3_b" x="130" y="5" width="9" height="7" rx="1" /><rect id="blue_tok4_a" x="157" y="6" width="8" height="6" rx="1" /><circle id="blue_tok4_d1" cx="171" cy="9" r="1.2" /><circle id="blue_tok4_d2" cx="175" cy="9" r="1.2" /><rect id="blue_tok4_b" x="180" y="5" width="9" height="7" rx="1" /><rect id="blue_tok5_a" x="207" y="6" width="8" height="6" rx="1" /><circle id="blue_tok5_d1" cx="221" cy="9" r="1.2" /><circle id="blue_tok5_d2" cx="225" cy="9" r="1.2" /><rect id="blue_tok5_b" x="230" y="5" width="9" height="7" rx="1" /><rect id="blue_tok6_a" x="257" y="6" width="8" height="6" rx="1" /><circle id="blue_tok6_d1" cx="271" cy="9" r="1.2" /><circle id="blue_tok6_d2" cx="275" cy="9" r="1.2" /><rect id="blue_tok6_b" x="280" y="5" width="9" height="7" rx="1" /></g></g><g id="vision_up_arrows" stroke="#111" stroke-width="1.4" fill="none">
+      <path d="M587 398 V387" marker-end="url(#arrowBlack)" id="plus_node_161" />
+      <path d="M637 398 V387" marker-end="url(#arrowBlack)" id="plus_node_162" />
+      <path d="M687 398 V387" marker-end="url(#arrowBlack)" id="plus_node_163" />
+      <path d="M737 398 V387" marker-end="url(#arrowBlack)" id="plus_node_164" />
+      <path d="M787 398 V387" marker-end="url(#arrowBlack)" id="plus_node_165" />
+      <path d="M837 398 V387" marker-end="url(#arrowBlack)" id="plus_node_166" />
+      <path d="M587 369 V354" marker-end="url(#arrowBlack)" id="plus_node_167" />
+      <path d="M637 369 V354" marker-end="url(#arrowBlack)" id="plus_node_168" />
+      <path d="M687 369 V354" marker-end="url(#arrowBlack)" id="plus_node_169" />
+      <path d="M737 369 V354" marker-end="url(#arrowBlack)" id="plus_node_170" />
+      <path d="M787 369 V354" marker-end="url(#arrowBlack)" id="plus_node_171" />
+      <path d="M837 369 V354" marker-end="url(#arrowBlack)" id="plus_node_172" />
+    </g>
+    <path id="arrow_vision_to_right_edge" d="M901 86 H912 V414 H883" stroke="#111" stroke-width="1.5" fill="none" marker-end="url(#arrowBlack)" />
+  </g>
+
+  
+  <g id="bottom_multiview_content">
+    <desc>The bottom multi-view image frame contains the current six camera-view image boxes, equally spaced, with a label below. A vertical arrow rises from the strip to the vision encoder and another arrow rises to the MovQGAN encoder.</desc>
+    <g fill="#ffffff" stroke="#0b78b9" stroke-width="2.1" id="plus_node_173">
+      <rect id="bottom_front" x="346" y="508" width="68" height="43" rx="5" />
+      <rect id="bottom_front_left" x="430" y="508" width="72" height="43" rx="5" />
+      <rect id="bottom_front_right" x="516" y="508" width="72" height="43" rx="5" />
+      <rect id="bottom_back" x="606" y="508" width="72" height="43" rx="5" />
+      <rect id="bottom_back_right" x="692" y="508" width="72" height="43" rx="5" />
+      <rect id="bottom_back_left" x="780" y="508" width="72" height="43" rx="5" />
+    </g>
+    <g fill="#111" font-family="Arial, Helvetica, sans-serif" font-size="10.3" font-weight="800" text-anchor="middle" id="plus_node_174">
+      <text x="380" y="527" id="plus_node_175">Front</text><text x="380" y="538" id="plus_node_176">Image</text>
+      <text x="466" y="525" id="plus_node_177">Front Left</text><text x="466" y="537" id="plus_node_178">Image</text>
+      <text x="552" y="525" id="plus_node_179">Front Right</text><text x="552" y="537" id="plus_node_180">Image</text>
+      <text x="642" y="527" id="plus_node_181">Back</text><text x="642" y="538" id="plus_node_182">Image</text>
+      <text x="728" y="525" id="plus_node_183">Back Right</text><text x="728" y="537" id="plus_node_184">Image</text>
+      <text x="816" y="525" id="plus_node_185">Back Left</text><text x="816" y="537" id="plus_node_186">Image</text>
+    </g>
+    <text id="label_multiview" x="602" y="579" fill="#333" font-family="Arial, Helvetica, sans-serif" font-size="14" font-weight="800" text-anchor="middle">Multi-view Images</text>
+    <path id="arrow_bottom_to_vision" d="M716 501 V431" stroke="#111" stroke-width="1.5" fill="none" marker-end="url(#arrowBlack)" />
+    <path id="arrow_bottom_to_encoder" d="M427 501 V486" stroke="#111" stroke-width="1.5" fill="none" marker-end="url(#arrowBlack)" />
+  </g>
+
+  
+  <g id="top_connections">
+    <path id="arrow_actions_to_tokenizer" d="M204 157 V145" stroke="#111" stroke-width="1.5" fill="none" marker-end="url(#arrowBlack)" />
+    <path id="arrow_actions_to_textdetok" d="M204 157 V193" stroke="#111" stroke-width="1.5" fill="none" marker-start="url(#arrowBlackStart)" />
+  </g>
+
+  
+  <g id="right_training_content">
+    <desc>The right side separated by a vertical gray line lists training stages. Stage 1 supervise-fine tuning uses Nuscences: 1M Images. Stage 2 instruction-tuning uses Nuscences multi-view images plus 300K QAs. These blocks are vertically arranged and centered in the right panel.</desc>
+    <text id="stage1_title" x="1059" y="167" fill="#333" font-family="Arial, Helvetica, sans-serif" font-size="14" font-weight="800" text-anchor="middle">Stage 1: Supervise-Fine Tuning</text>
+    <text id="stage1_box_text" x="1060" y="213" fill="#333" font-family="Arial, Helvetica, sans-serif" font-size="13" font-weight="800" text-anchor="middle">Nuscenes: 1M Images</text>
+    <text id="stage2_title" x="1060" y="307" fill="#333" font-family="Arial, Helvetica, sans-serif" font-size="14" font-weight="800" text-anchor="middle">Stage 2: Instruction-Tuning</text>
+    <text id="stage2a_text" x="1002" y="342" fill="#333" font-family="Arial, Helvetica, sans-serif" font-size="13" font-weight="800" text-anchor="middle">Nuscenes</text>
+    <text x="1002" y="362" fill="#333" font-family="Arial, Helvetica, sans-serif" font-size="13" font-weight="800" text-anchor="middle" id="plus_node_187">Multi-view Images</text>
+    <text id="stage2b_text" x="1132" y="356" fill="#333" font-family="Arial, Helvetica, sans-serif" font-size="14" font-weight="800" text-anchor="middle">300K QAs</text>
+  </g>
+</svg>

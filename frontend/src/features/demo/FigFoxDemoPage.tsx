@@ -1,12 +1,14 @@
 import {
   ArrowCounterClockwise, ArrowDown, ArrowRight, ArrowsLeftRight, GithubLogo, Globe, MagnifyingGlassPlus, X,
 } from "@phosphor-icons/react";
-import { useRef, useState, type CSSProperties, type MouseEvent } from "react";
+import { useRef, useState, lazy, Suspense, type CSSProperties, type MouseEvent } from "react";
 import type { ProductRoute } from "../../ProductPages";
 import { DemoCanvas } from "./DemoCanvas";
 import { MechanismSection } from "./MechanismSection";
 import { RefinementSection } from "./RefinementSection";
-import { ResearchSections } from "./ResearchSections";
+import { ResearchProvider, ResearchOverview } from "./research/ResearchContext";
+import Pipeline from "./research/Pipeline";
+const Results = lazy(() => import("./research/Results"));
 import { HeroSvgWord } from "./HeroSvgWord";
 import { demoAsset, demoBrandAsset, demoCases, type DemoLanguage } from "./cases";
 import { useDemoMotion } from "./useDemoMotion";
@@ -24,7 +26,7 @@ const words = {
     cases: "案例", method: "方法", scope: "支撑机制", results: "修复对照", evaluation: "评测", source: "源代码", try: "开始使用",
     titleFirst: "将科研图像", titlePrefix: "重建为", titleAccent: "可编辑",
     intro: "根据图中关系，重建文字、图形与布局。",
-    introDetail: "对照原图检测差异，执行修复并复查。",
+    introDetail: "对照原图检测差异，核对后执行原生修复。",
     replay: "重播", replayLabel: "重播关系重建与局部修复示意",
     explore: "查看案例", scroll: "向下探索",
     examplesTitle: "直接编辑 FigFox 的重建结果",
@@ -35,7 +37,7 @@ const words = {
     original: "原图", result: "重建结果",
     comparisonLabel: "原图与重建结果的分割位置",
     methodTitle: "FigFox 如何重建一张图",
-    methodBody: "从图中元素的关系出发，生成 SVG，再检查差异并执行修复。",
+    methodBody: "SAM 辅助初稿 → 基于证据的问题检测 → 原生 SVG 修复。",
     steps: [
       ["关系引导重建", "识别图形与相对布局，构建 SVG 初稿。"],
       ["错误检测与计划", "结合原图与局部对照，定位需要修复的问题。"],
@@ -44,8 +46,8 @@ const words = {
     enlarge: "放大流程图", close: "关闭流程图",
     methodAlt: "FigFox 核心流程：关系引导 SVG 重建、错误检测与计划、执行与迭代修复。",
     evidenceNote: "以上为现有实验案例，展示原始重建结果及可编辑内容。完整评测将在固定设置下补充。",
-    closingTitle: "开始使用 FigFox",
-    closingBody: "进入工作台，或查看使用指南。",
+    closingTitle: "从图像，回到可编辑的结构",
+    closingBody: "在自己的科研图上，开始重建与编辑。",
     workspace: "进入工作台", guide: "使用指南", pricing: "定价", privacy: "隐私",
     footer: "科研图像的重建与编辑",
   },
@@ -53,7 +55,7 @@ const words = {
     cases: "Examples", method: "Method", scope: "Mechanisms", results: "Repairs", evaluation: "Evaluation", source: "Source", try: "Try FigFox",
     titleFirst: "Reconstruct scientific figures", titlePrefix: "as ", titleAccent: "editable",
     intro: "Reconstruct text, shapes, and their relationships.",
-    introDetail: "Compare with the original. Repair and review.",
+    introDetail: "Inspect against the source. Verify, then repair.",
     replay: "Replay", replayLabel: "Replay the relation-guided reconstruction and local refinement illustration",
     explore: "Explore examples", scroll: "Scroll to explore",
     examplesTitle: "Edit actual FigFox reconstructions",
@@ -64,7 +66,7 @@ const words = {
     original: "Original", result: "Reconstruction",
     comparisonLabel: "Original and reconstruction split position",
     methodTitle: "How FigFox reconstructs a figure",
-    methodBody: "Reconstruct the relationships between elements, inspect differences, and execute repairs.",
+    methodBody: "SAM-guided drafting → evidence-grounded inspection → native SVG repair.",
     steps: [
       ["Relation-guided reconstruction", "Identify elements and relative layout to compose a draft SVG."],
       ["Error detection and planning", "Inspect the original and local comparisons to plan corrections."],
@@ -73,16 +75,20 @@ const words = {
     enlarge: "Enlarge the diagram", close: "Close diagram",
     methodAlt: "FigFox pipeline: relation-guided SVG reconstruction, error detection and planning, execution and refinement.",
     evidenceNote: "These existing experiments show original reconstructions and editable content. A full evaluation will follow under fixed settings.",
-    closingTitle: "Start using FigFox",
-    closingBody: "Open the workspace or read the guide.",
+    closingTitle: "From pixels, back to editable structure",
+    closingBody: "Start reconstructing and editing your own scientific figures.",
     workspace: "Open workspace", guide: "Guide", pricing: "Pricing", privacy: "Privacy",
     footer: "Scientific figure reconstruction and editing",
   },
 } as const;
 
-export function FigFoxDemoPage({ language, onLanguageChange, onNavigate, hrefFor }: Props) {
+export function FigFoxDemoPage(props: Props) { return <ResearchProvider language={props.language}><DemoPageContent {...props} /></ResearchProvider>; }
+
+function DemoPageContent({ language, onLanguageChange, onNavigate, hrefFor }: Props) {
   const content = words[language];
   const [active, setActive] = useState(0);
+  const [methodStage, setMethodStage] = useState(0);
+  const [returnPosition, setReturnPosition] = useState<number | null>(null);
   const [split, setSplit] = useState(50);
   const [failedImages, setFailedImages] = useState(false);
   const [heroRevision, setHeroRevision] = useState(0);
@@ -108,6 +114,7 @@ export function FigFoxDemoPage({ language, onLanguageChange, onNavigate, hrefFor
   }
 
   function openContentCase(caseId: string, elementId: string) {
+    setReturnPosition(window.scrollY);
     const index = demoCases.findIndex(example => example.id === caseId);
     if (index < 0) return;
     chooseCase(index);
@@ -185,12 +192,14 @@ export function FigFoxDemoPage({ language, onLanguageChange, onNavigate, hrefFor
           </a>
         </section>
 
+        <ResearchOverview />
         <section className="demo-examples demo-section" id="demo-examples" aria-labelledby="demo-examples-title">
             <div className="demo-section-heading" data-demo-reveal>
               <h2 id="demo-examples-title">{content.examplesTitle}</h2>
               <p>{content.examplesBody}</p>
             </div>
             <div className="demo-canvas-reveal" data-demo-reveal data-demo-delay="1">
+              {returnPosition !== null && <button className="demo-return-link" onClick={() => { window.scrollTo({top:returnPosition,behavior:"instant"}); setReturnPosition(null); }}>{language === "zh" ? "返回刚才的说明 ↑" : "Return to the explanation ↑"}</button>}
               <DemoCanvas key={item.id} item={item} language={language} focusedElementId={focusedElement} focusRevision={focusRevision} />
             </div>
             <div data-demo-reveal data-demo-delay="2">
@@ -240,23 +249,18 @@ export function FigFoxDemoPage({ language, onLanguageChange, onNavigate, hrefFor
           <figure className="demo-method-figure" data-demo-reveal data-demo-delay="1">
             <button type="button" className="demo-method-preview" data-demo-cursor="zoom"
               aria-label={language === "zh" ? "查看完整流程图" : "View the full pipeline diagram"} onClick={() => diagramDialog.current?.showModal()}>
-              <img src={demoBrandAsset("figfox-method.jpg")} width="2976" height="1280" loading="lazy" alt={content.methodAlt} />
+              <img src={demoBrandAsset("figfox-method-20261103.png")} width="1208" height="669" loading="lazy" alt={content.methodAlt} />
             </button>
             <button type="button" className="demo-diagram-enlarge" data-demo-cursor="zoom" onClick={() => diagramDialog.current?.showModal()}>
               <MagnifyingGlassPlus size={16} />{content.enlarge}
             </button>
           </figure>
-          <ol className="demo-method-steps" data-demo-reveal data-demo-delay="2">
-            {content.steps.map(([title, description]) => (
-              <li key={title}><h3>{title}</h3><p>{description}</p></li>
-            ))}
-          </ol>
-          <p className="demo-evidence-note" data-demo-reveal>{content.evidenceNote}</p>
+          <Pipeline stage={methodStage} onStage={setMethodStage} />
         </section>
 
         <MechanismSection language={language} localCasesAvailable onOpenCase={openContentCase} />
         <RefinementSection language={language} onOpenCase={openContentCase} />
-        <ResearchSections language={language} localCasesAvailable />
+        <Suspense fallback={<div className="research-loading">{language === "zh" ? "正在加载研究结果…" : "Loading results…"}</div>}><Results /></Suspense>
 
         <section className="demo-closing" data-demo-reveal>
           <div><h2>{content.closingTitle}</h2><p>{content.closingBody}</p></div>
@@ -294,7 +298,7 @@ export function FigFoxDemoPage({ language, onLanguageChange, onNavigate, hrefFor
           </button>
         </div>
         <div className="demo-dialog-image">
-          <img src={demoBrandAsset("figfox-method.jpg")} width="2976" height="1280" alt={content.methodAlt} />
+          <img src={demoBrandAsset("figfox-method-20261103.png")} width="1208" height="669" alt={content.methodAlt} />
         </div>
       </dialog>
     </div>

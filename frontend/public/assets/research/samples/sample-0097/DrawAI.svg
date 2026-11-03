@@ -1,0 +1,233 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="2048" height="944" viewBox="0 0 2048 944">
+  <defs>
+    <marker id="arrow-gray" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto" markerUnits="userSpaceOnUse">
+      <polygon points="0,0 12,6 0,12" fill="#565656" data-pb-role="decorative" data-pb-editable="true"/>
+    </marker>
+    <marker id="arrow-dark" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto" markerUnits="userSpaceOnUse">
+      <polygon points="0,0 12,6 0,12" fill="#3f4548" data-pb-role="decorative" data-pb-editable="true"/>
+    </marker>
+  </defs>
+  <rect id="background" x="0" y="0" width="2048" height="944" fill="#ffffff" data-pb-role="background" data-pb-editable="true"/>
+
+  <g id="label-title-encoder" data-pb-role="title" data-pb-editable="true">
+    <text x="126" y="128" font-family="Arial, Helvetica, sans-serif" font-size="54" font-style="normal" font-weight="400" fill="#3c4144" data-pb-role="title" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="horizontal">Encoder</text>
+  </g>
+
+  <g id="module-self-attention" data-pb-role="panel" data-pb-editable="true">
+    <text id="label-self-attention" x="258" y="218" font-family="Arial, Helvetica, sans-serif" font-size="40" font-style="normal" font-weight="400" fill="#3c4144" data-pb-role="label" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="horizontal">Self-attention</text>
+    <path id="icon-repeat-self" d="M 536 181 A 24 24 0 1 1 520 202" fill="none" stroke="#55595c" stroke-width="7" stroke-linecap="round" marker-end="url(#arrow-gray)" data-pb-role="decorative" data-pb-editable="true"/>
+    <text id="label-repeat-self" x="582" y="217" font-family="Arial, Helvetica, sans-serif" font-size="35" font-style="normal" font-weight="400" fill="#3c4144" data-pb-role="label" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="horizontal">×N</text>
+    <rect id="panel-self-attention-bg" x="72" y="238" width="798" height="426" rx="66" ry="66" fill="#fee9cf" stroke="none" data-pb-role="panel" data-pb-editable="true"/>
+    <text id="label-self-time" x="222" y="276" font-family="Arial, Helvetica, sans-serif" font-size="31" font-style="normal" font-weight="400" fill="#3c4144" data-pb-role="label" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="horizontal">T: number of video frames</text>
+    <line id="divider-self-top" x1="120" y1="292" x2="644" y2="292" stroke="#3f4548" stroke-width="3" data-pb-role="decorative" data-pb-editable="true"/>
+    <line id="divider-self-bottom" x1="119" y1="647" x2="642" y2="647" stroke="#3f4548" stroke-width="3" data-pb-role="decorative" data-pb-editable="true"/>
+    <line id="divider-self-right" x1="806" y1="314" x2="806" y2="629" stroke="#3f4548" stroke-width="3" data-pb-role="decorative" data-pb-editable="true"/>
+    <text id="label-self-track-count" x="825" y="344" transform="rotate(90 825 344)" font-family="Arial, Helvetica, sans-serif" font-size="30" font-style="normal" font-weight="400" fill="#3c4144" data-pb-role="label" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="vertical-rl">N: number of tracks</text>
+
+    <g id="node-token-self-01" data-pb-role="node" data-pb-editable="true">
+      <polygon points="122,327 137,313 239,313 224,327" fill="#eef1f4" stroke="#4d5357" stroke-width="3"/>
+      <rect x="122" y="327" width="102" height="45" fill="#d8dde2" stroke="#4d5357" stroke-width="3"/>
+      <polygon points="224,327 239,313 239,358 224,372" fill="#b8c0c6" stroke="#4d5357" stroke-width="3"/>
+    </g>
+    <g id="node-token-self-02" data-pb-role="node" data-pb-editable="true">
+      <polygon points="255,327 270,313 372,313 357,327" fill="#eef1f4" stroke="#4d5357" stroke-width="3"/>
+      <rect x="255" y="327" width="102" height="45" fill="#d8dde2" stroke="#4d5357" stroke-width="3"/>
+      <polygon points="357,327 372,313 372,358 357,372" fill="#b8c0c6" stroke="#4d5357" stroke-width="3"/>
+    </g>
+    <g id="node-token-self-03" data-pb-role="node" data-pb-editable="true">
+      <polygon points="522,327 537,313 638,313 623,327" fill="#eef1f4" stroke="#4d5357" stroke-width="3"/>
+      <rect x="522" y="327" width="101" height="45" fill="#d8dde2" stroke="#4d5357" stroke-width="3"/>
+      <polygon points="623,327 638,313 638,358 623,372" fill="#b8c0c6" stroke="#4d5357" stroke-width="3"/>
+    </g>
+    <g id="node-readout-self-01" data-pb-role="node" data-pb-editable="true">
+      <polygon points="672,328 687,314 789,314 774,328" fill="#ffe4e5" stroke="#4d5357" stroke-width="3"/>
+      <rect x="672" y="328" width="102" height="45" fill="#f6cfd1" stroke="#4d5357" stroke-width="3"/>
+      <polygon points="774,328 789,314 789,359 774,373" fill="#d7b2b6" stroke="#4d5357" stroke-width="3"/>
+    </g>
+
+    <g id="node-token-self-04" data-pb-role="node" data-pb-editable="true">
+      <polygon points="116,505 131,491 232,491 217,505" fill="#eef1f4" stroke="#4d5357" stroke-width="3"/>
+      <rect x="116" y="505" width="101" height="43" fill="#d8dde2" stroke="#4d5357" stroke-width="3"/>
+      <polygon points="217,505 232,491 232,535 217,548" fill="#b8c0c6" stroke="#4d5357" stroke-width="3"/>
+    </g>
+    <g id="node-token-self-05" data-pb-role="node" data-pb-editable="true">
+      <polygon points="249,505 264,491 367,491 352,505" fill="#eef1f4" stroke="#4d5357" stroke-width="3"/>
+      <rect x="249" y="505" width="103" height="43" fill="#d8dde2" stroke="#4d5357" stroke-width="3"/>
+      <polygon points="352,505 367,491 367,535 352,548" fill="#b8c0c6" stroke="#4d5357" stroke-width="3"/>
+    </g>
+    <g id="node-token-self-06" data-pb-role="node" data-pb-editable="true">
+      <polygon points="513,504 528,490 630,490 615,504" fill="#eef1f4" stroke="#4d5357" stroke-width="3"/>
+      <rect x="513" y="504" width="102" height="44" fill="#d8dde2" stroke="#4d5357" stroke-width="3"/>
+      <polygon points="615,504 630,490 630,535 615,548" fill="#b8c0c6" stroke="#4d5357" stroke-width="3"/>
+    </g>
+    <g id="node-readout-self-02" data-pb-role="node" data-pb-editable="true">
+      <polygon points="664,504 679,490 781,490 766,504" fill="#ffe4e5" stroke="#4d5357" stroke-width="3"/>
+      <rect x="664" y="504" width="102" height="44" fill="#f6cfd1" stroke="#4d5357" stroke-width="3"/>
+      <polygon points="766,504 781,490 781,535 766,548" fill="#d7b2b6" stroke="#4d5357" stroke-width="3"/>
+    </g>
+
+    <g id="node-token-self-07" data-pb-role="node" data-pb-editable="true">
+      <polygon points="116,589 131,575 232,575 217,589" fill="#eef1f4" stroke="#4d5357" stroke-width="3"/>
+      <rect x="116" y="589" width="101" height="43" fill="#d8dde2" stroke="#4d5357" stroke-width="3"/>
+      <polygon points="217,589 232,575 232,619 217,632" fill="#b8c0c6" stroke="#4d5357" stroke-width="3"/>
+    </g>
+    <g id="node-token-self-08" data-pb-role="node" data-pb-editable="true">
+      <polygon points="248,589 263,575 366,575 351,589" fill="#eef1f4" stroke="#4d5357" stroke-width="3"/>
+      <rect x="248" y="589" width="103" height="43" fill="#d8dde2" stroke="#4d5357" stroke-width="3"/>
+      <polygon points="351,589 366,575 366,619 351,632" fill="#b8c0c6" stroke="#4d5357" stroke-width="3"/>
+    </g>
+    <g id="node-token-self-09" data-pb-role="node" data-pb-editable="true">
+      <polygon points="515,588 530,574 632,574 617,588" fill="#eef1f4" stroke="#4d5357" stroke-width="3"/>
+      <rect x="515" y="588" width="102" height="43" fill="#d8dde2" stroke="#4d5357" stroke-width="3"/>
+      <polygon points="617,588 632,574 632,618 617,631" fill="#b8c0c6" stroke="#4d5357" stroke-width="3"/>
+    </g>
+    <g id="node-readout-self-03" data-pb-role="node" data-pb-editable="true">
+      <polygon points="665,590 680,576 783,576 768,590" fill="#ffe4e5" stroke="#4d5357" stroke-width="3"/>
+      <rect x="665" y="590" width="103" height="43" fill="#f6cfd1" stroke="#4d5357" stroke-width="3"/>
+      <polygon points="768,590 783,576 783,620 768,633" fill="#d7b2b6" stroke="#4d5357" stroke-width="3"/>
+    </g>
+
+    <g id="ellipsis-self-vertical" fill="#2d3438" data-pb-role="decorative" data-pb-editable="true">
+      <circle cx="179" cy="402" r="3.5"/><circle cx="179" cy="423" r="3.5"/><circle cx="179" cy="444" r="3.5"/>
+      <circle cx="308" cy="402" r="3.5"/><circle cx="308" cy="423" r="3.5"/><circle cx="308" cy="444" r="3.5"/>
+      <circle cx="578" cy="402" r="3.5"/><circle cx="578" cy="423" r="3.5"/><circle cx="578" cy="444" r="3.5"/>
+      <circle cx="729" cy="402" r="3.5"/><circle cx="729" cy="423" r="3.5"/><circle cx="729" cy="444" r="3.5"/>
+    </g>
+    <g id="ellipsis-self-horizontal" fill="#2d3438" data-pb-role="decorative" data-pb-editable="true">
+      <circle cx="414" cy="344" r="3.5"/><circle cx="429" cy="344" r="3.5"/><circle cx="444" cy="344" r="3.5"/><circle cx="459" cy="344" r="3.5"/><circle cx="474" cy="344" r="3.5"/>
+      <circle cx="409" cy="515" r="3.5"/><circle cx="424" cy="515" r="3.5"/><circle cx="439" cy="515" r="3.5"/><circle cx="454" cy="515" r="3.5"/><circle cx="469" cy="515" r="3.5"/>
+      <circle cx="409" cy="605" r="3.5"/><circle cx="424" cy="605" r="3.5"/><circle cx="439" cy="605" r="3.5"/><circle cx="454" cy="605" r="3.5"/><circle cx="469" cy="605" r="3.5"/>
+    </g>
+  </g>
+
+  <g id="connector-self-to-transformer" data-pb-role="connector" data-pb-editable="true">
+    <polygon points="874,392 913,392 913,347 949,444 913,541 913,497 874,497" fill="#a7a7a7" stroke="none"/>
+  </g>
+
+  <g id="module-transformer" data-pb-role="panel" data-pb-editable="true">
+    <text id="label-transformer" x="993" y="213" font-family="Arial, Helvetica, sans-serif" font-size="40" font-style="normal" font-weight="400" fill="#3c4144" data-pb-role="label" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="horizontal">Transformer</text>
+    <path id="icon-repeat-transformer" d="M 1236 177 A 24 24 0 1 1 1220 199" fill="none" stroke="#55595c" stroke-width="7" stroke-linecap="round" marker-end="url(#arrow-gray)" data-pb-role="decorative" data-pb-editable="true"/>
+    <text id="label-repeat-transformer" x="1289" y="213" font-family="Arial, Helvetica, sans-serif" font-size="35" font-style="normal" font-weight="400" fill="#3c4144" data-pb-role="label" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="horizontal">×N</text>
+    <rect id="panel-transformer-bg" x="953" y="229" width="420" height="427" rx="66" ry="66" fill="#fee9cf" stroke="none" data-pb-role="panel" data-pb-editable="true"/>
+    <text id="label-cross-attention" x="1051" y="260" font-family="Arial, Helvetica, sans-serif" font-size="31" font-style="normal" font-weight="400" fill="#3c4144" data-pb-role="label" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="horizontal">Cross-attention</text>
+    <path id="arrow-cross-left" d="M 1219 288 C 1150 264 1086 267 1028 291" fill="none" stroke="#3f4548" stroke-width="3" marker-end="url(#arrow-dark)" data-pb-role="connector" data-pb-editable="true"/>
+    <path id="arrow-cross-right" d="M 1069 284 C 1125 269 1193 270 1270 291" fill="none" stroke="#3f4548" stroke-width="3" marker-end="url(#arrow-dark)" data-pb-role="connector" data-pb-editable="true"/>
+
+    <g id="node-readout-transformer-01" data-pb-role="node" data-pb-editable="true">
+      <polygon points="989,328 1004,314 1104,314 1089,328" fill="#ffe4e5" stroke="#4d5357" stroke-width="3"/>
+      <rect x="989" y="328" width="100" height="44" fill="#f6cfd1" stroke="#4d5357" stroke-width="3"/>
+      <polygon points="1089,328 1104,314 1104,358 1089,372" fill="#d7b2b6" stroke="#4d5357" stroke-width="3"/>
+    </g>
+    <g id="node-readout-transformer-02" data-pb-role="node" data-pb-editable="true">
+      <polygon points="982,504 997,490 1098,490 1083,504" fill="#ffe4e5" stroke="#4d5357" stroke-width="3"/>
+      <rect x="982" y="504" width="101" height="43" fill="#f6cfd1" stroke="#4d5357" stroke-width="3"/>
+      <polygon points="1083,504 1098,490 1098,534 1083,547" fill="#d7b2b6" stroke="#4d5357" stroke-width="3"/>
+    </g>
+    <g id="node-readout-transformer-03" data-pb-role="node" data-pb-editable="true">
+      <polygon points="982,589 997,575 1098,575 1083,589" fill="#ffe4e5" stroke="#4d5357" stroke-width="3"/>
+      <rect x="982" y="589" width="101" height="43" fill="#f6cfd1" stroke="#4d5357" stroke-width="3"/>
+      <polygon points="1083,589 1098,575 1098,619 1083,632" fill="#d7b2b6" stroke="#4d5357" stroke-width="3"/>
+    </g>
+    <g id="node-latent-transformer-01" data-pb-role="node" data-pb-editable="true">
+      <polygon points="1176,370 1191,356 1293,356 1278,370" fill="#d6e7ff" stroke="#4d5357" stroke-width="3"/>
+      <rect x="1176" y="370" width="102" height="43" fill="#a9c9f7" stroke="#4d5357" stroke-width="3"/>
+      <polygon points="1278,370 1293,356 1293,399 1278,413" fill="#8eb2df" stroke="#4d5357" stroke-width="3"/>
+    </g>
+    <g id="node-latent-transformer-02" data-pb-role="node" data-pb-editable="true">
+      <polygon points="1172,537 1187,523 1290,523 1275,537" fill="#d6e7ff" stroke="#4d5357" stroke-width="3"/>
+      <rect x="1172" y="537" width="103" height="43" fill="#a9c9f7" stroke="#4d5357" stroke-width="3"/>
+      <polygon points="1275,537 1290,523 1290,567 1275,580" fill="#8eb2df" stroke="#4d5357" stroke-width="3"/>
+    </g>
+    <g id="ellipsis-transformer" fill="#2d3438" data-pb-role="decorative" data-pb-editable="true">
+      <circle cx="1046" cy="402" r="3.5"/><circle cx="1046" cy="423" r="3.5"/><circle cx="1046" cy="444" r="3.5"/>
+      <circle cx="1232" cy="440" r="3.5"/><circle cx="1232" cy="461" r="3.5"/><circle cx="1232" cy="482" r="3.5"/>
+    </g>
+    <path id="arrow-transformer-self" d="M 1306 543 C 1330 485 1329 425 1307 379" fill="none" stroke="#3f4548" stroke-width="4" marker-end="url(#arrow-dark)" data-pb-role="connector" data-pb-editable="true"/>
+    <path id="arrow-transformer-self-return" d="M 1325 383 C 1347 433 1345 496 1320 547" fill="none" stroke="#3f4548" stroke-width="4" marker-end="url(#arrow-dark)" data-pb-role="connector" data-pb-editable="true"/>
+    <text id="label-transformer-self" x="1350" y="390" transform="rotate(90 1350 390)" font-family="Arial, Helvetica, sans-serif" font-size="29" font-style="normal" font-weight="400" fill="#3c4144" data-pb-role="label" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="vertical-rl">Self-attention</text>
+  </g>
+
+  <g id="connector-transformer-to-latents" data-pb-role="connector" data-pb-editable="true">
+    <polygon points="1389,392 1427,392 1427,347 1463,444 1427,541 1427,497 1389,497" fill="#a7a7a7" stroke="none"/>
+  </g>
+
+  <g id="module-motion-latents" data-pb-role="node" data-pb-editable="true">
+    <text id="label-motion-latents-title" x="1440" y="296" font-family="Arial, Helvetica, sans-serif" font-size="39" font-style="normal" font-weight="400" fill="#3c4144" data-pb-role="label" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="horizontal">Motion latents</text>
+    <g id="node-motion-latent-top" data-pb-role="node" data-pb-editable="true">
+      <polygon points="1478,371 1493,357 1596,357 1581,371" fill="#d6e7ff" stroke="#4d5357" stroke-width="3"/>
+      <rect x="1478" y="371" width="103" height="43" fill="#a9c9f7" stroke="#4d5357" stroke-width="3"/>
+      <polygon points="1581,371 1596,357 1596,400 1581,414" fill="#8eb2df" stroke="#4d5357" stroke-width="3"/>
+    </g>
+    <g id="node-motion-latent-bottom" data-pb-role="node" data-pb-editable="true">
+      <polygon points="1476,537 1491,523 1595,523 1580,537" fill="#d6e7ff" stroke="#4d5357" stroke-width="3"/>
+      <rect x="1476" y="537" width="104" height="43" fill="#a9c9f7" stroke="#4d5357" stroke-width="3"/>
+      <polygon points="1580,537 1595,523 1595,567 1580,580" fill="#8eb2df" stroke="#4d5357" stroke-width="3"/>
+    </g>
+    <g id="ellipsis-motion-latents" fill="#2d3438" data-pb-role="decorative" data-pb-editable="true">
+      <circle cx="1537" cy="431" r="3.5"/><circle cx="1537" cy="452" r="3.5"/><circle cx="1537" cy="473" r="3.5"/>
+    </g>
+  </g>
+
+  <g id="connector-compress" data-pb-role="connector" data-pb-editable="true">
+    <polygon points="1643,424 1790,424 1790,390 1850,471 1790,552 1790,518 1643,518" fill="#a7a7a7" stroke="none"/>
+    <text id="label-compress" x="1668" y="467" font-family="Arial, Helvetica, sans-serif" font-size="31" font-style="normal" font-weight="400" fill="#1c1c1c" data-pb-role="label" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="horizontal">Compress</text>
+  </g>
+
+  <g id="module-compressed-latents" data-pb-role="node" data-pb-editable="true">
+    <text id="label-compressed-title-1" x="1802" y="274" font-family="Arial, Helvetica, sans-serif" font-size="38" font-style="normal" font-weight="400" fill="#3c4144" data-pb-role="label" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="horizontal">Compressed</text>
+    <text id="label-compressed-title-2" x="1791" y="316" font-family="Arial, Helvetica, sans-serif" font-size="38" font-style="normal" font-weight="400" fill="#3c4144" data-pb-role="label" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="horizontal">motion latents</text>
+    <g id="node-compressed-latent-top" data-pb-role="node" data-pb-editable="true">
+      <polygon points="1884,371 1899,357 1933,357 1918,371" fill="#d6e7ff" stroke="#4d5357" stroke-width="3"/>
+      <rect x="1884" y="371" width="34" height="43" fill="#a9c9f7" stroke="#4d5357" stroke-width="3"/>
+      <polygon points="1918,371 1933,357 1933,400 1918,414" fill="#8eb2df" stroke="#4d5357" stroke-width="3"/>
+    </g>
+    <g id="node-compressed-latent-bottom" data-pb-role="node" data-pb-editable="true">
+      <polygon points="1885,538 1900,524 1933,524 1918,538" fill="#d6e7ff" stroke="#4d5357" stroke-width="3"/>
+      <rect x="1885" y="538" width="33" height="43" fill="#a9c9f7" stroke="#4d5357" stroke-width="3"/>
+      <polygon points="1918,538 1933,524 1933,568 1918,581" fill="#8eb2df" stroke="#4d5357" stroke-width="3"/>
+    </g>
+    <g id="ellipsis-compressed-latents" fill="#2d3438" data-pb-role="decorative" data-pb-editable="true">
+      <circle cx="1910" cy="445" r="3.5"/><circle cx="1910" cy="466" r="3.5"/><circle cx="1910" cy="487" r="3.5"/>
+    </g>
+  </g>
+
+  <g id="module-input-slab" data-pb-role="node" data-pb-editable="true">
+    <line id="arrow-encode" x1="389" y1="722" x2="389" y2="658" stroke="#7f8284" stroke-width="4" marker-end="url(#arrow-gray)" data-pb-role="connector" data-pb-editable="true"/>
+    <text id="label-encode" x="406" y="703" font-family="Arial, Helvetica, sans-serif" font-size="31" font-style="normal" font-weight="400" fill="#3c4144" data-pb-role="label" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="horizontal">Encode</text>
+    <polygon id="slab-top" points="64,812 150,726 802,726 716,812" fill="#e4e8eb" stroke="#5f6569" stroke-width="3" data-pb-role="node" data-pb-editable="true"/>
+    <polygon id="slab-front" points="64,812 716,812 716,850 64,850" fill="#cfd4d8" stroke="#5f6569" stroke-width="3" data-pb-role="node" data-pb-editable="true"/>
+    <polygon id="slab-right" points="716,812 802,726 802,766 716,850" fill="#aeb5bb" stroke="#5f6569" stroke-width="3" data-pb-role="node" data-pb-editable="true"/>
+    <text id="label-input" x="139" y="783" font-family="Arial, Helvetica, sans-serif" font-size="29" font-style="normal" font-weight="400" fill="#3c4144" data-pb-role="label" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="horizontal">Input: dense set of "support" tracks from video</text>
+    <text id="label-input-coordinates" x="808" y="752" font-family="Arial, Helvetica, sans-serif" font-size="29" font-style="normal" font-weight="400" fill="#3c4144" data-pb-role="label" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="horizontal">x, y, occlusion</text>
+    <text id="label-input-tracks" x="772" y="824" font-family="Arial, Helvetica, sans-serif" font-size="29" font-style="normal" font-weight="400" fill="#3c4144" data-pb-role="label" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="horizontal">N tracks</text>
+    <text id="label-input-time" x="255" y="881" font-family="Arial, Helvetica, sans-serif" font-size="31" font-style="normal" font-weight="400" fill="#3c4144" data-pb-role="label" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="horizontal">T: number of video frames</text>
+  </g>
+
+  <g id="legend" data-pb-role="legend" data-pb-editable="true">
+    <rect id="legend-frame" x="996" y="681" width="1028" height="210" rx="32" ry="32" fill="#ffffff" stroke="#777777" stroke-width="3" stroke-dasharray="8 10" data-pb-role="legend" data-pb-editable="true"/>
+    <g id="legend-track-token" data-pb-role="legend" data-pb-editable="true">
+      <polygon points="1029,728 1044,714 1145,714 1130,728" fill="#eef1f4" stroke="#4d5357" stroke-width="3"/>
+      <rect x="1029" y="728" width="101" height="43" fill="#d8dde2" stroke="#4d5357" stroke-width="3"/>
+      <polygon points="1130,728 1145,714 1145,758 1130,771" fill="#b8c0c6" stroke="#4d5357" stroke-width="3"/>
+      <text x="1155" y="755" font-family="Arial, Helvetica, sans-serif" font-size="30" font-style="normal" font-weight="400" fill="#3c4144" data-pb-role="legend" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="horizontal">Track tokens, one per point</text>
+    </g>
+    <g id="legend-readout-token" data-pb-role="legend" data-pb-editable="true">
+      <polygon points="1029,814 1044,800 1145,800 1130,814" fill="#ffe4e5" stroke="#4d5357" stroke-width="3"/>
+      <rect x="1029" y="814" width="101" height="43" fill="#f6cfd1" stroke="#4d5357" stroke-width="3"/>
+      <polygon points="1130,814 1145,800 1145,844 1130,857" fill="#d7b2b6" stroke="#4d5357" stroke-width="3"/>
+      <text x="1155" y="840" font-family="Arial, Helvetica, sans-serif" font-size="30" font-style="normal" font-weight="400" fill="#3c4144" data-pb-role="legend" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="horizontal">Read-out tokens, one per track</text>
+    </g>
+    <g id="legend-motion-latent" data-pb-role="legend" data-pb-editable="true">
+      <polygon points="1545,728 1560,714 1662,714 1647,728" fill="#d6e7ff" stroke="#4d5357" stroke-width="3"/>
+      <rect x="1545" y="728" width="102" height="43" fill="#a9c9f7" stroke="#4d5357" stroke-width="3"/>
+      <polygon points="1647,728 1662,714 1662,758 1647,771" fill="#8eb2df" stroke="#4d5357" stroke-width="3"/>
+      <text x="1680" y="755" font-family="Arial, Helvetica, sans-serif" font-size="30" font-style="normal" font-weight="400" fill="#3c4144" data-pb-role="legend" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="horizontal">Motion latents</text>
+    </g>
+    <g id="legend-compressed-latent" data-pb-role="legend" data-pb-editable="true">
+      <polygon points="1571,814 1586,800 1619,800 1604,814" fill="#d6e7ff" stroke="#4d5357" stroke-width="3"/>
+      <rect x="1571" y="814" width="33" height="43" fill="#a9c9f7" stroke="#4d5357" stroke-width="3"/>
+      <polygon points="1604,814 1619,800 1619,844 1604,857" fill="#8eb2df" stroke="#4d5357" stroke-width="3"/>
+      <text x="1668" y="840" font-family="Arial, Helvetica, sans-serif" font-size="30" font-style="normal" font-weight="400" fill="#3c4144" data-pb-role="legend" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="horizontal">Compressed motion latents</text>
+    </g>
+  </g>
+</svg>

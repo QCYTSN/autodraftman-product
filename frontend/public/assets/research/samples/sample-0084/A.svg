@@ -1,0 +1,245 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1593" height="485" viewBox="0 0 1593 485">
+  <defs>
+    <marker id="arrowStd" markerUnits="userSpaceOnUse" markerWidth="14" markerHeight="10" viewBox="0 0 10 8" refX="9.4" refY="4" orient="auto">
+      <path d="M0,0 L10,4 L0,8 Z" fill="#000" id="plus_node_0" />
+    </marker>
+    <marker id="arrowStdStart" markerUnits="userSpaceOnUse" markerWidth="14" markerHeight="10" viewBox="0 0 10 8" refX="0.6" refY="4" orient="auto-start-reverse">
+      <path d="M0,0 L10,4 L0,8 Z" fill="#000" id="plus_node_1" />
+    </marker>
+    <style>
+      .label{font-family:Arial,Helvetica,sans-serif;font-weight:700;fill:#000}
+      .small{font-family:Arial,Helvetica,sans-serif;font-weight:700;fill:#000}
+      .edge{stroke:#000;stroke-width:3;fill:none;stroke-linecap:round;stroke-linejoin:round}
+      .thinEdge{stroke:#000;stroke-width:2;fill:none;stroke-linecap:round;stroke-linejoin:round}
+      .attrTan{fill:#f5d39c;stroke:#000;stroke-width:1.2}
+      .attrPink{fill:#c9aaa9;stroke:#000;stroke-width:1.2}
+      .node{fill:#000;stroke:none}
+      .cubeStroke{stroke:#000;stroke-width:1.4;stroke-linejoin:round}
+      .math{font-family:"Times New Roman",Times,serif;fill:#000}
+    </style>
+  </defs>
+
+  <rect id="canvas_background" x="0" y="0" width="1593" height="485" fill="#fff" />
+
+  <rect id="f01" data-plus-kind="frame" x="15" y="54" width="180" height="408" fill="none" stroke="none">
+    <desc>Base frame for the set of train graphs. Contains three small node-edge graphs stacked vertically; each graph has black circular nodes, black edges, and small tan or rose node attribute rectangles around it. The origin is the top graph, with middle and bottom graphs vertically below.</desc>
+  </rect>
+  <rect id="f02" data-plus-kind="frame" x="198" y="40" width="505" height="360" fill="none" stroke="none">
+    <desc>Base frame for message passing layers. Contains incoming curved arrows from the graph set, five 3D layer slabs alternating cream and gray, a long double-headed horizontal training arrow beneath the slabs, and its label.</desc>
+  </rect>
+  <path id="f03" data-plus-kind="frame" d="M767,85 C792,67 888,61 959,62 C1054,63 1131,68 1154,96 C1174,120 1170,199 1164,242 C1156,292 1124,311 1072,322 C1010,335 843,338 792,322 C756,311 747,195 751,123 C752,101 758,90 767,85 Z" fill="#eeeeee" stroke="#000" stroke-width="1.4" stroke-dasharray="7 7">
+    <desc>Irregular dashed rounded frame for graph representations. Contains a centered title, two columns of representation matrices, and curved arrows to and from the mixture formula. The left column is trained representations and the right column is sampled augmented representations.</desc>
+  </path>
+  <rect id="f04" data-plus-kind="frame" x="806" y="330" width="326" height="116" fill="none" stroke="none">
+    <desc>Base frame for probability mixture formula under the graph representation region. It receives the Fit arrow from trained representations and sends the Sample arrow upward to sampled augmented representations.</desc>
+  </rect>
+  <rect id="f05" data-plus-kind="frame" x="1174" y="150" width="190" height="134" fill="none" stroke="none">
+    <desc>Base frame for post-readout output. Contains an arrow from graph representations to a rounded pink post-readout box and the text Post-Readout Psi below.</desc>
+  </rect>
+  <rect id="f06" data-plus-kind="frame" x="1418" y="28" width="155" height="225" fill="none" stroke="none">
+    <desc>Legend frame. Contains icons for nodes, edges, node attributes, AGGREGATE, COMBINE, READOUT, and Output of READOUT, with text labels aligned to the right of the icons.</desc>
+  </rect>
+
+  <g id="train_graphs">
+    <title>Set of train graphs from the same class</title>
+
+    <g id="train_graph_top">
+      <desc>Top graph: the origin of the graph set; black nodes connected by angled edges, with several nearby node attribute rectangles.</desc>
+      <path class="edge" d="M58,122 L75,87 L145,70 L151,97" id="plus_node_2" />
+      <path class="edge" d="M58,122 L111,108" id="plus_node_3" />
+      <circle class="node" cx="58" cy="122" r="8.7" id="plus_node_4" />
+      <circle class="node" cx="75" cy="87" r="8.7" id="plus_node_5" />
+      <circle class="node" cx="145" cy="70" r="8.7" id="plus_node_6" />
+      <circle class="node" cx="151" cy="97" r="8.7" id="plus_node_7" />
+      <circle class="node" cx="111" cy="108" r="8.7" id="plus_node_8" />
+      <rect class="attrTan" x="72" y="64" width="24" height="8" id="plus_node_9" />
+      <rect class="attrTan" x="160" y="59" width="23" height="8" id="plus_node_10" />
+      <rect class="attrPink" x="168" y="96" width="23" height="8" id="plus_node_11" />
+      <rect class="attrTan" x="102" y="122" width="24" height="8" id="plus_node_12" />
+      <rect class="attrPink" x="29" y="137" width="24" height="8" id="plus_node_13" />
+    </g>
+
+    <g id="train_graph_middle">
+      <desc>Middle graph below the origin graph; its left node connects into a triangular message structure with right node and vertical center path. Attribute rectangles surround the nodes.</desc>
+      <path class="edge" d="M58,252 L115,174" id="plus_node_14" />
+      <path class="edge" d="M58,252 L114,253 L119,201 L115,174" id="plus_node_15" />
+      <path class="edge" d="M114,253 L150,228" id="plus_node_16" />
+      <circle class="node" cx="58" cy="252" r="8.8" id="plus_node_17" />
+      <circle class="node" cx="114" cy="253" r="8.8" id="plus_node_18" />
+      <circle class="node" cx="119" cy="201" r="8.8" id="plus_node_19" />
+      <circle class="node" cx="115" cy="174" r="8.8" id="plus_node_20" />
+      <circle class="node" cx="150" cy="228" r="8.8" id="plus_node_21" />
+      <rect class="attrPink" x="118" y="156" width="25" height="8" id="plus_node_22" />
+      <rect class="attrTan" x="136" y="195" width="24" height="8" id="plus_node_23" />
+      <rect class="attrPink" x="165" y="223" width="24" height="8" id="plus_node_24" />
+      <rect class="attrPink" x="50" y="270" width="23" height="8" id="plus_node_25" />
+    </g>
+
+    <g id="train_graph_bottom">
+      <desc>Bottom graph: five black nodes in a low cluster connected by short angled edges with tan and rose attribute rectangles.</desc>
+      <path class="edge" d="M58,341 L138,328" id="plus_node_26" />
+      <path class="edge" d="M58,341 L78,363 L126,360" id="plus_node_27" />
+      <path class="edge" d="M89,326 L138,328" id="plus_node_28" />
+      <circle class="node" cx="58" cy="341" r="8.8" id="plus_node_29" />
+      <circle class="node" cx="78" cy="363" r="8.8" id="plus_node_30" />
+      <circle class="node" cx="126" cy="360" r="8.8" id="plus_node_31" />
+      <circle class="node" cx="89" cy="326" r="8.8" id="plus_node_32" />
+      <circle class="node" cx="138" cy="328" r="8.8" id="plus_node_33" />
+      <rect class="attrTan" x="26" y="319" width="24" height="8" id="plus_node_34" />
+      <rect class="attrTan" x="83" y="304" width="24" height="8" id="plus_node_35" />
+      <rect class="attrPink" x="153" y="322" width="24" height="8" id="plus_node_36" />
+      <rect class="attrTan" x="143" y="361" width="24" height="8" id="plus_node_37" />
+      <rect class="attrPink" x="62" y="382" width="24" height="8" id="plus_node_38" />
+    </g>
+
+    <text id="train_graphs_label_1" class="label" x="26" y="424" font-size="22">Set of train graphs</text>
+    <text id="train_graphs_label_2" class="label" x="20" y="454" font-size="22">from the same class</text>
+  </g>
+
+  <g id="arrows_graphs_to_layers">
+    <desc>Three incoming curved arrows conduct information from the stacked training graphs toward the first message passing layer. The upper and lower paths are sweeping curves, while the middle path is a slight curved connector.</desc>
+    <path id="graph_to_layer_arrow_top" d="M219,106 C232,134 249,161 276,176" stroke="#000" stroke-width="2.6" fill="none" marker-end="url(#arrowStd)" />
+    <path id="graph_to_layer_arrow_mid" d="M207,221 C231,228 256,231 281,224" stroke="#000" stroke-width="2.6" fill="none" marker-end="url(#arrowStd)" />
+    <path id="graph_to_layer_arrow_bottom" d="M201,329 C229,307 253,282 280,258" stroke="#000" stroke-width="2.6" fill="none" marker-end="url(#arrowStd)" />
+  </g>
+
+  <g id="message_passing_layers">
+    <title>Training of Message Passing Layers</title>
+    <desc>Five 3D slabs are arranged left to right as the origin sequence for training message passing layers. Large cream slabs alternate with narrow gray slabs and terminate in a small cream output slab. The slabs share vertical alignment with a slight perspective slant.</desc>
+
+    <g id="layer_slab_1">
+      <polygon class="cubeStroke" points="300,138 326,127 326,329 300,336" fill="#fbf2df" id="plus_node_39" />
+      <polygon class="cubeStroke" points="326,127 378,58 381,257 326,329" fill="#fff3dc" id="plus_node_40" />
+      <polygon class="cubeStroke" points="300,138 352,67 378,58 326,127" fill="#fff7e9" id="plus_node_41" />
+    </g>
+
+    <g id="layer_slab_2">
+      <polygon class="cubeStroke" points="404,141 418,137 419,288 405,292" fill="#e5e5e5" id="plus_node_42" />
+      <polygon class="cubeStroke" points="418,137 447,102 450,252 419,288" fill="#d8d8d8" id="plus_node_43" />
+      <polygon class="cubeStroke" points="404,141 433,104 447,102 418,137" fill="#eeeeee" id="plus_node_44" />
+    </g>
+
+    <g id="layer_slab_3">
+      <polygon class="cubeStroke" points="470,138 496,130 497,329 471,337" fill="#fbf2df" id="plus_node_45" />
+      <polygon class="cubeStroke" points="496,130 550,59 552,257 497,329" fill="#fff3dc" id="plus_node_46" />
+      <polygon class="cubeStroke" points="470,138 525,66 550,59 496,130" fill="#fff7e9" id="plus_node_47" />
+    </g>
+
+    <g id="layer_slab_4">
+      <polygon class="cubeStroke" points="575,142 589,138 590,289 577,293" fill="#e4e4e4" id="plus_node_48" />
+      <polygon class="cubeStroke" points="589,138 619,103 622,253 590,289" fill="#d8d8d8" id="plus_node_49" />
+      <polygon class="cubeStroke" points="575,142 605,106 619,103 589,138" fill="#eeeeee" id="plus_node_50" />
+    </g>
+
+    <g id="layer_slab_5">
+      <polygon class="cubeStroke" points="650,190 660,188 660,270 650,272" fill="#f4ead8" id="plus_node_51" />
+      <polygon class="cubeStroke" points="660,188 676,166 678,247 660,270" fill="#eadfcf" id="plus_node_52" />
+      <polygon class="cubeStroke" points="650,190 667,168 676,166 660,188" fill="#fff4e4" id="plus_node_53" />
+    </g>
+
+    <path id="training_double_arrow" d="M294,363 H689" stroke="#000" stroke-width="3" fill="none" marker-start="url(#arrowStdStart)" marker-end="url(#arrowStd)" />
+    <text id="training_label" class="label" x="306" y="396" font-size="22">Training of Message Passing Layers</text>
+  </g>
+
+  <path id="layers_to_representations_arrow" d="M693,216 C715,216 736,213 755,213" stroke="#000" stroke-width="2.6" fill="none" marker-end="url(#arrowStd)">
+    <desc>Single rightward connector from the last message passing slab into the graph representation dashed frame.</desc>
+  </path>
+
+  <g id="graph_representations_content">
+    <title>Graph Representations</title>
+    <desc>Within the dashed graph-representation frame, contents are horizontally symmetric around the central title: trained representations on the left and sampled augmented representations on the right. Each column has three small three-cell row vectors stacked vertically.</desc>
+
+    <text id="graph_representations_title" class="label" x="961" y="48" font-size="22" text-anchor="middle">Graph Representations</text>
+
+    <text id="trained_head_1" class="small" x="847" y="112" font-size="20" text-anchor="middle">Trained</text>
+    <text id="trained_head_2" class="small" x="847" y="141" font-size="20" text-anchor="middle">Representations</text>
+
+    <text id="sampled_head_1" class="small" x="1032" y="107" font-size="20" text-anchor="middle">Sampled Augmented</text>
+    <text id="sampled_head_2" class="small" x="1032" y="136" font-size="20" text-anchor="middle">Representations</text>
+
+    <g id="trained_representation_vectors" stroke="#000" stroke-width="1.4">
+      <rect x="797" y="161" width="24" height="24" fill="#8ba375" id="plus_node_54" />
+      <rect x="821" y="161" width="24" height="24" fill="#8ba375" id="plus_node_55" />
+      <rect x="845" y="161" width="24" height="24" fill="#8ba375" id="plus_node_56" />
+      <rect x="797" y="205" width="24" height="24" fill="#8ba375" id="plus_node_57" />
+      <rect x="821" y="205" width="24" height="24" fill="#8ba375" id="plus_node_58" />
+      <rect x="845" y="205" width="24" height="24" fill="#8ba375" id="plus_node_59" />
+      <rect x="797" y="247" width="24" height="24" fill="#8ba375" id="plus_node_60" />
+      <rect x="821" y="247" width="24" height="24" fill="#8ba375" id="plus_node_61" />
+      <rect x="845" y="247" width="24" height="24" fill="#8ba375" id="plus_node_62" />
+    </g>
+
+    <g id="sampled_augmented_vectors" stroke="#000" stroke-width="1.4">
+      <rect x="995" y="159" width="24" height="24" fill="#78dc12" id="plus_node_63" />
+      <rect x="1019" y="159" width="24" height="24" fill="#78dc12" id="plus_node_64" />
+      <rect x="1043" y="159" width="24" height="24" fill="#78dc12" id="plus_node_65" />
+      <rect x="995" y="203" width="24" height="24" fill="#78dc12" id="plus_node_66" />
+      <rect x="1019" y="203" width="24" height="24" fill="#78dc12" id="plus_node_67" />
+      <rect x="1043" y="203" width="24" height="24" fill="#78dc12" id="plus_node_68" />
+      <rect x="995" y="245" width="24" height="24" fill="#78dc12" id="plus_node_69" />
+      <rect x="1019" y="245" width="24" height="24" fill="#78dc12" id="plus_node_70" />
+      <rect x="1043" y="245" width="24" height="24" fill="#78dc12" id="plus_node_71" />
+    </g>
+  </g>
+
+  <g id="fit_sample_formula_block">
+    <desc>The mixture formula is centered below the dashed representation frame. A curved Fit arrow descends from the left trained vectors to the formula; a Sample arrow rises from the formula region into the right sampled augmented vectors. This creates the asymmetric fitting-and-sampling relationship.</desc>
+
+    <path id="fit_arrow" d="M851,294 C854,323 864,345 887,359" stroke="#000" stroke-width="2.6" fill="none" marker-end="url(#arrowStd)" />
+    <text id="fit_label" class="label" x="824" y="359" font-size="20">Fit</text>
+
+    <path id="sample_arrow" d="M1016,351 C1022,329 1025,309 1033,291" stroke="#000" stroke-width="2.6" fill="none" marker-end="url(#arrowStd)" />
+    <text id="sample_label" class="label" x="1040" y="342" font-size="22">Sample</text>
+
+    <g id="mixture_formula" class="math"><text id="mixture_formula_lhs" x="821" y="408" font-size="31"><tspan font-style="italic">p</tspan><tspan>(</tspan><tspan font-style="italic">h</tspan><tspan>) =</tspan></text><text id="mixture_formula_sum" x="908" y="417" font-size="57">∑</text><text id="mixture_formula_sum_upper" x="921" y="366" font-size="18" font-style="italic">K</text><text id="mixture_formula_sum_lower" x="910" y="439" font-size="18"><tspan font-style="italic">k</tspan><tspan>=1</tspan></text><text id="mixture_formula_rhs" x="963" y="408" font-size="30"><tspan>π</tspan><tspan x="980" y="416" font-size="20" font-style="italic">k</tspan><tspan x="995" y="408">N(</tspan><tspan font-style="italic">h</tspan><tspan> | μ</tspan><tspan x="1096" y="416" font-size="20" font-style="italic">k</tspan><tspan x="1110" y="408">,Σ</tspan><tspan x="1143" y="416" font-size="20" font-style="italic">k</tspan><tspan x="1155" y="408">)</tspan></text></g></g>
+
+  <g id="post_readout">
+    <desc>The post-readout section sits to the right of graph representations. A short rightward arrow points to a pale pink rounded rectangle, with the label Post-Readout Psi below.</desc>
+    <path id="representation_to_readout_arrow" d="M1175,187 C1187,192 1200,195 1218,194" stroke="#000" stroke-width="2.6" fill="none" marker-end="url(#arrowStd)" />
+    <rect id="post_readout_box" x="1233" y="157" width="126" height="72" rx="14" ry="14" fill="#f6d7dd" stroke="#000" stroke-width="1.4" />
+    <text id="post_readout_label" class="label" x="1200" y="279" font-size="22">Post-Readout <tspan class="math" font-style="italic" font-weight="400">Ψ</tspan></text>
+  </g>
+
+  <g id="legend">
+    <title>Legend</title>
+    <desc>Legend icons and labels are vertically aligned. The icons summarize nodes, edges, node attributes, the three layer operations as 3D slabs, and the three-cell output of readout.</desc>
+
+    <circle id="legend_node_icon" class="node" cx="1437" cy="41" r="10" />
+    <text id="legend_node_text" class="label" x="1463" y="49" font-size="18">Nodes</text>
+
+    <line id="legend_edge_icon" x1="1423" y1="67" x2="1451" y2="68" stroke="#000" stroke-width="2.4" />
+    <text id="legend_edge_text" class="label" x="1463" y="75" font-size="18">Edges</text>
+
+    <rect id="legend_node_attr_icon" x="1427" y="91" width="28" height="8" fill="#fff" stroke="#000" stroke-width="1.2" />
+    <text id="legend_node_attr_text" class="label" x="1463" y="105" font-size="18">Node Attr.</text>
+
+    <g id="legend_aggregate_icon" class="cubeStroke">
+      <polygon points="1431,122 1438,118 1438,137 1431,141" fill="#e5e5e5" id="plus_node_72" />
+      <polygon points="1438,118 1445,111 1445,130 1438,137" fill="#d9d9d9" id="plus_node_73" />
+      <polygon points="1431,122 1438,114 1445,111 1438,118" fill="#eeeeee" id="plus_node_74" />
+    </g>
+    <text id="legend_aggregate_text" class="label" x="1463" y="134" font-size="18">AGGREGATE</text>
+
+    <g id="legend_combine_icon" class="cubeStroke">
+      <polygon points="1431,153 1438,149 1438,168 1431,172" fill="#fbf2df" id="plus_node_75" />
+      <polygon points="1438,149 1445,142 1445,161 1438,168" fill="#fff3dc" id="plus_node_76" />
+      <polygon points="1431,153 1438,145 1445,142 1438,149" fill="#fff8ea" id="plus_node_77" />
+    </g>
+    <text id="legend_combine_text" class="label" x="1463" y="164" font-size="18">COMBINE</text>
+
+    <g id="legend_readout_icon" class="cubeStroke">
+      <polygon points="1431,184 1438,180 1438,199 1431,203" fill="#fbf2df" id="plus_node_78" />
+      <polygon points="1438,180 1445,173 1445,192 1438,199" fill="#fff3dc" id="plus_node_79" />
+      <polygon points="1431,184 1438,176 1445,173 1438,180" fill="#fff8ea" id="plus_node_80" />
+    </g>
+    <text id="legend_readout_text" class="label" x="1463" y="194" font-size="18">READOUT</text>
+
+    <g id="legend_output_icon" stroke="#000" stroke-width="1.2" fill="#fff">
+      <rect x="1420" y="221" width="12" height="12" id="plus_node_81" />
+      <rect x="1432" y="221" width="12" height="12" id="plus_node_82" />
+      <rect x="1444" y="221" width="12" height="12" id="plus_node_83" />
+    </g>
+    <text id="legend_output_text_1" class="label" x="1463" y="222" font-size="18">Output of</text>
+    <text id="legend_output_text_2" class="label" x="1463" y="249" font-size="18">REDOUT</text>
+  </g>
+</svg>

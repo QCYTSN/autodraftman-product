@@ -1,0 +1,169 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="879" height="405" viewBox="0 0 879 405">
+  <title>Encoder transformer motion-latent compression diagram</title>
+  <desc>
+    Inventory and construction notes: The figure contains a left Encoder title, a large rounded peach Self-attention block with gray track-token cuboids and pink read-out cuboids arranged by video-frame columns and track rows, an input 3D slab feeding upward through an Encode arrow, a middle rounded peach Transformer block with cross-attention curved arrow, pink read-out cuboids and blue motion-latent cuboids, gray right-pointing transition arrows, standalone blue motion latents, a Compress arrow, compressed motion latents, and a dashed rounded legend with four token examples. The two circular refresh icons above Self-attention and Transformer are first constructed as native SVG drafts and then mapped to confirmed SAM picture crops: Original icon at [223,77,22,20] -&gt; icon_self_attention_draft -&gt; asset_sam_region_000009; original icon at [524,75,23,20] -&gt; icon_transformer_draft -&gt; asset_sam_region_000008. Equipartition basis: repeated cuboids are aligned on common row and column grids; the two major peach frames are horizontally arranged left-to-right with arrows preserving original flow.
+  </desc>
+
+  <defs>
+    <marker id="arrowSmallEnd" markerUnits="userSpaceOnUse" markerWidth="10" markerHeight="8" refX="9" refY="4" orient="auto">
+      <path d="M0,0 L10,4 L0,8 Z" fill="#4a4a4a" id="plus_node_0" />
+    </marker>
+    <marker id="arrowSmallStart" markerUnits="userSpaceOnUse" markerWidth="10" markerHeight="8" refX="1" refY="4" orient="auto-start-reverse">
+      <path d="M0,0 L10,4 L0,8 Z" fill="#4a4a4a" id="plus_node_1" />
+    </marker>
+    <marker id="arrowTinyEnd" markerUnits="userSpaceOnUse" markerWidth="7" markerHeight="6" refX="6" refY="3" orient="auto">
+      <path d="M0,0 L7,3 L0,6 Z" fill="#4a4a4a" id="plus_node_2" />
+    </marker>
+
+    <symbol id="tok-grey" viewBox="0 0 54 27">
+      <polygon points="0,7 44,7 44,25 0,25" fill="#d8dde2" stroke="#4a4a4a" stroke-width="1.2" id="plus_node_3" />
+      <polygon points="44,7 52,0 52,18 44,25" fill="#b9c0c7" stroke="#4a4a4a" stroke-width="1.2" id="plus_node_4" />
+      <polygon points="0,7 8,0 52,0 44,7" fill="#eef1f4" stroke="#4a4a4a" stroke-width="1.2" id="plus_node_5" />
+    </symbol>
+    <symbol id="tok-pink" viewBox="0 0 54 27">
+      <polygon points="0,7 44,7 44,25 0,25" fill="#f4cbd0" stroke="#4a4a4a" stroke-width="1.2" id="plus_node_6" />
+      <polygon points="44,7 52,0 52,18 44,25" fill="#d7abb1" stroke="#4a4a4a" stroke-width="1.2" id="plus_node_7" />
+      <polygon points="0,7 8,0 52,0 44,7" fill="#f8dce0" stroke="#4a4a4a" stroke-width="1.2" id="plus_node_8" />
+    </symbol>
+    <symbol id="tok-blue" viewBox="0 0 54 27">
+      <polygon points="0,7 44,7 44,25 0,25" fill="#a9c5ee" stroke="#4a4a4a" stroke-width="1.2" id="plus_node_9" />
+      <polygon points="44,7 52,0 52,18 44,25" fill="#7fa2d7" stroke="#4a4a4a" stroke-width="1.2" id="plus_node_10" />
+      <polygon points="0,7 8,0 52,0 44,7" fill="#c5d8f6" stroke="#4a4a4a" stroke-width="1.2" id="plus_node_11" />
+    </symbol>
+    <symbol id="tok-blue-small" viewBox="0 0 28 32">
+      <polygon points="0,8 17,8 17,31 0,31" fill="#a9c5ee" stroke="#4a4a4a" stroke-width="1.2" id="plus_node_12" />
+      <polygon points="17,8 26,0 26,22 17,31" fill="#7fa2d7" stroke="#4a4a4a" stroke-width="1.2" id="plus_node_13" />
+      <polygon points="0,8 9,0 26,0 17,8" fill="#c5d8f6" stroke="#4a4a4a" stroke-width="1.2" id="plus_node_14" />
+    </symbol>
+  </defs>
+
+  <rect id="f00_canvas" data-plus-kind="frame" x="0" y="0" width="879" height="405" fill="#ffffff" />
+
+  
+  <rect id="f01_encoder_attention_frame" data-plus-kind="frame" x="31" y="102" width="343" height="183" rx="30" ry="30" fill="#fee8cc" stroke="none" />
+  <rect id="f02_transformer_frame" data-plus-kind="frame" x="408" y="98" width="182" height="183" rx="30" ry="30" fill="#fee8cc" stroke="none" />
+  <g id="f03_input_tracks_frame" data-plus-kind="frame">
+    <polygon points="65,312 345,312 306,346 27,346" fill="#e3e7eb" stroke="#666" stroke-width="1.1" id="plus_node_15" />
+    <polygon points="27,346 306,346 306,364 27,364" fill="#d1d5da" stroke="#666" stroke-width="1.1" id="plus_node_16" />
+    <polygon points="306,346 345,312 345,329 306,364" fill="#c4c9cf" stroke="#666" stroke-width="1.1" id="plus_node_17" />
+  </g>
+  <rect id="f04_legend_frame" data-plus-kind="frame" x="428" y="293" width="442" height="89" rx="16" ry="16" fill="none" stroke="#777" stroke-width="1.2" stroke-dasharray="4 3" />
+
+  
+  <text id="txt_title_encoder" x="54" y="55" font-family="Arial, Helvetica, sans-serif" font-size="23" fill="#3d454c">Encoder</text>
+  <text id="txt_self_attention" x="111" y="94" font-family="Arial, Helvetica, sans-serif" font-size="18" fill="#3d454c">Self-attention</text>
+  <text id="txt_self_xn" x="250" y="94" font-family="Arial, Helvetica, sans-serif" font-size="17" fill="#3d454c">×N</text>
+
+  <text id="txt_transformer" x="426" y="92" font-family="Arial, Helvetica, sans-serif" font-size="18" fill="#3d454c">Transformer</text>
+  <text id="txt_transformer_xn" x="551" y="92" font-family="Arial, Helvetica, sans-serif" font-size="17" fill="#3d454c">×N</text>
+
+  
+  <g id="sam_replace_self_attention_icon" data-plus-keeps="txt_self_attention txt_self_xn" transform="translate(0 0)">
+    <image href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABYAAAAUCAYAAACJfM0wAAAC9ElEQVR4nJVVOUtrQRg9Mwnuu4IaTaPgVVwQK7fCQi0EWzvBKo1YiY0/w0YQu1imtBHBKjYuSEBEccO1UFzjFjXO43x5d95TE1/egQt35s6cOd/55vuuMsaAeH9/x8PDA66urnB8fGz29/dRUVGB3t5elZWVhf+Fd3V1FXt7e2Zrawt3d3d4enrCy8sLPj4+4PF4ODZDQ0MqFUEsFkM4HEZraytKS0v/EE9NTZl4PJ50E+d3d3dTqmK0kUjEzM3NYWlpCaOjo/D5fCJCU1lxcTFqampQW1v7bfPp6alwJCOmbaFQSFQfHh5ienpaohbi8fFxNTk5iYmJCVRWVn7bHI1GcXl5mVSx1hplZWVQKuEU8xIKhQwj0W1tbaiqqlLn5+fY2NiQBVzo9/vlnRGtrKxI2F9RUlKCQCCA+vp6O0e/KUS7m8PhMB4fH+VjeXk5RkZGkJ2dLWMemoyYKCoqUsPDw8jJyZExbVlcXDTaHRwcHNjFPT09qK6uFu+Ji4uLlMSEz+dDQ0ODHe/s7CQU397eWtOp0nEc5Obm2mTSu5+IMzIy0NLSYscU4uXL/f29oWqCxZCfny8+NzU1SfIcx1FuglJA1dXV2ZO5R4g9Ho/SWhvXbz4k6urqQkdHhxTKP4i/RSRWFBQUIDMzUyZYedfX14mPWsPr9aZFSl9dMGIhLiwstIl6e3uT60XV6SIWixn3qhKsB+2a7ziO/cBFZ2dnaZFSLZO7vb1t55qbmxPEDLW7u9uqvrm5AevfvSk/kJqTkxMTDAbx+vpqbejr61NCTPj9fkVy+kpsbm5K7bMHSI1+QTweN1Q5MzPDNitz3DswMIC8vDyov/dEo1EuNOvr63aO97mzsxONjY3SF6iMyeXBa2tr0sPdqNkexsbGFK39RIzfNszOzppIJJJ2AqmU/TgQCCjeMDkoWUU9Pz9jfn7eLCwsyPX7CYyov78fg4ODn/40SYkJzrNLLS8vG/5ljo6ObBFQIfs3Q29vb1f8hX3FLzd8gpM/sGe0AAAAAElFTkSuQmCC" x="223" y="77" width="22" height="20" id="plus_node_22" preserveAspectRatio="none" />
+  </g>
+  <g id="sam_replace_transformer_icon" data-plus-keeps="txt_transformer txt_transformer_xn" transform="translate(0 0)">
+    <image href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABcAAAAUCAYAAABmvqYOAAADIUlEQVR4nJVVyUprQRSsjomX4IAiEmck4iqIQhQ3BkUFNRtd+g3uBL/ALxDxGwRxI3Gj6EacUQOCOC8U5wnUqDGapB/V73V7QzT4CgLpvn3rVNcZrpBSgr/393c8PDzg5OREHh0d4fj4GHd3d8jLy8PAwAC8Xq8QQuA78P2Pjw9kZ2fDfkaEQiGEw2F5dXWFaDSKeDyuDtvR0NCAoaEh4XA4viWPRCJybGwMzc3Noq2tDfqcc2NjQ1JlJtze3jIgI6ZJTyQSmJ6exs7ODg4ODmQsFkNXV5cS4vT5fIIvFhUVobS0VEUNhULqJY2bmxt8fn4iKysrLfD9/T1WV1eNNRMTEygvL0ddXR3Ey8uLemBZFn2XIyMj2NvbSyMZHBxEU1NTmnIGXVpakuPj43h9fVV7FRUVGB4eFo6cnBzk5ubC5XJhe3sbh4eHf/1yOtHT06P2CQZMJpOpyQDU80AgIPr6+kwyz8/PsbW1BZOhRCIhw+GwscPr9SIYDKpqIS4vL1OssoNCmEgq1lhZWZGGnJVCAoK+t7e3Iz8/H1VVVSapP5ETbrdb1NfXm/XZ2dmX8qenJzw/P6v/lmWhpKREKaqurlaJ5PNM5BTk9/vNmlxOvWCmWeMEyXRDtLa2orKyEh6PR7jdbmRCcXEx7HyG3LIs4XK5VMLi8bjqWIKkHo8nI6ldrQYFGlvor05eLBbD9fU1/gcs583NTbMuKCj4IueVWfz64MzMjFH/G0SjUVVtGuRy2BPS2NgodBeychYXF3Xbp9W3HSzj+fl5nJ6emr1AIPBFzuSxZWtra6F9n5ycVFf9N8jkT8Tr6+uYmpoyA4/l6/f7BedKim+7u7sYHR2VkUjE2NXR0YGWlhbVJHriJZNJXFxcYHl5GXNzc6pPCFYZJ6jP50MK+T8lWFhYULPi7e0tJUGseapimZGYbf74+GgUsy/6+/vR3d2tpmIaubZkbW2Ntkh+MH4DBu/t7UVnZ6fJ27fk2iK28OzsrKTvnHi0wg6q4+CjBcFgUNTU1KR+iX4itwehBfv7+5I2cH7z+oWFhSgrK2MBCFr13VfqD+TuqrvZ2T3FAAAAAElFTkSuQmCC" x="524" y="75" width="23" height="20" id="plus_node_23" preserveAspectRatio="none" />
+  </g>
+
+  
+  <g id="encoder_block_content">
+    <line id="enc_top_rule" x1="52" y1="125" x2="276" y2="125" stroke="#555" stroke-width="1.1" />
+    <text id="enc_t_label" x="95" y="118" font-family="Arial, Helvetica, sans-serif" font-size="12" fill="#555">T: number of video frames</text>
+    <text id="enc_ntracks_vertical" x="352" y="151" font-family="Arial, Helvetica, sans-serif" font-size="12" fill="#555" transform="rotate(90 352 151)">N: number of tracks</text>
+
+    <use id="enc_g_1_1" href="#tok-grey" x="52" y="135" width="54" height="27" />
+    <use id="enc_g_1_2" href="#tok-grey" x="109" y="135" width="54" height="27" />
+    <use id="enc_g_1_3" href="#tok-grey" x="222" y="135" width="54" height="27" />
+    <use id="enc_p_1" href="#tok-pink" x="288" y="135" width="54" height="27" />
+
+    <text id="enc_horizontal_dots_1" x="174" y="151" font-family="Arial, Helvetica, sans-serif" font-size="18" fill="#333" letter-spacing="2">......</text>
+
+    <text id="enc_vdots_1" x="75" y="198" font-family="Arial, Helvetica, sans-serif" font-size="26" fill="#333" text-anchor="middle">⋮</text>
+    <text id="enc_vdots_2" x="132" y="198" font-family="Arial, Helvetica, sans-serif" font-size="26" fill="#333" text-anchor="middle">⋮</text>
+    <text id="enc_vdots_3" x="247" y="198" font-family="Arial, Helvetica, sans-serif" font-size="26" fill="#333" text-anchor="middle">⋮</text>
+    <text id="enc_vdots_4" x="313" y="198" font-family="Arial, Helvetica, sans-serif" font-size="26" fill="#333" text-anchor="middle">⋮</text>
+
+    <use id="enc_g_2_1" href="#tok-grey" x="50" y="210" width="54" height="27" />
+    <use id="enc_g_2_2" href="#tok-grey" x="107" y="210" width="54" height="27" />
+    <use id="enc_g_2_3" href="#tok-grey" x="220" y="210" width="54" height="27" />
+    <use id="enc_p_2" href="#tok-pink" x="286" y="210" width="54" height="27" />
+
+    <text id="enc_horizontal_dots_2" x="174" y="228" font-family="Arial, Helvetica, sans-serif" font-size="18" fill="#333" letter-spacing="2">......</text>
+
+    <use id="enc_g_3_1" href="#tok-grey" x="50" y="247" width="54" height="27" />
+    <use id="enc_g_3_2" href="#tok-grey" x="107" y="247" width="54" height="27" />
+    <use id="enc_g_3_3" href="#tok-grey" x="220" y="247" width="54" height="27" />
+    <use id="enc_p_3" href="#tok-pink" x="286" y="247" width="54" height="27" />
+
+    <text id="enc_horizontal_dots_3" x="174" y="264" font-family="Arial, Helvetica, sans-serif" font-size="18" fill="#333" letter-spacing="2">......</text>
+  </g>
+
+  
+  <g id="input_tracks_content">
+    <text id="input_support_label" x="60" y="335" font-family="Arial, Helvetica, sans-serif" font-size="12" fill="#555">Input: dense set of “support” tracks from video</text>
+    <text id="input_t_label" x="111" y="379" font-family="Arial, Helvetica, sans-serif" font-size="12" fill="#555">T: number of video frames</text>
+    <text id="input_xyocc_label" x="348" y="323" font-family="Arial, Helvetica, sans-serif" font-size="12" fill="#555">x, y, occlusion</text>
+    <text id="input_ntracks_label" x="331" y="352" font-family="Arial, Helvetica, sans-serif" font-size="12" fill="#555">N tracks</text>
+    <line id="encode_arrow_line" x1="166" y1="312" x2="166" y2="284" stroke="#555" stroke-width="1.4" marker-end="url(#arrowTinyEnd)" />
+    <text id="encode_label" x="174" y="302" font-family="Arial, Helvetica, sans-serif" font-size="12" fill="#555">Encode</text>
+  </g>
+
+  
+  <g id="arrow_encoder_to_transformer">
+    <polygon points="377,170 392,170 392,151 409,195 392,239 392,220 377,220" fill="#a7a7a7" stroke="none" id="plus_node_24" />
+  </g>
+
+  
+  <g id="transformer_content">
+    <text id="cross_attention_label" x="450" y="112" font-family="Arial, Helvetica, sans-serif" font-size="12" fill="#555">Cross-attention</text>
+    <path id="cross_attention_arrow" d="M440,126 C470,114 515,114 546,125" fill="none" stroke="#4a4a4a" stroke-width="1.2" marker-start="url(#arrowSmallStart)" marker-end="url(#arrowSmallEnd)" />
+
+    <use id="tr_p_1" href="#tok-pink" x="424" y="135" width="54" height="27" />
+    <text id="tr_vdots_p_1" x="449" y="196" font-family="Arial, Helvetica, sans-serif" font-size="26" fill="#333" text-anchor="middle">⋮</text>
+    <use id="tr_p_2" href="#tok-pink" x="421" y="210" width="54" height="27" />
+    <use id="tr_p_3" href="#tok-pink" x="421" y="247" width="54" height="27" />
+
+    <use id="tr_b_1" href="#tok-blue" x="504" y="152" width="54" height="27" />
+    <text id="tr_vdots_b_1" x="529" y="217" font-family="Arial, Helvetica, sans-serif" font-size="26" fill="#333" text-anchor="middle">⋮</text>
+    <use id="tr_b_2" href="#tok-blue" x="501" y="224" width="54" height="27" />
+
+    <path id="transformer_self_attn_slanted_arrow" d="M559,159 C568,184 566,223 546,249" fill="none" stroke="#444" stroke-width="1.3" marker-end="url(#arrowTinyEnd)" /><text id="transformer_self_attention_vertical" x="575" y="161" font-family="Arial, Helvetica, sans-serif" font-size="12" fill="#555" transform="rotate(90 575 161)">Self-attention</text>
+  </g>
+
+  
+  <g id="arrow_transformer_to_motion">
+    <polygon points="596,170 612,170 612,151 628,195 612,239 612,220 596,220" fill="#a7a7a7" stroke="none" id="plus_node_25" />
+  </g>
+
+  
+  <g id="motion_latents_content">
+    <text id="motion_latents_label" x="617" y="128" font-family="Arial, Helvetica, sans-serif" font-size="15" fill="#3d454c">Motion latents</text>
+    <use id="motion_latent_top" href="#tok-blue" x="635" y="152" width="54" height="27" />
+    <text id="motion_latent_dots" x="660" y="216" font-family="Arial, Helvetica, sans-serif" font-size="26" fill="#333" text-anchor="middle">⋮</text>
+    <use id="motion_latent_bottom" href="#tok-blue" x="632" y="224" width="54" height="27" />
+
+    <polygon id="compress_arrow_body" points="705,181 769,181 769,170 794,195 769,220 769,209 705,209" fill="#a7a7a7" />
+    <text id="compress_label" x="718" y="199" font-family="Arial, Helvetica, sans-serif" font-size="12" fill="#111">Compress</text>
+
+    <text id="compressed_label_1" x="773" y="118" font-family="Arial, Helvetica, sans-serif" font-size="15" fill="#3d454c">Compressed</text>
+    <text id="compressed_label_2" x="769" y="135" font-family="Arial, Helvetica, sans-serif" font-size="15" fill="#3d454c">motion latents</text>
+    <use id="compressed_top" href="#tok-blue-small" x="808" y="152" width="28" height="32" />
+    <text id="compressed_dots" x="818" y="216" font-family="Arial, Helvetica, sans-serif" font-size="26" fill="#333" text-anchor="middle">⋮</text>
+    <use id="compressed_bottom" href="#tok-blue-small" x="806" y="224" width="28" height="32" />
+  </g>
+
+  
+  <g id="legend_content">
+    <use id="legend_track_token" href="#tok-grey" x="442" y="306" width="54" height="27" />
+    <text id="legend_track_text" x="497" y="324" font-family="Arial, Helvetica, sans-serif" font-size="13" fill="#555">Track tokens, one per point</text>
+
+    <use id="legend_readout_token" href="#tok-pink" x="442" y="343" width="54" height="27" />
+    <text id="legend_readout_text" x="497" y="361" font-family="Arial, Helvetica, sans-serif" font-size="13" fill="#555">Read-out tokens, one per track</text>
+
+    <use id="legend_motion_token" href="#tok-blue" x="664" y="306" width="54" height="27" />
+    <text id="legend_motion_text" x="719" y="324" font-family="Arial, Helvetica, sans-serif" font-size="13" fill="#555">Motion latents</text>
+
+    <use id="legend_compressed_token" href="#tok-blue-small" x="675" y="341" width="28" height="32" />
+    <text id="legend_compressed_text" x="716" y="361" font-family="Arial, Helvetica, sans-serif" font-size="12" fill="#555">Compressed motion latents</text>
+  </g>
+</svg>

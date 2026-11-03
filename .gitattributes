@@ -14,3 +14,4 @@
 
 # Curated experiment SVGs retain the exact bytes recorded in their manifest.
 frontend/public/assets/demo/cases/**/*.svg binary
+frontend/public/assets/research/samples/**/*.svg binary

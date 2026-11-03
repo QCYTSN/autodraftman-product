@@ -1,0 +1,348 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1875" height="1017" viewBox="0 0 1875 1017">
+  <title>Comparison of diffusion inversion and editing methods: DDIM, NTI/NPI, DirectINV, SPDINV and DCI</title>
+  <desc>Editable native SVG reconstruction of the supplied figure. Base frames f01-f05 correspond to panels (a)-(e). Each panel inventories denoising, reconstruction, inversion, reference, editing, interaction and optimization pathways with labeled latent variables and U-Net/image-reference elements. No SAM assets are attached, so all visible content is constructed in SVG.</desc>
+  <defs>
+    <style>
+      .panel-title{font-family:"Times New Roman",serif;font-size:30px;font-weight:700;fill:#000}
+      .label{font-family:"Times New Roman",serif;font-size:30px;fill:#000}
+      .small-label{font-family:"Times New Roman",serif;font-size:22px;fill:#000}
+      .node-label{font-family:"Times New Roman",serif;font-size:22px;font-weight:700;fill:#000;text-anchor:middle;dominant-baseline:middle}
+      .node-label-small{font-family:"Times New Roman",serif;font-size:19px;font-weight:700;fill:#000;text-anchor:middle;dominant-baseline:middle}
+      .dash-frame{fill:#fff;stroke:#9f9f9f;stroke-width:3;stroke-dasharray:10 8}
+      .thin-dash-frame{fill:#fbfff9;stroke:#b8d4a9;stroke-width:2;stroke-dasharray:5 4}
+      .blue-line{fill:none;stroke:#0071bc;stroke-width:4}
+      .magenta-line{fill:none;stroke:#ff0060;stroke-width:3}
+      .red-line{fill:none;stroke:#ff0000;stroke-width:3}
+      .purple-line{fill:none;stroke:#7030a0;stroke-width:2.5}
+      .green-line{fill:none;stroke:#4f7f3a;stroke-width:2.2}
+      .ltblue-line{fill:none;stroke:#79aede;stroke-width:2.2}
+      .yellow-line{fill:none;stroke:#c3c51b;stroke-width:2.4}
+      .brown-line{fill:none;stroke:#9b5c5d;stroke-width:2.4}
+      .orange-line{fill:none;stroke:#d66a22;stroke-width:2.2}
+      .pink-line{fill:none;stroke:#ff9de2;stroke-width:2.5}
+      .gray-node{fill:#aaa8a8}
+      .purple-node{fill:#d9a6f3}
+      .green-node{fill:#cfe8b7}
+      .blue-node{fill:#777ed8}
+      .orange-node{fill:#f4792a}
+      .pink-node{fill:#ff94bd}
+      .lav-node{fill:#d39cf0}
+      .peach{fill:#fde6d7;stroke:#e2c7b7;stroke-width:.8}
+      .snow{stroke:#00a7e8;stroke-width:3;stroke-linecap:round}
+    </style>
+    <marker id="arrow-blue" markerUnits="userSpaceOnUse" markerWidth="13" markerHeight="10" viewBox="0 0 10 8" refX="9.5" refY="4" orient="auto">
+      <path d="M0,0 L10,4 L0,8 Z" fill="#0071bc" id="plus_node_0" />
+    </marker>
+    <marker id="arrow-magenta" markerUnits="userSpaceOnUse" markerWidth="13" markerHeight="10" viewBox="0 0 10 8" refX="9.5" refY="4" orient="auto">
+      <path d="M0,0 L10,4 L0,8 Z" fill="#ff0060" id="plus_node_1" />
+    </marker>
+    <marker id="arrow-red" markerUnits="userSpaceOnUse" markerWidth="13" markerHeight="10" viewBox="0 0 10 8" refX="9.5" refY="4" orient="auto">
+      <path d="M0,0 L10,4 L0,8 Z" fill="#ff0000" id="plus_node_2" />
+    </marker>
+    <marker id="arrow-purple" markerUnits="userSpaceOnUse" markerWidth="12" markerHeight="9" viewBox="0 0 10 8" refX="9.5" refY="4" orient="auto">
+      <path d="M0,0 L10,4 L0,8 Z" fill="#7030a0" id="plus_node_3" />
+    </marker>
+    <marker id="arrow-green" markerUnits="userSpaceOnUse" markerWidth="12" markerHeight="9" viewBox="0 0 10 8" refX="9.5" refY="4" orient="auto">
+      <path d="M0,0 L10,4 L0,8 Z" fill="#4f7f3a" id="plus_node_4" />
+    </marker>
+    <marker id="arrow-ltblue" markerUnits="userSpaceOnUse" markerWidth="12" markerHeight="9" viewBox="0 0 10 8" refX="9.5" refY="4" orient="auto">
+      <path d="M0,0 L10,4 L0,8 Z" fill="#79aede" id="plus_node_5" />
+    </marker>
+    <marker id="arrow-yellow" markerUnits="userSpaceOnUse" markerWidth="11" markerHeight="8" viewBox="0 0 10 8" refX="9.5" refY="4" orient="auto">
+      <path d="M0,0 L10,4 L0,8 Z" fill="#c3c51b" id="plus_node_6" />
+    </marker>
+    <marker id="arrow-yellow-start" markerUnits="userSpaceOnUse" markerWidth="11" markerHeight="8" viewBox="0 0 10 8" refX=".5" refY="4" orient="auto-start-reverse">
+      <path d="M10,0 L0,4 L10,8 Z" fill="#c3c51b" id="plus_node_7" />
+    </marker>
+    <marker id="arrow-brown" markerUnits="userSpaceOnUse" markerWidth="12" markerHeight="9" viewBox="0 0 10 8" refX="9.5" refY="4" orient="auto">
+      <path d="M0,0 L10,4 L0,8 Z" fill="#9b5c5d" id="plus_node_8" />
+    </marker>
+    <marker id="arrow-brown-start" markerUnits="userSpaceOnUse" markerWidth="12" markerHeight="9" viewBox="0 0 10 8" refX=".5" refY="4" orient="auto-start-reverse">
+      <path d="M10,0 L0,4 L10,8 Z" fill="#9b5c5d" id="plus_node_9" />
+    </marker>
+    <marker id="arrow-orange" markerUnits="userSpaceOnUse" markerWidth="12" markerHeight="9" viewBox="0 0 10 8" refX="9.5" refY="4" orient="auto">
+      <path d="M0,0 L10,4 L0,8 Z" fill="#d66a22" id="plus_node_10" />
+    </marker>
+    <marker id="arrow-pink" markerUnits="userSpaceOnUse" markerWidth="12" markerHeight="9" viewBox="0 0 10 8" refX="9.5" refY="4" orient="auto-start-reverse">
+      <path d="M0,0 L10,4 L0,8 Z" fill="#ff9de2" id="plus_node_11" />
+    </marker>
+    <linearGradient id="photoBg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#202b36" />
+      <stop offset=".45" stop-color="#735247" />
+      <stop offset="1" stop-color="#e5b1a4" />
+    </linearGradient>
+  </defs>
+
+  
+  <g id="f01" data-plus-kind="frame-container"><rect id="figure-bg-white" x="0" y="0" width="1875" height="1017" fill="#ffffff" /><rect id="f01-frame" data-plus-kind="frame" class="dash-frame" x="42" y="37" width="573" height="406" rx="16" /></g><rect id="f02" data-plus-kind="frame" class="dash-frame" x="638" y="37" width="573" height="406" rx="16" />
+  <rect id="f03" data-plus-kind="frame" class="dash-frame" x="1230" y="37" width="588" height="862" rx="16" />
+  <rect id="f04" data-plus-kind="frame" class="dash-frame" x="38" y="464" width="573" height="429" rx="16" />
+  <rect id="f05" data-plus-kind="frame" class="dash-frame" x="635" y="464" width="573" height="429" rx="16" />
+
+  
+  <g id="panel-ddim">
+    <desc>Panel (a) DDIM: top gray denoising chain Z_T to Z_0, magenta D_noi loop on left, red D_rec loop on right, purple inversion path from Z_0 downward/left, and green reconstruction path along bottom.</desc>
+    <text class="panel-title" x="256" y="79" id="plus_node_12">(a) DDIM</text>
+    <path id="a-top-blue-1" class="blue-line" d="M154 112 H192" marker-end="url(#arrow-blue)" />
+    <path id="a-top-blue-2" class="blue-line" d="M242 112 H290" marker-end="url(#arrow-blue)" />
+    <text class="node-label" x="306" y="111" id="plus_node_13">...</text>
+    <path id="a-top-blue-3" class="blue-line" d="M323 112 H368" marker-end="url(#arrow-blue)" />
+    <path id="a-top-blue-4" class="blue-line" d="M422 112 H461" marker-end="url(#arrow-blue)" />
+    <circle id="a-gray-zt" class="gray-node" cx="131" cy="115" r="24" /><text class="node-label" x="131" y="117" id="plus_node_14">Z<tspan baseline-shift="sub" font-size="14">T</tspan></text>
+    <circle id="a-gray-ztm1" class="gray-node" cx="220" cy="114" r="24" /><text class="node-label" x="220" y="116" id="plus_node_15">Z<tspan baseline-shift="sub" font-size="14">T-1</tspan></text>
+    <circle id="a-gray-z1" class="gray-node" cx="397" cy="114" r="24" /><text class="node-label" x="397" y="116" id="plus_node_16">Z<tspan baseline-shift="sub" font-size="14">1</tspan></text>
+    <circle id="a-gray-z0" class="gray-node" cx="490" cy="113" r="24" /><text class="node-label" x="490" y="115" id="plus_node_17">Z<tspan baseline-shift="sub" font-size="14">0</tspan></text>
+    <path id="a-dnoi" class="magenta-line" d="M101 127 C63 177 58 280 94 337" marker-end="url(#arrow-magenta)" />
+    <path id="a-dnoi-return" class="magenta-line" d="M95 337 C66 279 66 174 101 127" marker-end="url(#arrow-magenta)" />
+    <text class="label" x="82" y="235" id="plus_node_18">D<tspan baseline-shift="sub" font-size="20">noi</tspan></text>
+    <path id="a-drec" class="red-line" d="M513 126 C562 162 582 277 518 376" marker-end="url(#arrow-red)" />
+    <path id="a-drec-return" class="red-line" d="M518 376 C567 309 583 171 513 126" marker-end="url(#arrow-red)" />
+    <text class="label" x="507" y="249" id="plus_node_19">D<tspan baseline-shift="sub" font-size="20">rec</tspan></text>
+    <circle id="a-purp-zt" class="purple-node" cx="132" cy="338" r="24" /><text class="node-label" x="132" y="340" id="plus_node_20">Z<tspan baseline-shift="sub" font-size="14">T</tspan></text>
+    <circle id="a-purp-ztm1" class="purple-node" cx="220" cy="296" r="24" /><text class="node-label" x="220" y="298" id="plus_node_21">Z<tspan baseline-shift="sub" font-size="14">T-1</tspan></text>
+    <circle id="a-purp-z1" class="purple-node" cx="393" cy="218" r="24" /><text class="node-label" x="393" y="220" id="plus_node_22">Z<tspan baseline-shift="sub" font-size="14">1</tspan></text>
+    <path id="a-inv-1" class="purple-line" d="M491 139 C492 177 463 207 420 216" marker-end="url(#arrow-purple)" />
+    <path id="a-inv-2" class="purple-line" d="M369 231 C357 250 338 257 333 259" marker-end="url(#arrow-purple)" />
+    <text class="node-label" x="318" y="274" id="plus_node_23">...</text>
+    <path id="a-inv-3" class="purple-line" d="M300 272 C294 287 263 294 245 294" marker-end="url(#arrow-purple)" />
+    <path id="a-inv-4" class="purple-line" d="M195 313 C187 331 164 335 156 335" marker-end="url(#arrow-purple)" />
+    <circle id="a-green-ztm1" class="green-node" cx="216" cy="386" r="24" /><text class="node-label" x="216" y="388" id="plus_node_24">Z<tspan baseline-shift="sub" font-size="14">T-1</tspan></text>
+    <circle id="a-green-z1" class="green-node" cx="407" cy="415" r="24" /><text class="node-label" x="407" y="417" id="plus_node_25">Z<tspan baseline-shift="sub" font-size="14">1</tspan></text>
+    <circle id="a-green-z0" class="green-node" cx="498" cy="400" r="24" /><text class="node-label" x="498" y="402" id="plus_node_26">Z<tspan baseline-shift="sub" font-size="14">0</tspan></text>
+    <path id="a-rec-1" class="green-line" d="M144 359 C159 371 174 377 195 381" marker-end="url(#arrow-green)" />
+    <path id="a-rec-2" class="green-line" d="M238 398 C260 406 279 408 298 407" marker-end="url(#arrow-green)" />
+    <text class="node-label" x="317" y="422" id="plus_node_27">...</text>
+    <path id="a-rec-3" class="green-line" d="M331 419 C349 423 361 424 383 421" marker-end="url(#arrow-green)" />
+    <path id="a-rec-4" class="green-line" d="M431 414 C449 412 466 407 475 403" marker-end="url(#arrow-green)" />
+  </g>
+
+  
+  <g id="panel-directinv">
+    <desc>Panel (c) DirectINV: gray denoising chain at top, red/magenta outer denoising and reconstruction loops, purple inversion path, green reconstruction path and vertical optimization interactions between corresponding purple/green nodes and from gray Z0 to green Z0.</desc>
+    <text class="panel-title" x="837" y="76" id="plus_node_28">(c) DirectINV</text>
+    <circle class="gray-node" cx="734" cy="111" r="24" id="plus_node_29" /><text class="node-label" x="734" y="113" id="plus_node_30">Z<tspan baseline-shift="sub" font-size="14">T</tspan></text>
+    <circle class="gray-node" cx="821" cy="110" r="24" id="plus_node_31" /><text class="node-label" x="821" y="112" id="plus_node_32">Z<tspan baseline-shift="sub" font-size="14">T-1</tspan></text>
+    <circle class="gray-node" cx="997" cy="109" r="24" id="plus_node_33" /><text class="node-label" x="997" y="111" id="plus_node_34">Z<tspan baseline-shift="sub" font-size="14">1</tspan></text>
+    <circle class="gray-node" cx="1091" cy="108" r="24" id="plus_node_35" /><text class="node-label" x="1091" y="110" id="plus_node_36">Z<tspan baseline-shift="sub" font-size="14">0</tspan></text>
+    <path class="blue-line" d="M758 108 H794" marker-end="url(#arrow-blue)" id="plus_node_37" />
+    <path class="blue-line" d="M845 108 H890" marker-end="url(#arrow-blue)" id="plus_node_38" />
+    <text class="node-label" x="909" y="108" id="plus_node_39">...</text>
+    <path class="blue-line" d="M925 108 H972" marker-end="url(#arrow-blue)" id="plus_node_40" />
+    <path class="blue-line" d="M1022 108 H1061" marker-end="url(#arrow-blue)" id="plus_node_41" />
+    <path class="magenta-line" d="M706 126 C671 177 669 283 699 337" marker-end="url(#arrow-magenta)" id="plus_node_42" />
+    <path class="magenta-line" d="M699 337 C669 283 672 174 706 126" marker-end="url(#arrow-magenta)" id="plus_node_43" />
+    <text class="label" x="686" y="232" id="plus_node_44">D<tspan baseline-shift="sub" font-size="20">noi</tspan></text>
+    <path class="red-line" d="M1116 112 C1134 127 1134 136 1116 147" marker-end="url(#arrow-red)" id="plus_node_45" />
+    <text class="label" x="1130" y="130" id="plus_node_46">D<tspan baseline-shift="sub" font-size="20">rec</tspan></text>
+    <circle class="green-node" cx="1092" cy="142" r="24" id="plus_node_47" />
+    <circle class="green-node" cx="1091" cy="298" r="24" id="plus_node_48" /><text class="node-label" x="1091" y="300" id="plus_node_49">Z<tspan baseline-shift="sub" font-size="14">0</tspan></text>
+    <circle class="green-node" cx="998" cy="342" r="24" id="plus_node_50" /><text class="node-label" x="998" y="344" id="plus_node_51">Z<tspan baseline-shift="sub" font-size="14">1</tspan></text>
+    <circle class="green-node" cx="823" cy="393" r="24" id="plus_node_52" /><text class="node-label" x="823" y="395" id="plus_node_53">Z<tspan baseline-shift="sub" font-size="14">T-1</tspan></text>
+    <circle class="purple-node" cx="738" cy="337" r="24" id="plus_node_54" /><text class="node-label" x="738" y="339" id="plus_node_55">Z<tspan baseline-shift="sub" font-size="14">T</tspan></text>
+    <circle class="purple-node" cx="823" cy="294" r="24" id="plus_node_56" /><text class="node-label" x="823" y="296" id="plus_node_57">Z<tspan baseline-shift="sub" font-size="14">T-1</tspan></text>
+    <circle class="purple-node" cx="999" cy="213" r="24" id="plus_node_58" /><text class="node-label" x="999" y="215" id="plus_node_59">Z<tspan baseline-shift="sub" font-size="14">1</tspan></text>
+    <path class="purple-line" d="M1091 132 C1090 178 1049 207 1025 213" marker-end="url(#arrow-purple)" id="plus_node_60" />
+    <path class="purple-line" d="M975 231 C962 250 932 258 927 260" marker-end="url(#arrow-purple)" id="plus_node_61" />
+    <text class="node-label" x="913" y="275" id="plus_node_62">...</text>
+    <path class="purple-line" d="M901 273 C887 287 858 292 849 292" marker-end="url(#arrow-purple)" id="plus_node_63" />
+    <path class="purple-line" d="M798 313 C782 329 761 333 761 333" marker-end="url(#arrow-purple)" id="plus_node_64" />
+    <path class="green-line" d="M752 357 C770 371 788 378 800 380" marker-end="url(#arrow-green)" id="plus_node_65" />
+    <path class="green-line" d="M845 393 C868 393 893 386 902 383" marker-end="url(#arrow-green)" id="plus_node_66" />
+    <text class="node-label" x="916" y="382" id="plus_node_67">...</text>
+    <path class="green-line" d="M927 379 C949 369 968 358 978 351" marker-end="url(#arrow-green)" id="plus_node_68" />
+    <path class="green-line" d="M1021 335 C1045 326 1064 312 1072 306" marker-end="url(#arrow-green)" id="plus_node_69" />
+    <path class="brown-line" d="M999 237 V319" marker-start="url(#arrow-brown-start)" marker-end="url(#arrow-brown)" id="plus_node_70" />
+    <path class="brown-line" d="M823 318 V371" marker-start="url(#arrow-brown-start)" marker-end="url(#arrow-brown)" id="plus_node_71" />
+    <path class="brown-line" d="M1092 133 V270" marker-start="url(#arrow-brown-start)" marker-end="url(#arrow-brown)" id="plus_node_72" />
+  </g>
+
+  
+  <g id="panel-nti">
+    <desc>Panel (b) NTI, NPI: similar to DDIM with added blue reference path along the bottom and yellow interaction arrows linking green and blue paths at corresponding latent states.</desc>
+    <text class="panel-title" x="239" y="499" id="plus_node_73">(b) NTI、 NPI</text>
+    <circle class="gray-node" cx="132" cy="532" r="24" id="plus_node_74" /><text class="node-label" x="132" y="534" id="plus_node_75">Z<tspan baseline-shift="sub" font-size="14">T</tspan></text>
+    <circle class="gray-node" cx="220" cy="532" r="24" id="plus_node_76" /><text class="node-label" x="220" y="534" id="plus_node_77">Z<tspan baseline-shift="sub" font-size="14">T-1</tspan></text>
+    <circle class="gray-node" cx="397" cy="532" r="24" id="plus_node_78" /><text class="node-label" x="397" y="534" id="plus_node_79">Z<tspan baseline-shift="sub" font-size="14">1</tspan></text>
+    <circle class="gray-node" cx="490" cy="530" r="24" id="plus_node_80" /><text class="node-label" x="490" y="532" id="plus_node_81">Z<tspan baseline-shift="sub" font-size="14">0</tspan></text>
+    <path class="blue-line" d="M156 532 H192" marker-end="url(#arrow-blue)" id="plus_node_82" />
+    <path class="blue-line" d="M244 532 H291" marker-end="url(#arrow-blue)" id="plus_node_83" />
+    <text class="node-label" x="306" y="531" id="plus_node_84">...</text>
+    <path class="blue-line" d="M323 532 H369" marker-end="url(#arrow-blue)" id="plus_node_85" />
+    <path class="blue-line" d="M423 532 H462" marker-end="url(#arrow-blue)" id="plus_node_86" />
+    <path class="magenta-line" d="M101 545 C66 598 62 701 95 752" marker-end="url(#arrow-magenta)" id="plus_node_87" />
+    <path class="magenta-line" d="M95 752 C66 698 66 595 101 545" marker-end="url(#arrow-magenta)" id="plus_node_88" />
+    <text class="label" x="83" y="655" id="plus_node_89">D<tspan baseline-shift="sub" font-size="20">noi</tspan></text>
+    <path class="red-line" d="M513 542 C559 577 565 668 516 716" marker-end="url(#arrow-red)" id="plus_node_90" />
+    <path class="red-line" d="M516 716 C561 659 563 581 513 542" marker-end="url(#arrow-red)" id="plus_node_91" />
+    <text class="label" x="561" y="632" id="plus_node_92">D<tspan baseline-shift="sub" font-size="20">rec</tspan></text>
+    <circle class="purple-node" cx="132" cy="758" r="24" id="plus_node_93" /><text class="node-label" x="132" y="760" id="plus_node_94">Z<tspan baseline-shift="sub" font-size="14">T</tspan></text>
+    <circle class="purple-node" cx="210" cy="711" r="24" id="plus_node_95" /><text class="node-label" x="210" y="713" id="plus_node_96">Z<tspan baseline-shift="sub" font-size="14">1</tspan></text>
+    <circle class="purple-node" cx="386" cy="633" r="24" id="plus_node_97" /><text class="node-label" x="386" y="635" id="plus_node_98">Z<tspan baseline-shift="sub" font-size="14">1</tspan></text>
+    <path class="purple-line" d="M489 556 C489 594 454 623 413 631" marker-end="url(#arrow-purple)" id="plus_node_99" />
+    <path class="purple-line" d="M362 650 C346 668 326 676 322 678" marker-end="url(#arrow-purple)" id="plus_node_100" />
+    <text class="node-label" x="307" y="694" id="plus_node_101">...</text>
+    <path class="purple-line" d="M289 695 C271 705 244 709 235 709" marker-end="url(#arrow-purple)" id="plus_node_102" />
+    <path class="purple-line" d="M188 728 C174 745 153 750 153 750" marker-end="url(#arrow-purple)" id="plus_node_103" />
+    <circle class="green-node" cx="225" cy="786" r="24" id="plus_node_104" /><text class="node-label" x="225" y="788" id="plus_node_105">Z<tspan baseline-shift="sub" font-size="14">T-1</tspan></text>
+    <circle class="green-node" cx="391" cy="765" r="24" id="plus_node_106" /><text class="node-label" x="391" y="767" id="plus_node_107">Z<tspan baseline-shift="sub" font-size="14">1</tspan></text>
+    <circle class="green-node" cx="478" cy="734" r="24" id="plus_node_108" /><text class="node-label" x="478" y="736" id="plus_node_109">Z<tspan baseline-shift="sub" font-size="14">0</tspan></text>
+    <path class="green-line" d="M147 775 C168 787 186 790 201 790" marker-end="url(#arrow-green)" id="plus_node_110" />
+    <path class="green-line" d="M250 796 C271 798 289 794 300 792" marker-end="url(#arrow-green)" id="plus_node_111" />
+    <text class="node-label" x="317" y="792" id="plus_node_112">...</text>
+    <path class="green-line" d="M333 785 C350 777 363 772 368 770" marker-end="url(#arrow-green)" id="plus_node_113" />
+    <path class="green-line" d="M414 757 C431 749 447 742 455 738" marker-end="url(#arrow-green)" id="plus_node_114" />
+    <circle class="blue-node" cx="220" cy="860" r="24" id="plus_node_115" /><text class="node-label" x="220" y="862" id="plus_node_116">Z<tspan baseline-shift="sub" font-size="14">T-1</tspan></text>
+    <circle class="blue-node" cx="394" cy="833" r="24" id="plus_node_117" /><text class="node-label" x="394" y="835" id="plus_node_118">Z<tspan baseline-shift="sub" font-size="14">1</tspan></text>
+    <circle class="blue-node" cx="479" cy="811" r="24" id="plus_node_119" /><text class="node-label" x="479" y="813" id="plus_node_120">Z<tspan baseline-shift="sub" font-size="14">0</tspan></text>
+    <path class="ltblue-line" d="M142 780 C157 821 179 844 197 851" marker-end="url(#arrow-ltblue)" id="plus_node_121" />
+    <path class="ltblue-line" d="M242 865 C265 866 285 859 300 855" marker-end="url(#arrow-ltblue)" id="plus_node_122" />
+    <text class="node-label" x="317" y="858" id="plus_node_123">...</text>
+    <path class="ltblue-line" d="M335 850 C353 843 367 837 371 836" marker-end="url(#arrow-ltblue)" id="plus_node_124" />
+    <path class="ltblue-line" d="M416 828 C435 822 451 817 456 815" marker-end="url(#arrow-ltblue)" id="plus_node_125" />
+    <path class="yellow-line" d="M224 812 V835" marker-start="url(#arrow-yellow-start)" marker-end="url(#arrow-yellow)" id="plus_node_126" />
+    <path class="yellow-line" d="M394 788 V809" marker-start="url(#arrow-yellow-start)" marker-end="url(#arrow-yellow)" id="plus_node_127" />
+    <path class="yellow-line" d="M479 758 V787" marker-start="url(#arrow-yellow-start)" marker-end="url(#arrow-yellow)" id="plus_node_128" />
+  </g>
+
+  
+  <g id="panel-spdinv">
+    <desc>Panel (d) SPDINV: U-Net above the gray denoising chain, magenta denoising loop, red reconstruction loop, purple inversion, green reconstruction, and brown optimization lines/loops from the U-Net to latent states.</desc>
+    <text class="panel-title" x="849" y="491" id="plus_node_129">(d) SPDINV</text>
+    <polygon id="d-unet" class="peach" points="724,490 811,527 811,568 724,568" />
+    <text class="label" x="735" y="537" id="plus_node_130">U-Net</text>
+    <g id="d-snowflake" transform="translate(808 501) scale(.7)"><g fill="none" stroke="#00a7e8" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"><path d="M0,-18 V18 M-16,-9 L16,9 M-16,9 L16,-9" /><path d="M0,-18 L-6,-11 M0,-18 L6,-11 M0,18 L-6,11 M0,18 L6,11 M-16,-9 L-7,-9 M-16,-9 L-12,-1 M16,9 L7,9 M16,9 L12,1 M-16,9 L-7,9 M-16,9 L-12,1 M16,-9 L7,-9 M16,-9 L12,-1" /></g><circle cx="0" cy="0" r="3" fill="#00a7e8" /></g><circle class="gray-node" cx="738" cy="606" r="24" id="plus_node_133" /><text class="node-label" x="738" y="608" id="plus_node_134">Z<tspan baseline-shift="sub" font-size="14">T</tspan></text>
+    <circle class="gray-node" cx="826" cy="606" r="24" id="plus_node_135" /><text class="node-label" x="826" y="608" id="plus_node_136">Z<tspan baseline-shift="sub" font-size="14">T-1</tspan></text>
+    <circle class="gray-node" cx="1001" cy="607" r="24" id="plus_node_137" /><text class="node-label" x="1001" y="609" id="plus_node_138">Z<tspan baseline-shift="sub" font-size="14">1</tspan></text>
+    <circle class="gray-node" cx="1096" cy="607" r="24" id="plus_node_139" /><text class="node-label" x="1096" y="609" id="plus_node_140">Z<tspan baseline-shift="sub" font-size="14">0</tspan></text>
+    <path class="blue-line" d="M762 605 H797" marker-end="url(#arrow-blue)" id="plus_node_141" />
+    <path class="blue-line" d="M851 605 H894" marker-end="url(#arrow-blue)" id="plus_node_142" />
+    <text class="node-label" x="912" y="607" id="plus_node_143">...</text>
+    <path class="blue-line" d="M928 607 H974" marker-end="url(#arrow-blue)" id="plus_node_144" />
+    <path class="blue-line" d="M1026 607 H1067" marker-end="url(#arrow-blue)" id="plus_node_145" />
+    <path class="magenta-line" d="M711 620 C679 667 678 709 705 735" marker-end="url(#arrow-magenta)" id="plus_node_146" />
+    <path class="magenta-line" d="M705 735 C678 705 680 666 711 620" marker-end="url(#arrow-magenta)" id="plus_node_147" />
+    <text class="label" x="702" y="676" id="plus_node_148">D<tspan baseline-shift="sub" font-size="20">noi</tspan></text>
+    <path class="red-line" d="M1118 624 C1156 653 1158 721 1115 748" marker-end="url(#arrow-red)" id="plus_node_149" />
+    <path class="red-line" d="M1115 748 C1165 712 1160 653 1118 624" marker-end="url(#arrow-red)" id="plus_node_150" />
+    <text class="label" x="1161" y="695" id="plus_node_151">D<tspan baseline-shift="sub" font-size="20">rec</tspan></text>
+    <circle class="purple-node" cx="744" cy="746" r="24" id="plus_node_152" /><text class="node-label" x="744" y="748" id="plus_node_153">Z<tspan baseline-shift="sub" font-size="14">T</tspan></text>
+    <circle class="purple-node" cx="844" cy="734" r="24" id="plus_node_154" /><text class="node-label" x="844" y="736" id="plus_node_155">Z<tspan baseline-shift="sub" font-size="14">T-1</tspan></text>
+    <circle class="purple-node" cx="1009" cy="680" r="24" id="plus_node_156" /><text class="node-label" x="1009" y="682" id="plus_node_157">Z<tspan baseline-shift="sub" font-size="14">1</tspan></text>
+    <path class="purple-line" d="M1094 634 C1093 659 1060 677 1035 680" marker-end="url(#arrow-purple)" id="plus_node_158" />
+    <path class="purple-line" d="M984 694 C965 712 939 719 933 720" marker-end="url(#arrow-purple)" id="plus_node_159" />
+    <text class="node-label" x="917" y="731" id="plus_node_160">...</text>
+    <path class="purple-line" d="M902 727 C883 734 866 735 866 735" marker-end="url(#arrow-purple)" id="plus_node_161" />
+    <path class="purple-line" d="M821 736 C798 749 768 750 768 750" marker-end="url(#arrow-purple)" id="plus_node_162" />
+    <circle class="green-node" cx="834" cy="824" r="24" id="plus_node_163" /><text class="node-label" x="834" y="826" id="plus_node_164">Z<tspan baseline-shift="sub" font-size="14">T-1</tspan></text>
+    <circle class="green-node" cx="1007" cy="790" r="24" id="plus_node_165" /><text class="node-label" x="1007" y="792" id="plus_node_166">Z<tspan baseline-shift="sub" font-size="14">1</tspan></text>
+    <circle class="green-node" cx="1092" cy="767" r="24" id="plus_node_167" /><text class="node-label" x="1092" y="769" id="plus_node_168">Z<tspan baseline-shift="sub" font-size="14">0</tspan></text>
+    <path class="green-line" d="M759 766 C779 795 799 812 811 817" marker-end="url(#arrow-green)" id="plus_node_169" />
+    <path class="green-line" d="M858 829 C882 831 899 825 907 822" marker-end="url(#arrow-green)" id="plus_node_170" />
+    <text class="node-label" x="924" y="823" id="plus_node_171">...</text>
+    <path class="green-line" d="M941 815 C960 805 977 798 984 796" marker-end="url(#arrow-green)" id="plus_node_172" />
+    <path class="green-line" d="M1030 784 C1049 777 1065 771 1069 770" marker-end="url(#arrow-green)" id="plus_node_173" />
+    <path class="brown-line" d="M811 527 H941 V651 H967" marker-end="url(#arrow-brown)" id="plus_node_174" />
+    <path class="brown-line" d="M797 568 V695 H760" marker-end="url(#arrow-brown)" id="plus_node_175" />
+    <path class="brown-line" d="M861 527 V650" marker-end="url(#arrow-brown)" id="plus_node_176" />
+    <path class="brown-line" d="M738 690 C717 677 723 653 742 655 C763 657 767 686 748 698" marker-end="url(#arrow-brown)" id="plus_node_177" />
+    <path class="brown-line" d="M851 716 C827 704 832 675 851 675 C875 675 877 706 856 719" marker-end="url(#arrow-brown)" id="plus_node_178" />
+    <path class="brown-line" d="M989 657 C968 643 973 621 992 621 C1015 622 1018 650 998 661" marker-end="url(#arrow-brown)" id="plus_node_179" />
+  </g>
+
+  
+  <g id="panel-dci">
+    <desc>Panel (e) DCI: upper image reference fixed-point optimization sub-frame with photo, encoder, U-Net, frozen indicators, pink/lavender loss chain and dashed connection to the lower diffusion graph. Lower section contains gray denoising path, magenta/green/purple latent paths, optimization loops, red reconstruction, and an orange editing path with high edit fidelity.</desc>
+    <text class="panel-title" x="1481" y="76" id="plus_node_180">(e) DCI</text>
+    <rect id="f03a" data-plus-kind="frame" class="thin-dash-frame" x="1260" y="90" width="538" height="252" rx="10" />
+    <rect id="e-photo-frame" x="1285" y="101" width="97" height="97" fill="#3d3d42" stroke="#e2b100" stroke-width="3" />
+    <path class="small-label" d="" id="plus_node_189" />
+    <g id="e-photo-down"><path d="M1332 201 V223" fill="none" stroke="#000000" stroke-width="2.2" stroke-linecap="square" /><path d="M1325 222 L1332 234 L1339 222 Z" fill="#ffffff" stroke="#000000" stroke-width="2.2" stroke-linejoin="miter" /></g><polygon id="e-enc" points="1310,238 1355,247 1355,284 1310,293" fill="#bfd5f4" />
+    <text class="small-label" x="1312" y="269" id="plus_node_190">ENC</text>
+    <g id="e-snow-enc" transform="translate(1307 235) scale(.65)"><g fill="none" stroke="#00a7e8" stroke-width="5.2" stroke-linecap="round" stroke-linejoin="round"><path d="M0,-18 V18 M-16,-9 L16,9 M-16,9 L16,-9" /><path d="M0,-18 L-6,-11 M0,-18 L6,-11 M0,18 L-6,11 M0,18 L6,11 M-16,-9 L-7,-9 M-16,-9 L-12,-1 M16,9 L7,9 M16,9 L12,1 M-16,9 L-7,9 M-16,9 L-12,1 M16,-9 L7,-9 M16,-9 L12,-1" /></g><circle cx="0" cy="0" r="3.2" fill="#00a7e8" /></g><path class="ltblue-line" d="M1362 262 H1383" marker-end="url(#arrow-ltblue)" id="plus_node_193" />
+    <circle class="pink-node" cx="1418" cy="261" r="24" id="plus_node_194" />
+    <path class="pink-line" stroke-dasharray="7 5" d="M1442 261 H1486" marker-end="url(#arrow-pink)" id="plus_node_195" />
+    <circle class="pink-node" cx="1512" cy="260" r="24" id="plus_node_196" />
+    <path class="pink-line" d="M1547 261 H1587" marker-start="url(#arrow-pink)" marker-end="url(#arrow-pink)" id="plus_node_197" />
+    <circle class="lav-node" cx="1617" cy="261" r="24" id="plus_node_198" />
+    <text class="small-label" font-style="italic" x="1549" y="293" id="plus_node_199">loss</text>
+    <text class="small-label" x="1382" y="319" id="plus_node_200">Image reference</text>
+    <text class="small-label" x="1513" y="147" id="plus_node_201">Fixed-point</text>
+    <text class="small-label" x="1508" y="175" id="plus_node_202">optimization</text>
+    <g id="plus_node_203"><path d="M1569 231 V198" fill="none" stroke="#ff9de2" stroke-width="2.1" /><path d="M1569 193 L1559 204 H1565 V231 H1573 V204 H1579 Z" fill="#ffffff" stroke="#ff9de2" stroke-width="2.1" stroke-linejoin="miter" /></g><g id="plus_node_204"><path d="M1668 155 H1645" fill="none" stroke="#f4792a" stroke-width="2.2" stroke-linecap="square" /><path d="M1654 146 L1644 155 L1654 164" fill="none" stroke="#f4792a" stroke-width="2.2" stroke-linecap="square" stroke-linejoin="miter" /></g><polygon id="e-unet" class="peach" points="1679,118 1766,156 1766,193 1679,193" />
+    <text class="label" x="1690" y="165" id="plus_node_205">U-Net</text>
+    <g id="e-snow-unet" transform="translate(1759 121) scale(.65)"><g fill="none" stroke="#00a7e8" stroke-width="5.2" stroke-linecap="round" stroke-linejoin="round"><path d="M0,-18 V18 M-16,-9 L16,9 M-16,9 L16,-9" /><path d="M0,-18 L-6,-11 M0,-18 L6,-11 M0,18 L-6,11 M0,18 L6,11 M-16,-9 L-7,-9 M-16,-9 L-12,-1 M16,9 L7,9 M16,9 L12,1 M-16,9 L-7,9 M-16,9 L-12,1 M16,-9 L7,-9 M16,-9 L12,-1" /></g><circle cx="0" cy="0" r="3.2" fill="#00a7e8" /></g><path id="e-loss-down" stroke="#c49be8" stroke-width="2.3" stroke-dasharray="7 4" fill="none" d="M1618 356 V292" marker-end="url(#arrow-purple)" />
+    <line x1="1247" y1="615" x2="1818" y2="615" stroke="#000" stroke-width="2.5" stroke-dasharray="8 9" id="plus_node_208" />
+    <text class="label" x="1458" y="664" id="plus_node_209">Editing path</text>
+    <text class="label" x="1487" y="749" id="plus_node_210">High Edit Fidelity</text>
+
+    <circle class="gray-node" cx="1314" cy="386" r="24" id="plus_node_211" /><text class="node-label" x="1314" y="388" id="plus_node_212">Z<tspan baseline-shift="sub" font-size="14">T</tspan></text>
+    <circle class="gray-node" cx="1404" cy="386" r="24" id="plus_node_213" /><text class="node-label" x="1404" y="388" id="plus_node_214">Z<tspan baseline-shift="sub" font-size="14">T-1</tspan></text>
+    <circle class="gray-node" cx="1578" cy="386" r="24" id="plus_node_215" /><text class="node-label" x="1578" y="388" id="plus_node_216">Z<tspan baseline-shift="sub" font-size="14">1</tspan></text>
+    <circle class="gray-node" cx="1671" cy="385" r="24" id="plus_node_217" /><text class="node-label" x="1671" y="387" id="plus_node_218">Z<tspan baseline-shift="sub" font-size="14">0</tspan></text>
+    <path class="blue-line" d="M1338 386 H1375" marker-end="url(#arrow-blue)" id="plus_node_219" />
+    <path class="blue-line" d="M1428 386 H1472" marker-end="url(#arrow-blue)" id="plus_node_220" />
+    <text class="node-label" x="1488" y="386" id="plus_node_221">...</text>
+    <path class="blue-line" d="M1505 386 H1549" marker-end="url(#arrow-blue)" id="plus_node_222" />
+    <path class="blue-line" d="M1603 386 H1644" marker-end="url(#arrow-blue)" id="plus_node_223" />
+    <path class="magenta-line" d="M1285 400 C1255 449 1259 483 1294 509" marker-end="url(#arrow-magenta)" id="plus_node_224" />
+    <path class="magenta-line" d="M1294 509 C1262 482 1255 449 1285 400" marker-end="url(#arrow-magenta)" id="plus_node_225" />
+    <text class="label" x="1281" y="459" id="plus_node_226">D<tspan baseline-shift="sub" font-size="20">noi</tspan></text>
+    <path class="red-line" d="M1696 392 C1720 411 1718 444 1702 463" marker-end="url(#arrow-red)" id="plus_node_227" />
+    <path class="red-line" d="M1702 463 C1724 440 1718 411 1696 392" marker-end="url(#arrow-red)" id="plus_node_228" />
+    <text class="label" x="1718" y="441" id="plus_node_229">D<tspan baseline-shift="sub" font-size="20">rec</tspan></text>
+    <circle class="purple-node" cx="1320" cy="516" r="24" id="plus_node_230" /><text class="node-label" x="1320" y="518" id="plus_node_231">Z<tspan baseline-shift="sub" font-size="14">T</tspan></text>
+    <circle class="purple-node" cx="1417" cy="499" r="24" id="plus_node_232" /><text class="node-label" x="1417" y="501" id="plus_node_233">Z<tspan baseline-shift="sub" font-size="14">T-1</tspan></text>
+    <circle class="purple-node" cx="1616" cy="464" r="24" id="plus_node_234" /><text class="node-label" x="1616" y="466" id="plus_node_235">Z<tspan baseline-shift="sub" font-size="14">1</tspan></text>
+    <path class="purple-line" d="M1670 409 C1668 435 1645 453 1639 456" marker-end="url(#arrow-purple)" id="plus_node_236" />
+    <path class="purple-line" d="M1592 475 C1570 489 1532 497 1528 497" marker-end="url(#arrow-purple)" id="plus_node_237" />
+    <text class="node-label" x="1512" y="492" id="plus_node_238">...</text>
+    <path class="purple-line" d="M1498 492 C1473 504 1449 506 1441 505" marker-end="url(#arrow-purple)" id="plus_node_239" />
+    <path class="purple-line" d="M1393 504 C1367 519 1347 518 1344 518" marker-end="url(#arrow-purple)" id="plus_node_240" />
+    <circle class="green-node" cx="1420" cy="565" r="24" id="plus_node_241" /><text class="node-label" x="1420" y="567" id="plus_node_242">Z<tspan baseline-shift="sub" font-size="14">T-1</tspan></text>
+    <circle class="green-node" cx="1599" cy="526" r="24" id="plus_node_243" /><text class="node-label" x="1599" y="528" id="plus_node_244">Z<tspan baseline-shift="sub" font-size="14">1</tspan></text>
+    <circle class="green-node" cx="1680" cy="464" r="24" id="plus_node_245" /><text class="node-label" x="1680" y="466" id="plus_node_246">Z<tspan baseline-shift="sub" font-size="14">0</tspan></text>
+    <path class="green-line" d="M1335 536 C1353 552 1375 562 1396 565" marker-end="url(#arrow-green)" id="plus_node_247" />
+    <path class="green-line" d="M1444 566 C1467 565 1488 559 1499 555" marker-end="url(#arrow-green)" id="plus_node_248" />
+    <text class="node-label" x="1515" y="558" id="plus_node_249">...</text>
+    <path class="green-line" d="M1531 552 C1553 543 1571 534 1578 530" marker-end="url(#arrow-green)" id="plus_node_250" />
+    <path class="green-line" d="M1621 517 C1644 500 1660 480 1660 480" marker-end="url(#arrow-green)" id="plus_node_251" />
+    <path class="brown-line" d="M1321 494 C1303 479 1308 459 1327 464 C1345 469 1346 492 1328 501" marker-end="url(#arrow-brown)" id="plus_node_252" />
+    <path class="brown-line" d="M1423 481 C1402 470 1411 449 1429 449 C1448 450 1451 477 1431 486" marker-end="url(#arrow-brown)" id="plus_node_253" />
+    <path class="brown-line" d="M1615 442 C1603 426 1610 405 1627 407 C1644 410 1645 437 1627 447" marker-end="url(#arrow-brown)" id="plus_node_254" />
+    <path class="orange-line" d="M1315 540 C1285 632 1327 689 1367 725" marker-end="url(#arrow-orange)" id="plus_node_255" />
+    <circle class="orange-node" cx="1391" cy="739" r="24" id="plus_node_256" />
+    <path class="orange-line" d="M1414 748 C1429 759 1441 766 1455 771" marker-end="url(#arrow-orange)" id="plus_node_257" />
+    <text class="node-label" x="1470" y="787" id="plus_node_258">...</text>
+    <path class="orange-line" d="M1493 791 C1511 802 1529 805 1541 804" marker-end="url(#arrow-orange)" id="plus_node_259" />
+    <circle class="orange-node" cx="1552" cy="800" r="24" id="plus_node_260" />
+    <path class="orange-line" d="M1576 806 C1596 817 1626 820 1639 814" marker-end="url(#arrow-orange)" id="plus_node_261" />
+    <circle class="orange-node" cx="1660" cy="807" r="24" id="plus_node_262" />
+  <image id="e-photo-source-crop" x="1288" y="104" width="91" height="91" href="data:image/png;base64,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" /></g>
+
+  
+  <g id="legend">
+    <desc>Legend mapping colored circles and arrows to reconstruction, editing, inversion, reference, interaction and optimization paths.</desc>
+    <circle class="green-node" cx="164" cy="933" r="24" id="plus_node_263" />
+    <path class="green-line" d="M188 934 H288" marker-end="url(#arrow-green)" id="plus_node_264" />
+    <text class="label" x="98" y="994" id="plus_node_265">Reconstruction path</text>
+
+    <circle class="orange-node" cx="460" cy="933" r="24" id="plus_node_266" />
+    <path class="orange-line" d="M484 934 H582" marker-end="url(#arrow-orange)" id="plus_node_267" />
+    <text class="label" x="431" y="994" id="plus_node_268">Editing path</text>
+
+    <circle class="purple-node" cx="760" cy="935" r="24" id="plus_node_269" />
+    <path class="purple-line" d="M784 937 H885" marker-end="url(#arrow-purple)" id="plus_node_270" />
+    <text class="label" x="723" y="995" id="plus_node_271">Inversion path</text>
+
+    <circle class="blue-node" cx="1085" cy="934" r="24" id="plus_node_272" />
+    <path class="ltblue-line" d="M1109 938 H1211" marker-end="url(#arrow-ltblue)" id="plus_node_273" />
+    <text class="label" x="1042" y="995" id="plus_node_274">Reference path</text>
+
+    <path class="yellow-line" d="M1398 941 H1457" marker-start="url(#arrow-yellow-start)" marker-end="url(#arrow-yellow)" id="plus_node_275" />
+    <text class="label" x="1357" y="995" id="plus_node_276">Interaction</text>
+
+    <path class="brown-line" d="M1645 950 C1629 935 1637 915 1655 916 C1673 917 1676 943 1660 953" marker-end="url(#arrow-brown)" id="plus_node_277" />
+    <path class="brown-line" d="M1683 944 H1743" marker-start="url(#arrow-brown-start)" marker-end="url(#arrow-brown)" id="plus_node_278" />
+    <text class="label" x="1603" y="995" id="plus_node_279">optimization</text>
+  </g>
+</svg>

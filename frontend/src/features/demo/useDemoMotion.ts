@@ -11,9 +11,8 @@ export function useDemoMotion(page: RefObject<HTMLDivElement | null>) {
     const nav = root.querySelector<HTMLElement>(".demo-nav");
     const indicator = nav?.querySelector<HTMLElement>(".demo-nav-indicator");
     const closing = root.querySelector<HTMLElement>(".demo-closing");
-    const destinations = Array.from(nav?.querySelectorAll<HTMLAnchorElement>('a[href^="#"]') ?? [])
-      .map(link => ({ link, section: root.querySelector<HTMLElement>(link.hash) }))
-      .filter((destination): destination is { link: HTMLAnchorElement; section: HTMLElement } => Boolean(destination.section));
+    const links = Array.from(nav?.querySelectorAll<HTMLAnchorElement>('a[href^="#"]') ?? []);
+    let destinations: { link: HTMLAnchorElement; section: HTMLElement }[] = [];
     let checkpoints: { link: HTMLAnchorElement; top: number }[] = [];
     let closingTop = Infinity;
     let pageBottom = Infinity;
@@ -93,6 +92,9 @@ export function useDemoMotion(page: RefObject<HTMLDivElement | null>) {
 
     function refreshLayout() {
       if (disposed) return;
+      // Research sections arrive after the initial lazy render.
+      destinations = links.map(link => ({ link, section: root!.querySelector<HTMLElement>(link.hash) }))
+        .filter((destination): destination is { link: HTMLAnchorElement; section: HTMLElement } => Boolean(destination.section));
       headerHeight = header?.offsetHeight || 0;
       heroHeight = hero?.offsetHeight || 1;
       checkpoints = destinations.filter(({ link }) => link.getClientRects().length > 0).map(({ link, section }) => ({

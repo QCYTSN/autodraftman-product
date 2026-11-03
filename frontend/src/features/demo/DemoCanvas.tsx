@@ -17,12 +17,22 @@ type Drag = {
   transform: string;
   moved: boolean;
 };
-const selectable = "text,rect,path,image,polygon,polyline,circle,ellipse,line,use";
+const copies = new Map<string, {index:number; transform:string|null; markup:string}[]>();
+let hintSeen = false;
+const objectManifest: Record<string, {id:string; zh:string; en:string}[]> = {
+ 'sample-0001': [{id:'title_top_row',zh:'文字',en:'Text'},{id:'f05_top_bbox_frame',zh:'形状 / 路径',en:'Shape / path'},{id:'green_pooling_path_left',zh:'连接',en:'Connection'}],
+ study: [{id:'plus_node_34',zh:'文字',en:'Text'},{id:'exp1_restudy_panel',zh:'形状 / 路径',en:'Shape / path'},{id:'plus_node_84',zh:'图像',en:'Image'}],
+ diffusion: [{id:'title_main',zh:'文字',en:'Text'},{id:'f01',zh:'形状 / 路径',en:'Shape / path'},{id:'arrow_photo_to_encoder',zh:'连接',en:'Connection'},{id:'plus_node_35',zh:'图像',en:'Image'},{id:'plus_node_47',zh:'公式',en:'Formula'}],
+ vit: [{id:'patch_title',zh:'文字',en:'Text'},{id:'f01',zh:'形状 / 路径',en:'Shape / path'},{id:'arr_input_to_patches',zh:'连接',en:'Connection'},{id:'plus_node_345',zh:'图像',en:'Image'}],
+};
+const selectable = "text,tspan,rect,path,image,polygon,polyline,circle,ellipse,line,use";
 
 export function DemoCanvas({ item, language, focusedElementId = null, focusRevision = 0 }: {
   item: DemoCase; language: DemoLanguage; focusedElementId?: string | null; focusRevision?: number;
 }) {
   const zh = language === "zh";
+  const [hint, setHint] = useState(!hintSeen);
+  function takeOver() { hintSeen = true; setHint(false); }
   const mount = useRef<HTMLDivElement>(null);
   const stage = useRef<HTMLDivElement>(null);
   const outline = useRef<HTMLDivElement>(null);
@@ -80,6 +90,8 @@ export function DemoCanvas({ item, language, focusedElementId = null, focusRevis
       if (element.getAttribute("transform") === original.transform &&
           element.innerHTML === original.markup) originals.current.delete(element);
     }
+    const elements = [...(mount.current?.querySelectorAll(selectable) ?? [])];
+    copies.set(item.id, [...originals.current.keys()].map(element => ({index:elements.indexOf(element),transform:element.getAttribute('transform'),markup:element.innerHTML})));
     setChanges(originals.current.size);
     updateOutline();
   }
@@ -110,11 +122,13 @@ export function DemoCanvas({ item, language, focusedElementId = null, focusRevis
         svg?.setAttribute("height", "100%");
         svg?.setAttribute("preserveAspectRatio", "xMidYMid meet");
         svg?.setAttribute("aria-hidden", "true");
+        const elements = [...mount.current.querySelectorAll<SVGGraphicsElement>(selectable)];
+        for (const edit of copies.get(item.id) ?? []) { const element=elements[edit.index]; if (!element) continue; remember(element); if(edit.transform===null)element.removeAttribute('transform');else element.setAttribute('transform',edit.transform);element.innerHTML=edit.markup; }
+        setChanges(originals.current.size);
         setStatus("ready");
         requestAnimationFrame(() => {
           if (cancelled) return;
-          const text = [...(mount.current?.querySelectorAll("text") ?? [])].find((element) =>
-            !element.closest("defs") && element.getBoundingClientRect().width > 0);
+          const text = mount.current?.querySelector<SVGGraphicsElement>("#" + objectManifest[item.id][0].id);
           const requested = focusedElement.current ? svg?.querySelector<SVGGraphicsElement>("#" + CSS.escape(focusedElement.current)) : null;
           selectElement(requested ?? text ?? null);
         });
@@ -148,7 +162,10 @@ export function DemoCanvas({ item, language, focusedElementId = null, focusRevis
   }, [zoom, status]);
 
   function startEdit(element = selected.current) {
-    if (!element || element.tagName.toLowerCase() !== "text" || !stage.current) return;
+    if (!element || !["text","tspan"].includes(element.tagName.toLowerCase()) || !stage.current) return;
+    takeOver();
+    const leaf = [...element.querySelectorAll<SVGGraphicsElement>('tspan')].find(t => !t.children.length && Boolean(t.textContent?.trim()));
+    if (leaf) element = leaf;
     selectElement(element);
     const bounds = element.getBoundingClientRect();
     const viewport = stage.current.getBoundingClientRect();
@@ -180,8 +197,9 @@ export function DemoCanvas({ item, language, focusedElementId = null, focusRevis
 
   function pointerDown(event: PointerEvent<HTMLDivElement>) {
     if (originalOnly || comparison || editing || event.button !== 0) return;
+    takeOver();
     const target = event.target instanceof Element
-      ? event.target.closest(selectable) : null;
+      ? (event.target.closest("text") ?? event.target.closest(selectable)) : null;
     if (!(target instanceof SVGGraphicsElement) || !mount.current?.contains(target)) return;
     selectElement(target);
     const parent = target.parentElement as unknown as SVGGraphicsElement;
@@ -247,6 +265,7 @@ export function DemoCanvas({ item, language, focusedElementId = null, focusRevis
       element.innerHTML = original.markup;
     }
     originals.current.clear();
+    copies.delete(item.id);
     setChanges(0);
     selectElement(selected.current);
   }
@@ -328,7 +347,7 @@ export function DemoCanvas({ item, language, focusedElementId = null, focusRevis
         onPointerUp={pointerUp} onPointerCancel={pointerUp} onLostPointerCapture={pointerUp}
         onKeyDown={keyDown} onScroll={updateOutline}
         onDoubleClick={(event) => {
-          const target = event.target instanceof Element ? event.target.closest("text") : null;
+          const target = event.target instanceof Element ? (event.target.closest("tspan") ?? event.target.closest("text")) : null;
           if (target instanceof SVGGraphicsElement && !originalOnly && !comparison) startEdit(target);
         }}>
         <div className="demo-svg-mount" ref={mount}
@@ -359,6 +378,10 @@ export function DemoCanvas({ item, language, focusedElementId = null, focusRevis
           {status === "loading" ? (zh ? "正在加载案例…" : "Loading example…") :
             (zh ? "案例暂不可用" : "Example unavailable")}
         </div>}
+      </div>
+      <div className="demo-object-types" aria-label={zh ? '对象类型' : 'Object types'}>
+        {objectManifest[item.id].map(obj => <button key={obj.id} disabled={status !== 'ready'} onClick={() => { takeOver(); setOriginalOnly(false);setComparison(false);selectElement(mount.current?.querySelector<SVGGraphicsElement>('#' + CSS.escape(obj.id)) ?? null); }}>{zh?obj.zh:obj.en}</button>)}
+        <p>{hint ? (zh?'双击选中的标题试试':'Try double-clicking the selected title') : (zh?'独立演示副本 · 修改不会改变实验评分':'Independent demo copy · edits do not change experiment scores')}</p>
       </div>
       <div className="demo-canvas-footer">
         <span>{zh ? "拖动元素，双击文字修改" : "Drag an element. Double-click text to edit."}</span>

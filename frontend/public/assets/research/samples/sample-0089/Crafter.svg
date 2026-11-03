@@ -1,0 +1,109 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1233 510" width="1233" height="510">
+  <defs>
+    <marker id="arrowGreen" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto" markerUnits="userSpaceOnUse">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#5b7134"/>
+    </marker>
+    <marker id="arrowBlack" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto" markerUnits="userSpaceOnUse">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#000000"/>
+    </marker>
+  </defs>
+
+  <rect x="0" y="0" width="1233" height="510" fill="#ffffff"/>
+
+  <rect x="45" y="81" width="1130" height="101" fill="#c6d9ef"/>
+  <rect x="45" y="320" width="1122" height="76" fill="#c6d9ef"/>
+
+  <!-- Green dashed layer-1 connectors, placed behind title text and aligned to bracket centers -->
+  <g fill="none" stroke="#5b7134" stroke-width="4" stroke-dasharray="8 5" stroke-linecap="butt" stroke-linejoin="miter">
+    <path d="M132 381 V405" marker-end="url(#arrowGreen)"/>
+    <path d="M132 381 H341 V405" marker-end="url(#arrowGreen)"/>
+
+    <path d="M368 381 V405" marker-end="url(#arrowGreen)"/>
+    <path d="M368 381 H580 V405" marker-end="url(#arrowGreen)"/>
+
+    <path d="M622 381 V405" marker-end="url(#arrowGreen)"/>
+    <path d="M622 381 H834 V405" marker-end="url(#arrowGreen)"/>
+  </g>
+
+  <!-- Green dashed layer-2 connector -->
+  <path d="M1071 202 V160 H335 V193" fill="none" stroke="#5b7134" stroke-width="4" stroke-dasharray="8 5" stroke-linecap="butt" stroke-linejoin="miter" marker-end="url(#arrowGreen)"/>
+
+  <text x="66" y="144" font-family="sans-serif" font-size="35" fill="#000000">Layer 2: Copy value using context similarity based attention</text>
+  <text x="66" y="370" font-family="sans-serif" font-size="31.5" fill="#000000">Layer 1: Context formed with previous token using position based attention</text>
+
+  <!-- Top brackets -->
+  <g fill="none" stroke="#000000" stroke-width="2.2" stroke-linecap="butt" stroke-linejoin="miter">
+    <path d="M81 202 H66 V306 H81"/>
+    <path d="M209 202 H224 V306 H209"/>
+
+    <path d="M263 202 H248 V306 H263"/>
+    <path d="M456 202 H471 V306 H456"/>
+
+    <path d="M510 202 H495 V306 H510"/>
+    <path d="M703 202 H718 V306 H703"/>
+
+    <path d="M758 202 H743 V306 H758"/>
+    <path d="M950 202 H965 V306 H950"/>
+
+    <path d="M997 202 H982 V306 H997"/>
+    <path d="M1131 202 H1146 V306 H1131"/>
+  </g>
+
+  <!-- Top text -->
+  <g font-family="sans-serif" font-size="32" fill="#000000">
+    <text x="98" y="241">K: &lt;start&gt;</text>
+    <text x="98" y="283">V: Hello</text>
+
+    <text x="282" y="241">K: Hello</text>
+    <text x="282" y="283">V: 11</text>
+
+    <text x="516" y="241">K: 11</text>
+    <text x="516" y="283">V: Goodbye</text>
+
+    <text x="765" y="241">K: Goodbye</text>
+    <text x="765" y="283">V: 77</text>
+
+    <text x="1012" y="283">Q: Hello</text>
+  </g>
+
+  <!-- Bottom brackets -->
+  <g fill="none" stroke="#000000" stroke-width="2.2" stroke-linecap="butt" stroke-linejoin="miter">
+    <path d="M81 403 H66 V464 H81"/>
+    <path d="M205 403 H220 V464 H205"/>
+
+    <path d="M263 403 H248 V464 H263"/>
+    <path d="M456 403 H471 V464 H456"/>
+
+    <path d="M510 403 H495 V464 H510"/>
+    <path d="M703 403 H718 V464 H703"/>
+
+    <path d="M748 403 H733 V464 H748"/>
+    <path d="M944 403 H959 V464 H944"/>
+
+    <path d="M997 403 H982 V464 H997"/>
+    <path d="M1133 403 H1148 V464 H1133"/>
+  </g>
+
+  <!-- Bottom token text -->
+  <g font-family="sans-serif" font-size="33" fill="#000000">
+    <text x="99" y="442">Hello</text>
+    <text x="337" y="442">11</text>
+    <text x="563" y="442">Goodbye</text>
+    <text x="800" y="442">77</text>
+    <text x="1028" y="442">Hello</text>
+  </g>
+
+  <!-- Math labels -->
+  <g font-family="serif" font-size="31" font-style="italic" font-weight="700" fill="#000000">
+    <text x="119" y="487">x¹</text>
+    <text x="345" y="487">y¹</text>
+    <text x="612" y="487">x²</text>
+    <text x="812" y="487">y²</text>
+    <text x="1067" y="487">x*</text>
+  </g>
+
+  <!-- Black curved output arrow -->
+  <path d="M447 252 C451 202 460 143 503 127 C590 93 771 116 943 109 C1041 105 1076 98 1085 22" fill="none" stroke="#000000" stroke-width="3" stroke-linecap="round" marker-end="url(#arrowBlack)"/>
+  <circle cx="447" cy="252" r="9" fill="#000000"/>
+  <text x="1097" y="38" font-family="sans-serif" font-size="31" fill="#000000">11</text>
+</svg>

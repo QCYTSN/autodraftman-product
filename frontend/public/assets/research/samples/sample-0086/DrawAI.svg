@@ -1,0 +1,210 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="2048" height="485" viewBox="0 0 2048 485">
+  <defs>
+    <marker id="arrow-blue" markerWidth="12" markerHeight="12" viewBox="0 0 10 10" refX="9" refY="5" orient="auto" markerUnits="userSpaceOnUse">
+      <path d="M0,0 L10,5 L0,10" fill="none" stroke="#0b72df" stroke-width="1.6"/>
+    </marker>
+    <marker id="arrow-red" markerWidth="12" markerHeight="12" viewBox="0 0 10 10" refX="9" refY="5" orient="auto" markerUnits="userSpaceOnUse">
+      <path d="M0,0 L10,5 L0,10" fill="none" stroke="#d45126" stroke-width="1.6"/>
+    </marker>
+    <marker id="arrow-gray" markerWidth="12" markerHeight="12" viewBox="0 0 10 10" refX="9" refY="5" orient="auto" markerUnits="userSpaceOnUse">
+      <path d="M0,0 L10,5 L0,10" fill="none" stroke="#7f8d96" stroke-width="1.6"/>
+    </marker>
+    <marker id="arrow-orange" markerWidth="11" markerHeight="11" viewBox="0 0 10 10" refX="8" refY="5" orient="auto" markerUnits="userSpaceOnUse">
+      <path d="M0,0 L9,5 L0,10" fill="none" stroke="#d45126" stroke-width="1.8"/>
+    </marker>
+    <marker id="arrow-orange-start" markerWidth="11" markerHeight="11" viewBox="0 0 10 10" refX="1" refY="5" orient="auto" markerUnits="userSpaceOnUse">
+      <path d="M9,0 L0,5 L9,10" fill="none" stroke="#d45126" stroke-width="1.8"/>
+    </marker>
+  </defs>
+  <rect id="background" data-pb-role="background" data-pb-editable="true" x="0" y="0" width="2048" height="485" fill="#ffffff"/>
+
+  <g id="module-left-challenge" data-pb-role="panel" data-pb-editable="true">
+    <rect id="panel-left-card" data-pb-role="panel" data-pb-editable="true" x="13" y="28" width="293" height="418" rx="20" ry="20" fill="#030806" stroke="#00a79d" stroke-width="4"/>
+    <g id="icon-capture-terminal" data-pb-role="decorative" data-pb-editable="true" stroke="#39453d" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round">
+      <rect x="34" y="56" width="89" height="58" rx="9" ry="9"/>
+      <path d="M44 70 L61 70 L61 59 M88 70 L105 70 L105 59"/>
+      <path d="M34 78 H123 M49 51 H72 V65 M86 51 H114 V65"/>
+      <line x1="49" y1="66" x2="49" y2="86"/>
+      <line x1="62" y1="66" x2="62" y2="86"/>
+      <line x1="75" y1="66" x2="75" y2="86"/>
+      <line x1="88" y1="66" x2="88" y2="86"/>
+      <line x1="101" y1="66" x2="101" y2="86"/>
+      <circle cx="49" cy="86" r="2.2" fill="#39453d" stroke="none"/>
+      <circle cx="62" cy="86" r="2.2" fill="#39453d" stroke="none"/>
+      <circle cx="75" cy="86" r="2.2" fill="#39453d" stroke="none"/>
+      <circle cx="88" cy="86" r="2.2" fill="#39453d" stroke="none"/>
+      <circle cx="101" cy="86" r="2.2" fill="#39453d" stroke="none"/>
+      <path d="M64 105 H93 M79 105 V119 M69 123 H89"/>
+      <path d="M48 99 Q78 122 109 99"/>
+    </g>
+    <text id="label-capture" data-pb-role="title" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="horizontal" x="146" y="82" font-family="Arial, Helvetica, sans-serif" font-size="34" font-weight="700" font-style="normal" fill="#00c8c2">Capture</text>
+    <text id="label-the-flag" data-pb-role="title" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="horizontal" x="146" y="121" font-family="Arial, Helvetica, sans-serif" font-size="34" font-weight="700" font-style="normal" fill="#00c8c2">The Flag</text>
+    <text id="left-body-1" data-pb-role="label" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="horizontal" x="29" y="155" font-family="Arial, Helvetica, sans-serif" font-size="22" font-style="italic" font-weight="400" fill="#00d6d1">We found an ftp service, I'm</text>
+    <text id="left-body-2" data-pb-role="label" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="horizontal" x="29" y="183" font-family="Arial, Helvetica, sans-serif" font-size="22" font-style="italic" font-weight="400" fill="#00d6d1">sure there's some way to</text>
+    <text id="left-body-3" data-pb-role="label" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="horizontal" x="29" y="211" font-family="Arial, Helvetica, sans-serif" font-size="22" font-style="italic" font-weight="400" fill="#00d6d1">log on to it.</text>
+    <text id="left-body-4" data-pb-role="label" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="horizontal" x="29" y="239" font-family="Arial, Helvetica, sans-serif" font-size="22" font-style="italic" font-weight="400" fill="#00d6d1">Files included in the</text>
+    <text id="left-body-5" data-pb-role="label" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="horizontal" x="29" y="267" font-family="Arial, Helvetica, sans-serif" font-size="22" font-style="italic" font-weight="400" fill="#00d6d1">challenge: ['ftp']</text>
+    <text id="left-body-6" data-pb-role="label" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="horizontal" x="29" y="329" font-family="Arial, Helvetica, sans-serif" font-size="22" font-style="italic" font-weight="400" fill="#00d6d1">The challenge server is</text>
+    <text id="left-body-7" data-pb-role="label" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="horizontal" x="29" y="357" font-family="Arial, Helvetica, sans-serif" font-size="22" font-style="italic" font-weight="400" fill="#00d6d1">running on</text>
+    <text id="left-body-8" data-pb-role="label" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="horizontal" x="29" y="385" font-family="Arial, Helvetica, sans-serif" font-size="22" font-style="italic" font-weight="400" fill="#00d6d1">rev.chal.csaw.io port</text>
+    <text id="left-body-9" data-pb-role="label" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="horizontal" x="29" y="413" font-family="Arial, Helvetica, sans-serif" font-size="22" font-style="italic" font-weight="400" fill="#00d6d1">12012...</text>
+  </g>
+
+  <g id="connector-left-to-workspace" data-pb-role="connector" data-pb-editable="true">
+    <line x1="306" y1="261" x2="378" y2="261" stroke="#7f8d96" stroke-width="3" marker-end="url(#arrow-gray)" fill="none"/>
+  </g>
+
+  <g id="module-enigma-workspace" data-pb-role="panel" data-pb-editable="true">
+    <rect id="panel-enigma-outer" data-pb-role="panel" data-pb-editable="true" x="381" y="28" width="1344" height="420" rx="19" ry="19" fill="#edffff" stroke="#d5d9d7" stroke-width="5"/>
+    <rect id="panel-components" data-pb-role="panel" data-pb-editable="true" x="647" y="71" width="796" height="357" fill="#d5ffe5"/>
+    <rect id="panel-swe-agent-zone" data-pb-role="panel" data-pb-editable="true" x="1030" y="84" width="379" height="344" fill="#c7f3d6"/>
+
+    <text id="wordmark-enigma-main" data-pb-role="title" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="horizontal" x="395" y="79" font-family="Arial, Helvetica, sans-serif" font-size="49" font-style="normal" font-weight="700" fill="#e91f5b">EnIGMA</text>
+    <g id="icon-spy-main" data-pb-role="decorative" data-pb-editable="true" fill="#e91f5b" stroke="#e91f5b" stroke-linejoin="round">
+      <path d="M590 42 L621 42 L627 63 L582 63 Z"/>
+      <path d="M576 64 H635 C636 71 631 75 620 75 H591 C581 75 575 71 576 64 Z"/>
+      <circle cx="598" cy="76" r="7" fill="#ffffff" stroke="#e91f5b" stroke-width="5"/>
+      <circle cx="617" cy="76" r="7" fill="#ffffff" stroke="#e91f5b" stroke-width="5"/>
+    </g>
+    <text id="wordmark-enigma-small" data-pb-role="title" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="horizontal" x="662" y="108" font-family="Arial, Helvetica, sans-serif" font-size="32" font-style="normal" font-weight="700" fill="#e91f5b">EnIGMA</text>
+    <g id="icon-spy-small" data-pb-role="decorative" data-pb-editable="true" fill="#e91f5b" stroke="#e91f5b" stroke-linejoin="round">
+      <path d="M785 84 L805 84 L809 98 L780 98 Z"/>
+      <path d="M777 99 H813 C813 104 809 107 803 107 H787 C781 107 777 104 777 99 Z"/>
+      <circle cx="791" cy="108" r="4" fill="#ffffff" stroke="#e91f5b" stroke-width="3"/>
+      <circle cx="804" cy="108" r="4" fill="#ffffff" stroke="#e91f5b" stroke-width="3"/>
+    </g>
+    <text id="label-components" data-pb-role="title" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="horizontal" x="821" y="108" font-family="Arial, Helvetica, sans-serif" font-size="30" font-style="normal" font-weight="400" fill="#17221c">Components</text>
+    <image id="asset-computer-interface-icon" data-pb-role="image" data-pb-editable="false" href="data:image/png;base64,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" x="1049" y="89" width="33" height="38"/>
+    <text id="label-swe-agent-header" data-pb-role="label" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="horizontal" x="1091" y="116" font-family="Arial, Helvetica, sans-serif" font-size="22" font-style="normal" font-weight="400" fill="#17221c">SWE-Agent Computer Interfaces</text>
+
+    <g id="module-language-model" data-pb-role="node" data-pb-editable="true">
+      <rect x="392" y="225" width="249" height="72" rx="17" ry="17" fill="#cfebff" stroke="#0b72df" stroke-width="4"/>
+      <image id="asset-robot-icon" data-pb-role="image" data-pb-editable="false" href="data:image/png;base64,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" x="408" y="245" width="25" height="25"/>
+      <text id="label-language-model" data-pb-role="label" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="horizontal" x="439" y="270" font-family="Arial, Helvetica, sans-serif" font-size="25" font-style="normal" font-weight="700" fill="#0b72df">Language Model</text>
+    </g>
+
+    <g id="module-cyber-commands" data-pb-role="node" data-pb-editable="true">
+      <rect x="679" y="146" width="339" height="117" rx="10" ry="10" fill="#ffffff" stroke="#0b72df" stroke-width="3"/>
+      <text id="label-cyber-title" data-pb-role="label" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="horizontal" x="699" y="170" font-family="Arial, Helvetica, sans-serif" font-size="21" font-style="normal" font-weight="700" fill="#111111">LM-cybersecurity commands</text>
+      <image id="asset-interactive-tools-icon" data-pb-role="image" data-pb-editable="false" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAATCAYAAACQjC21AAAEhUlEQVR4nGVUWW8bVRT+7uy2x+OmXhI7iZMmbdPSUpqkobTqGlpVAvUBeOE/8BP4EzwghIR4KS1vCBUEqEgIpbRULbQoi1undRY7i52M7cRjj2fxzFw04zaAONLRXXTuuZ/OOd8HSileued5e3vfTcvCk9k8Nrd2oTW07r3nQt3e/l8sfekc/mWEEDiOg/JmGYOD/VhdLeHO3fv0/MULJOSZiCsyFpZLtqLs4wcNk6RTSfCCELxlGCZYg4SU+smAnZ0dPPlrrtKTSPfZ7iZWVks0mU5STuBgGASFDZVqNoFAROhtA6IoAKSb6JUFJ89z4VGKer2OPx4+6rVcFxXNQIfwNCpIWM4veitLq95yaY1S26Ce3aYcx2OlWMJqsYSWru8lDBCyLBscIuEQokoYGxslT0llsFWtolhYgtZooG3ocJwOwpEIskNDaI6MejzPg7AsSdd2yGuHRxCRo+Bc14WmNeGBQGvb6OnLghXCmH/8J9SNEkxK0epYAMfC9Ty4jovC03nUVRVnLl6BLIcDMI7bbRJn2zbuP/h9tlJvnJiYOkdi8T5aKa+julUGwwuISmH0Z0ewPx6HaVpYfppDw9SxW93GYm4Wo8ODmHr7ApSo0q2hDzssCfe0utqpq2WPoS7WVwoQBB5cSEYmM4g3JyaQiMoYOzCM89NXEIr1QJCVoIaG5UBv22i2dNidDhiO4zA9feWjs1NTn9z57jZxbBuu40GQJChKCOOT46iWS5j56Vv8/M1NCHAwefo0DNOGZ1twXY/O5Vfpr/ce0XJlG0zHcaA1m+h4zNnM8Bi0pu4HgToOErEYGtUtDKYTeO+D9zGXy6Gq1hCTowiFJERkOZg36tgQeXaBYwm4Fy9e4JeZ34oHj76RPXVqgj5fXITnUezWanAtC8NDB4JHzbaF9KHjSPSmoNXq4BkOkiz5E036++Lk2JFRMCwHhmcZ9ETlW4xnq9puFbLEgwAw9DZmHz+BWqui0baRW1rD5WvXg89WlpfAclyAkGM5sCyHjuMGXSb+2Pi0eZ7P4/sff/D6s6OkUChStbIJdbuMjt7CO+9eRzI1gLbRwVKxgLWNdaQyaWTSvUjGUwQuh3RaqZx4/XB6j8uyEkMorFDDtEhmIIOmrmGfm/SnHTN3ZxCN7oMohaCZFpKpFHiGhRwOE1NvbFHKPGOY6GWfwpyPzjAMLOSe3QErMsPZIbRbLdLODNBNRoBpGvDMNnTHgQ2KeF9vUJJEIkEiolA689apoZ79PV3acVyXepIkISSJnzZ21LxtDYjq9uZ522geHTs4guJGGYIRQsdx/H7SkCCQkWwW0agCnqU1URThz/KeYvmF9M22bOhtHaIkBUW/ceMrevnSNew2ddi2CY7nKXU9wrFora+t3LRtZ6d/YGDh6tXpr9PpdLchhPyjh4IoBP7yH18I5l3XPbRfCd0yTe9hbn5+7sjYiY8jMen2uXMffukLhs/tWCy2p6X/QdjVxe5e13Us5vPY3W2emZw8+cC0THzx+WcYHhrD8ZPHMD4+HsT5sscwXaV6ZX8DLchaAo4XHsgAAAAASUVORK5CYII=" x="701" y="177" width="20" height="19"/>
+      <text id="label-interactive-tools" data-pb-role="label" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="horizontal" x="726" y="197" font-family="Arial, Helvetica, sans-serif" font-size="17" font-style="normal" font-weight="400" fill="#111111">Interactive Agent Tools (IATs)</text>
+      <image id="asset-ghidra-icon" data-pb-role="image" data-pb-editable="false" href="data:image/png;base64,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" x="700" y="204" width="22" height="21"/>
+      <text id="label-ghidra" data-pb-role="label" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="horizontal" x="726" y="223" font-family="Arial, Helvetica, sans-serif" font-size="17" font-style="normal" font-weight="400" fill="#111111">Ghidra decompile &amp; disassemble</text>
+      <g id="icon-tools-wrench" data-pb-role="decorative" data-pb-editable="true" stroke="#777777" stroke-width="3" fill="none" stroke-linecap="round">
+        <line x1="704" y1="238" x2="720" y2="254"/>
+        <line x1="720" y1="238" x2="704" y2="254"/>
+        <circle cx="705" cy="237" r="3" fill="#777777" stroke="none"/>
+      </g>
+      <text id="label-python-security" data-pb-role="label" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="horizontal" x="727" y="250" font-family="Arial, Helvetica, sans-serif" font-size="17" font-style="normal" font-weight="400" fill="#111111">Python libraries &amp; Security Tools</text>
+    </g>
+
+    <g id="module-lm-friendly" data-pb-role="node" data-pb-editable="true">
+      <rect x="1066" y="146" width="322" height="98" rx="10" ry="10" fill="#ffffff" stroke="#0b72df" stroke-width="3"/>
+      <text id="label-lm-friendly-title" data-pb-role="label" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="horizontal" x="1112" y="171" font-family="Arial, Helvetica, sans-serif" font-size="21" font-style="normal" font-weight="700" fill="#111111">LM-friendly commands</text>
+      <g id="icon-navigate" data-pb-role="decorative" data-pb-editable="true" stroke="#111111" stroke-width="2" fill="none" stroke-linejoin="round">
+        <path d="M1080 194 L1095 183 L1089 202 Z"/>
+      </g>
+      <text id="label-navigate" data-pb-role="label" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="horizontal" x="1104" y="201" font-family="Arial, Helvetica, sans-serif" font-size="17" font-style="normal" font-weight="400" fill="#111111">Navigate repo</text>
+      <g id="icon-search" data-pb-role="decorative" data-pb-editable="true" stroke="#111111" stroke-width="2.5" fill="none" stroke-linecap="round">
+        <circle cx="1252" cy="192" r="7"/>
+        <line x1="1257" y1="197" x2="1263" y2="203"/>
+      </g>
+      <text id="label-search" data-pb-role="label" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="horizontal" x="1271" y="201" font-family="Arial, Helvetica, sans-serif" font-size="17" font-style="normal" font-weight="400" fill="#111111">Search files</text>
+      <g id="icon-viewer" data-pb-role="decorative" data-pb-editable="true" stroke="#111111" stroke-width="2" fill="none" stroke-linecap="round">
+        <line x1="1079" y1="219" x2="1090" y2="219"/>
+        <line x1="1082" y1="225" x2="1093" y2="225"/>
+        <line x1="1080" y1="231" x2="1088" y2="231"/>
+      </g>
+      <text id="label-file-viewer" data-pb-role="label" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="horizontal" x="1104" y="228" font-family="Arial, Helvetica, sans-serif" font-size="17" font-style="normal" font-weight="400" fill="#111111">Use file viewer</text>
+      <g id="icon-edit" data-pb-role="decorative" data-pb-editable="true" stroke="#111111" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M1246 225 L1258 213 L1264 219 L1252 231 L1244 233 Z"/>
+        <line x1="1255" y1="216" x2="1261" y2="222"/>
+      </g>
+      <text id="label-edit-lines" data-pb-role="label" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="horizontal" x="1271" y="228" font-family="Arial, Helvetica, sans-serif" font-size="17" font-style="normal" font-weight="400" fill="#111111">Edit lines</text>
+    </g>
+
+    <g id="module-summarizer" data-pb-role="node" data-pb-editable="true">
+      <rect x="688" y="305" width="330" height="93" rx="10" ry="10" fill="#ffffff" stroke="#d45126" stroke-width="3"/>
+      <text id="label-summarizer-1" data-pb-role="label" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="horizontal" x="721" y="348" font-family="Arial, Helvetica, sans-serif" font-size="20" font-style="normal" font-weight="700" fill="#111111">Summarizer for long-output</text>
+      <text id="label-summarizer-2" data-pb-role="label" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="horizontal" x="800" y="370" font-family="Arial, Helvetica, sans-serif" font-size="20" font-style="normal" font-weight="700" fill="#111111">commands</text>
+    </g>
+
+    <g id="module-feedback" data-pb-role="node" data-pb-editable="true">
+      <rect x="1068" y="299" width="321" height="93" rx="9" ry="9" fill="#ffffff" stroke="#d45126" stroke-width="3"/>
+      <text id="label-feedback-1" data-pb-role="label" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="horizontal" x="1171" y="341" font-family="Arial, Helvetica, sans-serif" font-size="20" font-style="normal" font-weight="700" fill="#111111">LM-friendly</text>
+      <text id="label-feedback-2" data-pb-role="label" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="horizontal" x="1122" y="364" font-family="Arial, Helvetica, sans-serif" font-size="20" font-style="normal" font-weight="700" fill="#111111">environment feedback</text>
+    </g>
+  </g>
+
+  <g id="connectors-workspace" data-pb-role="connector" data-pb-editable="true">
+    <path id="connector-lm-to-cyber" d="M500 223 L500 202 Q500 183 522 183 L679 183" fill="none" stroke="#0b72df" stroke-width="3" marker-end="url(#arrow-blue)"/>
+    <line id="connector-cyber-to-friendly" x1="1018" y1="183" x2="1066" y2="183" stroke="#0b72df" stroke-width="3" fill="none"/>
+    <line id="connector-friendly-to-computer" x1="1388" y1="183" x2="1458" y2="183" stroke="#0b72df" stroke-width="3" marker-end="url(#arrow-blue)" fill="none"/>
+    <path id="connector-summarizer-to-lm" d="M688 355 L524 355 Q500 355 500 331 L500 304" fill="none" stroke="#d45126" stroke-width="3" marker-end="url(#arrow-red)"/>
+    <line id="connector-summarizer-to-feedback" x1="1018" y1="355" x2="1068" y2="355" stroke="#d45126" stroke-width="3" fill="none"/>
+    <line id="connector-feedback-to-computer" x1="1389" y1="355" x2="1462" y2="355" stroke="#d45126" stroke-width="3" fill="none"/>
+  </g>
+
+  <g id="module-computer" data-pb-role="panel" data-pb-editable="true">
+    <rect id="panel-computer" data-pb-role="panel" data-pb-editable="true" x="1463" y="113" width="245" height="300" rx="20" ry="20" fill="#ffe3d7" stroke="#d45126" stroke-width="5"/>
+    <g id="icon-computer-monitor" data-pb-role="decorative" data-pb-editable="true" stroke="#111111" stroke-width="2.5" fill="none" stroke-linejoin="round">
+      <rect x="1490" y="129" width="25" height="20" rx="2"/>
+      <line x1="1503" y1="149" x2="1503" y2="157"/>
+      <line x1="1494" y1="158" x2="1512" y2="158"/>
+    </g>
+    <text id="label-computer-title" data-pb-role="title" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="horizontal" x="1524" y="156" font-family="Arial, Helvetica, sans-serif" font-size="29" font-style="normal" font-weight="700" fill="#111111">Computer</text>
+    <rect id="panel-terminal-row" data-pb-role="node" data-pb-editable="true" x="1474" y="172" width="225" height="46" rx="23" ry="23" fill="#fff4ef"/>
+    <g id="icon-terminal" data-pb-role="decorative" data-pb-editable="true" stroke="#111111" stroke-width="2.8" fill="none" stroke-linecap="round" stroke-linejoin="round">
+      <rect x="1497" y="184" width="26" height="22" rx="2"/>
+      <path d="M1503 190 L1509 195 L1503 200"/>
+      <line x1="1512" y1="200" x2="1518" y2="200"/>
+    </g>
+    <text id="label-terminal" data-pb-role="label" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="horizontal" x="1538" y="202" font-family="Arial, Helvetica, sans-serif" font-size="25" font-style="normal" font-weight="700" fill="#111111">Terminal</text>
+    <rect id="panel-debugger-row" data-pb-role="node" data-pb-editable="true" x="1474" y="223" width="222" height="44" rx="22" ry="22" fill="#fff4ef"/>
+    <g id="icon-debugger" data-pb-role="decorative" data-pb-editable="true" stroke="#111111" stroke-width="2" fill="none" stroke-linecap="round">
+      <path d="M1493 246 C1501 235 1517 234 1526 245"/>
+      <path d="M1499 241 L1493 236 M1507 238 L1505 232 M1515 238 L1517 232 M1522 241 L1528 236"/>
+      <circle cx="1507" cy="245" r="2" fill="#111111" stroke="none"/>
+      <circle cx="1516" cy="245" r="2" fill="#111111" stroke="none"/>
+      <path d="M1501 251 Q1510 257 1520 251"/>
+    </g>
+    <text id="label-debugger" data-pb-role="label" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="horizontal" x="1538" y="253" font-family="Arial, Helvetica, sans-serif" font-size="25" font-style="normal" font-weight="700" fill="#111111">Debugger</text>
+    <rect id="panel-connect-row" data-pb-role="node" data-pb-editable="true" x="1474" y="273" width="222" height="44" rx="22" ry="22" fill="#fff4ef"/>
+    <g id="icon-connect" data-pb-role="decorative" data-pb-editable="true" stroke="#111111" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M1497 299 L1508 288 Q1513 283 1518 288 Q1522 293 1517 298 L1512 303"/>
+      <path d="M1506 307 L1517 296"/>
+      <path d="M1497 299 L1492 304 Q1487 309 1492 314 Q1497 319 1502 314 L1513 303"/>
+    </g>
+    <text id="label-connect" data-pb-role="label" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="horizontal" x="1538" y="303" font-family="Arial, Helvetica, sans-serif" font-size="25" font-style="normal" font-weight="700" fill="#111111">Connect</text>
+    <rect id="panel-filesystem-row" data-pb-role="node" data-pb-editable="true" x="1474" y="322" width="222" height="77" rx="21" ry="21" fill="#fff4ef"/>
+    <g id="icon-filesystem" data-pb-role="decorative" data-pb-editable="true" stroke="#111111" stroke-width="2.5" fill="none" stroke-linecap="round">
+      <line x1="1499" y1="335" x2="1499" y2="356"/>
+      <line x1="1505" y1="339" x2="1520" y2="339"/>
+      <line x1="1505" y1="347" x2="1522" y2="347"/>
+      <line x1="1505" y1="355" x2="1517" y2="355"/>
+    </g>
+    <text id="label-filesystem" data-pb-role="label" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="horizontal" x="1534" y="357" font-family="Arial, Helvetica, sans-serif" font-size="25" font-style="normal" font-weight="700" fill="#111111">Filesystem</text>
+    <g id="icon-file" data-pb-role="decorative" data-pb-editable="true" stroke="#111111" stroke-width="2" fill="none" stroke-linejoin="round">
+      <path d="M1522 369 H1535 L1542 376 V391 H1522 Z"/>
+      <path d="M1535 369 V377 H1542"/>
+    </g>
+    <text id="label-ftp" data-pb-role="label" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="horizontal" x="1557" y="388" font-family="Arial, Helvetica, sans-serif" font-size="23" font-style="normal" font-weight="400" fill="#111111">ftp</text>
+  </g>
+
+  <g id="connector-computer-server" data-pb-role="connector" data-pb-editable="true">
+    <line x1="1710" y1="278" x2="1761" y2="278" stroke="#d45126" stroke-width="2.5" marker-start="url(#arrow-orange-start)" marker-end="url(#arrow-orange)" fill="none"/>
+  </g>
+
+  <g id="module-challenge-server" data-pb-role="panel" data-pb-editable="true">
+    <rect id="panel-server" data-pb-role="panel" data-pb-editable="true" x="1763" y="181" width="254" height="176" rx="20" ry="20" fill="#ffe1d2" stroke="#c75a2a" stroke-width="5"/>
+    <g id="icon-server-tower" data-pb-role="decorative" data-pb-editable="true" stroke="#111111" stroke-width="4" fill="none" stroke-linejoin="round">
+      <rect x="1794" y="203" width="30" height="55" rx="1"/>
+      <line x1="1802" y1="217" x2="1816" y2="217"/>
+      <line x1="1802" y1="226" x2="1816" y2="226"/>
+      <circle cx="1808" cy="244" r="2.5" fill="#111111" stroke="none"/>
+    </g>
+    <text id="label-challenge" data-pb-role="title" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="horizontal" x="1836" y="225" font-family="Arial, Helvetica, sans-serif" font-size="31" font-style="normal" font-weight="700" fill="#111111">Challenge</text>
+    <text id="label-server" data-pb-role="title" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="horizontal" x="1836" y="266" font-family="Arial, Helvetica, sans-serif" font-size="31" font-style="normal" font-weight="700" fill="#111111">Server</text>
+    <text id="label-ftp-welcome" data-pb-role="label" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="horizontal" x="1772" y="309" font-family="Courier New, monospace" font-size="18" font-style="normal" font-weight="700" fill="#111111">Welcome to FTP server</text>
+  </g>
+</svg>

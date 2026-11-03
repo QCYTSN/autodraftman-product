@@ -1,0 +1,234 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="2048" height="604" viewBox="0 0 2048 604">
+  <rect id="background-white" data-pb-role="background" data-pb-editable="true" x="0" y="0" width="2048" height="604" fill="#ffffff"/>
+
+  <g id="module-channel-importance" data-pb-role="panel" data-pb-editable="true">
+    <text id="title-tokens-from" data-pb-role="title" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="horizontal" x="158" y="70" font-family="Times New Roman, Times, serif" font-size="34" font-weight="700" font-style="normal" fill="#000000">Tokens from</text>
+    <g id="label-formula-d" data-pb-role="formula" data-pb-editable="true" data-pb-formula-bbox="348 40 45 45" data-pb-formula-latex-b64="XFxtYXRoY2Fse0R9">
+      <text id="label-formula-d-fallback" data-pb-role="formula" data-pb-editable="true" data-pb-text-source="visual_inferred" data-pb-orientation="horizontal" x="348" y="73" font-family="Times New Roman, Times, serif" font-size="40" font-weight="700" font-style="italic" fill="#000000">D</text>
+      <desc>LaTeX: \mathcal{D}</desc>
+    </g>
+    <g id="grid-input-token-matrix" data-pb-role="node" data-pb-editable="true" stroke="#000000" stroke-width="3">
+      <rect x="112" y="95" width="52" height="51" fill="#e0ecd7"/>
+      <rect x="170" y="95" width="52" height="51" fill="#4d842e"/>
+      <rect x="232" y="95" width="52" height="51" fill="#f2b47f"/>
+      <rect x="112" y="152" width="52" height="51" fill="#acd092"/>
+      <rect x="170" y="152" width="52" height="51" fill="#e0ecd7"/>
+      <rect x="232" y="152" width="52" height="51" fill="#f2dcc9"/>
+      <rect x="112" y="209" width="52" height="51" fill="#c6dcb4"/>
+      <rect x="170" y="209" width="52" height="51" fill="#315d1f"/>
+      <rect x="232" y="209" width="52" height="51" fill="#f0c6a4"/>
+      <rect x="112" y="266" width="52" height="51" fill="#4e842e"/>
+      <rect x="170" y="266" width="52" height="51" fill="#e1ecd8"/>
+      <rect x="232" y="266" width="52" height="51" fill="#f1c8a6"/>
+      <rect x="112" y="323" width="52" height="51" fill="#e1ecd8"/>
+      <rect x="170" y="323" width="52" height="51" fill="#c4dbb0"/>
+      <rect x="232" y="323" width="52" height="51" fill="#91400a"/>
+    </g>
+    <g id="annotation-tokenwise-axes" data-pb-role="connector" data-pb-editable="true" stroke="#000000" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round">
+      <line x1="94" y1="374" x2="94" y2="190"/>
+      <polyline points="85,205 94,188 103,205"/>
+      <line x1="112" y1="390" x2="254" y2="390"/>
+      <polyline points="239,381 257,390 239,399"/>
+    </g>
+    <text id="label-channel-wise" data-pb-role="label" data-pb-editable="true" data-pb-text-source="visual_inferred" data-pb-orientation="vertical-rl" x="71" y="280" transform="rotate(-90 71 280)" font-family="Times New Roman, Times, serif" font-size="30" font-weight="400" font-style="normal" fill="#000000" text-anchor="middle">Channel-wise</text>
+    <text id="label-token-wise" data-pb-role="label" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="horizontal" x="118" y="426" font-family="Times New Roman, Times, serif" font-size="30" font-weight="400" font-style="normal" fill="#000000">Token-wise</text>
+    <text id="ellipsis-token-language" data-pb-role="label" data-pb-editable="true" data-pb-text-source="visual_inferred" data-pb-orientation="horizontal" x="289" y="246" font-family="Times New Roman, Times, serif" font-size="46" font-weight="700" font-style="normal" fill="#000000">...</text>
+    <g id="grid-language-column" data-pb-role="node" data-pb-editable="true" stroke="#000000" stroke-width="3">
+      <rect x="351" y="95" width="52" height="51" fill="#f0c6a4"/>
+      <rect x="351" y="152" width="52" height="51" fill="#f2b47f"/>
+      <rect x="351" y="209" width="52" height="51" fill="#ce5c0c"/>
+      <rect x="351" y="266" width="52" height="51" fill="#f2dcc9"/>
+      <rect x="351" y="323" width="52" height="51" fill="#f2b47f"/>
+    </g>
+    <g id="symbol-hadamard-main" data-pb-role="node" data-pb-editable="true">
+      <circle cx="446" cy="235" r="23" fill="#ffffff" stroke="#000000" stroke-width="4"/>
+      <circle cx="446" cy="235" r="6" fill="#000000"/>
+    </g>
+    <g id="label-formula-w" data-pb-role="formula" data-pb-editable="true" data-pb-formula-bbox="495 51 50 33" data-pb-formula-latex-b64="Vw==">
+      <text id="label-formula-w-fallback" data-pb-role="formula" data-pb-editable="true" data-pb-text-source="visual_inferred" data-pb-orientation="horizontal" x="496" y="75" font-family="Times New Roman, Times, serif" font-size="34" font-weight="700" font-style="normal" fill="#000000">W</text>
+      <desc>LaTeX: W</desc>
+    </g>
+    <g id="grid-weight-column" data-pb-role="node" data-pb-editable="true" stroke="#000000" stroke-width="3">
+      <rect x="489" y="95" width="52" height="51" fill="#2e7bb8"/>
+      <rect x="489" y="152" width="52" height="51" fill="#bad3e7"/>
+      <rect x="489" y="209" width="52" height="51" fill="#d8e6f0"/>
+      <rect x="489" y="266" width="52" height="51" fill="#2f7db9"/>
+      <rect x="489" y="323" width="52" height="51" fill="#1d527c"/>
+    </g>
+    <text id="caption-channel-line1" data-pb-role="label" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="horizontal" x="133" y="468" font-family="Times New Roman, Times, serif" font-size="31" font-weight="700" font-style="normal" fill="#000000">Channel importance estimation</text>
+    <text id="caption-channel-line2" data-pb-role="label" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="horizontal" x="195" y="503" font-family="Times New Roman, Times, serif" font-size="31" font-weight="700" font-style="normal" fill="#000000">from calibration data</text>
+  </g>
+
+  <g id="connector-main-1" data-pb-role="connector" data-pb-editable="true">
+    <polygon points="560,194 584,194 584,160 625,235 584,310 584,255 560,255" fill="#ffffff" stroke="#000000" stroke-width="4" stroke-linejoin="miter"/>
+  </g>
+
+  <g id="module-topk" data-pb-role="panel" data-pb-editable="true">
+    <text id="title-topk-prefix" data-pb-role="title" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="horizontal" x="673" y="68" font-family="Times New Roman, Times, serif" font-size="34" font-weight="700" font-style="normal" fill="#000000">Top-</text>
+    <g id="label-formula-topk-k" data-pb-role="formula" data-pb-editable="true" data-pb-formula-bbox="739 43 20 32" data-pb-formula-latex-b64="aw==">
+      <text id="label-formula-topk-k-fallback" data-pb-role="formula" data-pb-editable="true" data-pb-text-source="visual_inferred" data-pb-orientation="horizontal" x="742" y="68" font-family="Times New Roman, Times, serif" font-size="34" font-weight="700" font-style="italic" fill="#000000">k</text>
+      <desc>LaTeX: k</desc>
+    </g>
+    <text id="title-topk-suffix" data-pb-role="title" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="horizontal" x="776" y="68" font-family="Times New Roman, Times, serif" font-size="34" font-weight="700" font-style="normal" fill="#000000">importance</text>
+    <g id="grid-topk-main" data-pb-role="node" data-pb-editable="true">
+      <g id="grid-topk-background" stroke="#ffffff" stroke-width="4">
+        <rect x="644" y="94" width="56" height="54" fill="#f0f0f0"/>
+        <rect x="703" y="94" width="56" height="54" fill="#b6b6b6"/>
+        <rect x="762" y="94" width="56" height="54" fill="#c7c7c7"/>
+        <rect x="644" y="151" width="56" height="54" fill="#d2d2d2"/>
+        <rect x="703" y="151" width="56" height="54" fill="#eeeeee"/>
+        <rect x="762" y="151" width="56" height="54" fill="#eeeeee"/>
+        <rect x="644" y="209" width="56" height="54" fill="#eeeeee"/>
+        <rect x="703" y="209" width="56" height="54" fill="#858585"/>
+        <rect x="762" y="209" width="56" height="54" fill="#eeeeee"/>
+        <rect x="644" y="266" width="56" height="54" fill="#898989"/>
+        <rect x="703" y="266" width="56" height="54" fill="#eeeeee"/>
+        <rect x="762" y="266" width="56" height="54" fill="#d2d2d2"/>
+        <rect x="644" y="323" width="56" height="54" fill="#c8c8c8"/>
+        <rect x="703" y="323" width="56" height="54" fill="#c8c8c8"/>
+        <rect x="762" y="323" width="56" height="54" fill="#4d4d4d"/>
+      </g>
+      <rect x="644" y="151" width="56" height="54" fill="none" stroke="#000000" stroke-width="4"/>
+      <rect x="703" y="94" width="56" height="54" fill="none" stroke="#000000" stroke-width="4"/>
+      <rect x="762" y="94" width="56" height="54" fill="none" stroke="#000000" stroke-width="4"/>
+      <rect x="703" y="209" width="56" height="54" fill="none" stroke="#000000" stroke-width="4"/>
+      <rect x="644" y="266" width="56" height="54" fill="none" stroke="#000000" stroke-width="4"/>
+      <rect x="762" y="323" width="56" height="54" fill="none" stroke="#000000" stroke-width="4"/>
+    </g>
+    <text id="ellipsis-topk-final" data-pb-role="label" data-pb-editable="true" data-pb-text-source="visual_inferred" data-pb-orientation="horizontal" x="820" y="246" font-family="Times New Roman, Times, serif" font-size="46" font-weight="700" font-style="normal" fill="#000000">...</text>
+    <g id="grid-topk-final-column" data-pb-role="node" data-pb-editable="true">
+      <rect x="883" y="94" width="54" height="54" fill="#d7d7d7" stroke="#ffffff" stroke-width="4"/>
+      <rect x="883" y="151" width="54" height="54" fill="#c6c6c6" stroke="#ffffff" stroke-width="4"/>
+      <rect x="883" y="209" width="54" height="54" fill="#bdbdbd" stroke="#ffffff" stroke-width="4"/>
+      <rect x="883" y="266" width="54" height="54" fill="#eeeeee" stroke="#ffffff" stroke-width="4"/>
+      <rect x="883" y="323" width="54" height="54" fill="#808080" stroke="#ffffff" stroke-width="4"/>
+      <rect x="883" y="209" width="54" height="54" fill="none" stroke="#000000" stroke-width="4"/>
+      <rect x="883" y="323" width="54" height="54" fill="none" stroke="#000000" stroke-width="4"/>
+    </g>
+    <text id="caption-topk-line1" data-pb-role="label" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="horizontal" x="634" y="468" font-family="Times New Roman, Times, serif" font-size="31" font-weight="700" font-style="normal" fill="#000000">Top-k important channel</text>
+    <text id="caption-topk-line2" data-pb-role="label" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="horizontal" x="644" y="503" font-family="Times New Roman, Times, serif" font-size="31" font-weight="700" font-style="normal" fill="#000000">identification per token</text>
+  </g>
+
+  <g id="connector-main-2" data-pb-role="connector" data-pb-editable="true">
+    <polygon points="957,194 981,194 981,160 1021,235 981,310 981,255 957,255" fill="#ffffff" stroke="#000000" stroke-width="4" stroke-linejoin="miter"/>
+  </g>
+
+  <g id="module-frequency" data-pb-role="panel" data-pb-editable="true">
+    <text id="title-frequency" data-pb-role="title" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="horizontal" x="1068" y="70" font-family="Times New Roman, Times, serif" font-size="31" font-weight="700" font-style="normal" fill="#000000">Important channel frequency</text>
+    <g id="chart-important-channel-frequency" data-pb-role="node" data-pb-editable="true">
+      <path d="M1087 128 L1108 130 L1114 170 L1124 194 L1135 202 L1143 230 L1154 248 L1165 267 L1179 282 L1193 294 L1206 305 L1218 312 L1228 319 L1240 323 L1260 327 L1285 330 L1320 332 L1370 334 L1429 335 L1429 344 L1087 344 Z" fill="#97d1e9" stroke="none"/>
+      <path d="M1198 301 C1210 308 1220 315 1230 321 C1260 328 1300 331 1360 333 C1390 334 1412 334 1429 334 L1429 344 L1198 344 Z" fill="#f5c2db" stroke="none"/>
+      <path d="M1087 128 L1108 130 L1114 170 L1124 194 L1135 202 L1143 230 L1154 248 L1165 267 L1179 282 L1193 294 L1206 305 L1218 312 L1228 319 L1240 323 L1260 327 L1285 330 L1320 332 L1370 334 L1429 335" fill="none" stroke="#8ca8ff" stroke-width="2"/>
+      <line x1="1087" y1="84" x2="1087" y2="344" stroke="#000000" stroke-width="1.5"/>
+      <line x1="1087" y1="344" x2="1429" y2="344" stroke="#000000" stroke-width="1.5"/>
+      <line x1="1429" y1="84" x2="1429" y2="344" stroke="#cfcfcf" stroke-width="1.5"/>
+    </g>
+    <g id="chart-ticks-labels" data-pb-role="label" data-pb-editable="true">
+      <text id="chart-y-tick-10" data-pb-role="axis" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="horizontal" x="1057" y="121" font-family="Times New Roman, Times, serif" font-size="21" font-weight="400" font-style="normal" fill="#000000">1.0</text>
+      <text id="chart-y-tick-08" data-pb-role="axis" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="horizontal" x="1053" y="169" font-family="Times New Roman, Times, serif" font-size="21" font-weight="400" font-style="normal" fill="#000000">0.8</text>
+      <text id="chart-y-tick-06" data-pb-role="axis" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="horizontal" x="1055" y="214" font-family="Times New Roman, Times, serif" font-size="21" font-weight="400" font-style="normal" fill="#000000">0.6</text>
+      <text id="chart-y-tick-04" data-pb-role="axis" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="horizontal" x="1055" y="260" font-family="Times New Roman, Times, serif" font-size="21" font-weight="400" font-style="normal" fill="#000000">0.4</text>
+      <text id="chart-y-tick-02" data-pb-role="axis" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="horizontal" x="1055" y="306" font-family="Times New Roman, Times, serif" font-size="21" font-weight="400" font-style="normal" fill="#000000">0.2</text>
+      <text id="chart-y-tick-00" data-pb-role="axis" data-pb-editable="true" data-pb-text-source="visual_inferred" data-pb-orientation="horizontal" x="1058" y="351" font-family="Times New Roman, Times, serif" font-size="21" font-weight="400" font-style="normal" fill="#000000">0.0</text>
+      <text id="chart-x-tick-0" data-pb-role="axis" data-pb-editable="true" data-pb-text-source="visual_inferred" data-pb-orientation="horizontal" x="1082" y="361" font-family="Times New Roman, Times, serif" font-size="21" font-weight="400" font-style="normal" fill="#000000">0</text>
+      <text id="chart-x-tick-64" data-pb-role="axis" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="horizontal" x="1234" y="361" font-family="Times New Roman, Times, serif" font-size="21" font-weight="400" font-style="normal" fill="#000000">64</text>
+      <text id="chart-x-tick-256" data-pb-role="axis" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="horizontal" x="1394" y="361" font-family="Times New Roman, Times, serif" font-size="21" font-weight="400" font-style="normal" fill="#000000">256</text>
+      <text id="chart-x-axis-label" data-pb-role="axis" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="horizontal" x="1157" y="384" font-family="Times New Roman, Times, serif" font-size="21" font-weight="400" font-style="normal" fill="#000000">Important Channel Index</text>
+      <text id="chart-y-axis-label" data-pb-role="axis" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="vertical-rl" x="1054" y="216" transform="rotate(-90 1054 216)" font-family="Times New Roman, Times, serif" font-size="20" font-weight="400" font-style="normal" fill="#000000" text-anchor="middle">Frequency</text>
+    </g>
+    <g id="annotation-token-independent" data-pb-role="label" data-pb-editable="true">
+      <rect x="1147" y="112" width="205" height="52" fill="#ffffff" stroke="#000000" stroke-width="2" stroke-dasharray="3 4"/>
+      <text id="callout-independent-line1" data-pb-role="label" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="horizontal" x="1167" y="132" font-family="Times New Roman, Times, serif" font-size="22" font-weight="700" font-style="normal" fill="#000000">Token-independent</text>
+      <text id="callout-independent-line2" data-pb-role="label" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="horizontal" x="1210" y="158" font-family="Times New Roman, Times, serif" font-size="22" font-weight="700" font-style="normal" fill="#000000">Channels</text>
+      <line x1="1191" y1="168" x2="1151" y2="205" stroke="#000000" stroke-width="3"/>
+      <polygon points="1145,210 1153,194 1160,205" fill="#000000"/>
+    </g>
+    <g id="annotation-token-dependent" data-pb-role="label" data-pb-editable="true">
+      <rect x="1230" y="224" width="182" height="52" fill="#ffffff" stroke="#000000" stroke-width="2" stroke-dasharray="3 4"/>
+      <text id="callout-dependent-line1" data-pb-role="label" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="horizontal" x="1245" y="244" font-family="Times New Roman, Times, serif" font-size="22" font-weight="700" font-style="normal" fill="#000000">Token-dependent</text>
+      <text id="callout-dependent-line2" data-pb-role="label" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="horizontal" x="1282" y="270" font-family="Times New Roman, Times, serif" font-size="22" font-weight="700" font-style="normal" fill="#000000">Channels</text>
+      <line x1="1294" y1="281" x2="1294" y2="322" stroke="#000000" stroke-width="3"/>
+      <polygon points="1294,329 1285,313 1303,313" fill="#000000"/>
+    </g>
+    <text id="caption-partition-line1" data-pb-role="label" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="horizontal" x="1040" y="468" font-family="Times New Roman, Times, serif" font-size="31" font-weight="700" font-style="normal" fill="#000000">Partitioning into token-dependent</text>
+    <text id="caption-partition-line2" data-pb-role="label" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="horizontal" x="1044" y="503" font-family="Times New Roman, Times, serif" font-size="31" font-weight="700" font-style="normal" fill="#000000">and token-independent Channels</text>
+  </g>
+
+  <g id="connectors-to-experts" data-pb-role="connector" data-pb-editable="true">
+    <polygon points="1444,163 1518,143 1512,123 1561,154 1530,201 1524,181 1453,200" fill="#ffffff" stroke="#000000" stroke-width="4" stroke-linejoin="miter"/>
+    <polygon points="1444,270 1520,290 1531,269 1561,325 1505,346 1515,326 1443,306" fill="#ffffff" stroke="#000000" stroke-width="4" stroke-linejoin="miter"/>
+  </g>
+
+  <g id="module-experts" data-pb-role="panel" data-pb-editable="true">
+    <g id="expert-shared-frame" data-pb-role="node" data-pb-editable="true">
+      <rect x="1581" y="52" width="205" height="176" rx="3" ry="3" fill="#ffffff" stroke="#000000" stroke-width="2.5" stroke-dasharray="4 7"/>
+      <polygon points="1594,59 1774,59 1719,118 1647,118" fill="#97d1e9" stroke="none"/>
+      <polygon points="1594,219 1774,219 1719,162 1647,162" fill="#97d1e9" stroke="none"/>
+      <line x1="1647" y1="139" x2="1660" y2="139" stroke="#000000" stroke-width="3"/>
+      <line x1="1710" y1="139" x2="1721" y2="139" stroke="#000000" stroke-width="3"/>
+      <line x1="1647" y1="127" x2="1647" y2="151" stroke="#000000" stroke-width="3"/>
+      <line x1="1721" y1="127" x2="1721" y2="151" stroke="#000000" stroke-width="3"/>
+      <g id="formula-shared-r2" data-pb-role="formula" data-pb-editable="true" data-pb-formula-bbox="1666 125 45 30" data-pb-formula-latex-b64="ci8y">
+        <text id="formula-shared-r2-fallback" data-pb-role="formula" data-pb-editable="true" data-pb-text-source="visual_inferred" data-pb-orientation="horizontal" x="1666" y="151" font-family="Times New Roman, Times, serif" font-size="30" font-weight="400" font-style="italic" fill="#000000">r/2</text>
+        <desc>LaTeX: r/2</desc>
+      </g>
+    </g>
+    <text id="label-shared-expert" data-pb-role="label" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="horizontal" x="1798" y="151" font-family="Times New Roman, Times, serif" font-size="31" font-weight="700" font-style="normal" fill="#000000">Shared Expert</text>
+    <g id="expert-routed-frame" data-pb-role="node" data-pb-editable="true">
+      <rect x="1581" y="242" width="205" height="176" rx="3" ry="3" fill="#ffffff" stroke="#000000" stroke-width="2.5" stroke-dasharray="4 7"/>
+      <polygon points="1594,249 1774,249 1719,307 1647,307" fill="#f1c8e8" stroke="none"/>
+      <polygon points="1594,409 1774,409 1719,351 1647,351" fill="#f1c8e8" stroke="none"/>
+      <line x1="1647" y1="329" x2="1660" y2="329" stroke="#000000" stroke-width="3"/>
+      <line x1="1710" y1="329" x2="1721" y2="329" stroke="#000000" stroke-width="3"/>
+      <line x1="1647" y1="317" x2="1647" y2="341" stroke="#000000" stroke-width="3"/>
+      <line x1="1721" y1="317" x2="1721" y2="341" stroke="#000000" stroke-width="3"/>
+      <g id="formula-routed-r2" data-pb-role="formula" data-pb-editable="true" data-pb-formula-bbox="1666 315 45 30" data-pb-formula-latex-b64="ci8y">
+        <text id="formula-routed-r2-fallback" data-pb-role="formula" data-pb-editable="true" data-pb-text-source="visual_inferred" data-pb-orientation="horizontal" x="1666" y="341" font-family="Times New Roman, Times, serif" font-size="30" font-weight="400" font-style="italic" fill="#000000">r/2</text>
+        <desc>LaTeX: r/2</desc>
+      </g>
+    </g>
+    <text id="label-routed-experts" data-pb-role="label" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="horizontal" x="1798" y="339" font-family="Times New Roman, Times, serif" font-size="31" font-weight="700" font-style="normal" fill="#000000">Routed Experts</text>
+    <g id="formula-times-nr" data-pb-role="formula" data-pb-editable="true" data-pb-formula-bbox="1790 376 74 39" data-pb-formula-latex-b64="XFx0aW1lcyBOX3I=">
+      <text id="formula-times-nr-fallback" data-pb-role="formula" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="horizontal" x="1790" y="408" font-family="Times New Roman, Times, serif" font-size="34" font-weight="400" font-style="italic" fill="#000000">× N<tspan baseline-shift="sub" font-size="22">r</tspan></text>
+      <desc>LaTeX: \times N_r</desc>
+    </g>
+    <text id="caption-experts-line1" data-pb-role="label" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="horizontal" x="1522" y="468" font-family="Times New Roman, Times, serif" font-size="31" font-weight="700" font-style="normal" fill="#000000">Shared and routed experts with</text>
+    <text id="caption-experts-line2" data-pb-role="label" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="horizontal" x="1605" y="503" font-family="Times New Roman, Times, serif" font-size="31" font-weight="700" font-style="normal" fill="#000000">low-rank adaptor</text>
+  </g>
+
+  <g id="legend" data-pb-role="legend" data-pb-editable="true">
+    <rect id="legend-frame" data-pb-role="legend" data-pb-editable="true" x="96" y="521" width="1872" height="61" rx="10" ry="10" fill="#ffffff" stroke="#9a9a9a" stroke-width="3"/>
+    <g id="legend-vision-token" data-pb-role="legend" data-pb-editable="true" stroke="#000000" stroke-width="3">
+      <rect x="119" y="538" width="31" height="31" fill="#c4dbb0"/>
+      <rect x="154" y="538" width="31" height="31" fill="#e1ecd8"/>
+      <rect x="188" y="538" width="31" height="31" fill="#315d1f"/>
+      <rect x="223" y="538" width="31" height="31" fill="#e1ecd8"/>
+      <rect x="257" y="538" width="31" height="31" fill="#4e842e"/>
+      <text id="legend-text-vision" data-pb-role="legend" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="horizontal" x="300" y="563" font-family="Times New Roman, Times, serif" font-size="30" font-weight="700" font-style="normal" fill="#000000" stroke="none">Vision token</text>
+    </g>
+    <g id="legend-language-token" data-pb-role="legend" data-pb-editable="true" stroke="#000000" stroke-width="3">
+      <rect x="496" y="538" width="31" height="31" fill="#91400a"/>
+      <rect x="530" y="538" width="31" height="31" fill="#f0c6a4"/>
+      <rect x="565" y="538" width="31" height="31" fill="#f1c8a6"/>
+      <rect x="599" y="538" width="31" height="31" fill="#f2dcc9"/>
+      <rect x="634" y="538" width="31" height="31" fill="#f2b47f"/>
+      <text id="legend-text-language" data-pb-role="legend" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="horizontal" x="671" y="563" font-family="Times New Roman, Times, serif" font-size="30" font-weight="700" font-style="normal" fill="#000000" stroke="none">Language token</text>
+    </g>
+    <g id="legend-hadamard" data-pb-role="legend" data-pb-editable="true">
+      <circle cx="932" cy="553" r="15" fill="#ffffff" stroke="#000000" stroke-width="3"/>
+      <circle cx="932" cy="553" r="4" fill="#000000"/>
+      <text id="legend-text-hadamard" data-pb-role="legend" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="horizontal" x="956" y="563" font-family="Times New Roman, Times, serif" font-size="30" font-weight="700" font-style="normal" fill="#000000">Hadamard product</text>
+    </g>
+    <g id="legend-important-channel" data-pb-role="legend" data-pb-editable="true">
+      <rect x="1230" y="538" width="32" height="32" fill="#808080" stroke="#000000" stroke-width="4"/>
+      <text id="legend-text-important" data-pb-role="legend" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="horizontal" x="1271" y="563" font-family="Times New Roman, Times, serif" font-size="30" font-weight="700" font-style="normal" fill="#000000">Important channel</text>
+    </g>
+    <g id="legend-lowrank" data-pb-role="legend" data-pb-editable="true">
+      <polygon points="1548,529 1608,529 1589,553 1567,553" fill="#97d1e9" stroke="none"/>
+      <polygon points="1548,577 1608,577 1589,553 1567,553" fill="#97d1e9" stroke="none"/>
+      <polygon points="1621,529 1681,529 1662,553 1640,553" fill="#f1c8e8" stroke="none"/>
+      <polygon points="1621,577 1681,577 1662,553 1640,553" fill="#f1c8e8" stroke="none"/>
+      <text id="legend-text-lowrank" data-pb-role="legend" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="horizontal" x="1688" y="563" font-family="Times New Roman, Times, serif" font-size="30" font-weight="700" font-style="normal" fill="#000000">Low-rank adapter</text>
+    </g>
+  </g>
+</svg>

@@ -1,0 +1,179 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1446" height="312" viewBox="0 0 1446 312">
+  <title>Three-step model alignment workflow</title>
+  <desc>
+    Three base frames are arranged left-to-right: Step 1 specifies a value palette with an original model network and reward distribution charts; Step 2 checks feasibility using a MAP reward function, an infeasible cross, and a feasible check; Step 3 aligns the model, showing a transformed network and post-alignment reward distributions. Arrows connect human input to the original model, Step 1 to Step 2, Step 2 back/forward, and Step 2 to Step 3.
+  </desc>
+
+  <defs>
+    <marker id="arrowBlack" markerUnits="userSpaceOnUse" markerWidth="11" markerHeight="9" refX="10" refY="4.5" orient="auto">
+      <path d="M0,0 L10,4.5 L0,9 Z" fill="#111" id="plus_node_0" />
+    </marker>
+    <marker id="arrowGreen" markerUnits="userSpaceOnUse" markerWidth="8" markerHeight="7" refX="7" refY="3.5" orient="auto">
+      <path d="M0,0 L7,3.5 L0,7 Z" fill="#43c35d" id="plus_node_1" />
+    </marker>
+
+    <symbol id="networkSym" viewBox="0 0 60 50">
+      <g fill="none" stroke="#222" stroke-width="1.4" stroke-linecap="round" id="plus_node_2">
+        <path d="M12 25 L22 10 L39 7 L52 17" id="plus_node_3" />
+        <path d="M12 25 L22 39 L39 43 L52 34" id="plus_node_4" />
+        <path d="M22 10 L38 25 L22 39" id="plus_node_5" />
+        <path d="M39 7 L38 25 L39 43" id="plus_node_6" />
+        <path d="M22 10 L52 34" id="plus_node_7" />
+        <path d="M22 39 L52 17" id="plus_node_8" />
+        <path d="M12 25 L38 25 L52 17" id="plus_node_9" />
+      </g>
+      <g stroke="#24405f" stroke-width="1.2" id="plus_node_10">
+        <circle cx="12" cy="25" r="4.1" fill="#5db6ef" id="plus_node_11" />
+        <circle cx="22" cy="10" r="4.1" fill="#ff6391" id="plus_node_12" />
+        <circle cx="22" cy="39" r="4.1" fill="#ff6391" id="plus_node_13" />
+        <circle cx="39" cy="7" r="4.1" fill="#5db6ef" id="plus_node_14" />
+        <circle cx="38" cy="25" r="4.1" fill="#ff6391" id="plus_node_15" />
+        <circle cx="39" cy="43" r="4.1" fill="#5db6ef" id="plus_node_16" />
+        <circle cx="52" cy="17" r="4.1" fill="#5db6ef" id="plus_node_17" />
+        <circle cx="52" cy="34" r="4.1" fill="#5db6ef" id="plus_node_18" />
+      </g>
+      <g fill="#fff" opacity="0.9" id="plus_node_19">
+        <circle cx="10.5" cy="23.5" r="1.2" id="plus_node_20" />
+        <circle cx="20.5" cy="8.5" r="1.2" id="plus_node_21" />
+        <circle cx="20.5" cy="37.5" r="1.2" id="plus_node_22" />
+        <circle cx="37.5" cy="5.5" r="1.2" id="plus_node_23" />
+        <circle cx="36.5" cy="23.5" r="1.2" id="plus_node_24" />
+        <circle cx="37.5" cy="41.5" r="1.2" id="plus_node_25" />
+        <circle cx="50.5" cy="15.5" r="1.2" id="plus_node_26" />
+        <circle cx="50.5" cy="32.5" r="1.2" id="plus_node_27" />
+      </g>
+    </symbol>
+
+    <symbol id="paletteSym" viewBox="0 0 70 55">
+      <path d="M15 30                C7 16 20 8 33 11                C52 15 60 29 53 41                C46 53 24 49 17 39                C14 35 21 35 20 31                C19 27 17 31 15 30 Z" fill="none" stroke="#ff8a18" stroke-width="1.7" id="plus_node_28" />
+      <circle cx="33" cy="17" r="2.1" fill="none" stroke="#ff8a18" stroke-width="1.5" id="plus_node_29" />
+      <circle cx="44" cy="20" r="2.1" fill="none" stroke="#ff8a18" stroke-width="1.5" id="plus_node_30" />
+      <circle cx="50" cy="28" r="2.1" fill="none" stroke="#ff8a18" stroke-width="1.5" id="plus_node_31" />
+      <circle cx="48" cy="37" r="2.1" fill="none" stroke="#ff8a18" stroke-width="1.5" id="plus_node_32" />
+      <circle cx="39" cy="42" r="2.1" fill="none" stroke="#ff8a18" stroke-width="1.5" id="plus_node_33" />
+      <circle cx="30" cy="39" r="2.1" fill="none" stroke="#ff8a18" stroke-width="1.5" id="plus_node_34" />
+    </symbol>
+
+    <symbol id="gridSym" viewBox="0 0 50 45">
+      <rect x="4" y="4" width="42" height="34" fill="none" stroke="#8a4bc4" stroke-width="1.5" id="plus_node_35" />
+      <g stroke="#8a4bc4" stroke-width="1" id="plus_node_36">
+        <path d="M14 4 V38" id="plus_node_37" />
+        <path d="M24 4 V38" id="plus_node_38" />
+        <path d="M34 4 V38" id="plus_node_39" />
+        <path d="M4 13 H46" id="plus_node_40" />
+        <path d="M4 22 H46" id="plus_node_41" />
+        <path d="M4 31 H46" id="plus_node_42" />
+      </g>
+      <g fill="#f5edff" stroke="#8a4bc4" stroke-width="1" id="plus_node_43">
+        <circle cx="14" cy="8" r="2.3" id="plus_node_44" />
+        <circle cx="24" cy="8" r="2.3" id="plus_node_45" />
+        <circle cx="34" cy="8" r="2.3" id="plus_node_46" />
+        <circle cx="42" cy="13" r="2.3" id="plus_node_47" />
+        <circle cx="8" cy="22" r="2.3" id="plus_node_48" />
+        <circle cx="24" cy="22" r="2.3" id="plus_node_49" />
+        <circle cx="34" cy="22" r="2.3" id="plus_node_50" />
+        <circle cx="14" cy="31" r="2.3" id="plus_node_51" />
+        <circle cx="24" cy="35" r="2.3" id="plus_node_52" />
+        <circle cx="42" cy="31" r="2.3" id="plus_node_53" />
+      </g>
+    </symbol>
+
+    <symbol id="chartAxesSym" viewBox="0 0 70 55">
+      <path d="M10 48 H63" stroke="#111" stroke-width="1.4" fill="none" marker-end="url(#arrowBlack)" id="plus_node_54" />
+      <path d="M10 48 V8" stroke="#111" stroke-width="1.4" fill="none" marker-end="url(#arrowBlack)" id="plus_node_55" />
+    </symbol>
+
+    <symbol id="robotSym" viewBox="0 0 58 52">
+      <g fill="none" stroke="#111" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" id="plus_node_56">
+        <path d="M9 39 H49 L45 47 H13 Z" id="plus_node_57" />
+        <path d="M20 38 L23 25 H36 L39 38" id="plus_node_58" />
+        <rect x="23" y="26" width="13" height="10" id="plus_node_59" />
+        <circle cx="29.5" cy="31" r="3.4" id="plus_node_60" />
+        <path d="M27.5 31 L31.5 31 M29.5 29 L29.5 33" id="plus_node_61" />
+        <path d="M11 18 H24" id="plus_node_62" />
+        <path d="M18 18 V26" id="plus_node_63" />
+        <path d="M18 13 V9" id="plus_node_64" />
+        <rect x="10" y="6" width="16" height="6" rx="3" id="plus_node_65" />
+        <path d="M26 9 H37 L43 16" id="plus_node_66" />
+        <circle cx="43" cy="16" r="3" id="plus_node_67" />
+        <path d="M43 19 L43 26" id="plus_node_68" />
+        <circle cx="43" cy="29" r="3" id="plus_node_69" />
+        <path d="M38 18 L33 23" id="plus_node_70" />
+        <path d="M35 7 L38 9 L35 11" id="plus_node_71" />
+      </g>
+    </symbol>
+  </defs>
+
+  <rect width="1446" height="312" fill="#ffffff" id="plus_node_72" />
+
+  
+  <rect id="f01" data-plus-kind="frame" x="109.5" y="26" width="359.5" height="264" fill="#fffdf8" stroke="#ffb000" stroke-width="2" />
+  <rect id="f02" data-plus-kind="frame" x="585.5" y="25" width="377.5" height="265" fill="#e3f7ff" stroke="#12aeea" stroke-width="2" />
+  <rect id="f03" data-plus-kind="frame" x="1084.5" y="25.5" width="328.5" height="264.5" fill="#e5f7e9" stroke="#83d660" stroke-width="2" />
+
+  
+  <g id="human_input_icon" fill="none" stroke="#ed7433" stroke-width="1.7" stroke-linecap="round">
+    <circle cx="47.5" cy="144.5" r="11.2" id="plus_node_73" />
+    <path d="M24 181 V170 C24 163 36 158.5 47 158.5 C59 158.5 70.5 163 70.5 170 V181" id="plus_node_74" />
+  </g>
+  <path id="arrow_human_to_model" d="M83 157.5 H110" stroke="#111" stroke-width="1.2" fill="none" marker-end="url(#arrowBlack)" />
+
+  
+  <path id="arrow_step1_to_step2" d="M469 156 H585" stroke="#111" stroke-width="1.15" fill="none" marker-end="url(#arrowBlack)" />
+  <text id="solve_label" x="509" y="143.5" font-family="Arial, Helvetica, sans-serif" font-size="17" fill="#000">Solve</text>
+  <path id="arrow_step2_to_step1_feedback" d="M627 245.5 H469" stroke="#111" stroke-width="1.15" fill="none" marker-end="url(#arrowBlack)" />
+  <path id="arrow_feasible_to_align" d="M937 246 H1011 V157.5 H1084" stroke="#111" stroke-width="1.15" fill="none" marker-end="url(#arrowBlack)" />
+
+  
+  <g id="step1_content">
+    <desc>Inside Step 1, the title spans the top; a palette icon sits above an original model network; below are three reward distribution plots with an ellipsis to the right.</desc>
+    <text id="step1_title" x="158.5" y="57.5" font-family="Arial, Helvetica, sans-serif" font-size="22" fill="#000">
+      <tspan font-weight="700">Step 1:</tspan><tspan dx="7">Specify Value Palette</tspan>
+    </text>
+    <g id="value_palette_icon" fill="none" stroke="#ff8a18" stroke-linecap="round" stroke-linejoin="round"><path id="palette_src_outline" d="M281 91 C277 84 287 80 297 85 C294 79 303 78 313 83 C323 88 324 99 317 108 C308 119 286 119 272 111 C261 105 261 92 274 92 C279 92 284 99 281 91 Z" stroke-width="1.7" /><circle id="palette_src_hole_1" cx="301" cy="85.5" r="2.1" stroke-width="1.5" /><circle id="palette_src_hole_2" cx="312" cy="89" r="2.1" stroke-width="1.5" /><circle id="palette_src_hole_3" cx="316.5" cy="97.5" r="2.1" stroke-width="1.5" /><circle id="palette_src_hole_4" cx="311" cy="105.5" r="2.1" stroke-width="1.5" /><circle id="palette_src_hole_5" cx="300" cy="109.5" r="2.1" stroke-width="1.5" /><circle id="palette_src_hole_6" cx="290.5" cy="106.5" r="2.1" stroke-width="1.5" /></g><g id="original_model_network"><g id="orig_src_edges" fill="none" stroke="#222" stroke-width="1.45" stroke-linecap="round"><path d="M128 146 L147 134 L166 134 L166 148 L155 160 L166 166 L148 169 L128 158 L128 146" /><path d="M128 146 L146 153 L155 160 L147 134" /><path d="M146 153 L148 169 L166 148" /><path d="M147 134 L166 166" /><path d="M128 158 L155 160 L166 134" /><path d="M146 153 L166 148" /></g><g id="orig_src_nodes" stroke="#24405f" stroke-width="1.25"><circle cx="128" cy="146" r="4.2" fill="#ff6391" /><circle cx="147" cy="134" r="4.2" fill="#ff6391" /><circle cx="166" cy="134" r="4.2" fill="#5db6ef" /><circle cx="166" cy="148" r="4.2" fill="#5db6ef" /><circle cx="146" cy="153" r="4.2" fill="#5db6ef" /><circle cx="155" cy="160" r="4.2" fill="#ff6391" /><circle cx="148" cy="169" r="4.2" fill="#ff6391" /><circle cx="166" cy="166" r="4.2" fill="#5db6ef" /></g><g id="orig_src_highlights" fill="#fff" opacity="0.9"><circle cx="126.5" cy="144.5" r="1.1" /><circle cx="145.5" cy="132.5" r="1.1" /><circle cx="164.5" cy="132.5" r="1.1" /><circle cx="164.5" cy="146.5" r="1.1" /><circle cx="144.5" cy="151.5" r="1.1" /><circle cx="153.5" cy="158.5" r="1.1" /><circle cx="146.5" cy="167.5" r="1.1" /><circle cx="164.5" cy="164.5" r="1.1" /></g></g><text id="original_model_label" x="180.5" y="158.5" font-family="Arial, Helvetica, sans-serif" font-size="16" fill="#000">Original model</text>
+
+    <text id="reward_distributions_label" x="209.5" y="213" font-family="Arial, Helvetica, sans-serif" font-size="17" fill="#ff0000">Reward distributions</text>
+
+    <g id="reward_chart_1" transform="translate(130,230)"><use href="#chartAxesSym" x="0" y="0" width="70" height="55" id="reward1_axes_src" /><path id="reward1_red_curve_src" d="M12 47 C18 43 20 17 27 11 C34 16 38 42 42 47" fill="none" stroke="#ff0000" stroke-width="1.5" /><path id="reward1_red_line_src" d="M27 48 V7" stroke="#ff0000" stroke-width="1.25" /><path id="reward1_green_line_src" d="M43 5 V47" stroke="#43c35d" stroke-width="1.6" /><path id="reward1_green_arrow_src" d="M31 7 H42" stroke="#43c35d" stroke-width="1.6" fill="none" marker-end="url(#arrowGreen)" /></g><g id="reward_chart_2" transform="translate(238,230)"><use href="#chartAxesSym" x="0" y="0" width="70" height="55" id="reward2_axes_src" /><path id="reward2_red_curve_src" d="M12 47 C19 44 23 18 30 8 C37 18 41 42 46 47" fill="none" stroke="#ff0000" stroke-width="1.5" /><path id="reward2_red_line_src" d="M30 48 V6" stroke="#ff0000" stroke-width="1.25" /><path id="reward2_green_line_src" d="M43 5 V47" stroke="#43c35d" stroke-width="1.6" /><path id="reward2_green_arrow_src" d="M32 7 H42" stroke="#43c35d" stroke-width="1.6" fill="none" marker-end="url(#arrowGreen)" /></g><g id="reward_chart_3" transform="translate(348,230)"><use href="#chartAxesSym" x="0" y="0" width="70" height="55" id="reward3_axes_src" /><path id="reward3_red_curve_src" d="M11 48 C11 23 17 9 26 8 C35 10 38 35 58 40" fill="none" stroke="#ff0000" stroke-width="1.5" /><path id="reward3_red_line_src" d="M20 48 V8" stroke="#ff0000" stroke-width="1.25" /><path id="reward3_green_line_src" d="M38 5 V47" stroke="#43c35d" stroke-width="1.6" /><path id="reward3_green_arrow_src" d="M39 7 H49" stroke="#43c35d" stroke-width="1.6" fill="none" marker-end="url(#arrowGreen)" /></g><g id="reward_ellipsis" fill="#000">
+      <circle cx="433" cy="254.5" r="3.4" id="plus_node_90" />
+      <circle cx="441" cy="254.5" r="3.4" id="plus_node_91" />
+      <circle cx="449" cy="254.5" r="3.4" id="plus_node_92" />
+    </g>
+  </g>
+
+  
+  <g id="step2_content">
+    <desc>Inside Step 2, the central origin is the MAP reward function label; above it is a purple constraint grid; right of it is a distribution curve; below are infeasible and feasible indicators arranged horizontally.</desc>
+    <text id="step2_title" x="641" y="57.5" font-family="Arial, Helvetica, sans-serif" font-size="22" fill="#000">
+      <tspan font-weight="700">Step 2:</tspan><tspan dx="7">Check Feasibility</tspan>
+    </text>
+    <g id="map_grid_icon" fill="none" stroke="#8a4bc4" stroke-linecap="round" stroke-linejoin="round"><rect id="grid_src_outer" x="745" y="80.5" width="45" height="36.5" stroke-width="1.5" /><g id="grid_src_lines" stroke-width="1"><path d="M754 80.5 V117" /><path d="M765 80.5 V117" /><path d="M776 80.5 V117" /><path d="M787 80.5 V117" /><path d="M745 88 H790" /><path d="M745 98 H790" /><path d="M745 108 H790" /></g><g id="grid_src_nodes" fill="#f5edff" stroke-width="1.2"><circle cx="754" cy="84.5" r="2.4" /><circle cx="765" cy="84.5" r="2.4" /><circle cx="776" cy="84.5" r="2.4" /><circle cx="787" cy="84.5" r="2.4" /><circle cx="754" cy="94" r="2.4" /><circle cx="765" cy="94" r="2.4" /><circle cx="776" cy="94" r="2.4" /><circle cx="787" cy="94" r="2.4" /><circle cx="754" cy="103.5" r="2.4" /><circle cx="765" cy="103.5" r="2.4" /><circle cx="776" cy="103.5" r="2.4" /><circle cx="787" cy="103.5" r="2.4" /><circle cx="754" cy="113" r="2.4" /><circle cx="765" cy="113" r="2.4" /><circle cx="776" cy="113" r="2.4" /><circle cx="787" cy="113" r="2.4" /></g></g><text id="map_reward_function_label" x="638" y="169.5" font-family="Arial, Helvetica, sans-serif" font-size="18" fill="#000">MAP reward function</text>
+
+    <g id="map_distribution_icon" transform="translate(842,143)">
+      <path d="M1 0 V44 H45" fill="none" stroke="#111" stroke-width="1.4" id="plus_node_93" />
+      <path d="M7 39 C16 37 17 7 25 7 C33 7 33 35 43 37" fill="none" stroke="#111" stroke-width="1.6" id="plus_node_94" />
+      <path d="M25 9 V36" stroke="#111" stroke-width="1.1" stroke-dasharray="3 2" id="plus_node_95" />
+    </g>
+
+    <g id="infeasible_mark" stroke="#ff3333" stroke-width="1.3" stroke-linecap="round">
+      <path d="M640 229 L674 263" id="plus_node_96" />
+      <path d="M674 229 L640 263" id="plus_node_97" />
+    </g>
+    <text id="infeasible_label" x="681" y="250" font-family="Arial, Helvetica, sans-serif" font-size="18" fill="#ff0000">Infeasible</text>
+
+    <g id="feasible_mark" fill="none" stroke="#16a75a" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M786 241 L802 257 L834 225" id="plus_node_98" />
+    </g>
+    <text id="feasible_label" x="852" y="250" font-family="Arial, Helvetica, sans-serif" font-size="18" fill="#00a030">Feasible</text>
+  </g>
+
+  
+  <g id="step3_content">
+    <desc>Inside Step 3, the top contains a model alignment apparatus icon; the middle shows an original network transformed by a thick rightward arrow into a post-aligned network; the bottom contains three post-alignment reward distribution charts.</desc>
+    <text id="step3_title" x="1148" y="57.5" font-family="Arial, Helvetica, sans-serif" font-size="22" fill="#000">
+      <tspan font-weight="700">Step 3:</tspan><tspan dx="7">Align Model</tspan>
+    </text>
+    <g id="alignment_robot_icon" fill="none" stroke="#111" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect id="robot_src_capsule" x="1229" y="75.5" width="17" height="5.5" rx="2.75" /><path id="robot_src_post_l" d="M1237.5 81 V91" /><path id="robot_src_top_arm" d="M1238 84 H1250 L1258 91" /><circle id="robot_src_joint_1" cx="1258" cy="91" r="3" /><path id="robot_src_down_arm" d="M1258 94 L1258 101" /><circle id="robot_src_joint_2" cx="1258" cy="104" r="3" /><path id="robot_src_left_tool" d="M1230 91 H1243" /><path id="robot_src_tool_drop" d="M1234 88 V99" /><path id="robot_src_base_top" d="M1236 104 H1252" /><path id="robot_src_body" d="M1239 95 H1253 V107 H1239 Z" /><circle id="robot_src_display" cx="1246" cy="101" r="3.4" /><path id="robot_src_display_mark" d="M1244 101 H1248 M1246 99 V103" /><path id="robot_src_base" d="M1228 111 H1265 L1261 119 H1232 Z" /><path id="robot_src_base_line" d="M1234 115 H1259" /><path id="robot_src_small_arrow" d="M1249 82 L1252 84 L1249 86" /></g><g id="pre_alignment_network"><g id="pre_src_edges" fill="none" stroke="#222" stroke-width="1.45" stroke-linecap="round"><path d="M1107 146 L1126 135 L1145 134 L1145 148 L1136 160 L1145 166 L1127 169 L1107 158 L1107 146" /><path d="M1107 146 L1126 153 L1136 160 L1126 135" /><path d="M1126 153 L1127 169 L1145 148" /><path d="M1126 135 L1145 166" /><path d="M1107 158 L1136 160 L1145 134" /><path d="M1126 153 L1145 148" /></g><g id="pre_src_nodes" stroke="#24405f" stroke-width="1.25"><circle cx="1107" cy="146" r="4.2" fill="#ff6391" /><circle cx="1126" cy="135" r="4.2" fill="#ff6391" /><circle cx="1145" cy="134" r="4.2" fill="#5db6ef" /><circle cx="1145" cy="148" r="4.2" fill="#5db6ef" /><circle cx="1126" cy="153" r="4.2" fill="#5db6ef" /><circle cx="1136" cy="160" r="4.2" fill="#ff6391" /><circle cx="1127" cy="169" r="4.2" fill="#ff6391" /><circle cx="1145" cy="166" r="4.2" fill="#5db6ef" /></g><g id="pre_src_highlights" fill="#fff" opacity="0.9"><circle cx="1105.5" cy="144.5" r="1.1" /><circle cx="1124.5" cy="133.5" r="1.1" /><circle cx="1143.5" cy="132.5" r="1.1" /><circle cx="1143.5" cy="146.5" r="1.1" /><circle cx="1124.5" cy="151.5" r="1.1" /><circle cx="1134.5" cy="158.5" r="1.1" /><circle cx="1125.5" cy="167.5" r="1.1" /><circle cx="1143.5" cy="164.5" r="1.1" /></g></g><g id="model_alignment_thick_arrow" fill="#000" stroke="none"><rect id="align_arrow_body_src" x="1158" y="150" width="38" height="8" /><path id="align_arrow_head_src" d="M1196 145 L1208 154 L1196 163 Z" /></g><g id="post_alignment_network"><g id="post_src_edges" fill="none" stroke="#222" stroke-width="1.45" stroke-linecap="round"><path d="M1225 137 L1237 135 L1255 144 L1256 161 L1249 169 L1230 169 L1224 154 L1225 137" /><path d="M1225 137 L1240 154 L1255 144" /><path d="M1237 135 L1240 154 L1230 169" /><path d="M1224 154 L1240 154 L1249 169" /><path d="M1237 135 L1256 161" /><path d="M1224 154 L1256 161" /><path d="M1230 169 L1255 144" /></g><g id="post_src_nodes" stroke="#24405f" stroke-width="1.25"><circle cx="1225" cy="137" r="4.2" fill="#5db6ef" /><circle cx="1237" cy="135" r="4.2" fill="#ff6391" /><circle cx="1255" cy="144" r="4.2" fill="#5db6ef" /><circle cx="1224" cy="154" r="4.2" fill="#ff6391" /><circle cx="1240" cy="154" r="4.2" fill="#5db6ef" /><circle cx="1256" cy="161" r="4.2" fill="#ff6391" /><circle cx="1230" cy="169" r="4.2" fill="#5db6ef" /><circle cx="1249" cy="169" r="4.2" fill="#ff6391" /></g><g id="post_src_highlights" fill="#fff" opacity="0.9"><circle cx="1223.5" cy="135.5" r="1.1" /><circle cx="1235.5" cy="133.5" r="1.1" /><circle cx="1253.5" cy="142.5" r="1.1" /><circle cx="1222.5" cy="152.5" r="1.1" /><circle cx="1238.5" cy="152.5" r="1.1" /><circle cx="1254.5" cy="159.5" r="1.1" /><circle cx="1228.5" cy="167.5" r="1.1" /><circle cx="1247.5" cy="167.5" r="1.1" /></g></g><text id="post_alignment_label" x="1110" y="213" font-family="Arial, Helvetica, sans-serif" font-size="17" fill="#00a934">Post-alignment Reward distributions</text>
+
+    <g id="post_reward_chart_1" transform="translate(1105,230)"><use href="#chartAxesSym" x="0" y="0" width="70" height="55" id="post1_axes_src" /><path id="post1_red_curve_src" d="M12 47 C18 43 20 17 27 11 C34 16 38 42 42 47" fill="none" stroke="#ff0000" stroke-width="1.5" /><path id="post1_red_line_src" d="M27 48 V7" stroke="#ff0000" stroke-width="1.25" /><path id="post1_green_curve_src" d="M30 47 C36 43 39 13 45 7 C51 13 52 35 63 40" fill="none" stroke="#43c35d" stroke-width="1.6" /><path id="post1_green_line_src" d="M43 5 V47" stroke="#43c35d" stroke-width="1.6" /><path id="post1_green_arrow_src" d="M31 7 H42" stroke="#43c35d" stroke-width="1.6" fill="none" marker-end="url(#arrowGreen)" /></g><g id="post_reward_chart_2" transform="translate(1208,230)"><use href="#chartAxesSym" x="0" y="0" width="70" height="55" id="post2_axes_src" /><path id="post2_red_curve_src" d="M12 47 C19 44 23 18 30 8 C37 18 41 42 46 47" fill="none" stroke="#ff0000" stroke-width="1.5" /><path id="post2_red_line_src" d="M30 48 V6" stroke="#ff0000" stroke-width="1.25" /><path id="post2_green_curve_src" d="M30 47 C35 39 40 16 47 11 C55 18 58 39 62 47" fill="none" stroke="#43c35d" stroke-width="1.6" /><path id="post2_green_line_src" d="M43 5 V47" stroke="#43c35d" stroke-width="1.6" /><path id="post2_green_arrow_src" d="M32 7 H42" stroke="#43c35d" stroke-width="1.6" fill="none" marker-end="url(#arrowGreen)" /></g><g id="post_reward_chart_3" transform="translate(1319,230)"><use href="#chartAxesSym" x="0" y="0" width="70" height="55" id="post3_axes_src" /><path id="post3_red_curve_src" d="M11 48 C11 23 17 9 26 8 C35 10 38 35 58 40" fill="none" stroke="#ff0000" stroke-width="1.5" /><path id="post3_red_line_src" d="M20 48 V8" stroke="#ff0000" stroke-width="1.25" /><path id="post3_green_curve_src" d="M19 47 C27 34 34 14 44 10 C54 14 57 33 65 40" fill="none" stroke="#43c35d" stroke-width="1.6" /><path id="post3_green_line_src" d="M38 5 V47" stroke="#43c35d" stroke-width="1.6" /><path id="post3_green_arrow_src" d="M39 7 H49" stroke="#43c35d" stroke-width="1.6" fill="none" marker-end="url(#arrowGreen)" /></g></g>
+</svg>

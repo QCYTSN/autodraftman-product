@@ -1,0 +1,139 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="547" height="487" viewBox="0 0 547 487">
+  <defs>
+    <marker id="arrowBlack" markerUnits="userSpaceOnUse" markerWidth="12" markerHeight="9" viewBox="0 0 10 8" refX="9.5" refY="4" orient="auto">
+      <path d="M0,0 L10,4 L0,8 Z" fill="#222" id="plus_node_0" />
+    </marker>
+
+    <symbol id="langInput" viewBox="0 0 82 30"><rect x="0.8" y="0.8" width="80.4" height="28.4" rx="2.6" fill="#fffdf5" stroke="#c28b22" stroke-width="2" id="plus_node_1" /><rect x="6.1" y="7.2" width="10.2" height="13.4" rx="0.8" fill="none" stroke="#c28b22" stroke-width="1.8" id="plus_node_2" /><path d="M8.2 16.7 c1.4-2.2 3.4-2.2 4.8 0 M8.5 13.4 h5.4 M9.1 11.1 h4.2" fill="none" stroke="#c28b22" stroke-width="1.35" stroke-linecap="round" /><rect x="20" y="6.6" width="12.2" height="17" rx="0.8" fill="none" stroke="#c28b22" stroke-width="1.8" id="plus_node_3" /><line x1="22.5" y1="11" x2="29.5" y2="11" stroke="#c28b22" stroke-width="1.5" stroke-linecap="round" id="plus_node_5" /><line x1="22.5" y1="15.2" x2="29.5" y2="15.2" stroke="#c28b22" stroke-width="1.5" stroke-linecap="round" id="plus_node_6" /><line x1="22.5" y1="19.4" x2="29.5" y2="19.4" stroke="#c28b22" stroke-width="1.5" stroke-linecap="round" id="plus_node_7" /><line x1="7.2" y1="11.8" x2="12" y2="11.8" stroke="#c28b22" stroke-width="1.2" opacity="0" id="plus_node_4" /><text x="38" y="12.2" font-family="Arial, Helvetica, sans-serif" font-size="8.2" font-weight="700" fill="#222" id="plus_node_8">Language</text><text x="38" y="21.4" font-family="Arial, Helvetica, sans-serif" font-size="8.2" font-weight="700" fill="#222" id="plus_node_9">Input</text></symbol><symbol id="multiViewInput" viewBox="0 0 82 30"><rect x="0.8" y="0.8" width="80.4" height="28.4" rx="2.6" fill="#f8fcff" stroke="#106f9c" stroke-width="2" id="plus_node_10" /><path d="M7 13 h5.2 l1.7-3.2 h10.2 l1.8 3.2 h4.2 v10.2 H7 Z" fill="#145d82" id="plus_node_11" /><circle cx="18.4" cy="18.2" r="5.1" fill="#fff" id="plus_node_12" /><circle cx="18.4" cy="18.2" r="2.9" fill="#145d82" id="plus_node_13" /><circle cx="29.6" cy="10.6" r="3.1" fill="#145d82" id="plus_node_14" /><path d="M26.2 7.8 l1.2-3.2 M29.2 8 l2.5-2.5 M24.7 9.3 l-3.1-1.1" fill="none" stroke="#f3c23b" stroke-width="1.4" stroke-linecap="round" /><rect x="9.5" y="11.6" width="4.5" height="2.2" fill="#f3c23b" /><text x="34" y="12.4" font-family="Arial, Helvetica, sans-serif" font-size="8.2" font-weight="700" fill="#222" id="plus_node_15">Multi-View</text><text x="34" y="21.5" font-family="Arial, Helvetica, sans-serif" font-size="8.2" font-weight="700" fill="#222" id="plus_node_16">Images</text></symbol><symbol id="drivingScene" viewBox="0 0 62 72">
+      <path d="M30 65 C19 52,18 39,25 29 C29 22,29 16,25 8" fill="none" stroke="currentColor" stroke-width="13" stroke-linecap="round" opacity="0.82" id="plus_node_17" />
+      <path d="M23 64 C36 53,39 40,33 29 C29 21,31 13,39 5" fill="none" stroke="#d54137" stroke-width="3.2" stroke-linecap="round" id="plus_node_18" />
+      <path d="M42 33 c5-8 13-5 13 1 c5 1 4 8-2 8 c1 6-9 8-11 2 c-7 1-8-8-2-10 z" fill="#72b85f" id="plus_node_19" />
+      <rect x="47.3" y="41.3" width="3.1" height="14" rx="1" fill="#8b5a2b" id="plus_node_20" />
+      <rect x="21.6" y="16.6" width="20.4" height="17.2" rx="3.1" fill="#ffd21e" stroke="#202020" stroke-width="2" id="plus_node_21" />
+      <path d="M24 17 l3.5-7.5 h8.8 L40 17 Z" fill="#fff4a7" stroke="#202020" stroke-width="1.4" id="plus_node_22" />
+      <rect x="25" y="20.5" width="13.8" height="6" rx="1.2" fill="#2c8bbf" id="plus_node_23" />
+      <circle cx="24.5" cy="34.5" r="2.6" fill="#202020" id="plus_node_24" />
+      <circle cx="39" cy="34.5" r="2.6" fill="#202020" id="plus_node_25" />
+      <path d="M21.4 29.8 h20.8" stroke="#202020" stroke-width="1.5" id="plus_node_26" />
+      <rect x="28.1" y="1.5" width="6.5" height="11" rx="2.5" fill="#eeeeee" stroke="#555" stroke-width="1" id="plus_node_27" />
+      <circle cx="31.4" cy="4" r="1.2" fill="#e33" id="plus_node_28" />
+      <circle cx="31.4" cy="7.1" r="1.2" fill="#f6c52d" id="plus_node_29" />
+      <circle cx="31.4" cy="10.1" r="1.2" fill="#41a545" id="plus_node_30" />
+      <line x1="31.4" y1="12.7" x2="31.4" y2="16" stroke="#555" stroke-width="1" id="plus_node_31" />
+    </symbol>
+
+    <symbol id="nextSceneIcon" viewBox="0 0 58 43"><rect x="16.5" y="2.5" width="30" height="30" fill="#d9d9d9" stroke="#222" stroke-width="1.8" /><rect x="1.5" y="15.5" width="30" height="25" fill="#ffffff" stroke="#222" stroke-width="1.8" /><rect x="8" y="21.5" width="17.8" height="14.2" fill="#111" /><circle cx="13.2" cy="26.3" r="2.6" fill="#fff" /><path d="M9 35 l6.2-6.2 l4.1 4.1 l3-3.2 l3.5 5.3 Z" fill="#fff" /><path d="M25 27.5 L44.5 8" fill="none" stroke="#69a64a" stroke-width="7" stroke-linecap="square" /><path d="M36.5 6.5 H52 V22" fill="none" stroke="#69a64a" stroke-width="7" stroke-linejoin="miter" /><path d="M25 27.5 L44.5 8" fill="none" stroke="#111" stroke-width="1.4" /><path d="M36.5 6.5 H52 V22" fill="none" stroke="#111" stroke-width="1.4" stroke-linejoin="miter" /></symbol><symbol id="totIcon" viewBox="0 0 15 15">
+      <circle cx="7.5" cy="7.5" r="7.2" fill="#dc302f" id="plus_node_40" />
+      <circle cx="7.5" cy="4" r="1.5" fill="#fff" id="plus_node_41" />
+      <circle cx="4.3" cy="9.6" r="1.5" fill="#fff" id="plus_node_42" />
+      <circle cx="10.7" cy="9.6" r="1.5" fill="#fff" id="plus_node_43" />
+      <path d="M7.5 5.5 v2.4 M6.3 8.2 L4.9 8.9 M8.7 8.2 l1.4 .7" stroke="#fff" stroke-width="1" id="plus_node_44" />
+    </symbol>
+
+    <symbol id="vcotIcon" viewBox="0 0 16 16">
+      <circle cx="8" cy="8" r="7.2" fill="#5aa34b" id="plus_node_45" />
+      <path d="M4.3 9.5 c2.6-4.8 5.9-6 8.2-5.9 c-.1 3.8-2.8 7.2-7 7.7" fill="#eef9ea" stroke="#2e6f2d" stroke-width=".7" id="plus_node_46" />
+      <path d="M4.2 12.5 c2.6-3.6 4.7-5 7.1-6.2" stroke="#2e6f2d" stroke-width="1.2" fill="none" id="plus_node_47" />
+    </symbol>
+  </defs>
+
+  <rect width="547" height="487" fill="#ffffff" id="plus_node_48" />
+  <rect id="f01" data-plus-kind="frame" x="0" y="0" width="547" height="136" fill="none" stroke="none" />
+  <rect id="f02" data-plus-kind="frame" x="0" y="136" width="547" height="172" fill="none" stroke="none" />
+  <rect id="f03" data-plus-kind="frame" x="0" y="308" width="547" height="179" fill="none" stroke="none" />
+
+  <g id="panel_a">
+    <desc>Panel (a) contains two input blocks on the left, horizontal arrows into a rounded VLA Model block, one arrow to an optimal driving scene icon on the right, and a two-line caption below.</desc>
+    <use id="a_language_input" href="#langInput" x="19" y="17" width="82" height="30" />
+    <use id="a_multiview_input" href="#multiViewInput" x="19" y="53" width="82" height="30" />
+    <path id="a_arrow_lang_to_model" d="M110 32 H136" fill="none" stroke="#222" stroke-width="2" marker-end="url(#arrowBlack)" />
+    <path id="a_arrow_img_to_model" d="M110 68 H136" fill="none" stroke="#222" stroke-width="2" marker-end="url(#arrowBlack)" />
+    <g id="a_vla_model">
+      <rect x="146.5" y="24.2" width="84" height="44" rx="4.7" fill="#f3f3f3" stroke="#777" stroke-width="1.7" id="plus_node_49" />
+      <text x="188.5" y="49" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="8.6" font-weight="700" fill="#222" id="plus_node_50">VLA Model</text>
+    </g>
+    <path id="a_arrow_model_to_optimal" d="M240 47 H262" fill="none" stroke="#222" stroke-width="2" marker-end="url(#arrowBlack)" />
+    <use id="a_optimal_scene" href="#srcDrivingSceneOptimal" x="267" y="4" width="62" height="72" style="color:#bfc2c5" />
+    <text id="a_optimal_label" x="297.5" y="86.3" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="8.5" font-weight="700" fill="#333">Optimal</text>
+    <text id="caption_a_1" x="273.5" y="108" text-anchor="middle" font-family="Times New Roman, Times, serif" font-size="18" fill="#000">
+      <tspan font-weight="700">(a)</tspan> Traditional VLA directly maps multimodal inputs to driving
+    </text>
+    <text id="caption_a_2" x="273.5" y="130" text-anchor="middle" font-family="Times New Roman, Times, serif" font-size="18" fill="#000">actions</text>
+  </g>
+
+  <g id="panel_b">
+    <desc>Panel (b) repeats the two inputs and VLA block, adds a dashed CoT module inside the model, routes one output arrow to an optimal driving icon and a second arrow to a QA/Explanation box, then gives a two-line caption.</desc>
+    <use id="b_language_input" href="#langInput" x="19" y="174" width="82" height="30" />
+    <use id="b_multiview_input" href="#multiViewInput" x="19" y="214" width="82" height="30" />
+    <path id="b_arrow_lang_to_model" d="M110 189 H136" fill="none" stroke="#222" stroke-width="2" marker-end="url(#arrowBlack)" />
+    <path id="b_arrow_img_to_model" d="M110 229 H136" fill="none" stroke="#222" stroke-width="2" marker-end="url(#arrowBlack)" />
+    <g id="b_vla_model">
+      <rect x="146.5" y="173.2" width="85" height="59.2" rx="4.7" fill="#f3f3f3" stroke="#777" stroke-width="1.7" id="plus_node_51" />
+      <text x="189" y="198.6" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="8.6" font-weight="700" fill="#222" id="plus_node_52">VLA Model</text>
+      <rect x="175.5" y="207.2" width="36" height="25" rx="4" fill="#eef8ee" stroke="#4f9b61" stroke-width="1.5" stroke-dasharray="2.2 2.4" id="plus_node_53" />
+      <text x="193.5" y="223" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="8.5" font-weight="700" fill="#222" id="plus_node_54">CoT</text>
+    </g>
+    <path id="b_arrow_model_to_optimal" d="M240 193 H262" fill="none" stroke="#222" stroke-width="2" marker-end="url(#arrowBlack)" />
+    <path id="b_arrow_model_to_qa" d="M240 225 H262" fill="none" stroke="#222" stroke-width="2" marker-end="url(#arrowBlack)" />
+    <use id="b_optimal_scene" href="#srcDrivingSceneOptimal" x="267" y="147" width="62" height="72" style="color:#bfc2c5" />
+    <text id="b_optimal_label" x="297.5" y="229.1" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="8.5" font-weight="700" fill="#333">Optimal</text>
+    <g id="b_qa_box">
+      <rect x="275" y="220.5" width="81" height="27" rx="1.3" fill="#fff1bf" stroke="#c59a35" stroke-width="1.8" id="plus_node_55" />
+      <text x="315.5" y="237.2" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="8.5" font-weight="700" fill="#222" id="plus_node_56">QA/Explanation</text>
+    </g>
+    <text id="caption_b_1" x="273.5" y="270" text-anchor="middle" font-family="Times New Roman, Times, serif" font-size="18" fill="#000">
+      <tspan font-weight="700">(b)</tspan> Traditional VLA using CoT to generate only textual
+    </text>
+    <text id="caption_b_2" x="273.5" y="291" text-anchor="middle" font-family="Times New Roman, Times, serif" font-size="18" fill="#000">explanations.</text>
+  </g>
+
+  <g id="panel_c">
+    <desc>Panel (c) contains language and multi-view inputs feeding a tall VLA model. The model includes a red ToT-E module near the top and a green V-CoT module near the bottom. The upper output branches to four candidate driving scenes labelled Comfort, Safety, Progress, and Optimal, with a Selection arrow from Progress to Optimal. The lower output goes to a Next scene Generation icon, and a closed-loop line returns from that icon to the multi-view input.</desc>
+    <use id="c_language_input" href="#langInput" x="19" y="340" width="82" height="30" />
+    <use id="c_multiview_input" href="#multiViewInput" x="19" y="420" width="82" height="30" />
+    <path id="c_arrow_lang_to_model" d="M110 355 H136" fill="none" stroke="#222" stroke-width="2" marker-end="url(#arrowBlack)" />
+    <path id="c_arrow_img_to_model" d="M110 435 H136" fill="none" stroke="#222" stroke-width="2" marker-end="url(#arrowBlack)" />
+
+    <g id="c_vla_model">
+      <rect x="147.5" y="327" width="84" height="123.5" rx="4.7" fill="#f3f3f3" stroke="#777" stroke-width="1.7" id="plus_node_57" />
+      <g id="c_tote_module">
+        <rect x="172.3" y="334.2" width="42.3" height="26.2" rx="4.2" fill="#fff6f6" stroke="#d33b35" stroke-width="1.5" stroke-dasharray="2.2 2.5" id="plus_node_58" />
+        <use href="#totIcon" x="168.8" y="329.7" width="15" height="15" id="plus_node_59" />
+        <text x="195.2" y="352.1" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="8.4" font-weight="700" fill="#222" id="plus_node_60">ToT-E</text>
+      </g>
+      <text x="189.5" y="391.4" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="8.8" font-weight="700" fill="#222" id="plus_node_61">VLA Model</text>
+      <g id="c_vcot_module">
+        <rect x="174.7" y="408" width="43.8" height="27" rx="4.2" fill="#f2fbef" stroke="#4f9b61" stroke-width="1.5" stroke-dasharray="2.2 2.5" id="plus_node_62" />
+        <use href="#vcotIcon" x="168.8" y="407.4" width="16" height="16" id="plus_node_63" />
+        <text x="197.7" y="425.8" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="8.1" font-weight="700" fill="#222" id="plus_node_64">V-CoT</text>
+      </g>
+    </g>
+
+    <path id="c_arrow_model_to_candidates" d="M240 354 H263" fill="none" stroke="#222" stroke-width="2" marker-end="url(#arrowBlack)" />
+    <path id="c_arrow_model_to_nextscene" d="M240 430 H263" fill="none" stroke="#222" stroke-width="2" marker-end="url(#arrowBlack)" />
+
+    <use id="c_comfort_scene" href="#srcDrivingSceneComfort" x="266" y="314" width="62" height="72" style="color:#84c66a" />
+    <text id="c_comfort_label" x="296.5" y="387" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="8.5" font-weight="700" fill="#333">Comfort</text>
+
+    <use id="c_safety_scene" href="#srcDrivingSceneSafety" x="319" y="314" width="62" height="72" style="color:#b29bd8" />
+    <text id="c_safety_label" x="349.5" y="387" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="8.5" font-weight="700" fill="#333">Safety</text>
+
+    <use id="c_progress_scene" href="#srcDrivingSceneProgress" x="372" y="314" width="62" height="72" style="color:#79c7ce" />
+    <text id="c_progress_label" x="402.5" y="387" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="8.5" font-weight="700" fill="#333">Progress</text>
+
+    <path id="c_selection_arrow" d="M430 354 H466" fill="none" stroke="#222" stroke-width="2" marker-end="url(#arrowBlack)" />
+    <text id="c_selection_label" x="448" y="346.5" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="8.5" font-weight="700" fill="#333">Selection</text>
+
+    <use id="c_optimal_scene" href="#srcDrivingSceneOptimal" x="459" y="314" width="62" height="72" style="color:#bfc2c5" />
+    <text id="c_optimal_label" x="489.5" y="387" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="8.5" font-weight="700" fill="#333">Optimal</text>
+
+    <g id="c_next_scene_generation">
+      <use href="#nextSceneIcon" x="278" y="414" width="58" height="43" id="plus_node_65" />
+      <text x="335" y="422" font-family="Arial, Helvetica, sans-serif" font-size="9.2" font-weight="700" fill="#222" id="plus_node_66">Next scene</text>
+      <text x="335" y="436" font-family="Arial, Helvetica, sans-serif" font-size="9.2" font-weight="700" fill="#222" id="plus_node_67">Generation</text>
+    </g>
+
+    <path id="c_closed_loop" d="M296 456 V473 H69 V452" fill="none" stroke="#222" stroke-width="1.7" marker-end="url(#arrowBlack)" />
+    <text id="c_closed_loop_label" x="182" y="485" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="8.5" font-weight="700" fill="#333">Closed-Loop</text>
+  </g>
+<defs><symbol id="srcDrivingSceneOptimal" viewBox="0 0 62 72"><path d="M30 66 C18 55 17 42 24 31 C30 22 30 15 25 7" fill="none" stroke="#bfc6c8" stroke-width="13" stroke-linecap="round" /><path d="M29 59 C22 50 22 41 28 32 C33 25 33 19 29 13" fill="none" stroke="#d33b35" stroke-width="3.2" stroke-linecap="round" stroke-dasharray="2.4 2.4" /><path d="M24 58 L32 58 L27.5 66 Z" fill="#d33b35" /><rect x="47.5" y="38.5" width="3.3" height="15" rx="1" fill="#8b5a2b" /><circle cx="49" cy="34" r="7.2" fill="#69b65a" /><circle cx="43.8" cy="37.2" r="5.4" fill="#69b65a" /><circle cx="53.8" cy="39" r="5.4" fill="#69b65a" /><line x1="31" y1="3" x2="31" y2="10.2" stroke="#333" stroke-width="1.2" /><ellipse cx="31" cy="2.6" rx="3.4" ry="1.8" fill="#e9ecec" stroke="#555" stroke-width="0.8" /><rect x="19.3" y="15.6" width="23.4" height="18.6" rx="5" fill="#ffd21e" stroke="#202020" stroke-width="1.8" /><path d="M22.4 19.4 h17.2 l-2.6-5.8 H25 Z" fill="#fff4a7" stroke="#202020" stroke-width="1.2" /><rect x="24.5" y="21.4" width="13.2" height="6.4" rx="1.1" fill="#2c8bbf" stroke="#202020" stroke-width="0.6" /><path d="M21 30.5 h20" stroke="#202020" stroke-width="1.4" /><circle cx="22.1" cy="34.5" r="2.5" fill="#202020" /><circle cx="39.9" cy="34.5" r="2.5" fill="#202020" /></symbol><symbol id="srcDrivingSceneComfort" viewBox="0 0 62 72"><path d="M31 66 C18 55 17 42 24 31 C30 22 30 15 25 7" fill="none" stroke="#bfc6c8" stroke-width="13" stroke-linecap="round" /><path d="M26 61 C20 52 20 43 27 34 C33 26 33 20 29 13" fill="none" stroke="#65bd5a" stroke-width="4.2" stroke-linecap="round" /><path d="M21.5 57.5 L29.8 60.2 L23.7 66 Z" fill="#65bd5a" /><rect x="47.5" y="38.5" width="3.3" height="15" rx="1" fill="#8b5a2b" /><circle cx="49" cy="34" r="7.2" fill="#69b65a" /><circle cx="43.8" cy="37.2" r="5.4" fill="#69b65a" /><circle cx="53.8" cy="39" r="5.4" fill="#69b65a" /><line x1="31" y1="3" x2="31" y2="10.2" stroke="#333" stroke-width="1.2" /><ellipse cx="31" cy="2.6" rx="3.4" ry="1.8" fill="#e9ecec" stroke="#555" stroke-width="0.8" /><rect x="19.3" y="15.6" width="23.4" height="18.6" rx="5" fill="#ffd21e" stroke="#202020" stroke-width="1.8" /><path d="M22.4 19.4 h17.2 l-2.6-5.8 H25 Z" fill="#fff4a7" stroke="#202020" stroke-width="1.2" /><rect x="24.5" y="21.4" width="13.2" height="6.4" rx="1.1" fill="#2c8bbf" stroke="#202020" stroke-width="0.6" /><path d="M21 30.5 h20" stroke="#202020" stroke-width="1.4" /><circle cx="22.1" cy="34.5" r="2.5" fill="#202020" /><circle cx="39.9" cy="34.5" r="2.5" fill="#202020" /></symbol><symbol id="srcDrivingSceneSafety" viewBox="0 0 62 72"><path d="M31 66 C18 55 17 42 24 31 C30 22 30 15 25 7" fill="none" stroke="#bfc6c8" stroke-width="13" stroke-linecap="round" /><path d="M33 61 C27 52 27 43 32 34 C36 26 35 20 30 13" fill="none" stroke="#9c4fd3" stroke-width="4.2" stroke-linecap="round" /><path d="M29.3 57.4 L37.6 60.2 L31.4 66 Z" fill="#9c4fd3" /><rect x="47.5" y="38.5" width="3.3" height="15" rx="1" fill="#8b5a2b" /><circle cx="49" cy="34" r="7.2" fill="#69b65a" /><circle cx="43.8" cy="37.2" r="5.4" fill="#69b65a" /><circle cx="53.8" cy="39" r="5.4" fill="#69b65a" /><line x1="31" y1="3" x2="31" y2="10.2" stroke="#333" stroke-width="1.2" /><ellipse cx="31" cy="2.6" rx="3.4" ry="1.8" fill="#e9ecec" stroke="#555" stroke-width="0.8" /><rect x="19.3" y="15.6" width="23.4" height="18.6" rx="5" fill="#ffd21e" stroke="#202020" stroke-width="1.8" /><path d="M22.4 19.4 h17.2 l-2.6-5.8 H25 Z" fill="#fff4a7" stroke="#202020" stroke-width="1.2" /><rect x="24.5" y="21.4" width="13.2" height="6.4" rx="1.1" fill="#2c8bbf" stroke="#202020" stroke-width="0.6" /><path d="M21 30.5 h20" stroke="#202020" stroke-width="1.4" /><circle cx="22.1" cy="34.5" r="2.5" fill="#202020" /><circle cx="39.9" cy="34.5" r="2.5" fill="#202020" /></symbol><symbol id="srcDrivingSceneProgress" viewBox="0 0 62 72"><path d="M31 66 C18 55 17 42 24 31 C30 22 30 15 25 7" fill="none" stroke="#bfc6c8" stroke-width="13" stroke-linecap="round" /><path d="M34 61 C29 52 29 43 33 34 C37 26 36 20 30 13" fill="none" stroke="#3cc7d4" stroke-width="4.2" stroke-linecap="round" /><path d="M30.2 57.4 L38.7 60.1 L32.3 66 Z" fill="#3cc7d4" /><rect x="47.5" y="38.5" width="3.3" height="15" rx="1" fill="#8b5a2b" /><circle cx="49" cy="34" r="7.2" fill="#69b65a" /><circle cx="43.8" cy="37.2" r="5.4" fill="#69b65a" /><circle cx="53.8" cy="39" r="5.4" fill="#69b65a" /><line x1="31" y1="3" x2="31" y2="10.2" stroke="#333" stroke-width="1.2" /><ellipse cx="31" cy="2.6" rx="3.4" ry="1.8" fill="#e9ecec" stroke="#555" stroke-width="0.8" /><rect x="19.3" y="15.6" width="23.4" height="18.6" rx="5" fill="#ffd21e" stroke="#202020" stroke-width="1.8" /><path d="M22.4 19.4 h17.2 l-2.6-5.8 H25 Z" fill="#fff4a7" stroke="#202020" stroke-width="1.2" /><rect x="24.5" y="21.4" width="13.2" height="6.4" rx="1.1" fill="#2c8bbf" stroke="#202020" stroke-width="0.6" /><path d="M21 30.5 h20" stroke="#202020" stroke-width="1.4" /><circle cx="22.1" cy="34.5" r="2.5" fill="#202020" /><circle cx="39.9" cy="34.5" r="2.5" fill="#202020" /></symbol></defs></svg>

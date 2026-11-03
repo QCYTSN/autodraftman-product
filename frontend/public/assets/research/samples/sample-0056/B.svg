@@ -1,0 +1,140 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="977" height="389" viewBox="0 0 977 389">
+  <title>Adversarial quantized autoencoder loss diagram</title>
+  <desc>
+    Inventory and relationships: left side has vertical source labels Y, S, and X. X feeds the Encoder, then a summing node, Quantizer, Z block, subtracting node, Decoder, reconstructed Y-hat block, and Classifier, ending at Classification Loss with an S-hat label. A lower U block feeds the two circular arithmetic nodes. Y and reconstructed Y-hat both feed the Discriminator, which feeds Wasserstein Loss. S feeds Classification Loss by a dashed orthogonal path. X and reconstructed Y-hat feed Distortion Loss by lower paths. Symmetry basis: the central horizontal processing chain is aligned around y≈221; upper discriminator/loss and lower distortion loss are vertically balanced around the central classifier/loss section. All construction is native SVG with visible editable text, shapes, and arrows; no SAM assets are available.
+  </desc>
+
+  <defs>
+    <marker id="arrowBlack" markerUnits="userSpaceOnUse" markerWidth="10" markerHeight="8" refX="10" refY="4" orient="auto">
+      <path d="M0,0 L10,4 L0,8 Z" fill="#000000" id="plus_node_0" />
+    </marker>
+    <marker id="arrowBlackStart" markerUnits="userSpaceOnUse" markerWidth="10" markerHeight="8" refX="0" refY="4" orient="auto-start-reverse">
+      <path d="M0,0 L10,4 L0,8 Z" fill="#000000" id="plus_node_1" />
+    </marker>
+    <style>
+      .label { font-family: Arial, Helvetica, sans-serif; font-size: 20px; fill: #000; }
+      .smallLabel { font-family: Arial, Helvetica, sans-serif; font-size: 18px; fill: #000; }
+      .var { font-family: "Times New Roman", Times, serif; font-style: italic; font-size: 20px; fill: #000; }
+      .line { stroke: #000; stroke-width: 1.45; fill: none; }
+      .dash { stroke-dasharray: 6 5; }
+    </style>
+  </defs>
+
+  <rect id="background" x="0" y="0" width="977" height="389" fill="#ffffff" />
+
+  
+  <g id="connectors">
+    <path id="arrow_y_to_discriminator" class="line dash" d="M48,59 H652" marker-end="url(#arrowBlack)" />
+    <path id="arrow_s_to_classification_loss" class="line dash" d="M43,139 H890 V180" marker-end="url(#arrowBlack)" />
+    <path id="arrow_x_to_distortion_loss" class="line dash" d="M31,261 V343 H818" marker-end="url(#arrowBlack)" />
+
+    <path id="arrow_x_to_encoder" class="line" d="M48,221 H57" marker-end="url(#arrowBlack)" />
+    <path id="arrow_encoder_to_plus" class="line" d="M153,221 H173" marker-end="url(#arrowBlack)" />
+    <path id="arrow_plus_to_quantizer" class="line" d="M209,221 H238" marker-end="url(#arrowBlack)" />
+    <path id="arrow_quantizer_to_z" class="line" d="M339,221 H367" marker-end="url(#arrowBlack)" />
+    <path id="arrow_z_to_minus" class="line" d="M401,221 H420" marker-end="url(#arrowBlack)" />
+    <path id="arrow_minus_to_decoder" class="line" d="M456,221 H485" marker-end="url(#arrowBlack)" />
+    <path id="arrow_decoder_to_yhat" class="line" d="M589,221 H611" marker-end="url(#arrowBlack)" />
+    <path id="arrow_yhat_to_classifier" class="line" d="M640,221 H674" marker-end="url(#arrowBlack)" />
+    <path id="arrow_classifier_to_class_loss" class="line" d="M778,221 H818" marker-end="url(#arrowBlack)" />
+
+    <path id="feedback_u_to_plus" class="line" d="M291,277 H190 V239" />
+    <path id="feedback_u_to_minus" class="line" d="M329,277 H438 V239" />
+
+    <path id="arrow_yhat_to_discriminator" class="line" d="M625,179 V78 H653" marker-end="url(#arrowBlack)" />
+    <path id="arrow_discriminator_to_wasserstein" class="line" d="M786,78 H818" marker-end="url(#arrowBlack)" />
+    <path id="arrow_yhat_to_distortion" class="line" d="M625,260 V330 H818" marker-end="url(#arrowBlack)" />
+  </g>
+
+  
+  <g id="f01_y_source" data-plus-kind="frame">
+    <rect id="y_source_box" x="19" y="19" width="29" height="80" fill="#ffe4d5" stroke="#ff6630" stroke-width="1.6" />
+    <text id="y_source_text" class="var" x="31.5" y="60" text-anchor="middle" dominant-baseline="middle">Y</text>
+  </g>
+
+  <g id="f02_s_source" data-plus-kind="frame">
+    <rect id="s_source_box" x="20" y="116" width="23" height="48" fill="#ffe4d5" stroke="#ff6630" stroke-width="1.6" />
+    <text id="s_source_text" class="var" x="31.5" y="141" text-anchor="middle" dominant-baseline="middle">S</text>
+  </g>
+
+  <g id="f03_x_source" data-plus-kind="frame">
+    <rect id="x_source_box" x="20" y="181" width="28" height="80" fill="#ffe4d5" stroke="#ff6630" stroke-width="1.6" />
+    <text id="x_source_text" class="var" x="31.5" y="222" text-anchor="middle" dominant-baseline="middle">X</text>
+  </g>
+
+  
+  <g id="f04_encoder" data-plus-kind="frame">
+    <polygon id="encoder_body" points="57,171 153,195 153,245 57,269" fill="#ff9f9a" stroke="#ff2020" stroke-width="1.6" />
+    <text id="encoder_label" class="label" x="105" y="218" text-anchor="middle" dominant-baseline="middle">Encoder</text>
+    <text id="encoder_function" class="var" x="105" y="240" text-anchor="middle" dominant-baseline="middle">(f)</text>
+  </g>
+
+  <g id="f05_plus_node" data-plus-kind="frame">
+    <circle id="plus_circle" cx="190.5" cy="221" r="18" fill="#8bd7fa" stroke="#16a7df" stroke-width="1.5" />
+    <text id="plus_symbol" class="label" x="190.5" y="220.5" text-anchor="middle" dominant-baseline="middle">+</text>
+  </g>
+
+  <g id="f06_quantizer" data-plus-kind="frame">
+    <rect id="quantizer_body" x="238" y="197" width="101" height="48" fill="#dfa1df" stroke="#b51ab1" stroke-width="1.6" />
+    <text id="quantizer_label" class="label" x="288.5" y="221" text-anchor="middle" dominant-baseline="middle">Quantizer</text>
+  </g>
+
+  <g id="f07_z_code" data-plus-kind="frame">
+    <rect id="z_body" x="367" y="203" width="34" height="35" fill="#ffe36c" stroke="#ffb800" stroke-width="1.6" />
+    <text id="z_text" class="var" x="384" y="221" text-anchor="middle" dominant-baseline="middle">Z</text>
+  </g>
+
+  <g id="f08_minus_node" data-plus-kind="frame">
+    <circle id="minus_circle" cx="438.5" cy="221" r="18" fill="#8bd7fa" stroke="#16a7df" stroke-width="1.5" />
+    <text id="minus_symbol" class="label" x="438.5" y="219.5" text-anchor="middle" dominant-baseline="middle">-</text>
+  </g>
+
+  <g id="f09_u_noise" data-plus-kind="frame">
+    <rect id="u_body" x="291" y="262" width="38" height="31" fill="#dfa1df" stroke="#b51ab1" stroke-width="1.6" />
+    <text id="u_text" class="var" x="310" y="278.5" text-anchor="middle" dominant-baseline="middle">U</text>
+  </g>
+
+  <g id="f10_decoder" data-plus-kind="frame">
+    <polygon id="decoder_body" points="485,195 589,171 589,269 485,246" fill="#bfe8b3" stroke="#49a936" stroke-width="1.6" />
+    <text id="decoder_label" class="label" x="542" y="211" text-anchor="middle" dominant-baseline="middle">Decoder</text>
+    <text id="decoder_function" class="var" x="543" y="235" text-anchor="middle" dominant-baseline="middle">(g)</text>
+  </g>
+
+  <g id="f11_yhat_output" data-plus-kind="frame">
+    <rect id="yhat_body" x="611" y="179" width="29" height="81" fill="#ffe4d5" stroke="#ff6630" stroke-width="1.6" />
+    <text id="yhat_text" class="var" x="625.5" y="221" text-anchor="middle" dominant-baseline="middle">Ŷ</text>
+  </g>
+
+  
+  <g id="f12_classifier" data-plus-kind="frame">
+    <rect id="classifier_body" x="674" y="187" width="104" height="64" fill="#fff200" stroke="#ff3a1f" stroke-width="1.6" />
+    <text id="classifier_label" class="label" x="726" y="211" text-anchor="middle" dominant-baseline="middle">Classifier</text>
+    <text id="classifier_function" class="var" x="726" y="234" text-anchor="middle" dominant-baseline="middle">(c)</text>
+  </g>
+  <text id="shat_label" class="var" x="797" y="212" text-anchor="middle" dominant-baseline="middle">Ŝ</text>
+
+  <g id="f13_classification_loss" data-plus-kind="frame">
+    <rect id="classification_loss_body" x="818" y="180" width="142" height="79" fill="#fde6da" stroke="#ff6630" stroke-width="1.6" />
+    <text id="classification_loss_text" class="label" x="889" y="210" text-anchor="middle" dominant-baseline="middle">Classification</text>
+    <text id="classification_loss_text_2" class="label" x="889" y="233" text-anchor="middle" dominant-baseline="middle">Loss</text>
+  </g>
+
+  <g id="f14_distortion_loss" data-plus-kind="frame">
+    <rect id="distortion_loss_body" x="818" y="291" width="142" height="81" fill="#fde6da" stroke="#ff6630" stroke-width="1.6" />
+    <text id="distortion_loss_text" class="label" x="889" y="321" text-anchor="middle" dominant-baseline="middle">Distortion</text>
+    <text id="distortion_loss_text_2" class="label" x="889" y="345" text-anchor="middle" dominant-baseline="middle">Loss</text>
+  </g>
+
+  
+  <g id="f15_discriminator" data-plus-kind="frame">
+    <polygon id="discriminator_body" points="653,29 786,53 786,104 653,128" fill="#ceb1ec" stroke="#7030bf" stroke-width="1.8" />
+    <text id="discriminator_label" class="label" x="718" y="70" text-anchor="middle" dominant-baseline="middle">Discriminator</text>
+    <text id="discriminator_function" class="var" x="720" y="95" text-anchor="middle" dominant-baseline="middle">(d)</text>
+  </g>
+
+  <g id="f16_wasserstein_loss" data-plus-kind="frame">
+    <rect id="wasserstein_loss_body" x="818" y="38" width="142" height="81" fill="#fde6da" stroke="#ff6630" stroke-width="1.6" />
+    <text id="wasserstein_loss_text" class="label" x="889" y="68" text-anchor="middle" dominant-baseline="middle">Wasserstein</text>
+    <text id="wasserstein_loss_text_2" class="label" x="889" y="92" text-anchor="middle" dominant-baseline="middle">Loss</text>
+  </g>
+</svg>

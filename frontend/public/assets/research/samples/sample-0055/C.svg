@@ -1,0 +1,301 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1755" height="591" viewBox="0 0 1755 591">
+  <title>Batch diffusion sampling and pruning pipeline</title>
+  <desc>Editable reconstruction of the full figure: top process flow from Gaussian batch to repopulated batch, lower-left compositional score sampling panel, lower-right local feasibility metric/DDIM inversion panel, dashed zoom connectors, side generated landscape strip, icons, arrows, equations, labels, brackets, gradients, and SAM-confirmed replacements for small icons/arrows/curves.</desc>
+  <defs>
+    <linearGradient id="gradBatchH" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#6b08e8" />
+      <stop offset="0.28" stop-color="#b367ef" />
+      <stop offset="0.55" stop-color="#ffd1e8" />
+      <stop offset="0.78" stop-color="#65b7e4" />
+      <stop offset="1" stop-color="#0079be" />
+    </linearGradient>
+    <linearGradient id="gradBatchV" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#7100ea" />
+      <stop offset="0.33" stop-color="#c27dee" />
+      <stop offset="0.55" stop-color="#fac7df" />
+      <stop offset="0.75" stop-color="#55aee0" />
+      <stop offset="1" stop-color="#0073bb" />
+    </linearGradient>
+    <linearGradient id="gradLandscape" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#3f6c86" />
+      <stop offset="0.22" stop-color="#d36b3d" />
+      <stop offset="0.45" stop-color="#0d3d5a" />
+      <stop offset="0.70" stop-color="#e3c6b1" />
+      <stop offset="1" stop-color="#c74822" />
+    </linearGradient>
+    <pattern id="patGrayNoise" width="6" height="6" patternUnits="userSpaceOnUse">
+      <rect width="6" height="6" fill="#777" id="plus_node_0" />
+      <circle cx="1" cy="1" r="0.8" fill="#cfcfcf" id="plus_node_1" />
+      <circle cx="4" cy="2" r="0.7" fill="#4b4b4b" id="plus_node_2" />
+      <circle cx="2" cy="5" r="0.7" fill="#bfbfbf" id="plus_node_3" />
+      <circle cx="5" cy="5" r="0.6" fill="#333" id="plus_node_4" />
+    </pattern>
+    <pattern id="patPurpleBlue" width="4" height="4" patternUnits="userSpaceOnUse">
+      <rect width="4" height="4" fill="#6a0cf0" id="plus_node_5" />
+      <rect x="2" width="2" height="2" fill="#00a3dc" id="plus_node_6" />
+      <rect y="2" width="2" height="2" fill="#c919ef" id="plus_node_7" />
+      <rect x="2" y="2" width="2" height="2" fill="#004b9e" id="plus_node_8" />
+    </pattern>
+    <pattern id="patBlueDots" width="4" height="4" patternUnits="userSpaceOnUse">
+      <rect width="4" height="4" fill="#0b84bd" id="plus_node_9" />
+      <circle cx="1" cy="1" r="0.55" fill="#b7e7ff" id="plus_node_10" />
+      <circle cx="3" cy="3" r="0.55" fill="#01558e" id="plus_node_11" />
+    </pattern>
+    <pattern id="patVerticalGray" width="5" height="5" patternUnits="userSpaceOnUse">
+      <rect width="5" height="5" fill="#9b9b9b" id="plus_node_12" />
+      <path d="M0 0H5M0 2.5H5M0 0V5M2.5 0V5" stroke="#333" stroke-width="0.45" id="plus_node_13" />
+    </pattern>
+    <pattern id="patImageThumb" width="70" height="20" patternUnits="userSpaceOnUse">
+      <rect width="70" height="20" fill="#b7d5e6" id="plus_node_14" />
+      <path d="M0 18 C12 8 24 20 34 9 C45 0 53 16 70 6 L70 20 L0 20Z" fill="#81502c" id="plus_node_15" />
+      <path d="M0 15 C14 11 21 14 31 10 C43 6 56 13 70 8" stroke="#e8d8a8" stroke-width="2" fill="none" id="plus_node_16" />
+      <path d="M0 19 C12 14 25 21 38 15 C48 11 58 16 70 13" stroke="#1d4a68" stroke-width="1.5" fill="none" id="plus_node_17" />
+    </pattern>
+    <marker id="arrowEnd" markerWidth="14" markerHeight="10" refX="13" refY="5" orient="auto" markerUnits="userSpaceOnUse">
+      <path d="M0,0 L14,5 L0,10 Z" fill="#000" id="plus_node_18" />
+    </marker>
+    <marker id="arrowStart" markerWidth="14" markerHeight="10" refX="1" refY="5" orient="auto-start-reverse" markerUnits="userSpaceOnUse">
+      <path d="M14,0 L0,5 L14,10 Z" fill="#000" id="plus_node_19" />
+    </marker>
+    <clipPath id="clipSideLandscape">
+      <rect x="1618" y="34" width="74" height="536" id="plus_node_20" />
+    </clipPath>
+    <style>
+      .sans{font-family:Arial, Helvetica, sans-serif}
+      .serif{font-family:"Times New Roman", Times, serif}
+      .it{font-style:italic}
+      .bold{font-weight:700}
+      .topText{font-size:22px;fill:#000}
+      .math{font-family:"Times New Roman", Times, serif;font-style:italic;fill:#000}
+      .small{font-size:17px}
+      .med{font-size:22px}
+      .panelTitle{font-family:Arial, Helvetica, sans-serif;font-weight:700;font-size:22px;fill:#000}
+      .wire{stroke:#000;stroke-width:2.5;fill:none}
+      .dashBlue{stroke:#0d6080;stroke-width:4;stroke-dasharray:15 12;fill:none}
+      .dashYellow{stroke:#f2b600;stroke-width:4;stroke-dasharray:15 12;fill:none}
+    </style>
+  </defs>
+
+  <rect id="background" x="0" y="0" width="1755" height="591" fill="#fff" />
+
+  
+  <rect id="f01" data-plus-kind="frame" x="286" y="29" width="1289" height="192" fill="none" stroke="#686868" stroke-width="2.5" />
+  <rect id="f02" data-plus-kind="frame" x="28" y="268" width="803" height="298" rx="14" ry="14" fill="#dcebfa" stroke="#0875b9" stroke-width="5" />
+  <rect id="f03" data-plus-kind="frame" x="852" y="268" width="727" height="298" rx="14" ry="14" fill="#fff3cf" stroke="#f3b400" stroke-width="5" />
+  <rect id="f04" data-plus-kind="frame" x="1618" y="34" width="74" height="536" fill="none" stroke="none" />
+  <rect id="f05" data-plus-kind="frame" x="27" y="91" width="216" height="112" fill="none" stroke="none" />
+
+  
+  <g id="top_pipeline">
+    <desc>Top frame inventory: left Gaussian input, batch tau(T) gray/noisy bars, batch tau(t) colored bars, small denoising intermediate rounded boxes, batch tau(t-1), predicted clean samples, local feasibility metric bars, min J status icons, elite batch, repopulated batch, arrows and ellipses.</desc>
+
+    <text x="146" y="51" class="sans topText" id="plus_node_25">Batch</text>
+    <text x="154" y="79" class="math" font-size="24" id="plus_node_26">τ<tspan baseline-shift="super" font-size="15">(T)</tspan></text>
+    <rect x="108" y="93" width="135" height="22" fill="url(#patGrayNoise)" stroke="#333" stroke-width="1.5" id="plus_node_27" />
+    <rect x="108" y="126" width="135" height="22" fill="url(#patGrayNoise)" stroke="#333" stroke-width="1.5" id="plus_node_28" />
+    <rect x="108" y="180" width="135" height="22" fill="url(#patGrayNoise)" stroke="#333" stroke-width="1.5" id="plus_node_29" />
+    <text x="164" y="169" class="sans bold" font-size="27" id="plus_node_30">⋮</text>
+    <text x="258" y="150" class="sans bold" font-size="30" id="plus_node_31">...</text>
+
+    <text x="333" y="55" class="sans topText" id="plus_node_32">Batch</text>
+    <text x="340" y="83" class="math" font-size="24" id="plus_node_33">τ<tspan baseline-shift="super" font-size="15">(t)</tspan></text>
+    <rect x="296" y="94" width="114" height="22" fill="url(#gradBatchH)" stroke="#0b3d74" stroke-width="1.4" id="plus_node_34" />
+    <rect x="296" y="128" width="114" height="22" fill="url(#gradBatchH)" stroke="#0b3d74" stroke-width="1.4" id="plus_node_35" />
+    <rect x="296" y="184" width="114" height="22" fill="url(#gradBatchH)" stroke="#0b3d74" stroke-width="1.4" id="plus_node_36" />
+    <text x="340" y="178" class="sans bold" font-size="27" id="plus_node_37">⋮</text>
+
+    <rect x="464" y="93" width="63" height="24" rx="2" fill="#dcebfa" stroke="#0875b9" stroke-width="5" id="plus_node_39" />
+    <rect x="464" y="128" width="63" height="24" rx="2" fill="#dcebfa" stroke="#0875b9" stroke-width="5" id="plus_node_40" />
+    <rect x="464" y="184" width="63" height="24" rx="2" fill="#dcebfa" stroke="#0875b9" stroke-width="5" id="plus_node_41" />
+    <text x="489" y="178" class="sans bold" font-size="27" id="plus_node_42">⋮</text>
+
+    <g id="draft_arrow_top_mid">
+      <line x1="546" y1="161" x2="577" y2="161" stroke="#000" stroke-width="2.5" marker-end="url(#arrowEnd)" id="plus_node_43" />
+    </g>
+
+    <text x="611" y="56" class="sans topText" id="plus_node_44">Batch</text>
+    <text x="611" y="84" class="math" font-size="24" id="plus_node_45">τ<tspan baseline-shift="super" font-size="15">(t−1)</tspan></text>
+    <rect x="591" y="94" width="106" height="23" fill="url(#gradBatchH)" stroke="#0b3d74" stroke-width="1.4" id="plus_node_46" />
+    <rect x="591" y="128" width="106" height="22" fill="url(#gradBatchH)" stroke="#0b3d74" stroke-width="1.4" id="plus_node_47" />
+    <rect x="591" y="184" width="106" height="22" fill="url(#gradBatchH)" stroke="#0b3d74" stroke-width="1.4" id="plus_node_48" />
+    <text x="631" y="178" class="sans bold" font-size="27" id="plus_node_49">⋮</text>
+
+    <text x="773" y="58" class="sans topText" id="plus_node_51">Predicted</text>
+    <text x="751" y="86" class="sans topText" id="plus_node_52">Clean Sample</text>
+    <rect x="752" y="100" width="137" height="19" fill="url(#patImageThumb)" stroke="none" id="plus_node_53" />
+    <rect x="752" y="130" width="137" height="20" fill="url(#patImageThumb)" stroke="none" id="plus_node_54" />
+    <rect x="752" y="187" width="137" height="19" fill="url(#patImageThumb)" stroke="none" id="plus_node_55" />
+    <text x="812" y="179" class="sans bold" font-size="27" id="plus_node_56">⋮</text>
+
+    <text x="927" y="58" class="sans topText" id="plus_node_58">Local feasibility</text>
+    <text x="951" y="84" class="sans topText" id="plus_node_59">metric <tspan class="math">J(·)</tspan></text>
+    <rect x="947" y="95" width="117" height="23" rx="1.5" fill="#fff3cf" stroke="#ffc000" stroke-width="5" id="plus_node_60" />
+    <rect x="947" y="129" width="117" height="23" rx="1.5" fill="#fff3cf" stroke="#ffc000" stroke-width="5" id="plus_node_61" />
+    <rect x="947" y="187" width="117" height="23" rx="1.5" fill="#fff3cf" stroke="#ffc000" stroke-width="5" id="plus_node_62" />
+    <text x="994" y="179" class="sans bold" font-size="27" id="plus_node_63">⋮</text>
+
+    <text x="1095" y="70" class="sans topText" id="plus_node_64">min <tspan class="math">J(·)</tspan></text>
+    <text x="1216" y="58" class="sans topText" id="plus_node_71">Elite Batch</text>
+    <text x="1240" y="86" class="math" font-size="24" id="plus_node_72">τ<tspan baseline-shift="super" font-size="15">(t−1)</tspan></text>
+    <rect x="1200" y="96" width="136" height="23" fill="url(#gradBatchH)" stroke="#0b3d74" stroke-width="1.4" id="plus_node_73" />
+    <rect x="1200" y="187" width="136" height="22" fill="url(#gradBatchH)" stroke="#0b3d74" stroke-width="1.4" id="plus_node_74" />
+
+    <text x="1384" y="58" class="sans topText" id="plus_node_76">Re-populate Batch</text>
+    <text x="1451" y="86" class="math" font-size="24" id="plus_node_77">τ<tspan baseline-shift="super" font-size="15">(t−1)</tspan></text>
+    <rect x="1410" y="96" width="135" height="22" fill="url(#gradBatchH)" stroke="#0b3d74" stroke-width="1.4" id="plus_node_78" />
+    <rect x="1410" y="130" width="135" height="22" fill="url(#gradBatchH)" stroke="#0b3d74" stroke-width="1.4" id="plus_node_79" />
+    <rect x="1410" y="187" width="135" height="22" fill="url(#gradBatchH)" stroke="#0b3d74" stroke-width="1.4" id="plus_node_80" />
+    <text x="1470" y="180" class="sans bold" font-size="27" id="plus_node_81">⋮</text>
+    <text x="1584" y="160" class="sans bold" font-size="28" id="plus_node_82">...</text>
+  </g>
+
+  
+  <g id="side_landscape" clip-path="url(#clipSideLandscape)">
+    <rect x="1618" y="34" width="74" height="536" fill="url(#gradLandscape)" id="plus_node_83" />
+    <path d="M1620 38 C1658 85 1607 122 1675 175 C1628 222 1669 270 1624 326 C1665 373 1616 430 1688 500 L1692 570 L1618 570 L1618 34Z" fill="#e8d8c1" opacity="0.55" id="plus_node_84" />
+    <path d="M1620 70 C1650 58 1669 103 1645 139 C1620 178 1671 213 1641 256 C1616 294 1654 350 1626 392 C1614 411 1658 474 1620 536" fill="none" stroke="#102f4a" stroke-width="13" opacity="0.75" id="plus_node_85" />
+    <path d="M1634 31 C1622 93 1682 115 1645 172 C1611 225 1678 247 1641 310 C1617 352 1680 399 1640 451 C1622 476 1679 515 1649 587" fill="none" stroke="#c2401d" stroke-width="9" opacity="0.8" id="plus_node_86" />
+    <path d="M1684 44 C1648 81 1691 139 1652 184 C1619 222 1687 270 1650 319 C1628 349 1687 408 1657 465 C1645 492 1687 532 1668 584" fill="none" stroke="#f4af74" stroke-width="6" opacity="0.75" id="plus_node_87" />
+    <path d="M1619 280 C1648 263 1665 276 1694 247 L1694 305 C1662 322 1642 310 1619 331Z" fill="#eef2d4" opacity="0.55" id="plus_node_88" />
+  </g>
+
+  
+  <path id="connector_blue_left" class="dashBlue" d="M40 262 L495 207 L817 263" />
+  <path id="connector_yellow_right" class="dashYellow" d="M933 252 L1007 207 L1575 265" />
+
+  
+  <g id="left_panel_content">
+    <desc>Left panel inventory: tau(t) vertical diffusion strip with colored braces and y labels, local plan diffusion model, score terms feeding a summation node, epsilon output, denoising diffusion box, tau(t-1) strip, top and bottom resampling loop arrows, and magnifier callout.</desc>
+    <text x="168" y="292" class="panelTitle" id="plus_node_89">Compositional Score Sampling for Global Coherence</text>
+
+    <text x="61" y="326" class="math" font-size="25" id="plus_node_90">τ<tspan baseline-shift="super" font-size="15">(t)</tspan></text>
+    <rect x="61" y="335" width="21" height="173" fill="url(#gradBatchV)" stroke="#0b3d74" stroke-width="1.2" id="plus_node_91" />
+    <path d="M48 379 L39 379 L39 421 L48 421" fill="none" stroke="#f4bd00" stroke-width="2" id="plus_node_92" />
+    <path d="M97 336 L97 389 L104 389 M97 389 L97 508 L104 508" fill="none" stroke="#ef1b24" stroke-width="2" id="plus_node_93" />
+    <path d="M95 389 L95 466 L104 466 M95 466 L95 508 L104 508" fill="none" stroke="#10b665" stroke-width="2" id="plus_node_94" />
+    <line x1="72" y1="551" x2="72" y2="509" stroke="#000" stroke-width="2.2" marker-end="url(#arrowEnd)" id="plus_node_95" />
+
+    <text x="126" y="378" class="math" font-size="25" id="plus_node_96">y<tspan baseline-shift="sub" font-size="17">1</tspan><tspan baseline-shift="super" font-size="15">(t)</tspan></text>
+    <text x="126" y="431" class="math" font-size="25" id="plus_node_97">y<tspan baseline-shift="sub" font-size="17">3</tspan><tspan baseline-shift="super" font-size="15">(t)</tspan></text>
+    <text x="126" y="483" class="math" font-size="25" id="plus_node_98">y<tspan baseline-shift="sub" font-size="17">3</tspan><tspan baseline-shift="super" font-size="15">(t)</tspan></text>
+    <rect x="171" y="335" width="19" height="59" fill="#6c05ec" id="plus_node_99" />
+    <rect x="171" y="394" width="19" height="57" fill="#f7bddf" id="plus_node_100" />
+    <rect x="171" y="451" width="19" height="58" fill="#0b83c4" id="plus_node_101" />
+
+    <rect x="205" y="376" width="116" height="92" rx="14" fill="#b7b7b7" id="plus_node_102" />
+    <text x="217" y="405" class="sans" font-size="19" id="plus_node_103">Local Plan</text>
+    <text x="224" y="428" class="sans" font-size="19" id="plus_node_104">Diffusion</text>
+    <text x="236" y="452" class="sans" font-size="19" id="plus_node_105">Model</text>
+
+    <text x="334" y="378" class="math" font-weight="700" font-size="25" id="plus_node_106">ε<tspan baseline-shift="sub" font-size="16">θ</tspan>(y<tspan baseline-shift="sub" font-size="16">1</tspan><tspan baseline-shift="super" font-size="14">(t)</tspan>, t)</text>
+    <text x="334" y="434" class="math" font-weight="700" font-size="25" id="plus_node_107">ε<tspan baseline-shift="sub" font-size="16">θ</tspan>(y<tspan baseline-shift="sub" font-size="16">2</tspan><tspan baseline-shift="super" font-size="14">(t)</tspan>, t)</text>
+    <text x="334" y="490" class="math" font-weight="700" font-size="25" id="plus_node_108">ε<tspan baseline-shift="sub" font-size="16">θ</tspan>(y<tspan baseline-shift="sub" font-size="16">3</tspan><tspan baseline-shift="super" font-size="14">(t)</tspan>, t)</text>
+    <rect x="438" y="337" width="18" height="58" fill="url(#patPurpleBlue)" id="plus_node_109" />
+    <rect x="438" y="452" width="18" height="58" fill="url(#patBlueDots)" id="plus_node_110" />
+
+    <path d="M456 367 H513 V406" class="wire" id="plus_node_111" />
+    <path d="M456 424 H493" class="wire" marker-end="url(#arrowEnd)" id="plus_node_112" />
+    <path d="M456 482 H513 V443" class="wire" id="plus_node_113" />
+
+    <text x="542" y="425" class="math" font-size="25" id="plus_node_117">ε(τ<tspan baseline-shift="super" font-size="15">(t)</tspan>, t)</text>
+
+    <rect x="628" y="337" width="21" height="174" fill="url(#patVerticalGray)" stroke="#333" stroke-width="1" id="plus_node_118" />
+    <rect x="659" y="387" width="117" height="91" rx="14" fill="#b7b7b7" id="plus_node_119" />
+    <text x="676" y="425" class="sans" font-size="19" id="plus_node_120">Denoising</text>
+    <text x="683" y="451" class="sans" font-size="19" id="plus_node_121">Diffusion</text>
+
+    <text x="760" y="335" class="math" font-size="25" id="plus_node_122">τ<tspan baseline-shift="super" font-size="15">(t−1)</tspan></text>
+    <rect x="785" y="344" width="21" height="173" fill="url(#gradBatchV)" stroke="#0b3d74" stroke-width="1.2" id="plus_node_123" />
+
+    <path d="M456 318 H718 V384" class="wire" marker-end="url(#arrowEnd)" id="plus_node_124" />
+    <path d="M796 344 V551 H72" class="wire" id="plus_node_125" />
+    <text x="345" y="544" class="sans" font-size="20" id="plus_node_126">Resampling (× <tspan class="math">U</tspan>)</text>
+  </g>
+
+  
+  <g id="right_panel_content">
+    <desc>Right panel inventory: local feasibility metric with DDIM inversion, tau(0) noisy/sample strip and colored braces, image-sample columns y(0), intermediate y(i-1), vertical latent strip, DDIM inversion block, output y(i), blue patterned strip, ellipses, tau(T) noisy bar, Gaussian prior curve, and objective equation.</desc>
+    <text x="920" y="292" class="panelTitle" id="plus_node_127">Local feasibility metric with DDIM Inversion for Pruning</text>
+
+    <text x="860" y="329" class="math" font-size="25" id="plus_node_128">τ<tspan baseline-shift="super" font-size="15">(0)</tspan></text>
+    <rect x="904" y="319" width="19" height="174" fill="url(#patImageThumb)" stroke="none" id="plus_node_129" />
+    <path d="M884 364 L876 364 L876 417 L884 417" fill="none" stroke="#f4bd00" stroke-width="2" id="plus_node_130" />
+    <path d="M932 319 L932 376 L940 376 M932 376 L932 493 L940 493" fill="none" stroke="#ef1b24" stroke-width="2" id="plus_node_131" />
+    <path d="M930 376 L930 450 L938 450 M930 450 L930 493 L938 493" fill="none" stroke="#10b665" stroke-width="2" id="plus_node_132" />
+
+    <text x="950" y="360" class="math" font-size="25" id="plus_node_133">y<tspan baseline-shift="sub" font-size="17">1</tspan><tspan baseline-shift="super" font-size="15">(0)</tspan></text>
+    <text x="950" y="416" class="math" font-size="25" id="plus_node_134">y<tspan baseline-shift="sub" font-size="17">3</tspan><tspan baseline-shift="super" font-size="15">(0)</tspan></text>
+    <text x="950" y="477" class="math" font-size="25" id="plus_node_135">y<tspan baseline-shift="sub" font-size="17">3</tspan><tspan baseline-shift="super" font-size="15">(0)</tspan></text>
+    <rect x="1001" y="319" width="19" height="58" fill="url(#patImageThumb)" id="plus_node_136" />
+    <rect x="1001" y="378" width="19" height="58" fill="url(#patImageThumb)" id="plus_node_137" />
+    <rect x="1001" y="435" width="19" height="58" fill="url(#patImageThumb)" id="plus_node_138" />
+
+    <text x="1034" y="422" class="sans bold" font-size="38" id="plus_node_139">...</text>
+
+    <text x="1097" y="360" class="math" font-size="25" id="plus_node_140">y<tspan baseline-shift="sub" font-size="17">1</tspan><tspan baseline-shift="super" font-size="15">(i−1)</tspan></text>
+    <text x="1097" y="416" class="math" font-size="25" id="plus_node_141">y<tspan baseline-shift="sub" font-size="17">3</tspan><tspan baseline-shift="super" font-size="15">(i−1)</tspan></text>
+    <text x="1097" y="477" class="math" font-size="25" id="plus_node_142">y<tspan baseline-shift="sub" font-size="17">3</tspan><tspan baseline-shift="super" font-size="15">(i−1)</tspan></text>
+    <rect x="1158" y="319" width="19" height="58" fill="#6900e9" id="plus_node_143" />
+    <rect x="1158" y="377" width="19" height="58" fill="#fac3df" id="plus_node_144" />
+    <rect x="1158" y="435" width="19" height="58" fill="#0479bd" id="plus_node_145" />
+
+    <rect x="1197" y="362" width="129" height="93" rx="14" fill="#b7b7b7" id="plus_node_146" />
+    <text x="1237" y="391" class="sans" font-size="19" id="plus_node_147">DDIM</text>
+    <text x="1222" y="416" class="sans" font-size="19" id="plus_node_148">Inversion</text>
+    <text x="1216" y="442" class="math" font-weight="700" font-size="21" id="plus_node_149">ε<tspan baseline-shift="sub" font-size="14">θ</tspan>(y<tspan baseline-shift="super" font-size="13">(i−1)</tspan>,i)</text>
+
+    <text x="1343" y="360" class="math" font-size="25" id="plus_node_150">y<tspan baseline-shift="sub" font-size="17">1</tspan><tspan baseline-shift="super" font-size="15">(i)</tspan></text>
+    <text x="1343" y="416" class="math" font-size="25" id="plus_node_151">y<tspan baseline-shift="sub" font-size="17">3</tspan><tspan baseline-shift="super" font-size="15">(i)</tspan></text>
+    <text x="1343" y="477" class="math" font-size="25" id="plus_node_152">y<tspan baseline-shift="sub" font-size="17">3</tspan><tspan baseline-shift="super" font-size="15">(i)</tspan></text>
+    <rect x="1386" y="319" width="19" height="58" fill="#6900e9" id="plus_node_153" />
+    <rect x="1386" y="377" width="19" height="58" fill="#fac3df" id="plus_node_154" />
+    <rect x="1386" y="435" width="19" height="58" fill="url(#patBlueDots)" id="plus_node_155" />
+
+    <text x="1427" y="428" class="sans bold" font-size="38" id="plus_node_156">...</text>
+    <rect x="1487" y="319" width="17" height="174" fill="url(#patVerticalGray)" stroke="#333" stroke-width="1" id="plus_node_157" />
+    <text x="1511" y="333" class="math" font-size="24" id="plus_node_158">τ<tspan baseline-shift="super" font-size="15">(T)</tspan></text>
+    <text x="1102" y="544" class="math" font-size="25" id="plus_node_163">J(τ<tspan baseline-shift="super" font-size="15">(0)</tspan>) = ∑<tspan baseline-shift="sub" font-size="14">k</tspan> ∑<tspan baseline-shift="super" font-size="15">T</tspan><tspan baseline-shift="sub" font-size="14">i=0</tspan> ‖</text>
+    <text x="1285" y="528" class="math" font-weight="700" font-size="22" id="plus_node_164">∂ε<tspan baseline-shift="sub" font-size="14">θ</tspan>(y<tspan baseline-shift="sub" font-size="14">k</tspan><tspan baseline-shift="super" font-size="13">(i−1)</tspan>,i)</text>
+    <line x1="1283" y1="534" x2="1414" y2="534" stroke="#000" stroke-width="1.5" id="plus_node_165" />
+    <text x="1338" y="554" class="math" font-weight="700" font-size="22" id="plus_node_166">∂i</text>
+    <text x="1418" y="544" class="math" font-size="25" id="plus_node_167">‖<tspan baseline-shift="sub" font-size="15">2</tspan></text>
+  </g>
+
+  
+  <g id="sam_replace_curve_top_left" data-plus-keeps="f05" transform="translate(0 0)">
+    <image href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAAAoCAYAAABOzvzpAAAFdUlEQVR4nN1aXUhUTxQ/+0Wmi5IY2lKrtJj24IMhpgSCCb5UIoT1JIofi9iSK1H64FuRLCJtSkFgaj4E0TdGpaKFL34g4Res6D6kqFH4letiobvnz5m6w675X/e6u1fXHww7c++d2XN+c+7MOWcuICJIXRwOB1y7dg0BgJfDhw9jW1sbSi0L7IXyhYWFbsoLRS6X4/Pnz/FAE9DU1MQVPnHihJsF0K9KpUKLxXIwCVheXsajR48yRWNjY/HJkyecgMePHzMLoHpOTg4eSAIqKiq4wi9fvsRXr17x9tjYGOr1et7+9OmTJCSAVMqPj4+jQqFgymVlZaHT6cTXr1+7EfDt2zdUq9WsfebMGXQ4HAEnQQ4SgLS4fv06WwAVCgU0NDSATCbb+gzExMRAVVUVa3/58gWePn0qiXAQ6NLZ2cln2mg0ooA3b97w66Ojo+ya3W5HjUbDF8n19fWAWgFIQABevHiRKUTmTQvhdgSMjIzw6y0tLfx6a2trcBNgtVpRJpMxZcj5ccXbt2+3JWBjY4NbwdmzZ4XLwbkGPHjw4A/TAGAwGNzuaTQayMvLgytXrkBERAS/rlQqQa/Xs/rAwABbDwIGDODs22w2CA8PZzOZnZ2NYjA3N8d3jZKSkoBZAQSSgIcPH3ITf/fuHYrF5cuXuZf4d+0IHgKcTiecPn2aKaDT6YQ9XRS6u7s5gffv3w8uArq6urjw9+7dw92AnKWEhAQ2RmJiImsHDQGXLl1igoeFheHKygruFmazmRPZ09MTHARYXba+8vJy9AX07guRYl5eXnAQYDAY+KxZLBb0FUVFRWwspVLJdod9TcDCwgKGhoYygckD9AQy6ePHj7Pi6ghtxdDQECe0pqZmfxNw584dLuznz589EvD+/Xv+LCnpCefOnWPPRUVF+TU+kPvTqfr16xc2NjayekpKCmRkZIhyyDzBaDSy34WFBb9GiXK/jQSAJNj3799Z48aNG/+EvFux031X5ObmglarZXWz2UyEeWbMW6CfTIkcHcHx0Wq1LKDZCR8+fOCvwODg4I7P19XV+X1LlPuFRQB49uwZUDKTUFlZyQKanSDGAgjFxcUQGhrKrcAvQD+wuLa2xlZyGu7YsWNos9nQG3z8+JHP6MDAgFd9yK+g58nPoDTbfrAANJlMMDs7yxpUV6vVXnUUawHCYkhpNRL+5s2b4DPQRwaHh4cxJCSEJy/EBD0dHR3cAvr7+73u53qqROk2X+QHXzpPT0/zww3K6YtRguCaKxTT98ePHyjkGZKSkvD379+7JgF22ZElMePi4rgCFLSIBe0UP3/+xNXVVdzc3BTV12Qy8f8uLS2lSFESApBMnJKWQoBC5datW0KoKhnI6UpPT3fLNv/degNDgNPpxPb2dkxOTnY7zKSZkFp5AXSQQskWQZ7U1FScmJgQRQJ4UBhosObmZmZilJBwPcmNjo4WnJE9xczMDFsHBLkOHTqEBQUFro6VdwRsbGxAf38/1NbW4oULFzAyMnLbI+wjR47g3bt3vd7rpXodqqur+eGqUFJSUrC+vp4FXZSjIB23EiBbWlqC/Px86O3tJaW23SrDw8MhLS0Nzp8/D2VlZW4p7P2EoaEhqK+vhxcvXsDm5uY/91UqFeh0Ojh16hTEx8fLmFdJ53UUYroyFx8fj/QRw6NHj9ihpdgVeq9Ba8Pt27fdvj/YrigUCpBRB/LdafYzMzNZoQMLKfD161doa2tj9cLCQh7t+Qtk4ouLizA5OcnL1NQU+7VarSCXy/8QMD8/zyxBavT19cHVq1dZncw2NTVV0v9XKBR/WKKvNTyZykEtJ0+eREm+D9jPkJEFkPnZ7fa9lkXA1kzP/4WMu8kIuY1FUet/2I0fO80vv2wAAAAASUVORK5CYII=" x="27" y="121" width="64" height="40" id="plus_node_172" preserveAspectRatio="none" />
+  </g>
+  <g id="sam_replace_mag_left" data-plus-keeps="f02 connector_blue_left" transform="translate(0 0)">
+    <image href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACoAAAAqCAYAAADFw8lbAAAFAklEQVR4nM2YWSi8XxjHzztjj8hOlrKvJUtSYxpJypIbWW5cWONahHDJJS5cyVJoyp0akiVblFygSJISZaeQGV48/57395vTO6vzjvnx/9aZmXc5z/M5zzlzznMO19bWRr7S3d0d7O/vk+PjY3J9fU0AwOQdmUxG/P39SVRUFElMTOS8vb2JPeXA87zFh7e3t7C+vk5OTk7I5+enVUP4/PLyUigbGxsQGRlJFAoF5+PjYxdQTqPRmNz8+PgAtVpNpqamiHFDOI4jrq6uBAGcnJyITqfDiAvfxnJ0dCTl5eWkrKyMk8vl5FvCbhSXh4cHyMvLw76lheM4SEtLg/7+fjg8PARsiFg8z8Pu7i709PRAfHy88L64fn5+PqBdY19SisHF/f09ZGRkGDiJi4sDjUZjAmdJPM/DxMQEhISEGNjJzMz8Fiz98fb2Brm5uQZRrK2thZeXF7BF9/f3UFJSYhBd7ClsyHdAoaOjwwCyq6sLPj8/bYLUC6GwsWJYtGsrKOzs7ICzszM11tDQ8BWkJYNmYYuKiqht9LO3twc2gRYUFFBDSUlJoNVqwYqsGTQrnOaCg4Opj+LiYv0jdlBsnVwuFwzIZDJYWFiALyQZFDU8PExB0d/+/r400ObmZmpAoVCwjEubQF9fXyEiIoL6am1tlQYaGxtLKw8NDX0FaTMoqrOzk/pKSEiQBordre+Os7MzYBAzmLE2NzfpDODg4AA3NzfADKpvIQ52RtkMqtVqwdHRkUZ1fX2dGVSmX0rDwsJYVlzOzLXxPYtycXEhfn5+9Pri4oKwioK6ubmRn5CbyI9Wq2Wu5yCxEogiaJqUMujl5YX+dnZ2JqySYdqGOj09Za2jH2OSpdPpyM3NjfAb/QYGBnKSQa+ursj5+Tn5l9rZ2SHv7+9/HMtkJCYmhrmuTP8n+vj4IHNzc+RfanZ2lk414eHhGFHmurKCggJ6MTo6Sg3ZW29vb2R8fJxeFxYWSjMgnoQZ13qbNDIyYpBGbm1tMc+hQvBwbc/OzqZGkpOTQafT2RXy1ih7UiqVmFNITvPI6uqqsKRJyEeZxfO8kNbpbaOftbU1fCQdFAvCibumu7vbLhl+XV2dQYbf1NSkf2wb6PPzM0lNTTWARSf23DMRQqCvr+97oFgwe4qOjjYwjOnYzMwMc3R5nofJyUkIDQ01sCNOmgcHByXDmtxA2JSUFJN9fXp6OgwMDMDR0ZEJNG6lcafQ29trdl9vXHCcNjY2Chu9paUl20D1w6CmpoZuUYyhPT09ITExUYDHfb+7u7tZOLlcDvX19dDS0mIRHu9XVVUBzrOSQfVlcXFRODj4KkLmnGdlZcHy8jKNent7u1U7lZWVVmG/DDkurSsrK1BdXQ2BgYHComDOEd4PCgoS9vE4/RgPD7wuLS212sCKigqLBxQ0zbMkTB6USiWnVCqFCsfHx3j+hKd2HGZDmAwHBQWRuLg4gid4+iTHSBhN4T1rwoM51NjYGDg5ORkakjpNfKeo1WqmYfQ3stK63p7l/f2dGJ8UWoMVj9kfBQUA8vj4SHJycphgxX+wHweFP7CgUqmYYHF6+zVQACBPT0/AElmcTQ4ODn4PFP5GlgUWZwG6Xf4NeXh4cNPT00SlUll8B6c1Ly+v340oMEQ2ICAAcJj8OiSIYPGcVjzPent7w/z8vPBn4vDj/yJkWVpagu3tbeLr60tKSkrwW1ih/gOahOwB7wE6rQAAAABJRU5ErkJggg==" x="478" y="220" width="42" height="42" id="plus_node_173" preserveAspectRatio="none" />
+  </g>
+  <g id="sam_replace_mag_right" data-plus-keeps="f03 connector_yellow_right" transform="translate(0 0)">
+    <image href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACoAAAAqCAYAAADFw8lbAAAE+UlEQVR4nM2YWyg8bxjH35ndkJTIr7WbQ62cKTkkxUaSWrQ3Lkgkx7gWRSE3XOLCpUMO7b2W5JDDhZKLpWSJC1GOUWiXHbvPr2fY+c+u3dmZtX77/9ZrZ8bM83zmmWfe93mG6urqImL0+PgIx8fH5Pz8nNzf3xMA+HYOTdPkz58/RK1Wk7S0NCoiIoL4S5TBYBA84eLiAmZnZ8ne3h6x2WyiDctkMpKfn0/q6+tJXFwc9WNSjIy7wTAMDA4OQkhICIbOadA0DeHh4ZCamgrZ2dmQnJwMYWFhQFHUt3Px+qGhIWAYxqMvMcPtwaenJygrK3NyiBA5OTkwNjYGJpMJbDYb8IU3dnBwAMPDw+wNuEKXl5cD2vUbKOZiXl6ek5OUlBQwGAzf4DyJYRiYn5+HmJgYJzv5+fkI+3NQq9UKpaWlTlFsaWkBs9kMvujx8RF0Op1TdPFJ+ZIGTjt9fX1OkP39/WC3232C5EcXb5YPi3Z9BjUajRAcHMwZa29v9wQpZNAjbGVlJWcb/RweHoIvoKDVajlDGRkZYLFY3Hv1ART18PAAKpWK81FVVSUZlL07mUzGTT1ra2sgIMmQDk1OTnKg6O/o6EgaaFdXF2egsLDQW15KBnTo/f0d1Go156unpwfEgtI46S8uLnILQGNjI6EoUQuJw6FoBQUFkbq6Om6f79er7u7u2MfteByXl5fgRZIjydfu7i43A8jlcnDUDV4jioWG3W5noRUKBYmJiRG6L8plW/IanpWVReRyObv98fFBTk5ORF1HX19fcztxcXFS/Up69KiQkBC2wnKI719IcovFwu2Ehob6Hcyd+H74/oVEBwcHS77opzKbzdw237+QaMxLx1t+cXFBfltvb29s4Y1Cv9HR0aKuo1NSUjjQ29tbcnV19augRqORfYlY5zRNkpKSxIGqVCruJcIKfmVl5VdBl5eXP1caQkh8fLz4iOIfrVbLHZienuYM+VtWq5XMzc1x+xUVFeIvRij+JCxirfdZU1NTTmUk9mGSqiec8IuKijgjmZmZ8Pb25lfIB5fqSaPRYE0hvR7d3t5mlzQR9ahkMQzDlnUO2+hnZ2cH/yUdFAfC8R/NwMCAGFjBSophGGhtbXWq8Ds7O91dKx709fWVYPvLh0Un/uyZCCEwOjr6M1Acl5eXJDEx0clwWloaLC0tiU4FhmFgYWEBYmNjv/X5jiptYmJCEqzbgwiblZX1ra/Pzc2F8fFxOD09/QaNrfTh4SGMjIy47etdB+ZpR0cH2+htbGz4BupIg+bmZq5FcYXGLyXp6eksPPb9nr6UyGQyaGtrg+7ubo/weLyhoQFwnpUM6hjr6+v4DclrhNw5LygogM3NTS7qvb29gnZqa2sR1m06iMoPXFq3tragqakJoqOjuY7A3TcppVLJ9vE4/XylBzcb4H51dbXgDdbU1LA57srwWWp7ERYPGo2G0mg07EVnZ2fEZDKRm5sbthrCYlipVBIscBISEtz1XOwBjCaeJyS9Xs/+zszMsD2W0xL6L4derxeVRl+Rlfbo/Tk+Pj6I65dCIVjHC/bPQQGAPD8/k5KSElGwXy9YYEDhC7a4uFgULE5vAQMFAPLy8iIqsuwsE0hQkJIGgQaFz8iCUBqws0SgIeG/yIKnyCoUisADggssfqflz7ORkZGwuroKFJ7wfxKunVhN7e/vk6ioKKLT6Sj8/QvfrJMOSKe1ugAAAABJRU5ErkJggg==" x="990" y="221" width="42" height="42" id="plus_node_174" preserveAspectRatio="none" />
+  </g>
+  <g id="sam_replace_top_check_1" data-plus-keeps="f01" transform="translate(0 0)">
+    <image href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAEXElEQVR4nLVXa0yTVxh+zve1tR1yaRiZCqyUCuoEtcLWkLEJ2HrJYvxhJi7Z9I/MhWzLdJubOgQ3XbLLDwnbmIlLhtnEuR8mu8iqlBGHK1SGkjgYBLAjQmEiQoSFXr6e5XyMlktLL5TnV/ud0z7Pe87znfc5hFKKYGEbHMC1zmbcGu6hVjKMUfu/4nOlLApqxGNjwko8syqLJMQnBP2fJJAAp9OJS41XUDlcR6/DCifc885fQnjkCWoUL9+K557MJzzPhy/A1NKAg73f0NsYBCUBSpn7x8gmyShP3YeczGwSkgCHw4F3jJ/TCuE3CCT4LfIFKTgcWWLAcUMReJ4nAQWMj4/jedMHtIZ2LIh4BgkodmMDzm0/CplMNkMEN/2L3W6nu0zvR5ScgYLgO7Ri7+UP4XK5qD8B9G1jBYy0E4uFi2jFKdNX8Cngl+Z6fOZuwGKCGfnkhBFNt1voDAEOh4MetJ0HJSFaPQDiJI+Am+VhFyje6K6C2+32Cqg2/4wO9z8RJU/iYtGwugQVcXvAz3qHm+jfqGmupx4BX47Wi0aJFB7nlTCtK8FazWoU5xXiZNSOGeNspb+4axQ/c9a+XljcvREjV/NxqFtfgnSVxnN8f/uwcc48k6QbD0YeUEldh4W6SeTITdpSqBNTPOSG66X4k5+7vXYq4FrbDXAtD3siQp7CKVG7wUveP2DzSz6Fm0Nd4O5M3FswuUokL0Fqkpdcb56fnOEOhsGNxArzTlIQKfh5DMrcfnXdMWiS1R5yw++laOcCFzZiHwM3X5uLpXJcUb2JyqV7IPEhIpnEwZT5HtL+N1zfQD82m4+jjQ9+VSWxowRQ+BgAwSXVa8hdr0MudKC1FMVjFyGQyQNkBWJgzDiC9JSV3srNZfiLGwqaPFYWBS5F7ju9CHDjXF89BGFyi17WF6JyaaEobDmicTXjKNakpnsq1zcGt+zTkQIlOG30pHFmgx1MVS4Limo+Zh1MfFak342zMS/CuOZdPKFZNVn5oA2GxjK0k9DNrE1II6Srt4em/XHIrxVYstkn1eHstsMsUMwYY5WHSy4Dj/5nzxCOuTeLJPqdyI7Nr10W7K/5yLMSnsqbwiNnyHenIl4ZL/YCciB6EwIlryrBgiLjJ6InRHJzGdpxL+yE9MoyvTeSTUxM0Ezjq+jC/YA/foHXolXoQxvC755ZNBFNO8rFxMyxB3K5nHy6rFDc70CoFm4uiJy15tOavR4/cVMDO3UG7OdzsNg4LC1AbuZTxFcmJOX618kmwfdrGQns5NfixJYD/lOxQqHAD/oThN1sFoO8evMxIpVK4VcAQ0xMDC5vP0WKON2cPBfunr8lycf3W0vFAkO6mv1oqcUh2wXajaGQIxt7rTPwGE6rXkKB9unQrmaYBrvdjvPmnyjLjc24G+BqOtnEcqgKxY8WYJdu25wlD1nAFNg8lh9/7bxBb41ZYXXeF/s5K00pj4aai8dGpQZ5adlIXpEU9HL9B6yLv2nNzzK9AAAAAElFTkSuQmCC" x="1116" y="89" width="32" height="32" id="plus_node_175" preserveAspectRatio="none" />
+  </g>
+  <g id="sam_replace_top_cross" data-plus-keeps="f01" transform="translate(0 0)">
+    <image href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB0AAAAgCAYAAADud3N8AAADnklEQVR4nLVXzWsTQRR/sxu3dFs/KCL1EDyJqIgpokXECG0ERY8WBK/+Bf4FijfBgxVFVPygmCoUGgoWeqi9ebHGTboxSGtqkqbR1ooJSpq4uz+ZTRtNm9nd1Prgt8nMPN5vPt68eY8BIDfhOvOpFH2ZmADTNGrN5cgqlUhWVSr5/YRAgHb39FDnnj3M1diqQREMw6B3g4OUP34ckCQ+PTFkGZlTpzA1PAzTNB3tkmhgJhql/LFjAGPOZGvBGDLBINLJZHOk2sOHMFtbmyNbA3PrVky9eAFPpG9v3HDfSq/w+aDfv7+OuK4Rf/p08wjpL+JIpI649ueTrpPR3r65hFRFqaMDudnZelLLsih/4sR/IcQKMufO1VZrf2JDQ+TopV48mOu42NBfvbKJ7VXOd3cLlS1FgR4OI3v+vCNp/NIlaNxpZFmokz5zpko6G4+T0HkYw9sHD7gifv74gXQw2FCPT6hcLtt6Ce79oskpCvLpNElLIyP8UEkkrFi0f9W2NtoWidD3rq668ezJk9Tx/DkpimK35UJBaIsqFZp7+RKUOn3a+axkGfqjR1iVxfl5FPbutce+BgL4trRUG5u8edP1yukXL4KMzk53J1EUxIeHa8azMzP4HAxiIZer9U09fux4nlhB8cABkBdFDkNVkRgfRyPR+YQUxZud9naInagBfu3YgdTkZB3h+4kJ/FJV73dWliFRM2KaZJTLdV287XNwxIbieXtbWhAbHW24ve/DYTvGerLT1gYydu1yV/b5kBwcrJHk02l8OXsWSwsLtb53d+96eiyK+/eD5np7nRUlCdqdOzXjnKhw8GA1wnR3o1go/CG+ft01ZE719YHeXLsmVuIRiRtaEU7Aif7WyYZCKJVK9rhlWUheueJIGr19u5qWCLdFkhAbGLANcsMZQSCZvnABlUqlel/7+8WkW7Ygl0pVA/7CkSNCRaulBclIBB/7+hxXkLh8GdrAACwHh/oUClUDPv9Ew2Hnp43vhNvzxsedHIkx6GNjf0h5qpk/etSTy28UaX40a9MVfrbGP2aAIhjbtyM7Pb2e1M4g7t1rPs91gyStS0XXp6BXr25eRijL0G7dck5BVxHt74fp8dUQwVRVxJ48aa6s+PD6NRYPHdpQWcHLkY+a1nwtw1Eul+0SY/HwYU9Xht+A6LNn9m1wssu8lIo8gGQSCXwdHyc1FiOamyNreZkkVSXm91MpEKCdoRD59+1jjLlXi78BWkHDEXkeEBYAAAAASUVORK5CYII=" x="1118" y="123" width="29" height="32" id="plus_node_176" preserveAspectRatio="none" />
+  </g>
+  <g id="sam_replace_top_check_2" data-plus-keeps="f01" transform="translate(0 0)">
+    <image href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAEZUlEQVR4nLVXa0yTVxh+zve1pR1SaBiZCqyUCuoEFWFryNgEbKdmMf4wE5ds+kfmQrZlus1NHYKbLtnlh4RtbIlLhtlkcz9MdpFVKSMOV25DSRwMAtg1clNEiLD09vUs52O2XEpvlOdXv++cfs/zvuc5530PoZQiWAyNDONKTxu9PtYPCxnDhP1f8b1KFg0N4rEpYRWeWp2NhPgEEuw3SSABTqcTF5ouoWqsnl6FBU64/c6PIjzyBQ1KVmzFs48XEJ7nwxdgam/EQes39AZGQIOOyfNh5JBkVKTuQ25mDglJgMPhwNvGz2il8DsEEvwS+YIUHI5EGXDcUOwzG2SugKmpKTxnep/W0u5FEc8iAcVubMTZ7UeJTCabNcbNfLDb7dhlei+i5AwUBN+jA3svfkBdLtfCAt4yVlIj7cFS4Tw6cMr0FfUp4Ne2BvqpuxFLCWbkkzYjmm+001kCHA4HDg6dAyUhWj0A4iQPgZvjYRcoXu+rhtvt9gqoMf9Cu923I0qexMWicU0pKuP2gJ+zh5vpP6hta6AeAV9MNIhGiRQe5VUwrS/FOu0alOQX4WT0jlnjLNOf3zKKvznLgBUtbmvEyDV8HOo3lCJdrfUc39/eb5o3zyTpw73xe5DUd7dQN4kcuSmrDJrEFA+54WoZ/uLnL6+dCrjS2Uq59vv9ESFP4VSo2+glHxweWpD8Aa6N9oK7abuzaHK1SF6K1CQvud7sn5zhJsbAjccKficpiBS8H4Myt19efwzaZI2H3PBHGbq4wIGN2yfB+StzsVSOS+o3ULVsDyQ+RCSTOJgy30Xa/4YbGB7EFvNxdPLBZ1USO0EAhY8BEFxQv4q8DTrkQQdaR1EyeR4CmT5AVkIJY8YRpKes8kZuLsff3GjQ5LGyaHAp8gSfgwLcODvQAEGYXqKX9EWoWlYkCluBGFzOOIq1qemeyPVNwaV9JlKgApcVM22cuWAHU7WrBcW1H+FBBSvW78YZ5Qswrn0Hj2lXT0c+MgRDUzm6SOhmzkpIA+m19tO0Pw8taAXW2eyT6nBm22HMbShY5OGSy8Bj8OkvwTH3ZpPEBSeyY/NrVwv2137oyYQn8ubwyBkK3KmIV8UTVgvIgZjNCNR5VbtaUWz8WPSESG4uRxfuhN0hvbxc723JbDYbzTS+gl7cDfjn5/ksdAgD6ET41TObJqJ5RwVbUiJWQ7lcTj5ZXiSudyDUCNcWRc5K82ntXpGcPXs6op06A9nP52KpcVhaiLzMJ4jPnrBC/xrZLPjelpHATn4dTjxzYNZ+42Y+KBQK/Kg/QdjNZinIa7YcI1KpFAsKYFAqlbi4/RQp5nTz+rlw1/xNSQF+2FpGWIAhXc1+aqmjh4a+Qx9GQ27Z2LbOwCM4rX4RhVlPhnY1wwywy8o588+U9Y1tuBXgajpdxHKpGiUPF2KXbtu8lM8XYL8NcFGAROl3IhNqGbDS33pacX3SAovzrljPWWgqeQw0XDw2qbTIT8tB8sqkoNP1H1LgwGkIaRS+AAAAAElFTkSuQmCC" x="1116" y="183" width="32" height="32" id="plus_node_177" preserveAspectRatio="none" />
+  </g>
+  <g id="sam_replace_plus_left" data-plus-keeps="f02" transform="translate(0 0)">
+    <image href="data:image/png;base64,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" x="493" y="406" width="39" height="36" id="plus_node_178" preserveAspectRatio="none" />
+  </g>
+  <g id="sam_replace_curve_right_prior" data-plus-keeps="f03" transform="translate(0 0)">
+    <image href="data:image/png;base64,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" x="1508" y="384" width="64" height="40" id="plus_node_179" preserveAspectRatio="none" />
+  </g>
+  <g id="sam_replace_top_arrow_1" data-plus-keeps="f01" transform="translate(0 0)">
+    <image href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACEAAAARCAYAAABTnsXCAAABKUlEQVR4nMXUz4mEMBQG8JdFtAMRrcACPHkSBqxAUG8eLcIeRDzaiFdPVjANDIMdRDzotyTswKzzb3Uc98ELRDDfjxhDAGhND8OAIAiQ5zlxzletcel3XkbXdTBNE4ZhCAw45/ip3RAk0tq2haqqIKI5Zj+EqKqqJOLSV5hdECQVANI0/QVZgtkEIEocVNd1byB/wchhmiYax3HeWNrn81kG3oM8w8ihmn3TT/f8AMstrXZGXGOKosAX/VMxxsjzPDocDqSIuWVZ8H1/k8Xrun4ZHoYhZVlGtm0z+XDNn/ComqaBoih3t54xhiiKcDwe8bF74nQ6Qdf1ReGbIvq+h+M4N+FxHD8N3+yymqYJSZI8Cn8JeBcBUWVZrg7fBCEOoqZp8/BFAIH4BqcFIpZ7kAChAAAAAElFTkSuQmCC" x="421" y="150" width="33" height="17" id="plus_node_180" preserveAspectRatio="none" />
+  </g>
+  <g id="sam_replace_top_arrow_2" data-plus-keeps="f01" transform="translate(0 0)">
+    <image href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAASCAYAAAA6yNxSAAABV0lEQVR4nMWUP4qDQBjFnxYBwSaQYgg2aVOks/ICuYE3ECzSWGkgkDqVBxBSmyIH8ARewFJbC1NK0MZvGXdddrP5s5rJ7oPPwgHf740zD0SEIZMkCbbbLRVFQR8a9B0ZAzWfz0nTNMxmM6zXa5xOJwLAp59oIHkX27bt1lhVVfI8r/eO4AmAFqKuazIMo0t/CfJ6AK48z2k6nX5C9AGBCACuOI5pNBp9g/gNCJ4xvVQQBD8AHoFI/HE4HOh4PEKEwjC8u66qKlarFRzHwWQykdpEm83mJvmrptsRGf+ksiyx3+/bIpL+2pwxBt/3kWWZ1J6B8/mMqqowqMm+KMsy6Lp+19h1XViWJSmK8v6SBF3DsixpsVhc/d+MMfJ9n3hQ0T0Abt40DZmm2ctYaBHtdrtbxndbUAhAFEUky/I144fmzwJQmqY0Ho97JRYGwA/dcrkcbNwBvAGTRZjTNaQK/gAAAABJRU5ErkJggg==" x="712" y="152" width="32" height="18" id="plus_node_181" preserveAspectRatio="none" />
+  </g>
+  <g id="sam_replace_top_arrow_3" data-plus-keeps="f01" transform="translate(0 0)">
+    <image href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB8AAAARCAYAAAAlpHdJAAABF0lEQVR4nMXUMa5FQBgF4F+MWYBCoZtFqFQWMgWF2ILEErQqsRmNPWgUCnYgFM7L3OS95L3LzTXm5p2EKGS+Y/IPCwDppCxLcl0XUkpyHMfSWgSA1rWuK4VhCCEEmqbBtm24ugbp4kqapgm+76ut0ypBd3CVruvAOX8U+FPi87hKXdc/+EEJmMafkmXZU4GDEniFa2ddV6gBPCpwthOWukVRhH3f6W7meaa+71++I4SgoihISmkpHLZtkwn8SoQQ9G84Y4yYeuCcG8HV8XoHTZKE8jw3N3D7viOO49OBY4whTVMMwwAT5/xX2aqq3kZhEm/b9oGcoB/5w5GCx3GE53lvfalRfFkWBEFwGb2Nq9OhBkwH/ca/ACr/Utv8GPzVAAAAAElFTkSuQmCC" x="902" y="153" width="31" height="17" id="plus_node_182" preserveAspectRatio="none" />
+  </g>
+  <g id="sam_replace_top_arrow_4" data-plus-keeps="f01" transform="translate(0 0)">
+    <image href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAASCAYAAAA6yNxSAAABMklEQVR4nMWVsY5GUBCFByVvIQqFSuUNFBqF59BLEE9DQXgUiejVCvSuzJ+x+2+xu1gX2ZMMxRXnu+POISAi8CjLsvXueR5KkiQArxCRq5ZlAcdxUNd1TNMUGWPI8x7gBaAaxxE1TaMWcoPAFQByatsWFUVZIXhA4CLAClGW5RfAWRC4av5WGIY/IP4CAneYk5ZlQTqUv0HsgQh0SZIEu66Dq5qmCaqq2n1G13WIoojGF9bxJRzTNDfJn6p3R+C/AKgMw0ARAPhTjFOGYUCe51DX9ccZ6Pse5nmmNb5c/lRRFOD7/q5xHMfguq4giuK1KMZvE9E0DcqyvNnqPM9pUp4JomEYUFXVU8a3BRFjDG3b3jI+jGO4ChAEwZbxo/8CJJHZ2R3f1oGmacCyrMNvfATwAjLbr2J0mo83AAAAAElFTkSuQmCC" x="1358" y="161" width="32" height="18" id="plus_node_183" preserveAspectRatio="none" />
+  </g>
+</svg>

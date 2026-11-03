@@ -1,0 +1,152 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="2048" height="743" viewBox="0 0 2048 743">
+  <defs>
+    <marker id="arrow-red" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#ff1f1f" data-pb-role="decorative" data-pb-editable="true"/>
+    </marker>
+  </defs>
+  <rect id="background" data-pb-role="background" data-pb-editable="true" x="0" y="0" width="2048" height="743" fill="#ffffff"/>
+
+  <g id="module-initial-tree" data-pb-role="node" data-pb-editable="true">
+    <line x1="327" y1="104" x2="219" y2="198" stroke="#666666" stroke-width="3"/>
+    <line x1="327" y1="104" x2="435" y2="202" stroke="#666666" stroke-width="3"/>
+    <line x1="219" y1="198" x2="151" y2="307" stroke="#666666" stroke-width="3"/>
+    <line x1="219" y1="198" x2="288" y2="307" stroke="#666666" stroke-width="3"/>
+    <circle cx="327" cy="103" r="35" fill="#eeeeee" stroke="#5b5b5b" stroke-width="4"/>
+    <circle cx="219" cy="203" r="35" fill="#ead1e2" stroke="#9914ff" stroke-width="5"/>
+    <circle cx="150" cy="306" r="35" fill="#cfe0f1" stroke="#001dff" stroke-width="5"/>
+    <circle cx="289" cy="307" r="35" fill="#cfe0df" stroke="#5aa153" stroke-width="5"/>
+    <circle cx="434" cy="203" r="35" fill="#fff2c8" stroke="#fb9500" stroke-width="5"/>
+    <text x="236" y="144" font-family="Times New Roman, Times, serif" font-size="36" font-style="italic" fill="#111111" data-pb-role="formula" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="horizontal">a<tspan baseline-shift="sub" font-size="22">1</tspan></text>
+    <text x="378" y="145" font-family="Times New Roman, Times, serif" font-size="36" font-style="italic" fill="#111111" data-pb-role="formula" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="horizontal">a<tspan baseline-shift="sub" font-size="22">2</tspan></text>
+    <text x="143" y="253" font-family="Times New Roman, Times, serif" font-size="36" font-style="italic" fill="#111111" data-pb-role="formula" data-pb-editable="true" data-pb-text-source="visual_inferred" data-pb-orientation="horizontal">a<tspan baseline-shift="sub" font-size="22">1</tspan></text>
+    <text x="254" y="254" font-family="Times New Roman, Times, serif" font-size="36" font-style="italic" fill="#111111" data-pb-role="formula" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="horizontal">a<tspan baseline-shift="sub" font-size="22">2</tspan></text>
+  </g>
+
+  <g id="label-left-value-equation" data-pb-role="formula" data-pb-editable="true" data-pb-formula-bbox="44 394 544 36">
+    <text x="44" y="424" font-family="Times New Roman, Times, serif" font-size="33" font-style="italic" fill="#111111" data-pb-role="formula" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="horizontal">V&#772;(</text>
+    <circle cx="93" cy="410" r="15" fill="#d7e7f4" stroke="#001dff" stroke-width="5"/>
+    <text x="112" y="424" font-family="Times New Roman, Times, serif" font-size="33" font-style="italic" fill="#111111" data-pb-role="formula" data-pb-editable="true" data-pb-text-source="visual_inferred" data-pb-orientation="horizontal">) = R<tspan baseline-shift="sub" font-size="20">&#952;</tspan>(</text>
+    <circle cx="216" cy="410" r="15" fill="#eeeeee" stroke="#5b5b5b" stroke-width="5"/>
+    <text x="236" y="424" font-family="Times New Roman, Times, serif" font-size="33" font-style="italic" fill="#111111" data-pb-role="formula" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="horizontal">, a) + R<tspan baseline-shift="sub" font-size="20">&#952;</tspan>(</text>
+    <circle cx="374" cy="410" r="15" fill="#ead1e2" stroke="#9914ff" stroke-width="5"/>
+    <text x="393" y="424" font-family="Times New Roman, Times, serif" font-size="33" font-style="italic" fill="#111111" data-pb-role="formula" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="horizontal">, a) + V<tspan baseline-shift="sub" font-size="20">&#952;</tspan>(</text>
+    <circle cx="524" cy="410" r="15" fill="#d7e7f4" stroke="#001dff" stroke-width="5"/>
+    <text x="544" y="424" font-family="Times New Roman, Times, serif" font-size="33" font-style="italic" fill="#111111" data-pb-role="formula" data-pb-editable="true" data-pb-text-source="visual_inferred" data-pb-orientation="horizontal">)</text>
+  </g>
+  <g id="annotation-leaf-value" data-pb-role="label" data-pb-editable="true">
+    <text x="407" y="363" font-family="Arial, Helvetica, sans-serif" font-size="27" font-weight="400" fill="#000000" data-pb-role="label" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="horizontal">Value of leaf state</text>
+    <circle cx="637" cy="355" r="15" fill="#d7e7f4" stroke="#001dff" stroke-width="5"/>
+    <path d="M 479 384 C 485 384 485 376 491 376 L 510 376 C 516 376 516 384 522 384 C 516 384 516 392 510 392 L 491 392 C 485 392 485 384 479 384" fill="none" stroke="#000000" stroke-width="3"/>
+  </g>
+  <g id="annotation-rewards" data-pb-role="label" data-pb-editable="true">
+    <path d="M 137 443 C 150 443 150 454 165 454 L 287 454 C 300 454 300 462 313 462 C 326 462 326 454 339 454 L 417 454 C 432 454 432 443 444 443" fill="none" stroke="#000000" stroke-width="3"/>
+    <text x="137" y="485" font-family="Arial, Helvetica, sans-serif" font-size="27" font-weight="400" fill="#000000" data-pb-role="label" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="horizontal">Sum of rewards to</text>
+    <circle cx="381" cy="476" r="15" fill="#d7e7f4" stroke="#001dff" stroke-width="5"/>
+  </g>
+
+  <g id="flow-expansion-arrow" data-pb-role="connector" data-pb-editable="true">
+    <text x="590" y="206" font-family="Arial, Helvetica, sans-serif" font-size="38" font-weight="400" fill="#000000" data-pb-role="label" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="horizontal">Expansion</text>
+    <polygon points="586,241 747,241 747,232 764,248 747,264 747,255 586,255" fill="#eeeeee" stroke="#6d6d6d" stroke-width="2"/>
+  </g>
+
+  <g id="module-expanded-tree" data-pb-role="node" data-pb-editable="true">
+    <line x1="1061" y1="96" x2="951" y2="168" stroke="#666666" stroke-width="3"/>
+    <line x1="1061" y1="96" x2="1168" y2="172" stroke="#666666" stroke-width="3"/>
+    <line x1="951" y1="168" x2="885" y2="250" stroke="#666666" stroke-width="3"/>
+    <line x1="951" y1="168" x2="1022" y2="251" stroke="#666666" stroke-width="3"/>
+    <line x1="884" y1="251" x2="836" y2="344" stroke="#666666" stroke-width="3"/>
+    <line x1="884" y1="251" x2="938" y2="344" stroke="#666666" stroke-width="3"/>
+    <circle cx="1061" cy="96" r="35" fill="#eeeeee" stroke="#5b5b5b" stroke-width="4"/>
+    <circle cx="952" cy="170" r="35" fill="#ead1e2" stroke="#9914ff" stroke-width="5"/>
+    <circle cx="883" cy="251" r="35" fill="#cfe0f1" stroke="#001dff" stroke-width="5"/>
+    <circle cx="1022" cy="251" r="35" fill="#cfe0df" stroke="#5aa153" stroke-width="5"/>
+    <circle cx="1168" cy="173" r="35" fill="#fff2c8" stroke="#fb9500" stroke-width="5"/>
+    <circle cx="835" cy="343" r="35" fill="#f6cdcd" stroke="#ff1111" stroke-width="5"/>
+    <circle cx="938" cy="344" r="35" fill="#eeeeee" stroke="#999999" stroke-width="4"/>
+    <text x="811" y="293" font-family="Times New Roman, Times, serif" font-size="35" font-style="italic" fill="#111111" data-pb-role="formula" data-pb-editable="true" data-pb-text-source="visual_inferred" data-pb-orientation="horizontal">a<tspan baseline-shift="sub" font-size="22">1</tspan></text>
+    <text x="925" y="293" font-family="Times New Roman, Times, serif" font-size="35" font-style="italic" fill="#111111" data-pb-role="formula" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="horizontal">a<tspan baseline-shift="sub" font-size="22">2</tspan></text>
+  </g>
+  <g id="legend-transition-expanded" data-pb-role="legend" data-pb-editable="true">
+    <circle cx="880" cy="420" r="15" fill="#f6cdcd" stroke="#ff1111" stroke-width="5"/>
+    <text x="916" y="429" font-family="Times New Roman, Times, serif" font-size="31" font-style="italic" fill="#111111" data-pb-role="formula" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="horizontal">= T<tspan baseline-shift="sub" font-size="19">&#952;</tspan>(</text>
+    <circle cx="985" cy="420" r="14" fill="#cfe0f1" stroke="#001dff" stroke-width="5"/>
+    <text x="1006" y="429" font-family="Times New Roman, Times, serif" font-size="31" font-style="italic" fill="#111111" data-pb-role="formula" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="horizontal">, a<tspan baseline-shift="sub" font-size="19">1</tspan>)</text>
+    <circle cx="880" cy="478" r="15" fill="#eeeeee" stroke="#999999" stroke-width="5"/>
+    <text x="916" y="487" font-family="Times New Roman, Times, serif" font-size="31" font-style="italic" fill="#111111" data-pb-role="formula" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="horizontal">= T<tspan baseline-shift="sub" font-size="19">&#952;</tspan>(</text>
+    <circle cx="985" cy="478" r="14" fill="#cfe0f1" stroke="#001dff" stroke-width="5"/>
+    <text x="1006" y="487" font-family="Times New Roman, Times, serif" font-size="31" font-style="italic" fill="#111111" data-pb-role="formula" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="horizontal">, a<tspan baseline-shift="sub" font-size="19">2</tspan>)</text>
+  </g>
+
+  <g id="flow-backup-arrow" data-pb-role="connector" data-pb-editable="true">
+    <text x="1276" y="207" font-family="Arial, Helvetica, sans-serif" font-size="38" font-weight="400" fill="#000000" data-pb-role="label" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="horizontal">Backup</text>
+    <polygon points="1259,241 1420,241 1420,232 1437,248 1420,264 1420,255 1259,255" fill="#eeeeee" stroke="#6d6d6d" stroke-width="2"/>
+  </g>
+
+  <g id="module-backup-tree" data-pb-role="node" data-pb-editable="true">
+    <line x1="1728" y1="98" x2="1618" y2="170" stroke="#666666" stroke-width="3"/>
+    <line x1="1728" y1="98" x2="1835" y2="173" stroke="#666666" stroke-width="3"/>
+    <line x1="1618" y1="170" x2="1550" y2="251" stroke="#666666" stroke-width="3"/>
+    <line x1="1618" y1="170" x2="1688" y2="252" stroke="#666666" stroke-width="3"/>
+    <line x1="1550" y1="251" x2="1502" y2="344" stroke="#666666" stroke-width="3"/>
+    <line x1="1550" y1="251" x2="1605" y2="344" stroke="#666666" stroke-width="3"/>
+    <path d="M 1633 138 C 1646 109 1664 103 1693 106" fill="none" stroke="#ff1f1f" stroke-width="2" marker-end="url(#arrow-red)"/>
+    <path d="M 1828 137 C 1814 107 1796 101 1766 106" fill="none" stroke="#ff1f1f" stroke-width="2" marker-end="url(#arrow-red)"/>
+    <path d="M 1553 216 C 1551 190 1560 179 1582 177" fill="none" stroke="#ff1f1f" stroke-width="2" marker-end="url(#arrow-red)"/>
+    <path d="M 1688 218 C 1691 192 1680 181 1657 179" fill="none" stroke="#ff1f1f" stroke-width="2" marker-end="url(#arrow-red)"/>
+    <path d="M 1489 310 C 1489 285 1498 275 1519 273" fill="none" stroke="#ff1f1f" stroke-width="2" marker-end="url(#arrow-red)"/>
+    <path d="M 1623 312 C 1625 285 1606 274 1582 273" fill="none" stroke="#ff1f1f" stroke-width="2" marker-end="url(#arrow-red)"/>
+    <circle cx="1728" cy="98" r="35" fill="#eeeeee" stroke="#5b5b5b" stroke-width="4"/>
+    <circle cx="1619" cy="171" r="35" fill="#ead1e2" stroke="#9914ff" stroke-width="5"/>
+    <circle cx="1550" cy="252" r="35" fill="#cfe0f1" stroke="#001dff" stroke-width="5"/>
+    <circle cx="1689" cy="252" r="35" fill="#cfe0df" stroke="#5aa153" stroke-width="5"/>
+    <circle cx="1835" cy="174" r="35" fill="#fff2c8" stroke="#fb9500" stroke-width="5"/>
+    <circle cx="1501" cy="345" r="35" fill="#f6cdcd" stroke="#ff1111" stroke-width="5"/>
+    <circle cx="1605" cy="345" r="35" fill="#eeeeee" stroke="#999999" stroke-width="4"/>
+  </g>
+  <g id="label-orange-value-equation" data-pb-role="formula" data-pb-editable="true" data-pb-formula-bbox="1770 242 174 31">
+    <text x="1770" y="267" font-family="Times New Roman, Times, serif" font-size="32" font-style="italic" fill="#111111" data-pb-role="formula" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="horizontal">V(</text>
+    <circle cx="1822" cy="254" r="14" fill="#fff2c8" stroke="#fb9500" stroke-width="5"/>
+    <text x="1841" y="267" font-family="Times New Roman, Times, serif" font-size="32" font-style="italic" fill="#111111" data-pb-role="formula" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="horizontal">) = v<tspan baseline-shift="sub" font-size="19">&#952;</tspan>(</text>
+    <circle cx="1922" cy="254" r="14" fill="#fff2c8" stroke="#fb9500" stroke-width="5"/>
+    <text x="1941" y="267" font-family="Times New Roman, Times, serif" font-size="32" font-style="italic" fill="#111111" data-pb-role="formula" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="horizontal">)</text>
+  </g>
+  <g id="label-backup-q-equation" data-pb-role="formula" data-pb-editable="true" data-pb-formula-bbox="1460 406 382 29">
+    <text x="1460" y="428" font-family="Times New Roman, Times, serif" font-size="31" font-style="italic" fill="#111111" data-pb-role="formula" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="horizontal">Q(</text>
+    <circle cx="1508" cy="417" r="13" fill="#eeeeee" stroke="#5b5b5b" stroke-width="5"/>
+    <text x="1526" y="428" font-family="Times New Roman, Times, serif" font-size="31" font-style="italic" fill="#111111" data-pb-role="formula" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="horizontal">, a<tspan baseline-shift="sub" font-size="18">1</tspan>) = R<tspan baseline-shift="sub" font-size="18">&#952;</tspan>(</text>
+    <circle cx="1673" cy="417" r="13" fill="#eeeeee" stroke="#5b5b5b" stroke-width="5"/>
+    <text x="1690" y="428" font-family="Times New Roman, Times, serif" font-size="31" font-style="italic" fill="#111111" data-pb-role="formula" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="horizontal">, a) + V(</text>
+    <circle cx="1821" cy="417" r="13" fill="#ead1e2" stroke="#9914ff" stroke-width="5"/>
+    <text x="1839" y="428" font-family="Times New Roman, Times, serif" font-size="31" font-style="italic" fill="#111111" data-pb-role="formula" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="horizontal">)</text>
+  </g>
+  <g id="label-backup-v-equation" data-pb-role="formula" data-pb-editable="true" data-pb-formula-bbox="1457 466 295 28">
+    <text x="1457" y="489" font-family="Times New Roman, Times, serif" font-size="31" font-style="italic" fill="#111111" data-pb-role="formula" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="horizontal">V(</text>
+    <circle cx="1505" cy="478" r="13" fill="#ead1e2" stroke="#9914ff" stroke-width="5"/>
+    <text x="1523" y="489" font-family="Times New Roman, Times, serif" font-size="31" font-style="italic" fill="#111111" data-pb-role="formula" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="horizontal">) = max<tspan baseline-shift="sub" font-size="18">a</tspan> Q(</text>
+    <circle cx="1681" cy="478" r="13" fill="#ead1e2" stroke="#9914ff" stroke-width="5"/>
+    <text x="1699" y="489" font-family="Times New Roman, Times, serif" font-size="31" font-style="italic" fill="#111111" data-pb-role="formula" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="horizontal">, a)</text>
+  </g>
+
+  <g id="panel-expansion-explanation" data-pb-role="panel" data-pb-editable="true">
+    <rect x="57" y="529" width="682" height="183" rx="28" ry="28" fill="#ffffff" stroke="#000000" stroke-width="3"/>
+    <text x="76" y="573" font-family="Arial, Helvetica, sans-serif" font-size="36" font-weight="400" fill="#000000" data-pb-role="title" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="horizontal">Expansion</text>
+    <text x="71" y="643" font-family="Arial, Helvetica, sans-serif" font-size="36" font-weight="400" fill="#000000" data-pb-role="label" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="horizontal">Sample a leaf node from</text>
+    <text x="71" y="686" font-family="Arial, Helvetica, sans-serif" font-size="34" font-weight="400" fill="#000000" data-pb-role="label" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="horizontal">softmax(</text>
+    <text x="220" y="686" font-family="Times New Roman, Times, serif" font-size="34" font-style="italic" fill="#111111" data-pb-role="formula" data-pb-editable="true" data-pb-text-source="visual_inferred" data-pb-orientation="horizontal">v&#772;(</text>
+    <circle cx="277" cy="674" r="15" fill="#d7e7f4" stroke="#001dff" stroke-width="5"/>
+    <text x="297" y="686" font-family="Arial, Helvetica, sans-serif" font-size="34" fill="#000000" data-pb-role="label" data-pb-editable="true" data-pb-text-source="visual_inferred" data-pb-orientation="horizontal">),</text>
+    <text x="331" y="686" font-family="Times New Roman, Times, serif" font-size="34" font-style="italic" fill="#111111" data-pb-role="formula" data-pb-editable="true" data-pb-text-source="visual_inferred" data-pb-orientation="horizontal">v&#772;(</text>
+    <circle cx="388" cy="674" r="15" fill="#d7e7df" stroke="#5aa153" stroke-width="5"/>
+    <text x="408" y="686" font-family="Arial, Helvetica, sans-serif" font-size="34" fill="#000000" data-pb-role="label" data-pb-editable="true" data-pb-text-source="visual_inferred" data-pb-orientation="horizontal">),</text>
+    <text x="442" y="686" font-family="Times New Roman, Times, serif" font-size="34" font-style="italic" fill="#111111" data-pb-role="formula" data-pb-editable="true" data-pb-text-source="visual_inferred" data-pb-orientation="horizontal">v&#772;(</text>
+    <circle cx="491" cy="674" r="15" fill="#fff2c8" stroke="#fb9500" stroke-width="5"/>
+    <text x="511" y="686" font-family="Arial, Helvetica, sans-serif" font-size="34" fill="#000000" data-pb-role="label" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="horizontal">)) to expand</text>
+  </g>
+
+  <g id="panel-backup-explanation" data-pb-role="panel" data-pb-editable="true">
+    <rect x="1289" y="529" width="713" height="183" rx="28" ry="28" fill="#ffffff" stroke="#000000" stroke-width="3"/>
+    <text x="1315" y="573" font-family="Arial, Helvetica, sans-serif" font-size="36" font-weight="400" fill="#000000" data-pb-role="title" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="horizontal">Backup</text>
+    <text x="1310" y="643" font-family="Arial, Helvetica, sans-serif" font-size="36" font-weight="400" fill="#000000" data-pb-role="label" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="horizontal">Value of nodes are updated as maximum</text>
+    <text x="1310" y="687" font-family="Arial, Helvetica, sans-serif" font-size="36" font-weight="400" fill="#000000" data-pb-role="label" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="horizontal">Q value of children nodes</text>
+  </g>
+</svg>

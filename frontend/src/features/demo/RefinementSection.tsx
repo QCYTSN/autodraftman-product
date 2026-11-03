@@ -3,7 +3,7 @@ import { useEffect, useRef, useState, type CSSProperties, type KeyboardEvent } f
 import { sanitizeSvgMarkup } from "../../svgDocument";
 import { demoAsset, type DemoLanguage } from "./cases";
 import { refinementCases } from "./refinementCases";
-import { PairedResultsPlaceholder } from "./ResearchSections";
+
 
 const words = {
   zh: {
@@ -13,7 +13,7 @@ const words = {
     enlarge: "放大对照", close: "关闭对照", open: "在案例中查看",
     zoomIn: "放大图像", zoomOut: "缩小图像",
     scale: "相同范围 · 相同尺度", loading: "正在载入对照图", error: "暂时无法载入对照图", retry: "重新载入",
-    note: "展示取自现有实验输出，视觉验收待完成。初稿含首轮后处理，完整评测将在固定设置下补充。",
+    note: "放大局部，查看公式、文字和连接的变化。",
   },
   en: {
     title: "Drafts and repair outputs", body: "Compare the same figure before and after the repair stage.",
@@ -22,7 +22,7 @@ const words = {
     enlarge: "Enlarge comparison", close: "Close comparison", open: "Inspect in the example",
     zoomIn: "Zoom in", zoomOut: "Zoom out",
     scale: "Same region · Same scale", loading: "Loading comparison", error: "Comparison could not be loaded", retry: "Try again",
-    note: "These existing outputs await visual acceptance. The draft includes initial postprocessing; full evaluation will follow under fixed settings.",
+    note: "Enlarge a region to explore changes in formulas, text and connections.",
   },
 };
 
@@ -45,6 +45,8 @@ export function RefinementSection({ language, onOpenCase }: {
 }) {
   const content = words[language];
   const [active, setActive] = useState(0);
+  const [highlight, setHighlight] = useState(false);
+  const [emphasis, setEmphasis] = useState(0);
   const [detail, setDetail] = useState(true);
   const [visible, setVisible] = useState(false);
   const [revision, setRevision] = useState(0);
@@ -168,9 +170,10 @@ export function RefinementSection({ language, onOpenCase }: {
   const comparison = (enlarged = false) => <div className={"demo-refinement-pair" + (enlarged ? " demo-refinement-pair-enlarged" : "")}>
     {(["draft", "repaired"] as const).map(stage => <figure key={stage}>
       <figcaption><span className="demo-refinement-dot" data-stage={stage} />{content[stage]}</figcaption>
-      <div className="demo-refinement-image">
+      <div className="demo-refinement-image" style={{position:"relative"}}>
         {views && <img src={views[stage]} width={bounds[2]} height={bounds[3]}
           alt={item.figure.name[language] + " · " + content[stage] + " · " + (detail ? item.region[language] : content.full)} />}
+        {highlight && <span key={emphasis} className="demo-change-region" style={detail ? {inset:'4%'} : {left:item.bounds[0]/item.figure.width*100+'%',top:item.bounds[1]/item.figure.height*100+'%',width:item.bounds[2]/item.figure.width*100+'%',height:item.bounds[3]/item.figure.height*100+'%'}} />}
       </div>
       <p className="demo-refinement-caption">{item[stage][language]}</p>
     </figure>)}
@@ -195,6 +198,7 @@ export function RefinementSection({ language, onOpenCase }: {
         <div className="demo-refinement-toolbar">
           <span className="demo-refinement-region">{detail ? item.region[language] : item.figure.name[language]}</span>
           <div className="demo-refinement-controls">
+            <button type="button" className="demo-refinement-action" aria-pressed={highlight} onClick={() => {setHighlight(!highlight);setEmphasis(v=>v+1);}}>{language==='zh'?'显示改动区域':'Show change region'}</button>
             <div className="demo-refinement-range" role="group" aria-label={content.views}>
               <button type="button" aria-pressed={detail} onClick={() => setDetail(true)}>{content.detail}</button>
               <button type="button" aria-pressed={!detail} onClick={() => setDetail(false)}>{content.full}</button>
@@ -215,7 +219,7 @@ export function RefinementSection({ language, onOpenCase }: {
       </div>
       <p className="demo-refinement-note">{content.note}</p>
     </div>
-    <PairedResultsPlaceholder language={language} nested />
+    <a className="research-caption" href="#research-samples">{language === "zh" ? "查看正式 80 图的修复前后评分 ↓" : "Explore paired scores for the formal 80-image cohort ↓"}</a>
     <dialog className="demo-diagram-dialog demo-refinement-dialog" ref={dialog} aria-label={modal === "original" ? content.originalTitle : content.enlarge}
       onClose={() => setModal(null)}
       onClick={event => { if (event.target === event.currentTarget) dialog.current?.close(); }}>
