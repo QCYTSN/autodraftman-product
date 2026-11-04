@@ -4,8 +4,8 @@ import { ProfileRow } from './ProfileRow';
 import { AblationRow } from './AblationRow';
 import { CaseGallery } from './CaseGallery';
 import { ExperimentSettings } from './ExperimentSettings';
-import { RankComparison, ResourceComparison } from './Comparisons';
-import { rankCounts } from './comparisonData';
+import { ScoreComparison, ResourceComparison } from './Comparisons';
+import { meanScore } from './comparisonData';
 import { useResearch } from './ResearchContext';
 import { asset, label, mainIds, number, type Metric } from './data';
 
@@ -33,7 +33,7 @@ export default function Results() {
     const sample = data.examples.comparison[criterion.id];
     open({ sample, metric: criterion.id, methods: ['A', method === 'A' ? 'DrawAI' : method] });
   };
-  const ranking = rankCounts(data, 'A');
+  const mean = meanScore(data, 'A');
   const draft = data.resources.C;
   const full = data.resources.A;
 
@@ -46,8 +46,8 @@ export default function Results() {
       <div className="research-definition" aria-live="polite"><span>{metric.id}</span><div><h3>{label(metric, language)}</h3><p>{zh ? metric.definition : metric.definitionEn}</p></div><button className="research-text-action" onClick={() => inspect(metric)}>{zh ? '查看示例' : 'View example'} ↗</button></div>
     </Section>
 
-    <Section id="demo-benchmarks" kicker="FIGFOX IN COMPARISON" title={zh ? `${ranking.topTwo} 项指标位列前二` : `Top two on ${ranking.topTwo} criteria`} body={zh ? `四种方法同台评测，FigFox 在 ${ranking.first} 项同口径指标上排名第一。` : `Across four methods, FigFox ranks first on ${ranking.first} criteria under the same review protocol.`}>
-      <RankComparison />
+    <Section id="demo-benchmarks" kicker="FIGFOX IN COMPARISON" title={zh ? '文字、布局与样式，接近最高分' : 'Text, layout and style, close to the best'} body={zh ? '在四种方法的评测中，用实际分数呈现 FigFox 的重建能力。' : 'See FigFox’s reconstruction quality through actual scores across four methods.'}>
+      <ScoreComparison />
       <nav className="demo-research-index research-controls"><a href="#demo-ablations">{zh ? '修复的作用' : 'Repair gains'} ↓</a><a href="#demo-efficiency">{zh ? '效果与投入' : 'Quality & resources'} ↓</a><a href="#research-provenance">{zh ? '实验与代码' : 'Data & code'} ↓</a></nav>
       <h3 className="research-chart-title">{zh ? '五类能力，逐项呈现' : 'Explore each dimension'}</h3>
       <div className="research-controls research-tabs">{groups.map(name => <button key={name} aria-pressed={activeGroup === name} onClick={() => setGroup(name)}>{zh ? name : data.metrics.find(item => item.group === name)!.groupEn}</button>)}</div>
@@ -73,7 +73,7 @@ export default function Results() {
       <div className="research-ablation-footer"><span>{zh ? '灰色竖线：仅初稿得分' : 'Gray marker: draft-only score'}</span><button className="research-text-action" onClick={() => open({ sample: data.examples.ablation[ablationMetric], metric: ablationMetric, condition, methods: ['A', condition === 'A' ? 'C' : condition] })}>{zh ? '查看' : 'Inspect'}{zh ? names[condition] : ' ' + names[condition]}{zh ? '示例' : ' example'} ↗</button></div>
     </Section>
 
-    <Section id="demo-efficiency" kicker="QUALITY & RESOURCES" title={zh ? '把效果与投入，放在一起看' : 'See quality and resources together'} body={zh ? `FigFox 的 ${ranking.topTwo} 项指标位列前二，平均记录费用 $${number(full.cost, 3)} / 张，记录耗时 ${number(full.minutes, 2)} 分钟 / 张。` : `FigFox places in the top two on ${ranking.topTwo} criteria, with a recorded mean of $${number(full.cost, 3)} and ${number(full.minutes, 2)} minutes per figure.`}>
+    <Section id="demo-efficiency" kicker="QUALITY & RESOURCES" title={zh ? '把效果与投入，放在一起看' : 'See quality and resources together'} body={zh ? `FigFox 的 16 项等权均分为 ${number(mean, 2)}，平均记录费用为每张 $${number(full.cost, 3)}。` : `FigFox averages ${number(mean, 2)} across 16 equally weighted criteria, at a recorded $${number(full.cost, 3)} per figure.`}>
       <ResourceComparison />
       <details className="research-settings research-stage-resources"><summary>{zh ? '查看 FigFox 的阶段用量' : 'View FigFox resources by stage'}</summary>
       <div className="research-resource-breakdown">{(['cost', 'minutes'] as const).map(kind => {

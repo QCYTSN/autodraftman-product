@@ -11,14 +11,13 @@ type Props = {
   label: string;
   ariaLabel: string;
   language: DemoLanguage;
-  includeOverview?: boolean;
+  overview?: { value: string; label: string };
 };
 
-export function CriterionSelect({ metrics, value, onValueChange, label, ariaLabel, language, includeOverview = false }: Props) {
+export function CriterionSelect({ metrics, value, onValueChange, label, ariaLabel, language, overview }: Props) {
   const zh = language === 'zh';
   const groups = [...new Set(metrics.map(metric => metric.group))];
-  const overview = { value: 'top-two', label: zh ? '前二指标数' : 'Criteria in the top two' };
-  const items = [...(includeOverview ? [overview] : []), ...metrics.map(metric => ({ value: metric.id, label: metricLabel(metric, language) }))];
+  const items = [...(overview ? [overview] : []), ...metrics.map(metric => ({ value: metric.id, label: metricLabel(metric, language) }))];
   const option = (item: { value: string; label: string }) => <Select.Item className="research-criterion-option" key={item.value} value={item.value} label={item.label} data-value={item.value}>
     <Select.ItemText>{item.label}</Select.ItemText>
     <Select.ItemIndicator className="research-criterion-check"><Check size={15} weight="bold" aria-hidden="true" /></Select.ItemIndicator>
@@ -35,7 +34,7 @@ export function CriterionSelect({ metrics, value, onValueChange, label, ariaLabe
         <Select.Positioner className="research-criterion-positioner" sideOffset={10} align="start" collisionPadding={16} alignItemWithTrigger={false}>
           <Select.Popup className="research-criterion-popup" lang={zh ? 'zh-CN' : 'en'}>
             <Select.List className="research-criterion-list">
-              {includeOverview && <Select.Group className="research-criterion-group"><Select.GroupLabel className="research-criterion-group-label">{zh ? '综合表现' : 'Across all criteria'}</Select.GroupLabel>{option(overview)}</Select.Group>}
+              {overview && <Select.Group className="research-criterion-group"><Select.GroupLabel className="research-criterion-group-label">{zh ? '综合表现' : 'Across all criteria'}</Select.GroupLabel>{option(overview)}</Select.Group>}
               {groups.map(group => <Select.Group key={group} className="research-criterion-group">
                 <Select.GroupLabel className="research-criterion-group-label">{zh ? group : metrics.find(metric => metric.group === group)!.groupEn}</Select.GroupLabel>
                 {metrics.filter(metric => metric.group === group).map(metric => option({ value: metric.id, label: metricLabel(metric, language) }))}

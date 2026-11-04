@@ -104,6 +104,19 @@ try {
  await page.emulateMedia({reducedMotion:'no-preference'});
  checks.push('Ablation numbers and markers interpolate together, rapid changes settle correctly, reduced motion updates immediately');
  const currentMetrics=summary.metrics.filter(m=>m.id!=='D09');
+ assert.equal(await page.locator('.research-ranking-details').evaluate(e=>e.open),false);
+ await page.locator('.research-ranking-details summary').click();
+ const expectedMean=id=>currentMetrics.reduce((sum,m)=>sum+summary.summaries[id][m.id].score,0)/16;
+ assert.ok(Math.abs(expectedMean('A')-88.00036348862142)<1e-9);
+ assert.ok(Math.abs(expectedMean('DrawAI')-90.7522497934646)<1e-9);
+ assert.match(await page.locator('.research-score-summary').innerText(),/10 项/);
+ for(const id of ['D01','D08','D11']){
+  const example=page.locator(`.research-score-example[data-metric="${id}"]`);
+  const best=Math.max(...methodIds.map(method=>summary.summaries[method][id].score));
+  assert.equal(await example.locator('.research-score-pair strong').innerText(),summary.summaries.A[id].score.toFixed(2));
+  assert.match(await example.locator('.research-score-gap b').innerText(),new RegExp((best-summary.summaries.A[id].score).toFixed(2)));
+ }
+ await page.locator('.research-resource-details summary').click();
  for(const id of methodIds){
   const ranks=currentMetrics.map(m=>1+methodIds.filter(other=>m.direction==='lower'?summary.summaries[other][m.id].score<summary.summaries[id][m.id].score-1e-9:summary.summaries[other][m.id].score>summary.summaries[id][m.id].score+1e-9).length);
   const counts=[ranks.filter(r=>r===1).length,ranks.filter(r=>r===2).length,ranks.filter(r=>r>2).length];
@@ -113,7 +126,7 @@ try {
    if(count===0)assert.equal(await segment.count(),0);else assert.equal(await segment.innerText(),String(count));
   }
   const comparison=page.locator(`.research-comparison-row[data-method="${id}"]`);
-  assert.equal(await comparison.locator('.research-quality-cell strong').innerText(),String(counts[0]+counts[1]));
+  assert.equal(await comparison.locator('.research-quality-cell strong').innerText(),expectedMean(id).toFixed(1));
   for(const kind of ['cost','minutes']){
    const cell=comparison.locator(`[data-kind="${kind}"]`);
    const maximum=kind==='cost'?2.5:20;
@@ -136,13 +149,31 @@ try {
  await page.emulateMedia({reducedMotion:'reduce'});
  for(const metric of currentMetrics){
   await chooseCriterion(page,'效果对比指标',metric.id);await page.evaluate(()=>new Promise(requestAnimationFrame));
-  for(const id of methodIds){assert.equal(await page.locator(`.research-comparison-row[data-method="${id}"] .research-quality-cell strong`).innerText(),summary.summaries[id][metric.id].score.toFixed(1));}
+  for(const id of methodIds){
+   assert.equal(await page.locator(`.research-comparison-row[data-method="${id}"] .research-quality-cell strong`).innerText(),summary.summaries[id][metric.id].score.toFixed(1));
+   const point=page.locator('.research-cost-point').nth(methodIds.indexOf(id));
+   const coordinates=await point.evaluate(e=>({left:parseFloat(e.style.left),bottom:parseFloat(e.style.bottom)}));
+   assert.ok(Math.abs(coordinates.left-summary.summaries[id][metric.id].score)<.0001,`${metric.id} ${id} horizontal position`);
+   assert.ok(Math.abs(coordinates.bottom-summary.resources[id].cost/2.5*100)<.0001,`${metric.id} ${id} vertical position`);
+  }
  }
  await openCriterion(page,'效果对比指标');assert.equal(await page.locator('.research-criterion-popup[data-open] .research-criterion-option[data-value="D09"]').count(),0);await page.keyboard.press('Escape');await page.locator('.research-criterion-popup:visible').waitFor({state:'hidden'});
- await chooseCriterion(page,'效果对比指标','top-two');await page.emulateMedia({reducedMotion:'no-preference'});
+ await chooseCriterion(page,'效果对比指标','mean');await page.emulateMedia({reducedMotion:'no-preference'});
+ await page.waitForTimeout(550);
+ await page.locator('.research-resource-details summary').click();
+ for(const [i,id] of methodIds.entries()){
+  const point=page.locator('.research-cost-point').nth(i);
+  assert.ok(Math.abs(Number(await point.getAttribute('data-score'))-expectedMean(id))<1e-9);
+  await point.click();assert.equal(await point.getAttribute('aria-pressed'),'true');
+  assert.match(await page.locator('.research-point-readout').innerText(),new RegExp(summary.methods.find(m=>m.id===id).name));
+ }
+ await page.locator('.research-cost-point').first().focus();await page.keyboard.press('Enter');
+ assert.equal(await page.locator('.research-cost-point').first().getAttribute('aria-pressed'),'true');
+ checks.push('Equal-weight mean, true score gaps, zero-based cost/quality positions for all 16 criteria, keyboard and tap point readouts');
+ await page.locator('.research-ranking-details summary').click();
  await page.locator('.research-comparison-scope a').click();assert.equal(await page.locator('#research-settings').evaluate(e=>e.open),true);
  await page.locator('#research-settings summary').click();
- checks.push('Four-method rank distributions, every quality criterion, true rank-2 labels, recorded resources, shared zero-based scales and animated selection');
+ checks.push('Disclosed rank distributions, every quality criterion, recorded resources and animated selection');
  assert.equal(await page.locator('.research-resource-bar').count(),2);
  const proportions=await page.locator('.research-resource-bar>i:first-child').evaluateAll(es=>es.map(e=>parseFloat(e.style.width)));
  assert.ok(Math.abs(proportions[0]-summary.resources.C.cost/summary.resources.A.cost*100)<.0001);

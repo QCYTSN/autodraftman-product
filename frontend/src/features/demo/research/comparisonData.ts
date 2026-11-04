@@ -27,3 +27,16 @@ export function rankCounts(data: Summary, method: string) {
     total: metrics.length,
   };
 }
+
+// Descriptive mean: each current criterion contributes exactly 1 / 16.
+// Average criterion scores, not pooled image judgments (eligible N varies).
+export function meanScore(data: Summary, method: string) {
+  const metrics = comparableMetrics(data);
+  return metrics.reduce((sum, metric) => sum + data.summaries[method][metric.id].score!, 0) / metrics.length;
+}
+
+export function gapToBest(data: Summary, metric: Metric, method: string) {
+  const scores = mainIds.map(id => data.summaries[id][metric.id].score!);
+  const best = metric.direction === 'lower' ? Math.min(...scores) : Math.max(...scores);
+  return Math.abs(best - data.summaries[method][metric.id].score!);
+}
