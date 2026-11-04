@@ -1,0 +1,146 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="3840" height="1747" viewBox="0 0 3840 1747">
+  <defs>
+    <marker id="arrowTeal" markerWidth="18" markerHeight="18" refX="13" refY="5" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L14,5 L0,10 Z" fill="#75b6c8" fill-opacity="0.82"/>
+    </marker>
+    <marker id="arrowPurple" markerWidth="18" markerHeight="18" refX="13" refY="5" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L14,5 L0,10 Z" fill="#8f91d6" fill-opacity="0.82"/>
+    </marker>
+  </defs>
+
+  <rect x="0" y="0" width="3840" height="1747" fill="#ffffff"/>
+
+  <!-- Fenwick tree node blocks -->
+  <rect x="791" y="228" width="1328" height="314" fill="#d9ecff" opacity="0.86"/>
+  <rect x="791" y="592" width="654" height="315" fill="#d9ecff" opacity="0.86"/>
+  <rect x="2146" y="592" width="677" height="315" fill="#d9ecff" opacity="0.86"/>
+  <rect x="791" y="965" width="315" height="316" fill="#d9ecff" opacity="0.86"/>
+  <rect x="1469" y="965" width="315" height="316" fill="#d9ecff" opacity="0.86"/>
+  <rect x="2146" y="965" width="315" height="316" fill="#d9ecff" opacity="0.86"/>
+  <rect x="2824" y="976" width="315" height="316" fill="#d9ecff" opacity="0.86"/>
+
+  <!-- Deformation blocks -->
+  <rect x="799" y="1334" width="313" height="316" fill="#b8ccdc" opacity="0.92"/>
+  <rect x="1132" y="1334" width="313" height="316" fill="#b8ccdc" opacity="0.92"/>
+  <rect x="1469" y="1334" width="313" height="316" fill="#b8ccdc" opacity="0.92"/>
+  <rect x="1809" y="1334" width="313" height="316" fill="#b8ccdc" opacity="0.92"/>
+  <rect x="2146" y="1334" width="313" height="316" fill="#b8ccdc" opacity="0.92"/>
+  <rect x="2482" y="1334" width="313" height="316" fill="#b8ccdc" opacity="0.92"/>
+  <rect x="2821" y="1334" width="313" height="316" fill="#b8ccdc" opacity="0.92"/>
+
+  <!-- Arrows -->
+  <line x1="2139" y1="379" x2="3313" y2="314" stroke="#75b6c8" stroke-width="8" stroke-opacity="0.78" marker-end="url(#arrowTeal)"/>
+  <line x1="2839" y1="749" x2="3313" y2="345" stroke="#75b6c8" stroke-width="8" stroke-opacity="0.78" marker-end="url(#arrowTeal)"/>
+
+  <line x1="2140" y1="380" x2="3311" y2="891" stroke="#8f91d6" stroke-width="8" stroke-opacity="0.78" marker-end="url(#arrowPurple)"/>
+  <line x1="2838" y1="752" x2="3312" y2="944" stroke="#8f91d6" stroke-width="8" stroke-opacity="0.78" marker-end="url(#arrowPurple)"/>
+  <line x1="3148" y1="1137" x2="3312" y2="988" stroke="#8f91d6" stroke-width="8" stroke-opacity="0.78" marker-end="url(#arrowPurple)"/>
+
+  <!-- Query result blocks -->
+  <rect x="3336" y="176" width="314" height="314" fill="#86b9cb" opacity="0.88"/>
+  <rect x="3336" y="783" width="314" height="314" fill="#9d9dda" opacity="0.88"/>
+
+  <!-- Left labels -->
+  <text x="480" y="724" text-anchor="middle" font-family="Times New Roman, Times, serif" font-size="82" fill="#080808">Fenwick Tree</text>
+  <text x="480" y="835" text-anchor="middle" font-family="Times New Roman, Times, serif" font-size="82" fill="#080808">Nodes</text>
+
+  <text x="480" y="1411" text-anchor="middle" font-family="Times New Roman, Times, serif" font-size="78" fill="#080808">Deformation</text>
+  <text x="480" y="1517" text-anchor="middle" font-family="Times New Roman, Times, serif" font-size="78" fill="#080808">relative to the</text>
+  <text x="480" y="1623" text-anchor="middle" font-family="Times New Roman, Times, serif" font-size="78" fill="#080808">previous frame</text>
+
+  <!-- Math text helper groups: r_k^[i], T_k^[i] -->
+  <g font-family="Times New Roman, Times, serif" fill="#111111">
+    <g transform="translate(1322 415)">
+      <text x="0" y="0" font-size="72" font-style="italic">r</text>
+      <text x="28" y="20" font-size="45" font-style="italic">k</text>
+      <text x="47" y="-43" font-size="45" font-style="normal">[4]</text>
+      <text x="100" y="0" font-size="72" font-style="normal">,</text>
+      <text x="139" y="0" font-size="72" font-style="italic">T</text>
+      <text x="187" y="20" font-size="45" font-style="italic">k</text>
+      <text x="206" y="-43" font-size="45" font-style="normal">[4]</text>
+    </g>
+
+    <g transform="translate(986 779)">
+      <text x="0" y="0" font-size="72" font-style="italic">r</text>
+      <text x="28" y="20" font-size="45" font-style="italic">k</text>
+      <text x="47" y="-43" font-size="45" font-style="normal">[2]</text>
+      <text x="100" y="0" font-size="72" font-style="normal">,</text>
+      <text x="139" y="0" font-size="72" font-style="italic">T</text>
+      <text x="187" y="20" font-size="45" font-style="italic">k</text>
+      <text x="206" y="-43" font-size="45" font-style="normal">[2]</text>
+    </g>
+
+    <g transform="translate(2352 779)">
+      <text x="0" y="0" font-size="72" font-style="italic">r</text>
+      <text x="28" y="20" font-size="45" font-style="italic">k</text>
+      <text x="47" y="-43" font-size="45" font-style="normal">[6]</text>
+      <text x="100" y="0" font-size="72" font-style="normal">,</text>
+      <text x="139" y="0" font-size="72" font-style="italic">T</text>
+      <text x="187" y="20" font-size="45" font-style="italic">k</text>
+      <text x="206" y="-43" font-size="45" font-style="normal">[6]</text>
+    </g>
+
+    <g transform="translate(815 1154)">
+      <text x="0" y="0" font-size="72" font-style="italic">r</text>
+      <text x="28" y="20" font-size="45" font-style="italic">k</text>
+      <text x="47" y="-43" font-size="45" font-style="normal">[1]</text>
+      <text x="100" y="0" font-size="72" font-style="normal">,</text>
+      <text x="139" y="0" font-size="72" font-style="italic">T</text>
+      <text x="187" y="20" font-size="45" font-style="italic">k</text>
+      <text x="206" y="-43" font-size="45" font-style="normal">[1]</text>
+    </g>
+
+    <g transform="translate(1495 1154)">
+      <text x="0" y="0" font-size="72" font-style="italic">r</text>
+      <text x="28" y="20" font-size="45" font-style="italic">k</text>
+      <text x="47" y="-43" font-size="45" font-style="normal">[3]</text>
+      <text x="100" y="0" font-size="72" font-style="normal">,</text>
+      <text x="139" y="0" font-size="72" font-style="italic">T</text>
+      <text x="187" y="20" font-size="45" font-style="italic">k</text>
+      <text x="206" y="-43" font-size="45" font-style="normal">[3]</text>
+    </g>
+
+    <g transform="translate(2172 1154)">
+      <text x="0" y="0" font-size="72" font-style="italic">r</text>
+      <text x="28" y="20" font-size="45" font-style="italic">k</text>
+      <text x="47" y="-43" font-size="45" font-style="normal">[5]</text>
+      <text x="100" y="0" font-size="72" font-style="normal">,</text>
+      <text x="139" y="0" font-size="72" font-style="italic">T</text>
+      <text x="187" y="20" font-size="45" font-style="italic">k</text>
+      <text x="206" y="-43" font-size="45" font-style="normal">[5]</text>
+    </g>
+
+    <g transform="translate(2850 1165)">
+      <text x="0" y="0" font-size="72" font-style="italic">r</text>
+      <text x="28" y="20" font-size="45" font-style="italic">k</text>
+      <text x="47" y="-43" font-size="45" font-style="normal">[7]</text>
+      <text x="100" y="0" font-size="72" font-style="normal">,</text>
+      <text x="139" y="0" font-size="72" font-style="italic">T</text>
+      <text x="187" y="20" font-size="45" font-style="italic">k</text>
+      <text x="206" y="-43" font-size="45" font-style="normal">[7]</text>
+    </g>
+  </g>
+
+  <!-- Query labels and math -->
+  <text x="3360" y="589" font-family="Times New Roman, Times, serif" font-size="86" font-weight="700" fill="#050505">Query:</text>
+  <g transform="translate(3380 706)" font-family="Times New Roman, Times, serif" fill="#111111">
+    <text x="0" y="0" font-size="76" font-style="italic">r</text>
+    <text x="30" y="24" font-size="48" font-style="italic">k</text>
+    <text x="51" y="-45" font-size="48" font-style="normal">6</text>
+    <text x="88" y="0" font-size="76" font-style="normal">,</text>
+    <text x="128" y="0" font-size="76" font-style="italic">T</text>
+    <text x="179" y="24" font-size="48" font-style="italic">k</text>
+    <text x="200" y="-45" font-size="48" font-style="normal">6</text>
+  </g>
+
+  <text x="3360" y="1196" font-family="Times New Roman, Times, serif" font-size="86" font-weight="700" fill="#050505">Query:</text>
+  <g transform="translate(3380 1313)" font-family="Times New Roman, Times, serif" fill="#111111">
+    <text x="0" y="0" font-size="76" font-style="italic">r</text>
+    <text x="30" y="24" font-size="48" font-style="italic">k</text>
+    <text x="51" y="-45" font-size="48" font-style="normal">7</text>
+    <text x="88" y="0" font-size="76" font-style="normal">,</text>
+    <text x="128" y="0" font-size="76" font-style="italic">T</text>
+    <text x="179" y="24" font-size="48" font-style="italic">k</text>
+    <text x="200" y="-45" font-size="48" font-style="normal">7</text>
+  </g>
+</svg>

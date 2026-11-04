@@ -1,15 +1,15 @@
 import { createContext, useContext, useEffect, useRef, useState, lazy, Suspense, type ReactNode } from 'react';
 import type { DemoLanguage } from '../cases';
-import { load, type Sample, type Selection, type Summary } from './data';
+import { load, type SampleIndex, type Selection, type Summary } from './data';
 import './research.css';
 const Compare = lazy(() => import('./SampleBrowser'));
-type Store = { data: Summary | null; samples: Sample[]; error: boolean; ensureSamples: () => void; open: (s: Selection) => void; language: DemoLanguage };
+type Store = { data: Summary | null; samples: SampleIndex[]; error: boolean; ensureSamples: () => void; open: (s: Selection) => void; language: DemoLanguage };
 const Context = createContext<Store>(null!);
 export const useResearch = () => useContext(Context);
 export function ResearchProvider({ language, children }: { language: DemoLanguage; children: ReactNode }) {
-  const [data,setData]=useState<Summary|null>(null), [samples,setSamples]=useState<Sample[]>([]), [error,setError]=useState(false), [selection,setSelection]=useState<Selection|null>(null);
+  const [data,setData]=useState<Summary|null>(null), [samples,setSamples]=useState<SampleIndex[]>([]), [error,setError]=useState(false), [selection,setSelection]=useState<Selection|null>(null);
   const trigger=useRef<HTMLElement|null>(null), previousHash=useRef('');
-  function ensureSamples() { void load<Sample[]>('samples.json').then(setSamples).catch(()=>setError(true)); }
+  function ensureSamples() { setError(false); void load<SampleIndex[]>('samples.json').then(setSamples).catch(()=>setError(true)); }
   function open(s: Selection) { trigger.current=document.activeElement as HTMLElement; previousHash.current=location.hash; ensureSamples(); setSelection(s); history.replaceState(null,'',`#research?sample=${s.sample}&metric=${s.metric}&condition=${s.condition??'A'}&methods=${(s.methods??[]).join(',')}`); }
   useEffect(()=>{ void load<Summary>('summary.json').then(setData).catch(()=>setError(true));
     function readHash() { if(location.hash.startsWith('#research?')) { const q=new URLSearchParams(location.hash.slice(10)); ensureSamples(); setSelection({sample:q.get('sample')??'sample-0001',metric:q.get('metric')??'D01',condition:q.get('condition')??'A', methods:q.get('methods')?.split(',').filter(Boolean)}); } }

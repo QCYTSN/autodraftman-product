@@ -1,0 +1,232 @@
+<svg width="3840" height="1169" viewBox="0 0 3840 1169" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <marker id="arrow" markerWidth="16" markerHeight="12" refX="14" refY="6" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L16,6 L0,12 Z" fill="#000"/>
+    </marker>
+    <marker id="arrowStart" markerWidth="16" markerHeight="12" refX="2" refY="6" orient="auto" markerUnits="strokeWidth">
+      <path d="M16,0 L0,6 L16,12 Z" fill="#000"/>
+    </marker>
+    <style>
+      .bold{font-family:Arial, Helvetica, sans-serif;font-weight:700;fill:#000}
+      .txt{font-family:Arial, Helvetica, sans-serif;fill:#000}
+      .edge{stroke:#000;stroke-width:6;stroke-linecap:round;fill:none}
+      .thin{stroke:#222;stroke-width:3;fill:none}
+      .node{fill:#000;stroke:#000;stroke-width:2}
+      .attrY{fill:#f7dca8;stroke:#222;stroke-width:3}
+      .attrP{fill:#c9a9aa;stroke:#222;stroke-width:3}
+      .slab{stroke:#222;stroke-width:4;stroke-linejoin:round}
+    </style>
+  </defs>
+
+  <rect x="0" y="0" width="3840" height="1169" fill="#fff"/>
+
+  <!-- Left: set of training graphs -->
+  <g>
+    <!-- graph 1 -->
+    <line class="edge" x1="143" y1="292" x2="178" y2="210"/>
+    <line class="edge" x1="143" y1="292" x2="268" y2="262"/>
+    <line class="edge" x1="143" y1="292" x2="350" y2="171"/>
+    <line class="edge" x1="350" y1="171" x2="365" y2="236"/>
+    <circle class="node" cx="143" cy="292" r="22"/>
+    <circle class="node" cx="178" cy="210" r="22"/>
+    <circle class="node" cx="268" cy="262" r="22"/>
+    <circle class="node" cx="350" cy="171" r="22"/>
+    <circle class="node" cx="365" cy="236" r="22"/>
+    <rect class="attrY" x="174" y="154" width="57" height="19"/>
+    <rect class="attrY" x="388" y="142" width="56" height="19"/>
+    <rect class="attrP" x="70" y="331" width="58" height="19"/>
+    <rect class="attrY" x="247" y="296" width="58" height="19"/>
+    <rect class="attrP" x="407" y="232" width="58" height="19"/>
+
+    <!-- graph 2 -->
+    <line class="edge" x1="144" y1="610" x2="277" y2="420"/>
+    <line class="edge" x1="277" y1="420" x2="290" y2="489"/>
+    <line class="edge" x1="290" y1="489" x2="276" y2="615"/>
+    <line class="edge" x1="144" y1="610" x2="276" y2="615"/>
+    <line class="edge" x1="276" y1="615" x2="365" y2="550"/>
+    <circle class="node" cx="144" cy="610" r="22"/>
+    <circle class="node" cx="277" cy="420" r="22"/>
+    <circle class="node" cx="290" cy="489" r="22"/>
+    <circle class="node" cx="276" cy="615" r="22"/>
+    <circle class="node" cx="365" cy="550" r="22"/>
+    <rect class="attrP" x="120" y="650" width="58" height="19"/>
+    <rect class="attrP" x="291" y="376" width="58" height="19"/>
+    <rect class="attrY" x="328" y="471" width="58" height="19"/>
+    <rect class="attrP" x="399" y="536" width="58" height="19"/>
+
+    <!-- graph 3 -->
+    <line class="edge" x1="142" y1="825" x2="218" y2="880"/>
+    <line class="edge" x1="218" y1="880" x2="305" y2="872"/>
+    <line class="edge" x1="142" y1="825" x2="333" y2="795"/>
+    <line class="edge" x1="219" y1="789" x2="333" y2="795"/>
+    <circle class="node" cx="142" cy="825" r="22"/>
+    <circle class="node" cx="218" cy="880" r="22"/>
+    <circle class="node" cx="305" cy="872" r="22"/>
+    <circle class="node" cx="333" cy="795" r="22"/>
+    <circle class="node" cx="219" cy="789" r="22"/>
+    <rect class="attrY" x="64" y="773" width="57" height="19"/>
+    <rect class="attrY" x="202" y="735" width="57" height="19"/>
+    <rect class="attrP" x="150" y="922" width="58" height="19"/>
+    <rect class="attrY" x="344" y="874" width="58" height="19"/>
+    <rect class="attrP" x="372" y="778" width="58" height="19"/>
+  </g>
+
+  <text class="bold" x="61" y="1025" font-size="52">Set of train graphs</text>
+  <text class="bold" x="50" y="1094" font-size="52">from the same class</text>
+
+  <!-- Curved arrows from graphs to message passing layers -->
+  <path d="M530 250 C570 350 610 390 670 420" stroke="#000" stroke-width="6" fill="none" marker-end="url(#arrow)"/>
+  <path d="M500 540 C570 560 620 555 680 545" stroke="#000" stroke-width="6" fill="none" marker-end="url(#arrow)"/>
+  <path d="M485 795 C545 745 605 655 675 625" stroke="#000" stroke-width="6" fill="none" marker-end="url(#arrow)"/>
+
+  <!-- Message passing layers -->
+  <g>
+    <!-- combine slab 1 -->
+    <polygon class="slab" points="720,330 780,315 786,790 726,805" fill="#fff0d5"/>
+    <polygon class="slab" points="780,315 910,140 920,615 786,790" fill="#fff3de"/>
+    <polygon class="slab" points="720,330 780,315 910,140 852,155" fill="#fff6e8"/>
+
+    <!-- aggregate slab 1 -->
+    <polygon class="slab" points="975,338 1008,338 1014,705 981,710" fill="#e7e7e7"/>
+    <polygon class="slab" points="1008,338 1084,248 1085,610 1014,705" fill="#dedede"/>
+    <polygon class="slab" points="975,338 1008,338 1084,248 1050,248" fill="#f1f1f1"/>
+
+    <!-- combine slab 2 -->
+    <polygon class="slab" points="1135,330 1198,315 1205,790 1142,805" fill="#fff0d5"/>
+    <polygon class="slab" points="1198,315 1328,140 1338,615 1205,790" fill="#fff3de"/>
+    <polygon class="slab" points="1135,330 1198,315 1328,140 1268,155" fill="#fff6e8"/>
+
+    <!-- aggregate slab 2 -->
+    <polygon class="slab" points="1390,338 1424,338 1430,705 1396,710" fill="#e7e7e7"/>
+    <polygon class="slab" points="1424,338 1498,248 1498,610 1430,705" fill="#dedede"/>
+    <polygon class="slab" points="1390,338 1424,338 1498,248 1464,248" fill="#f1f1f1"/>
+
+    <!-- readout small slab -->
+    <polygon class="slab" points="1572,458 1594,458 1598,653 1576,655" fill="#f7eadc"/>
+    <polygon class="slab" points="1594,458 1637,402 1638,595 1598,653" fill="#eadccd"/>
+    <polygon class="slab" points="1572,458 1594,458 1637,402 1615,402" fill="#fff4e8"/>
+  </g>
+
+  <!-- Training double arrow and label -->
+  <line x1="712" y1="881" x2="1665" y2="881" stroke="#000" stroke-width="6" marker-start="url(#arrowStart)" marker-end="url(#arrow)"/>
+  <text class="bold" x="735" y="955" font-size="52">Training of Message Passing Layers</text>
+
+  <!-- Arrow to graph representations -->
+  <line x1="1676" y1="522" x2="1830" y2="518" stroke="#000" stroke-width="6" marker-end="url(#arrow)"/>
+
+  <!-- Graph representations dashed panel -->
+  <path d="M1858 204
+           C1902 158 2075 148 2272 148
+           C2485 148 2738 150 2788 210
+           C2832 262 2825 588 2765 680
+           C2705 770 2480 790 2300 798
+           C2125 806 1932 792 1879 748
+           C1825 703 1788 276 1858 204 Z"
+        fill="#eeeeee" stroke="#222" stroke-width="3.5" stroke-dasharray="14 17"/>
+
+  <text class="bold" x="1995" y="116" font-size="50">Graph Representations</text>
+
+  <text class="bold" x="1958" y="270" font-size="46">Trained</text>
+  <text class="bold" x="1852" y="344" font-size="46">Representations</text>
+
+  <text class="bold" x="2273" y="255" font-size="43">Sampled Augmented</text>
+  <text class="bold" x="2320" y="330" font-size="43">Representations</text>
+
+  <!-- trained bars -->
+  <g stroke="#222" stroke-width="3">
+    <rect x="1928" y="389" width="174" height="60" fill="#8ca078"/>
+    <line x1="1986" y1="389" x2="1986" y2="449"/>
+    <line x1="2044" y1="389" x2="2044" y2="449"/>
+
+    <rect x="1928" y="496" width="174" height="60" fill="#8ca078"/>
+    <line x1="1986" y1="496" x2="1986" y2="556"/>
+    <line x1="2044" y1="496" x2="2044" y2="556"/>
+
+    <rect x="1930" y="595" width="174" height="60" fill="#8ca078"/>
+    <line x1="1988" y1="595" x2="1988" y2="655"/>
+    <line x1="2046" y1="595" x2="2046" y2="655"/>
+  </g>
+
+  <!-- sampled augmented bars -->
+  <g stroke="#222" stroke-width="3">
+    <rect x="2404" y="382" width="174" height="60" fill="#78df13"/>
+    <line x1="2462" y1="382" x2="2462" y2="442"/>
+    <line x1="2520" y1="382" x2="2520" y2="442"/>
+
+    <rect x="2405" y="491" width="174" height="60" fill="#78df13"/>
+    <line x1="2463" y1="491" x2="2463" y2="551"/>
+    <line x1="2521" y1="491" x2="2521" y2="551"/>
+
+    <rect x="2405" y="591" width="174" height="60" fill="#78df13"/>
+    <line x1="2463" y1="591" x2="2463" y2="651"/>
+    <line x1="2521" y1="591" x2="2521" y2="651"/>
+  </g>
+
+  <!-- Fit/sample arrows and equation -->
+  <path d="M2058 709 C2070 793 2104 835 2144 865" stroke="#000" stroke-width="5" fill="none" marker-end="url(#arrow)"/>
+  <text class="bold" x="1994" y="868" font-size="48">Fit</text>
+
+  <path d="M2450 842 C2470 760 2486 716 2498 706" stroke="#000" stroke-width="5" fill="none" marker-end="url(#arrow)"/>
+  <text class="bold" x="2510" y="830" font-size="48">Sample</text>
+
+  <g fill="#000" font-family="Times New Roman, Times, serif">
+    <text x="1982" y="980" font-size="66" font-style="italic">p(h) =</text>
+    <text x="2210" y="980" font-size="118">∑</text>
+    <text x="2225" y="883" font-size="42" font-style="italic">K</text>
+    <text x="2197" y="1051" font-size="39" font-style="italic">k=1</text>
+    <text x="2292" y="980" font-size="61" font-style="italic">π</text>
+    <text x="2327" y="999" font-size="34" font-style="italic">k</text>
+    <text x="2362" y="980" font-size="61" font-style="italic">N(h | μ</text>
+    <text x="2603" y="999" font-size="34" font-style="italic">k</text>
+    <text x="2638" y="980" font-size="61" font-style="italic">, Σ</text>
+    <text x="2738" y="999" font-size="34" font-style="italic">k</text>
+    <text x="2772" y="980" font-size="61" font-style="italic">)</text>
+  </g>
+
+  <!-- Arrow to post-readout -->
+  <path d="M2840 466 C2900 480 2920 475 2955 482" stroke="#000" stroke-width="6" fill="none" marker-end="url(#arrow)"/>
+
+  <!-- Post-readout block -->
+  <rect x="2982" y="380" width="300" height="175" rx="30" ry="30" fill="#f6d9dd" stroke="#222" stroke-width="4"/>
+  <text class="bold" x="2900" y="674" font-size="52">Post-Readout</text>
+  <text x="3258" y="674" font-family="Times New Roman, Times, serif" font-size="58" font-style="italic">Ψ</text>
+
+  <!-- Legend -->
+  <g>
+    <circle class="node" cx="3473" cy="101" r="22"/>
+    <text class="bold" x="3534" y="116" font-size="42">Nodes</text>
+
+    <line x1="3438" y1="164" x2="3510" y2="164" stroke="#000" stroke-width="5"/>
+    <text class="bold" x="3534" y="179" font-size="42">Edges</text>
+
+    <rect x="3446" y="218" width="58" height="20" fill="#fff" stroke="#222" stroke-width="3"/>
+    <text class="bold" x="3534" y="252" font-size="42">Node Attr.</text>
+
+    <!-- AGGREGATE icon -->
+    <polygon points="3459,294 3481,282 3480,333 3457,342" fill="#efefef" stroke="#222" stroke-width="3"/>
+    <polygon points="3481,282 3496,270 3495,320 3480,333" fill="#dcdcdc" stroke="#222" stroke-width="3"/>
+    <polygon points="3459,294 3481,282 3496,270 3474,281" fill="#f6f6f6" stroke="#222" stroke-width="3"/>
+    <text class="bold" x="3534" y="326" font-size="42">AGGREGATE</text>
+
+    <!-- COMBINE icon -->
+    <polygon points="3459,379 3481,367 3480,418 3457,427" fill="#fff0d5" stroke="#222" stroke-width="3"/>
+    <polygon points="3481,367 3496,355 3495,405 3480,418" fill="#f1dfc3" stroke="#222" stroke-width="3"/>
+    <polygon points="3459,379 3481,367 3496,355 3474,366" fill="#fff7e8" stroke="#222" stroke-width="3"/>
+    <text class="bold" x="3534" y="392" font-size="42">COMBINE</text>
+
+    <!-- READOUT icon -->
+    <polygon points="3459,461 3481,449 3480,500 3457,509" fill="#f7eadc" stroke="#222" stroke-width="3"/>
+    <polygon points="3481,449 3496,437 3495,487 3480,500" fill="#eadccd" stroke="#222" stroke-width="3"/>
+    <polygon points="3459,461 3481,449 3496,437 3474,448" fill="#fff4e8" stroke="#222" stroke-width="3"/>
+    <text class="bold" x="3534" y="476" font-size="42">READOUT</text>
+
+    <!-- Output of readout icon -->
+    <g stroke="#222" stroke-width="3" fill="#fff">
+      <rect x="3433" y="532" width="31" height="28"/>
+      <rect x="3464" y="532" width="31" height="28"/>
+      <rect x="3495" y="532" width="31" height="28"/>
+    </g>
+    <text class="bold" x="3534" y="543" font-size="42">Output of</text>
+    <text class="bold" x="3534" y="607" font-size="42">REDOUT</text>
+  </g>
+</svg>

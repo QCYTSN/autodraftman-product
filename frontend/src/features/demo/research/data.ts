@@ -3,15 +3,28 @@ export type Method = { id: string; name: string; color: string; variant: string;
 export type Metric = { id: string; name: string; en: string; group: string; groupEn: string; definition: string; definitionEn: string; unit: string; evidence: string; boundary: string; na: string; direction: 'higher' | 'lower' };
 export type Counts = { pass?: number; fail?: number; unknown?: number; NA?: number };
 export type Score = { score: number | null; counts: Counts; currentScore?: number; judgmentN?: number; sampleN?: number; version?: string };
-export type Artifact = { status: string; image?: string; svg?: string; width?: number; height?: number; sourceHash?: string; svgHash?: string; runId?: string; conditionId?: string; evaluationVersion?: string };
-export type Sample = { resources: Record<string,{cost:number;seconds:number;tokens:number}>; id: string; category: string; sourceUrl: string; source: Artifact; artifacts: Record<string, Artifact>; scores: Record<string, Record<string, Score>> };
-export type Summary = { methods: Method[]; metrics: Metric[]; summaries: Record<string, Record<string, Score>>; resources: Record<string, { cost: number; minutes: number; tokens: number; n: number; comparable: boolean }>; provenance: { snapshot: string; version: string; cohortN: number; judgments: number; coverage: Record<string, number> } };
+export type Artifact = { status: string; image?: string; svg?: string; width?: number; height?: number; sourceHash?: string; svgHash?: string; runId?: string; conditionId?: string; evaluationVersion?: string; previewOrigin?: string };
+export type SampleIndex = { id: string; category: string; sourceUrl: string };
+export type Sample = SampleIndex & { resources: Record<string,{cost:number;seconds:number;tokens:number}>; source: Artifact; artifacts: Record<string, Artifact>; scores: Record<string, Record<string, Score>>; eligible: Record<'comparison'|'ablation',string[]> };
+export type Summary = { methods: Method[]; metrics: Metric[]; summaries: Record<string, Record<string, Score>>; ablationSummaries: Record<string, Record<string, Score>>; examples: Record<'comparison'|'ablation',Record<string,string>>; resources: Record<string, { cost: number; minutes: number; tokens: number; n: number; comparable: boolean }>; provenance: { snapshot: string; version: string; cohortN: number; judgments: number; coverage: Record<string, number> } };
 export type Selection = { sample: string; metric: string; methods?: string[]; condition?: string };
-export const asset = (path: string) => import.meta.env.BASE_URL + 'assets/research/' + path;
-const cache = new Map<string, Promise<unknown>>();
-export function load<T>(file: string): Promise<T> {
-  if (!cache.has(file)) cache.set(file, fetch(asset(file)).then(r => { if (!r.ok) throw new Error('Data unavailable'); return r.json(); }).catch(e => { cache.delete(file); throw e; }));
-  return cache.get(file) as Promise<T>;
+// Keep a newly deployed schema and previews separate from browsers' old cached files.
+export const asset = (path: string) => import.meta.env.BASE_URL + 'assets/research/' + path + '?v=20261104-1';
+type Cached = { promise: Promise<unknown>; pending: boolean; signal?: AbortSignal };
+const cache = new Map<string, Cached>();
+export function load<T>(file: string, signal?: AbortSignal): Promise<T> {
+  const existing = cache.get(file);
+  if (existing && !(existing.pending && existing.signal?.aborted)) return existing.promise as Promise<T>;
+  const entry: Cached = { pending: true, signal, promise: Promise.resolve() };
+  entry.promise = fetch(asset(file), { signal }).then(r => {
+    if (!r.ok) throw new Error('Data unavailable');
+    return r.json();
+  }).then(value => { entry.pending = false; return value; }).catch(error => {
+    if (cache.get(file) === entry) cache.delete(file);
+    throw error;
+  });
+  cache.set(file, entry);
+  return entry.promise as Promise<T>;
 }
 export const label = (m: Metric, language: DemoLanguage) => language === 'zh' ? m.name : m.en;
 export const number = (v: number | null | undefined, digits = 1) => v == null ? '—' : v.toFixed(digits);

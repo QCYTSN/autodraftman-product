@@ -1,0 +1,78 @@
+name: Deploy reviewed FigFox source to Pages
+
+on:
+  workflow_dispatch:
+    inputs:
+      source_revision:
+        description: Reviewed QCYTSN/autodraftman-product commit (full 40-character SHA)
+        type: string
+        required: true
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Validate source revision
+        env:
+          SOURCE_REVISION: ${{ inputs.source_revision }}
+        run: |
+          [[ "$SOURCE_REVISION" =~ ^[0-9a-f]{40}$ ]] || { echo "A full reviewed source SHA is required."; exit 1; }
+
+      - name: Checkout reviewed product source
+        uses: actions/checkout@v7
+        with:
+          repository: QCYTSN/autodraftman-product
+          ref: ${{ inputs.source_revision }}
+          persist-credentials: false
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: frontend/package-lock.json
+
+      - name: Build and identify the checked-out source
+        working-directory: frontend
+        env:
+          SOURCE_REVISION: ${{ inputs.source_revision }}
+        run: |
+          test "$(git rev-parse HEAD)" = "$SOURCE_REVISION"
+          npm ci
+          npm run build:pages
+          node --input-type=module <<'NODE'
+          import { execFileSync } from 'node:child_process';
+          import { writeFileSync } from 'node:fs';
+          const revision = execFileSync('git', ['rev-parse', 'HEAD'], { encoding: 'utf8' }).trim();
+          if (revision !== process.env.SOURCE_REVISION) throw new Error('Source SHA mismatch');
+          writeFileSync('dist/_release.json', JSON.stringify({
+            sourceRepository: 'QCYTSN/autodraftman-product', sourceRevision: revision,
+            builtAt: new Date().toISOString(), workflowRun: process.env.GITHUB_RUN_ID
+          }, null, 2) + '\n');
+          NODE
+
+      - name: Configure Pages
+        uses: actions/configure-pages@v6
+        with:
+          enablement: true
+
+      - name: Upload the source build
+        uses: actions/upload-pages-artifact@v5
+        with:
+          path: frontend/dist
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v5

@@ -18,13 +18,13 @@ try {
  const page=await browser.newPage({viewport:{width:1440,height:900},acceptDownloads:true});
  await page.addInitScript(()=>localStorage.setItem('autodraftman-language','zh'));
  page.on('pageerror',e=>errors.push(e.message));page.on('response',r=>{if(r.status()>=400)errors.push(`${r.status()} ${r.url()}`);});
- await page.goto(base+'/',{waitUntil:'networkidle'});await page.locator('.demo-svg-mount > svg').waitFor();
+ await page.goto(base+'/',{waitUntil:'networkidle'});await page.locator('.demo-canvas-stage').scrollIntoViewIfNeeded();await page.locator('.demo-svg-mount > svg').waitFor();await page.evaluate(()=>scrollTo({top:0,behavior:'instant'}));
  const summary=await (await page.request.get(base+'/assets/research/summary.json')).json();
- assert.equal(summary.provenance.cohortN,80);assert.equal(summary.provenance.judgments,16320);assert.equal(summary.metrics.length,17);
+ assert.equal(summary.provenance.cohortN,80);assert.equal(summary.provenance.judgments,8160);assert.equal(summary.metrics.length,17);
  await page.screenshot({path:output+'/desktop-hero.png'});
  await page.locator('#demo-benchmarks').scrollIntoViewIfNeeded();await page.locator('.research-profiles button').first().waitFor();
  assert.equal(await page.locator('.research-heatmap tbody tr').count(),17);assert.equal(await page.locator('.research-heatmap tbody button').count(),68);
- assert.match(await page.locator('.research-rank-highlights').innerText(),/9/);checks.push('Official data and 68 heatmap cells');
+ assert.equal(summary.provenance.snapshot,'2026-11-04');assert.equal(summary.summaries.A.D01.sampleN,63);assert.equal(summary.ablationSummaries.A.D01.sampleN,74);checks.push('Official data and 68 heatmap cells');
  const methodIds=['A','DrawAI','AFE','Crafter'];
  for (const [row,metric] of summary.metrics.entries()) {
   const values=methodIds.map(id=>summary.summaries[id][metric.id].score);
@@ -59,7 +59,7 @@ try {
  await page.locator('.research-output-grid article').nth(3).waitFor();assert.equal(await page.locator('.research-output-grid article').count(),4);
  assert.equal(await page.getByLabel('指标',{exact:true}).inputValue(),'D08');
  await page.getByRole('button',{name:'聚焦比较',exact:true}).click();assert.equal(await page.locator('.research-output-grid article').count(),2);
- await page.getByLabel('同步缩放',{exact:true}).fill('2');await page.getByRole('button',{name:'→',exact:true}).click();
+ await page.getByLabel('同步缩放',{exact:true}).fill('2');await page.getByRole('button',{name:'向右平移',exact:true}).click();
  assert.equal(await page.locator('.research-output-grid').evaluate(el=>el.style.getPropertyValue('--pan-x')),'40px');
  await page.getByRole('button',{name:'重置视图',exact:true}).click();assert.equal(await page.getByLabel('同步缩放',{exact:true}).inputValue(),'1');
  await page.locator('.research-dialog').screenshot({path:output+'/comparison.png'});await page.keyboard.press('Escape');await page.locator('.research-dialog').waitFor({state:'detached'});await page.waitForTimeout(40);
@@ -79,6 +79,10 @@ try {
  await page.locator('#demo-ablations').getByRole('button',{name:/^无 SAM:/}).click();
  await page.locator('#demo-ablations').getByRole('button',{name:'查看无 SAM示例'}).click();
  await page.locator('.research-dialog').waitFor();assert.equal(await page.getByLabel('方法 2',{exact:true}).inputValue(),'B');await page.keyboard.press('Escape');
+ await page.locator('#demo-ablations').getByRole('button',{name:/^完整 FigFox:/}).click();
+ await page.locator('#demo-ablations').getByRole('button',{name:'查看完整 FigFox示例'}).click();
+ await page.getByLabel('方法 2',{exact:true}).waitFor();assert.equal(await page.getByLabel('方法 2',{exact:true}).inputValue(),'C');
+ assert.equal(await page.getByLabel('方法 2',{exact:true}).locator('option').count(),3);await page.keyboard.press('Escape');
  await page.locator('#demo-ablations').scrollIntoViewIfNeeded();
  await openCriterion(page,'消融指标');
  const ablationMotion=await page.evaluate(async()=>{
@@ -88,15 +92,15 @@ try {
   await new Promise(r=>setTimeout(r,90));const midway=read();
   await new Promise(r=>setTimeout(r,550));return{initial,midway,final:read()};
  });
- assert.ok(ablationMotion.midway.value<ablationMotion.initial.value&&ablationMotion.midway.value>ablationMotion.final.value,JSON.stringify(ablationMotion));
- assert.ok(ablationMotion.midway.position<ablationMotion.initial.position&&ablationMotion.midway.position>ablationMotion.final.position);
- assert.equal(ablationMotion.final.value,Number(summary.summaries.A.D03.score.toFixed(1)));
+ assert.ok(ablationMotion.midway.value>ablationMotion.initial.value&&ablationMotion.midway.value<ablationMotion.final.value,JSON.stringify(ablationMotion));
+ assert.ok(ablationMotion.midway.position>ablationMotion.initial.position&&ablationMotion.midway.position<ablationMotion.final.position);
+ assert.equal(ablationMotion.final.value,Number(summary.ablationSummaries.A.D03.score.toFixed(1)));
  for (const id of ['D01','D13','D08']) await chooseCriterion(page,'消融指标',id);
  await page.waitForTimeout(550);
- assert.equal(await page.locator('.research-ablation-chart button').last().locator('strong').innerText(),summary.summaries.A.D08.score.toFixed(1));
+ assert.equal(await page.locator('.research-ablation-chart button').last().locator('strong').innerText(),summary.ablationSummaries.A.D08.score.toFixed(1));
  await page.emulateMedia({reducedMotion:'reduce'});await chooseCriterion(page,'消融指标','D03');
  await page.evaluate(()=>new Promise(requestAnimationFrame));
- assert.equal(await page.locator('.research-ablation-chart button').last().locator('strong').innerText(),summary.summaries.A.D03.score.toFixed(1));
+ assert.equal(await page.locator('.research-ablation-chart button').last().locator('strong').innerText(),summary.ablationSummaries.A.D03.score.toFixed(1));
  await page.emulateMedia({reducedMotion:'no-preference'});
  checks.push('Ablation numbers and markers interpolate together, rapid changes settle correctly, reduced motion updates immediately');
  const currentMetrics=summary.metrics.filter(m=>m.id!=='D09');
@@ -121,12 +125,12 @@ try {
  await openCriterion(page,'效果对比指标');
  const qualityMotion=await page.evaluate(async()=>{
   const read=()=>{const row=document.querySelector('.research-comparison-row[data-method="A"]');return{value:Number(row.querySelector('.research-quality-cell strong').textContent),position:parseFloat(row.querySelector('.research-quality-cell .research-comparison-track b').style.left)}};
-  const initial=read();document.querySelector('.research-criterion-popup[data-open] .research-criterion-option[data-value="D13"]').click();
+  const initial=read();document.querySelector('.research-criterion-popup[data-open] .research-criterion-option[data-value="D01"]').click();
   await new Promise(r=>setTimeout(r,100));const midway=read();await new Promise(r=>setTimeout(r,550));return{initial,midway,final:read()};
  });
  assert.ok(qualityMotion.midway.value>qualityMotion.initial.value&&qualityMotion.midway.value<qualityMotion.final.value,JSON.stringify(qualityMotion));
- assert.ok(qualityMotion.midway.position<qualityMotion.initial.position&&qualityMotion.midway.position>qualityMotion.final.position);
- assert.equal(qualityMotion.final.value,Number(summary.summaries.A.D13.score.toFixed(1)));
+ assert.ok(qualityMotion.midway.position>Math.min(qualityMotion.initial.position,qualityMotion.final.position)&&qualityMotion.midway.position<Math.max(qualityMotion.initial.position,qualityMotion.final.position),JSON.stringify(qualityMotion));
+ assert.equal(qualityMotion.final.value,Number(summary.summaries.A.D01.score.toFixed(1)));
  assert.equal(await page.locator('.research-comparison-row[data-method="A"] .research-quality-rank').innerText(),'第 2');
  assert.equal(await page.locator('.research-comparison-row[data-method="DrawAI"] .research-quality-rank').innerText(),'第 1');
  await page.emulateMedia({reducedMotion:'reduce'});
@@ -146,7 +150,7 @@ try {
  await page.locator('#research-settings summary').click();assert.match(await page.locator('#research-settings').innerText(),/D09/);
  assert.match(await page.locator('#research-settings').innerText(),/GPT-5.5/);await page.locator('#research-settings summary').click();
  checks.push('Resource breakdown derives from A/C records; complete protocol and downloads remain available in settings');
- await page.locator('.research-stage-tabs button').nth(2).click();assert.match(await page.locator('.research-stage-evidence').innerText(),/13 \/ 13/);checks.push('Historical native receipt shows 13 of 13 executed operations');
+ await page.locator('.research-stage-tabs button').nth(2).click();await page.locator('.research-stage-evidence').getByText(/13 \/ 13/).waitFor();checks.push('Historical native receipt shows 13 of 13 executed operations');
  await page.locator('.research-stage-tabs button').nth(1).click();await page.getByRole('button',{name:'B1 · 定位问题',exact:true}).click();assert.equal(await page.locator('.pipeline-roi').count(),2);await page.locator('.research-stage-tabs button').nth(2).click();
  await page.locator('#demo-method .demo-section-heading').scrollIntoViewIfNeeded();await page.waitForTimeout(400);await page.locator('#demo-method').screenshot({path:output+'/architecture.png',style:'.demo-header{visibility:hidden}[data-demo-reveal]{opacity:1!important;transform:none!important}'});
  await page.locator('.demo-object-types button').first().click();await page.getByRole('button',{name:'修改选中文字',exact:true}).click();await page.getByLabel('修改案例文字').fill('Research demo edit');await page.getByLabel('修改案例文字').press('Enter');

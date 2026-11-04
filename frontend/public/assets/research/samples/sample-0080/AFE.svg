@@ -1,0 +1,191 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="3840" height="3325" viewBox="0 0 3840 3325">
+  <defs>
+    <marker id="arrow-orange" viewBox="0 0 12 12" refX="10" refY="6" markerWidth="13" markerHeight="13" orient="auto" markerUnits="strokeWidth">
+      <path d="M1,1 L11,6 L1,11 Z" fill="#f4772b"/>
+    </marker>
+    <marker id="arrow-blue" viewBox="0 0 12 12" refX="10" refY="6" markerWidth="13" markerHeight="13" orient="auto" markerUnits="strokeWidth">
+      <path d="M1,1 L11,6 L1,11 Z" fill="#559bd3"/>
+    </marker>
+    <marker id="arrow-green" viewBox="0 0 12 12" refX="10" refY="6" markerWidth="13" markerHeight="13" orient="auto" markerUnits="strokeWidth">
+      <path d="M1,1 L11,6 L1,11 Z" fill="#69b547"/>
+    </marker>
+    <marker id="arrow-black" viewBox="0 0 12 12" refX="10" refY="6" markerWidth="13" markerHeight="13" orient="auto" markerUnits="strokeWidth">
+      <path d="M1,1 L11,6 L1,11 Z" fill="#000000"/>
+    </marker>
+    <style>
+      .sans{font-family:Arial, Helvetica, sans-serif}
+      .math{font-family:"Times New Roman", Times, serif;font-style:italic}
+      .mathn{font-family:"Times New Roman", Times, serif}
+    </style>
+  </defs>
+
+  <rect width="3840" height="3325" fill="#ffffff"/>
+
+  <rect x="107" y="315" width="3545" height="2485" rx="49" ry="49" fill="#e9e9e9" stroke="#2d4e63" stroke-width="6"/>
+
+  <text x="2985" y="535" text-anchor="middle" dominant-baseline="middle" class="sans" font-size="145" fill="#000">C-Siren Module</text>
+
+  <!-- Long arrows and interconnections -->
+  <path d="M635 3010 L635 2838" fill="none" stroke="#f4772b" stroke-width="10" marker-end="url(#arrow-orange)"/>
+  <path d="M635 2605 L635 2490" fill="none" stroke="#f4772b" stroke-width="10" marker-end="url(#arrow-orange)"/>
+  <path d="M635 2338 L635 2220" fill="none" stroke="#f4772b" stroke-width="10" marker-end="url(#arrow-orange)"/>
+  <path d="M635 1986 L635 1838" fill="none" stroke="#f4772b" stroke-width="10" marker-end="url(#arrow-orange)"/>
+  <path d="M635 1705 L635 1165 L1598 1165" fill="none" stroke="#f4772b" stroke-width="10" marker-end="url(#arrow-orange)"/>
+
+  <path d="M1725 3010 L1725 2838" fill="none" stroke="#559bd3" stroke-width="10" marker-end="url(#arrow-blue)"/>
+  <path d="M1725 2605 L1725 2490" fill="none" stroke="#559bd3" stroke-width="10" marker-end="url(#arrow-blue)"/>
+  <path d="M1725 2338 L1725 2220" fill="none" stroke="#559bd3" stroke-width="10" marker-end="url(#arrow-blue)"/>
+  <path d="M1725 1986 L1725 1838" fill="none" stroke="#559bd3" stroke-width="10" marker-end="url(#arrow-blue)"/>
+  <path d="M1725 1705 L1725 1623" fill="none" stroke="#559bd3" stroke-width="10" marker-end="url(#arrow-blue)"/>
+
+  <path d="M3020 3115 L3020 2658" fill="none" stroke="#69b547" stroke-width="10" marker-end="url(#arrow-green)"/>
+  <path d="M3020 2515 L3020 2418" fill="none" stroke="#69b547" stroke-width="10" marker-end="url(#arrow-green)"/>
+  <path d="M3020 2185 L3020 2088" fill="none" stroke="#69b547" stroke-width="10" marker-end="url(#arrow-green)"/>
+  <path d="M3020 1945 L3020 1880" fill="none" stroke="#69b547" stroke-width="10" marker-end="url(#arrow-green)"/>
+  <path d="M3020 1650 L3020 1568" fill="none" stroke="#69b547" stroke-width="10" marker-end="url(#arrow-green)"/>
+  <path d="M3320 1438 L3320 1165 L1852 1165" fill="none" stroke="#69b547" stroke-width="10" marker-end="url(#arrow-green)"/>
+  <path d="M2360 1500 L1852 1500" fill="none" stroke="#69b547" stroke-width="10" marker-end="url(#arrow-green)"/>
+
+  <path d="M1725 1382 L1725 1288" fill="none" stroke="#000" stroke-width="10" marker-end="url(#arrow-black)"/>
+  <path d="M1725 1047 L1725 936" fill="none" stroke="#000" stroke-width="10" marker-end="url(#arrow-black)"/>
+  <path d="M1725 700 L1725 576" fill="none" stroke="#000" stroke-width="10" marker-end="url(#arrow-black)"/>
+  <path d="M1725 430 L1725 223" fill="none" stroke="#000" stroke-width="10" marker-end="url(#arrow-black)"/>
+
+  <!-- Containers -->
+  <rect x="170" y="1835" width="890" height="930" fill="#f2cdb5" stroke="#000" stroke-width="5" stroke-dasharray="10 8"/>
+  <rect x="1260" y="1835" width="930" height="930" fill="#c8deef" stroke="#000" stroke-width="5" stroke-dasharray="10 8"/>
+  <rect x="2350" y="1605" width="1320" height="1085" fill="#d3e5c9" stroke="#000" stroke-width="5" stroke-dasharray="10 8"/>
+
+  <!-- Orange network -->
+  <rect x="220" y="2605" width="830" height="230" rx="25" fill="#f37a25" stroke="#743a16" stroke-width="6"/>
+  <text x="635" y="2723" text-anchor="middle" dominant-baseline="middle" class="sans" font-size="79" fill="#fff">
+    Linear <tspan class="math" font-size="88">d</tspan><tspan class="math" font-size="55" baseline-shift="sub">I</tspan><tspan class="sans" font-size="88"> × </tspan><tspan class="math" font-size="88">d</tspan><tspan class="math" font-size="55" baseline-shift="sub">i</tspan>
+  </text>
+
+  <rect x="430" y="2338" width="430" height="145" fill="#f37a25" stroke="#743a16" stroke-width="6"/>
+  <text x="645" y="2413" text-anchor="middle" dominant-baseline="middle" class="sans" font-size="82" fill="#fff">GELU</text>
+
+  <rect x="220" y="1986" width="830" height="230" rx="25" fill="#f37a25" stroke="#743a16" stroke-width="6"/>
+  <text x="635" y="2104" text-anchor="middle" dominant-baseline="middle" class="sans" font-size="79" fill="#fff">
+    Linear <tspan class="math" font-size="88">d</tspan><tspan class="math" font-size="55" baseline-shift="sub">i</tspan><tspan class="sans" font-size="88"> × </tspan><tspan class="math" font-size="88">d</tspan><tspan class="math" font-size="55" baseline-shift="sub">i</tspan>
+  </text>
+
+  <!-- Blue network -->
+  <rect x="1310" y="2605" width="830" height="230" rx="25" fill="#579bd2" stroke="#234f75" stroke-width="6"/>
+  <text x="1725" y="2723" text-anchor="middle" dominant-baseline="middle" class="sans" font-size="79" fill="#fff">
+    Linear <tspan class="math" font-size="88">d</tspan><tspan class="math" font-size="55" baseline-shift="sub">i</tspan><tspan class="sans" font-size="88"> × </tspan><tspan class="math" font-size="88">d</tspan><tspan class="math" font-size="55" baseline-shift="sub">i</tspan>
+  </text>
+
+  <rect x="1520" y="2338" width="430" height="145" fill="#579bd2" stroke="#234f75" stroke-width="6"/>
+  <text x="1735" y="2413" text-anchor="middle" dominant-baseline="middle" class="sans" font-size="82" fill="#fff">GELU</text>
+
+  <rect x="1310" y="1986" width="830" height="230" rx="25" fill="#579bd2" stroke="#234f75" stroke-width="6"/>
+  <text x="1725" y="2104" text-anchor="middle" dominant-baseline="middle" class="sans" font-size="79" fill="#fff">
+    Linear <tspan class="math" font-size="88">d</tspan><tspan class="math" font-size="55" baseline-shift="sub">i</tspan><tspan class="sans" font-size="88"> × </tspan><tspan class="math" font-size="88">d</tspan><tspan class="math" font-size="55" baseline-shift="sub">i</tspan>
+  </text>
+
+  <!-- Green time network -->
+  <rect x="2395" y="2515" width="1245" height="140" rx="14" fill="#69ad43" stroke="#234f75" stroke-width="6"/>
+  <text x="3020" y="2588" text-anchor="middle" dominant-baseline="middle" class="sans" font-size="75" fill="#fff">Sinusoidal Embedding</text>
+
+  <rect x="2530" y="2185" width="970" height="230" rx="25" fill="#69ad43" stroke="#234f75" stroke-width="6"/>
+  <text x="3015" y="2303" text-anchor="middle" dominant-baseline="middle" class="sans" font-size="79" fill="#fff">
+    Linear <tspan class="math" font-size="88">d</tspan><tspan class="math" font-size="55" baseline-shift="sub">T</tspan><tspan class="sans" font-size="88"> × 2</tspan><tspan class="math" font-size="88">d</tspan><tspan class="math" font-size="55" baseline-shift="sub">i</tspan>
+  </text>
+
+  <rect x="2810" y="1945" width="415" height="145" fill="#69ad43" stroke="#234f75" stroke-width="6"/>
+  <text x="3018" y="2020" text-anchor="middle" dominant-baseline="middle" class="sans" font-size="82" fill="#fff">GELU</text>
+
+  <rect x="2530" y="1650" width="970" height="230" rx="25" fill="#69ad43" stroke="#234f75" stroke-width="6"/>
+  <text x="3015" y="1768" text-anchor="middle" dominant-baseline="middle" class="sans" font-size="79" fill="#fff">
+    Linear 2<tspan class="math" font-size="88">d</tspan><tspan class="math" font-size="55" baseline-shift="sub">i</tspan><tspan class="sans" font-size="88"> × 2</tspan><tspan class="math" font-size="88">d</tspan><tspan class="math" font-size="55" baseline-shift="sub">i</tspan>
+  </text>
+
+  <!-- Center operators -->
+  <circle cx="1725" cy="1500" r="118" fill="#fff" stroke="#000" stroke-width="6"/>
+  <line x1="1668" y1="1443" x2="1782" y2="1557" stroke="#000" stroke-width="10" stroke-linecap="square"/>
+  <line x1="1782" y1="1443" x2="1668" y2="1557" stroke="#000" stroke-width="10" stroke-linecap="square"/>
+
+  <circle cx="1725" cy="1165" r="118" fill="#fff" stroke="#000" stroke-width="6"/>
+  <line x1="1668" y1="1165" x2="1782" y2="1165" stroke="#000" stroke-width="10" stroke-linecap="square"/>
+  <line x1="1725" y1="1108" x2="1725" y2="1222" stroke="#000" stroke-width="10" stroke-linecap="square"/>
+
+  <!-- Top output layers -->
+  <rect x="1310" y="700" width="830" height="235" rx="28" fill="#fff" stroke="#000" stroke-width="6"/>
+  <text x="1725" y="823" text-anchor="middle" dominant-baseline="middle" class="sans" font-size="82" fill="#000">
+    Linear <tspan class="math" font-size="90">d</tspan><tspan class="math" font-size="55" baseline-shift="sub">i</tspan><tspan class="sans" font-size="90"> × </tspan><tspan class="math" font-size="90">d</tspan><tspan class="math" font-size="55" baseline-shift="sub">o</tspan>
+  </text>
+
+  <rect x="1518" y="430" width="420" height="145" fill="#fff" stroke="#000" stroke-width="6"/>
+  <text x="1728" y="505" text-anchor="middle" dominant-baseline="middle" class="sans" font-size="82" fill="#000">Sine</text>
+
+  <text x="1725" y="165" text-anchor="middle" class="math" font-size="115" fill="#000">x′</text>
+
+  <!-- Vector helper: orange input -->
+  <rect x="220" y="3010" width="830" height="130" rx="13" fill="#fff" stroke="#f4772b" stroke-width="6"/>
+  <circle cx="300" cy="3075" r="46" fill="#fff" stroke="#f4772b" stroke-width="6"/>
+  <circle cx="438" cy="3075" r="46" fill="#fff" stroke="#f4772b" stroke-width="6"/>
+  <circle cx="576" cy="3075" r="46" fill="#fff" stroke="#f4772b" stroke-width="6"/>
+  <circle cx="714" cy="3075" r="46" fill="#fff" stroke="#f4772b" stroke-width="6"/>
+  <circle cx="852" cy="3075" r="46" fill="#fff" stroke="#f4772b" stroke-width="6"/>
+  <circle cx="990" cy="3075" r="46" fill="#fff" stroke="#f4772b" stroke-width="6"/>
+
+  <text x="635" y="3250" text-anchor="middle" class="math" font-size="115" fill="#000">
+    e<tspan font-size="65" baseline-shift="sub">I</tspan>
+  </text>
+
+  <!-- orange h vector -->
+  <rect x="350" y="1705" width="550" height="130" rx="13" fill="#fff" stroke="#f4772b" stroke-width="6"/>
+  <circle cx="420" cy="1770" r="46" fill="#fff" stroke="#f4772b" stroke-width="6"/>
+  <circle cx="558" cy="1770" r="46" fill="#fff" stroke="#f4772b" stroke-width="6"/>
+  <circle cx="696" cy="1770" r="46" fill="#fff" stroke="#f4772b" stroke-width="6"/>
+  <circle cx="834" cy="1770" r="46" fill="#fff" stroke="#f4772b" stroke-width="6"/>
+
+  <text x="198" y="1818" text-anchor="middle" class="math" font-size="110" fill="#000">
+    h<tspan font-size="62" baseline-shift="sub">I</tspan>
+  </text>
+
+  <!-- blue input -->
+  <rect x="1450" y="3010" width="550" height="130" rx="13" fill="#fff" stroke="#188ccf" stroke-width="6"/>
+  <circle cx="1520" cy="3075" r="46" fill="#fff" stroke="#188ccf" stroke-width="6"/>
+  <circle cx="1658" cy="3075" r="46" fill="#fff" stroke="#188ccf" stroke-width="6"/>
+  <circle cx="1796" cy="3075" r="46" fill="#fff" stroke="#188ccf" stroke-width="6"/>
+  <circle cx="1934" cy="3075" r="46" fill="#fff" stroke="#188ccf" stroke-width="6"/>
+
+  <text x="1725" y="3250" text-anchor="middle" class="math" font-size="115" fill="#000">x</text>
+
+  <!-- blue h vector -->
+  <rect x="1450" y="1705" width="550" height="130" rx="13" fill="#fff" stroke="#188ccf" stroke-width="6"/>
+  <circle cx="1520" cy="1770" r="46" fill="#fff" stroke="#188ccf" stroke-width="6"/>
+  <circle cx="1658" cy="1770" r="46" fill="#fff" stroke="#188ccf" stroke-width="6"/>
+  <circle cx="1796" cy="1770" r="46" fill="#fff" stroke="#188ccf" stroke-width="6"/>
+  <circle cx="1934" cy="1770" r="46" fill="#fff" stroke="#188ccf" stroke-width="6"/>
+
+  <text x="1320" y="1818" text-anchor="middle" class="math" font-size="110" fill="#000">
+    h<tspan font-size="62" baseline-shift="sub">x</tspan>
+  </text>
+
+  <!-- Alpha expression -->
+  <text x="2210" y="1538" text-anchor="middle" dominant-baseline="middle" class="mathn" font-size="105" fill="#000">(1+</text>
+  <rect x="2360" y="1438" width="550" height="130" rx="13" fill="#fff" stroke="#69b547" stroke-width="6"/>
+  <circle cx="2430" cy="1503" r="46" fill="#fff" stroke="#69b547" stroke-width="6"/>
+  <circle cx="2568" cy="1503" r="46" fill="#fff" stroke="#69b547" stroke-width="6"/>
+  <circle cx="2706" cy="1503" r="46" fill="#fff" stroke="#69b547" stroke-width="6"/>
+  <circle cx="2844" cy="1503" r="46" fill="#fff" stroke="#69b547" stroke-width="6"/>
+  <text x="2950" y="1538" text-anchor="middle" dominant-baseline="middle" class="mathn" font-size="105" fill="#000">)</text>
+  <text x="2635" y="1648" text-anchor="middle" class="math" font-size="110" fill="#000">
+    α<tspan font-size="62" baseline-shift="sub">t</tspan>
+  </text>
+
+  <!-- Epsilon vector -->
+  <rect x="3045" y="1438" width="550" height="130" rx="13" fill="#fff" stroke="#69b547" stroke-width="6"/>
+  <circle cx="3115" cy="1503" r="46" fill="#fff" stroke="#69b547" stroke-width="6"/>
+  <circle cx="3253" cy="1503" r="46" fill="#fff" stroke="#69b547" stroke-width="6"/>
+  <circle cx="3391" cy="1503" r="46" fill="#fff" stroke="#69b547" stroke-width="6"/>
+  <circle cx="3529" cy="1503" r="46" fill="#fff" stroke="#69b547" stroke-width="6"/>
+  <text x="3320" y="1648" text-anchor="middle" class="math" font-size="110" fill="#000">
+    ϵ<tspan font-size="62" baseline-shift="sub">t</tspan>
+  </text>
+
+  <text x="3020" y="3250" text-anchor="middle" class="math" font-size="115" fill="#000">t</text>
+</svg>

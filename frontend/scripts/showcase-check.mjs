@@ -19,6 +19,7 @@ try {
   page.on("response", response => { if (response.status() >= 400) errors.push(`${response.status()} ${response.url()}`); });
   page.on("request", request => requests.push(request.url()));
   await page.goto(base + "/", { waitUntil: "networkidle" });
+  await page.locator(".demo-canvas-stage").scrollIntoViewIfNeeded();
   await page.locator(".demo-svg-mount > svg").waitFor();
   assert.ok(await page.locator("main h2").count() >= 10);
   for (const id of ["demo-examples", "demo-method", "demo-content", "demo-results", "demo-evaluation", "demo-benchmarks", "demo-ablations", "demo-efficiency"]) {
@@ -74,6 +75,8 @@ try {
   for (const [index, id, count] of [[1, "diffusion", 91], [2, "vit", 167], [0, "study", 49]]) {
     await page.locator(".demo-case-picker button").nth(index).click();
     await page.waitForFunction(total => document.querySelectorAll(".demo-svg-mount text").length === total, count);
+    await page.locator('.demo-comparison').scrollIntoViewIfNeeded();
+    await page.waitForFunction(() => Boolean(document.querySelector('.demo-comparison-original img')?.getAttribute('src')));
     assert.ok((await page.locator(".demo-comparison-original img").getAttribute("src")).endsWith(`/${id}/input.png`));
   }
   const slider = page.locator(".demo-comparison input[type=range]");

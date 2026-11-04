@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState, type ReactNode } from 'react';
+import { useRef, useState, type ReactNode } from 'react';
 import { CriterionSelect } from './CriterionSelect';
 import { ProfileRow } from './ProfileRow';
 import { AblationRow } from './AblationRow';
@@ -16,18 +16,13 @@ function Section({ id, kicker, title, body, children }: { id: string; kicker: st
 }
 
 export default function Results() {
-  const { data, samples, ensureSamples, open, language, error } = useResearch();
+  const { data, open, language, error } = useResearch();
   const zh = language === 'zh';
   const root = useRef<HTMLDivElement>(null);
   const [metricId, setMetricId] = useState('D01');
-  const [ablationMetric, setAblationMetric] = useState('D08');
+  const [ablationMetric, setAblationMetric] = useState('D05');
   const [group, setGroup] = useState('');
   const [condition, setCondition] = useState('A');
-  useEffect(() => {
-    const observer = new IntersectionObserver(entries => { if (entries.some(entry => entry.isIntersecting)) { ensureSamples(); observer.disconnect(); } }, { rootMargin: '600px' });
-    if (root.current) observer.observe(root.current);
-    return () => observer.disconnect();
-  }, [data]);
   if (!data) return <div ref={root} className="research-loading" role="status">{error ? (zh ? '研究数据暂不可用，请刷新重试。' : 'Research data unavailable. Refresh to retry.') : (zh ? '正在加载实验数据…' : 'Loading experiment data…')}</div>;
   const metric = data.metrics.find(item => item.id === metricId)!;
   const methods = mainIds.map(id => data.methods.find(method => method.id === id)!);
@@ -35,8 +30,8 @@ export default function Results() {
   const activeGroup = group || groups[0];
   const names: Record<string, string> = { A: zh ? '完整 FigFox' : 'Full FigFox', B: zh ? '无 SAM' : 'Without SAM', C: zh ? '仅初稿' : 'Draft only' };
   const inspect = (criterion: Metric, method = 'A') => {
-    const sample = samples.find(item => item.scores.A[criterion.id].score != null) ?? samples[0];
-    open({ sample: sample?.id ?? 'sample-0001', metric: criterion.id, methods: ['A', method === 'A' ? 'C' : method] });
+    const sample = data.examples.comparison[criterion.id];
+    open({ sample, metric: criterion.id, methods: ['A', method === 'A' ? 'DrawAI' : method] });
   };
   const ranking = rankCounts(data, 'A');
   const draft = data.resources.C;
@@ -51,7 +46,7 @@ export default function Results() {
       <div className="research-definition" aria-live="polite"><span>{metric.id}</span><div><h3>{label(metric, language)}</h3><p>{zh ? metric.definition : metric.definitionEn}</p></div><button className="research-text-action" onClick={() => inspect(metric)}>{zh ? '查看示例' : 'View example'} ↗</button></div>
     </Section>
 
-    <Section id="demo-benchmarks" kicker="FIGFOX IN COMPARISON" title={zh ? `${ranking.total} 项指标，全部位列前二` : `Top two across all ${ranking.total} criteria`} body={zh ? `四种方法同台评测，FigFox 在 ${ranking.first} 项同口径指标上排名第一。` : `Across four methods, FigFox ranks first on ${ranking.first} criteria under the same review protocol.`}>
+    <Section id="demo-benchmarks" kicker="FIGFOX IN COMPARISON" title={zh ? `${ranking.topTwo} 项指标位列前二` : `Top two on ${ranking.topTwo} criteria`} body={zh ? `四种方法同台评测，FigFox 在 ${ranking.first} 项同口径指标上排名第一。` : `Across four methods, FigFox ranks first on ${ranking.first} criteria under the same review protocol.`}>
       <RankComparison />
       <nav className="demo-research-index research-controls"><a href="#demo-ablations">{zh ? '修复的作用' : 'Repair gains'} ↓</a><a href="#demo-efficiency">{zh ? '效果与投入' : 'Quality & resources'} ↓</a><a href="#research-provenance">{zh ? '实验与代码' : 'Data & code'} ↓</a></nav>
       <h3 className="research-chart-title">{zh ? '五类能力，逐项呈现' : 'Explore each dimension'}</h3>
@@ -66,16 +61,16 @@ export default function Results() {
           const best = score.score !== null && Math.abs(score.score - bestValue) < 1e-9;
           return <td key={method.id}><button data-best={best || undefined} aria-label={`${method.name} · ${label(item, language)} · ${number(score.score)}${best ? (zh ? ' · 最优' : ' · Best') : ''}`} style={{ background: best ? '#6243ce' : `rgba(98,67,206,${.04 + (score.score ?? 0) / 100 * .3})` }} onClick={() => inspect(item, method.id)} title={`${number(score.score, 4)} / 100`}><b>{number(score.score)}{best && <span className="research-best-label">{zh ? '最优' : 'Best'}</span>}</b><small>{item.id === 'D09' ? (zh ? '历史评分 †' : 'Historical †') : `N=${score.sampleN} · n=${score.judgmentN}`}</small></button></td>;
         })}</tr>)}</tbody></table></div>
-        <p className="research-caption">{zh ? 'N 为有效图数，n 为有效判断数。† D09 沿用历史评分：对照单评审 / FigFox 双评审。其余 16 项使用统一双评审。' : 'N: valid images; n: valid judgments. † D09 retains historical scores: single review for baselines, double for FigFox. The other 16 criteria share a double-review protocol.'}</p>
+        <p className="research-caption">{zh ? 'N 为有效图数，n 为有效判断数。† D09 沿用历史评分：对照单评审 / FigFox 双评审。其余 16 项使用 11 月 4 日 Codex 复核的四方法共同有效样本。' : 'N: valid images; n: valid judgments. † D09 retains historical scores: single review for baselines, double for FigFox. The other 16 criteria use the November 4 Codex review and samples valid for all four methods.'}</p>
       </details>
     </Section>
 
     <Section id="research-samples" kicker="SELECTED RECONSTRUCTIONS" title={zh ? '重建不同结构的科研图' : 'Scientific figures, in their many forms'} body={zh ? '从训练流程到多层网络，查看 FigFox 对文字、模块与连接关系的重建。' : 'From training workflows to multi-layer networks, explore reconstructed text, modules and connections.'}><CaseGallery /></Section>
 
-    <Section id="demo-ablations" kicker="INSPECTION & REPAIR" title={zh ? '检查与修复，让初稿更完整' : 'Refine the draft through inspection and repair'} body={zh ? `从同一份初稿出发，完整流程的布局得分从 ${number(data.summaries.C.D08.score)} 提升至 ${number(data.summaries.A.D08.score)}。` : `Starting from the same draft, the full workflow raises the layout score from ${number(data.summaries.C.D08.score)} to ${number(data.summaries.A.D08.score)}.`}>
-      <div className="research-ablation-heading"><CriterionSelect metrics={data.metrics.filter(item => item.id !== 'D09')} value={ablationMetric} onValueChange={setAblationMetric} label={zh ? '评价指标' : 'Criterion'} ariaLabel={zh ? '消融指标' : 'Ablation criterion'} language={language} /><span>{zh ? '80 张图 · 0–100 分' : '80 figures · 0–100 points'}</span></div>
-      <div className="research-ablation-chart">{['C', 'B', 'A'].map(id => <AblationRow key={id} name={names[id]} score={data.summaries[id][ablationMetric].score} reference={data.summaries.C[ablationMetric].score} color={data.methods.find(method => method.id === id)!.color} selected={condition === id} onSelect={() => setCondition(id)} />)}<div className="research-axis"><span>0</span><span>100</span></div></div>
-      <div className="research-ablation-footer"><span>{zh ? '灰色竖线：仅初稿得分' : 'Gray marker: draft-only score'}</span><button className="research-text-action" onClick={() => open({ sample: 'sample-0001', metric: ablationMetric, condition, methods: ['A', condition === 'A' ? 'C' : condition] })}>{zh ? '查看' : 'Inspect'}{zh ? names[condition] : ' ' + names[condition]}{zh ? '示例' : ' example'} ↗</button></div>
+    <Section id="demo-ablations" kicker="INSPECTION & REPAIR" title={zh ? '检查与修复，让初稿更完整' : 'Refine the draft through inspection and repair'} body={zh ? `从同一份初稿出发，连接拓扑得分从 ${number(data.ablationSummaries.C.D05.score)} 提升至 ${number(data.ablationSummaries.A.D05.score)}。` : `Starting from the same draft, the full workflow raises the connection-topology score from ${number(data.ablationSummaries.C.D05.score)} to ${number(data.ablationSummaries.A.D05.score)}.`}>
+      <div className="research-ablation-heading"><CriterionSelect metrics={data.metrics.filter(item => item.id !== 'D09')} value={ablationMetric} onValueChange={setAblationMetric} label={zh ? '评价指标' : 'Criterion'} ariaLabel={zh ? '消融指标' : 'Ablation criterion'} language={language} /><span>{zh ? `共同有效图数 ${data.ablationSummaries.A[ablationMetric].sampleN} · 0–100 分` : `${data.ablationSummaries.A[ablationMetric].sampleN} jointly valid figures · 0–100 points`}</span></div>
+      <div className="research-ablation-chart">{['C', 'B', 'A'].map(id => <AblationRow key={id} name={names[id]} score={data.ablationSummaries[id][ablationMetric].score} reference={data.ablationSummaries.C[ablationMetric].score} color={data.methods.find(method => method.id === id)!.color} selected={condition === id} onSelect={() => setCondition(id)} />)}<div className="research-axis"><span>0</span><span>100</span></div></div>
+      <div className="research-ablation-footer"><span>{zh ? '灰色竖线：仅初稿得分' : 'Gray marker: draft-only score'}</span><button className="research-text-action" onClick={() => open({ sample: data.examples.ablation[ablationMetric], metric: ablationMetric, condition, methods: ['A', condition === 'A' ? 'C' : condition] })}>{zh ? '查看' : 'Inspect'}{zh ? names[condition] : ' ' + names[condition]}{zh ? '示例' : ' example'} ↗</button></div>
     </Section>
 
     <Section id="demo-efficiency" kicker="QUALITY & RESOURCES" title={zh ? '把效果与投入，放在一起看' : 'See quality and resources together'} body={zh ? `FigFox 的 ${ranking.topTwo} 项指标位列前二，平均记录费用 $${number(full.cost, 3)} / 张，记录耗时 ${number(full.minutes, 2)} 分钟 / 张。` : `FigFox places in the top two on ${ranking.topTwo} criteria, with a recorded mean of $${number(full.cost, 3)} and ${number(full.minutes, 2)} minutes per figure.`}>

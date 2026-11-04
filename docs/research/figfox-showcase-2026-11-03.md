@@ -1,4 +1,6 @@
-# FigFox research showcase · 2026-11-03
+# FigFox research showcase · 2026-11-03 (historical)
+
+**Superseded for scoring, artifact coverage, loading and release procedures by [the November 4 update](figfox-showcase-2026-11-04.md).** The notes below preserve the November 3 state.
 
 This is the maintenance entry point for the November research showcase. Work stays on `codex/figfox-complete-redesign`; existing untracked film directories are untouched. Delivery is local source plus the existing Pages build, without a remote push or public deployment.
 

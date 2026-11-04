@@ -1,0 +1,263 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="3840" height="1258" viewBox="0 0 3840 1258">
+  <defs>
+    <marker id="arrowBlack" markerWidth="14" markerHeight="14" refX="11" refY="7" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L14,7 L0,14 Z" fill="#000"/>
+    </marker>
+    <marker id="arrowGray" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L8,4 L0,8 Z" fill="#888"/>
+    </marker>
+    <filter id="blurHeat" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="32"/>
+    </filter>
+    <linearGradient id="heatbar" x1="0" y1="1" x2="0" y2="0">
+      <stop offset="0" stop-color="#440154"/>
+      <stop offset="0.35" stop-color="#31688e"/>
+      <stop offset="0.62" stop-color="#35b779"/>
+      <stop offset="1" stop-color="#fde725"/>
+    </linearGradient>
+    <clipPath id="heatClip">
+      <rect x="1140" y="315" width="800" height="746"/>
+    </clipPath>
+    <clipPath id="plotClip">
+      <rect x="2560" y="330" width="1206" height="690"/>
+    </clipPath>
+    <clipPath id="densityClip">
+      <rect x="3795" y="315" width="45" height="750"/>
+    </clipPath>
+    <style>
+      .title{font-family:Arial, Helvetica, sans-serif;font-weight:700;font-size:68px;fill:#000}
+      .tick{font-family:Arial, Helvetica, sans-serif;font-size:55px;fill:#111}
+      .axislabel{font-family:Arial, Helvetica, sans-serif;font-size:56px;fill:#111}
+      .math{font-family:"Times New Roman", Times, serif;font-style:italic}
+      .serif{font-family:"Times New Roman", Times, serif;font-weight:700}
+    </style>
+  </defs>
+
+  <rect x="0" y="0" width="3840" height="1258" fill="#fff"/>
+
+  <!-- Titles -->
+  <text class="title" x="130" y="142">(a) Model architecture</text>
+  <text class="title" x="1245" y="142">(b) Hopfield energy</text>
+  <text class="title" x="2775" y="142">(c) Neural activities</text>
+
+  <!-- Panel A: Model architecture -->
+  <g>
+    <text x="198" y="297" font-family="Times New Roman, serif" font-weight="700" font-size="74" fill="#4caf50">I1</text>
+    <text x="672" y="297" font-family="Times New Roman, serif" font-weight="700" font-size="74" fill="#d64eea">I2</text>
+
+    <!-- small distribution I1 -->
+    <g transform="translate(62,312)">
+      <line x1="0" y1="185" x2="0" y2="0" stroke="#8b8b8b" stroke-width="5" marker-end="url(#arrowGray)"/>
+      <line x1="0" y1="185" x2="305" y2="185" stroke="#8b8b8b" stroke-width="5" marker-end="url(#arrowGray)"/>
+      <path d="M0,185 C35,185 58,181 88,160 C116,139 145,92 174,82 C199,73 215,103 226,138 C234,161 246,178 264,185 Z" fill="#4caf50" opacity="0.95"/>
+      <line x1="174" y1="184" x2="174" y2="88" stroke="#75c67a" stroke-width="3" opacity="0.9"/>
+    </g>
+
+    <!-- small distribution I2 -->
+    <g transform="translate(620,318)">
+      <line x1="0" y1="185" x2="0" y2="0" stroke="#8b8b8b" stroke-width="5" marker-end="url(#arrowGray)"/>
+      <line x1="0" y1="185" x2="305" y2="185" stroke="#8b8b8b" stroke-width="5" marker-end="url(#arrowGray)"/>
+      <path d="M0,185 C42,185 66,184 88,176 C116,166 135,139 147,93 C158,48 168,0 183,0 C198,0 204,62 212,101 C223,153 244,178 286,185 Z" fill="#d64eea" opacity="0.92"/>
+      <line x1="183" y1="184" x2="183" y2="2" stroke="#e875ee" stroke-width="3"/>
+    </g>
+
+    <!-- Down arrows from inputs -->
+    <line x1="234" y1="548" x2="234" y2="675" stroke="#000" stroke-width="12" marker-end="url(#arrowBlack)"/>
+    <line x1="732" y1="548" x2="732" y2="675" stroke="#000" stroke-width="12" marker-end="url(#arrowBlack)"/>
+
+    <!-- nodes -->
+    <circle cx="252" cy="813" r="101" fill="#9fb4e7" stroke="#000" stroke-width="10"/>
+    <circle cx="731" cy="813" r="101" fill="#ffe27c" stroke="#000" stroke-width="10"/>
+    <text x="217" y="839" font-family="Times New Roman, serif" font-style="italic" font-size="73" fill="#000">x<tspan baseline-shift="-18" font-size="43">1</tspan></text>
+    <text x="697" y="839" font-family="Times New Roman, serif" font-style="italic" font-size="73" fill="#000">x<tspan baseline-shift="-18" font-size="43">2</tspan></text>
+
+    <!-- recurrent curved arrows -->
+    <path d="M315,713 C405,620 590,626 678,714" fill="none" stroke="#000" stroke-width="9" stroke-linecap="round"/>
+    <path d="M314,907 C409,1010 584,994 679,896" fill="none" stroke="#000" stroke-width="9" stroke-linecap="round" marker-end="url(#arrowBlack)"/>
+    <line x1="313" y1="690" x2="394" y2="745" stroke="#000" stroke-width="9" stroke-linecap="butt"/>
+    <line x1="580" y1="878" x2="664" y2="932" stroke="#000" stroke-width="9" stroke-linecap="butt"/>
+
+    <!-- output arrows -->
+    <line x1="234" y1="913" x2="234" y2="1086" stroke="#000" stroke-width="10" marker-end="url(#arrowBlack)"/>
+    <line x1="732" y1="913" x2="732" y2="1086" stroke="#000" stroke-width="10" marker-end="url(#arrowBlack)"/>
+
+    <text x="95" y="1214" font-family="Times New Roman, serif" font-weight="700" font-size="64" fill="#7d3fb2">P(Action 1)</text>
+    <text x="617" y="1214" font-family="Times New Roman, serif" font-weight="700" font-size="64" fill="#bd6a31">P(Action 2)</text>
+  </g>
+
+  <!-- Panel B: Hopfield energy -->
+  <g>
+    <!-- heat map -->
+    <g clip-path="url(#heatClip)">
+      <rect x="1140" y="315" width="800" height="746" fill="#440154"/>
+      <rect x="740" y="683" width="785" height="590" fill="#fde725" filter="url(#blurHeat)" opacity="0.98"/>
+      <rect x="1513" y="-70" width="660" height="724" fill="#fde725" filter="url(#blurHeat)" opacity="0.98"/>
+      <rect x="1116" y="648" width="860" height="85" fill="#2c728e" opacity="0.62" filter="url(#blurHeat)"/>
+      <rect x="1472" y="298" width="110" height="766" fill="#35b779" opacity="0.58" filter="url(#blurHeat)"/>
+      <rect x="1140" y="315" width="800" height="746" fill="none" stroke="#333" stroke-width="3"/>
+    </g>
+
+    <!-- contours/guide lines inside heatmap -->
+    <g clip-path="url(#heatClip)">
+      <path d="M1140,578 L1402,578 C1465,578 1495,604 1515,661 C1534,714 1550,762 1609,804 C1653,835 1704,846 1940,846" fill="none" stroke="#23721c" stroke-width="4"/>
+      <path d="M1140,891 L1411,891 C1490,891 1508,845 1518,778 C1527,722 1536,660 1586,632 C1624,611 1678,613 1940,613" fill="none" stroke="#23721c" stroke-width="4"/>
+      <path d="M1340,315 L1340,678 C1340,708 1356,726 1389,741 C1457,773 1566,789 1623,839 C1670,881 1661,958 1661,1061" fill="none" stroke="#cf4b35" stroke-width="5"/>
+    </g>
+
+    <!-- scatter points as dotted paths -->
+    <g clip-path="url(#heatClip)" stroke="#fff" stroke-width="5" stroke-linecap="round" fill="none" opacity="0.95">
+      <path stroke-dasharray="1 16" d="M1290,390 C1280,455 1300,511 1292,570 C1284,633 1322,691 1395,724 C1462,756 1529,770 1587,812 C1645,854 1660,936 1649,1038"/>
+      <path stroke-dasharray="1 14" d="M1311,330 C1312,411 1316,491 1316,571 C1318,651 1368,698 1440,728 C1510,757 1599,792 1634,871 C1662,934 1641,990 1634,1055"/>
+      <path stroke-dasharray="1 13" d="M1335,335 C1332,421 1337,492 1338,563 C1342,632 1375,674 1449,710 C1539,754 1621,771 1665,840 C1695,887 1688,968 1682,1045"/>
+      <path stroke-dasharray="1 15" d="M1360,347 C1354,424 1352,507 1362,588 C1373,668 1444,700 1519,729 C1592,758 1664,788 1682,873 C1697,943 1672,1000 1674,1060"/>
+      <path stroke-dasharray="1 17" d="M1262,430 C1273,505 1271,571 1305,635 C1340,701 1419,724 1492,751 C1561,776 1619,817 1639,884"/>
+      <path stroke-dasharray="1 16" d="M1387,366 C1381,449 1379,533 1390,607 C1403,690 1481,717 1547,747 C1626,783 1699,820 1703,918"/>
+      <path stroke-dasharray="1 15" d="M1325,375 C1302,464 1303,543 1323,610 C1345,682 1411,723 1489,748 C1556,769 1608,809 1642,866"/>
+      <path stroke-dasharray="1 13" d="M1282,507 C1325,607 1357,677 1446,718 C1520,752 1599,766 1669,833 C1710,872 1722,950 1711,1035"/>
+      <path stroke-dasharray="1 16" d="M1410,470 C1420,564 1424,654 1491,709 C1546,754 1641,760 1693,821 C1738,874 1717,963 1709,1040"/>
+      <path stroke-dasharray="1 14" d="M1240,450 C1262,560 1305,648 1391,699 C1472,748 1573,753 1630,822 C1681,884 1668,961 1659,1050"/>
+      <path stroke-dasharray="1 18" d="M1352,415 C1328,532 1362,638 1432,693 C1510,754 1628,760 1685,832"/>
+      <path stroke-dasharray="1 13" d="M1372,330 C1368,412 1370,503 1375,590 C1380,657 1435,692 1513,724 C1591,757 1687,791 1710,865"/>
+      <path stroke-dasharray="1 15" d="M1302,347 C1296,424 1287,504 1307,581 C1325,652 1388,699 1457,728"/>
+      <path stroke-dasharray="1 14" d="M1644,611 C1602,680 1625,760 1658,820 C1698,895 1694,971 1688,1054"/>
+      <path stroke-dasharray="1 15" d="M1598,655 C1628,718 1647,779 1673,848 C1704,927 1681,997 1686,1058"/>
+      <path stroke-dasharray="1 16" d="M1714,665 C1674,730 1693,798 1720,864 C1748,933 1740,999 1730,1060"/>
+    </g>
+
+    <!-- heatmap axes -->
+    <rect x="1140" y="315" width="800" height="746" fill="none" stroke="#333" stroke-width="4"/>
+    <g stroke="#000" stroke-width="4">
+      <line x1="1140" y1="1061" x2="1940" y2="1061"/>
+      <line x1="1140" y1="315" x2="1140" y2="1061"/>
+      <line x1="1140" y1="1061" x2="1140" y2="1080"/>
+      <line x1="1340" y1="1061" x2="1340" y2="1080"/>
+      <line x1="1540" y1="1061" x2="1540" y2="1080"/>
+      <line x1="1740" y1="1061" x2="1740" y2="1080"/>
+      <line x1="1940" y1="1061" x2="1940" y2="1080"/>
+      <line x1="1122" y1="1061" x2="1140" y2="1061"/>
+      <line x1="1122" y1="875" x2="1140" y2="875"/>
+      <line x1="1122" y1="688" x2="1140" y2="688"/>
+      <line x1="1122" y1="502" x2="1140" y2="502"/>
+      <line x1="1122" y1="315" x2="1140" y2="315"/>
+    </g>
+    <text class="tick" x="1125" y="1118">0</text>
+    <text class="tick" x="1316" y="1118">5</text>
+    <text class="tick" x="1500" y="1118">10</text>
+    <text class="tick" x="1699" y="1118">15</text>
+    <text class="tick" x="1900" y="1118">20</text>
+    <text class="tick" x="1084" y="1080">0</text>
+    <text class="tick" x="1084" y="894">5</text>
+    <text class="tick" x="1048" y="708">10</text>
+    <text class="tick" x="1048" y="521">15</text>
+    <text class="tick" x="1048" y="335">20</text>
+
+    <text x="1525" y="1230" font-family="Times New Roman, serif" font-style="italic" font-size="80">x<tspan baseline-shift="-22" font-size="50">1</tspan></text>
+    <text x="950" y="706" font-family="Times New Roman, serif" font-style="italic" font-size="76">x<tspan baseline-shift="-22" font-size="48">2</tspan></text>
+
+    <!-- colorbar -->
+    <rect x="1992" y="315" width="39" height="746" fill="url(#heatbar)" stroke="#333" stroke-width="3"/>
+    <g stroke="#000" stroke-width="3">
+      <line x1="2031" y1="1061" x2="2047" y2="1061"/>
+      <line x1="2031" y1="879" x2="2047" y2="879"/>
+      <line x1="2031" y1="697" x2="2047" y2="697"/>
+      <line x1="2031" y1="515" x2="2047" y2="515"/>
+    </g>
+    <text class="tick" x="2054" y="1080">−11.0</text>
+    <text class="tick" x="2054" y="898">−10.5</text>
+    <text class="tick" x="2054" y="716">−10.0</text>
+    <text class="tick" x="2054" y="534">−9.5</text>
+  </g>
+
+  <!-- Panel C: Neural activities -->
+  <g>
+    <!-- main plot frame -->
+    <rect x="2500" y="315" width="1280" height="750" fill="#fff" stroke="#555" stroke-width="4"/>
+    <!-- y ticks and labels -->
+    <g stroke="#555" stroke-width="3">
+      <line x1="2500" y1="1021" x2="2485" y2="1021"/>
+      <line x1="2500" y1="932" x2="2485" y2="932"/>
+      <line x1="2500" y1="846" x2="2485" y2="846"/>
+      <line x1="2500" y1="760" x2="2485" y2="760"/>
+      <line x1="2500" y1="674" x2="2485" y2="674"/>
+      <line x1="2500" y1="588" x2="2485" y2="588"/>
+      <line x1="2500" y1="502" x2="2485" y2="502"/>
+      <line x1="2500" y1="416" x2="2485" y2="416"/>
+      <line x1="2500" y1="330" x2="2485" y2="330"/>
+      <line x1="2560" y1="1065" x2="2560" y2="1080"/>
+      <line x1="2801" y1="1065" x2="2801" y2="1080"/>
+      <line x1="3042" y1="1065" x2="3042" y2="1080"/>
+      <line x1="3284" y1="1065" x2="3284" y2="1080"/>
+      <line x1="3525" y1="1065" x2="3525" y2="1080"/>
+      <line x1="3766" y1="1065" x2="3766" y2="1080"/>
+    </g>
+    <text class="tick" font-size="46" x="2402" y="1040">0.0</text>
+    <text class="tick" font-size="46" x="2402" y="954">2.5</text>
+    <text class="tick" font-size="46" x="2402" y="868">5.0</text>
+    <text class="tick" font-size="46" x="2402" y="782">7.5</text>
+    <text class="tick" font-size="46" x="2368" y="696">10.0</text>
+    <text class="tick" font-size="46" x="2368" y="610">12.5</text>
+    <text class="tick" font-size="46" x="2368" y="524">15.0</text>
+    <text class="tick" font-size="46" x="2368" y="438">17.5</text>
+    <text class="tick" font-size="46" x="2368" y="352">20.0</text>
+
+    <text class="tick" font-size="46" x="2543" y="1126">0</text>
+    <text class="tick" font-size="46" x="2760" y="1126">1000</text>
+    <text class="tick" font-size="46" x="3001" y="1126">2000</text>
+    <text class="tick" font-size="46" x="3243" y="1126">3000</text>
+    <text class="tick" font-size="46" x="3484" y="1126">4000</text>
+    <text class="tick" font-size="46" x="3726" y="1126">5000</text>
+
+    <text class="axislabel" font-size="54" x="3157" y="1208">time</text>
+    <text class="axislabel" font-size="50" transform="translate(2349,790) rotate(-90)">network state</text>
+
+    <!-- time series -->
+    <g clip-path="url(#plotClip)" fill="none">
+      <!-- blue x1 -->
+      <path d="M2560,842 L2567,818 L2575,855 L2584,821 L2592,862 L2600,830 L2609,852 L2617,806 L2625,839 L2634,823 L2642,858 L2650,842
+               L2650,594 L2660,560 L2670,603 L2680,550 L2691,589 L2702,571 L2712,615 L2723,558 L2734,590 L2745,567 L2756,606 L2768,574
+               L2768,839 L2780,816 L2792,860 L2804,824 L2816,852 L2828,830 L2840,866 L2852,819 L2864,848 L2876,835 L2888,861 L2900,824
+               L2900,586 L2912,552 L2924,603 L2936,573 L2948,594 L2960,548 L2972,600 L2984,561 L2996,587 L3008,555 L3020,606 L3032,572
+               L3032,840 L3045,817 L3058,855 L3071,826 L3084,846 L3097,813 L3110,861 L3123,831 L3136,854 L3149,820 L3162,848 L3175,834
+               L3175,588 L3188,553 L3201,595 L3214,572 L3227,608 L3240,560 L3253,591 L3266,566 L3279,605 L3292,553 L3305,590 L3318,569
+               L3318,835 L3331,815 L3344,861 L3357,826 L3370,850 L3383,818 L3396,860 L3409,828 L3422,852 L3435,819 L3448,858 L3461,834
+               L3461,585 L3474,556 L3487,596 L3500,562 L3513,588 L3526,550 L3539,600 L3552,566 L3565,592 L3578,559 L3591,606 L3604,572
+               L3604,838 L3617,817 L3630,856 L3643,826 L3656,850 L3669,819 L3682,861 L3695,831 L3708,853 L3721,820 L3734,858 L3747,835
+               L3747,587 L3757,558 L3766,602" stroke="#1f77b4" stroke-width="4" opacity="0.82"/>
+
+      <!-- orange x2 -->
+      <path d="M2560,650 L2565,478 L2570,712 L2575,520 L2580,379 L2585,678 L2590,459 L2595,756 L2600,535 L2605,400 L2610,701 L2615,472 L2620,615 L2625,365 L2630,598 L2635,508 L2640,698 L2645,448 L2650,676
+               L2655,835 L2660,684 L2665,968 L2670,744 L2675,893 L2680,706 L2685,1018 L2690,783 L2695,933 L2700,704 L2705,887 L2710,797 L2715,944 L2720,726 L2725,866 L2730,620
+               L2735,503 L2740,677 L2745,430 L2750,593 L2755,374 L2760,666 L2765,489 L2770,707 L2775,438 L2780,618 L2785,369 L2790,565 L2795,670 L2800,404 L2805,607 L2810,509
+               L2815,816 L2820,965 L2825,702 L2830,908 L2835,779 L2840,1008 L2845,740 L2850,872 L2855,688 L2860,941 L2865,812 L2870,996 L2875,721 L2880,884 L2885,755
+               L2890,419 L2895,614 L2900,379 L2905,651 L2910,501 L2915,337 L2920,604 L2925,460 L2930,690 L2935,375 L2940,584 L2945,492 L2950,690 L2955,420 L2960,599
+               L2965,790 L2970,1015 L2975,738 L2980,934 L2985,804 L2990,982 L2995,704 L3000,888 L3005,766 L3010,941 L3015,814 L3020,1010 L3025,755 L3030,890 L3035,830
+               L3040,642 L3045,828 L3050,668 L3055,915 L3060,715 L3065,1008 L3070,744 L3075,888 L3080,690 L3085,959 L3090,748 L3095,995 L3100,720 L3105,906 L3110,775
+               L3115,463 L3120,598 L3125,372 L3130,635 L3135,498 L3140,346 L3145,641 L3150,452 L3155,683 L3160,401 L3165,571 L3170,494 L3175,688 L3180,429 L3185,606
+               L3190,856 L3195,1005 L3200,741 L3205,940 L3210,817 L3215,1016 L3220,722 L3225,889 L3230,780 L3235,953 L3240,824 L3245,1002 L3250,748 L3255,901 L3260,812
+               L3265,669 L3270,918 L3275,700 L3280,965 L3285,736 L3290,1019 L3295,762 L3300,912 L3305,702 L3310,983 L3315,760 L3320,1005 L3325,735 L3330,894 L3335,801
+               L3340,456 L3345,620 L3350,392 L3355,647 L3360,502 L3365,365 L3370,644 L3375,467 L3380,690 L3385,409 L3390,586 L3395,497 L3400,672 L3405,438 L3410,610
+               L3415,460 L3420,642 L3425,392 L3430,658 L3435,509 L3440,359 L3445,641 L3450,472 L3455,684 L3460,414 L3465,590 L3470,502 L3475,687 L3480,446 L3485,620
+               L3490,815 L3495,1010 L3500,735 L3505,930 L3510,801 L3515,1008 L3520,734 L3525,898 L3530,775 L3535,951 L3540,817 L3545,1002 L3550,749 L3555,901 L3560,814
+               L3565,805 L3570,968 L3575,730 L3580,920 L3585,795 L3590,998 L3595,727 L3600,890 L3605,762 L3610,947 L3615,823 L3620,1005 L3625,746 L3630,895 L3635,810
+               L3640,476 L3645,616 L3650,389 L3655,653 L3660,502 L3665,350 L3670,640 L3675,470 L3680,681 L3685,412 L3690,590 L3695,502 L3700,675 L3705,446 L3710,614
+               L3715,446 L3720,632 L3725,394 L3730,650 L3735,512 L3740,373 L3745,649 L3750,475 L3755,680 L3760,418 L3766,622" stroke="#ff7f0e" stroke-width="4" opacity="0.82"/>
+    </g>
+
+    <!-- legend -->
+    <g transform="translate(3628,905)">
+      <rect x="0" y="0" width="140" height="105" fill="#fff" stroke="#ddd" stroke-width="3" opacity="0.9"/>
+      <line x1="15" y1="32" x2="88" y2="32" stroke="#1f77b4" stroke-width="4" opacity="0.82"/>
+      <text x="98" y="48" font-family="Times New Roman, serif" font-style="italic" font-size="46">x<tspan baseline-shift="-12" font-size="30">1</tspan></text>
+      <line x1="15" y1="79" x2="88" y2="79" stroke="#ff7f0e" stroke-width="4" opacity="0.82"/>
+      <text x="98" y="95" font-family="Times New Roman, serif" font-style="italic" font-size="46">x<tspan baseline-shift="-12" font-size="30">2</tspan></text>
+    </g>
+
+    <!-- marginal density on the right, clipped by canvas -->
+    <g clip-path="url(#densityClip)" opacity="0.62">
+      <path d="M3798,1020 C3808,955 3830,915 3835,846 C3817,812 3800,816 3797,812 C3815,802 3834,784 3837,760 C3823,724 3805,704 3798,674 C3807,640 3826,617 3835,588 C3825,560 3804,549 3797,540 C3807,520 3830,505 3835,488 C3824,455 3806,408 3798,330 Z" fill="#1f77b4" stroke="#1f77b4" stroke-width="4"/>
+      <path d="M3798,1023 C3803,955 3815,910 3822,848 C3810,808 3804,781 3803,748 C3804,712 3820,682 3828,648 C3816,605 3802,575 3797,530 C3804,477 3824,429 3826,365 C3814,353 3805,342 3798,330 Z" fill="#ff7f0e" stroke="#ff7f0e" stroke-width="4"/>
+    </g>
+    <line x1="3795" y1="503" x2="3840" y2="503" stroke="#e8e8e8" stroke-width="3"/>
+    <line x1="3795" y1="961" x2="3840" y2="961" stroke="#e8e8e8" stroke-width="3"/>
+  </g>
+</svg>

@@ -1,0 +1,150 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="3840" height="1971" viewBox="0 0 3840 1971">
+  <defs>
+    <marker id="arrow" viewBox="0 0 12 12" refX="10" refY="6" markerWidth="12" markerHeight="12" orient="auto-start-reverse">
+      <path d="M0,0 L12,6 L0,12 Z" fill="#2d2825"/>
+    </marker>
+    <marker id="arrowSmall" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="9" markerHeight="9" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 Z" fill="#2d2825"/>
+    </marker>
+    <pattern id="greenDots" width="48" height="48" patternUnits="userSpaceOnUse">
+      <circle cx="9" cy="8" r="5" fill="#61b386" opacity=".72"/>
+      <circle cx="27" cy="18" r="4" fill="#3ca873" opacity=".65"/>
+      <circle cx="39" cy="7" r="3.5" fill="#77c89d" opacity=".75"/>
+      <circle cx="16" cy="34" r="4.2" fill="#6ebf93" opacity=".72"/>
+      <circle cx="43" cy="38" r="5" fill="#4ead7b" opacity=".58"/>
+    </pattern>
+    <pattern id="hatch" width="10" height="10" patternUnits="userSpaceOnUse" patternTransform="rotate(25)">
+      <rect width="10" height="10" fill="#b9e2bf"/>
+      <line x1="0" y1="0" x2="0" y2="10" stroke="#4bb575" stroke-width="3" opacity=".7"/>
+    </pattern>
+    <symbol id="car" viewBox="0 0 60 24">
+      <rect x="0" y="2" width="60" height="20" rx="2" fill="#272343"/>
+      <path d="M30 7 L21 12 L30 17" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" opacity=".9"/>
+    </symbol>
+    <symbol id="ego" viewBox="0 0 62 26">
+      <rect x="0" y="1" width="62" height="24" rx="3" fill="#f2c313"/>
+      <path d="M32 7 L43 13 L32 19" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+    </symbol>
+    <symbol id="sceneLarge" viewBox="0 0 620 620">
+      <rect width="620" height="620" fill="#fff"/>
+      <path d="M0 145 C150 153 315 153 620 145 L620 245 C330 252 145 249 0 244 Z" fill="#edf3f7"/>
+      <path d="M0 305 C165 309 295 306 620 303 L620 405 C370 415 160 416 0 407 Z" fill="#eef4f6"/>
+      <path d="M0 170 L620 170 M0 206 L620 206 M0 340 L620 340 M0 374 L620 374" stroke="#d4e1e8" stroke-width="4" stroke-dasharray="18 16"/>
+      <path d="M210 337 C305 320 382 300 525 310" fill="none" stroke="#3fbf71" stroke-width="6" stroke-dasharray="18 14"/>
+      <path d="M214 370 C340 358 450 358 602 365" fill="none" stroke="#42b96d" stroke-width="6" stroke-dasharray="18 14"/>
+      <path d="M232 332 C345 260 440 270 560 274" fill="none" stroke="#4ab96f" stroke-width="4" opacity=".45"/>
+      <path d="M215 379 C330 430 450 425 582 435" fill="none" stroke="#4ab96f" stroke-width="4" opacity=".3"/>
+      <use href="#ego" x="277" y="309" width="64" height="27"/>
+      <use href="#car" x="75" y="151" width="122" height="46"/>
+      <use href="#car" x="255" y="118" width="50" height="22"/>
+      <use href="#car" x="322" y="151" width="55" height="24"/>
+      <use href="#car" x="456" y="154" width="54" height="24"/>
+      <use href="#car" x="154" y="201" width="57" height="25"/>
+      <use href="#car" x="309" y="202" width="54" height="24"/>
+      <use href="#car" x="439" y="202" width="53" height="24"/>
+      <use href="#car" x="0" y="329" width="50" height="23"/>
+      <use href="#car" x="67" y="357" width="110" height="31"/>
+      <use href="#car" x="190" y="366" width="56" height="25"/>
+      <use href="#car" x="275" y="366" width="53" height="24"/>
+      <use href="#car" x="330" y="368" width="50" height="23"/>
+      <use href="#car" x="384" y="368" width="52" height="24"/>
+      <use href="#car" x="455" y="370" width="51" height="23"/>
+      <use href="#car" x="511" y="372" width="50" height="23"/>
+      <use href="#car" x="590" y="202" width="52" height="25"/>
+      <rect x="142" y="269" width="12" height="10" fill="#ff6e4a" transform="rotate(20 148 274)"/>
+      <rect x="199" y="269" width="11" height="10" fill="#ff6e4a" transform="rotate(19 204 274)"/>
+      <rect x="253" y="266" width="12" height="11" fill="#ff6e4a" transform="rotate(12 259 271)"/>
+      <rect x="329" y="245" width="13" height="12" fill="#ff6e4a" transform="rotate(-10 335 251)"/>
+      <rect x="368" y="238" width="12" height="12" fill="#ff6e4a" transform="rotate(14 374 244)"/>
+      <rect x="412" y="227" width="12" height="11" fill="#ff6e4a" transform="rotate(-14 418 233)"/>
+      <rect x="118" y="439" width="8" height="8" fill="#814199"/>
+      <rect x="189" y="354" width="8" height="9" fill="#814199" transform="rotate(18 193 359)"/>
+      <rect x="77" y="527" width="8" height="8" fill="#814199"/>
+      <rect x="458" y="481" width="38" height="6" fill="#814199" transform="rotate(8 477 484)"/>
+      <rect x="471" y="494" width="16" height="9" fill="#814199" transform="rotate(8 479 499)"/>
+      <circle cx="8" cy="427" r="2" fill="#57a7c7"/>
+      <circle cx="15" cy="458" r="2" fill="#57a7c7"/>
+    </symbol>
+    <symbol id="thumbRoad" viewBox="0 0 270 270">
+      <rect width="270" height="270" fill="#fff"/>
+      <path d="M0 78 C78 83 160 80 270 78 L270 150 C150 150 70 154 0 149 Z" fill="#edf3f7"/>
+      <path d="M0 160 C75 166 160 160 270 158 L270 226 C155 232 80 227 0 226 Z" fill="#f1f5f7"/>
+      <path d="M0 104 L270 104 M0 129 L270 129 M0 183 L270 183" stroke="#d6e4eb" stroke-width="3" stroke-dasharray="12 10"/>
+      <path d="M25 188 C98 190 138 168 265 166" fill="none" stroke="#4fbf78" stroke-width="4" opacity=".8"/>
+      <path d="M30 204 C110 207 173 197 270 202" fill="none" stroke="#48b96f" stroke-width="4" stroke-dasharray="8 7"/>
+      <use href="#car" x="0" y="93" width="50" height="20"/>
+      <use href="#car" x="47" y="154" width="64" height="22"/>
+      <use href="#car" x="121" y="153" width="38" height="16"/>
+      <use href="#car" x="158" y="154" width="38" height="16"/>
+      <use href="#car" x="200" y="155" width="38" height="16"/>
+      <use href="#car" x="238" y="156" width="35" height="16"/>
+    </symbol>
+    <symbol id="laneThumb" viewBox="0 0 270 270">
+      <rect width="270" height="270" fill="#fff"/>
+      <path d="M0 70 C70 78 170 76 270 70 L270 128 C160 128 70 127 0 130 Z" fill="#eff5f8"/>
+      <path d="M0 170 C80 175 145 160 270 158 L270 222 C145 226 65 225 0 222 Z" fill="#f0f5f7"/>
+      <path d="M0 86 L270 86 M0 99 L270 99 M0 184 L270 184 M0 197 L270 197" stroke="#d8e6ee" stroke-width="3" stroke-dasharray="6 5"/>
+      <path d="M60 160 C120 160 150 145 270 145" fill="none" stroke="#5bc788" stroke-width="4"/>
+      <path d="M60 174 C145 174 185 161 270 163" fill="none" stroke="#46b96d" stroke-width="3" stroke-dasharray="6 5"/>
+      <path d="M60 188 C145 188 190 178 270 181" fill="none" stroke="#46b96d" stroke-width="3" stroke-dasharray="6 5"/>
+    </symbol>
+    <symbol id="staticThumb" viewBox="0 0 270 270">
+      <rect width="270" height="270" fill="#fff"/>
+      <path d="M0 63 L270 63 L270 145 L0 145 Z" fill="#edf3f7"/>
+      <path d="M0 164 L270 164 L270 230 L0 230 Z" fill="#f6f7f8"/>
+      <path d="M0 103 L270 103" stroke="#d9e5ec" stroke-width="4" stroke-dasharray="12 10"/>
+      <rect x="36" y="136" width="6" height="6" fill="#ff6e4a"/>
+      <rect x="63" y="137" width="6" height="6" fill="#ff6e4a" transform="rotate(12 66 140)"/>
+      <rect x="90" y="131" width="6" height="6" fill="#ff6e4a" transform="rotate(-6 93 134)"/>
+      <rect x="118" y="133" width="6" height="6" fill="#ff6e4a"/>
+      <rect x="145" y="126" width="6" height="6" fill="#ff6e4a"/>
+      <rect x="172" y="124" width="6" height="6" fill="#ff6e4a" transform="rotate(15 175 127)"/>
+      <rect x="202" y="119" width="6" height="6" fill="#ff6e4a"/>
+      <rect x="230" y="115" width="6" height="6" fill="#ff6e4a"/>
+    </symbol>
+    <symbol id="denoise" viewBox="0 0 360 360">
+      <rect width="360" height="360" fill="#fff"/>
+      <rect width="360" height="360" fill="url(#greenDots)" opacity=".72"/>
+      <path d="M0 34 C85 38 175 32 360 37 L360 70 C230 73 130 69 0 68 Z" fill="#edf3f8"/>
+      <path d="M0 142 C80 150 210 138 360 143 L360 181 C205 184 88 181 0 180 Z" fill="#edf3f8"/>
+      <path d="M0 220 C110 212 220 224 360 218 L360 255 C220 257 110 250 0 256 Z" fill="#edf3f8"/>
+      <path d="M0 58 L360 58 M0 162 L360 162 M0 239 L360 239" stroke="#d3e2ea" stroke-width="4" stroke-dasharray="15 12"/>
+      <path d="M80 212 C160 200 224 201 360 205" fill="none" stroke="#50ba78" stroke-width="7" opacity=".55"/>
+      <path d="M120 226 C200 222 280 222 360 225" fill="none" stroke="#53aee1" stroke-width="7" stroke-dasharray="8 8" opacity=".75"/>
+      <use href="#ego" x="158" y="202" width="53" height="23"/>
+      <use href="#car" x="0" y="29" width="72" height="26"/>
+      <use href="#car" x="205" y="32" width="48" height="20"/>
+      <use href="#car" x="318" y="29" width="44" height="20"/>
+      <use href="#car" x="41" y="77" width="52" height="21"/>
+      <use href="#car" x="199" y="77" width="46" height="19"/>
+      <use href="#car" x="307" y="78" width="45" height="19"/>
+      <use href="#car" x="46" y="160" width="44" height="19"/>
+      <use href="#car" x="0" y="218" width="43" height="19"/>
+      <use href="#car" x="86" y="216" width="43" height="18"/>
+      <use href="#car" x="212" y="216" width="43" height="18"/>
+      <use href="#car" x="262" y="216" width="43" height="18"/>
+      <use href="#car" x="315" y="216" width="43" height="18"/>
+      <circle cx="276" cy="206" r="5" fill="#48a9d8"/>
+      <circle cx="290" cy="206" r="5" fill="#48a9d8"/>
+      <circle cx="306" cy="207" r="5" fill="#48a9d8"/>
+      <rect x="323" y="300" width="8" height="9" fill="#8947a2" transform="rotate(11 327 304)"/>
+      <rect x="342" y="268" width="5" height="7" fill="#8947a2"/>
+    </symbol>
+  </defs>
+
+  <rect width="3840" height="1971" fill="#ffffff"/>
+
+  <rect x="54" y="53" width="1652" height="708" rx="30" fill="#e6f0f8"/>
+  <rect x="1732" y="53" width="940" height="708" rx="30" fill="#e6f0f8"/>
+  <rect x="2698" y="53" width="488" height="708" rx="30" fill="#f0f0f0"/>
+  <rect x="3220" y="53" width="543" height="1847" rx="30" fill="#e6f0f8"/>
+  <path d="M2453 761 C2425 820 2345 835 2200 835 L760 835 C694 835 641 870 641 922 L640 978 L3170 978 L3170 1893 L50 1893 L50 871 C1045 871 1995 873 2453 761 Z" fill="#ededed"/>
+
+  <text x="1120" y="127" font-family="Times New Roman,serif" font-size="72" font-weight="700" fill="#1b1714">Scenario Inputs</text>
+  <text x="2055" y="127" font-family="Times New Roman,serif" font-size="72" font-weight="700" fill="#1b1714">Encoder</text>
+  <text x="2810" y="127" font-family="Times New Roman,serif" font-size="72" font-weight="700" fill="#1b1714">Decoder</text>
+
+  <rect x="88" y="101" width="626" height="626" fill="white" stroke="#111" stroke-width="5"/>
+  <svg x="92" y="105" width="618" height="565" viewBox="0 0 620 565" preserveAspectRatio="none">
+    <use href="#sceneLarge" width="620" height="620"/>
+  </svg>

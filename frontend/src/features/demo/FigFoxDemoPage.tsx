@@ -4,15 +4,17 @@ import {
 import { useRef, useState, lazy, Suspense, type CSSProperties, type MouseEvent } from "react";
 import type { ProductRoute } from "../../ProductPages";
 import { DemoCanvas } from "./DemoCanvas";
+import { DeferredImage } from "./DeferredImage";
 import { MechanismSection } from "./MechanismSection";
 import { RefinementSection } from "./RefinementSection";
 import { ResearchProvider, ResearchOverview } from "./research/ResearchContext";
 import Pipeline from "./research/Pipeline";
 const Results = lazy(() => import("./research/Results"));
 import { HeroSvgWord } from "./HeroSvgWord";
-import { demoAsset, demoBrandAsset, demoCases, type DemoLanguage } from "./cases";
+import { demoAsset, demoThumbnail, demoBrandAsset, demoCases, type DemoLanguage } from "./cases";
 import { useDemoMotion } from "./useDemoMotion";
 import "./demo.css";
+import "./showcase-fonts.css";
 
 type Props = {
   language: DemoLanguage;
@@ -207,7 +209,7 @@ function DemoPageContent({ language, onLanguageChange, onNavigate, hrefFor }: Pr
                 {demoCases.map((example, index) => (
                   <button type="button" key={example.id} aria-pressed={active === index} data-allow-wrap="true"
                     onClick={() => chooseCase(index)}>
-                    <img src={demoAsset(example.id, "input.png")} alt="" width="100" height="68"
+                    <img src={demoThumbnail(example.id)} alt="" width={example.width} height={example.height} loading="lazy" decoding="async"
                       onError={(event) => { event.currentTarget.style.visibility = "hidden"; }} />
                     <span><strong>{example.name[language]}</strong><small>{example.category[language]}</small></span>
                   </button>
@@ -225,11 +227,11 @@ function DemoPageContent({ language, onLanguageChange, onNavigate, hrefFor }: Pr
             <div data-demo-reveal data-demo-delay="1">
               <div className="demo-comparison-labels"><span>{content.original}</span><span>{content.result}</span></div>
               <div className="demo-comparison" style={{ "--demo-split": split + "%", "--demo-aspect": item.width / item.height } as CSSProperties}>
-                <img src={demoAsset(item.id, "result.png")} alt={content.result + ": " + item.name[language]}
-                  width={item.width} height={item.height} loading="lazy" onError={() => setFailedImages(true)} />
+                <DeferredImage src={demoAsset(item.id, "result.png")} alt={content.result + ": " + item.name[language]}
+                  width={item.width} height={item.height} loading="lazy" decoding="async" onError={() => setFailedImages(true)} />
                 <div className="demo-comparison-original">
-                  <img src={demoAsset(item.id, "input.png")} alt={content.original + ": " + item.name[language]}
-                    width={item.width} height={item.height} loading="lazy" onError={() => setFailedImages(true)} />
+                  <DeferredImage src={demoAsset(item.id, "input.png")} alt={content.original + ": " + item.name[language]}
+                    width={item.width} height={item.height} loading="lazy" decoding="async" onError={() => setFailedImages(true)} />
                 </div>
                 <div className="demo-comparison-divider" aria-hidden="true"><span><ArrowsLeftRight size={19} /></span></div>
                 <input type="range" min="0" max="100" value={split}
@@ -249,7 +251,7 @@ function DemoPageContent({ language, onLanguageChange, onNavigate, hrefFor }: Pr
           <figure className="demo-method-figure" data-demo-reveal data-demo-delay="1">
             <button type="button" className="demo-method-preview" data-demo-cursor="zoom"
               aria-label={language === "zh" ? "查看完整流程图" : "View the full pipeline diagram"} onClick={() => diagramDialog.current?.showModal()}>
-              <img src={demoBrandAsset("figfox-method-20261103.png")} width="1208" height="669" loading="lazy" alt={content.methodAlt} />
+              <img src={demoBrandAsset("figfox-method-20261103.webp")} width="1208" height="669" loading="lazy" decoding="async" alt={content.methodAlt} />
             </button>
             <button type="button" className="demo-diagram-enlarge" data-demo-cursor="zoom" onClick={() => diagramDialog.current?.showModal()}>
               <MagnifyingGlassPlus size={16} />{content.enlarge}
@@ -298,7 +300,7 @@ function DemoPageContent({ language, onLanguageChange, onNavigate, hrefFor }: Pr
           </button>
         </div>
         <div className="demo-dialog-image">
-          <img src={demoBrandAsset("figfox-method-20261103.png")} width="1208" height="669" alt={content.methodAlt} />
+          <img src={demoBrandAsset("figfox-method-20261103.png")} width="1208" height="669" loading="lazy" decoding="async" alt={content.methodAlt} />
         </div>
       </dialog>
     </div>

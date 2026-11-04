@@ -1,0 +1,153 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="3840" height="2857" viewBox="0 0 3840 2857">
+  <defs>
+    <marker id="arrow" viewBox="0 0 18 18" refX="16" refY="9" markerWidth="16" markerHeight="16" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L18,9 L0,18 Z" fill="#000"/>
+    </marker>
+    <style>
+      .serif{font-family:"Times New Roman", Times, serif;}
+      .italic{font-style:italic;}
+      .bold{font-weight:700;}
+      .blue{fill:#1474cf;}
+      .black{fill:#000;}
+      .thinGrey{stroke:#c9c9c9;stroke-width:8;fill:none;}
+      .wire{stroke:#000;stroke-width:8;fill:none;stroke-linecap:square;stroke-linejoin:miter;}
+      .arrowline{stroke:#000;stroke-width:8;fill:none;stroke-linecap:square;stroke-linejoin:miter;marker-end:url(#arrow);}
+    </style>
+  </defs>
+
+  <rect width="3840" height="2857" fill="#fff"/>
+
+  <!-- Left explanatory text -->
+  <text class="serif black" x="260" y="575" font-size="92">Sample domain</text>
+  <text class="serif black" x="278" y="745" font-size="92">weights</text>
+  <text class="serif italic blue" x="760" y="745" font-size="92">h ∼ π</text>
+
+  <!-- Bar chart -->
+  <path d="M139 767 L139 1504 L1003 1504" class="wire"/>
+  <path d="M92 767 L139 767" class="wire"/>
+  <rect x="204" y="823" width="110" height="681" fill="#004074" stroke="#000" stroke-width="8"/>
+  <rect x="416" y="1368" width="110" height="136" fill="#95caf6" stroke="#000" stroke-width="8"/>
+  <rect x="637" y="958" width="110" height="546" fill="#0b74cf" stroke="#000" stroke-width="8"/>
+  <rect x="855" y="1299" width="110" height="205" fill="#399cf0" stroke="#000" stroke-width="8"/>
+
+  <!-- h vector box -->
+  <rect x="135" y="1572" width="893" height="202" fill="#fff" stroke="#777" stroke-width="7" rx="3"/>
+  <text class="serif italic blue" x="176" y="1714" font-size="112">h<tspan font-size="72" baseline-shift="-24">1</tspan></text>
+  <text class="serif italic blue" x="390" y="1714" font-size="112">h<tspan font-size="72" baseline-shift="-24">2</tspan></text>
+  <text class="serif blue" x="623" y="1708" font-size="112">···</text>
+  <text class="serif italic blue" x="843" y="1714" font-size="112">h<tspan font-size="72" baseline-shift="-24">k</tspan></text>
+
+  <!-- Model container -->
+  <rect x="1305" y="126" width="2400" height="1344" rx="88" ry="88" class="thinGrey"/>
+  <text class="serif bold black" x="1335" y="264" font-size="96">Model</text>
+
+  <!-- Data container -->
+  <rect x="1305" y="1897" width="2400" height="737" rx="88" ry="88" class="thinGrey"/>
+
+  <!-- Connections from h vector to model/data -->
+  <path d="M1028 1672 L1188 1672 L1188 966 L1502 966" class="arrowline"/>
+  <path d="M1188 1672 L1188 2135 L1660 2135" class="arrowline"/>
+
+  <!-- MLP hexagon -->
+  <polygon points="1587,792 1827,792 1912,966 1827,1140 1587,1140 1506,966" fill="#fff" stroke="#000" stroke-width="8" stroke-linejoin="miter"/>
+  <text class="serif black" x="1558" y="1008" font-size="94">MLP</text>
+
+  <!-- MLP outgoing arrows and labels -->
+  <path d="M1827 792 L2033 680" class="arrowline"/>
+  <path d="M1912 966 L2068 966" class="arrowline"/>
+  <path d="M1827 1140 L2012 1248" class="arrowline"/>
+
+  <text class="serif italic blue" x="2035" y="661" font-size="94">α<tspan font-size="60" baseline-shift="-22">1</tspan> ×</text>
+  <text class="serif blue" x="2130" y="974" font-size="104">⋮</text>
+  <text class="serif italic blue" x="2025" y="1348" font-size="94">α<tspan font-size="60" baseline-shift="-22">n</tspan> ×</text>
+
+  <!-- Expert blocks -->
+  <rect x="2355" y="155" width="260" height="257" rx="31" fill="#fee7a0" stroke="#ac8f00" stroke-width="8"/>
+  <text class="serif italic black" x="2433" y="330" font-size="122">S</text>
+
+  <rect x="2355" y="493" width="260" height="257" rx="31" fill="#ff8f97" stroke="#bd0c16" stroke-width="8"/>
+  <text class="serif italic bold black" x="2414" y="662" font-size="118">E<tspan font-size="72" baseline-shift="-24">1</tspan></text>
+
+  <rect x="2355" y="832" width="260" height="257" rx="31" fill="#ff8f97" stroke="#bd0c16" stroke-width="8"/>
+  <text class="serif black" x="2460" y="990" font-size="100">⋮</text>
+
+  <rect x="2355" y="1172" width="260" height="257" rx="31" fill="#ff8f97" stroke="#bd0c16" stroke-width="8"/>
+  <text class="serif italic bold black" x="2414" y="1342" font-size="118">E<tspan font-size="72" baseline-shift="-24">n</tspan></text>
+
+  <!-- Expert to summation arrows -->
+  <path d="M2615 283 L2865 642" class="arrowline"/>
+  <path d="M2615 622 L2820 722" class="arrowline"/>
+  <path d="M2615 960 L2820 858" class="arrowline"/>
+  <path d="M2615 1301 L2866 946" class="arrowline"/>
+
+  <!-- Sum circle -->
+  <circle cx="2902" cy="793" r="120" fill="#fff" stroke="#000" stroke-width="8"/>
+  <path d="M2788 793 L3016 793" class="wire"/>
+  <path d="M2902 679 L2902 907" class="wire"/>
+
+  <!-- Theta block and output -->
+  <path d="M3020 793 L3155 793" class="arrowline"/>
+  <rect x="3157" y="665" width="260" height="257" rx="31" fill="#ffc78f" stroke="#c7360a" stroke-width="8"/>
+  <text class="serif black" x="3221" y="835" font-size="112">Θ</text>
+
+  <!-- Model output to loss -->
+  <path d="M3417 793 L3527 793 L3527 1514" class="arrowline"/>
+
+  <!-- Loss box -->
+  <rect x="2965" y="1585" width="772" height="196" fill="#fff" stroke="#777" stroke-width="7" rx="3"/>
+  <text class="serif black" x="2986" y="1716" font-size="90">Loss</text>
+  <text class="serif italic black" x="3300" y="1716" font-size="90">ℓ(Θ, x)</text>
+
+  <!-- Data title -->
+  <text class="serif black" x="1734" y="2028" font-size="92">Pretraining domains</text>
+
+  <!-- Cylinders D1 -->
+  <g stroke="#064778" stroke-width="15" fill="#fff">
+    <ellipse cx="1840" cy="2118" rx="118" ry="55"/>
+    <path d="M1722 2118 L1722 2390"/>
+    <path d="M1958 2118 L1958 2390"/>
+    <path d="M1722 2210 C1722 2240 1775 2265 1840 2265 C1905 2265 1958 2240 1958 2210"/>
+    <path d="M1722 2300 C1722 2330 1775 2355 1840 2355 C1905 2355 1958 2330 1958 2300"/>
+    <ellipse cx="1840" cy="2390" rx="118" ry="55"/>
+  </g>
+
+  <!-- Cylinders D2 -->
+  <g stroke="#98cdf8" stroke-width="15" fill="#fff">
+    <ellipse cx="2155" cy="2285" rx="118" ry="55"/>
+    <path d="M2037 2285 L2037 2390"/>
+    <path d="M2273 2285 L2273 2390"/>
+    <ellipse cx="2155" cy="2390" rx="118" ry="55"/>
+  </g>
+
+  <!-- Cylinders D3 -->
+  <g stroke="#1177cf" stroke-width="15" fill="#fff">
+    <ellipse cx="2460" cy="2200" rx="118" ry="55"/>
+    <path d="M2342 2200 L2342 2390"/>
+    <path d="M2578 2200 L2578 2390"/>
+    <path d="M2342 2295 C2342 2325 2395 2350 2460 2350 C2525 2350 2578 2325 2578 2295"/>
+    <ellipse cx="2460" cy="2390" rx="118" ry="55"/>
+  </g>
+
+  <!-- Cylinders Dk -->
+  <g stroke="#3394e8" stroke-width="15" fill="#fff">
+    <ellipse cx="2778" cy="2286" rx="118" ry="55"/>
+    <path d="M2660 2286 L2660 2390"/>
+    <path d="M2896 2286 L2896 2390"/>
+    <ellipse cx="2778" cy="2390" rx="118" ry="55"/>
+  </g>
+
+  <!-- Data labels -->
+  <text class="serif bold black" x="1335" y="2560" font-size="94">Data</text>
+  <text class="serif italic black" x="1734" y="2592" font-size="118">D<tspan font-size="72" baseline-shift="-24">1</tspan></text>
+  <text class="serif italic black" x="2054" y="2592" font-size="118">D<tspan font-size="72" baseline-shift="-24">2</tspan></text>
+  <text class="serif black" x="2374" y="2588" font-size="112">···</text>
+  <text class="serif italic black" x="2672" y="2592" font-size="118">D<tspan font-size="72" baseline-shift="-24">k</tspan></text>
+
+  <!-- Sample data text and arrow -->
+  <path d="M3058 2134 L3305 2134" class="arrowline"/>
+  <text class="serif italic black" x="3334" y="2164" font-size="104">x</text>
+  <path d="M3312 2134 L3528 2134 L3528 1852" class="arrowline"/>
+
+  <text class="serif black" x="2942" y="2370" font-size="88">Sample data</text>
+  <text class="serif italic blue" x="2978" y="2538" font-size="94">x ∼ mix(h)</text>
+</svg>

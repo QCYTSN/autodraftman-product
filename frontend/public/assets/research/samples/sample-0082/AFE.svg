@@ -1,0 +1,145 @@
+<svg width="3840" height="1042" viewBox="0 0 3840 1042" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <filter id="softShadow" x="-20%" y="-40%" width="140%" height="180%">
+      <feDropShadow dx="0" dy="3" stdDeviation="4" flood-color="#9a9a9a" flood-opacity="0.45"/>
+    </filter>
+    <marker id="arrowBlack" markerWidth="18" markerHeight="18" refX="15" refY="9" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L18,9 L0,18 Z" fill="#000"/>
+    </marker>
+    <marker id="arrowGreen" markerWidth="18" markerHeight="18" refX="15" refY="9" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L18,9 L0,18 Z" fill="#6aa35a"/>
+    </marker>
+    <marker id="arrowBlue" markerWidth="18" markerHeight="18" refX="15" refY="9" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L18,9 L0,18 Z" fill="#5f86bd"/>
+    </marker>
+    <marker id="arrowPurple" markerWidth="18" markerHeight="18" refX="15" refY="9" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L18,9 L0,18 Z" fill="#9465a9"/>
+    </marker>
+
+    <linearGradient id="skyGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#5d9ee6"/>
+      <stop offset="0.48" stop-color="#99c8ef"/>
+      <stop offset="0.72" stop-color="#d8e9f2"/>
+      <stop offset="1" stop-color="#e7dccb"/>
+    </linearGradient>
+    <linearGradient id="seaGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#2e87b6"/>
+      <stop offset="0.45" stop-color="#5ba8c5"/>
+      <stop offset="1" stop-color="#c5e0e2"/>
+    </linearGradient>
+    <symbol id="beachPhoto" viewBox="0 0 260 260">
+      <rect width="260" height="260" fill="url(#skyGrad)"/>
+      <path d="M0 5 C60 35 105 58 260 25 L260 0 L0 0Z" fill="#74ace9" opacity=".45"/>
+      <rect x="0" y="166" width="260" height="45" fill="url(#seaGrad)"/>
+      <path d="M0 196 C40 190 70 202 120 195 C170 188 210 198 260 191 L260 205 C210 213 173 204 130 210 C80 217 38 207 0 213Z" fill="#eef8f4" opacity=".8"/>
+      <rect x="0" y="210" width="260" height="50" fill="#d8c7b0"/>
+      <path d="M0 225 C52 215 101 234 155 222 C199 213 225 224 260 219 L260 260 L0 260Z" fill="#cdb69c" opacity=".75"/>
+      <path d="M47 167 l7 -4 l-2 7 z" fill="#303030"/>
+      <path d="M54 170 C65 169 69 170 74 172" stroke="#222" stroke-width="2" fill="none"/>
+      <path d="M60 171 l6 4" stroke="#222" stroke-width="1.5"/>
+      <path d="M0 181 H260" stroke="#f9fbf6" stroke-width="2" opacity=".75"/>
+      <path d="M0 203 H260" stroke="#f9fbf6" stroke-width="2" opacity=".65"/>
+    </symbol>
+
+    <symbol id="deskPhoto" viewBox="0 0 260 260">
+      <rect width="260" height="260" fill="#5c2d18"/>
+      <rect y="0" width="260" height="66" fill="#4b2415"/>
+      <path d="M0 22 H260 M0 66 H260 M0 110 H260 M0 154 H260" stroke="#351609" stroke-width="4" opacity=".65"/>
+      <rect x="0" y="176" width="260" height="84" fill="#a76b33"/>
+      <path d="M0 192 C60 176 120 200 180 184 C215 175 238 177 260 182 L260 260 L0 260Z" fill="#c98a43" opacity=".65"/>
+      <rect x="65" y="55" width="135" height="100" rx="4" fill="#1c1d20"/>
+      <rect x="75" y="65" width="115" height="78" fill="#e9eef4"/>
+      <rect x="88" y="77" width="55" height="36" fill="#6aa9e3"/>
+      <rect x="88" y="114" width="55" height="18" fill="#d4b391"/>
+      <rect x="150" y="77" width="25" height="6" fill="#8a8a8a"/>
+      <rect x="150" y="90" width="28" height="6" fill="#b6b6b6"/>
+      <rect x="150" y="104" width="22" height="6" fill="#989898"/>
+      <rect x="122" y="155" width="23" height="28" fill="#1d1d1d"/>
+      <rect x="95" y="181" width="78" height="9" rx="4" fill="#262626"/>
+      <ellipse cx="42" cy="183" rx="24" ry="14" fill="#202020"/>
+      <ellipse cx="42" cy="174" rx="19" ry="9" fill="#6b4a2b"/>
+      <rect x="185" y="185" width="50" height="22" rx="4" fill="#1e1e1e"/>
+      <rect x="23" y="206" width="72" height="18" rx="5" fill="#d9d0c0"/>
+      <path d="M205 55 V160" stroke="#111" stroke-width="8"/>
+    </symbol>
+  </defs>
+
+  <rect width="3840" height="1042" fill="#ffffff"/>
+
+  <rect x="91" y="67" width="1072" height="575" rx="78" fill="#f5f5f5"/>
+  <rect x="1205" y="67" width="2557" height="935" rx="132" fill="#f5f5f5"/>
+
+  <text x="625" y="140" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="62" font-weight="700" fill="#000">Compression Selection</text>
+  <text x="117" y="255" font-family="Arial, Helvetica, sans-serif" font-size="48" font-weight="700" fill="#9b70b8">32x: Low Complexity</text>
+  <text x="653" y="255" font-family="Arial, Helvetica, sans-serif" font-size="48" font-weight="700" fill="#3f9d19">8x: High Complexity</text>
+  <text x="401" y="304" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="50" fill="#9b70b8">↑</text>
+  <text x="897" y="304" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="50" fill="#3f9d19">↑</text>
+
+  <rect x="160" y="327" width="933" height="120" rx="15" fill="#f5eee5" stroke="#dc9951" stroke-width="6" filter="url(#softShadow)"/>
+  <text x="174" y="409" font-family="Arial, Helvetica, sans-serif" font-size="56" font-weight="700" fill="#d56b00">Content Complexity Eval via LLM</text>
+
+  <line x1="398" y1="528" x2="398" y2="471" stroke="#000" stroke-width="4" marker-end="url(#arrowBlack)"/>
+  <line x1="897" y1="528" x2="897" y2="471" stroke="#000" stroke-width="4" marker-end="url(#arrowBlack)"/>
+
+  <text x="229" y="553" font-family="Courier New, monospace" font-size="34" font-weight="600" fill="#222">A clear sky and</text>
+  <text x="209" y="612" font-family="Courier New, monospace" font-size="34" font-weight="600" fill="#222">peaceful beach...</text>
+  <text x="648" y="553" font-family="Courier New, monospace" font-size="34" font-weight="600" fill="#222">Desktop with a monitor</text>
+  <text x="719" y="612" font-family="Courier New, monospace" font-size="34" font-weight="600" fill="#222">surrounded by...</text>
+
+  <rect x="91" y="674" width="1072" height="290" rx="48" fill="none" stroke="#8d8d8d" stroke-width="4" stroke-dasharray="12 13"/>
+  <line x1="402" y1="674" x2="402" y2="644" stroke="#000" stroke-width="3" marker-end="url(#arrowBlack)"/>
+  <line x1="897" y1="674" x2="897" y2="644" stroke="#000" stroke-width="3" marker-end="url(#arrowBlack)"/>
+  <use href="#beachPhoto" x="273" y="684" width="260" height="260"/>
+  <use href="#deskPhoto" x="765" y="684" width="260" height="260"/>
+  <text x="1028" y="1001" font-family="Arial, Helvetica, sans-serif" font-size="32" fill="#777">Optional</text>
+
+  <text x="2405" y="139" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="62" font-weight="700" fill="#000">Nested VAE for Adaptive Compression</text>
+  <text x="3235" y="139" font-family="Arial, Helvetica, sans-serif" font-size="45" font-weight="700" fill="#6aa35a">—8x</text>
+  <text x="3400" y="139" font-family="Arial, Helvetica, sans-serif" font-size="45" font-weight="700" fill="#5f86bd">—16x</text>
+  <text x="3586" y="139" font-family="Arial, Helvetica, sans-serif" font-size="45" font-weight="700" fill="#9465a9">—32x</text>
+
+  <use href="#beachPhoto" x="1219" y="443" width="260" height="260"/>
+  <text x="1349" y="743" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="38" font-weight="500" fill="#000">512x512</text>
+
+  <path d="M1625 526 H1703 V220 H2158 V526 H2228" fill="none" stroke="#6aa35a" stroke-width="10" marker-end="url(#arrowGreen)"/>
+  <path d="M1625 558 H1710 H1934 V254 H2124 V558 H2228" fill="none" stroke="#5f86bd" stroke-width="10" marker-end="url(#arrowBlue)"/>
+  <path d="M1625 600 H1739 H1970 H2228" fill="none" stroke="#9465a9" stroke-width="10" marker-end="url(#arrowPurple)"/>
+
+  <path d="M1511 289 L1628 367 L1628 902 L1511 813 Z" fill="#fff3c9" stroke="#d9b64b" stroke-width="4"/>
+  <path d="M1739 368 L1856 444 L1856 753 L1739 829 Z" fill="#fff3c9" stroke="#d9b64b" stroke-width="4"/>
+  <path d="M1970 450 L2087 526 L2087 677 L1970 753 Z" fill="#fff3c9" stroke="#d9b64b" stroke-width="4"/>
+
+  <text x="1620" y="859" font-family="Arial, Helvetica, sans-serif" font-size="39" font-weight="500" fill="#000">64x64</text>
+  <text x="1847" y="787" font-family="Arial, Helvetica, sans-serif" font-size="39" font-weight="500" fill="#000">32x32</text>
+  <text x="2086" y="708" font-family="Arial, Helvetica, sans-serif" font-size="39" font-weight="500" fill="#000">16x16</text>
+
+  <rect x="2236" y="526" width="153" height="147" fill="#f5dddd" stroke="#e5c06b" stroke-width="3"/>
+  <line x1="2389" y1="600" x2="2428" y2="600" stroke="#000" stroke-width="7"/>
+
+  <path d="M2458 442 H2427 V763 H2458" fill="none" stroke="#000" stroke-width="7"/>
+  <path d="M2559 442 H2590 V763 H2559" fill="none" stroke="#000" stroke-width="7"/>
+  <text x="2476" y="445" font-family="Times New Roman, serif" font-size="61" font-style="italic" fill="#000">μ</text>
+  <text x="2469" y="773" font-family="Times New Roman, serif" font-size="61" font-style="italic" fill="#000">σ²</text>
+
+  <line x1="2590" y1="600" x2="2661" y2="600" stroke="#000" stroke-width="7" marker-end="url(#arrowBlack)"/>
+  <rect x="2668" y="523" width="78" height="153" rx="12" fill="#f5dddd" stroke="#dea900" stroke-width="4"/>
+  <text x="2707" y="620" text-anchor="middle" font-family="Times New Roman, serif" font-size="57" font-style="italic" fill="#000">z</text>
+  <line x1="2746" y1="600" x2="2811" y2="600" stroke="#000" stroke-width="7" marker-end="url(#arrowBlack)"/>
+  <rect x="2819" y="526" width="153" height="147" fill="#f5dddd" stroke="#e5c06b" stroke-width="3"/>
+
+  <path d="M2972 526 H3048 V220 H3509 V526 H3575" fill="none" stroke="#6aa35a" stroke-width="10" marker-end="url(#arrowGreen)"/>
+  <path d="M2972 558 H3087 V254 H3279 V558 H3345" fill="none" stroke="#5f86bd" stroke-width="10" marker-end="url(#arrowBlue)"/>
+  <path d="M2972 600 H3125 H3354 H3575" fill="none" stroke="#9465a9" stroke-width="10" marker-end="url(#arrowPurple)"/>
+
+  <path d="M3125 526 L3242 447 L3242 755 L3125 677 Z" fill="#fff3c9" stroke="#d9b64b" stroke-width="4"/>
+  <path d="M3354 447 L3471 369 L3471 830 L3354 754 Z" fill="#fff3c9" stroke="#d9b64b" stroke-width="4"/>
+  <path d="M3584 370 L3701 291 L3701 908 L3584 830 Z" fill="#fff3c9" stroke="#d9b64b" stroke-width="4"/>
+
+  <text x="3019" y="708" font-family="Arial, Helvetica, sans-serif" font-size="39" font-weight="500" fill="#000">16x16</text>
+  <text x="3248" y="790" font-family="Arial, Helvetica, sans-serif" font-size="39" font-weight="500" fill="#000">32x32</text>
+  <text x="3473" y="858" font-family="Arial, Helvetica, sans-serif" font-size="39" font-weight="500" fill="#000">64x64</text>
+
+  <text x="1578" y="951" font-family="Arial, Helvetica, sans-serif" font-size="56" font-weight="700" fill="#dea800">Encoder Downsampling</text>
+  <text x="2338" y="951" font-family="Arial, Helvetica, sans-serif" font-size="56" font-weight="700" fill="#df8e8c">Shared Latent Sampling</text>
+  <text x="3072" y="951" font-family="Arial, Helvetica, sans-serif" font-size="56" font-weight="700" fill="#dea800">Decoder Upsampling</text>
+</svg>

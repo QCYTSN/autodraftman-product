@@ -1,0 +1,166 @@
+<svg width="3840" height="1196" viewBox="0 0 3840 1196" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <marker id="arrow" viewBox="0 0 12 12" refX="10" refY="6" markerWidth="12" markerHeight="12" orient="auto-start-reverse">
+      <path d="M0,0 L12,6 L0,12 Z" fill="#000"/>
+    </marker>
+    <style>
+      .sans{font-family:Arial, Helvetica, sans-serif;}
+      .serif{font-family:"Times New Roman", Times, serif;}
+      .bold{font-weight:700;}
+      .italic{font-style:italic;}
+      .smallmath{font-size:38px;}
+      .math{font-size:42px;}
+      .label{font-size:41px;}
+      .title{font-size:43px;}
+      .top{font-size:42px;}
+      .moduleText{font-size:39px;font-weight:700;}
+      .line{stroke:#000;stroke-width:7;fill:none;stroke-linecap:square;stroke-linejoin:miter;}
+      .outer{fill:#f4f4f4;stroke:#6b6b6b;stroke-width:7;}
+    </style>
+  </defs>
+
+  <rect width="3840" height="1196" fill="#fff"/>
+
+  <!-- phase brackets -->
+  <path d="M450 200 C450 174 452 166 461 166 L1628 166 C1635 166 1636 133 1636 133 C1636 133 1638 166 1645 166 L2812 166 C2821 166 2822 174 2823 200" fill="none" stroke="#000" stroke-width="4" stroke-linecap="round"/>
+  <text x="1636" y="105" text-anchor="middle" class="sans top">Phase 1 training</text>
+
+  <path d="M2925 200 C2925 174 2928 166 2937 166 L3214 166 C3220 166 3221 133 3221 133 C3221 133 3223 166 3229 166 L3505 166 C3514 166 3517 174 3517 200" fill="none" stroke="#000" stroke-width="4" stroke-linecap="round"/>
+  <text x="3221" y="105" text-anchor="middle" class="sans top">Phase 2 training</text>
+
+  <!-- dotted phase regions -->
+  <rect x="423" y="216" width="2448" height="654" rx="118" ry="118" fill="none" stroke="#777" stroke-width="7" stroke-linecap="round" stroke-dasharray="1 15"/>
+  <rect x="2931" y="216" width="578" height="654" rx="118" ry="118" fill="none" stroke="#777" stroke-width="7" stroke-linecap="round" stroke-dasharray="1 15"/>
+
+  <!-- input -->
+  <text x="132" y="466" text-anchor="middle" class="sans label bold">Input</text>
+  <text x="75" y="526" class="serif math italic">X′ ∈ ℝ<tspan baseline-shift="super" font-size="27">B×F</tspan></text>
+  <text x="40" y="586" class="serif math italic">F = c × h × w</text>
+  <line x1="352" y1="497" x2="465" y2="497" class="line" marker-end="url(#arrow)"/>
+  <line x1="350" y1="480" x2="350" y2="514" stroke="#000" stroke-width="4" stroke-dasharray="8 8"/>
+
+  <!-- Conv1 -->
+  <text x="777" y="280" text-anchor="middle" class="sans title">Conv1</text>
+  <rect x="478" y="306" width="598" height="390" class="outer"/>
+  <rect x="510" y="347" width="88" height="306" fill="#f5f5f5" stroke="#5fcbd0" stroke-width="7"/>
+  <rect x="621" y="347" width="88" height="306" fill="#f5f5f5" stroke="#e7bd48" stroke-width="7" stroke-dasharray="25 13"/>
+  <rect x="733" y="347" width="88" height="306" fill="#f5f5f5" stroke="#ff8b63" stroke-width="7"/>
+  <rect x="846" y="347" width="88" height="306" fill="#f5f5f5" stroke="#d69bf2" stroke-width="7"/>
+  <rect x="958" y="347" width="88" height="306" fill="#f5f5f5" stroke="#76bf4f" stroke-width="7"/>
+  <text x="554" y="500" text-anchor="middle" dominant-baseline="middle" transform="rotate(-90 554 500)" class="sans moduleText" fill="#5fcbd0">BatchNorm</text>
+  <text x="665" y="500" text-anchor="middle" dominant-baseline="middle" transform="rotate(-90 665 500)" class="sans moduleText" fill="#d5a53b">Dropout</text>
+  <text x="777" y="500" text-anchor="middle" dominant-baseline="middle" transform="rotate(-90 777 500)" class="sans moduleText" fill="#ff8b63">Conv</text>
+  <text x="890" y="500" text-anchor="middle" dominant-baseline="middle" transform="rotate(-90 890 500)" class="sans moduleText" fill="#d69bf2">ReLU</text>
+  <text x="1002" y="500" text-anchor="middle" dominant-baseline="middle" transform="rotate(-90 1002 500)" class="sans moduleText" fill="#76bf4f">MaxPooling</text>
+  <line x1="598" y1="497" x2="621" y2="497" class="line"/>
+  <line x1="709" y1="497" x2="733" y2="497" class="line"/>
+  <line x1="821" y1="497" x2="846" y2="497" class="line"/>
+  <line x1="934" y1="497" x2="958" y2="497" class="line"/>
+
+  <!-- conv1 dropout down -->
+  <line x1="665" y1="653" x2="665" y2="914" class="line" marker-end="url(#arrow)"/>
+
+  <!-- Conv1 output and FOP/Ldc loop -->
+  <line x1="1076" y1="497" x2="1334" y2="497" class="line" marker-end="url(#arrow)"/>
+  <line x1="1204" y1="510" x2="1204" y2="637" class="line" marker-end="url(#arrow)"/>
+  <circle cx="1204" cy="497" r="15" fill="#fff" stroke="#222" stroke-width="7"/>
+  <rect x="1121" y="643" width="164" height="92" fill="#fff" stroke="#7ddb9b" stroke-width="7"/>
+  <text x="1203" y="711" text-anchor="middle" class="sans moduleText" fill="#72d895">FOP</text>
+  <line x1="1204" y1="735" x2="1204" y2="796" class="line"/>
+  <line x1="1204" y1="796" x2="1086" y2="796" class="line" marker-end="url(#arrow)"/>
+  <rect x="911" y="750" width="164" height="93" fill="#fff" stroke="#7432a7" stroke-width="7"/>
+  <text x="993" y="815" text-anchor="middle" class="serif moduleText italic" fill="#7432a7">L<tspan baseline-shift="sub" font-size="27">dc</tspan></text>
+  <line x1="911" y1="796" x2="776" y2="796" class="line"/>
+  <line x1="776" y1="796" x2="776" y2="704" class="line" marker-end="url(#arrow)"/>
+
+  <!-- Conv2 -->
+  <text x="1595" y="280" text-anchor="middle" class="sans title">Conv2</text>
+  <rect x="1340" y="306" width="515" height="390" class="outer"/>
+  <rect x="1386" y="347" width="88" height="306" fill="#f5f5f5" stroke="#5fcbd0" stroke-width="7"/>
+  <rect x="1498" y="347" width="88" height="306" fill="#f5f5f5" stroke="#ff8b63" stroke-width="7"/>
+  <rect x="1610" y="347" width="88" height="306" fill="#f5f5f5" stroke="#d69bf2" stroke-width="7"/>
+  <rect x="1722" y="347" width="88" height="306" fill="#f5f5f5" stroke="#76bf4f" stroke-width="7"/>
+  <text x="1430" y="500" text-anchor="middle" dominant-baseline="middle" transform="rotate(-90 1430 500)" class="sans moduleText" fill="#5fcbd0">BatchNorm</text>
+  <text x="1542" y="500" text-anchor="middle" dominant-baseline="middle" transform="rotate(-90 1542 500)" class="sans moduleText" fill="#ff8b63">Conv</text>
+  <text x="1654" y="500" text-anchor="middle" dominant-baseline="middle" transform="rotate(-90 1654 500)" class="sans moduleText" fill="#d69bf2">ReLU</text>
+  <text x="1766" y="500" text-anchor="middle" dominant-baseline="middle" transform="rotate(-90 1766 500)" class="sans moduleText" fill="#76bf4f">MaxPooling</text>
+  <line x1="1474" y1="497" x2="1498" y2="497" class="line"/>
+  <line x1="1586" y1="497" x2="1610" y2="497" class="line"/>
+  <line x1="1698" y1="497" x2="1722" y2="497" class="line"/>
+
+  <line x1="1855" y1="497" x2="2110" y2="497" class="line" marker-end="url(#arrow)"/>
+  <line x1="1987" y1="510" x2="1987" y2="637" class="line" marker-end="url(#arrow)"/>
+  <circle cx="1987" cy="497" r="15" fill="#fff" stroke="#222" stroke-width="7"/>
+  <rect x="1905" y="643" width="164" height="92" fill="#fff" stroke="#7ddb9b" stroke-width="7"/>
+  <text x="1987" y="711" text-anchor="middle" class="sans moduleText" fill="#72d895">FOP</text>
+  <line x1="1987" y1="735" x2="1987" y2="796" class="line"/>
+  <line x1="1987" y1="796" x2="1869" y2="796" class="line" marker-end="url(#arrow)"/>
+  <rect x="1694" y="750" width="164" height="93" fill="#fff" stroke="#7432a7" stroke-width="7"/>
+  <text x="1776" y="815" text-anchor="middle" class="serif moduleText italic" fill="#7432a7">L<tspan baseline-shift="sub" font-size="27">dc</tspan></text>
+  <line x1="1694" y1="796" x2="1596" y2="796" class="line"/>
+  <line x1="1596" y1="796" x2="1596" y2="704" class="line" marker-end="url(#arrow)"/>
+  <line x1="1776" y1="843" x2="1776" y2="914" class="line" marker-end="url(#arrow)"/>
+
+  <!-- Conv3 -->
+  <text x="2389" y="280" text-anchor="middle" class="sans title">Conv3</text>
+  <rect x="2118" y="306" width="515" height="390" class="outer"/>
+  <rect x="2164" y="347" width="88" height="306" fill="#f5f5f5" stroke="#5fcbd0" stroke-width="7"/>
+  <rect x="2276" y="347" width="88" height="306" fill="#f5f5f5" stroke="#ff8b63" stroke-width="7"/>
+  <rect x="2388" y="347" width="88" height="306" fill="#f5f5f5" stroke="#d69bf2" stroke-width="7"/>
+  <rect x="2500" y="347" width="88" height="306" fill="#f5f5f5" stroke="#76bf4f" stroke-width="7"/>
+  <text x="2208" y="500" text-anchor="middle" dominant-baseline="middle" transform="rotate(-90 2208 500)" class="sans moduleText" fill="#5fcbd0">BatchNorm</text>
+  <text x="2320" y="500" text-anchor="middle" dominant-baseline="middle" transform="rotate(-90 2320 500)" class="sans moduleText" fill="#ff8b63">Conv</text>
+  <text x="2432" y="500" text-anchor="middle" dominant-baseline="middle" transform="rotate(-90 2432 500)" class="sans moduleText" fill="#d69bf2">ReLU</text>
+  <text x="2544" y="500" text-anchor="middle" dominant-baseline="middle" transform="rotate(-90 2544 500)" class="sans moduleText" fill="#76bf4f">AvgPooling</text>
+  <line x1="2252" y1="497" x2="2276" y2="497" class="line"/>
+  <line x1="2364" y1="497" x2="2388" y2="497" class="line"/>
+  <line x1="2476" y1="497" x2="2500" y2="497" class="line"/>
+
+  <line x1="2634" y1="497" x2="3012" y2="497" class="line" marker-end="url(#arrow)"/>
+  <line x1="2774" y1="510" x2="2774" y2="637" class="line" marker-end="url(#arrow)"/>
+  <circle cx="2774" cy="497" r="15" fill="#fff" stroke="#222" stroke-width="7"/>
+  <rect x="2691" y="643" width="164" height="92" fill="#fff" stroke="#7ddb9b" stroke-width="7"/>
+  <text x="2773" y="711" text-anchor="middle" class="sans moduleText" fill="#72d895">FOP</text>
+  <line x1="2774" y1="735" x2="2774" y2="796" class="line"/>
+  <line x1="2774" y1="796" x2="2656" y2="796" class="line" marker-end="url(#arrow)"/>
+  <rect x="2481" y="750" width="164" height="93" fill="#fff" stroke="#7432a7" stroke-width="7"/>
+  <text x="2563" y="815" text-anchor="middle" class="serif moduleText italic" fill="#7432a7">L<tspan baseline-shift="sub" font-size="27">dc</tspan></text>
+  <line x1="2481" y1="796" x2="2377" y2="796" class="line"/>
+  <line x1="2377" y1="796" x2="2377" y2="704" class="line" marker-end="url(#arrow)"/>
+
+  <!-- Linear classifier -->
+  <text x="3220" y="280" text-anchor="middle" class="sans title">Linear Classifier</text>
+  <rect x="3019" y="306" width="405" height="390" class="outer"/>
+  <rect x="3064" y="347" width="88" height="306" fill="#f5f5f5" stroke="#91b4ff" stroke-width="7"/>
+  <rect x="3176" y="347" width="88" height="306" fill="#e7bd48" stroke="#e7bd48" stroke-width="7"/>
+  <rect x="3288" y="347" width="88" height="306" fill="#f5f5f5" stroke="#ff6fa5" stroke-width="7"/>
+  <text x="3108" y="500" text-anchor="middle" dominant-baseline="middle" transform="rotate(-90 3108 500)" class="sans moduleText" fill="#91b4ff">Flatten</text>
+  <text x="3220" y="500" text-anchor="middle" dominant-baseline="middle" transform="rotate(-90 3220 500)" class="sans moduleText" fill="#c99b29">Dropout</text>
+  <text x="3332" y="500" text-anchor="middle" dominant-baseline="middle" transform="rotate(-90 3332 500)" class="sans moduleText" fill="#ff6fa5">FC</text>
+  <line x1="3152" y1="497" x2="3176" y2="497" class="line"/>
+  <line x1="3264" y1="497" x2="3288" y2="497" class="line"/>
+  <line x1="3424" y1="497" x2="3560" y2="497" class="line" marker-end="url(#arrow)"/>
+  <line x1="3220" y1="653" x2="3220" y2="914" class="line" marker-end="url(#arrow)"/>
+
+  <!-- output -->
+  <text x="3646" y="486" text-anchor="middle" class="sans label bold">Output</text>
+  <text x="3615" y="541" class="serif math bold">E[Y<tspan baseline-shift="super" font-size="27">2</tspan>]</text>
+
+  <!-- bottom annotations -->
+  <text x="665" y="988" text-anchor="middle" class="sans label">Creating noisy samples</text>
+  <text x="315" y="1050" class="serif math italic">X<tspan baseline-shift="sub" font-size="27">i,j</tspan> = Dropout(X′<tspan baseline-shift="sub" font-size="27">i</tspan>), j = 1,2, ... , n,</text>
+  <text x="538" y="1111" class="serif math italic">X ∈ ℝ<tspan baseline-shift="super" font-size="27">B×N×F</tspan></text>
+
+  <text x="1210" y="1038" class="serif math italic">L = αED<tspan baseline-shift="sub" font-size="27">c</tspan> − (1 − α)ED<tspan baseline-shift="sub" font-size="27">d</tspan></text>
+
+  <path d="M1768 944 L1768 1115 M1768 944 L1786 944 M1768 1030 L1752 1030 M1768 1115 L1786 1115" fill="none" stroke="#000" stroke-width="4"/>
+  <text x="1801" y="968" class="serif math">ED<tspan baseline-shift="sub" font-size="27">c</tspan> = <tspan font-size="34">1</tspan>/<tspan font-size="34">B</tspan>Σ<tspan baseline-shift="sub" font-size="27">i</tspan> ED<tspan class="italic"> (X<tspan baseline-shift="sub" font-size="27">i</tspan><tspan baseline-shift="super" font-size="27">(l)</tspan>)</tspan></text>
+  <text x="1801" y="1128" class="serif math">ED<tspan baseline-shift="sub" font-size="27">d</tspan> = ED<tspan class="italic">(E[X<tspan baseline-shift="super" font-size="27">(l)</tspan>])</tspan></text>
+
+  <text x="2285" y="1042" class="serif math">ED<tspan class="italic">(X)</tspan> = </text>
+  <text x="2483" y="1011" class="serif smallmath">tr<tspan class="italic">(E[XX<tspan baseline-shift="super" font-size="24">T</tspan>])</tspan><tspan baseline-shift="super" font-size="24">2</tspan></text>
+  <line x1="2475" y1="1030" x2="2716" y2="1030" stroke="#000" stroke-width="3"/>
+  <text x="2468" y="1075" class="serif smallmath">‖<tspan class="italic">E[XX<tspan baseline-shift="super" font-size="24">T</tspan>]</tspan>‖<tspan baseline-shift="super" font-size="24">2</tspan><tspan baseline-shift="sub" font-size="24">F</tspan></text>
+
+  <text x="3220" y="995" text-anchor="middle" class="sans label">Regularization</text>
+</svg>

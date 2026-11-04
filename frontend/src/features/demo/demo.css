@@ -8,6 +8,7 @@
 }
 
 body:has(.demo-site), .radix-themes:has(.demo-site) { background: #fcfcfe; }
+.figfox-site:has(.demo-site) { font-family: "Google Sans Flex","FigFox Showcase SC","Noto Sans SC Variable","Noto Sans SC",sans-serif; }
 .demo-site {
   --demo-ink: #1e2437;
   --demo-muted: #636b7c;
@@ -18,7 +19,7 @@ body:has(.demo-site), .radix-themes:has(.demo-site) { background: #fcfcfe; }
   --demo-header-height: 88px;
   background: #fcfcfe;
   color: var(--demo-ink);
-  font-family: "Google Sans Flex","Noto Sans SC Variable","Noto Sans SC",sans-serif;
+  font-family: "Google Sans Flex","FigFox Showcase SC","Noto Sans SC Variable","Noto Sans SC",sans-serif;
   font-optical-sizing: auto;
   font-synthesis: none;
   -webkit-font-smoothing: antialiased;

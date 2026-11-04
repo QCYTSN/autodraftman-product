@@ -36,3 +36,5 @@ export function demoAsset(id: string, file: "input.png" | "result.png" | "result
 
 export const demoBrandAsset = (file: string) =>
   import.meta.env.BASE_URL + "assets/demo/" + file;
+
+export const demoThumbnail = (id: string) => import.meta.env.BASE_URL + 'assets/demo/cases/' + id + '/thumbnail.webp';

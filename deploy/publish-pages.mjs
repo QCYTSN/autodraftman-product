@@ -1,68 +1,21 @@
-import { readdir, lstat, mkdir, copyFile, chmod, unlink, writeFile, readFile } from "node:fs/promises";
-import path from "node:path";
-import { fileURLToPath } from "node:url";
-import { execFileSync } from "node:child_process";
-import assert from "node:assert/strict";
+import { execFileSync } from 'node:child_process';
+import { readFileSync } from 'node:fs';
+import { fileURLToPath } from 'node:url';
+import path from 'node:path';
+import assert from 'node:assert/strict';
 
-// Copy build artifacts only. This script does not commit, push or change Pages settings.
-const repository = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
-const source = path.join(repository, "frontend", "dist");
-assert.ok(process.argv[2], "Pass the deployment mirror checkout as the first argument.");
-const mirror = path.resolve(process.argv[2]);
-const target = path.join(mirror, "site");
-const git = (root, args) => execFileSync("git", ["-C", root, ...args], { encoding: "utf8", windowsHide: true }).trim();
-assert.equal(git(repository, ["status", "--porcelain"]), "", "Commit source changes before publishing.");
-assert.equal(git(mirror, ["remote", "get-url", "origin"]), "https://github.com/QCYTSN/figfox.git", "Unexpected mirror repository.");
-assert.equal(git(mirror, ["status", "--porcelain"]), "", "The mirror must have no pending changes.");
-const revision = git(repository, ["rev-parse", "HEAD"]);
-assert.match(revision, /^[a-f0-9]{40}$/);
-assert.ok((await readFile(path.join(source, "index.html"), "utf8")).includes("/figfox/assets/"), "Build with npm run build:pages first.");
-await readFile(path.join(source, "404.html"));
-assert.ok(!(await lstat(source)).isSymbolicLink());
-assert.ok(!(await lstat(mirror)).isSymbolicLink());
-await mkdir(target, { recursive: true });
-assert.ok(!(await lstat(target)).isSymbolicLink());
-
-async function files(root, directory = root) {
-  const result = [];
-  for (const entry of await readdir(directory, { withFileTypes: true })) {
-    const absolute = path.join(directory, entry.name);
-    assert.ok(absolute.startsWith(root + path.sep));
-    assert.ok(!(await lstat(absolute)).isSymbolicLink(), "Symlinks are not copied or removed.");
-    if (entry.isDirectory()) result.push(...await files(root, absolute));
-    else if (entry.isFile()) result.push(path.relative(root, absolute));
-  }
-  return result;
-}
-
-const currentFiles = await files(source);
-const previousFiles = await files(target);
-const keep = new Set([...currentFiles, "_release.json"]);
-for (const relative of currentFiles) {
-  const destination = path.join(target, relative);
-  assert.ok(destination.startsWith(target + path.sep));
-  await mkdir(path.dirname(destination), { recursive: true });
-  const contents = await readFile(path.join(source, relative));
-  const existing = await readFile(destination).catch(error => {
-    if (error.code === "ENOENT") return null;
-    throw error;
-  });
-  if (existing?.equals(contents)) continue;
-  // Windows copies can retain an attachment's read-only flag in the static mirror.
-  if (existing) await chmod(destination, 0o666);
-  await copyFile(path.join(source, relative), destination);
-}
-let removed = 0;
-for (const relative of previousFiles) {
-  if (keep.has(relative)) continue;
-  const obsolete = path.join(target, relative);
-  assert.ok(obsolete.startsWith(target + path.sep));
-  assert.ok((await lstat(obsolete)).isFile());
-  await unlink(obsolete);
-  removed++;
-}
-for (const relative of currentFiles) {
-  assert.deepEqual(await readFile(path.join(source, relative)), await readFile(path.join(target, relative)));
-}
-await writeFile(path.join(target, "_release.json"), JSON.stringify({ sourceRepository: "QCYTSN/autodraftman-product", sourceRevision: revision, builtAt: new Date().toISOString() }, null, 2) + "\n");
-console.log(JSON.stringify({ copied: currentFiles.length, removed, sourceRevision: revision, target }));
+// One production path: rebuild a reviewed source commit in GitHub Actions.
+const repository = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
+const run = (command, args) => execFileSync(command, args, { cwd: repository, encoding: 'utf8', windowsHide: true }).trim();
+const revision = process.argv[2];
+assert.match(revision ?? '', /^[a-f0-9]{40}$/, 'Pass the full reviewed product commit SHA, not a mirror directory.');
+assert.equal(run('git', ['rev-parse', 'HEAD']), revision, 'Checkout and review the requested source commit first.');
+assert.equal(run('git', ['status', '--porcelain', '--untracked-files=no']), '', 'Commit tracked changes before publishing.');
+assert.equal(run('git', ['ls-files', '--others', '--exclude-standard', '--', 'frontend', 'deploy']), '', 'Commit new release files before publishing.');
+assert.equal(run('gh', ['api', 'repos/QCYTSN/autodraftman-product/commits/' + revision, '--jq', '.sha']), revision, 'Push the reviewed source first.');
+const encoded = run('gh', ['api', 'repos/QCYTSN/figfox/contents/.github/workflows/deploy-pages.yml', '--jq', '.content']);
+const remoteWorkflow = Buffer.from(encoded, 'base64').toString('utf8').replace(/\r\n/g, '\n').trim();
+const reviewedWorkflow = readFileSync(path.join(repository, 'deploy/pages-workflow.yml'), 'utf8').replace(/\r\n/g, '\n').trim();
+assert.equal(remoteWorkflow, reviewedWorkflow, 'Install the reviewed deploy/pages-workflow.yml in the Pages repository first.');
+run('gh', ['workflow', 'run', 'deploy-pages.yml', '--repo', 'QCYTSN/figfox', '--ref', 'main', '-f', 'source_revision=' + revision]);
+console.log(JSON.stringify({ sourceRevision: revision, workflow: 'https://github.com/QCYTSN/figfox/actions/workflows/deploy-pages.yml', site: 'https://qcytsn.github.io/figfox/' }, null, 2));

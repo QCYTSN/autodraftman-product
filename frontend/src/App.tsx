@@ -1,3 +1,5 @@
+import "./editorial-redesign.css";
+import "./figfox-redesign.css";
 import {
   ArrowRight,
   ArrowUpRight,

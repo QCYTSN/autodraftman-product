@@ -78,6 +78,6 @@ export function ResourceComparison() {
       })}
       <div className="research-comparison-axis" role="row" aria-hidden="true"><span role="cell" /><span role="cell">0 <i>{qualityMaximum}</i></span><span role="cell">0 <i>${costMaximum.toFixed(2)}</i></span><span role="cell">0 <i>{timeMaximum} {zh ? '分钟' : 'min'}</i></span></div>
     </div>
-    <div className="research-comparison-scope"><span>{zh ? '费用按账本计入；耗时按各方法原运行记录汇总。' : 'Costs follow the recorded ledgers; time totals follow each method’s original run logs.'}</span><a href="#resource-scope" onClick={() => { const settings = document.getElementById('research-settings'); if (settings instanceof HTMLDetailsElement) settings.open = true; }}>{zh ? '统计范围' : 'Measurement scope'} ↗</a></div>
+    <div className="research-comparison-scope"><span>{zh ? '费用与耗时来自各方法原运行记录；计时范围不同，不代表统一端到端速度。' : 'Costs and times follow each method’s original logs. Timing scopes differ; these are not uniform end-to-end speed measurements.'}</span><a href="#resource-scope" onClick={() => { const settings = document.getElementById('research-settings'); if (settings instanceof HTMLDetailsElement) settings.open = true; }}>{zh ? '统计范围' : 'Measurement scope'} ↗</a></div>
   </div>;
 }

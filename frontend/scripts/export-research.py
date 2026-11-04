@@ -1,147 +1,231 @@
-"""Read-only adapter for the frozen Nov 3 cohort. No model calls or rescoring.
-Usage: python scripts/export-research.py [materials-directory] [extra-artifact-directory]
+"""Export the November 4 archive; no model calls or edits to source files.
+Usage: python scripts/export-research.py [research-archive-directory]
+Requires Pillow and existing Playwright/Chrome for an absent archival PNG.
 """
-import csv, hashlib, io, json, os, shutil, sys, zipfile
+import csv
+import hashlib
+import io
+import json
+import subprocess
+import sys
+import xml.etree.ElementTree as ET
 from collections import Counter
 from pathlib import Path
 from PIL import Image
 
 ROOT = Path(__file__).resolve().parents[1]
-SOURCE = Path(sys.argv[1] if len(sys.argv) > 1 else r'D:/Github_Ku/FigFox-926/fyp_experiment_materials')
+SOURCE = Path(sys.argv[1] if len(sys.argv) > 1 else r'D:/Downloads/FigFox-研究资料总库/FigFox-研究资料总库')
+REVIEW = SOURCE / '02-评分与证据/unified-refresh-20261104'
 OUT = ROOT / 'public/assets/research'
 OUT.mkdir(parents=True, exist_ok=True)
-def sha(data): return hashlib.sha256(data).hexdigest()
-def readcsv(name, skip=2):
-    with (SOURCE/'数据表'/name).open(encoding='utf-8-sig', newline='') as f:
-        for _ in range(skip): next(f)
-        return list(csv.DictReader(f))
-def readjson(p): return json.loads(p.read_text('utf-8-sig'))
+VERSION = '20261104-codex-harness'
+
+
+def sha(data):
+    return hashlib.sha256(data).hexdigest()
+
+
+def readjson(path):
+    return json.loads(path.read_text('utf-8-sig'))
+
+
+def write_bytes(path, data):
+    path.parent.mkdir(parents=True, exist_ok=True)
+    if not path.exists() or path.read_bytes() != data:
+        path.write_bytes(data)
+
+
 def write(name, data):
-    p=OUT/name; p.parent.mkdir(parents=True, exist_ok=True)
-    p.write_text(json.dumps(data,ensure_ascii=False,separators=(',',':')),encoding='utf-8')
+    write_bytes(OUT / name, json.dumps(data, ensure_ascii=False, separators=(',', ':')).encode('utf-8'))
 
-methods=[{'id': k,'name':n,'color':c,'variant':v,'model':model} for k,n,c,v,model in [
- ('A','FigFox','#6243ce','A · SAM + G0/G1/G2 + native execution','GPT-5.5 (G0/G1/G2)'),
- ('DrawAI','DrawAI','#007d88','DrawAI · 20261023 delivery','See historical delivery; not inferred from current upstream defaults'),
- ('AFE','AutoFigure','#b55327','AutoFigureEdit · 20261020 delivery','Not recorded in supplied summary'),
- ('Crafter','Crafter','#3564b1','FigureCrafter · 20261023 delivery','Includes gpt-image-2; full configuration not in summary'),
- ('B','FigFox B','#976235','B · no SAM + full repair','GPT-5.5 (G0/G1/G2)'),
- ('C','FigFox C','#657384','C · SAM + G0 only; identical A checkpoint','GPT-5.5 (G0)')]]
-keys=[m['id'] for m in methods]
-names_en=['Text, numbers & units','Formula semantics & structure','Object completeness & identity','Counts & repetition','Connection topology & direction','Unambiguous routing','Containment & ownership','Layout, alignment & symmetry','Geometry & internal structure','Visibility & readability','Color, emphasis & hierarchy','Scale & style consistency','Editable content','Grouping & decomposition','File & edit reliability','Local image fidelity','Data chart faithfulness']
-groups_en=['Content correctness']*4+['Relations & structure']*5+['Reading & visual order']*3+['Editability']*3+['Specific content']*2
-targets_en=['Preserve wording, values and units.','Preserve symbols, operations, scripts, fractions and grouping.','Retain source objects without omissions or inventions.','Preserve layer, step and repeated-unit counts.','Preserve connectivity and arrow direction.','Keep routes clear and unambiguous.','Keep content inside its correct container.','Preserve relative position, alignment and symmetry.','Preserve geometry and internal construction.','Keep content visible and readable.','Preserve color roles, emphasis and hierarchy.','Keep scale and similar styles consistent.','Keep meaningful content individually editable.','Use useful object groups and separations.','Open, edit, save and reopen reliably.','Preserve local photographic and image content.','Preserve the meaning and structure of data charts.']
-metrics=[]
-for i,r in enumerate(readcsv('评分标准.csv')):
-    metrics.append({'id':r['编号'],'name':r['名称'],'en':names_en[i],'group':r['类别'],'groupEn':groups_en[i],'definition':r['目标'],'definitionEn':targets_en[i], 'unit':r['计量单元'],'evidence':r['证据'],'boundary':r['错误边界'],'na':r['NA规则'],'direction':'higher','range':[0,100],'scale':'score','aggregation':'100 × pass / (pass + fail)'})
-assert len(metrics)==17
-judgments=readcsv('评分判断明细.csv')
-assert len(judgments)==2720
-samples_csv=list(csv.DictReader((SOURCE/'02_dataset/samples_80.csv').open(encoding='utf-8-sig')))
-assert len({r['sample_id'] for r in samples_csv})==80
-by_sample={r['sample_id']:{} for r in samples_csv}
-evidence={s:{} for s in by_sample}
-counts={m['id']:{d['id']:Counter() for d in metrics} for m in methods}
-for r in judgments:
-    sid,mid=r['图片'],r['维度']
-    for k in keys:
-        status=r[k+'判断']; assert status in ['pass','fail','unknown','NA'],status
-        counts[k][mid][status]+=1
-        cell=by_sample[sid].setdefault(k,{}).setdefault(mid,{'counts':Counter(),'evidence':[]})
-        cell['counts'][status]+=1
-        cell['evidence'].append({'reviewer':int(r['评审']),'status':status,'text':r[k+'证据'],'request':r['评审请求ID']})
-def score(c): return 100*c.get('pass',0)/(c.get('pass',0)+c.get('fail',0)) if c.get('pass',0)+c.get('fail',0) else None
-summaries={k:{} for k in keys}
-four=readcsv('四方法评分.csv'); ablation=readcsv('消融评分.csv')
-column={'A':'FigFox A','DrawAI':'DrawAI','AFE':'AutoFigureEdit','Crafter':'FigureCrafter'}
-for i,d in enumerate(metrics):
-    mid=d['id']
-    for k in keys:
-        c=counts[k][mid]
-        official=float(four[i][column[k]]) if k in column else float(ablation[i]['B：无SAM完整' if k=='B' else 'C：有SAM初稿'])
-        assert sum(c.values())==160
-        if mid!='D09': assert abs(score(c)-official)<1e-8,(k,mid)
-        summaries[k][mid]={'score':official,'currentScore':score(c),'counts':dict(c),'judgmentN':c['pass']+c['fail'],'sampleN':sum(bool(by_sample[s][k][mid]['counts']['pass']+by_sample[s][k][mid]['counts']['fail']) for s in by_sample),'version':'historical-D09' if mid=='D09' else '20261103-double-review'}
-for r in readcsv('评分计数.csv',1):
-    label={'通过':'pass','失败':'fail','未知':'unknown','不适用':'NA'}[r['判断类别']]
-    for k in keys: assert counts[k][r['维度']][label]==int(r[k])
 
-# Index archives by artifact hash: names alone are never accepted as identity.
-archives=[]
-for directory in [Path(r'D:/Downloads'),Path(r'C:/Users/peanut/xwechat_files/wxid_jdplfr7w9pl222_08cd/msg/file/2026-10')]+([Path(sys.argv[2])] if len(sys.argv)>2 else []):
-    if directory.exists(): archives.extend(directory.glob('*.zip'))
-artifact_index={}; opened=[]
-for p in archives:
-    if not any(x in p.name.lower() for x in ['crafter','drawai','afe','autofigure']): continue
-    z=zipfile.ZipFile(p); opened.append(z)
-    for name in z.namelist():
-        if name.endswith('final.svg'):
-            artifact_index[sha(z.read(name))]=(z,name)
+def write_csv(name, rows):
+    text = io.StringIO(newline='')
+    csv.writer(text).writerows(rows)
+    write_bytes(OUT / name, text.getvalue().encode('utf-8-sig'))
+
+
+def original_svg(path, expected):
+    """Restore archive-normalized newlines only when the original hash proves identity."""
+    data = path.read_bytes()
+    lf = data.replace(b'\r\n', b'\n')
+    for candidate, conversion in [(data, 'unchanged'), (lf, 'LF'), (lf.replace(b'\n', b'\r\n'), 'CRLF')]:
+        if sha(candidate) == expected:
+            return candidate, conversion
+    raise ValueError(f'Original SVG identity cannot be verified: {path}')
+
 
 def publish_image(data, name):
-    im=Image.open(io.BytesIO(data)).convert('RGB'); width,height=im.size
-    im.thumbnail((1600,1200)); p=OUT/(name+'.webp');p.parent.mkdir(parents=True,exist_ok=True)
-    im.save(p,'WEBP',quality=88)
-    return {'image':name+'.webp','width':width,'height':height,'sourceHash':sha(data),'previewHash':sha(p.read_bytes())}
-efficiency={r['图片']:r for r in readcsv('逐图效率.csv')}
-samples=[]; coverage=Counter()
-for r in samples_csv:
-    sid=r['sample_id']; base=SOURCE/'01_latest'; original=(base/'inputs'/sid/'source.png').read_bytes()
-    assert sha(original)==r['source_sha256']
-    checkpoint=readjson(base/'checkpoints'/sid/'with-sam/manifest.json')
-    acceptance=readjson(base/'evidence'/sid/'A/native-acceptance.json')
-    assert checkpoint['source_sha256']==r['source_sha256']
-    assert sha((base/'results'/sid/'C/final.svg').read_bytes())==checkpoint['initial_sha256']==acceptance['initial_sha256'], (sid,'A/C draft lineage')
-    mapping=readjson(base/'evaluation/comprehensive-review'/sid/'complete.json')['mapping']
-    mapping={v['method']:v for v in mapping.values()}
-    sample={'id':sid,'category':r['clutter_bin'],'sourceUrl':r['source_url'],'source':publish_image(original,f'samples/{sid}/source'),'artifacts':{}}
+    image = Image.open(io.BytesIO(data))
+    # Preserve transparent backgrounds instead of exposing their hidden black RGB.
+    image = image.convert('RGBA' if 'A' in image.getbands() or 'transparency' in image.info else 'RGB')
+    width, height = image.size
+    image.thumbnail((1600, 1200))
+    buffer = io.BytesIO()
+    image.save(buffer, 'WEBP', quality=88)
+    preview = buffer.getvalue()
+    write_bytes(OUT / (name + '.webp'), preview)
+    return {'image': name + '.webp', 'width': width, 'height': height,
+            'sourceHash': sha(data), 'previewHash': sha(preview)}
+
+
+catalog = readjson(ROOT / 'scripts/research-catalog.json')
+inputs = readjson(REVIEW / 'inputs.json')
+statistics = readjson(REVIEW / 'statistics.json')
+manifest = {r['sample']: r for r in readjson(REVIEW / 'artifact-manifest.json')}
+judgments = readjson(REVIEW / 'harness-judgments.json')
+methods, metrics = catalog['methods'], catalog['metrics']
+keys = [m['id'] for m in methods]
+sample_ids = [s['id'] for s in catalog['samples']]
+assert set(sample_ids) == set(inputs['samples']) == set(manifest)
+assert len(sample_ids) == 80 and len(judgments) == 80 * 6 * 17
+assert [r[1] for r in inputs['sheets']['7'][3:]] == [m['name'] for m in metrics]
+
+by_sample = {sid: {k: {} for k in keys} for sid in sample_ids}
+for row in judgments:
+    sid, method, metric = row['sample'], row['method'], row['id']
+    original = manifest[sid]['candidates'][method]
+    assert row['source_sha256'] == original['source_sha256']
+    assert row['svg_sha256'] == original['svg_sha256']
+    assert row['status'] in ('pass', 'fail', 'unknown', 'NA')
+    assert metric not in by_sample[sid][method], (sid, method, metric)
+    by_sample[sid][method][metric] = row
+
+scopes, eligibility, examples = {}, {}, {}
+for scope, stats in statistics.items():
+    ids = stats['methods']
+    scopes[scope] = {k: {} for k in ids}
+    eligibility[scope] = {sid: [] for sid in sample_ids}
+    examples[scope] = {}
+    for metric in stats['criteria']:
+        mid = metric['id']
+        valid = [sid for sid in sample_ids if all(by_sample[sid][k][mid]['status'] in ('pass', 'fail') for k in ids)]
+        assert len(valid) == metric['n'], (scope, mid, len(valid), metric['n'])
+        examples[scope][mid] = valid[0] if valid else sample_ids[0]
+        for sid in valid:
+            eligibility[scope][sid].append(mid)
+        for index, k in enumerate(ids):
+            counts = Counter(by_sample[sid][k][mid]['status'] for sid in valid)
+            raw = Counter(by_sample[sid][k][mid]['status'] for sid in sample_ids)
+            current = 100 * counts['pass'] / len(valid) if valid else None
+            assert current is not None and abs(current - metric['scores'][index][0]) < 1e-8
+            score = stats['historical_D09_display'][index] if mid == 'D09' else current
+            scopes[scope][k][mid] = {
+                'score': score, 'currentScore': current, 'counts': dict(counts),
+                'rawCounts': dict(raw), 'sampleN': len(valid), 'judgmentN': len(valid),
+                'version': 'historical-D09' if mid == 'D09' else VERSION, 'scope': scope}
+    write_csv('四方法评分.csv' if scope == 'comparison' else '消融评分.csv',
+              [['指标', '名称', '评分版本', '共同有效图数', *ids], *[
+                  [m['id'], m['name'], scopes[scope][ids[0]][m['id']]['version'],
+                   '' if m['id'] == 'D09' else scopes[scope][ids[0]][m['id']]['sampleN'],
+                   *[scopes[scope][k][m['id']]['score'] for k in ids]] for m in metrics]])
+
+resource_names = {'A': 'FigFox A', 'B': 'FigFox B', 'C': 'FigFox C',
+                  'AFE': 'AutoFigureEdit', 'DrawAI': 'DrawAI', 'Crafter': 'FigureCrafter'}
+sheet = inputs['sheets']['3']
+resources = {}
+for k, name in resource_names.items():
+    col = sheet[2].index(name)
+    values = {r[0]: r[col] for r in sheet[3:] if len(r) > col and isinstance(r[col], (int, float))}
+    resources[k] = {'cost': values['平均计入费用USD/张'], 'minutes': values['平均时间分钟/张'],
+                    'tokens': values['平均API Token/张'], 'n': 80, 'comparable': k in ('A', 'B', 'C')}
+efficiency = {r[0]: dict(zip(inputs['sheets']['4'][2][1:], r[1:])) for r in inputs['sheets']['4'][3:]}
+folders = {'A': '四方法对比/Full-FigFox', 'AFE': '四方法对比/AFE', 'DrawAI': '四方法对比/DrawAI',
+           'Crafter': '四方法对比/Crafter', 'B': '三配置消融/wo-SAM3', 'C': '三配置消融/wo-repair'}
+coverage, restoration, derived, damaged = Counter(), Counter(), [], []
+sample_index = []
+for item in catalog['samples']:
+    sid = item['id']
+    source = (SOURCE / '01-实验/参考图' / sid / 'source.png').read_bytes()
+    assert sha(source) == item['sourceHash']
+    sample = {k: item[k] for k in ('id', 'category', 'sourceUrl')}
+    sample_index.append(dict(sample))
+    sample['source'] = publish_image(source, f'samples/{sid}/source')
+    sample['artifacts'], sample['scores'], details = {}, {}, {}
+    sample['eligible'] = {scope: eligibility[scope][sid] for scope in scopes}
     for k in keys:
-        m=mapping[k]; svg=None; png=None
-        if k in ['A','B','C']:
-            svg=(base/'results'/sid/k/'final.svg').read_bytes();png=(base/'results'/sid/k/'final.png').read_bytes()
-        elif m.get('svg_sha256') in artifact_index:
-            z,n=artifact_index[m['svg_sha256']];svg=z.read(n)
-            pn=n[:-3]+'png'
-            if pn in z.namelist(): png=z.read(pn)
-        artifact={'status':'missing','svgHash':m.get('svg_sha256'),'runId':m['svg'].split('/samples/')[0].split('/cases/')[0], 'conditionId':k,'evaluationVersion':'20261103-double-review'}
-        if svg is not None:
-            assert sha(svg)==m['svg_sha256'],(sid,k,'svg hash')
-            dest=f'samples/{sid}/{k}.svg';(OUT/dest).write_bytes(svg);artifact['svg']=dest
-            if png:
-                assert sha(png)==m['png_sha256'],(sid,k,'png hash')
-                artifact.update(publish_image(png,f'samples/{sid}/{k}')); artifact['status']='available';coverage[k]+=1
-        if sid=='sample-0062' and k=='AFE': artifact['status']='damaged'
-        sample['artifacts'][k]=artifact
-    detail=by_sample[sid]
-    compact={}
-    for k in keys:
-        compact[k]={}
-        for d in metrics:
-            cell=detail[k][d['id']];cell['score']=score(cell['counts'])
-            compact[k][d['id']]={'score':cell['score'],'counts':dict(cell['counts'])}
-    write(f'details/{sid}.json',detail)
-    sample['scores']=compact
-    sample['resources']={k:{'cost':float(efficiency[sid][k+'费用USD']),'seconds':float(efficiency[sid][k+'记录耗时秒']),'tokens':int(efficiency[sid][k+' API Token'])} for k in ['A','B','C']}
-    samples.append(sample)
-    if sid=='sample-0001':
-        g1=readjson(base/'evidence'/sid/'A/G1.json');g2=readjson(base/'evidence'/sid/'A/G2.json')
-        receipt=readjson(base/'evidence'/sid/'A/native-acceptance.json')
-        impl=readjson(base/'results'/sid/'A/implementation.json')
-        write('pipeline.json',{'sample':sid,'issues':g1.get('issues',[])[:8],'facts':g2.get('fact_checks',[])[:8], 'receipt':receipt,'operations':[{'transaction':t['id'],'edits':[{'op':e['op'],'target':e.get('id','')} for e in t.get('edits',[])]} for t in impl['transactions']]})
-resources={}
-for k in keys:
-    col={'A':'FigFox A','B':'FigFox B','C':'FigFox C','AFE':'AutoFigureEdit','Crafter':'FigureCrafter','DrawAI':'DrawAI'}[k]
-    rows=readcsv('时间费用Token.csv'); values={r['指标']:float(r[col]) for r in rows if r.get(col)}
-    resources[k]={'cost':values['平均计入费用USD/张'],'minutes':values['平均时间分钟/张'],'tokens':values['平均API Token/张'],'n':80,'comparable':k in ['A','B','C']}
-    if k in ['A','B','C']:
-        assert abs(sum(s['resources'][k]['cost'] for s in samples)/80-resources[k]['cost'])<1e-8
-        assert abs(sum(s['resources'][k]['seconds'] for s in samples)/80/60-resources[k]['minutes'])<1e-8
-        assert abs(sum(s['resources'][k]['tokens'] for s in samples)/80-resources[k]['tokens'])<1e-8
-provenance={'snapshot':'2026-11-03','version':'v3-17-criteria','cohortN':80,'judgments':16320,'reviewers':2,'coverage':dict(coverage),'sourceHashes':{p.name:sha(p.read_bytes()) for p in (SOURCE/'数据表').glob('*.csv')},'migration':readjson(SOURCE/'01_latest/evaluation/migration.json'),'d09':readjson(SOURCE/'数据表/D09-display-override.json')}
-write('summary.json',{'methods':methods,'metrics':metrics,'summaries':summaries,'resources':resources,'provenance':provenance})
-write('samples.json',samples)
-for name in ['四方法评分.csv','消融评分.csv','评分计数.csv','评分标准.csv','数据口径.csv','时间费用Token.csv']:
-    shutil.copyfile(SOURCE/'数据表'/name,OUT/name)
-write('provenance.json',provenance)
-for z in opened:z.close()
-print(json.dumps({'samples':len(samples),'judgments':len(judgments)*6,'verifiedPreviews':dict(coverage),'validated':'16 current criteria × 6 conditions; D09 explicitly versioned'},ensure_ascii=False))
+        directory = SOURCE / '01-实验' / folders[k] / sid
+        m = readjson(directory / '来源.json')
+        assert m['source_sha256'] == sha(source) == manifest[sid]['candidates'][k]['source_sha256']
+        assert m['svg_sha256'] == manifest[sid]['candidates'][k]['svg_sha256']
+        svg, conversion = original_svg(directory / '最终输出.svg', m['svg_sha256'])
+        restoration[conversion] += 1
+        destination = f'samples/{sid}/{k}.svg'
+        write_bytes(OUT / destination, svg)
+        artifact = {'status': 'missing', 'svg': destination, 'svgHash': sha(svg),
+                    'archiveSvgHash': sha((directory / '最终输出.svg').read_bytes()),
+                    'byteRecovery': conversion, 'runId': f'{folders[k]}/{sid}',
+                    'conditionId': k, 'evaluationVersion': VERSION}
+        try:
+            ET.fromstring(svg)
+            parseable = True
+        except ET.ParseError:
+            parseable = False
+            artifact['status'] = 'damaged'
+            damaged.append([sid, k])
+        png_path = directory / '最终输出.png'
+        png = None
+        if png_path.exists():
+            png = png_path.read_bytes()
+            assert sha(png) == m['png_sha256'], (sid, k, 'PNG identity')
+            artifact['previewOrigin'] = 'recorded-png'
+        elif parseable:
+            assert m['png_sha256'] is None
+            rendered = ROOT / '.review/research-rendered' / f'{sid}-{k}.png'
+            rendered.parent.mkdir(parents=True, exist_ok=True)
+            result = subprocess.run(['node', str(ROOT / 'scripts/render-research-preview.mjs'),
+                                     str(OUT / destination), str(rendered)], check=True, capture_output=True, text=True)
+            artifact['renderer'] = json.loads(result.stdout)['renderer']
+            artifact['previewOrigin'] = 'rendered-original-svg'
+            png = rendered.read_bytes()
+            derived.append([sid, k])
+        if png:
+            artifact.update(publish_image(png, f'samples/{sid}/{k}'))
+            artifact['status'] = 'available'
+            coverage[k] += 1
+        sample['artifacts'][k] = artifact
+        sample['scores'][k], details[k] = {}, {}
+        for metric in metrics:
+            mid = metric['id']
+            row = by_sample[sid][k][mid]
+            sample['scores'][k][mid] = {'score': row['score'], 'counts': {row['status']: 1}}
+            details[k][mid] = {'evidence': [{'status': row['status'], 'text': row['evidence'],
+                                           'reviewer': 0, 'source': row['review_source']}]}
+    sample['resources'] = {k: {'cost': efficiency[sid][k + '费用USD'],
+                               'seconds': efficiency[sid][k + '记录耗时秒'],
+                               'tokens': efficiency[sid][k + ' API Token']} for k in ('A', 'B', 'C')}
+    write(f'sample-meta/{sid}.json', sample)
+    write(f'details/{sid}.json', details)
+
+pipeline_path = SOURCE / '01-实验/四方法对比/Full-FigFox/sample-0001/完整记录'
+g1, g2 = readjson(pipeline_path / 'G1.json'), readjson(pipeline_path / 'G2.json')
+receipt = readjson(pipeline_path / 'native-acceptance.json')
+ops = readjson(pipeline_path / 'local-execution-operations.json')
+assert receipt['initial_sha256'] == manifest['sample-0001']['candidates']['C']['svg_sha256']
+write('pipeline.json', {'sample': 'sample-0001', 'issues': g1.get('issues', [])[:8],
+                       'facts': g2.get('fact_checks', [])[:8], 'receipt': receipt,
+                       'operations': [{'transaction': t['id'], 'edits': [
+                           {'op': e['op'], 'target': e.get('id', '')} for e in t.get('edits', [])]}
+                           for t in ops['transactions']]})
+provenance = {'snapshot': '2026-11-04', 'version': VERSION, 'cohortN': 80,
+              'judgments': len(judgments), 'reviewers': 1, 'coverage': dict(coverage),
+              'svgCoverage': {k: 80 for k in keys}, 'damaged': damaged, 'derivedPreviews': derived,
+              'byteRecovery': dict(restoration), 'sourceHashes': {n: sha((REVIEW / n).read_bytes())
+              for n in ['statistics.json', 'harness-judgments.json', 'artifact-manifest.json', 'inputs.json']},
+              'scopes': {scope: {'methods': s['methods'], 'aggregation': s['aggregation'],
+                                 'reviewMethod': s['review_method']} for scope, s in statistics.items()}}
+write('summary.json', {'methods': methods, 'metrics': metrics, 'summaries': scopes['comparison'],
+                       'ablationSummaries': scopes['ablation'], 'resources': resources,
+                       'examples': examples, 'provenance': provenance})
+write('samples.json', sample_index)
+write('provenance.json', provenance)
+write_csv('评分计数.csv', [['方法', '指标', '通过', '失败', '未知', 'NA'], *[
+    [k, metric['id'], *[sum(by_sample[sid][k][metric['id']]['status'] == status for sid in sample_ids)
+                        for status in ('pass', 'fail', 'unknown', 'NA')]] for k in keys for metric in metrics]])
+write_csv('评分标准.csv', inputs['sheets']['7'])
+write_csv('时间费用Token.csv', inputs['sheets']['3'])
+write_csv('数据口径.csv', [['版本', VERSION], ['评分来源', statistics['comparison']['review_method']],
+                          *[[scope, s['aggregation']] for scope, s in statistics.items()]])
+print(json.dumps({'samples': 80, 'judgments': len(judgments), 'previews': dict(coverage),
+                  'svgFiles': 480, 'damaged': damaged, 'derivedPreviews': derived,
+                  'byteRecovery': dict(restoration)}, ensure_ascii=False))

@@ -31,6 +31,7 @@ export function DemoCanvas({ item, language, focusedElementId = null, focusRevis
   item: DemoCase; language: DemoLanguage; focusedElementId?: string | null; focusRevision?: number;
 }) {
   const zh = language === "zh";
+  const [visible, setVisible] = useState(false);
   const [hint, setHint] = useState(!hintSeen);
   function takeOver() { hintSeen = true; setHint(false); }
   const mount = useRef<HTMLDivElement>(null);
@@ -97,6 +98,16 @@ export function DemoCanvas({ item, language, focusedElementId = null, focusRevis
   }
 
   useEffect(() => {
+    if (!stage.current) return;
+    const observer = new IntersectionObserver(entries => {
+      if (entries.some(entry => entry.isIntersecting)) { setVisible(true); observer.disconnect(); }
+    }, { rootMargin: "0px" });
+    observer.observe(stage.current);
+    return () => observer.disconnect();
+  }, []);
+
+  useEffect(() => {
+    if (!visible) return;
     const controller = new AbortController();
     let cancelled = false;
     setStatus("loading");
@@ -138,7 +149,7 @@ export function DemoCanvas({ item, language, focusedElementId = null, focusRevis
     }
     void load();
     return () => { cancelled = true; controller.abort(); };
-  }, [item.id]);
+  }, [item.id, visible]);
 
   useEffect(() => {
     if (status !== "ready" || !focusedElementId) return;

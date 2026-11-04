@@ -68,6 +68,7 @@ export function MechanismSection({ language, localCasesAvailable, onOpenCase }: 
   onOpenCase: (caseId: string, elementId: string) => void;
 }) {
   const content = words[language];
+  const [cropOpen, setCropOpen] = useState(false);
   const [active, setActive] = useState(1);
   const [layer, setLayer] = useState<ContentLayer>("text");
   const [visible, setVisible] = useState(!localCasesAvailable);
@@ -180,7 +181,7 @@ export function MechanismSection({ language, localCasesAvailable, onOpenCase }: 
         <div className="demo-mechanism-view" key={item.kind}>
           <div className="demo-mechanism-visual">
             <div className="demo-mechanism-evidence-label"><span>{localCasesAvailable ? formulaActive ? content.formulaSource : content.actual : content.illustration}</span>
-              {item.kind === "crops" && <button type="button" data-demo-cursor="zoom" onClick={() => dialog.current?.showModal()} aria-label={content.enlarge}><MagnifyingGlassPlus size={17} /></button>}
+              {item.kind === "crops" && <button type="button" data-demo-cursor="zoom" onClick={() => { setCropOpen(true); dialog.current?.showModal(); }} aria-label={content.enlarge}><MagnifyingGlassPlus size={17} /></button>}
             </div>
             {localCasesAvailable && status !== "ready" ? <div className="demo-mechanism-message" role="status" aria-live="polite">
               <span>{status === "error" ? content.error : content.loading}</span>
@@ -208,9 +209,9 @@ export function MechanismSection({ language, localCasesAvailable, onOpenCase }: 
       </div>
     </div>
     <p className="demo-mechanism-note" data-demo-reveal data-demo-delay="2">{localCasesAvailable ? content.note : content.publicNote}</p>
-    <dialog className="demo-diagram-dialog demo-crop-dialog" ref={dialog} aria-label={content.enlarge} onClick={event => { if (event.target === event.currentTarget) dialog.current?.close(); }}>
+    <dialog className="demo-diagram-dialog demo-crop-dialog" ref={dialog} onClose={() => setCropOpen(false)} aria-label={content.enlarge} onClick={event => { if (event.target === event.currentTarget) dialog.current?.close(); }}>
       <div className="demo-dialog-toolbar"><strong>{content.enlarge}</strong><button type="button" aria-label={content.close} onClick={() => dialog.current?.close()}><X size={22} /></button></div>
-      <div className="demo-crop-dialog-content"><MechanismPreview kind="crops" language={language} local={localCasesAvailable} evidence={{}} layer="text" onLayerChange={() => {}} /></div>
+      <div className="demo-crop-dialog-content">{cropOpen && <MechanismPreview kind="crops" language={language} local={localCasesAvailable} evidence={{}} layer="text" onLayerChange={() => {}} />}</div>
     </dialog>
   </section>;
 }

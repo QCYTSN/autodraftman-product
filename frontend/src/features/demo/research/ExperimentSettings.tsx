@@ -9,9 +9,9 @@ export function ExperimentSettings() {
     <summary>{zh ? '实验设置与数据说明' : 'Experiment settings & data notes'}</summary>
     <div className="research-settings-grid">
       <div><h3>{zh ? '输入与评分' : 'Inputs & evaluation'}</h3>
-        <p>{zh ? '80 张冻结原图，四档视觉拥挤度各 20 张；拥挤度用于描述输入构成。本批数据不是严格未见测试集。17 项标准共 16,320 项判断，评分模型为 DeepSeek。' : '80 frozen inputs: 20 per visual-clutter stratum. Strata describe the input composition; this cohort is not a strictly unseen test set. DeepSeek produced 16,320 judgments across 17 criteria.'}</p>
-        <p>{zh ? '分数 = 100 × 通过 /（通过 + 失败），量程 0–100。未知与 NA 单列，每维最多 160 项判断，来自 80 图 × 2 次独立模型评审。' : 'Score = 100 × pass / (pass + fail), on a 0–100 scale. Unknown and NA are separate. Up to 160 judgments per criterion: 80 images × 2 independent model reviews.'}</p>
-        <p>{zh ? 'D09 沿用旧轮汇总：对照方法单评审，FigFox 双评审。其余 16 维采用统一双评审；D09 不参与当前配对与消融图，也不计入 16 项指标的排名分布。排名依据未四舍五入的分数，相同分数并列。点击评分可查看样本证据与判断计数。' : 'D09 retains historical aggregates: one review for baselines, two for FigFox. The other 16 criteria share the double-review protocol. D09 is excluded from current paired and ablation charts and the 16-criterion rank distribution. Ranks use unrounded scores; equal scores share a rank. Select a score to inspect judgments.'}</p>
+        <p>{zh ? '80 张冻结原图，四档视觉拥挤度各 20 张。11 月 4 日 Codex 复核覆盖六种方法 / 配置、17 项标准，共 8,160 项判断。' : '80 frozen inputs, with 20 per visual-clutter stratum. The November 4 Codex review covers six methods / configurations and 17 criteria, totaling 8,160 judgments.'}</p>
+        <p>{zh ? '每项指标先取组内所有方法都有通过 / 失败判断的共同有效图，再计算通过比例 × 100。四方法对比与三配置消融分别取交集，因此同一 FigFox 指标在两组中的分数可能不同。未知与 NA 不计入该项分母。' : 'Each criterion uses figures with a pass / fail judgment for every method in its group, then scores 100 × pass / eligible images. Four-method and three-configuration comparisons form separate intersections, so FigFox scores can differ between them. Unknown and NA are excluded from that criterion’s denominator.'}</p>
+        <p>{zh ? 'D09 沿用历史汇总，单独标注；其余 16 项采用当前 Codex 复核。D09 不计入排名与消融图。排名依据未四舍五入的分数，相同分数并列。展开样本记录可查看逐图判断、证据与原件哈希。' : 'D09 retains separately labeled historical aggregates; the other 16 criteria use the current Codex review. D09 is excluded from ranks and ablation charts. Ranks use unrounded scores, with ties sharing a rank. Expanded sample records contain individual judgments, evidence and original-file hashes.'}</p>
       </div>
       <div><h3>{zh ? 'FigFox 配置' : 'FigFox configurations'}</h3>
         <p>{zh ? '完整版本 A：SAM + 初稿生成 + 问题检测 + 原生修复。无 SAM 版本 B：关闭 SAM，保留检测与修复。仅初稿 C：与 A 共用同一份初稿，停在修复之前。每个配置均为 80 张图。' : 'Full version A: SAM, drafting, inspection and native repair. Version B: SAM disabled, with inspection and repair. Draft-only C shares the exact draft used by A. Each configuration contains 80 figures.'}</p>
@@ -23,7 +23,7 @@ export function ExperimentSettings() {
         <p>{zh ? '共享初稿分别归因到 A/C，不能将各配置相加作为总账单。四方法图表并列展示各自原运行记录，计时范围不同，不作为统一端到端速度排名；Crafter 的部分图像 API 费用未完整回传，SAM 本地推理不折算 API Token。' : 'The shared draft is attributed to both A and C, so configuration totals are not additive. The four-method chart displays each method’s original records. Timing scopes differ, so these are not uniform end-to-end speed measurements. Some Crafter image-API charges were not returned; local SAM inference is not converted into API tokens.'}</p>
       </div>
       <div><h3>{zh ? '版本与产物' : 'Versions & artifacts'}</h3>
-        <p>{zh ? '数据快照：2026-11-03 · v3-17-criteria。统计由原始实验记录导出。软件检查覆盖 480 份产物，479 份完成操作链；AFE062 为原始 SVG 损坏记录。' : 'Snapshot: 2026-11-03 · v3-17-criteria. Statistics are exported from the original records. Software checks cover 480 artifacts; 479 completed the workflow. AFE062 has a damaged original SVG.'}</p>
+        <p>{zh ? '数据快照：2026-11-04 · Codex harness 复核。480 份 SVG 原件均通过原始哈希校验。AutoFigure 提供 79 张预览；0030 由原始 SVG 渲染，0062 的原始 SVG 损坏，保留原件下载。' : 'Snapshot: 2026-11-04 · Codex harness review. All 480 original SVGs match their recorded hashes. AutoFigure has 79 previews; 0030 was rendered from the original SVG. The damaged original SVG for 0062 remains available for download.'}</p>
         {data.methods.filter(method => mainIds.includes(method.id)).map(method => <p key={method.id}><b>{method.name}</b> · {method.variant}<br />{method.model}</p>)}
       </div>
     </div>

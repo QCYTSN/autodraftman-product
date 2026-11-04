@@ -2,40 +2,38 @@
 
 ## Current static release
 
-The showcase, guide, proposed pricing, workspace and local SVG editor are published
-at `https://qcytsn.github.io/figfox/`. There is no hosted API in this release.
-`QCYTSN/autodraftman-product` remains the source repository;
-`QCYTSN/figfox` contains a GitHub Pages mirror deployed from its `site/` directory.
+The showcase and local product tools are published at
+[FigFox](https://qcytsn.github.io/figfox/). There is no hosted API in this release.
 
-Publish only after reviewing and committing the product source:
+The only production source is a reviewed, full commit SHA in
+`QCYTSN/autodraftman-product`. The `QCYTSN/figfox` repository hosts the Pages
+workflow; its historical `site/` directory is no longer a build input.
+Ordinary pushes to that repository do **not** deploy anything.
 
-```powershell
-Set-Location D:\Github_Ku\autodraftman-product\frontend
-npm run build:pages
-npm run review:pages
-Set-Location ..
-node deploy/publish-pages.mjs D:\Github_Ku\figfox-public-site
-Set-Location D:\Github_Ku\figfox-public-site
-git add site
-git diff --cached --check
-git commit -m "Publish FigFox product surfaces"
-git push origin main
-```
+## Release procedure
 
-The Pages review checks route refreshes and runs product, multiple-document,
-complete-showcase and shared-cursor operations against the built `/figfox/` site. Showcase checks
-verify that published examples and repair demonstrations remain present and
-match the selected asset manifest. Raw experiments are not part of the release.
+1. Build and inspect the product source:
+   `npm run build:pages`, `npm run review:research`,
+   `npm run review:showcase` and `node scripts/verify-pages.mjs` in `frontend/`.
+   Serve the built `/figfox/` path for browser checks.
+2. Commit and push the reviewed source, including generated public assets.
+3. Run from the source checkout:
+   `node deploy/publish-pages.mjs <full-40-character-source-SHA>`.
+4. Follow the [Pages workflow](https://github.com/QCYTSN/figfox/actions/workflows/deploy-pages.yml).
+   It checks out that exact source commit, runs `npm ci` and `npm run build:pages`,
+   verifies HEAD and writes `_release.json` from the actual checked-out revision.
+5. Verify the live `/figfox/_release.json` matches the requested SHA, then check
+   research data, images, navigation and a refreshed product route.
 
-The copier verifies the mirror repository, clean source and mirror checkouts,
-build base path, destination paths and copied bytes. It copies only static files,
-removes individual obsolete files under `site/`, and leaves historical root files
-alone. `_release.json` records the source revision. It does not push or change
-GitHub settings. Wait for the Pages workflow, then verify the live home, product
-routes, page refreshes, SVG editing and source revision.
+A reviewed feature-branch commit is valid; a source-main merge is not required.
+The helper rejects dirty tracked files, untracked release files, an unpushed SHA
+or a deployed workflow that differs from the reviewed template.
 
-The source commit may be on a reviewed feature branch. Publishing does not imply
-merging that branch into source `main`.
+`deploy/pages-workflow.yml` is the versioned template for
+`QCYTSN/figfox/.github/workflows/deploy-pages.yml`. Install template changes there
+before releasing. Its only trigger is `workflow_dispatch`, with a required full
+source SHA. There is no mirror-copy or ordinary-push publishing path.
+To roll back, explicitly dispatch a previously reviewed source SHA.
 
 ## Future API deployment
 

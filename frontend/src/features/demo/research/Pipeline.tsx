@@ -46,7 +46,17 @@ export default function Pipeline({ stage, onStage }: { stage: number; onStage: (
     const next = Math.min(Math.floor(value * 4), Math.min(data.issues.length, 4) - 1);
     if (next !== issueIndex) setIssueIndex(next);
   });
-  useEffect(() => { void load<PipelineData>('pipeline.json').then(setData).catch(() => setData(null)); }, []);
+  useEffect(() => {
+    if (!root.current) return;
+    const observer = new IntersectionObserver(entries => {
+      if (entries.some(entry => entry.isIntersecting)) {
+        void load<PipelineData>('pipeline.json').then(setData).catch(() => setData(null));
+        observer.disconnect();
+      }
+    }, { rootMargin: '240px' });
+    observer.observe(root.current);
+    return () => observer.disconnect();
+  }, []);
   useEffect(() => {
     if (!playing) return;
     const animation = animate(progress, 1, {

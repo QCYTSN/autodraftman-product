@@ -1,0 +1,871 @@
+{
+  "source": "Frozen 80-image catalog and bilingual rubric from product commit 0da60f76ba0af5427fef80c4a20cfff2df3c6dab; identities checked against the November 4 archive. No evaluation scores.",
+  "methods": [
+    {
+      "id": "A",
+      "name": "FigFox",
+      "color": "#6243ce",
+      "variant": "A · SAM + G0/G1/G2 + native execution",
+      "model": "GPT-5.5 (G0/G1/G2)"
+    },
+    {
+      "id": "DrawAI",
+      "name": "DrawAI",
+      "color": "#007d88",
+      "variant": "DrawAI · 20261023 delivery",
+      "model": "See historical delivery; not inferred from current upstream defaults"
+    },
+    {
+      "id": "AFE",
+      "name": "AutoFigure",
+      "color": "#b55327",
+      "variant": "AutoFigureEdit · 20261020 delivery",
+      "model": "Not recorded in supplied summary"
+    },
+    {
+      "id": "Crafter",
+      "name": "Crafter",
+      "color": "#3564b1",
+      "variant": "FigureCrafter · 20261023 delivery",
+      "model": "Includes gpt-image-2; full configuration not in summary"
+    },
+    {
+      "id": "B",
+      "name": "FigFox B",
+      "color": "#976235",
+      "variant": "B · no SAM + full repair",
+      "model": "GPT-5.5 (G0/G1/G2)"
+    },
+    {
+      "id": "C",
+      "name": "FigFox C",
+      "color": "#657384",
+      "variant": "C · SAM + G0 only; identical A checkpoint",
+      "model": "GPT-5.5 (G0)"
+    }
+  ],
+  "metrics": [
+    {
+      "id": "D01",
+      "name": "文字、数字与单位",
+      "en": "Text, numbers & units",
+      "group": "内容正确性",
+      "groupEn": "Content correctness",
+      "definition": "内容正确，无错字、漏字、改义或单位错误。",
+      "definitionEn": "Preserve wording, values and units.",
+      "unit": "一段语义文字或一个数值及其单位",
+      "evidence": "参考转录、候选渲染局部和语义对照",
+      "boundary": "改变数值、单位、术语或省略限定词",
+      "na": "完整参考确认没有此类单元时为 NA；不能因评委缺材料而标 NA。",
+      "direction": "higher",
+      "range": [
+        0,
+        100
+      ],
+      "scale": "score",
+      "aggregation": "100 × pass / (pass + fail)"
+    },
+    {
+      "id": "D02",
+      "name": "公式含义与数学结构",
+      "en": "Formula semantics & structure",
+      "group": "内容正确性",
+      "groupEn": "Content correctness",
+      "definition": "符号、运算、上下标、分式和分组关系正确。",
+      "definitionEn": "Preserve symbols, operations, scripts, fractions and grouping.",
+      "unit": "一条公式",
+      "evidence": "公式参考、候选渲染及可编辑公式结构",
+      "boundary": "符号身份、上下标、分母或分组改义",
+      "na": "完整参考确认没有此类单元时为 NA；不能因评委缺材料而标 NA。",
+      "direction": "higher",
+      "range": [
+        0,
+        100
+      ],
+      "scale": "score",
+      "aggregation": "100 × pass / (pass + fail)"
+    },
+    {
+      "id": "D03",
+      "name": "对象完整与身份正确",
+      "en": "Object completeness & identity",
+      "group": "内容正确性",
+      "groupEn": "Content correctness",
+      "definition": "模块、图例、素材等完整，没有遗漏、替错或编造。",
+      "definitionEn": "Retain source objects without omissions or inventions.",
+      "unit": "一个参考对象或一个额外候选对象",
+      "evidence": "完整对象清单、身份语义匹配、渲染定位",
+      "boundary": "漏对象、替错身份、无依据新增对象",
+      "na": "完整参考确认没有此类单元时为 NA；不能因评委缺材料而标 NA。",
+      "direction": "higher",
+      "range": [
+        0,
+        100
+      ],
+      "scale": "score",
+      "aggregation": "100 × pass / (pass + fail)"
+    },
+    {
+      "id": "D04",
+      "name": "数量与重复结构",
+      "en": "Counts & repetition",
+      "group": "内容正确性",
+      "groupEn": "Content correctness",
+      "definition": "层数、步骤数、重复单元、分段及内部部件数量正确。",
+      "definitionEn": "Preserve layer, step and repeated-unit counts.",
+      "unit": "一个具有明确计数目标的重复结构",
+      "evidence": "参考计数定义及候选逐个定位",
+      "boundary": "少一层、多一步或重复单元内部少部件",
+      "na": "完整参考确认没有此类单元时为 NA；不能因评委缺材料而标 NA。",
+      "direction": "higher",
+      "range": [
+        0,
+        100
+      ],
+      "scale": "score",
+      "aggregation": "100 × pass / (pass + fail)"
+    },
+    {
+      "id": "D05",
+      "name": "连接拓扑与方向",
+      "en": "Connection topology & direction",
+      "group": "关系与结构",
+      "groupEn": "Relations & structure",
+      "definition": "起点、终点、方向、分支、汇合和反馈回路正确。",
+      "definitionEn": "Preserve connectivity and arrow direction.",
+      "unit": "一条有身份的有向或无向连接",
+      "evidence": "连接清单、端点语义匹配、箭头渲染位置",
+      "boundary": "端点错误、方向反转、遗漏或额外连接",
+      "na": "完整参考确认没有此类单元时为 NA；不能因评委缺材料而标 NA。",
+      "direction": "higher",
+      "range": [
+        0,
+        100
+      ],
+      "scale": "score",
+      "aggregation": "100 × pass / (pass + fail)"
+    },
+    {
+      "id": "D06",
+      "name": "走线清晰与无歧义",
+      "en": "Unambiguous routing",
+      "group": "关系与结构",
+      "groupEn": "Relations & structure",
+      "definition": "连线清楚，没有假接点、错误穿越或多余线段。",
+      "definitionEn": "Keep routes clear and unambiguous.",
+      "unit": "一条走线或一个交叉/汇合局部",
+      "evidence": "实际尺寸渲染、交叉点放大图及连接意图",
+      "boundary": "视觉上形成假连接、线段悬空或穿过文字",
+      "na": "完整参考确认没有此类单元时为 NA；不能因评委缺材料而标 NA。",
+      "direction": "higher",
+      "range": [
+        0,
+        100
+      ],
+      "scale": "score",
+      "aggregation": "100 × pass / (pass + fail)"
+    },
+    {
+      "id": "D07",
+      "name": "容器与内容归属",
+      "en": "Containment & ownership",
+      "group": "关系与结构",
+      "groupEn": "Relations & structure",
+      "definition": "标签、图片、公式、子模块和表格内容属于正确对象或区域。",
+      "definitionEn": "Keep content inside its correct container.",
+      "unit": "一组子对象与直接父容器关系",
+      "evidence": "父子清单及候选渲染定位",
+      "boundary": "内容跑到另一模块或错误单元格",
+      "na": "完整参考确认没有此类单元时为 NA；不能因评委缺材料而标 NA。",
+      "direction": "higher",
+      "range": [
+        0,
+        100
+      ],
+      "scale": "score",
+      "aggregation": "100 × pass / (pass + fail)"
+    },
+    {
+      "id": "D08",
+      "name": "相对布局、对齐与对称",
+      "en": "Layout, alignment & symmetry",
+      "group": "关系与结构",
+      "groupEn": "Relations & structure",
+      "definition": "相对顺序、共同中心、对齐、对称和有意义的比例保持正确。",
+      "definitionEn": "Preserve relative position, alignment and symmetry.",
+      "unit": "一项声明的布局关系或一组匹配对象",
+      "evidence": "带边界框的语义匹配、布局约束、事先配置容差",
+      "boundary": "顺序颠倒、对齐破坏、共同中心错位或有意义比例失真",
+      "na": "完整参考确认没有此类单元时为 NA；不能因评委缺材料而标 NA。",
+      "direction": "higher",
+      "range": [
+        0,
+        100
+      ],
+      "scale": "score",
+      "aggregation": "100 × pass / (pass + fail)"
+    },
+    {
+      "id": "D09",
+      "name": "几何构造与内部结构",
+      "en": "Geometry & internal structure",
+      "group": "关系与结构",
+      "groupEn": "Relations & structure",
+      "definition": "轮廓、朝向、共边、等分、立体面和内部构造正确。",
+      "definitionEn": "Preserve geometry and internal construction.",
+      "unit": "一个构造对象或一条内部几何约束",
+      "evidence": "参考构造说明、渲染局部、面/部件关系",
+      "boundary": "等分不等、立体面连接错误、轮廓或朝向改义",
+      "na": "完整参考确认没有此类单元时为 NA；不能因评委缺材料而标 NA。",
+      "direction": "higher",
+      "range": [
+        0,
+        100
+      ],
+      "scale": "score",
+      "aggregation": "100 × pass / (pass + fail)"
+    },
+    {
+      "id": "D10",
+      "name": "可见性与可读性",
+      "en": "Visibility & readability",
+      "group": "阅读与视觉表达",
+      "groupEn": "Reading & visual order",
+      "definition": "实际使用尺寸下内容清楚，没有不合理的遮挡、裁切、重叠或出框。",
+      "definitionEn": "Keep content visible and readable.",
+      "unit": "一个文字/对象及其遮挡区域",
+      "evidence": "最终展示尺寸、全图渲染和局部裁切",
+      "boundary": "文字不可辨、关键内容出框或重叠遮挡",
+      "na": "通常适用；仅任务契约明确免除该项才可 NA，缺材料为待核实。",
+      "direction": "higher",
+      "range": [
+        0,
+        100
+      ],
+      "scale": "score",
+      "aggregation": "100 × pass / (pass + fail)"
+    },
+    {
+      "id": "D11",
+      "name": "颜色、强调与视觉层级",
+      "en": "Color, emphasis & hierarchy",
+      "group": "阅读与视觉表达",
+      "groupEn": "Reading & visual order",
+      "definition": "颜色含义、图例对应、红字、加粗和重点关系正确。",
+      "definitionEn": "Preserve color roles, emphasis and hierarchy.",
+      "unit": "一个颜色/强调语义或层级关系",
+      "evidence": "配色语义、图例、红字和加粗参考、候选渲染",
+      "boundary": "图例与颜色错配、红字/加粗强调丢失",
+      "na": "完整参考确认没有此类单元时为 NA；不能因评委缺材料而标 NA。",
+      "direction": "higher",
+      "range": [
+        0,
+        100
+      ],
+      "scale": "score",
+      "aggregation": "100 × pass / (pass + fail)"
+    },
+    {
+      "id": "D12",
+      "name": "尺度与同类样式协调",
+      "en": "Scale & style consistency",
+      "group": "阅读与视觉表达",
+      "groupEn": "Reading & visual order",
+      "definition": "字号、线宽、箭头头部比例合理，同类元素保持一致。",
+      "definitionEn": "Keep scale and similar styles consistent.",
+      "unit": "一组同类样式或一个比例关系",
+      "evidence": "最终尺寸、同类元素清单和渲染",
+      "boundary": "字号悬殊、箭头头部遮挡端点、线宽不一致误导层级",
+      "na": "通常适用；仅任务契约明确免除该项才可 NA，缺材料为待核实。",
+      "direction": "higher",
+      "range": [
+        0,
+        100
+      ],
+      "scale": "score",
+      "aggregation": "100 × pass / (pass + fail)"
+    },
+    {
+      "id": "D13",
+      "name": "内容可编辑",
+      "en": "Editable content",
+      "group": "可编辑性",
+      "groupEn": "Editability",
+      "definition": "文字、公式、形状、连线和表格能够修改其实际内容。",
+      "definitionEn": "Keep meaningful content individually editable.",
+      "unit": "一个应编辑的语义对象，按类型汇总",
+      "evidence": "真实选择/修改前后、保存重开证据及对象定位",
+      "boundary": "字形路径冒充文字、整页贴图、不能改变内容",
+      "na": "完整参考确认没有此类单元时为 NA；不能因评委缺材料而标 NA。",
+      "direction": "higher",
+      "range": [
+        0,
+        100
+      ],
+      "scale": "score",
+      "aggregation": "100 × pass / (pass + fail)"
+    },
+    {
+      "id": "D14",
+      "name": "分组与拆分合理",
+      "en": "Grouping & decomposition",
+      "group": "可编辑性",
+      "groupEn": "Editability",
+      "definition": "语义对象便于选择和操作，没有错误粘合、过度拆碎或重复对象。",
+      "definitionEn": "Use useful object groups and separations.",
+      "unit": "一个语义组与其选取/拆分行为",
+      "evidence": "层级清单、实际选取、移动或解除分组记录",
+      "boundary": "移动一个模块带走无关内容、文本拆成无序碎片",
+      "na": "完整参考确认没有此类单元时为 NA；不能因评委缺材料而标 NA。",
+      "direction": "higher",
+      "range": [
+        0,
+        100
+      ],
+      "scale": "score",
+      "aggregation": "100 × pass / (pass + fail)"
+    },
+    {
+      "id": "D15",
+      "name": "文件与编辑操作可靠",
+      "en": "File & edit reliability",
+      "group": "可编辑性",
+      "groupEn": "Editability",
+      "definition": "在指定软件中能够正常打开、修改、保存和重开，内容不丢失、不变形。",
+      "definitionEn": "Open, edit, save and reopen reliably.",
+      "unit": "一次完整的软件打开-修改-保存-重开链",
+      "evidence": "指定软件及版本、文件、操作记录和重开渲染",
+      "boundary": "已确认未生成、损坏，或操作后丢失/变形",
+      "na": "通常适用；仅任务契约明确免除该项才可 NA，缺材料为待核实。",
+      "direction": "higher",
+      "range": [
+        0,
+        100
+      ],
+      "scale": "score",
+      "aggregation": "100 × pass / (pass + fail)"
+    },
+    {
+      "id": "D16",
+      "name": "局部图像保真",
+      "en": "Local image fidelity",
+      "group": "条件启用项",
+      "groupEn": "Specific content",
+      "definition": "存在照片、截图或复杂纹理时，检查素材身份、内容、裁切和关键细节；必要时进行局部相似性比较。",
+      "definitionEn": "Preserve local photographic and image content.",
+      "unit": "一个原生像素素材局部",
+      "evidence": "原生素材、候选局部、裁切位置及关键区域说明",
+      "boundary": "素材替错、关键细节缺失或裁切掉科学信息",
+      "na": "完整参考确认没有此类单元时为 NA；不能因评委缺材料而标 NA。",
+      "direction": "higher",
+      "range": [
+        0,
+        100
+      ],
+      "scale": "score",
+      "aggregation": "100 × pass / (pass + fail)"
+    },
+    {
+      "id": "D17",
+      "name": "数据图表忠实性",
+      "en": "Data chart faithfulness",
+      "group": "条件启用项",
+      "groupEn": "Specific content",
+      "definition": "存在曲线图、统计图或热图时，检查数据表达、坐标轴、刻度、尺度、趋势、极值及图例对应。",
+      "definitionEn": "Preserve the meaning and structure of data charts.",
+      "unit": "一个数据系列、轴或图例映射",
+      "evidence": "底层数据（若有）、原图、轴定义和候选渲染",
+      "boundary": "数据错、轴尺度改义、极值趋势或图例颠倒",
+      "na": "完整参考确认没有此类单元时为 NA；不能因评委缺材料而标 NA。",
+      "direction": "higher",
+      "range": [
+        0,
+        100
+      ],
+      "scale": "score",
+      "aggregation": "100 × pass / (pass + fail)"
+    }
+  ],
+  "samples": [
+    {
+      "id": "sample-0001",
+      "category": "C3_medium_high",
+      "sourceUrl": "https://openaccess.thecvf.com/content/CVPR2026/html/Xiao_Generalizable_Structure-Aware_Keypoint_Correspondence_for_Category-Unified_3D_Single_Object_Tracking_CVPR_2026_paper.html",
+      "sourceHash": "a78268849a4fbe310682c97b5d6b5dfe54e4591ed16fc188953e06e67935351b"
+    },
+    {
+      "id": "sample-0002",
+      "category": "C3_medium_high",
+      "sourceUrl": "https://openaccess.thecvf.com/content/CVPR2026/html/Xiao_Generalizable_Structure-Aware_Keypoint_Correspondence_for_Category-Unified_3D_Single_Object_Tracking_CVPR_2026_paper.html",
+      "sourceHash": "d24f44c83fb04fc36273a30587384a2611e9898f46f4de5f348cb7de6103246d"
+    },
+    {
+      "id": "sample-0003",
+      "category": "C1_low",
+      "sourceUrl": "https://openaccess.thecvf.com/content/CVPR2026/html/Yang_DirectFisheye-GS_Enabling_Native_Fisheye_Input_in_Gaussian_Splatting_with_Cross-View_CVPR_2026_paper.html",
+      "sourceHash": "bfc6491f3edf3c88c97a416f912778401ffdca0216b3a6e8df0737be237ff141"
+    },
+    {
+      "id": "sample-0004",
+      "category": "C3_medium_high",
+      "sourceUrl": "https://openaccess.thecvf.com/content/CVPR2026/html/Jia_CompBench_Benchmarking_Complex_Instruction-guided_Image_Editing_CVPR_2026_paper.html",
+      "sourceHash": "d4fda223108952f6d80ece0dd2c919111300ffabb6046999fa6ebd71b82dbd4d"
+    },
+    {
+      "id": "sample-0005",
+      "category": "C1_low",
+      "sourceUrl": "https://openaccess.thecvf.com/content/CVPR2026/html/Lyu_Choreographing_a_World_of_Dynamic_Objects_CVPR_2026_paper.html",
+      "sourceHash": "e842edee5bd245e75bd7f8089ce785adf46bc2d9f48970d9be27b4c110990f7d"
+    },
+    {
+      "id": "sample-0006",
+      "category": "C2_medium_low",
+      "sourceUrl": "https://openaccess.thecvf.com/content/CVPR2026/html/Lyu_Choreographing_a_World_of_Dynamic_Objects_CVPR_2026_paper.html",
+      "sourceHash": "22af8646eadc71060e0faf612299555b91e80a8ec0387df9670652c205624afb"
+    },
+    {
+      "id": "sample-0007",
+      "category": "C4_high",
+      "sourceUrl": "https://openaccess.thecvf.com/content/CVPR2026/html/Wang_Spk2VidNet_A_Hierarchical_Recurrent_Architecture_for_High-Fidelity_Video_Reconstruction_from_CVPR_2026_paper.html",
+      "sourceHash": "e3b9b1fdad4da600ac4037d8fa3a186097d1271ca85853e75e8d453079ebdb23"
+    },
+    {
+      "id": "sample-0008",
+      "category": "C4_high",
+      "sourceUrl": "https://openaccess.thecvf.com/content/CVPR2026/html/Wang_Spk2VidNet_A_Hierarchical_Recurrent_Architecture_for_High-Fidelity_Video_Reconstruction_from_CVPR_2026_paper.html",
+      "sourceHash": "ad33172292785214b770f2d91e576a8db36e5527640f597fdd5640f7e21d23b4"
+    },
+    {
+      "id": "sample-0011",
+      "category": "C1_low",
+      "sourceUrl": "https://openaccess.thecvf.com/content/CVPR2026/html/Michel_Continual_Distillation_of_Teachers_from_Different_Domains_CVPR_2026_paper.html",
+      "sourceHash": "db6ae3ff97bf85545e28165ca1cf53eb77370744eedfbc34d80968b65c468eaf"
+    },
+    {
+      "id": "sample-0012",
+      "category": "C3_medium_high",
+      "sourceUrl": "https://openaccess.thecvf.com/content/CVPR2026/html/Shekhar_GT-SVJ_Generative-Transformer-Based_Self-Supervised_Video_Judge_For_Efficient_Video_Reward_Modeling_CVPR_2026_paper.html",
+      "sourceHash": "fa093d776bfb1f04ed69b34a8222fa3549c7aa7d01fa367fa736ddf085684c0b"
+    },
+    {
+      "id": "sample-0014",
+      "category": "C1_low",
+      "sourceUrl": "https://openaccess.thecvf.com/content/CVPR2026/html/Bassole_HybridDriveVLA_Vision-Language-Action_Model_with_Visual_CoT_reasoning_and_ToT_Evaluation_CVPR_2026_paper.html",
+      "sourceHash": "c047456ab09fe9eb8c620992a3414e8207a4052fd9b6f1b1c45976b6ea94f170"
+    },
+    {
+      "id": "sample-0015",
+      "category": "C2_medium_low",
+      "sourceUrl": "https://openaccess.thecvf.com/content/CVPR2026/html/Bassole_HybridDriveVLA_Vision-Language-Action_Model_with_Visual_CoT_reasoning_and_ToT_Evaluation_CVPR_2026_paper.html",
+      "sourceHash": "030d368fa8b7de50b06f2ff7cd97aed6d4029392c32edfe93beec08d3354e9d8"
+    },
+    {
+      "id": "sample-0016",
+      "category": "C2_medium_low",
+      "sourceUrl": "https://openaccess.thecvf.com/content/CVPR2026/html/Jeong_Training-free_Perceptually_Consistent_Low-Resolution_Previews_with_High-Resolution_Image_for_Efficient_CVPR_2026_paper.html",
+      "sourceHash": "f1c4604897b57e7a448867d22c090c122bb2a98b0cc8dfc1f162332c4854c3f6"
+    },
+    {
+      "id": "sample-0017",
+      "category": "C3_medium_high",
+      "sourceUrl": "https://openaccess.thecvf.com/content/CVPR2026/html/Chen_Catalyst4D_High-Fidelity_3D-to-4D_Scene_Editing_via_Dynamic_Propagation_CVPR_2026_paper.html",
+      "sourceHash": "36684dc2ccef5d35f5c00cfdab0df2a7b5b89cdccb7c7b653a0eba1b24cd0963"
+    },
+    {
+      "id": "sample-0018",
+      "category": "C2_medium_low",
+      "sourceUrl": "https://openaccess.thecvf.com/content/CVPR2026/html/Niu_CME-CAD_Heterogeneous_Collaborative_Multi-Expert_Reinforcement_Learning_for_CAD_Code_Generation_CVPR_2026_paper.html",
+      "sourceHash": "f01ac469970f04c3bc87a9ac83d9f3027b12092e1ae9dfb67067508c697a9e2a"
+    },
+    {
+      "id": "sample-0019",
+      "category": "C2_medium_low",
+      "sourceUrl": "https://openaccess.thecvf.com/content/CVPR2026/html/Niu_CME-CAD_Heterogeneous_Collaborative_Multi-Expert_Reinforcement_Learning_for_CAD_Code_Generation_CVPR_2026_paper.html",
+      "sourceHash": "cc4077311f285a14389feab0f11dab7d54b7eb36cfac2f15dbab5662a8f9bc3e"
+    },
+    {
+      "id": "sample-0020",
+      "category": "C2_medium_low",
+      "sourceUrl": "https://openaccess.thecvf.com/content/CVPR2026/html/Han_Unique_Lives_Shared_World_Learning_from_Single-Life_Videos_CVPR_2026_paper.html",
+      "sourceHash": "d3525ba9c706881c6a2d0e07ddf510c04b6130c9f97d0314bf937210c38135ac"
+    },
+    {
+      "id": "sample-0021",
+      "category": "C3_medium_high",
+      "sourceUrl": "https://openaccess.thecvf.com/content/CVPR2026/html/Han_Unique_Lives_Shared_World_Learning_from_Single-Life_Videos_CVPR_2026_paper.html",
+      "sourceHash": "b433997485e40aee9b5d80ea1812f1bfd622a032b38b4a522e7c33c7cf31b22c"
+    },
+    {
+      "id": "sample-0025",
+      "category": "C1_low",
+      "sourceUrl": "https://openaccess.thecvf.com/content/CVPR2026/html/Yuan_UniComp_Rethinking_Video_Compression_Through_Informational_Uniqueness_CVPR_2026_paper.html",
+      "sourceHash": "1b8067b2859420da8af77c52cc39adc72bfaabd9e332b4322d2f69d9aa16d390"
+    },
+    {
+      "id": "sample-0027",
+      "category": "C3_medium_high",
+      "sourceUrl": "https://openaccess.thecvf.com/content/CVPR2026/html/Li_White-Balance_First_Adjust_Later_Cross-Camera_Color_Constancy_via_Vision-Language_Evaluation_CVPR_2026_paper.html",
+      "sourceHash": "47f69a8e17f54bbb2383ca02b82a6b21f16fc29372214a42e4aaccb66422d85d"
+    },
+    {
+      "id": "sample-0029",
+      "category": "C4_high",
+      "sourceUrl": "https://openaccess.thecvf.com/content/CVPR2026/html/Lu_Reallocating_Attention_Across_Layers_to_Reduce_Multimodal_Hallucination_CVPR_2026_paper.html",
+      "sourceHash": "02d29dbb51e91e17b7a153215bdc97ff3d39d29629523da2552f42afc41f3f72"
+    },
+    {
+      "id": "sample-0030",
+      "category": "C4_high",
+      "sourceUrl": "https://openaccess.thecvf.com/content/CVPR2026/html/Lu_Reallocating_Attention_Across_Layers_to_Reduce_Multimodal_Hallucination_CVPR_2026_paper.html",
+      "sourceHash": "41b03c5e804b99e04d4bfe4d72b9f0e66c9b848f3dcb50d8552d79efc52f106f"
+    },
+    {
+      "id": "sample-0031",
+      "category": "C4_high",
+      "sourceUrl": "https://openaccess.thecvf.com/content/CVPR2026/html/Seo_Erasing_Thousands_of_Concepts_Towards_Scalable_and_Practical_Concept_Erasure_CVPR_2026_paper.html",
+      "sourceHash": "2e7e47e11ba7424bc14765bb04c8b115dc2e588e2369b139b6562745dada86e4"
+    },
+    {
+      "id": "sample-0032",
+      "category": "C4_high",
+      "sourceUrl": "https://openaccess.thecvf.com/content/CVPR2026/html/Wu_TALON_Test-time_Adaptive_Learning_for_On-the-Fly_Category_Discovery_CVPR_2026_paper.html",
+      "sourceHash": "9d4ff0c12dc878a0771f37081e2e75728ca13122c504ffbd8d8908c0c60514d3"
+    },
+    {
+      "id": "sample-0033",
+      "category": "C4_high",
+      "sourceUrl": "https://openaccess.thecvf.com/content/CVPR2026/html/Wu_TALON_Test-time_Adaptive_Learning_for_On-the-Fly_Category_Discovery_CVPR_2026_paper.html",
+      "sourceHash": "8ca2a4bf64c146a3e53983112d51609ae641340bb27251dddfdddaff358e31b2"
+    },
+    {
+      "id": "sample-0034",
+      "category": "C4_high",
+      "sourceUrl": "https://openaccess.thecvf.com/content/CVPR2026/html/Chng_SenseSearch_Empowering_Vision-Language_Models_with_High-Resolution_Agentic_Search-Reasoning_via_Reinforcement_CVPR_2026_paper.html",
+      "sourceHash": "b1658e7c961148db2fbfa03329579cda7b20fae51ea609f709a30f5b57077f3f"
+    },
+    {
+      "id": "sample-0036",
+      "category": "C3_medium_high",
+      "sourceUrl": "https://openaccess.thecvf.com/content/CVPR2026/html/Chng_SenseSearch_Empowering_Vision-Language_Models_with_High-Resolution_Agentic_Search-Reasoning_via_Reinforcement_CVPR_2026_paper.html",
+      "sourceHash": "d735cb73ef9bb0f59b05811af13f92afcd558ed68573136e8b4d89999d8a6051"
+    },
+    {
+      "id": "sample-0037",
+      "category": "C3_medium_high",
+      "sourceUrl": "https://openaccess.thecvf.com/content/CVPR2026/html/Jia_Quant_Experts_Token-aware_Adaptive_Error_Reconstruction_with_Mixture_of_Experts_CVPR_2026_paper.html",
+      "sourceHash": "8085e4a667d8e2b32f37736aaaea38d513d12d1a8f127d829523278e0d06a424"
+    },
+    {
+      "id": "sample-0038",
+      "category": "C3_medium_high",
+      "sourceUrl": "https://openaccess.thecvf.com/content/CVPR2026/html/Jia_Quant_Experts_Token-aware_Adaptive_Error_Reconstruction_with_Mixture_of_Experts_CVPR_2026_paper.html",
+      "sourceHash": "c5acdbd9fba0b4006999e479b3177a89f780082a8a8dc95952afac47763c9dfb"
+    },
+    {
+      "id": "sample-0040",
+      "category": "C3_medium_high",
+      "sourceUrl": "https://openaccess.thecvf.com/content/CVPR2026/html/Huynh_Efficient_and_High-Fidelity_Omni_Modality_Retrieval_CVPR_2026_paper.html",
+      "sourceHash": "4fea570bbfcd96fccbf705af6f78dfb449a55bc29d4cdad7a9aa77b07556e087"
+    },
+    {
+      "id": "sample-0041",
+      "category": "C2_medium_low",
+      "sourceUrl": "https://openaccess.thecvf.com/content/CVPR2026/html/Huynh_Efficient_and_High-Fidelity_Omni_Modality_Retrieval_CVPR_2026_paper.html",
+      "sourceHash": "55415bc7fa6329797e1f7ccd0c4548f7d7a0d50618c922135507f97d96676274"
+    },
+    {
+      "id": "sample-0042",
+      "category": "C1_low",
+      "sourceUrl": "https://openaccess.thecvf.com/content/CVPR2026/html/Xie_SynCLIP_Synonym-Coherent_Language-Image_Pretraining_for_Robust_Open-Vocabulary_Dense_Perception_CVPR_2026_paper.html",
+      "sourceHash": "1a19888d33b5619bcbfc4a3e65db5b4be38732c7dfbf1463372846d023888349"
+    },
+    {
+      "id": "sample-0043",
+      "category": "C4_high",
+      "sourceUrl": "https://openaccess.thecvf.com/content/CVPR2026/html/Zhu_Dr.Occ_Depth-_and_Region-Guided_3D_Occupancy_from_Surround-View_Cameras_for_CVPR_2026_paper.html",
+      "sourceHash": "8a176f40f9ec1e47709675e2c109eeb229721cecd86aabac037632c1d2856ccf"
+    },
+    {
+      "id": "sample-0044",
+      "category": "C4_high",
+      "sourceUrl": "https://openaccess.thecvf.com/content/CVPR2026/html/Zhu_Dr.Occ_Depth-_and_Region-Guided_3D_Occupancy_from_Surround-View_Cameras_for_CVPR_2026_paper.html",
+      "sourceHash": "70245f554a27f60c1eaabb1e71dec3e31f0be569b156bfc5b7537a5c50d73b04"
+    },
+    {
+      "id": "sample-0045",
+      "category": "C4_high",
+      "sourceUrl": "https://openaccess.thecvf.com/content/CVPR2026/html/Fan_More_than_the_Sum_Panorama-Language_Models_for_Adverse_Omni-Scenes_CVPR_2026_paper.html",
+      "sourceHash": "81a79f4c602075391d5eda07ddfe907fd905d088a3d1ee4c64fb9b998850474c"
+    },
+    {
+      "id": "sample-0047",
+      "category": "C3_medium_high",
+      "sourceUrl": "https://openaccess.thecvf.com/content/CVPR2026/html/Wen_Prompt-Anchored_Vision-Text_Distillation_for_Lifelong_Person_Re-identification_CVPR_2026_paper.html",
+      "sourceHash": "47dc27a18dbd7c01bd197403669f79fcabd1fcb1abe66aa84e7d006b76f165e0"
+    },
+    {
+      "id": "sample-0048",
+      "category": "C4_high",
+      "sourceUrl": "https://openaccess.thecvf.com/content/CVPR2026/html/Wen_Prompt-Anchored_Vision-Text_Distillation_for_Lifelong_Person_Re-identification_CVPR_2026_paper.html",
+      "sourceHash": "84837e20de85a0beb4d4af661bb2ead08770e890b4dc5cac3271382c9c55a280"
+    },
+    {
+      "id": "sample-0050",
+      "category": "C4_high",
+      "sourceUrl": "https://openaccess.thecvf.com/content/CVPR2026/html/Kong_Rethinking_Pose_Refinement_in_3D_Gaussian_Splatting_under_Pose_Prior_CVPR_2026_paper.html",
+      "sourceHash": "48552144760ac587971f259e13f8781ec6dca80eb071a64ab39f4b90c1091b89"
+    },
+    {
+      "id": "sample-0051",
+      "category": "C2_medium_low",
+      "sourceUrl": "https://openreview.net/attachment?id=QEHrmQPBdd&name=pdf",
+      "sourceHash": "eae6ea1607bac5bf33953fadedfa8ece905a63195e1197929d23de63716e5f04"
+    },
+    {
+      "id": "sample-0052",
+      "category": "C1_low",
+      "sourceUrl": "https://openreview.net/attachment?id=MS9nWFY7LG&name=pdf",
+      "sourceHash": "6278f84496ed8f2a5b8edb824335730d11797b2e7f9c0c8013ac11f53b7a22e2"
+    },
+    {
+      "id": "sample-0053",
+      "category": "C3_medium_high",
+      "sourceUrl": "https://openreview.net/attachment?id=CCSPm6V5EF&name=pdf",
+      "sourceHash": "5cb7753001997f30e6fa7a32a0deaee7cec4099c0cd8eaf10aae11f9d8b4ae79"
+    },
+    {
+      "id": "sample-0054",
+      "category": "C4_high",
+      "sourceUrl": "https://openreview.net/attachment?id=jHDZEUgS4r&name=pdf",
+      "sourceHash": "a8726e95708a2f716c6da4c8701c891bcade7078d8d2734e0325bce896742b78"
+    },
+    {
+      "id": "sample-0055",
+      "category": "C4_high",
+      "sourceUrl": "https://openreview.net/attachment?id=b8avf4F2hn&name=pdf",
+      "sourceHash": "ec4d881321c036fed8bd103d8f1e4ba2656944360e999f857bf8dca3d278dde7"
+    },
+    {
+      "id": "sample-0056",
+      "category": "C1_low",
+      "sourceUrl": "https://openreview.net/attachment?id=mUIGdUTtk2&name=pdf",
+      "sourceHash": "67ba53f1472800adc0842077d60e57f6247f6397ea6013336963a4ccb06d8466"
+    },
+    {
+      "id": "sample-0057",
+      "category": "C2_medium_low",
+      "sourceUrl": "https://openreview.net/attachment?id=vH7OAPZ2dR&name=pdf",
+      "sourceHash": "5b36345a28a91cd69bb8dbc8dcbbe46cf2062d4b35ea369f7e10fd55404c1d2d"
+    },
+    {
+      "id": "sample-0058",
+      "category": "C3_medium_high",
+      "sourceUrl": "https://openreview.net/attachment?id=krGpQzo8Mz&name=pdf",
+      "sourceHash": "702806725326e0cec6f7312f63827e0ca552d8ec2d38a4ad6032e2afeef1bbd3"
+    },
+    {
+      "id": "sample-0059",
+      "category": "C2_medium_low",
+      "sourceUrl": "https://openreview.net/attachment?id=ogMxCjdCCq&name=pdf",
+      "sourceHash": "9be02416eb6b7067a8019a28f949de05d2cd37742c05c8b7ed73bf43d37ef4ee"
+    },
+    {
+      "id": "sample-0061",
+      "category": "C4_high",
+      "sourceUrl": "https://openreview.net/attachment?id=XmProj9cPs&name=pdf",
+      "sourceHash": "20f903f93d03f97f958bd21f2b52ca89100e377cedfdbc0111f20f83aa23907e"
+    },
+    {
+      "id": "sample-0062",
+      "category": "C3_medium_high",
+      "sourceUrl": "https://openreview.net/attachment?id=wM2sfVgMDH&name=pdf",
+      "sourceHash": "ca9d48706a66cd1ff0da3520373cc3d89e49e1ed336f4a716d6712c5d6c34bbb"
+    },
+    {
+      "id": "sample-0063",
+      "category": "C2_medium_low",
+      "sourceUrl": "https://openreview.net/attachment?id=v593OaNePQ&name=pdf",
+      "sourceHash": "a2df8af3690d06fe6b8af8504306f781701f6aa4602f2beb0278dfdcd074eb6c"
+    },
+    {
+      "id": "sample-0064",
+      "category": "C1_low",
+      "sourceUrl": "https://openreview.net/attachment?id=NN6QHwgRrQ&name=pdf",
+      "sourceHash": "7014b8f799b0e7bd74fca0051af33e76d96b08794f4e704d60a318dba9f48468"
+    },
+    {
+      "id": "sample-0065",
+      "category": "C3_medium_high",
+      "sourceUrl": "https://openreview.net/attachment?id=BPgK5XW1Nb&name=pdf",
+      "sourceHash": "f363a9aa788a9ad31730cd39baa893e1765012317a662bfc7f0aa9350dea6086"
+    },
+    {
+      "id": "sample-0066",
+      "category": "C2_medium_low",
+      "sourceUrl": "https://openreview.net/attachment?id=RWJX5F5I9g&name=pdf",
+      "sourceHash": "921e1c786d6044ada427e8e00ba62caf4f53eaef4a2eaeb69ae2f863d6ee89be"
+    },
+    {
+      "id": "sample-0068",
+      "category": "C1_low",
+      "sourceUrl": "https://www.proceedings.com/content/085/085713-0003open.pdf",
+      "sourceHash": "ea95651fee860b371f3f068ec1c7c72ff150df2ad179d1976e15840b2cb33e36"
+    },
+    {
+      "id": "sample-0069",
+      "category": "C3_medium_high",
+      "sourceUrl": "https://www.proceedings.com/content/085/085713-0005open.pdf",
+      "sourceHash": "61b2e35dfc99e68d02d3dd3cdfa855a247e6cd5e45dd415a85f0ea264536f66b"
+    },
+    {
+      "id": "sample-0070",
+      "category": "C2_medium_low",
+      "sourceUrl": "https://www.proceedings.com/content/085/085713-0006open.pdf",
+      "sourceHash": "8023853eef2e93879d6cc98fadb8d4665bf6046bd86652e996827b44f5f18427"
+    },
+    {
+      "id": "sample-0072",
+      "category": "C4_high",
+      "sourceUrl": "https://www.proceedings.com/content/085/085713-0009open.pdf",
+      "sourceHash": "ca1c1f5d0560667ab1a67a9470c41f5e38234af45070b1b5cc661441784ff75e"
+    },
+    {
+      "id": "sample-0073",
+      "category": "C4_high",
+      "sourceUrl": "https://www.proceedings.com/content/085/085713-0011open.pdf",
+      "sourceHash": "33063102af6b74c0e0152897a3ec5ae8972b691d4e503d68710e41e818ef11dc"
+    },
+    {
+      "id": "sample-0074",
+      "category": "C4_high",
+      "sourceUrl": "https://www.proceedings.com/content/085/085713-0013open.pdf",
+      "sourceHash": "0a6f389a8b001fe3962882548f9000e64c57a6a2f75913fdfbf40db8742a2087"
+    },
+    {
+      "id": "sample-0076",
+      "category": "C1_low",
+      "sourceUrl": "https://www.proceedings.com/content/085/085713-0017open.pdf",
+      "sourceHash": "3d48961d70034cde74ff9fc17107c3868be1de7df0dc6194b3f737c5b37380d2"
+    },
+    {
+      "id": "sample-0077",
+      "category": "C1_low",
+      "sourceUrl": "https://www.proceedings.com/content/085/085713-0018open.pdf",
+      "sourceHash": "29a892ace7d7b0a1b2b1fdfc4ed707dacf39bd36fb6a257385c5b0adc8345498"
+    },
+    {
+      "id": "sample-0079",
+      "category": "C2_medium_low",
+      "sourceUrl": "https://www.proceedings.com/content/085/085713-0021open.pdf",
+      "sourceHash": "04061a52b5b7805f8642b1439028baa276c6b842b07c6f5a51b4ed04359b5bf2"
+    },
+    {
+      "id": "sample-0080",
+      "category": "C1_low",
+      "sourceUrl": "https://www.proceedings.com/content/085/085713-0022open.pdf",
+      "sourceHash": "5909646db64791fafbcedeb4f5f5ec6aa03a2ae2a0adaebc9c0bde45d8b24531"
+    },
+    {
+      "id": "sample-0082",
+      "category": "C1_low",
+      "sourceUrl": "https://www.proceedings.com/content/085/085713-0026open.pdf",
+      "sourceHash": "ea54079b166d705303815d29078c50090a1920b59b28dece3fb6a0ab57275dde"
+    },
+    {
+      "id": "sample-0083",
+      "category": "C3_medium_high",
+      "sourceUrl": "https://www.proceedings.com/content/085/085713-0028open.pdf",
+      "sourceHash": "1f440512d81c42e107f1850e0c50711a9b23ebc0e2a797fdf7ea3491bfa1cc26"
+    },
+    {
+      "id": "sample-0084",
+      "category": "C2_medium_low",
+      "sourceUrl": "https://openreview.net/pdf?id=JCKkum1Qye",
+      "sourceHash": "2d36cbec45eee406d04aa2413e34aeab2d633360c14f567c2b3178fe90d759af"
+    },
+    {
+      "id": "sample-0085",
+      "category": "C1_low",
+      "sourceUrl": "https://openreview.net/pdf?id=MFNIka7nx0",
+      "sourceHash": "75eb2c1f4145bbe9653312a9a7e02102cef9830dd10681b4201bf6fcaa69320b"
+    },
+    {
+      "id": "sample-0086",
+      "category": "C3_medium_high",
+      "sourceUrl": "https://openreview.net/pdf?id=Of3wZhVv1R",
+      "sourceHash": "2ed77ad4d5c4ab070f1588315478d7496bccd443d6f3ba3b464532903e750da1"
+    },
+    {
+      "id": "sample-0087",
+      "category": "C1_low",
+      "sourceUrl": "https://openreview.net/pdf?id=QY7Au9nZwp",
+      "sourceHash": "86dd6123807b6cd662a521559a5d6d459d83e82a534eb9c9f0b691cdb4653582"
+    },
+    {
+      "id": "sample-0088",
+      "category": "C2_medium_low",
+      "sourceUrl": "https://openreview.net/pdf?id=BnfJSwtHLu",
+      "sourceHash": "dd3ff7fdbf1d8706d7646afbdec91d5a38c6507e0d6c47578ad45d872e8b81fb"
+    },
+    {
+      "id": "sample-0089",
+      "category": "C2_medium_low",
+      "sourceUrl": "https://openreview.net/pdf?id=4Xvkpaikt4",
+      "sourceHash": "b1db2739a66dc134bc790dcb1d4619b252a9562fb15d5de0b33625bbfe6cebc6"
+    },
+    {
+      "id": "sample-0090",
+      "category": "C1_low",
+      "sourceUrl": "https://openreview.net/pdf?id=mUDnPzopZF",
+      "sourceHash": "ad15994e9663414f7ffd4922b5c5fb0c33ff9013c9b4d5ceda1f83e1a7180cbf"
+    },
+    {
+      "id": "sample-0091",
+      "category": "C2_medium_low",
+      "sourceUrl": "https://openreview.net/pdf?id=tU8QKX4dMI",
+      "sourceHash": "fcd8cccd9fd5854f19fed382b7c917a391132800c62c5416a3fb96a371957a60"
+    },
+    {
+      "id": "sample-0093",
+      "category": "C3_medium_high",
+      "sourceUrl": "https://openreview.net/pdf?id=b0jYs6JOZu",
+      "sourceHash": "3182ad33b3be470b4b8be76a0fbc16ce97ebff5e3f0e4368d806083dfc139656"
+    },
+    {
+      "id": "sample-0094",
+      "category": "C4_high",
+      "sourceUrl": "https://openreview.net/pdf?id=rsegDeiPt9",
+      "sourceHash": "df6cb2fdfd0e536aa3cae6888cff8e9f45beea8d44690951cd2ccdfc50625d25"
+    },
+    {
+      "id": "sample-0096",
+      "category": "C1_low",
+      "sourceUrl": "https://openreview.net/pdf?id=ZD3VMCvxvM",
+      "sourceHash": "9c688ec75d1f80687012b408aa63d18079624d82f8e9947c70666f211414813c"
+    },
+    {
+      "id": "sample-0097",
+      "category": "C1_low",
+      "sourceUrl": "https://openreview.net/pdf?id=qpi7NiaCYj",
+      "sourceHash": "7e1ce8ee9c2e21677ef08ac54001bbacddabbb36543b831b03a33d343aa4741d"
+    },
+    {
+      "id": "sample-0098",
+      "category": "C2_medium_low",
+      "sourceUrl": "https://openreview.net/pdf?id=P0RkH1RT5z",
+      "sourceHash": "a61084d34c49e40cce33e1835a8d3698201093d8cc0f9e622f45a19110a908e8"
+    },
+    {
+      "id": "sample-0099",
+      "category": "C1_low",
+      "sourceUrl": "https://openreview.net/pdf?id=zltxOTEtfm",
+      "sourceHash": "c3fd69c6cf77e4656daf5f27d09bc682414a94e279c73a378b12594bc1a1fc4e"
+    },
+    {
+      "id": "sample-0100",
+      "category": "C2_medium_low",
+      "sourceUrl": "https://openreview.net/pdf?id=jk3TjZAHem",
+      "sourceHash": "380f10c6074c140ad35b5746b740f8d1d19c4ce6d1adc543dce766821a3d52ec"
+    }
+  ]
+}
