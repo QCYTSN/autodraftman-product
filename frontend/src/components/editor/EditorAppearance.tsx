@@ -123,7 +123,7 @@ function ColorControl({
 }
 
 export function EditorAppearance({ state, editor, zh, ready, onPaint }: { state: SvgEditState; editor: SvgEditHandle | null; zh: boolean; ready: boolean; onPaint: (type: "fill" | "stroke") => void }) {
-  return <section className="ff-inspector-section ff-editor-appearance"><h3>{zh ? "外观" : "Appearance"}</h3><div className="ff-appearance-controls">
+  return <section className="ff-inspector-section ff-editor-appearance"><h3>{state.selection ? zh ? "外观" : "Appearance" : zh ? "新对象样式" : "New object style"}</h3><div className="ff-appearance-controls">
         <ColorControl key={`fill-${state.selection?.id}`} zh={zh} label={zh ? "填充" : "Fill"} value={state.fill} paint={state.paints?.fill} onAdvanced={() => onPaint("fill")} advancedLabel={zh ? "渐变与透明度" : "Gradient & opacity"} onChange={(value) => editor?.setFill(value)} onApply={(color, opacity) => editor?.execute("paint", { type: "fill", kind: "solid", color, opacity })} />
         <ColorControl key={`stroke-${state.selection?.id}`} zh={zh} label={zh ? "描边" : "Stroke"} value={state.stroke} paint={state.paints?.stroke} onAdvanced={() => onPaint("stroke")} advancedLabel={zh ? "渐变与透明度" : "Gradient & opacity"} onChange={(value) => editor?.setStroke(value)} onApply={(color, opacity) => editor?.execute("paint", { type: "stroke", kind: "solid", color, opacity })} />
 

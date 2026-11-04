@@ -32,6 +32,16 @@ export function createEditorFeatures(editor) {
   const prepareSvg = canvas.prepareSvg.bind(canvas);
   canvas.prepareSvg = parsed => {
     const retained = [];
+    // CSS transforms are not SVG presentation attributes. In particular,
+    // copying a CSS !important suffix into transform="..." makes it invalid.
+    // Keep the original CSS value and priority across native preparation.
+    const transforms = [];
+    for (const element of parsed.querySelectorAll('[style]')) {
+      const value = element.style.getPropertyValue('transform');
+      if (!value) continue;
+      transforms.push({ element, value, priority: element.style.getPropertyPriority('transform') });
+      element.style.removeProperty('transform');
+    }
     // SVG-Edit trims every text node, including spaces that separate adjacent
     // tspans. Keep character data under surviving SVG text nodes verbatim.
     const textNodes = [];
@@ -46,6 +56,9 @@ export function createEditorFeatures(editor) {
       retained.push({ element, attributes });
     }
     prepareSvg(parsed);
+    for (const { element, value, priority } of transforms) {
+      if (parsed.documentElement.contains(element)) element.style.setProperty('transform', value, priority);
+    }
     for (const { node, parent, next, value } of textNodes.reverse()) if (parsed.documentElement.contains(parent)) {
       node.data = value;
       if (node.parentNode !== parent) parent.insertBefore(node, next?.parentNode === parent ? next : null);

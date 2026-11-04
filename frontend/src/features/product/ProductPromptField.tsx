@@ -1,6 +1,6 @@
 import { ArrowClockwise, ArrowUpRight } from "@phosphor-icons/react";
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
-import { useEffect, useState, type KeyboardEvent } from "react";
+import { useLayoutEffect, useRef, useState, type KeyboardEvent } from "react";
 import type { ProductLanguage } from "../../ProductPages";
 
 const suggestions = {
@@ -38,7 +38,7 @@ const suggestions = {
   },
 } as const;
 
-export function ProductPromptField({ active = true, language, taskMode, value, label, help, message, invalid = false, onChange, onKeyDown }: {
+export function ProductPromptField({ language, taskMode, value, label, help, message, invalid = false, onChange, onKeyDown }: {
   active?: boolean;
   language: ProductLanguage;
   taskMode: "create" | "rebuild";
@@ -53,25 +53,20 @@ export function ProductPromptField({ active = true, language, taskMode, value, l
   const zh = language === "zh";
   const reducedMotion = useReducedMotion();
   const [index, setIndex] = useState(0);
-  const [focused, setFocused] = useState(false);
-  const [visible, setVisible] = useState(() => document.visibilityState !== "hidden");
+  const input = useRef<HTMLTextAreaElement>(null);
+  const composing = useRef(false);
   const samples = suggestions[language][taskMode];
   const suggestion = samples[index % samples.length];
   const empty = value.length === 0;
 
-  useEffect(() => {
-    const update = () => setVisible(document.visibilityState !== "hidden");
-    document.addEventListener("visibilitychange", update);
-    return () => document.removeEventListener("visibilitychange", update);
-  }, []);
-
-  useEffect(() => {
-    if (!active || !empty || focused || !visible || reducedMotion) return;
-    const timer = window.setInterval(() => setIndex(current => (current + 1) % samples.length), 7000);
-    return () => window.clearInterval(timer);
-  }, [active, empty, focused, visible, reducedMotion, samples.length, language, taskMode]);
+  useLayoutEffect(() => {
+    if (!input.current) return;
+    input.current.style.height = "auto";
+    input.current.style.height = `${Math.min(420, Math.max(taskMode === "rebuild" ? 78 : 160, input.current.scrollHeight))}px`;
+  }, [value, taskMode, language]);
 
   const applySuggestion = () => {
+    if (value.length || composing.current) return;
     onChange(suggestion);
     document.getElementById("figure-prompt")?.focus();
   };
@@ -81,17 +76,19 @@ export function ProductPromptField({ active = true, language, taskMode, value, l
     <div className={`product-prompt-input ${empty ? "is-empty" : ""}`}>
       <textarea
         id="figure-prompt"
+        ref={input}
+        rows={taskMode === "rebuild" ? 3 : 5}
         maxLength={1200}
         value={value}
         onChange={event => onChange(event.target.value)}
         onKeyDown={onKeyDown}
-        onFocus={() => setFocused(true)}
-        onBlur={() => setFocused(false)}
-        placeholder={suggestion}
+        onCompositionStart={() => { composing.current = true; }}
+        onCompositionEnd={() => { composing.current = false; }}
+        placeholder={taskMode === "rebuild" ? help : suggestion}
         aria-describedby={message ? "prompt-message" : "prompt-help"}
         aria-invalid={invalid ? "true" : undefined}
       />
-      {empty && <div className="product-prompt-suggestion" aria-hidden="true">
+      {empty && taskMode === "create" && <div className="product-prompt-suggestion" aria-hidden="true">
         <span className="product-prompt-example-label">{zh ? "例如" : "For example"}</span>
         <AnimatePresence mode="wait" initial={false}>
           <motion.p key={`${language}-${taskMode}-${index}`} initial={{ opacity: reducedMotion ? 1 : 0, y: reducedMotion ? 0 : 5 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: reducedMotion ? 1 : 0, y: 0 }} transition={{ duration: reducedMotion ? 0 : 0.24 }}>
@@ -100,15 +97,15 @@ export function ProductPromptField({ active = true, language, taskMode, value, l
         </AnimatePresence>
       </div>}
     </div>
-    <div className="product-prompt-meta">
+    {taskMode === "create" && <div className="product-prompt-meta">
       <div className="product-prompt-examples">
         {empty && <>
-          <button type="button" onClick={() => setIndex(current => (current + 1) % samples.length)}><ArrowClockwise size={14} />{zh ? "换个提示" : "Next example"}</button>
-          <button type="button" onClick={applySuggestion}>{zh ? "使用这段描述" : "Use example"}<ArrowUpRight size={13} /></button>
+          <button type="button" onClick={() => { if (!composing.current) setIndex(current => (current + 1) % samples.length); }}><ArrowClockwise size={14} />{zh ? "换个示例" : "Next example"}</button>
+          <button type="button" onClick={applySuggestion}>{zh ? "填入示例" : "Use example"}<ArrowUpRight size={13} /></button>
         </>}
       </div>
       <span className="product-prompt-count">{value.length}/1200</span>
-    </div>
-    {message ? <p className="field-message" id="prompt-message" role="status">{message}</p> : <p className="field-help" id="prompt-help">{help}</p>}
+    </div>}
+    {message ? <p className="field-message" id="prompt-message" role="status">{message}</p> : <p className={taskMode === "rebuild" ? "sr-only" : "field-help"} id="prompt-help">{help}</p>}
   </div>;
 }

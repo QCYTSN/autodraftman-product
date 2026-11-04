@@ -1,0 +1,128 @@
+import assert from 'node:assert/strict';
+import {mkdir,readFile,writeFile} from 'node:fs/promises';
+import {chromium} from 'playwright-core';
+const base=process.env.AUDIT_BASE_URL || 'http://127.0.0.1:4175/figfox';
+const output='.review/product-refinement'; await mkdir(output,{recursive:true});
+const browser=await chromium.launch({executablePath:process.env.CHROME_PATH || 'C:/Program Files/Google/Chrome/Application/chrome.exe',headless:true});
+const checks=[],errors=[];
+const png='iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+/NhoAAAAASUVORK5CYII=';
+const fixture=`<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="800" height="480" viewBox="0 0 800 480"><defs><linearGradient id="gradient"><stop offset="0" stop-color="#eee8ff"/><stop offset="1" stop-color="#ccccff"/></linearGradient><marker id="arrow" markerWidth="10" markerHeight="10" refX="9" refY="5" orient="auto"><path d="M0 0L10 5L0 10Z" fill="#6243ce"/></marker><clipPath id="clip"><rect width="180" height="80" rx="8"/></clipPath><mask id="mask"><rect width="800" height="480" fill="white"/><circle cx="690" cy="80" r="10" fill="black"/></mask></defs><g id="module" transform="translate(40 30)"><rect id="panel" width="240" height="150" fill="url(#gradient)"/><text id="editable-label" x="30.123456789" y="82.987654321" font-size="24" fill="#333333">Alpha<tspan baseline-shift="sub" font-size="14">2</tspan></text></g><g id="clipped" transform="translate(400 60)" clip-path="url(#clip)"><rect width="250" height="100" fill="#aaccbb"/></g><path id="connector" d="M280 105H390" fill="none" stroke="#6243ce" stroke-width="3" marker-end="url(#arrow)"/><rect id="masked" x="630" y="30" width="100" height="100" fill="#ccbbaa" mask="url(#mask)"/><image id="embedded" x="400" y="230" width="70" height="70" xlink:href="data:image/png;base64,${png}"/><g id="formula" data-figfox-latex="x^2" transform="translate(70 270)"><path d="M0 0L10 20L20 0" stroke="#222" fill="none"/></g></svg>`;
+try {
+  const page=await browser.newPage({viewport:{width:1440,height:900},acceptDownloads:true});
+  page.on('pageerror',e=>errors.push(e.message));
+  await page.addInitScript(()=>{localStorage.setItem('autodraftman-language','zh');window.addEventListener('message',e=>{if(e.data?.source==='figfox-svgedit'&&e.data.type==='state')window.editorState=e.data.state;});});
+  await page.goto(base+'/editor',{waitUntil:'networkidle'});
+  const ready=()=>page.waitForFunction(()=>document.querySelector('.ff-editor-stage')?.dataset.ready==='true'&&!document.querySelector('.product-editor-route-content')?.inert);
+  const cmd=(command,value)=>page.evaluate(({command,value})=>document.querySelector('iframe').contentWindow.figfoxCommand(command,value),{command,value});
+  const pick=async id=>{await cmd('select-layer',id);await page.waitForFunction(id=>window.editorState?.selection?.id===id,id);};
+  const frame=page.frameLocator('iframe');
+  await page.locator('input[type=file]').first().setInputFiles({name:'semantic-roundtrip.svg',mimeType:'image/svg+xml',buffer:Buffer.from(fixture)}); await ready();
+  const protectedIds=['gradient','arrow','clip','mask','clipped','connector','masked','embedded','formula'];
+  const snapshot=()=>frame.locator('#svgcontent').evaluate((root,ids)=>{
+    // Native import may change path separators; compare commands and numbers.
+    const attrs=el=>Object.fromEntries([...el.attributes].filter(a=>a.name!=='style').map(a=>[a.name,a.name==='d'?a.value.match(/[a-zA-Z]|[-+]?(?:\d*\.\d+|\d+\.?\d*)(?:[eE][-+]?\d+)?/g):a.value]));
+    return Object.fromEntries(ids.map(id=>{const el=root.querySelector('#'+id);return [id,el?{tag:el.localName,attributes:attrs(el),text:el.textContent,children:[...el.querySelectorAll('*')].map(c=>({tag:c.localName,attributes:attrs(c)}))}:null];}));
+  },protectedIds);
+  const before=await snapshot(); assert.ok(Object.values(before).every(Boolean));
+  await pick('editable-label');
+  assert.ok((await page.locator('.ff-selection-summary strong').textContent()).startsWith('文字'));
+  const headings=await page.locator('.ff-inspector-scroll h3:visible').allTextContents();
+  assert.ok(headings.indexOf('文字')<headings.indexOf('位置与尺寸'));
+  assert.ok(headings.indexOf('外观')<headings.indexOf('位置与尺寸'));
+  assert.equal(await page.getByLabel('ID',{exact:true}).isVisible(),false);
+  const originalX=await frame.locator('#editable-label').getAttribute('x');
+  await page.getByLabel('X',{exact:true}).focus(); await page.getByLabel('X',{exact:true}).press('Tab');
+  assert.equal(await frame.locator('#editable-label').getAttribute('x'),originalX);
+  const content=page.getByRole('textbox',{name:'文字内容',exact:true});
+  await content.focus(); await content.dispatchEvent('compositionstart'); await content.fill('研究模型2');
+  await page.waitForTimeout(350); assert.ok((await frame.locator('#editable-label').textContent()).includes('Alpha'));
+  await content.dispatchEvent('compositionend',{data:'研究模型2'});
+  await page.waitForFunction(()=>document.querySelector('iframe').contentDocument.querySelector('#editable-label')?.textContent==='研究模型2');
+  assert.equal(await frame.locator('#editable-label tspan').count(),1);
+  assert.equal(await content.evaluate(el=>el===document.activeElement),true);
+  checks.push('Text properties precede geometry; IME composition stays uncommitted until completion; focus and tspan structure survive');
+  await page.getByRole('button',{name:/^填充:/}).click();
+  await page.getByRole('textbox',{name:'HEX',exact:true}).fill('#7654bd');
+  await page.getByRole('button',{name:'应用颜色',exact:true}).click();
+  await page.waitForFunction(()=>document.querySelector('iframe').contentDocument.querySelector('#editable-label')?.getAttribute('fill')==='#7654bd');
+  const x=page.getByLabel('X',{exact:true}); const previous=Number(await x.inputValue());
+  const view=await page.evaluate(()=>window.editorState.zoom);
+  const originalTransform=await frame.locator('#editable-label').getAttribute('transform');
+  await x.fill(String(previous+15)); await x.press('Enter');
+  await page.waitForFunction(next=>Math.abs(window.editorState.selection?.x-next)<.01,previous+15);
+  const moved=await frame.locator('#editable-label').getAttribute('transform');
+  assert.equal(await page.evaluate(()=>window.editorState.selection.id),'editable-label');
+  await page.getByRole('button',{name:'撤销',exact:true}).click();
+  await page.waitForFunction(original=>document.querySelector('iframe').contentDocument.querySelector('#editable-label').getAttribute('transform')===original,originalTransform);
+  await page.getByRole('button',{name:'重做',exact:true}).click();
+  await page.waitForFunction(moved=>document.querySelector('iframe').contentDocument.querySelector('#editable-label').getAttribute('transform')===moved,moved);
+  assert.equal(await page.evaluate(()=>window.editorState.zoom),view);
+  checks.push('Merely focusing a rounded numeric display does not edit coordinates; color and position changes preserve selection, zoom and undo/redo');
+  await page.getByRole('tab',{name:'图层',exact:true}).click(); await pick('panel');
+  assert.equal(await page.getByRole('tab',{name:'图层',exact:true}).getAttribute('aria-selected'),'true');
+  await page.getByRole('tab',{name:'页面',exact:true}).click(); await pick('editable-label');
+  assert.equal(await page.getByRole('tab',{name:'页面',exact:true}).getAttribute('aria-selected'),'true');
+  await page.getByRole('tab',{name:'属性',exact:true}).click();
+  const pending=page.waitForEvent('download'); await page.getByRole('button',{name:'导出 SVG',exact:true}).click();
+  await (await pending).saveAs(output+'/semantic-roundtrip.svg');
+  await page.waitForFunction(()=>document.querySelector('.product-editor-title [role=status]')?.textContent==='已下载 SVG');
+  await page.locator('input[type=file]').first().setInputFiles({name:'reopened-roundtrip.svg',mimeType:'image/svg+xml',buffer:await readFile(output+'/semantic-roundtrip.svg')});
+  await page.waitForFunction(()=>document.querySelector('.product-editor-title strong')?.textContent==='reopened-roundtrip.svg'); await ready();
+  assert.equal(await frame.locator('#editable-label').textContent(),'研究模型2');
+  assert.equal(await frame.locator('#editable-label').getAttribute('fill'),'#7654bd');
+  assert.equal(await frame.locator('#editable-label').getAttribute('transform'),moved);
+  assert.deepEqual(await snapshot(),before);
+  assert.equal(await frame.locator('#module').getAttribute('transform'),'translate(40 30)');
+  checks.push('Export and reopen preserve edits plus untouched groups, IDs, transforms, gradients, markers, clip, mask, embedded image and formula source');
+  checks.push('Explicit Layers/Page choices stay selected; download feedback matches the actual file action');
+
+  await page.locator('input[type=file]').first().setInputFiles('public/assets/demo/cases/study/result.svg'); await ready();
+  const cssTransform=await frame.locator('#plus_node_46').evaluate(el=>({value:el.style.transform,priority:el.style.getPropertyPriority('transform'),attribute:el.getAttribute('transform')}));
+  assert.equal(cssTransform.priority,'important');
+  assert.ok(!cssTransform.attribute?.includes('important'));
+  const label=await frame.locator('#experiment1 text').first().getAttribute('id');
+  await pick(label); await page.getByRole('textbox',{name:'文字内容',exact:true}).fill('研究流程与实验设计');
+  await page.getByRole('textbox',{name:'文字内容',exact:true}).press('Tab');
+  await page.waitForFunction(()=>document.querySelector('iframe').contentDocument.querySelector('#svgcontent').textContent.includes('研究流程与实验设计'));
+  for(const [width,height] of [[1440,900],[1366,768]]) {
+    await page.setViewportSize({width,height}); await page.locator('.ff-inspector-scroll').evaluate(el=>el.scrollTop=0);
+    await page.screenshot({path:`${output}/editor-text-zh-${width}.png`});
+  }
+  await page.getByRole('button',{name:'Switch to English',exact:true}).click(); await ready(); await pick(label);
+  await page.locator('.ff-inspector-scroll').evaluate(el=>el.scrollTop=0);
+  await page.screenshot({path:`${output}/editor-text-en-1366.png`});
+  const actual=page.waitForEvent('download'); await page.getByRole('button',{name:'Export SVG',exact:true}).click(); await(await actual).saveAs(output+'/research-example-edited.svg');
+  await page.locator('input[type=file]').first().setInputFiles(output+'/research-example-edited.svg');
+  await page.waitForFunction(()=>document.querySelector('.product-editor-title strong')?.textContent==='research-example-edited.svg'); await ready();
+  await page.waitForFunction(()=>document.querySelector('iframe')?.contentDocument.querySelector('#svgcontent')?.textContent.includes('研究流程与实验设计'));
+  assert.ok((await frame.locator('#svgcontent').textContent()).includes('研究流程与实验设计'));
+  assert.equal(await frame.locator('#svgcontent text').count(),49);
+  assert.deepEqual(await frame.locator('#plus_node_46').evaluate(el=>({value:el.style.transform,priority:el.style.getPropertyPriority('transform'),attribute:el.getAttribute('transform')})),cssTransform);
+  checks.push('Existing research SVG opens, edits, exports and reopens with all 49 text elements; Chinese and English inspector captures checked');
+
+  // Real writable/structured-cloneable browser file handles, with deterministic
+  // picker selection. Native operating-system picker UI is outside this test.
+  await page.evaluate(async source=>{
+    const root=await navigator.storage.getDirectory();
+    const original=await root.getFileHandle('original-file.svg',{create:true});
+    const writer=await original.createWritable(); await writer.write(source); await writer.close();
+    window.testOriginal=original;
+    window.showOpenFilePicker=async()=>[original];
+    window.showSaveFilePicker=async()=>{window.testCopy=await root.getFileHandle('saved-copy.svg',{create:true});return window.testCopy;};
+  },fixture);
+  await page.getByRole('button',{name:'Open SVG',exact:true}).click();
+  await page.waitForFunction(()=>document.querySelector('.product-editor-title strong')?.textContent==='original-file.svg'); await ready(); await pick('editable-label');
+  await page.getByRole('textbox',{name:'Text content',exact:true}).fill('Written to file2');
+  await page.getByRole('textbox',{name:'Text content',exact:true}).press('Tab');
+  await page.getByRole('button',{name:'File saving',exact:true}).click();
+  await page.getByRole('button',{name:/^Save to file/}).click();
+  await page.waitForFunction(()=>document.querySelector('.product-editor-title [role=status]')?.textContent==='Saved to original file');
+  assert.ok((await page.evaluate(async()=>(await window.testOriginal.getFile()).text())).includes('Written to file'));
+  await page.getByRole('button',{name:'File saving',exact:true}).click();
+  await page.getByRole('button',{name:/^Save as/}).click();
+  await page.waitForFunction(()=>document.querySelector('.product-editor-title [role=status]')?.textContent==='Saved to file');
+  assert.ok((await page.evaluate(async()=>(await window.testCopy.getFile()).text())).includes('Written to file'));
+  checks.push('Real writable browser file handles retain write-back and Save as; notices distinguish original file, new file and SVG download');
+  assert.deepEqual(errors,[]);
+} finally {await browser.close(); await writeFile(output+'/editor-checks.json',JSON.stringify({checks,errors},null,2));}
+console.log(JSON.stringify({checks:checks.length,errors}));

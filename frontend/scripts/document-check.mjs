@@ -21,7 +21,7 @@ try {
   page.on("request", request => { if (new URL(request.url()).pathname.includes("/api/")) apiRequests.push(request.url()); });
 
   await page.goto(base + "/docs", { waitUntil: "networkidle" });
-  await page.getByRole("button", { name: "用示例开始编辑" }).click();
+  await page.getByRole("button", { name: "用示例开始编辑" }).first().click();
   await ready(page);
   assert.equal(await page.frameLocator("iframe").locator("#svgcontent text").count(), 49);
   assert.equal(await page.locator(".product-editor-title strong").innerText(), "FigFox-example.svg");
@@ -45,7 +45,8 @@ try {
   const frame = page.frameLocator("iframe");
   await frame.locator("#svgcontent #document-a").click({ position: { x: 20, y: 20 } });
   await page.getByRole("button", { name: /^填充:/ }).click();
-  await page.getByRole("option", { name: "#24a37a", exact: true }).click();
+  await page.getByLabel("HEX", {exact:true}).fill("#24a37a");
+  await page.getByRole("button", {name: "应用颜色", exact:true}).click();
   await page.waitForFunction(() => document.querySelector("iframe").contentDocument.querySelector("#document-a").getAttribute("fill") === "#24a37a");
   await page.locator(".product-editor-back").click();
   await card(page, "chart-a.svg").waitFor();
@@ -112,7 +113,7 @@ try {
   assert.equal(await page.locator(".product-editor-title strong").innerText(), "study-revised.svg");
   assert.equal(await page.frameLocator("iframe").locator("#document-a").getAttribute("fill"), "#24a37a");
   await page.locator(".product-editor-back").click();
-  await page.getByRole("button", { name: "当前草稿", exact: true }).click();
+  await page.locator(".workspace-record-main").first().click();
   await page.getByRole("tab", { name: "图片转 SVG", exact: true }).click();
   await page.locator("#reference-file").setInputFiles({ name: "reference.png", mimeType: "image/png", buffer: Buffer.from("iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+/NhoAAAAASUVORK5CYII=", "base64") });
   await page.locator(".product-workspace-source").waitFor();
@@ -120,10 +121,11 @@ try {
   await page.getByRole("button", { name: "我的 SVG", exact: true }).click();
   await card(page, "study-revised.svg").waitFor();
   assert.equal(await page.locator(".product-document-card").count(), 3);
+  await page.locator(".workspace-record-main").first().click();
   await page.getByRole("button", { name: "原图预览", exact: true }).click();
   assert.equal(await page.locator(".product-workspace-source:visible").getAttribute("src"), referenceUrl);
-  await page.getByRole("button", { name: "当前草稿", exact: true }).click();
-  await page.getByRole("tab", { name: "创建图片", exact: true }).click();
+  await page.locator(".workspace-record-main").first().click();
+  await page.getByRole("tab", { name: "文生图", exact: true }).click();
   await page.getByRole("button", { name: "我的 SVG", exact: true }).click();
   record("The source preview and saved SVG library switch without discarding either");
   await page.locator(".product-documents").waitFor({ state: "visible" });

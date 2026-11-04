@@ -1,6 +1,6 @@
 import { InspectorNumber, InspectorLength } from "./EditorFields";
 import { ArrowClockwise, ArrowCounterClockwise, FlipHorizontal, FlipVertical, ImageSquare, Selection, TextB, TextItalic, Trash } from "@phosphor-icons/react";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, type ReactNode } from "react";
 import type { SvgEditHandle, SvgEditMode, SvgEditSelection } from "./SvgEditHost";
 import { AdvancedSelectionFields } from "./EditorPanels";
 import { EditorTextField, MarkerOptions, NativeObjectFields } from "./EditorNativeFields";
@@ -14,8 +14,12 @@ export function SelectionInspector({
   onReplaceImage,
   native,
   unit = "px",
+  appearance, formula, toolFields,
 }: {
   unit?: string;
+  appearance: ReactNode;
+  formula: ReactNode;
+  toolFields: ReactNode;
   zh: boolean;
   selection: SvgEditSelection | null;
   mode: SvgEditMode;
@@ -28,11 +32,11 @@ export function SelectionInspector({
 
   if (!selection) {
     return (
-      <div className="ff-inspector-empty">
+      <> <div className="ff-inspector-empty">
         <Selection size={24} weight="duotone" aria-hidden="true" />
-        <strong>{zh ? "还没有选中对象" : "Nothing selected"}</strong>
+        <strong>{zh ? "未选中对象" : "Nothing selected"}</strong>
         <p>{zh ? "选择画布中的对象后，这里会显示尺寸、样式和文字属性。" : "Select an object to edit its size, style, and text."}</p>
-      </div>
+      </div>{appearance}{toolFields}{formula}</>
     );
   }
 
@@ -47,12 +51,63 @@ export function SelectionInspector({
   const canConvertToPath = ["rect", "circle", "ellipse", "line", "polyline", "polygon"].includes(selection.type);
   const isRect = selection.type === "rect";
 
+  const strokeDetails = (<section className="ff-inspector-section">
+        <h3>{zh ? "描边细节" : "Stroke detail"}</h3>
+        <div className="ff-inspector-grid">
+          <label className="ff-inspector-select compact">
+            <span>{zh ? "端点" : "Cap"}</span>
+            <select value={selection.strokeLinecap} onChange={(event) => setAttribute("stroke-linecap", event.target.value)}>
+              <option value="butt">{zh ? "平头" : "Butt"}</option>
+              <option value="round">{zh ? "圆角" : "Round"}</option>
+              <option value="square">{zh ? "方头" : "Square"}</option>
+            </select>
+          </label>
+          <label className="ff-inspector-select compact">
+            <span>{zh ? "转角" : "Join"}</span>
+            <select value={selection.strokeLinejoin} onChange={(event) => setAttribute("stroke-linejoin", event.target.value)}>
+              <option value="miter">{zh ? "尖角" : "Miter"}</option>
+              <option value="round">{zh ? "圆角" : "Round"}</option>
+              <option value="bevel">{zh ? "斜角" : "Bevel"}</option>
+            </select>
+          </label>
+        </div>
+        <label className="ff-inspector-select">
+          <span>{zh ? "线型" : "Dash"}</span>
+          <select aria-label={zh ? "线型" : "Dash"} value={dash} onChange={(event) => setAttribute("stroke-dasharray", event.target.value)}>
+            <option value="none">{zh ? "实线" : "Solid"}</option>
+            <option value="2,2">····</option>
+            <option value="5,5">- - -</option>
+            <option value="10,5">— —</option>
+            <option value="10,5,2,5">— · —</option>
+            <option value="5,2,2,2">— · ·</option>
+            <option value="5,2,2,2,2,2">— · · ·</option>
+            {!dashes.includes(dash) && <option value={dash}>{zh ? "自定义" : "Custom"} · {dash}</option>}
+          </select>
+        </label>
+        {isPath && (
+          <div className="ff-marker-grid">
+            <label className="ff-inspector-select compact">
+              <span>{zh ? "起点" : "Start"}</span>
+              <select aria-label={zh ? "起点" : "Start marker"} value={markerValue(selection.markerStart)} onChange={(event) => editor?.execute("marker-start", event.target.value)}>
+                <MarkerOptions zh={zh} />
+              </select>
+            </label>
+            <label className="ff-inspector-select compact">
+              <span>{zh ? "终点" : "End"}</span>
+              <select aria-label={zh ? "终点" : "End marker"} value={markerValue(selection.markerEnd)} onChange={(event) => editor?.execute("marker-end", event.target.value)}>
+                <MarkerOptions zh={zh} />
+              </select>
+            </label>
+          </div>
+        )}
+        <InspectorNumber label={zh ? "模糊" : "Blur"} value={selection.blur} min={0} onChange={(value) => setAttribute("blur", value)} />
+      </section>);
+  const objectName = zh ? ({ text: "文字", tspan: "文字", textpath: "沿路径文字", rect: "矩形", path: "路径", image: "嵌入图片", circle: "圆形", ellipse: "椭圆", line: "直线", polyline: "折线", polygon: "多边形", g: "组合", selection: "多个对象" }[selection.type] || "对象") : ({ text: "Text", tspan: "Text", textpath: "Text on path", rect: "Rectangle", path: "Path", image: "Embedded image", circle: "Circle", ellipse: "Ellipse", line: "Line", polyline: "Polyline", polygon: "Polygon", g: "Group", selection: "Multiple objects" }[selection.type] || "Object");
   return (
     <div className="ff-selection-properties">
       <section className="ff-inspector-section ff-selection-summary">
         <div>
-          <span>{selection.type}</span>
-          <strong>{selection.id || (zh ? "未命名对象" : "Unnamed object")}</strong>
+          <strong>{selection.formula ? zh ? "公式" : "Formula" : objectName}{isText && selection.text ? ` · ${selection.text.slice(0, 30)}` : ""}</strong>
         </div>
         <button
           type="button"
@@ -64,26 +119,7 @@ export function SelectionInspector({
         </button>
       </section>
 
-      {!isNodeEditing && <section className="ff-inspector-section">
-        <h3>{zh ? "位置与尺寸" : "Position & size"}</h3>
-        <div className="ff-inspector-grid">
-          <InspectorLength unit={unit} label="X" value={selection.x} onChange={(value) => setAttribute("x", value)} />
-          <InspectorLength unit={unit} label="Y" value={selection.y} onChange={(value) => setAttribute("y", value)} />
-          <InspectorLength unit={unit} label="W" value={selection.width} min={0} onChange={(value) => setAttribute("width", value)} />
-          <InspectorLength unit={unit} label="H" value={selection.height} min={0} onChange={(value) => setAttribute("height", value)} />
-          <InspectorNumber label={zh ? "旋转" : "Rotate"} value={selection.rotation} onChange={(value) => setAttribute("rotation", value)} />
-          {isRect && (
-            <InspectorLength unit={unit} label={zh ? "圆角" : "Radius"} value={selection.radius} min={0} onChange={(value) => setAttribute("radius", value)} />
-          )}
-        </div>
-        <div className="ff-inspector-icon-row">
-          <button type="button" onClick={() => editor?.execute("rotate-left")} title={zh ? "向左旋转 15°" : "Rotate left 15°"}><ArrowCounterClockwise size={17} /></button>
-          <button type="button" onClick={() => editor?.execute("rotate-right")} title={zh ? "向右旋转 15°" : "Rotate right 15°"}><ArrowClockwise size={17} /></button>
-          <button type="button" onClick={() => editor?.execute("flip-horizontal")} title={zh ? "水平翻转" : "Flip horizontal"}><FlipHorizontal size={17} /></button>
-          <button type="button" onClick={() => editor?.execute("flip-vertical")} title={zh ? "垂直翻转" : "Flip vertical"}><FlipVertical size={17} /></button>
-        </div>
-      </section>}
-
+      {selection.formula && formula}
       {isImage && (
         <section className="ff-inspector-section">
           <h3>{zh ? "图片" : "Image"}</h3>
@@ -119,60 +155,33 @@ export function SelectionInspector({
         </section>
       )}
 
-      <section className="ff-inspector-section">
-        <h3>{zh ? "描边细节" : "Stroke detail"}</h3>
+      {appearance}
+      {isPath && strokeDetails}
+      {!isNodeEditing && <section className="ff-inspector-section">
+        <h3>{zh ? "位置与尺寸" : "Position & size"}</h3>
         <div className="ff-inspector-grid">
-          <label className="ff-inspector-select compact">
-            <span>{zh ? "端点" : "Cap"}</span>
-            <select value={selection.strokeLinecap} onChange={(event) => setAttribute("stroke-linecap", event.target.value)}>
-              <option value="butt">Butt</option>
-              <option value="round">Round</option>
-              <option value="square">Square</option>
-            </select>
-          </label>
-          <label className="ff-inspector-select compact">
-            <span>{zh ? "转角" : "Join"}</span>
-            <select value={selection.strokeLinejoin} onChange={(event) => setAttribute("stroke-linejoin", event.target.value)}>
-              <option value="miter">Miter</option>
-              <option value="round">Round</option>
-              <option value="bevel">Bevel</option>
-            </select>
-          </label>
+          <InspectorLength unit={unit} label="X" value={selection.x} onChange={(value) => setAttribute("x", value)} />
+          <InspectorLength unit={unit} label="Y" value={selection.y} onChange={(value) => setAttribute("y", value)} />
+          <InspectorLength unit={unit} label="W" value={selection.width} min={0} onChange={(value) => setAttribute("width", value)} />
+          <InspectorLength unit={unit} label="H" value={selection.height} min={0} onChange={(value) => setAttribute("height", value)} />
+          <InspectorNumber label={zh ? "旋转" : "Rotate"} value={selection.rotation} onChange={(value) => setAttribute("rotation", value)} />
+          {isRect && (
+            <InspectorLength unit={unit} label={zh ? "圆角" : "Radius"} value={selection.radius} min={0} onChange={(value) => setAttribute("radius", value)} />
+          )}
         </div>
-        <label className="ff-inspector-select">
-          <span>{zh ? "线型" : "Dash"}</span>
-          <select aria-label={zh ? "线型" : "Dash"} value={dash} onChange={(event) => setAttribute("stroke-dasharray", event.target.value)}>
-            <option value="none">{zh ? "实线" : "Solid"}</option>
-            <option value="2,2">····</option>
-            <option value="5,5">- - -</option>
-            <option value="10,5">— —</option>
-            <option value="10,5,2,5">— · —</option>
-            <option value="5,2,2,2">— · ·</option>
-            <option value="5,2,2,2,2,2">— · · ·</option>
-            {!dashes.includes(dash) && <option value={dash}>{zh ? "自定义" : "Custom"} · {dash}</option>}
-          </select>
-        </label>
-        {isPath && (
-          <div className="ff-marker-grid">
-            <label className="ff-inspector-select compact">
-              <span>{zh ? "起点" : "Start"}</span>
-              <select aria-label={zh ? "起点" : "Start marker"} value={markerValue(selection.markerStart)} onChange={(event) => editor?.execute("marker-start", event.target.value)}>
-                <MarkerOptions zh={zh} />
-              </select>
-            </label>
-            <label className="ff-inspector-select compact">
-              <span>{zh ? "终点" : "End"}</span>
-              <select aria-label={zh ? "终点" : "End marker"} value={markerValue(selection.markerEnd)} onChange={(event) => editor?.execute("marker-end", event.target.value)}>
-                <MarkerOptions zh={zh} />
-              </select>
-            </label>
-          </div>
-        )}
-        <InspectorNumber label={zh ? "模糊" : "Blur"} value={selection.blur} min={0} onChange={(value) => setAttribute("blur", value)} />
-      </section>
+        <div className="ff-inspector-icon-row">
+          <button type="button" onClick={() => editor?.execute("rotate-left")} title={zh ? "向左旋转 15°" : "Rotate left 15°"}><ArrowCounterClockwise size={17} /></button>
+          <button type="button" onClick={() => editor?.execute("rotate-right")} title={zh ? "向右旋转 15°" : "Rotate right 15°"}><ArrowClockwise size={17} /></button>
+          <button type="button" onClick={() => editor?.execute("flip-horizontal")} title={zh ? "水平翻转" : "Flip horizontal"}><FlipHorizontal size={17} /></button>
+          <button type="button" onClick={() => editor?.execute("flip-vertical")} title={zh ? "垂直翻转" : "Flip vertical"}><FlipVertical size={17} /></button>
+        </div>
+      </section>}
 
+      {!isPath && <details className="ff-inspector-advanced"><summary>{zh ? "描边细节" : "Stroke detail"}</summary>{strokeDetails}</details>}
+
+      <details className="ff-inspector-advanced"><summary>{zh ? "高级属性" : "Advanced properties"}</summary>
       {selection.type !== "selection" && <AdvancedSelectionFields unit={unit} selection={selection} editor={editor} zh={zh} />}
-      <NativeObjectFields selection={selection} native={native} editor={editor} zh={zh} />
+      <NativeObjectFields selection={selection} native={native} editor={editor} zh={zh} /></details>
 
       {(isEditablePath || canConvertToPath) && (
         <section className="ff-inspector-section">
@@ -199,6 +208,8 @@ export function SelectionInspector({
           </div>
         </section>
       )}
+      {toolFields}
+      {!selection.formula && formula}
     </div>
   );
 }
@@ -216,11 +227,11 @@ function TextContent({ value, onCommit, zh }: { value: string; onCommit: (value:
   useEffect(() => { if (!focused.current) setDraft(value); }, [value]);
   useEffect(() => () => { if (pending.current) clearTimeout(pending.current); }, []);
   const flush = (text: string) => { if (pending.current) clearTimeout(pending.current); if (text !== value) commitRef.current(text); };
-  return <><textarea aria-label={zh ? "文字内容" : "Text content"} className="ff-inspector-textarea" rows={3} value={draft}
+  return <><textarea aria-label={zh ? "文字内容" : "Text content"} className="ff-inspector-textarea" rows={2} value={draft}
     onFocus={() => { focused.current = true; }}
     onChange={event => { const text = event.target.value; setDraft(text); if (pending.current) clearTimeout(pending.current); if (!composing.current) pending.current = setTimeout(() => flush(text), 250); }}
     onCompositionStart={() => { composing.current = true; if (pending.current) clearTimeout(pending.current); }}
     onCompositionEnd={event => { composing.current = false; flush(event.currentTarget.value); }}
     onBlur={event => { focused.current = false; flush(event.currentTarget.value); }} />
-    <p className="ff-inspector-note">{zh ? "保留原有分段、上下标与沿路径文字。" : "Preserves text runs, superscripts and text paths."}</p></>;
+</>;
 }

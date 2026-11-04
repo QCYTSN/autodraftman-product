@@ -716,7 +716,10 @@ export function FigFoxEditorChrome({
             </Tabs.List>
           </Tabs.Root><button className="ff-inspector-close" type="button" aria-label={zh ? "关闭面板" : "Close panels"} onClick={() => setInspectorOpen(false)}><X size={16} /></button></div>
           {inspectorTab === "properties" ? (
-            <div className="ff-inspector-scroll"><EditorAppearance state={state} editor={editor} zh={zh} ready={ready} onPaint={setPaintType} /><FormulaEditor zh={zh} selection={state.selection} editor={editor} focusRequest={formulaFocus} /><ShapeToolFields state={state} editor={editor} zh={zh} /><SelectionInspector
+            <div className="ff-inspector-scroll"><SelectionInspector
+              appearance={<EditorAppearance state={state} editor={editor} zh={zh} ready={ready} onPaint={setPaintType} />}
+              formula={<FormulaEditor zh={zh} selection={state.selection} editor={editor} focusRequest={formulaFocus} />}
+              toolFields={<ShapeToolFields state={state} editor={editor} zh={zh} />}
               key={state.selection?.id || "empty"}
               zh={zh}
               selection={state.selection}

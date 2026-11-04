@@ -11,16 +11,19 @@ export function InspectorLength({ label, value, unit = "px", onChange, min, aria
   const [draft, setDraft] = useState(format(value));
   const [invalid, setInvalid] = useState(false);
   const focused = useRef(false);
+  const edited = useRef(false);
   useEffect(() => { if (!focused.current) { setDraft(format(value)); setInvalid(false); } }, [value, unit]);
   const commit = () => {
     focused.current = false;
+    if (!edited.current) { setDraft(format(value)); return; }
+    edited.current = false;
     const match = draft.trim().match(/^([+-]?(?:\d+\.?\d*|\.\d+)(?:e[+-]?\d+)?)\s*(px|mm|cm|in|pt|pc|em|ex)?$/i);
     const next = match ? Number(match[1]) * (factors[(match[2] || unit).toLowerCase()] || 1) : NaN;
     if (!Number.isFinite(next) || next < (min ?? -Infinity)) { setInvalid(true); return; }
     setInvalid(false); setDraft(format(next));
     if (Math.abs(next - value) > .00001) onChange(next);
   };
-  return <label className="ff-inspector-number ff-inspector-length"><span>{label}</span><input aria-label={ariaLabel || label} type="text" inputMode="decimal" value={draft} aria-invalid={invalid} title={invalid ? "Enter a valid length, e.g. 10mm" : undefined} onFocus={() => { focused.current = true; }} onChange={event => setDraft(event.target.value)} onBlur={commit} onKeyDown={event => { if (event.key === "Enter") event.currentTarget.blur(); if (event.key === "Escape") { setDraft(format(value)); setInvalid(false); } }} /><small aria-hidden="true">{unit}</small></label>;
+  return <label className="ff-inspector-number ff-inspector-length"><span>{label}</span><input aria-label={ariaLabel || label} type="text" inputMode="decimal" value={draft} aria-invalid={invalid} title={invalid ? "Enter a valid length, e.g. 10mm" : undefined} onFocus={() => { focused.current = true; edited.current = false; }} onChange={event => { edited.current = true; setDraft(event.target.value); }} onBlur={commit} onKeyDown={event => { if (event.key === "Enter" && !event.nativeEvent.isComposing) event.currentTarget.blur(); if (event.key === "Escape") { edited.current = false; setDraft(format(value)); setInvalid(false); } }} /><small aria-hidden="true">{unit}</small></label>;
 }
 
 export function InspectorNumber({
@@ -40,9 +43,12 @@ export function InspectorNumber({
 }) {
   const [draft, setDraft] = useState(String(value));
   const focused = useRef(false);
+  const edited = useRef(false);
   useEffect(() => { if (!focused.current) setDraft(String(Math.round(value * 100) / 100)); }, [value]);
   const commit = () => {
     focused.current = false;
+    if (!edited.current) { setDraft(String(Math.round(value * 100) / 100)); return; }
+    edited.current = false;
     const next = Number(draft);
     if (draft.trim() && Number.isFinite(next) && next !== value) { const limited = Math.min(max ?? Infinity, Math.max(min ?? -Infinity, next)); setDraft(String(limited)); onChange(limited); }
     else setDraft(String(Math.round(value * 100) / 100));
@@ -57,10 +63,10 @@ export function InspectorNumber({
         min={min}
         max={max}
         step="0.5"
-        onFocus={() => { focused.current = true; }}
-        onChange={event => setDraft(event.target.value)}
+        onFocus={() => { focused.current = true; edited.current = false; }}
+        onChange={event => { edited.current = true; setDraft(event.target.value); }}
         onBlur={commit}
-        onKeyDown={event => { if (event.key === "Enter") event.currentTarget.blur(); if (event.key === "Escape") { setDraft(String(value)); focused.current = false; } }}
+        onKeyDown={event => { if (event.key === "Enter" && !event.nativeEvent.isComposing) event.currentTarget.blur(); if (event.key === "Escape") { edited.current = false; setDraft(String(value)); focused.current = false; } }}
       />
     </label>
   );

@@ -44,13 +44,13 @@ try {
   record("Static sign-in does not create an identity or a credit balance");
 
   await page.locator("#figure-prompt").fill("Show an encoder and decoder connected by a latent representation.");
-  await page.locator('.product-nav a[href$="/docs"]').click();
+  await page.getByRole("button", { name: "使用指南", exact: true }).click();
   await page.locator('.product-nav a[href$="/workspace"]').click();
   assert.equal(await page.locator("#figure-prompt").inputValue(), "Show an encoder and decoder connected by a latent representation.");
   record("Draft is retained when navigating before the autosave delay");
-  await page.getByRole("button", { name: "新建草稿", exact: true }).click();
+  await page.getByRole("button", { name: "新建任务", exact: true }).click();
   await page.locator("#figure-prompt").fill("A second local draft");
-  await page.getByRole("button", { name: "新建草稿", exact: true }).click();
+  await page.getByRole("button", { name: "新建任务", exact: true }).click();
   await page.locator(".workspace-record-main").filter({ hasText: "A second local draft" }).click();
   assert.equal(await page.locator("#figure-prompt").inputValue(), "A second local draft");
   record("Creating and switching drafts preserves recent content");
@@ -61,11 +61,12 @@ try {
   record("Draft deletion offers a keyboard-accessible cancel action");
   await page.getByRole("tab", { name: "图片转 SVG", exact: true }).click();
   await page.locator("#reference-file").setInputFiles({ name: "reference.png", mimeType: "image/png", buffer: Buffer.from("iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+/NhoAAAAASUVORK5CYII=", "base64") });
-  assert.ok((await page.locator(".reference-upload-copy").innerText()).includes("本地预览"));
+  await page.waitForFunction(() => document.querySelector('.reference-upload-copy')?.textContent.includes('原图保存在此浏览器'));
   assert.equal(await page.locator(".product-workspace-source").count(), 1);
   await page.getByRole("button", { name: "我的 SVG", exact: true }).click();
   await page.locator(".product-documents").waitFor();
   assert.equal(await page.locator(".product-workspace-source:visible").count(), 0);
+  await page.locator(".workspace-record-main").filter({hasText: "reference.png"}).click();
   await page.getByRole("button", { name: "原图预览", exact: true }).click();
   await page.locator(".product-source-review .product-workspace-source").waitFor({ state: "visible" });
   assert.equal(await page.locator(".product-workspace-source:visible").count(), 1);
@@ -85,15 +86,14 @@ try {
   assert.equal(await page.locator(".workspace-record-delete").count(), 1);
   record("Deleting the last draft creates a blank draft without restoring deleted records");
 
-  await page.locator('.product-nav a[href$="/docs"]').click();
+  await page.getByRole("button", { name: "使用指南", exact: true }).click();
   assert.equal(await page.locator(".product-guide-toc nav a").count(), 6);
   await page.locator('.product-guide-toc a[href="#guide-edit"]').click();
   await page.waitForFunction(() => document.querySelector('.product-guide-toc a[href="#guide-edit"]')?.getAttribute("aria-current") === "location");
   await page.locator('.product-guide-toc a[href="#guide-open"]').click();
   await page.waitForFunction(() => document.querySelector('.product-guide-toc a[href="#guide-open"]')?.getAttribute("aria-current") === "location");
   record("Guide section links and scroll tracking work in both directions");
-  await page.locator('.product-guide-heading a[href$="/editor"]').click();
-  await page.getByRole("button", { name: "新建空白画布", exact: true }).click();
+  await page.locator(".product-guide-open-options").getByRole("button", { name: /新建空白画布/ }).click();
   await waitReady(page);
   record("A real blank SVG canvas opens without a file or account");
   await page.locator('input[type="file"]').first().setInputFiles({ name: "editor-test.svg", mimeType: "image/svg+xml", buffer: Buffer.from(sample) });
@@ -101,7 +101,8 @@ try {
   const frame = page.frameLocator(".figfox-svgedit-frame");
   await frame.locator("#test-panel").click({ position: { x: 20, y: 20 } });
   await page.getByRole("button", { name: /^填充:/ }).click();
-  await page.getByRole("option", { name: "#24a37a", exact: true }).click();
+  await page.getByLabel("HEX", {exact:true}).fill("#24a37a");
+  await page.getByRole("button", {name: "应用颜色", exact:true}).click();
   await page.waitForFunction(() => document.querySelector("iframe").contentDocument.querySelector("#test-panel").getAttribute("fill") === "#24a37a");
   await page.getByRole("button", { name: "撤销", exact: true }).click();
   await page.waitForFunction(() => document.querySelector("iframe").contentDocument.querySelector("#test-panel").getAttribute("fill") === "#eef2ff");
@@ -125,7 +126,7 @@ try {
   assert.equal(file.suggestedFilename(), "editor-test-figfox.svg");
   record("Export contains the actual edits and the original text");
   await page.locator('.product-editor-back').click();
-  await page.locator(".workspace-editor-link").click();
+  await page.getByRole("button", {name: "打开 editor-test.svg", exact:true}).click();
   await waitReady(page);
   assert.equal(await page.frameLocator("iframe").locator("#test-panel").getAttribute("fill"), "#24a37a");
   await page.reload({ waitUntil: "networkidle" });
@@ -153,11 +154,11 @@ try {
   await phone.addInitScript(() => localStorage.setItem("autodraftman-language", "zh"));
   await open(phone, "/workspace");
   await assertNoOverflow(phone);
-  await phone.getByRole("button", { name: "打开菜单" }).click();
+  await phone.getByRole("button", { name: "导航" }).click();
   await phone.keyboard.press("Escape");
   assert.equal(await phone.locator('.product-mobile-nav').count(), 0);
-  await phone.getByRole("button", { name: "打开菜单" }).click();
-  await phone.locator('.product-mobile-nav a[href$="/pricing"]').click();
+  await phone.getByRole("button", { name: "导航" }).click();
+  await phone.getByRole("dialog").getByRole("button", {name:"定价",exact:true}).click();
   await phone.waitForURL(/\/pricing$/);
   assert.equal(await phone.locator('.product-mobile-nav').count(), 0);
   await assertNoOverflow(phone);
@@ -165,7 +166,7 @@ try {
   await phone.screenshot({ path: output + "/pricing-mobile.png" });
   record("Mobile menu navigates and closes, without horizontal overflow");
   await open(phone, "/workspace");
-  await phone.getByRole("button", { name: "历史记录", exact: true }).click();
+  await phone.getByRole("button", { name: "导航", exact: true }).click();
   assert.equal(await phone.getByRole("dialog").isVisible(), true);
   await phone.keyboard.press("Tab");
   assert.equal(await phone.evaluate(() => !!document.activeElement.closest('[role="dialog"]')), true);

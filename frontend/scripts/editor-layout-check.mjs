@@ -49,7 +49,7 @@ async function measure(name) {
   issues.push(...found.map(issue => ({ name, issue })));
 }
 try {
-  for (const [width, height, lang] of [[1440,900,'en'], [1440,900,'zh'], [1024,768,'en'], [820,700,'en'], [1280,600,'zh'], [390,844,'en'], [390,844,'zh'], [320,640,'en']]) {
+  for (const [width, height, lang] of [[1440,900,'en'], [1440,900,'zh'], [1366,768,'zh'], [1366,768,'en'], [1024,768,'en'], [820,700,'en'], [1280,600,'zh'], [390,844,'en'], [390,844,'zh'], [320,640,'en']]) {
     page = await browser.newPage({ viewport: { width, height }, acceptDownloads: true });
     page.setDefaultTimeout(20000);
     page.on('pageerror', e => errors.push(e.message));
@@ -73,6 +73,7 @@ try {
     await measure(`${width}-${lang}-document`);
     await page.getByRole('tab', {name:lang==='zh'?'属性':'Properties',exact:true}).click();
     await pick('star');
+    await page.locator('.ff-inspector-advanced > summary').filter({hasText:lang==='zh'?'高级属性':'Advanced properties'}).click();
     await page.locator('.ff-inspector-scroll').evaluate(el=>el.scrollTop=el.scrollHeight);
     await page.getByRole('button', {name:lang==='zh'?'选中父组':'Select parent group',exact:true}).scrollIntoViewIfNeeded();
     await measure(`${width}-${lang}-star-bottom`);

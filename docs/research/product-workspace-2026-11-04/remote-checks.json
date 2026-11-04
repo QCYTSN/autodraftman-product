@@ -1,0 +1,7 @@
+{
+  "checks": [
+    "Server-assigned IDs retain task type, image association and restored Blob",
+    "Slow creation cannot duplicate a draft or overwrite later text/task changes; API payloads contain no local extensions"
+  ],
+  "errors": []
+}

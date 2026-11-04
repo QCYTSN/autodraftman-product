@@ -94,13 +94,17 @@ import {
   type CreditTransaction,
   type CurrentIdentity,
   type FeedbackEntry,
-  type WorkspaceDraft,
   type WorkspaceDraftInput,
 } from "./api";
 import {
   draftFingerprint,
   draftInput,
   draftTitle,
+  localDraftInput,
+  mergeRemoteDraft,
+  type WorkspaceDraft,
+  type LocalDraftInput,
+  type WorkspaceImage,
   makeLocalDraft,
   readCachedDrafts,
   writeCachedDrafts,
@@ -115,7 +119,8 @@ import { FigFoxMark, FigFoxWordmark } from "./components/brand/FigFoxBrand";
 import { ProductHeader } from "./features/product/ProductHeader";
 import { ProductPricingPage } from "./features/product/ProductPricingPage";
 import { ProductGuidePage } from "./features/product/ProductGuidePage";
-import { WorkspaceDocuments } from "./features/product/WorkspaceDocuments";
+import { WorkspaceDocuments, openGuideExample } from "./features/product/WorkspaceDocuments";
+import { saveWorkspaceImage, readWorkspaceImage, deleteWorkspaceImage, imageDimensions } from "./features/product/workspaceImages";
 import { ProductPromptField } from "./features/product/ProductPromptField";
 import { FigureProcessPreview } from "./features/product/FigureProcess";
 import { ProductLoginPage } from "./features/product/ProductLoginPage";
@@ -309,10 +314,10 @@ const copy = {
       public: "公开",
       download: "下载图片",
       regenerate: "重新生成",
-      history: "历史记录",
+      history: "最近任务",
       historyEmpty: "还没有草稿。",
       historyItem: "双分支编码器方法图",
-      newDraft: "新建草稿",
+      newDraft: "新建任务",
       draftPending: "尚未生成",
       historyHint: "输入内容后，当前草稿会显示在这里。",
       collapseHistory: "收起记录栏",
@@ -321,7 +326,7 @@ const copy = {
       rename: "重命名草稿",
       renameSave: "保存名称",
       renameCancel: "取消重命名",
-      draftUntitled: "未命名草稿",
+      draftUntitled: "新建任务",
       draftSaving: "正在保存…",
       draftSaved: "草稿已保存",
       draftOffline: "网络已断开，修改已保存在此设备",
@@ -646,10 +651,10 @@ const copy = {
       public: "Public",
       download: "Download image",
       regenerate: "Generate again",
-      history: "History",
+      history: "Recent tasks",
       historyEmpty: "No generations yet.",
       historyItem: "Two-branch encoder method figure",
-      newDraft: "New draft",
+      newDraft: "New task",
       draftPending: "Not generated",
       historyHint: "Your current draft appears here once you start writing.",
       collapseHistory: "Collapse records",
@@ -658,7 +663,7 @@ const copy = {
       rename: "Rename draft",
       renameSave: "Save name",
       renameCancel: "Cancel renaming",
-      draftUntitled: "Untitled draft",
+      draftUntitled: "New task",
       draftSaving: "Saving…",
       draftSaved: "Draft saved",
       draftOffline: "Offline. Changes are saved on this device",
@@ -1235,7 +1240,7 @@ function WorkspaceAccountSummary({
 }) {
   const label =
     !apiConfigured
-      ? ui.nav.signIn === "登录" ? "本地工作台" : "Local workspace"
+      ? ui.nav.signIn === "登录" ? "本地工作台" : "Local mode"
       : identity === "user"
       ? currentIdentity?.display_name || ui.nav.account
       : identity === "guest"
@@ -1279,6 +1284,8 @@ function WorkspacePage({
   requestAuth,
   onAccount,
   onOpenEditor,
+  onNavigate,
+  onLanguageChange,
   onViewTransition,
 }: {
   active?: boolean;
@@ -1290,10 +1297,16 @@ function WorkspacePage({
   requestAuth: (action: () => void) => void;
   onAccount: () => void;
   onOpenEditor: () => void;
+  onNavigate: (route: RoutePath) => void;
+  onLanguageChange: () => void;
   onViewTransition: (update: () => void, animate: boolean) => void;
 }) {
   const workspaceCopy = figFoxWorkspaceCopy[language];
-  const [taskMode, setTaskMode] = useState<"create" | "rebuild">("create");
+  const [taskMode, setTaskMode] = useState<"create" | "rebuild">("rebuild");
+  const [localImage, setLocalImage] = useState<WorkspaceImage | null>(null);
+  const [imageSaveState, setImageSaveState] = useState<"saved" | "saving" | "restoring" | "failed">("saved");
+  const imageSequenceRef = useRef(0);
+  const imageValidationRef = useRef(0);
   const [mode, setMode] = useState<"text" | "reference">("text");
   const [prompt, setPrompt] = useState("");
   const [referenceFile, setReferenceFile] = useState<File | null>(null);
@@ -1303,6 +1316,8 @@ function WorkspacePage({
     catch { return "task"; }
   });
   const [processPreview, setProcessPreview] = useState(false);
+  const [exampleBusy, setExampleBusy] = useState(false);
+  const [dragging, setDragging] = useState(false);
   useLayoutEffect(() => {
     if (!active) return;
     try {
@@ -1336,6 +1351,10 @@ function WorkspacePage({
   const [drafts, setDrafts] = useState<WorkspaceDraft[]>([]);
   const [activeDraftId, setActiveDraftId] = useState("");
   const [draftsReady, setDraftsReady] = useState(false);
+  useEffect(() => {
+    if (!draftsReady || !activeDraftId) return;
+    try { window.localStorage.setItem("figfox-active-task", activeDraftId); } catch { /* Text save reports storage errors separately. */ }
+  }, [activeDraftId, draftsReady]);
   const [draftSaveState, setDraftSaveState] = useState<DraftSaveState>("saved");
   const [draftToDelete, setDraftToDelete] = useState<WorkspaceDraft | null>(null);
   const [renamingDraftId, setRenamingDraftId] = useState("");
@@ -1347,6 +1366,7 @@ function WorkspacePage({
   const previewUrlRef = useRef("");
   const draftSaveTimerRef = useRef<number | null>(null);
   const draftSaveSequenceRef = useRef(0);
+  const creatingDraftsRef = useRef(new Set<string>());
   const lastSavedDraftRef = useRef("");
   const latestDraftRef = useRef<WorkspaceDraft | null>(null);
 
@@ -1355,9 +1375,9 @@ function WorkspacePage({
     if (!draft) return null;
     const cached = readCachedDrafts();
     const previous = cached.find(item => item.id === draft.id);
-    if (previous && draftFingerprint(draftInput(previous)) === draftFingerprint(draftInput(draft))) return previous;
+    if (previous && draftFingerprint(localDraftInput(previous)) === draftFingerprint(localDraftInput(draft))) return previous;
     const updated = { ...draft, updated_at: new Date().toISOString() };
-    writeCachedDrafts([updated, ...cached.filter(item => item.id !== draft.id)]);
+    if (!writeCachedDrafts([updated, ...cached.filter(item => item.id !== draft.id)])) setDraftSaveState("failed");
     return updated;
   };
 
@@ -1368,7 +1388,7 @@ function WorkspacePage({
   }, []);
 
   const currentDraft = drafts.find(draft => draft.id === activeDraftId);
-  latestDraftRef.current = draftsReady && currentDraft ? { ...currentDraft, title: activeDraftTitle, prompt, mode, aspect_ratio: ratio as WorkspaceDraftInput["aspect_ratio"], output_format: format as WorkspaceDraftInput["output_format"], visibility: isPublic ? "public" : "private", reference_asset_id: referenceAssetId } : null;
+  latestDraftRef.current = draftsReady && currentDraft ? { ...currentDraft, title: activeDraftTitle, prompt, mode, taskType: taskMode, localImage, aspect_ratio: ratio as WorkspaceDraftInput["aspect_ratio"], output_format: format as WorkspaceDraftInput["output_format"], visibility: isPublic ? "public" : "private", reference_asset_id: referenceAssetId } : null;
 
   const uploadBusy = ["preparing", "uploading", "verifying"].includes(
     referenceStatus,
@@ -1409,7 +1429,9 @@ function WorkspacePage({
     setReferencePreview(nextPreview);
   };
 
-  const blankDraftInput = (): WorkspaceDraftInput => ({
+  const blankDraftInput = (): LocalDraftInput => ({
+    taskType: "rebuild",
+    localImage: null,
     title: null,
     prompt: "",
     mode: "text",
@@ -1447,6 +1469,11 @@ function WorkspacePage({
   };
 
   const applyDraft = (draft: WorkspaceDraft) => {
+    ++draftSaveSequenceRef.current;
+    const imageSequence = ++imageSequenceRef.current;
+    setTaskMode(draft.taskType);
+    setLocalImage(draft.localImage);
+    setImageSaveState(draft.localImage ? "restoring" : "saved");
     uploadSequenceRef.current += 1;
     uploadAbortRef.current?.abort();
     uploadAbortRef.current = null;
@@ -1466,17 +1493,23 @@ function WorkspacePage({
     setIsPublic(draft.visibility === "public");
     setActiveDraftId(draft.id);
     setMessage("");
-    lastSavedDraftRef.current = draftFingerprint({
-      title: draft.title,
-      prompt: draft.prompt,
-      mode: draft.mode,
-      aspect_ratio: draft.aspect_ratio,
-      output_format: draft.output_format,
-      visibility: draft.visibility,
-      reference_asset_id: draft.reference_asset_id,
-    });
+    lastSavedDraftRef.current = draftFingerprint(localDraftInput(draft));
     setDraftSaveState("saved");
-    if (draft.reference_asset_id) {
+    if (draft.localImage) {
+      const metadata = draft.localImage;
+      void readWorkspaceImage(metadata.key).then(blob => {
+        if (imageSequence !== imageSequenceRef.current) return;
+        const file = new File([blob], metadata.name, { type: metadata.type });
+        setReferenceFile(file);
+        replacePreview(file);
+        setReferenceStatus("local");
+        setImageSaveState("saved");
+      }).catch(() => {
+        if (imageSequence !== imageSequenceRef.current) return;
+        setImageSaveState("failed");
+        setReferenceError(language === "zh" ? "原图未能恢复，请重新选择图片。文字草稿已保留。" : "The saved image could not be restored. Select it again; your text is retained.");
+      });
+    } else if (draft.reference_asset_id) {
       void restoreReferenceAsset(draft.reference_asset_id);
     }
   };
@@ -1484,6 +1517,8 @@ function WorkspacePage({
   useEffect(() => {
     let cancelled = false;
     const cached = readCachedDrafts();
+    let activeId = "";
+    try { activeId = window.localStorage.getItem("figfox-active-task") || ""; } catch { /* Restore the latest task if preferences are unavailable. */ }
 
     const useDrafts = (items: WorkspaceDraft[]) => {
       if (cancelled) return;
@@ -1494,8 +1529,8 @@ function WorkspacePage({
         sorted.length > 0 ? sorted : [makeLocalDraft(blankDraftInput())];
       setDrafts(available);
       const locallySaved = writeCachedDrafts(available);
-      applyDraft(available[0]);
-      if (!locallySaved && !apiConfigured) setDraftSaveState("failed");
+      applyDraft(available.find(draft => draft.id === activeId) || available[0]);
+      if (!locallySaved) setDraftSaveState("failed");
       setDraftsReady(true);
     };
 
@@ -1508,16 +1543,17 @@ function WorkspacePage({
 
     listDrafts()
       .then(async (remote) => {
+        if (cancelled) return;
         const cachedById = new Map(cached.map((draft) => [draft.id, draft]));
         const merged = remote.map((draft) => {
           const local = cachedById.get(draft.id);
-          return local && local.updated_at > draft.updated_at ? local : draft;
+          return local && local.updated_at > draft.updated_at ? local : mergeRemoteDraft(draft, local);
         });
         const localOnly = cached.filter((draft) => draft.id.startsWith("local-"));
         const imported = await Promise.all(
           localOnly.map(async (draft) => {
             try {
-              return await createDraft({
+              const saved = mergeRemoteDraft(await createDraft({
                 title: draft.title,
                 prompt: draft.prompt,
                 mode: draft.mode,
@@ -1525,7 +1561,9 @@ function WorkspacePage({
                 output_format: draft.output_format,
                 visibility: draft.visibility,
                 reference_asset_id: null,
-              });
+              }), draft);
+              if (activeId === draft.id) activeId = saved.id;
+              return saved;
             } catch {
               return draft;
             }
@@ -1552,8 +1590,10 @@ function WorkspacePage({
   };
 
   useEffect(() => {
-    if (!draftsReady) return;
-    const input: WorkspaceDraftInput = {
+    if (!draftsReady || imageSaveState === "restoring") return;
+    const input: LocalDraftInput = {
+      taskType: taskMode,
+      localImage,
       title: activeDraftTitle,
       prompt,
       mode,
@@ -1570,8 +1610,8 @@ function WorkspacePage({
     }
     setDraftSaveState(apiConfigured && !online ? "offline" : "saving");
 
+    const sequence = ++draftSaveSequenceRef.current;
     draftSaveTimerRef.current = window.setTimeout(() => {
-      const sequence = ++draftSaveSequenceRef.current;
       const now = new Date().toISOString();
       const fallbackId = activeDraftId || `local-${crypto.randomUUID()}`;
       setActiveDraftId(fallbackId);
@@ -1593,25 +1633,38 @@ function WorkspacePage({
         return;
       }
 
-      const request = fallbackId.startsWith("local-")
-        ? createDraft(input)
-        : updateDraft(fallbackId, input);
+      const creating = fallbackId.startsWith("local-");
+      // Keep one create in flight. Its ID migration will trigger an update
+      // with any edits made while the server was responding.
+      if (creating && creatingDraftsRef.current.has(fallbackId)) return;
+      if (creating) creatingDraftsRef.current.add(fallbackId);
+      const request = creating
+        ? createDraft(draftInput(input))
+        : updateDraft(fallbackId, draftInput(input));
       request
         .then((saved) => {
+          if (creating) {
+            const cached = readCachedDrafts();
+            const latest = latestDraftRef.current?.id === fallbackId ? latestDraftRef.current : cached.find(draft => draft.id === fallbackId);
+            if (!latest) { void deleteDraft(saved.id).catch(() => undefined); return; }
+            const next = [{ ...mergeRemoteDraft(saved, latest), ...localDraftInput(latest), updated_at: latest.updated_at }, ...cached.filter(draft => draft.id !== fallbackId && draft.id !== saved.id)];
+            const persisted = writeCachedDrafts(next);
+            setDrafts(next);
+            setActiveDraftId(current => current === fallbackId ? saved.id : current);
+            if (sequence === draftSaveSequenceRef.current) {
+              if (persisted) lastSavedDraftRef.current = fingerprint;
+              setDraftSaveState(persisted ? "saved" : "failed");
+            }
+            return;
+          }
           if (sequence !== draftSaveSequenceRef.current) return;
           setActiveDraftId(saved.id);
-          setDrafts((current) => {
-            const next = [
-              saved,
-              ...current.filter(
-                (draft) => draft.id !== fallbackId && draft.id !== saved.id,
-              ),
-            ];
-            writeCachedDrafts(next);
-            return next;
-          });
-          lastSavedDraftRef.current = fingerprint;
-          setDraftSaveState("saved");
+          const cached = readCachedDrafts();
+          const next = [mergeRemoteDraft(saved, localDraft), ...(cached.length ? cached : drafts).filter(draft => draft.id !== fallbackId && draft.id !== saved.id)];
+          const persisted = writeCachedDrafts(next);
+          setDrafts(next);
+          if (persisted) lastSavedDraftRef.current = fingerprint;
+          setDraftSaveState(persisted ? "saved" : "failed");
         })
         .catch((error: unknown) => {
           if (sequence !== draftSaveSequenceRef.current) return;
@@ -1622,7 +1675,7 @@ function WorkspacePage({
           } else {
             setDraftSaveState("failed");
           }
-        });
+        }).finally(() => { if (creating) creatingDraftsRef.current.delete(fallbackId); });
     }, 700);
 
     return () => {
@@ -1642,17 +1695,20 @@ function WorkspacePage({
     prompt,
     ratio,
     referenceAssetId,
+    taskMode,
+    localImage,
+    imageSaveState,
   ]);
 
   useEffect(() => {
     const warnBeforeLeaving = (event: BeforeUnloadEvent) => {
-      if (draftSaveState === "saved") return;
+      if (draftSaveState === "saved" && imageSaveState === "saved") return;
       event.preventDefault();
       event.returnValue = "";
     };
     window.addEventListener("beforeunload", warnBeforeLeaving);
     return () => window.removeEventListener("beforeunload", warnBeforeLeaving);
-  }, [draftSaveState]);
+  }, [draftSaveState, imageSaveState]);
 
   const uploadReference = async (file: File, mediaType: string) => {
     const sequence = ++uploadSequenceRef.current;
@@ -1744,40 +1800,71 @@ function WorkspacePage({
     requestAuth(startGeneration);
   };
 
-  const handleFile = (event: ChangeEvent<HTMLInputElement>) => {
-    const selected = event.target.files?.[0];
-    event.target.value = "";
-    if (!selected) return;
-    setMode("reference");
-    setWorkspaceView("task");
-
+  const acceptReferenceFile = async (selected: File) => {
+    if (!draftsReady) return;
+    const validation = ++imageValidationRef.current;
+    const startingSequence = imageSequenceRef.current;
     const mediaType = mediaTypeFor(selected);
-    setReferenceFile(selected);
-    replacePreview(selected);
-    setReferenceProgress(0);
     setReferenceError("");
     if (!mediaType) {
-      setReferenceStatus("error");
       setReferenceError(ui.workspace.uploadUnsupported);
       return;
     }
     if (selected.size <= 0) {
-      setReferenceStatus("error");
       setReferenceError(ui.workspace.uploadEmpty);
       return;
     }
     if (selected.size > 10 * 1024 * 1024) {
-      setReferenceStatus("error");
       setReferenceError(ui.workspace.uploadTooLarge);
       return;
     }
-    if (!apiConfigured) {
-      setReferenceStatus("local");
-      setReferenceError("");
+    let dimensions: {width: number; height: number};
+    try { dimensions = await imageDimensions(selected); }
+    catch { if (validation === imageValidationRef.current && startingSequence === imageSequenceRef.current) setReferenceError(language === "zh" ? "无法读取这张图片，请选择有效的 PNG、JPEG 或 WebP。" : "Could not read this image. Choose a valid PNG, JPEG or WebP."); return; }
+    if (validation !== imageValidationRef.current || startingSequence !== imageSequenceRef.current) return;
+    const sequence = ++imageSequenceRef.current;
+    const metadata: WorkspaceImage = { key: crypto.randomUUID(), name: selected.name, type: mediaType, size: selected.size, ...dimensions };
+    const oldKey = localImage?.key;
+    setMode("reference");
+    setWorkspaceView("task");
+    setReferenceFile(selected);
+    replacePreview(selected);
+    setReferenceProgress(0);
+    setLocalImage(metadata);
+    setImageSaveState("saving");
+    setReferenceStatus("local");
+    // Record the association immediately; a reload can report an interrupted
+    // Blob write instead of silently restoring an unrelated, older image.
+    if (latestDraftRef.current) {
+      latestDraftRef.current = { ...latestDraftRef.current, mode: "reference", localImage: metadata };
+      const updated = flushLocalDraft();
+      if (updated) setDrafts(items => items.map(item => item.id === updated.id ? updated : item));
+    }
+    try {
+      await saveWorkspaceImage(metadata.key, selected);
+      const cached = readCachedDrafts();
+      if (!cached.some(draft => draft.localImage?.key === metadata.key)) {
+        await deleteWorkspaceImage(metadata.key);
+        if (sequence === imageSequenceRef.current) throw new Error("Image association was not saved");
+        return;
+      }
+      if (oldKey && !cached.some(draft => draft.localImage?.key === oldKey)) await deleteWorkspaceImage(oldKey);
+      if (sequence !== imageSequenceRef.current) return;
+      setImageSaveState("saved");
+    } catch {
+      if (oldKey && !readCachedDrafts().some(draft => draft.localImage?.key === oldKey)) void deleteWorkspaceImage(oldKey).catch(() => undefined);
+      if (sequence !== imageSequenceRef.current) return;
+      setImageSaveState("failed");
+      setReferenceError(language === "zh" ? "图片未保存到此浏览器，请重新选择以重试。文字草稿仍保留。" : "The image was not saved in this browser. Select it again to retry; your text is retained.");
       return;
     }
-    setReferenceStatus("idle");
-    requestAuth(() => void uploadReference(selected, mediaType));
+    if (apiConfigured) requestAuth(() => void uploadReference(selected, mediaType));
+  };
+
+  const handleFile = (event: ChangeEvent<HTMLInputElement>) => {
+    const selected = event.target.files?.[0];
+    event.target.value = "";
+    if (selected) void acceptReferenceFile(selected);
   };
 
   const cancelReferenceUpload = () => {
@@ -1794,6 +1881,16 @@ function WorkspacePage({
   };
 
   const removeReference = () => {
+    ++imageSequenceRef.current;
+    const oldKey = localImage?.key;
+    setLocalImage(null);
+    setImageSaveState("saved");
+    if (latestDraftRef.current) {
+      latestDraftRef.current = { ...latestDraftRef.current, localImage: null, reference_asset_id: null, mode: taskMode === "create" ? "text" : mode };
+      const updated = flushLocalDraft();
+      if (updated) setDrafts(items => items.map(item => item.id === updated.id ? updated : item));
+    }
+    if (oldKey && !readCachedDrafts().some(draft => draft.localImage?.key === oldKey)) void deleteWorkspaceImage(oldKey).catch(() => undefined);
     if (taskMode === "create") setMode("text");
     uploadSequenceRef.current += 1;
     uploadAbortRef.current?.abort();
@@ -1817,6 +1914,8 @@ function WorkspacePage({
   };
 
   const startNewDraft = () => {
+    ++draftSaveSequenceRef.current;
+    ++imageSequenceRef.current;
     setWorkspaceView("task");
     setProcessPreview(false);
     const flushed = flushLocalDraft();
@@ -1835,7 +1934,9 @@ function WorkspacePage({
     setReferenceStatus("idle");
     setReferenceProgress(0);
     setReferenceError("");
-    setTaskMode("create");
+    setTaskMode("rebuild");
+    setLocalImage(null);
+    setImageSaveState("saved");
     setMode("text");
     setActiveDraftTitle(null);
     setPrompt("");
@@ -1850,7 +1951,7 @@ function WorkspacePage({
     const locallySaved = writeCachedDrafts(items);
     setDrafts(items);
     lastSavedDraftRef.current = draftFingerprint(blankDraftInput());
-    setDraftSaveState(locallySaved || apiConfigured ? "saved" : "failed");
+    setDraftSaveState(locallySaved ? "saved" : "failed");
   };
 
   const selectDraft = (draft: WorkspaceDraft) => {
@@ -1889,7 +1990,7 @@ function WorkspacePage({
     try {
       const saved = await updateDraft(draft.id, { title });
       setDrafts((current) => {
-        const next = current.map((item) => (item.id === draft.id ? saved : item));
+        const next = current.map((item) => (item.id === draft.id ? mergeRemoteDraft(saved, item) : item));
         writeCachedDrafts(next);
         return next;
       });
@@ -1911,24 +2012,26 @@ function WorkspacePage({
       }
     }
     const remaining = drafts.filter((draft) => draft.id !== deletedId);
+    const imageKey = draftToDelete.localImage?.key;
     if (activeDraftId === deletedId) latestDraftRef.current = null;
     if (remaining.length > 0) {
       setDrafts(remaining);
-      writeCachedDrafts(remaining);
+      const saved = writeCachedDrafts(remaining);
+      if (saved && imageKey) void deleteWorkspaceImage(imageKey).catch(() => undefined);
       if (activeDraftId === deletedId) applyDraft(remaining[0]);
       return;
     }
     const next = makeLocalDraft(blankDraftInput());
     setDrafts([next]);
     const locallySaved = writeCachedDrafts([next]);
-    setTaskMode("create");
+    if (locallySaved && imageKey) void deleteWorkspaceImage(imageKey).catch(() => undefined);
     setSettingsOpen(false);
     applyDraft(next);
-    if (!locallySaved && !apiConfigured) setDraftSaveState("failed");
+    if (!locallySaved) setDraftSaveState("failed");
   };
 
   const referenceStatusLabel = (() => {
-    if (referenceStatus === "local") return language === "zh" ? "本地预览 · 刷新后需重新选择" : "Local preview · select again after refresh";
+    if (referenceStatus === "local") return language === "zh" ? "原图保存在此浏览器" : "Image saved in this browser";
     if (referenceStatus === "preparing") return ui.workspace.uploadPreparing;
     if (referenceStatus === "uploading") {
       return `${ui.workspace.uploadProgress} · ${referenceProgress}%`;
@@ -1940,7 +2043,10 @@ function WorkspacePage({
   })();
 
   const draftSaveLabel =
-    draftSaveState === "saving"
+    imageSaveState === "failed" ? (language === "zh" ? "原图未保存或无法恢复" : "Image not saved or unavailable")
+    : imageSaveState === "saving" ? (language === "zh" ? "正在保存原图…" : "Saving image…")
+    : imageSaveState === "restoring" ? (language === "zh" ? "正在恢复原图…" : "Restoring image…")
+    : draftSaveState === "saving"
       ? ui.workspace.draftSaving
       : draftSaveState === "offline"
         ? ui.workspace.draftOffline
@@ -1953,7 +2059,7 @@ function WorkspacePage({
   const handlePromptKeyDown = (
     event: ReactKeyboardEvent<HTMLTextAreaElement>,
   ) => {
-    if ((event.metaKey || event.ctrlKey) && event.key === "Enter") {
+    if (!event.nativeEvent.isComposing && (event.metaKey || event.ctrlKey) && event.key === "Enter") {
       event.preventDefault();
       handleGenerate();
     }
@@ -1975,9 +2081,9 @@ function WorkspacePage({
     value={prompt}
     onChange={setPrompt}
     onKeyDown={handlePromptKeyDown}
-    label={taskMode === "rebuild" ? workspaceCopy.rebuildPrompt : ui.workspace.promptLabel}
+    label={taskMode === "rebuild" ? language === "zh" ? "补充要求（可选）" : "Additional notes (optional)" : ui.workspace.promptLabel}
     help={taskMode === "rebuild"
-      ? language === "zh" ? "可补充需要保留的文字、布局与细节。" : "Add notes on labels, layout and details to preserve."
+      ? language === "zh" ? "可补充需要保留或调整的文字、布局与细节。" : "Add notes on text, layout and details to preserve or adjust."
       : language === "zh" ? "明确的主体、标签和布局，会让绘图要求更清楚。" : "Describe the subject, labels and layout to make the brief clearer."}
     message={message}
     invalid={message === ui.workspace.promptError}
@@ -1987,12 +2093,13 @@ function WorkspacePage({
 
   return (
     <main
-      className={`workspace-page ff-workspace-v2 ff-workspace-v3 task-${taskMode} page-enter ${
+      className={`workspace-page ff-workspace-v3 task-${taskMode} page-enter ${
         historyCollapsed ? "history-collapsed" : ""
       }`}
     >
       <aside className="workspace-history" aria-label={ui.workspace.history}>
         <div className="workspace-history-heading">
+          <button className="workspace-brand" type="button" aria-label={language === "zh" ? "FigFox 展示首页" : "FigFox home"} onClick={() => onNavigate("/")}><FigFoxMark /><span>FigFox</span></button>
           <button
             type="button"
             className="history-collapse-button"
@@ -2009,7 +2116,6 @@ function WorkspacePage({
             onClick={() => setHistoryCollapsed((value) => !value)}
           >
             {historyCollapsed ? <CaretRight size={18} /> : <CaretLeft size={18} />}
-            <span>{ui.workspace.history}</span>
           </button>
         </div>
 
@@ -2017,6 +2123,8 @@ function WorkspacePage({
           <Plus size={18} />
           <span>{ui.workspace.newDraft}</span>
         </button>
+
+        <button type="button" className="workspace-documents-link" aria-pressed={workspaceView === "documents"} onClick={() => changeWorkspaceView("documents")} title={language === "zh" ? "我的 SVG" : "My SVGs"}><Stack size={18} /><span>{language === "zh" ? "我的 SVG" : "My SVGs"}</span></button>
 
         <div className="workspace-records">
           {!historyCollapsed && (
@@ -2026,11 +2134,11 @@ function WorkspacePage({
             ? drafts.map((draft) => (
                 <article
                   className={
-                    activeDraftId === draft.id
+                    workspaceView === "task" && activeDraftId === draft.id
                       ? "workspace-record current"
                       : "workspace-record"
                   }
-                  aria-current={activeDraftId === draft.id ? "true" : undefined}
+                  aria-current={workspaceView === "task" && activeDraftId === draft.id ? "true" : undefined}
                   key={draft.id}
                 >
                   {renamingDraftId === draft.id && !historyCollapsed ? (
@@ -2076,7 +2184,7 @@ function WorkspacePage({
                     >
                       <NotePencil size={19} />
                       <span>
-                        <strong>{draftTitle(draft, ui.workspace.draftUntitled)}</strong>
+                        <strong>{draftTitle(draft.id === activeDraftId && latestDraftRef.current ? latestDraftRef.current : draft, ui.workspace.draftUntitled)}</strong>
                         <small>
                           {new Intl.DateTimeFormat(language === "zh" ? "zh-CN" : "en", {
                             month: "short",
@@ -2120,6 +2228,11 @@ function WorkspacePage({
               )}
         </div>
 
+        <nav className="workspace-utilities" aria-label={language === "zh" ? "帮助与设置" : "Help and settings"}>
+          <button type="button" onClick={() => onNavigate("/docs")} title={language === "zh" ? "使用指南" : "Guide"}><NotePencil size={17}/><span>{language === "zh" ? "使用指南" : "Guide"}</span></button>
+          <button type="button" onClick={() => onNavigate("/pricing")} title={language === "zh" ? "定价" : "Pricing"}><Stack size={17}/><span>{language === "zh" ? "定价" : "Pricing"}</span></button>
+          <button type="button" onClick={onLanguageChange} aria-label={language === "zh" ? "Switch to English" : "切换中文"}><Globe size={17}/><span>{language === "zh" ? "English" : "中文"}</span></button>
+        </nav>
         <WorkspaceAccountSummary
           ui={ui}
           identity={identity}
@@ -2131,31 +2244,21 @@ function WorkspacePage({
       <div className="workspace-canvas">
         <header className="workspace-heading">
           <div className="workspace-heading-copy">
-            <div className="workspace-heading-topline">
-              <span className="workspace-context-label">{ui.workspace.draftLabel}</span>
-              <span className="kernel-status">
-                <i aria-hidden="true" />
-                {ui.workspace.kernelPending}
-              </span>
-            </div>
             <div className="workspace-title-line">
-              <h1>{activeDraftTitle?.trim() || ui.workspace.draftUntitled}</h1>
-              <span className={`draft-save-state ${draftSaveState}`}>
+              <h1>{workspaceView === "documents" ? language === "zh" ? "我的 SVG" : "My SVGs" : latestDraftRef.current ? draftTitle(latestDraftRef.current, ui.workspace.draftUntitled) : ui.workspace.draftUntitled}</h1>
+              {workspaceView !== "documents" && <span className={`draft-save-state ${imageSaveState === "failed" ? "failed" : draftSaveState}`} role="status">
                 {draftSaveLabel}
-              </span>
+              </span>}
             </div>
           </div>
           <div className="workspace-heading-actions">
-            <button type="button" className="workspace-view-link" aria-pressed={workspaceView === "task" && !processPreview} onClick={returnToDraft}><NotePencil size={16} />{language === "zh" ? "当前草稿" : "Current draft"}</button>
-            <button type="button" className="workspace-view-link" aria-pressed={workspaceView === "documents"} onClick={() => changeWorkspaceView("documents")}><Stack size={16} />{language === "zh" ? "我的 SVG" : "My SVGs"}</button>
-            <button type="button" className="workspace-editor-link" onClick={onOpenEditor}><BezierCurve size={17} /><span>{language === "zh" ? "打开 SVG 编辑器" : "Open SVG editor"}</span><ArrowUpRight size={14} /></button>
             <button
               className="workspace-mobile-history"
               type="button"
               onClick={() => setHistoryOpen(true)}
             >
               <ClockCounterClockwise size={17} />
-              {ui.workspace.history}
+              {language === "zh" ? "导航" : "Navigation"}
             </button>
             {apiConfigured && <div className="workspace-balance">
               <span>{ui.workspace.credits}</span>
@@ -2167,15 +2270,11 @@ function WorkspacePage({
         <div className={`workspace-layout workspace-view-${workspaceView} ${processPreview ? "is-process-preview" : ""}`}>
         {workspaceView === "task" && !processPreview && <div className="workspace-start-heading">
           <h2>{language === "zh" ? taskMode === "create" ? "创建科研图" : "将图片重建为 SVG" : taskMode === "create" ? "Create a scientific figure" : "Reconstruct an image as SVG"}</h2>
-          <p>{language === "zh" ? taskMode === "create" ? "描述图中的内容、布局与关系，也可以添加参考图。" : "上传原图，保留文字、图形和连接关系，继续编辑。" : taskMode === "create" ? "Describe the content, layout and relationships, or add a reference image." : "Upload a figure to reconstruct its text, shapes and connections."}</p>
+          <div className="workspace-editor-entries"><button type="button" onClick={onOpenEditor}>{language === "zh" ? "已有 SVG？直接编辑" : "Have an SVG? Edit it"}<ArrowUpRight size={16}/></button><button type="button" disabled={exampleBusy} onClick={async () => { setExampleBusy(true); setMessage(""); try { await openGuideExample(onOpenEditor); } catch { setMessage(language === "zh" ? "示例打开失败，请重试或导入自己的 SVG。" : "Could not open the example. Retry or import your SVG."); } finally { setExampleBusy(false); } }}>{exampleBusy ? language === "zh" ? "正在打开…" : "Opening…" : language === "zh" ? "用示例体验" : "Try an example"}</button></div>
         </div>}
         {processPreview && <FigureProcessPreview key={taskMode} active={active} language={language} mode={taskMode} onClose={returnToDraft} />}
         {workspaceView !== "task" && !processPreview && <section className={`result-panel ${taskMode}`}>
-          <div className="workspace-documents-back"><button type="button" onClick={returnToDraft}><CaretLeft size={16} />{language === "zh" ? "返回草稿" : "Back to draft"}</button></div>
-          {taskMode === "rebuild" && referencePreview && <header className="result-toolbar product-result-views" role="group" aria-label={language === "zh" ? "工作区视图" : "Workspace view"}>
-            <button type="button" aria-pressed={workspaceView === "documents"} onClick={() => changeWorkspaceView("documents")}>{language === "zh" ? "文件列表" : "Documents"}</button>
-            <button type="button" aria-pressed={workspaceView === "source"} onClick={() => changeWorkspaceView("source")}>{language === "zh" ? "原图预览" : "Source preview"}</button>
-          </header>}
+          {workspaceView === "source" && <div className="workspace-documents-back"><button type="button" onClick={returnToDraft}><CaretLeft size={16} />{language === "zh" ? "返回任务" : "Back to task"}</button></div>}
           {taskMode === "rebuild" && referencePreview && workspaceView === "source" ? <div className="product-source-review">
             <div className="product-source-review-heading"><h2>{language === "zh" ? "原图预览" : "Source preview"}</h2><span>{referenceFile?.name}</span></div>
             <img src={referencePreview} alt={language === "zh" ? "准备重建的本地原图" : "Local source prepared for reconstruction"} width="1280" height="720" className="product-workspace-source" />
@@ -2183,7 +2282,11 @@ function WorkspacePage({
             <button type="button" className="product-button product-button-secondary" onClick={onOpenEditor}>{language === "zh" ? "打开 SVG 编辑器" : "Open SVG editor"}<ArrowRight size={17} /></button>
           </div> : <WorkspaceDocuments language={language} onOpenEditor={onOpenEditor} />}
         </section>}
-        <aside className="control-panel" hidden={workspaceView !== "task" || processPreview}>
+        <aside className={`control-panel ${dragging ? "is-dragging" : ""}`} hidden={workspaceView !== "task" || processPreview}
+          onDragOver={event => { if (event.dataTransfer.types.includes("Files")) { event.preventDefault(); event.dataTransfer.dropEffect = "copy"; setDragging(true); } }}
+          onDragLeave={event => { if (!event.currentTarget.contains(event.relatedTarget as Node | null)) setDragging(false); }}
+          onDrop={event => { event.preventDefault(); setDragging(false); const file = event.dataTransfer.files[0]; if (file) void acceptReferenceFile(file); }}
+          onPaste={event => { if ((event.target as HTMLElement).closest("textarea, input, [contenteditable=true]")) return; const file = [...event.clipboardData.items].find(item => item.kind === "file" && item.type.startsWith("image/"))?.getAsFile(); if (file) { event.preventDefault(); void acceptReferenceFile(file); } }}>
           <Tabs.Root
             className="workspace-task-root"
             value={taskMode}
@@ -2196,14 +2299,11 @@ function WorkspacePage({
             }}
           >
             <Tabs.List className="workspace-task-switch" aria-label={ui.workspace.title}>
-              <Tabs.Tab value="create">
-                <Plus size={16} />
-                {language === "zh" ? "创建图片" : "Create image"}
-              </Tabs.Tab>
               <Tabs.Tab value="rebuild">
                 <BezierCurve size={16} />
                 {language === "zh" ? "图片转 SVG" : "Image to SVG"}
               </Tabs.Tab>
+              <Tabs.Tab value="create"><Plus size={16} />{language === "zh" ? "文生图" : "Text to image"}</Tabs.Tab>
               <Tabs.Indicator className="workspace-task-indicator" />
             </Tabs.List>
           </Tabs.Root>
@@ -2222,7 +2322,8 @@ function WorkspacePage({
                         referenceAsset?.original_filename ??
                         ui.workspace.referenceLabel}
                     </strong>
-                    <small>{referenceStatusLabel}</small>
+                    <small>{imageSaveState === "saved" ? referenceStatusLabel : draftSaveLabel}</small>
+                    {localImage && <small>{localImage.width} × {localImage.height} · {(localImage.size / 1024 / 1024).toFixed(1)} MB</small>}
                     {uploadBusy && (
                       <span
                         className="reference-progress"
@@ -2263,10 +2364,11 @@ function WorkspacePage({
                   <UploadSimple size={20} />
                   <span>
                     <strong>{taskMode === "rebuild" ? language === "zh" ? "选择需要重建的图片" : "Choose an image to reconstruct" : ui.workspace.uploadTitle}</strong>
-                    <small>{ui.workspace.uploadBody}</small>
+                    <small>{language === "zh" ? "点击、拖入或粘贴图片 · PNG / JPEG / WebP · 最大 10 MB" : "Click, drop or paste · PNG / JPEG / WebP · Up to 10 MB"}</small>
                   </span>
                 </button>
               )}
+              {referenceError && <p className="field-message" role="alert">{referenceError}</p>}
               {referencePreview && !uploadBusy && (
                 <div className="workspace-reference-actions">
                 <button type="button" className="reference-replace" onClick={() => document.getElementById("reference-file")?.click()}>
@@ -2291,9 +2393,10 @@ function WorkspacePage({
               />
 
           <div className="workspace-composer-footer">
-          <button type="button" className="workspace-attach-reference" onClick={() => document.getElementById("reference-file")?.click()} disabled={uploadBusy}><UploadSimple size={17} /><span>{language === "zh" ? taskMode === "rebuild" ? "选择原图" : "添加参考图" : taskMode === "rebuild" ? "Choose source" : "Add reference"}</span></button>
+          {taskMode === "create" && <button type="button" className="workspace-attach-reference" onClick={() => document.getElementById("reference-file")?.click()} disabled={uploadBusy}><UploadSimple size={17} /><span>{language === "zh" ? "添加参考图" : "Add reference"}</span></button>}
+          {taskMode === "rebuild" && <span className="workspace-output-info">{language === "zh" ? "输出：可编辑 SVG" : "Output: editable SVG"}</span>}
 
-          <Collapsible.Root
+          {taskMode === "create" && <Collapsible.Root
             className="settings-disclosure"
             open={settingsOpen}
             onOpenChange={setSettingsOpen}
@@ -2306,8 +2409,7 @@ function WorkspacePage({
               <span>
                 <strong>{language === "zh" ? taskMode === "create" ? "画幅与导出" : "保存设置" : "Options"}</strong>
                 <small>
-                  {taskMode === "create" ? `${ratio} · ${format} · ` : "SVG · "}
-                  {isPublic ? ui.workspace.public : ui.workspace.private}
+                  {`${ratio} · ${format}`}
                 </small>
               </span>
               <CaretRight size={17} aria-hidden="true" />
@@ -2359,7 +2461,7 @@ function WorkspacePage({
                   </div>
                 </div>}
 
-                <div className="privacy-control">
+                {apiConfigured && <div className="privacy-control">
                   <div>
                     <LockKey size={17} />
                     <span>
@@ -2383,9 +2485,9 @@ function WorkspacePage({
                   >
                     <Switch.Thumb />
                   </Switch.Root>
-                </div>
+                </div>}
             </Collapsible.Panel>
-          </Collapsible.Root>
+          </Collapsible.Root>}
 
           <button
             className="generate-button"
@@ -2397,7 +2499,7 @@ function WorkspacePage({
           </button>
           </div>
         </aside>
-        {workspaceView === "task" && !processPreview && <div className="workspace-process-entry"><p><i />{language === "zh" ? taskMode === "rebuild" ? "重建服务尚未开放，草稿会自动保存。" : "生成服务尚未开放，草稿会自动保存。" : taskMode === "rebuild" ? "Reconstruction is not open yet. Drafts save automatically." : "Generation is not open yet. Drafts save automatically."}</p><button type="button" onClick={() => setProcessPreview(true)}><PlayCircle size={17} />{language === "zh" ? "了解处理过程" : "See the process"}</button></div>}
+        {workspaceView === "task" && !processPreview && <div className="workspace-process-entry"><p>{language === "zh" ? taskMode === "rebuild" ? "重建服务尚未开放，可先体验 SVG 编辑。" : "生成服务尚未开放，可先体验 SVG 编辑。" : taskMode === "rebuild" ? "Reconstruction is not open yet. Try SVG editing first." : "Generation is not open yet. Try SVG editing first."}</p><button type="button" onClick={() => setProcessPreview(true)}><PlayCircle size={17} />{language === "zh" ? "流程示意" : "Process overview"}</button></div>}
 
       </div>
       </div>
@@ -2415,6 +2517,13 @@ function WorkspacePage({
                 <X size={20} />
               </Dialog.Close>
             </div>
+            <nav className="workspace-drawer-nav" aria-label={language === "zh" ? "工作台导航" : "Workspace navigation"}>
+              <button type="button" onClick={() => { startNewDraft(); setHistoryOpen(false); }}>{ui.workspace.newDraft}</button>
+              <button type="button" onClick={() => { changeWorkspaceView("documents"); setHistoryOpen(false); }}>{language === "zh" ? "我的 SVG" : "My SVGs"}</button>
+              <button type="button" onClick={() => { setHistoryOpen(false); onNavigate("/docs"); }}>{language === "zh" ? "使用指南" : "Guide"}</button>
+              <button type="button" onClick={() => { setHistoryOpen(false); onNavigate("/pricing"); }}>{language === "zh" ? "定价" : "Pricing"}</button>
+              <button type="button" onClick={onLanguageChange}>{language === "zh" ? "English" : "中文"}</button>
+            </nav>
             {drafts.length > 0 ? (
               <div className="history-draft-list">
                 {drafts.map((draft) => (
@@ -3272,7 +3381,7 @@ export default function App() {
   const navigate = (path: RoutePath) => {
     const previousRoute = currentRoute.current;
     if (previousRoute === "/login" && path !== "/login") pendingAction.current = null;
-    if (path === "/workspace" && previousRoute === "/editor") {
+    if (path === "/editor" && previousRoute !== "/workspace") {
       try { window.sessionStorage.setItem("figfox-workspace-view", "documents"); } catch { /* The workspace can still open without persisted view state. */ }
     }
     transitionPage(routeTransition(previousRoute, path), () => {
@@ -3446,14 +3555,14 @@ export default function App() {
 
   return (
     <div className={route === "/" ? "figfox-site" : "figfox-site product-site"} ref={site} lang={language === "zh" ? "zh-CN" : "en"}>
-      <FigFoxCursor site={site} route={route} />
+      {route === "/" && <FigFoxCursor site={site} route={route} />}
       <a
         className="skip-link"
         href={route === "/editor" ? "#editor-canvas" : "#main-content"}
       >
         {ui.nav.skip}
       </a>
-      {route !== "/editor" && route !== "/" && route !== "/login" && (
+      {route !== "/editor" && route !== "/workspace" && route !== "/" && route !== "/login" && (
         <ProductHeader
           language={language}
           route={route}
@@ -3487,6 +3596,8 @@ export default function App() {
             credits={credits}
             requestAuth={requestAuth}
             onOpenEditor={() => navigate("/editor")}
+            onNavigate={navigate}
+            onLanguageChange={() => setLanguage(value => value === "zh" ? "en" : "zh")}
             onViewTransition={(update, animate) => transitionPage(animate ? "workspace" : null, update)}
             onAccount={() => {
               if (identity === "user") {

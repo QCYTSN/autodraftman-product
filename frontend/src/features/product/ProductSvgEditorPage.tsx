@@ -1,9 +1,9 @@
-import { ArrowLeft, ArrowRight, BezierCurve, Check, DownloadSimple, FileSvg, Globe, Plus, UploadSimple, WarningCircle, X } from "@phosphor-icons/react";
+import { ArrowLeft, ArrowRight, BezierCurve, Check, DownloadSimple, FileSvg, Globe, PencilSimple, Plus, UploadSimple, WarningCircle, X } from "@phosphor-icons/react";
 import { Dialog } from "@base-ui/react/dialog";
 import { Popover } from "@base-ui/react/popover";
 import { downloadSvg, hasFilePicker, isFileCancel, pickSaveFile, pickSvgFile, writeSvgFile, type EditorFileHandle } from "./editorFiles";
 import type { SvgEditRequest } from "../../components/editor/SvgEditHost";
-import { useEffect, useRef, useState, type ChangeEvent, type DragEvent } from "react";
+import { useEffect, useLayoutEffect, useRef, useState, type ChangeEvent, type DragEvent } from "react";
 import type { UiCopy } from "../../App";
 import { FigFoxEditorChrome } from "../../components/editor/FigFoxEditorChrome";
 import { SvgEditHost, type SvgEditHandle, type SvgEditState } from "../../components/editor/SvgEditHost";
@@ -28,7 +28,7 @@ function EditorEmptyState({ zh, busy, onOpen, onBlank, onDrop }: { zh: boolean; 
   </section>;
 }
 
-export function ProductSvgEditorPage({ language, ui, onLanguageChange, hrefFor, onNavigate, onLoadingPhaseChange }: ProductNavigation & { ui: UiCopy; onLanguageChange: () => void; onLoadingPhaseChange: (phase: EditorLoadPhase) => void }) {
+export function ProductSvgEditorPage({ language, ui, onLanguageChange: changeLanguage, hrefFor, onNavigate: navigate, onLoadingPhaseChange }: ProductNavigation & { ui: UiCopy; onLanguageChange: () => void; onLoadingPhaseChange: (phase: EditorLoadPhase) => void }) {
   const zh = language === "zh";
   const fileInput = useRef<HTMLInputElement>(null);
   const editorRef = useRef<SvgEditHandle>(null);
@@ -39,7 +39,8 @@ export function ProductSvgEditorPage({ language, ui, onLanguageChange, hrefFor, 
   const [ready, setReady] = useState(false);
   const [loadingFailed, setLoadingFailed] = useState(false);
   const [saveState, setSaveState] = useState<"saved" | "saving" | "failed">("saved");
-  const [restored, setRestored] = useState(false);
+  const [renaming, setRenaming] = useState(false);
+  const [documentName, setDocumentName] = useState("");
   const [newDocumentOpen, setNewDocumentOpen] = useState(false);
   const [state, setState] = useState<SvgEditState>(emptyEditorState);
   const latestSnapshot = useRef<LocalEditorDocument | null>(null);
@@ -55,6 +56,31 @@ export function ProductSvgEditorPage({ language, ui, onLanguageChange, hrefFor, 
   const loadingPhase = busy ? "document" : !document || ready || loadingFailed ? "ready" : "canvas";
   useEffect(() => { onLoadingPhaseChange(loadingPhase); }, [loadingPhase, onLoadingPhaseChange]);
 
+  const onLanguageChange = () => {
+    // Changing language reloads the iframe; flush its pending edit first.
+    if (ready && editorRef.current) {
+      setMarkup(editorRef.current.getMarkup());
+      setReady(false);
+    }
+    changeLanguage();
+  };
+
+  // Capture while the SVG host is still mounted. Its change notification may
+  // be queued when a user edits and immediately follows the back link.
+  const onNavigate: ProductNavigation["onNavigate"] = async route => {
+    if (!latestSnapshot.current) { navigate(route); return; }
+    ++saveSequence.current;
+    setSaveState("saving");
+    try {
+      const snapshot = { ...latestSnapshot.current, markup: ready ? editorRef.current?.getMarkup() || latestSnapshot.current.markup : latestSnapshot.current.markup };
+      latestSnapshot.current = snapshot;
+      setMarkup(snapshot.markup);
+      await saveEditorDocument(snapshot);
+      navigate(route);
+    }
+    catch { setSaveState("failed"); setFileError(zh ? "文档未能保存到此浏览器。请先导出 SVG，再离开编辑器。" : "This document could not be saved in the browser. Export the SVG before leaving the editor."); }
+  };
+
   useEffect(() => {
     let cancelled = false;
     readEditorDocument().then(async saved => {
@@ -63,7 +89,7 @@ export function ProductSvgEditorPage({ language, ui, onLanguageChange, hrefFor, 
       if (cancelled) return;
       documentId.current = saved.id;
       fileHandle.current = saved.fileHandle;
-      setDocument(imported); setMarkup(imported.markup); setRestored(true);
+      setDocument(imported); setMarkup(imported.markup);
     }).catch(() => { if (!cancelled) setSaveState("failed"); }).finally(() => { if (!cancelled) setBusy(false); });
     return () => { cancelled = true; };
   }, []);
@@ -74,13 +100,15 @@ export function ProductSvgEditorPage({ language, ui, onLanguageChange, hrefFor, 
     if (!snapshot) return;
     if (exportedMarkup.current === markup) { exportedMarkup.current = null; return; }
     const sequence = ++saveSequence.current;
+    setFileNotice("");
     setSaveState("saving");
     const timer = window.setTimeout(() => {
+      if (sequence !== saveSequence.current) return;
       saveEditorDocument(snapshot).then(() => { if (sequence === saveSequence.current) setSaveState("saved"); }).catch(() => { if (sequence === saveSequence.current) setSaveState("failed"); });
     }, 500);
     return () => window.clearTimeout(timer);
   }, [document, markup]);
-  useEffect(() => {
+  useLayoutEffect(() => {
     const flush = () => {
       if (!latestSnapshot.current) return;
       try {
@@ -103,7 +131,7 @@ export function ProductSvgEditorPage({ language, ui, onLanguageChange, hrefFor, 
       documentId.current = crypto.randomUUID();
       fileHandle.current = handle; setFileNotice(""); setFileError("");
       setSaveState("saving");
-      setState(emptyEditorState); setLoadingFailed(false); setDocument(imported); setMarkup(imported.markup); setReady(false); setRestored(false);
+      setState(emptyEditorState); setLoadingFailed(false); setDocument(imported); setMarkup(imported.markup); setReady(false);
     } catch (error) {
       if (sequence === importSequence.current) setImportError(error instanceof SvgImportError ? error.code : "invalid");
     } finally { if (sequence === importSequence.current) setBusy(false); }
@@ -119,6 +147,7 @@ export function ProductSvgEditorPage({ language, ui, onLanguageChange, hrefFor, 
     if (!document || !markup || !ready || busy || fileOperation.current) return;
     fileOperation.current = true; setFileError(""); setFileNotice("");
     const usePicker = mode !== "download" && hasFilePicker();
+    const writingOriginal = mode === "save" && !!fileHandle.current;
     try {
       // Keep the picker and permission request in the click's activation scope.
       let handle = usePicker ? fileHandle.current : undefined;
@@ -130,7 +159,7 @@ export function ProductSvgEditorPage({ language, ui, onLanguageChange, hrefFor, 
       if (handle) {
         await writeSvgFile(handle, output); fileHandle.current = handle;
         setDocument(previous => previous ? { ...previous, fileName: handle.name } : previous);
-        setFileNotice(zh ? "已保存到文件" : "Saved to file");
+        setFileNotice(writingOriginal ? zh ? "已保存到原文件" : "Saved to original file" : zh ? "已保存到文件" : "Saved to file");
       } else {
         downloadSvg(output, mode === "download" ? `${document.fileName.replace(/\.svg$/i, "")}-figfox.svg` : document.fileName);
         setFileNotice(zh ? "已下载 SVG" : "SVG downloaded");
@@ -163,8 +192,14 @@ export function ProductSvgEditorPage({ language, ui, onLanguageChange, hrefFor, 
     <input className="sr-only" ref={fileInput} type="file" accept=".svg,image/svg+xml" aria-label={zh ? "选择 SVG 文件" : "Choose SVG file"} onChange={chooseFile} />
     <header className="product-editor-header">
       <div className="product-editor-leading"><ProductLink route="/" hrefFor={hrefFor} onNavigate={onNavigate} className="product-brand" aria-label={zh ? "FigFox 首页" : "FigFox home"}><img src={`${import.meta.env.BASE_URL}assets/demo/figfox-logo.svg`} width="36" height="36" alt="" /><strong>FigFox</strong></ProductLink><ProductLink route="/workspace" hrefFor={hrefFor} onNavigate={onNavigate} className="product-editor-back"><ArrowLeft size={17} /><span>{zh ? "工作台" : "Workspace"}</span></ProductLink></div>
-      <div className="product-editor-title"><strong>{document?.fileName || (zh ? "SVG 编辑器" : "SVG editor")}</strong><span role="status">{document ? saveState === "failed" ? zh ? "本地保存失败，请导出保留" : "Local save failed. Export to keep your work." : saveState === "saving" ? zh ? "正在保存…" : "Saving…" : fileNotice || (restored ? zh ? "已恢复本地文档" : "Local document restored" : zh ? "已在当前浏览器保存" : "Saved in this browser") : zh ? "本地文档" : "Local document"}</span></div>
-      <div className="product-editor-actions"><button type="button" className="product-language" onClick={onLanguageChange} aria-label={zh ? "Switch to English" : "切换到中文"}><Globe size={17} /><span>{zh ? "EN" : "中文"}</span></button><button type="button" className="product-editor-new" aria-label={zh ? "新建 SVG" : "New SVG"} disabled={busy} onClick={() => document ? setNewDocumentOpen(true) : createBlank()}><Plus size={18} /></button><button type="button" className="product-button product-button-secondary" disabled={busy} onClick={() => void chooseOpenFile()} aria-label={zh ? "打开 SVG" : "Open SVG"}><UploadSimple size={17} /><span>{zh ? "打开 SVG" : "Open SVG"}</span></button><Popover.Root><Popover.Trigger className="product-button product-button-secondary ff-file-menu-trigger" disabled={busy || !document || !ready} aria-label={zh ? "文件保存" : "File saving"}>{zh ? "保存" : "Save"}</Popover.Trigger><Popover.Portal><Popover.Positioner sideOffset={8} collisionPadding={12} className="ff-editor-popover-positioner"><Popover.Popup className="ff-editor-popover ff-file-menu"><Popover.Title className="ff-editor-popover-title">{zh ? "文件" : "File"}</Popover.Title><Popover.Close onClick={() => void exportFile("save")}>{zh ? "保存到文件" : "Save to file"}<kbd>Ctrl S</kbd></Popover.Close><Popover.Close onClick={() => void exportFile("saveAs")}>{zh ? "另存为…" : "Save as…"}<kbd>Ctrl ⇧ S</kbd></Popover.Close>{!hasFilePicker() && <p className="ff-inspector-note">{zh ? "此浏览器将下载文件副本。" : "This browser downloads a file copy."}</p>}</Popover.Popup></Popover.Positioner></Popover.Portal></Popover.Root><button type="button" className="product-button product-button-primary" disabled={busy || !document || !ready} onClick={() => void exportFile()} aria-label={zh ? "导出 SVG" : "Export SVG"}><DownloadSimple size={17} /><span>{zh ? "导出 SVG" : "Export SVG"}</span></button></div>
+      <div className="product-editor-title">
+        {document ? renaming ? <form className="product-editor-rename" onSubmit={event => { event.preventDefault(); const name = documentName.trim().replace(/[\\/:*?"<>|]/g, "-"); if (!name) return; setDocument(previous => previous ? { ...previous, fileName: /\.svg$/i.test(name) ? name : `${name}.svg` } : previous); setFileNotice(""); setRenaming(false); }}>
+          <input autoFocus aria-label={zh ? "文档名称" : "Document name"} maxLength={100} value={documentName} onChange={event => setDocumentName(event.target.value)} onKeyDown={event => { if (event.key === "Escape") setRenaming(false); if (event.key === "Enter" && event.nativeEvent.isComposing) event.preventDefault(); }}/>
+          <button type="submit" aria-label={zh ? "保存文档名称" : "Save document name"}><Check size={16}/></button><button type="button" onClick={() => setRenaming(false)} aria-label={zh ? "取消重命名" : "Cancel rename"}><X size={16}/></button>
+        </form> : <button type="button" className="product-editor-name" title={document.fileName} aria-label={(zh ? "重命名文档：" : "Rename document: ") + document.fileName} onClick={() => { setDocumentName(document.fileName.replace(/\.svg$/i, "")); setRenaming(true); }}><strong>{document.fileName}</strong><PencilSimple size={14}/></button> : <strong>{zh ? "SVG 编辑器" : "SVG editor"}</strong>}
+        <span role="status">{document ? saveState === "failed" ? zh ? "本地保存失败，请导出保留" : "Local save failed. Export to keep your work." : saveState === "saving" ? zh ? "正在保存…" : "Saving…" : fileNotice || (zh ? "已保存到此浏览器" : "Saved in this browser") : zh ? "本地文档" : "Local document"}</span>
+      </div>
+      <div className="product-editor-actions"><button type="button" className="product-language" onClick={onLanguageChange} aria-label={zh ? "Switch to English" : "切换到中文"}><Globe size={17} /><span>{zh ? "EN" : "中文"}</span></button><button type="button" className="product-editor-new" aria-label={zh ? "新建 SVG" : "New SVG"} disabled={busy} onClick={() => document ? setNewDocumentOpen(true) : createBlank()}><Plus size={18} /></button><button type="button" className="product-button product-button-secondary" disabled={busy} onClick={() => void chooseOpenFile()} aria-label={zh ? "打开 SVG" : "Open SVG"}><UploadSimple size={17} /><span>{zh ? "打开 SVG" : "Open SVG"}</span></button><Popover.Root><Popover.Trigger className="product-button product-button-secondary ff-file-menu-trigger" disabled={busy || !document || !ready} aria-label={zh ? "文件保存" : "File saving"}>{zh ? "保存" : "Save"}</Popover.Trigger><Popover.Portal><Popover.Positioner sideOffset={8} collisionPadding={12} className="ff-editor-popover-positioner"><Popover.Popup className="ff-editor-popover ff-file-menu"><Popover.Title className="ff-editor-popover-title">{zh ? "文件" : "File"}</Popover.Title><Popover.Close onClick={() => void exportFile("save")}>{hasFilePicker() ? zh ? "保存到文件" : "Save to file" : zh ? "下载 SVG" : "Download SVG"}<kbd>Ctrl S</kbd></Popover.Close><Popover.Close onClick={() => void exportFile("saveAs")}>{hasFilePicker() ? zh ? "另存为…" : "Save as…" : zh ? "下载副本" : "Download a copy"}<kbd>Ctrl ⇧ S</kbd></Popover.Close>{!hasFilePicker() && <p className="ff-inspector-note">{zh ? "此浏览器将下载文件副本。" : "This browser downloads a file copy."}</p>}</Popover.Popup></Popover.Positioner></Popover.Portal></Popover.Root><button type="button" className="product-button product-button-primary" disabled={busy || !document || !ready} onClick={() => void exportFile()} aria-label={zh ? "导出 SVG" : "Export SVG"}><DownloadSimple size={17} /><span>{zh ? "导出 SVG" : "Export SVG"}</span></button></div>
     </header>
     <main id="editor-canvas" className="product-editor-main" tabIndex={-1}>
       {fileError && <div className="product-editor-error" role="alert"><WarningCircle size={18} /><span>{fileError}</span><button type="button" onClick={() => setFileError("")}>{zh ? "关闭" : "Dismiss"}</button></div>}

@@ -19,7 +19,7 @@ export function ProductPricingPage(props: ProductNavigation) {
     [zh ? "SVG 编辑与导出" : "SVG editing and export", true, true, true],
     [zh ? "高分辨率结果" : "High-resolution output", false, true, true],
     [zh ? "优先处理" : "Priority processing", false, false, true],
-    [zh ? "草稿保留" : "Draft retention", zh ? "30 天" : "30 days", zh ? "长期保留" : "Extended", zh ? "长期保留" : "Extended"],
+    [zh ? "云端草稿保留" : "Cloud draft retention", zh ? "30 天" : "30 days", zh ? "长期保留" : "Extended", zh ? "长期保留" : "Extended"],
   ];
   const faqs = zh ? [
     ["现在可以订阅吗？", "还不能。这是拟定方案，价格、额度和权益会在正式开放前确认。当前可以直接使用浏览器里的 SVG 编辑器。"],
@@ -36,16 +36,19 @@ export function ProductPricingPage(props: ProductNavigation) {
   return <main className="product-pricing product-page-enter">
     <section className="product-page-heading product-container">
       <span className="product-eyebrow">{zh ? "定价" : "Pricing"}</span>
-      <h1>{zh ? "选择适合你的方案" : "Choose a plan for your work"}</h1>
-      <p>{zh ? "从偶尔做一张图，到持续的研究项目。" : "From an occasional figure to an ongoing research project."}</p>
+      <h1>{zh ? "免费开始 SVG 编辑" : "Start editing SVGs for free"}</h1>
+      <p>{zh ? "在浏览器中打开、修改并导出科研图。" : "Open, edit and export scientific figures in your browser."}</p>
+
+    </section>
+
+    <section className="product-free-editor product-container"><div><span>{zh ? "当前可用" : "Available now"}</span><h2>{zh ? "本地 SVG 编辑，免费使用" : "Local SVG editing is free"}</h2><p>{zh ? "打开、修改、保存和导出自己的 SVG，无需登录或订阅。" : "Open, edit, save and export your own SVGs without an account or subscription."}</p></div><ProductLink route="/editor" hrefFor={hrefFor} onNavigate={onNavigate} className="product-button product-button-primary">{zh ? "开始编辑" : "Start editing"}<ArrowRight size={17} /></ProductLink></section>
+    <section className="product-plan-preview-heading product-container"><h2>{zh ? "未来云端方案" : "Future cloud plans"}</h2>
       <div className="product-billing" role="group" aria-label={zh ? "付款周期" : "Billing cycle"}>
         <button type="button" aria-pressed={billing === "monthly"} onClick={() => setBilling("monthly")}>{zh ? "月付" : "Monthly"}</button>
         <button type="button" aria-pressed={billing === "yearly"} onClick={() => setBilling("yearly")}>{zh ? "年付" : "Yearly"}<span>{zh ? "省约 20%" : "~20% less"}</span></button>
       </div>
       <p className="product-pricing-note"><i aria-hidden="true" />{zh ? "方案预览 · 订阅暂未开放" : "Proposed plans · subscriptions are not open yet"}</p>
     </section>
-
-    <section className="product-free-editor product-container"><div><span>{zh ? "当前可用" : "Available now"}</span><h2>{zh ? "本地 SVG 编辑，免费使用" : "Local SVG editing is free"}</h2><p>{zh ? "打开、修改、保存和导出自己的 SVG，无需登录或订阅。" : "Open, edit, save and export your own SVGs without an account or subscription."}</p></div><ProductLink route="/editor" hrefFor={hrefFor} onNavigate={onNavigate} className="product-button product-button-secondary">{zh ? "开始编辑" : "Start editing"}<ArrowRight size={17} /></ProductLink></section>
     <section className="product-plans product-container" aria-label={zh ? "拟定套餐" : "Proposed plans"}>
       {plans.map((plan, index) => <article className={`product-plan ${index === 1 ? "product-plan-featured" : ""}`} key={plan.name}>
         <div className="product-plan-top"><img src={`${import.meta.env.BASE_URL}assets/pricing-${plan.image}-v2.png`} width="80" height="80" alt="" />{index === 1 && <span>{zh ? "日常研究" : "Everyday research"}</span>}</div>

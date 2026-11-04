@@ -22,11 +22,13 @@ try {
   await watch(page);
   await page.clock.install();
   await open(page, "/workspace");
+  assert.equal(await page.getByRole("tab", { name: "图片转 SVG", exact: true }).getAttribute("aria-selected"), "true");
+  await page.getByRole("tab", { name: "文生图", exact: true }).click();
   const prompt = page.locator("#figure-prompt");
   const first = await prompt.getAttribute("placeholder");
   assert.equal(await prompt.inputValue(), "");
   await page.clock.fastForward(7200);
-  assert.notEqual(await prompt.getAttribute("placeholder"), first);
+  assert.equal(await prompt.getAttribute("placeholder"), first);
   await prompt.focus();
   const focused = await prompt.getAttribute("placeholder");
   await page.clock.fastForward(15000);
@@ -35,14 +37,14 @@ try {
   await page.locator(".workspace-start-heading h2").click();
   await page.clock.fastForward(15000);
   assert.equal(await prompt.inputValue(), "A research workflow with a feedback connection.");
-  record("Suggestions rotate while empty, pause on focus and never overwrite entered text");
+  record("Suggestions stay stable while empty or focused and never overwrite entered text");
 
   await prompt.fill("");
   const beforeManual = await prompt.getAttribute("placeholder");
-  await page.getByRole("button", { name: "换个提示", exact: true }).click();
+  await page.getByRole("button", { name: "换个示例", exact: true }).click();
   assert.notEqual(await prompt.getAttribute("placeholder"), beforeManual);
   const selected = await prompt.getAttribute("placeholder");
-  await page.getByRole("button", { name: "使用这段描述", exact: true }).click();
+  await page.getByRole("button", { name: "填入示例", exact: true }).click();
   assert.equal(await prompt.inputValue(), selected);
   assert.equal(await prompt.evaluate(element => document.activeElement === element), true);
   record("Manual suggestions can be selected and edited as ordinary draft text");
@@ -54,7 +56,7 @@ try {
   const sourceUrl = await page.locator(".product-workspace-source").getAttribute("src");
   assert.ok(sourceUrl.startsWith("blob:"));
   assert.ok(await page.locator(".reference-block").evaluate(element => element.compareDocumentPosition(document.querySelector(".product-prompt-field")) & Node.DOCUMENT_POSITION_FOLLOWING));
-  await page.locator(".product-account").click();
+  await page.locator(".workspace-account-summary").click();
   await page.waitForURL(/\/login$/);
   assert.equal(await page.locator(".product-header").count(), 0);
   assert.equal(await page.getByRole("dialog").count(), 0);
@@ -65,7 +67,7 @@ try {
   await page.waitForURL(/\/workspace$/);
   assert.equal(await prompt.inputValue(), selected);
   assert.equal(await page.locator(".product-workspace-source").getAttribute("src"), sourceUrl);
-  await page.locator(".product-account").click();
+  await page.locator(".workspace-account-summary").click();
   await page.getByRole("button", { name: "继续使用工作台", exact: true }).click();
   await page.waitForURL(/\/workspace$/);
   assert.equal(await prompt.inputValue(), selected);
@@ -73,7 +75,7 @@ try {
   assert.equal(await page.locator(".workspace-balance").count(), 0);
   record("Independent sign-in preserves the draft and local image on Back and Continue, without creating an identity");
 
-  await page.getByRole("button", { name: "了解处理过程", exact: true }).click();
+  await page.getByRole("button", { name: "流程示意", exact: true }).click();
   const process = page.locator(".figure-process-preview");
   const current = process.locator('[aria-current="step"]');
   assert.ok((await process.innerText()).includes("尚未提交你的草稿"));
@@ -108,7 +110,8 @@ try {
   const initialReduced = await reduced.locator("#figure-prompt").getAttribute("placeholder");
   await reduced.clock.fastForward(15000);
   assert.equal(await reduced.locator("#figure-prompt").getAttribute("placeholder"), initialReduced);
-  await reduced.getByRole("button", { name: "了解处理过程", exact: true }).click();
+  await reduced.getByRole("tab", { name: "文生图", exact: true }).click();
+  await reduced.getByRole("button", { name: "流程示意", exact: true }).click();
   await reduced.clock.fastForward(15000);
   assert.equal(await reduced.getByRole("button", { name: "播放", exact: true }).isVisible(), true);
   assert.equal(await reduced.locator(".figure-process-flow").count(), 0);
@@ -123,27 +126,26 @@ try {
     await watch(preview);
     await open(preview, "/workspace");
     if (language === "en") await preview.getByRole("button", { name: "Switch to English", exact: true }).click();
-    for (const width of [1440, 768, 390, 320]) {
-      await preview.setViewportSize({ width, height: width === 1440 ? 900 : 844 });
+    for (const width of [1440, 1366, 390, 320]) {
+      await preview.setViewportSize({ width, height: width === 1440 ? 900 : width === 1366 ? 768 : 844 });
       await noOverflow(preview);
       await preview.waitForTimeout(650);
       await preview.screenshot({ path: `${output}/workspace-${language}-${width}.png`, fullPage: true });
       await preview.getByRole("tab", { name: language === "zh" ? "图片转 SVG" : "Image to SVG", exact: true }).click();
       await noOverflow(preview);
-      const hintFits = await preview.locator(".product-prompt-suggestion").evaluate(element => element.getBoundingClientRect().bottom <= document.querySelector("#figure-prompt").getBoundingClientRect().bottom);
-      assert.ok(hintFits, `The reconstruction example must fit the input at ${width}px in ${language}`);
       const uploadFits = await preview.locator(".upload-zone").evaluate(element => {
         const button = element.getBoundingClientRect(), card = element.closest(".control-panel").getBoundingClientRect();
         return button.left >= card.left && button.right <= card.right;
       });
       assert.ok(uploadFits, `The source control must fit the composer at ${width}px in ${language}`);
       await preview.screenshot({ path: `${output}/rebuild-${language}-${width}.png`, fullPage: true });
-      await preview.getByRole("tab", { name: language === "zh" ? "创建图片" : "Create image", exact: true }).click();
+      await preview.getByRole("tab", { name: language === "zh" ? "文生图" : "Text to image", exact: true }).click();
       await preview.locator(".settings-summary").click();
       const options = await preview.locator(".settings-disclosure-body").boundingBox();
       assert.ok(options.x >= 0 && options.x + options.width <= width, JSON.stringify(options));
       await preview.keyboard.press("Escape");
-      await preview.locator(".product-account").click();
+      if (width < 900) await preview.getByRole("button", { name: language === "zh" ? "导航" : "Navigation", exact: true }).click();
+      await preview.locator(".workspace-account-summary:visible").click();
       await preview.waitForURL(/\/login$/);
       await noOverflow(preview);
       await preview.waitForTimeout(650);
@@ -151,8 +153,8 @@ try {
       await preview.locator(".product-login-back").click();
       await preview.waitForURL(/\/workspace$/);
       if (width === 390) {
-        await preview.getByRole("button", { name: language === "zh" ? "历史记录" : "History", exact: true }).click();
-        await preview.getByRole("dialog").getByRole("button", { name: language === "zh" ? "本地工作台" : "Local workspace", exact: true }).click();
+        await preview.getByRole("button", { name: language === "zh" ? "导航" : "Navigation", exact: true }).click();
+        await preview.getByRole("dialog").getByRole("button", { name: language === "zh" ? "本地工作台" : "Local mode", exact: true }).click();
         await preview.waitForURL(/\/login$/);
         await preview.getByRole("dialog").waitFor({ state: "hidden" });
         await preview.locator(".product-login-back").click();

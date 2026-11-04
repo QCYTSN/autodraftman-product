@@ -133,110 +133,64 @@ try {
   await custom(page,'idle');
   record('Keyboard, reduced-motion and high-contrast fallback');
 
-  await page.locator('.demo-footer a[href$="/docs"]').click();
-  await page.waitForURL(/\/docs$/);
-  for (const route of ['/docs', '/pricing', '/workspace']) {
-    if (!page.url().endsWith(route)) await page.locator('.product-nav a[href$="'+route+'"]').click();
+  const productNative = async () => {
+    assert.equal(await page.locator('.figfox-cursor').count(), 0);
+    assert.equal(await page.locator('.figfox-site').evaluate(root => root.hasAttribute('data-figfox-cursor-active')), false);
+  };
+  const navigateProduct = async route => {
+    if (page.url().endsWith('/workspace')) await page.getByRole('button', {name: route === '/docs' ? '使用指南' : '定价', exact:true}).click();
+    else await page.locator('.product-nav a[href$="'+route+'"]').click();
     await page.waitForURL(url=>url.pathname.endsWith(route));
-    await page.locator('h1').first().hover();
-    await custom(page,'idle');
-    assert.equal(await page.locator('.figfox-cursor').count(),1);
-    assert.equal(await page.locator('.figfox-cursor-shape').evaluate(shape=>getComputedStyle(shape).width),'8px');
-    await page.locator('.product-nav a[href$="'+route+'"]').hover();
-    await custom(page,'link');
-    assert.equal(await page.locator('.product-nav a[href$="'+route+'"]').evaluate(link=>getComputedStyle(link).cursor),'none');
-    const geometry = await page.locator('.figfox-cursor').evaluate(cursor=>{const bounds=cursor.getBoundingClientRect();return [bounds.x,bounds.y,bounds.width,bounds.height];});
-    assert.deepEqual(geometry,[0,0,1440,900]);
-    await page.screenshot({path:output+route+'-desktop.png'});
-    record('Shared cursor on '+route+', outside page entrance transforms');
+  };
+  await page.locator('.demo-footer a[href$="/docs"]').click();
+  for (const route of ['/docs', '/pricing', '/workspace']) {
+    if (!page.url().endsWith(route)) await navigateProduct(route);
+    await page.locator('h1').first().hover(); await productNative();
+    const control = route === '/workspace' ? page.locator('.new-draft-button') : page.locator('.product-nav a').first();
+    await control.hover(); assert.equal(await control.evaluate(el=>getComputedStyle(el).cursor), 'pointer');
+    await page.screenshot({path:output+'/native-'+route.slice(1)+'.png'});
   }
-
-  await native(page,page.locator('#figure-prompt'),'text');
-  await page.locator('#figure-prompt').fill('Local cursor regression draft');
+  record('Guide, pricing and workspace consistently use system pointers');
+  await page.locator('#figure-prompt').hover();
+  assert.equal(await page.locator('#figure-prompt').evaluate(el=>getComputedStyle(el).cursor), 'text');
   await page.locator('.workspace-record-delete').first().click();
-  await page.getByRole('alertdialog').waitFor();
-  await native(page,page.getByRole('button',{name:'取消',exact:true}),'pointer');
+  await productNative();
   await page.getByRole('button',{name:'取消',exact:true}).click();
-  await page.locator('.product-nav a[href$="/pricing"]').hover();
-  await custom(page,'link');
-  record('Product text fields and portal dialogs use native cursors and resume browsing afterwards');
-
-  await page.locator('.product-account').click();
-  await page.waitForURL(/\/login$/);
-  await page.locator('.product-login-continue').hover();
-  await custom(page,'link');
-  assert.equal(await page.locator('.figfox-cursor').count(),1);
-  await page.screenshot({path:output+'/login-desktop.png'});
-  await page.locator('.product-login-back').click();
-  await page.waitForURL(/\/workspace$/);
-  assert.equal(await page.locator('#figure-prompt').inputValue(),'Local cursor regression draft');
-  record('Independent sign-in shares the brand cursor and returns to the retained draft');
-
-  await page.locator('.product-nav a[href$="/pricing"]').click();
-  await page.waitForTimeout(650);
-  await page.locator('.product-faq summary').first().hover();
-  await custom(page,'link');
-  assert.equal(await page.locator('.product-faq summary').first().evaluate(summary=>getComputedStyle(summary).cursor),'none');
-  await page.locator('.product-faq summary').first().click();
-  assert.equal(await page.locator('.product-faq details').first().evaluate(details=>details.open),true);
-  await page.locator('h1').hover();
-  await page.mouse.down();
-  assert.equal(await page.locator('.figfox-cursor').evaluate(cursor=>getComputedStyle(cursor).visibility),'hidden');
-  await page.mouse.up();
-  await custom(page,'idle');
-  record('FAQ has control feedback; selecting product copy restores the native cursor');
-
-  await page.locator('.product-nav a[href$="/workspace"]').click();
+  await page.locator('.workspace-account-summary').click();
+  await page.waitForURL(/\/login$/); await productNative();
+  await page.getByRole('button',{name:'继续使用工作台',exact:true}).click();
+  await page.waitForURL(/\/workspace$/); await productNative();
+  record('Draft text, confirmation dialogs and sign-in keep native interaction');
+  await navigateProduct('/pricing');
+  const summary = page.locator('.product-faq summary').first(); await summary.hover();
+  assert.equal(await summary.evaluate(el=>getComputedStyle(el).cursor),'pointer');
+  await summary.click(); assert.equal(await page.locator('.product-faq details').first().evaluate(el=>el.open), true);
+  await page.locator('h1').hover(); await page.mouse.down(); await productNative(); await page.mouse.up();
+  record('FAQ and selectable product copy retain system pointers');
+  await navigateProduct('/workspace');
   await page.getByRole('button',{name:'我的 SVG',exact:true}).click();
-  const create = page.getByRole('button',{name:/^新建画布/});
-  await create.hover();
-  await custom(page,'link');
-  await create.click();
+  await page.getByRole('button',{name:'新建画布',exact:true}).click();
   await page.waitForURL(/\/editor$/);
   await page.waitForFunction(()=>document.querySelector('.ff-editor-stage')?.dataset.ready==='true');
-  await page.locator('.product-editor-back').hover();
-  await custom(page,'link');
-  await native(page,page.getByRole('button',{name:'适合画布',exact:true}),'pointer');
-  await page.locator('.product-editor-back').hover();
-  await custom(page,'link');
-  await page.locator('.figfox-svgedit-frame').hover();
-  assert.equal(await page.locator('.figfox-site').evaluate(root=>root.hasAttribute('data-figfox-cursor-active')),false);
-  assert.equal(await page.locator('.figfox-cursor').evaluate(cursor=>getComputedStyle(cursor).visibility),'hidden');
-  await page.locator('.product-editor-back').hover();
-  await custom(page,'link');
+  await page.locator('.product-editor-back').hover(); await productNative();
+  const fit = page.getByRole('button',{name:'适合画布',exact:true}); await fit.hover();
+  assert.equal(await fit.evaluate(el=>getComputedStyle(el).cursor),'pointer');
+  await page.locator('.figfox-svgedit-frame').hover(); await productNative();
   await page.locator('.product-editor-back').click();
-  record('SVG editor header shares the pointer; tools and iframe retain native cursors');
-
-  for (const route of ['/docs','/pricing','/workspace','/docs','/workspace']) {
-    await page.locator('.product-nav a[href$="'+route+'"]').click();
-    await page.waitForURL(url=>url.pathname.endsWith(route));
-    await page.locator('h1').first().hover();
-    await custom(page,'idle');
-    assert.equal(await page.locator('.figfox-cursor').count(),1);
-  }
-  await page.locator('.product-brand').first().click();
-  await page.waitForURL(url=>url.pathname.endsWith('/'));
-  await page.mouse.move(1050,570);
-  await custom(page,'idle');
+  await page.waitForURL(/\/workspace$/);
+  record('Editor header, tools and canvas retain native cursors');
+  for (const route of ['/docs','/pricing','/workspace','/docs','/workspace']) { await navigateProduct(route); await productNative(); }
+  await page.locator('.workspace-brand').click();
+  await page.waitForURL(url=>url.pathname.endsWith('/')); await page.mouse.move(1050,570); await custom(page,'idle');
   assert.equal(await page.locator('.figfox-cursor').count(),1);
-  record('Repeated SPA navigation and return to the showcase keep exactly one pointer');
-
+  record('Returning from repeated product navigation restores exactly one showcase pointer');
   for (const route of ['/docs','/pricing','/workspace']) {
-    await page.goto(base+route,{waitUntil:'networkidle'});
-    await page.locator('.product-nav a[href$="'+route+'"]').hover();
-    await custom(page,'link');
-    await page.emulateMedia({reducedMotion:'reduce'});
-    await page.waitForTimeout(100);
-    assert.equal(await page.locator('.figfox-cursor').evaluate(cursor=>getComputedStyle(cursor).display),'none');
-    assert.equal(await page.locator('.figfox-site').evaluate(root=>root.hasAttribute('data-figfox-cursor-active')),false);
-    assert.notEqual(await page.locator('.product-nav a[href$="'+route+'"]').evaluate(link=>getComputedStyle(link).cursor),'none');
-    await page.emulateMedia({reducedMotion:'no-preference',forcedColors:'active'});
-    assert.equal(await page.locator('.figfox-cursor').evaluate(cursor=>getComputedStyle(cursor).display),'none');
+    await page.goto(base+route,{waitUntil:'networkidle'}); await productNative();
+    await page.emulateMedia({reducedMotion:'reduce'}); await productNative();
+    await page.emulateMedia({reducedMotion:'no-preference',forcedColors:'active'}); await productNative();
     await page.emulateMedia({forcedColors:'none'});
-    await page.locator('h1').first().hover();
-    await custom(page,'idle');
   }
-  record('Direct product-route refresh, reduced-motion and high-contrast native fallbacks');
+  record('Product refresh, reduced motion and high contrast retain native cursors');
   await page.close();
 
   const mobileContext=await browser.newContext({viewport:{width:390,height:844},isMobile:true,hasTouch:true});
@@ -252,7 +206,7 @@ try {
     await mobile.goto(base+route,{waitUntil:'networkidle'});
     await mobile.touchscreen.tap(15,500);
     assert.equal(await mobile.locator('.figfox-site').evaluate(root=>root.hasAttribute('data-figfox-cursor-active')),false);
-    assert.equal(await mobile.locator('.figfox-cursor').evaluate(cursor=>getComputedStyle(cursor).visibility),'hidden');
+    assert.equal(await mobile.locator('.figfox-cursor').count(),0);
     assert.equal(await mobile.evaluate(()=>document.documentElement.scrollWidth),390);
   }
   record('Touch input keeps native interaction on the showcase and all three product pages');
