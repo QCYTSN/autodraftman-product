@@ -325,13 +325,15 @@ body:has(.demo-site), .radix-themes:has(.demo-site) { background: #fcfcfe; }
   .hero-glyph-ghost { animation: figfox-repair-trace 2300ms 300ms ease both; }
   .hero-local-inspection { animation: figfox-inspection 2300ms 300ms ease both; }
   .demo-motion-ready [data-demo-reveal] {
-    opacity: 0; transform: translateY(24px);
-    transition: opacity 650ms ease, transform 700ms cubic-bezier(.22,.61,.36,1);
+    opacity: 0; transform: translateY(16px);
+    transition: opacity 480ms ease-out, transform 560ms cubic-bezier(.22,1,.36,1);
   }
-  .demo-motion-ready [data-demo-delay="1"] { transition-delay: 90ms; }
-  .demo-motion-ready [data-demo-delay="2"] { transition-delay: 150ms; }
+  .demo-motion-ready [data-demo-delay="1"] { transition-delay: 60ms; }
+  .demo-motion-ready [data-demo-delay="2"] { transition-delay: 120ms; }
   .demo-motion-ready [data-demo-reveal].demo-revealed,
-  .demo-motion-ready [data-demo-reveal]:focus-within { opacity: 1; transform: translateY(0); }
+  .demo-motion-ready [data-demo-reveal]:has(:focus-visible) { opacity: 1; transform: translateY(0); }
+  .demo-motion-ready [data-demo-reveal]:has(:focus-visible) { transition: none; }
+  .demo-motion-ready [data-demo-reveal="fade"] { transform: none; }
   .demo-motion-ready .demo-canvas-reveal[data-demo-reveal] { transform: none; }
   .demo-motion-ready .demo-canvas-reveal:focus-within { opacity: 1; transition: none; }
   .demo-mechanism-view, .demo-refinement-scene { animation: demo-mechanism-enter 280ms ease both; }

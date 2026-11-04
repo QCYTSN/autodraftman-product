@@ -5,7 +5,7 @@ export function useDemoMotion(page: RefObject<HTMLDivElement | null>) {
     const root = page.current;
     if (!root) return;
     const preference = window.matchMedia("(prefers-reduced-motion: reduce)");
-    const elements = root.querySelectorAll<HTMLElement>("[data-demo-reveal]");
+    const observed = new WeakSet<Element>();
     const hero = root.querySelector<HTMLElement>(".demo-hero");
     const header = root.querySelector<HTMLElement>(".demo-header");
     const nav = root.querySelector<HTMLElement>(".demo-nav");
@@ -34,9 +34,34 @@ export function useDemoMotion(page: RefObject<HTMLDivElement | null>) {
       }
     }, { rootMargin: "0px 0px -48px 0px", threshold: 0.06 });
 
+    function registerContent(node: Element) {
+      const elements = [...node.querySelectorAll<HTMLElement>("[data-demo-reveal]")];
+      if (node.matches("[data-demo-reveal]")) elements.unshift(node as HTMLElement);
+      for (const element of elements) {
+        if (preference.matches) element.classList.add("demo-revealed");
+        else if (!observed.has(element) && !element.classList.contains("demo-revealed")) {
+          observed.add(element);
+          observer.observe(element);
+        }
+      }
+    }
+
+    // Lazy research sections and newly selected profile cards arrive after mount.
+    // Only inspect inserted subtrees; animated text/attributes do not rescan the page.
+    const additions = new MutationObserver(records => {
+      for (const record of records) {
+        for (const node of record.addedNodes) if (node instanceof HTMLElement) registerContent(node);
+        for (const node of record.removedNodes) {
+          if (!(node instanceof HTMLElement) || root!.contains(node)) continue;
+          if (node.matches("[data-demo-reveal]")) { observer.unobserve(node); observed.delete(node); }
+          node.querySelectorAll("[data-demo-reveal]").forEach(element => { observer.unobserve(element); observed.delete(element); });
+        }
+      }
+    });
+
     function showContent() {
       root!.classList.remove("demo-motion-ready");
-      elements.forEach((element) => element.classList.add("demo-revealed"));
+      root!.querySelectorAll("[data-demo-reveal]").forEach(element => element.classList.add("demo-revealed"));
       observer.disconnect();
     }
 
@@ -109,10 +134,12 @@ export function useDemoMotion(page: RefObject<HTMLDivElement | null>) {
     if (preference.matches) showContent();
     else {
       root.classList.add("demo-motion-ready");
-      elements.forEach((element) => observer.observe(element));
+      registerContent(root);
     }
+    additions.observe(root, { childList: true, subtree: true });
     function changePreference() {
       if (preference.matches) showContent();
+      else root!.classList.add("demo-motion-ready");
       previousProgress = -1;
       requestUpdate();
     }
@@ -127,6 +154,7 @@ export function useDemoMotion(page: RefObject<HTMLDivElement | null>) {
     return () => {
       disposed = true;
       observer.disconnect();
+      additions.disconnect();
       resize.disconnect();
       window.removeEventListener("resize", refreshLayout);
       window.removeEventListener("scroll", requestUpdate);

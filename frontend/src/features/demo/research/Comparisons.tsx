@@ -21,7 +21,7 @@ export function ScoreComparison() {
       const score = data.summaries.A[id].score!;
       const gap = gapToBest(data, metric, 'A');
       const best = score + gap;
-      return <figure className="research-score-example" key={id} data-metric={id}>
+      return <figure className="research-score-example" data-demo-reveal key={id} data-metric={id}>
         <figcaption>{label(metric, language)}</figcaption>
         <div className="research-score-pair"><div><small>FigFox</small><strong>{number(score, 2)}</strong></div><div><small>{zh ? '该项最高分' : 'Highest score'}</small><b>{number(best, 2)}</b></div></div>
         <div className="research-score-track" role="img" aria-label={`FigFox ${number(score, 2)}, ${zh ? '最高分' : 'highest'} ${number(best, 2)}, 0–100`}>
@@ -30,8 +30,8 @@ export function ScoreComparison() {
         <div className="research-score-gap"><span>0–100</span><b>{zh ? `相差 ${number(gap, 2)} 分` : `${number(gap, 2)} points apart`}</b></div>
       </figure>;
     })}</div>
-    <p className="research-score-summary">{zh ? `16 项同口径指标中，${closeCount} 项与该项最高分相差不超过 5 分。` : `Across 16 comparable criteria, ${closeCount} are within 5 points of their highest score.`}</p>
-    <details className="research-settings research-ranking-details"><summary>{zh ? '查看排名分布' : 'View rank distribution'}<span>{zh ? '按原始分数计算，含并列' : 'Unrounded scores, including ties'}</span></summary>
+    <p className="research-score-summary" data-demo-reveal>{zh ? `16 项同口径指标中，${closeCount} 项与该项最高分相差不超过 5 分。` : `Across 16 comparable criteria, ${closeCount} are within 5 points of their highest score.`}</p>
+    <details className="research-settings research-ranking-details" data-demo-reveal="fade"><summary>{zh ? '查看排名分布' : 'View rank distribution'}<span>{zh ? '按原始分数计算，含并列' : 'Unrounded scores, including ties'}</span></summary>
     <figure className="research-rank-distribution">
       <figcaption><span>{zh ? '四方法排名分布' : 'Rank distribution across four methods'}</span><div className="research-rank-legend">{rankLabels.map((text, index) => <span key={text}><i data-rank={index + 1} />{text}</span>)}</div></figcaption>
       {mainIds.map(id => {
@@ -73,10 +73,10 @@ export function ResourceComparison() {
   const timeMaximum = Math.ceil(Math.max(...mainIds.map(id => data.resources[id].minutes)) / 5) * 5;
   const qualityLabel = metric ? label(metric, language) : (zh ? '16 项等权均分' : '16-criterion mean');
   return <div className="research-resource-comparison">
-    <div className="research-comparison-toolbar"><CriterionSelect metrics={metrics} value={criterion} onValueChange={setCriterion} label={zh ? '对比效果' : 'Compare quality'} ariaLabel={zh ? '效果对比指标' : 'Quality comparison criterion'} language={language} overview={{ value: 'mean', label: zh ? '16 项等权均分' : '16-criterion mean' }} /><span>{zh ? '四种方法 · 每种 80 张图' : 'Four methods · 80 figures each'}</span></div>
+    <div className="research-comparison-toolbar" data-demo-reveal="fade"><CriterionSelect metrics={metrics} value={criterion} onValueChange={setCriterion} label={zh ? '对比效果' : 'Compare quality'} ariaLabel={zh ? '效果对比指标' : 'Quality comparison criterion'} language={language} overview={{ value: 'mean', label: zh ? '16 项等权均分' : '16-criterion mean' }} /><span>{zh ? '四种方法 · 每种 80 张图' : 'Four methods · 80 figures each'}</span></div>
     <QualityCostPlot data={data} language={language} metric={metric} costMaximum={costMaximum} />
-    <p className="research-mean-note">{zh ? '均分为 16 项当前指标分数的算术平均，每项权重 6.25%。' : 'The mean averages all 16 current criterion scores, with a 6.25% weight each.'} <a href="#research-settings" onClick={() => { const settings = document.getElementById('research-settings'); if (settings instanceof HTMLDetailsElement) settings.open = true; }}>{zh ? '计算说明' : 'Calculation notes'} ↗</a></p>
-    <details className="research-settings research-resource-details"><summary>{zh ? '查看四方法的分数、费用与时间' : 'View scores, costs and times for all four methods'}</summary>
+    <p className="research-mean-note" data-demo-reveal="fade">{zh ? '均分为 16 项当前指标分数的算术平均，每项权重 6.25%。' : 'The mean averages all 16 current criterion scores, with a 6.25% weight each.'} <a href="#research-settings" onClick={() => { const settings = document.getElementById('research-settings'); if (settings instanceof HTMLDetailsElement) settings.open = true; }}>{zh ? '计算说明' : 'Calculation notes'} ↗</a></p>
+    <details className="research-settings research-resource-details" data-demo-reveal="fade"><summary>{zh ? '查看四方法的分数、费用与时间' : 'View scores, costs and times for all four methods'}</summary>
     <div className="research-comparison-table" role="table" aria-label={zh ? '效果、记录费用与记录耗时对比' : 'Quality, recorded cost and recorded time'}>
       <div className="research-comparison-head" role="row"><span role="columnheader">{zh ? '方法' : 'Method'}</span><span role="columnheader">{qualityLabel} <small>↑</small></span><span role="columnheader">{zh ? '记录费用 / 张' : 'Recorded cost / figure'}<small>USD</small></span><span role="columnheader">{zh ? '记录耗时 / 张' : 'Recorded time / figure'}<small>{zh ? '分钟' : 'min'}</small></span></div>
       {mainIds.map(id => {
@@ -96,6 +96,6 @@ export function ResourceComparison() {
       <div className="research-comparison-axis" role="row" aria-hidden="true"><span role="cell" /><span role="cell">0 <i>{qualityMaximum}</i></span><span role="cell">0 <i>${costMaximum.toFixed(2)}</i></span><span role="cell">0 <i>{timeMaximum} {zh ? '分钟' : 'min'}</i></span></div>
     </div>
     </details>
-    <div className="research-comparison-scope"><span>{zh ? '费用为原运行记录的每图均值；时间及计费范围见统计说明。' : 'Costs are per-figure means from original logs; timing and billing scopes are detailed in the notes.'}</span><a href="#resource-scope" onClick={() => { const settings = document.getElementById('research-settings'); if (settings instanceof HTMLDetailsElement) settings.open = true; }}>{zh ? '统计范围' : 'Measurement scope'} ↗</a></div>
+    <div className="research-comparison-scope" data-demo-reveal="fade"><span>{zh ? '费用为原运行记录的每图均值；时间及计费范围见统计说明。' : 'Costs are per-figure means from original logs; timing and billing scopes are detailed in the notes.'}</span><a href="#resource-scope" onClick={() => { const settings = document.getElementById('research-settings'); if (settings instanceof HTMLDetailsElement) settings.open = true; }}>{zh ? '统计范围' : 'Measurement scope'} ↗</a></div>
   </div>;
 }

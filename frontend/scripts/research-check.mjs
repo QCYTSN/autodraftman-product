@@ -154,7 +154,7 @@ try {
    const point=page.locator('.research-cost-point').nth(methodIds.indexOf(id));
    const coordinates=await point.evaluate(e=>({left:parseFloat(e.style.left),bottom:parseFloat(e.style.bottom)}));
    assert.ok(Math.abs(coordinates.left-summary.summaries[id][metric.id].score)<.0001,`${metric.id} ${id} horizontal position`);
-   assert.ok(Math.abs(coordinates.bottom-summary.resources[id].cost/2.5*100)<.0001,`${metric.id} ${id} vertical position`);
+   assert.ok(Math.abs(coordinates.bottom-(1-summary.resources[id].cost/2.5)*100)<.0001,`${metric.id} ${id} vertical position`);
   }
  }
  await openCriterion(page,'效果对比指标');assert.equal(await page.locator('.research-criterion-popup[data-open] .research-criterion-option[data-value="D09"]').count(),0);await page.keyboard.press('Escape');await page.locator('.research-criterion-popup:visible').waitFor({state:'hidden'});

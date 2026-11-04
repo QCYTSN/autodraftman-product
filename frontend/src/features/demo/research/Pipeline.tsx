@@ -87,7 +87,7 @@ export default function Pipeline({ stage, onStage }: { stage: number; onStage: (
   const caption = (file: string) => file === 'source' ? (zh ? '原图' : 'Reference') : file === 'C' ? (zh ? 'SVG 初稿' : 'SVG draft') : (zh ? '修复后的 SVG' : 'Repaired SVG');
 
   return <div className="research-pipeline" ref={root} data-playback={playback}>
-    <ol className="research-stage-tabs" aria-label={zh ? 'FigFox 重建流程' : 'FigFox reconstruction sequence'}>
+    <ol className="research-stage-tabs" data-demo-reveal="fade" aria-label={zh ? 'FigFox 重建流程' : 'FigFox reconstruction sequence'}>
       {titles.map((title, index) => <li key={index}>
         <button aria-pressed={stage === index} onClick={() => selectStage(index)}>
           <span className="pipeline-step-number">0{index + 1}</span>
@@ -97,7 +97,7 @@ export default function Pipeline({ stage, onStage }: { stage: number; onStage: (
       </li>)}
     </ol>
     <div className="research-stage-evidence">
-      <header className="pipeline-stage-heading">
+      <header className="pipeline-stage-heading" data-demo-reveal="fade">
         <div><span className="research-eyebrow">0{stage + 1} / 03</span><h3>{titles[stage]}</h3><p>{descriptions[stage]}</p></div>
         <div className="pipeline-playback-controls">
           <button className="research-text-action pipeline-play-button" onClick={togglePlayback}>{playing ? <Pause size={16} /> : playback === 'complete' ? <ArrowCounterClockwise size={16} /> : <Play size={16} />}{playing ? (zh ? '暂停演示' : 'Pause') : playback === 'paused' ? (zh ? '继续演示' : 'Resume') : playback === 'complete' ? (zh ? '重播流程' : 'Replay stages') : (zh ? '播放流程' : 'Play stages')}</button>
@@ -105,15 +105,15 @@ export default function Pipeline({ stage, onStage }: { stage: number; onStage: (
           <span className="pipeline-playback-status" role="status">{playback === 'idle' ? (zh ? '约 11 秒 · 三个步骤' : '11 seconds · Three stages') : playback === 'complete' ? (zh ? '演示完成' : 'Complete') : `${playing ? (zh ? '正在演示' : 'Playing') : (zh ? '已暂停' : 'Paused')} ${stage + 1} / 3`}</span>
         </div>
       </header>
-      <motion.div className="pipeline-pair" key={`${stage}-${replay}`} initial={{ opacity: reduced ? 1 : .35, y: reduced ? 0 : 8 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: .3 }}>
+      <div data-demo-reveal data-demo-delay="1"><motion.div className="pipeline-pair" key={`${stage}-${replay}`} initial={{ opacity: reduced ? 1 : .35, y: reduced ? 0 : 8 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: .3 }}>
         {files.map((file, index) => <figure key={file}>
           <figcaption><span>{caption(file)}</span>{index === 0 && <ArrowRight size={20} aria-hidden="true" />}</figcaption>
           <div className="pipeline-artifact"><motion.img style={{ clipPath: !reduced && playback !== 'idle' && stage === 0 && file === 'C' ? draftReveal : undefined }} src={asset(`samples/sample-0001/${file}.webp`)} alt={caption(file) + (zh ? '：类别统一目标跟踪' : ': category-unified tracking')} loading="lazy" />
             {stage === 1 && data?.issues[issueIndex]?.bbox && <span className="pipeline-roi" style={{ left: `${data.issues[issueIndex].bbox[0] / 968 * 100}%`, top: `${data.issues[issueIndex].bbox[1] / 510 * 100}%`, width: `${(data.issues[issueIndex].bbox[2] - data.issues[issueIndex].bbox[0]) / 968 * 100}%`, height: `${(data.issues[issueIndex].bbox[3] - data.issues[issueIndex].bbox[1]) / 510 * 100}%` }} />}
           </div>
         </figure>)}
-      </motion.div>
-      <div className="pipeline-stage-footer">
+      </motion.div></div>
+      <div className="pipeline-stage-footer" data-demo-reveal="fade">
         {stage === 1 && data ? <div className="research-controls research-tabs" aria-label={zh ? '差异区域' : 'Difference regions'}>{data.issues.slice(0, 4).map((issue, index) => <button key={issue.id} aria-label={`${issue.id} · ${zh ? '定位问题' : 'Locate issue'}`} aria-pressed={issueIndex === index} onClick={() => { setPlayback('idle'); setIssueIndex(index); }}>{zh ? '区域' : 'Region'} {index + 1}</button>)}</div> : <span>{stage === 2 && data ? `${data.receipt.executed_operations} / ${data.receipt.planned_operations} ${zh ? '项编辑操作已执行' : 'edit operations executed'}` : (zh ? '类别统一目标跟踪 · 重建示例' : 'Category-unified tracking · Reconstruction example')}</span>}
         <button className="research-text-action" onClick={() => { pause(); open({ sample: 'sample-0001', metric: 'D05', condition: 'C', methods: ['C', 'A'] }); }}>{zh ? '放大查看' : 'Inspect in detail'} ↗</button>
       </div>

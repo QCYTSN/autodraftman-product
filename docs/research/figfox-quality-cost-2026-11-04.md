@@ -7,7 +7,9 @@ The comparison overview now leads with actual scores for text (D01), layout
 the five-group profiles and all 17 original score rows remain available.
 
 The quality–cost chart places quality on a 0–100 horizontal axis and recorded
-USD per image on a zero-based vertical axis. It defaults to an explicitly
+USD per image on an inverted vertical axis: $0 at the top, increasing costs
+toward the bottom. Higher scores and lower costs therefore move toward the
+upper right. Both axis directions are explicitly labeled. It defaults to an explicitly
 labeled equal-criterion arithmetic mean and supports each of the 16 current
 criteria. D09 retains its historical display and is excluded from this mean.
 Each criterion has weight 1/16 (6.25%); eligible image counts vary by criterion,
@@ -38,3 +40,26 @@ Validation: production build; full research browser checks (including all
 desktop, laptop, 390 px and 320 px layouts; cold-load/deferred-resource checks;
 and Pages route verification. Browser captures are local under
 `frontend/.review/comparison/`.
+
+## Whole-page motion follow-up
+
+The existing hero and reconstruction sequence remain the focal animations.
+Section entrances now also cover evaluation, benchmarks, selected cases,
+ablations, quality/cost and source downloads. Titles and reading-sized content
+groups enter once, with a 16 px rise, 480 ms opacity transition and 560 ms
+ease-out movement; sibling offsets are capped at 120 ms. Interactive groups
+use opacity only, so pointer targets stay fixed during focus. Already-read content
+stays visible when scrolling back. Criterion explanations and opened detail
+contents use a short 220 ms transition; score/dot interpolation is unchanged.
+
+The original entrance observer only registered the first render. A child-list
+observer now registers newly inserted reveal groups, including lazy Results
+and additional metric cards, without scanning on animated text or attributes.
+Removed groups are unobserved and both observers disconnect on unmount.
+Keyboard focus makes its group visible immediately. Reduced-motion mode shows
+everything, including delayed content, and can change during the visit.
+
+`node scripts/showcase-motion-check.mjs` checks delayed data, real intermediate
+opacity, reveal coverage, quick scrolling, reverse-axis point order, bilingual
+mobile labels and live preference changes. Captures are in
+`frontend/.review/motion/`.

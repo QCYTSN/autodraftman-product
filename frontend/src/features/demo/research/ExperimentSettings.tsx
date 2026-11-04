@@ -5,7 +5,7 @@ export function ExperimentSettings() {
   const { data, language } = useResearch();
   if (!data) return null;
   const zh = language === 'zh';
-  return <details className="research-settings research-experiment-settings" id="research-settings">
+  return <details className="research-settings research-experiment-settings" id="research-settings" data-demo-reveal="fade">
     <summary>{zh ? '实验设置与数据说明' : 'Experiment settings & data notes'}</summary>
     <div className="research-settings-grid">
       <div><h3>{zh ? '输入与评分' : 'Inputs & evaluation'}</h3>
