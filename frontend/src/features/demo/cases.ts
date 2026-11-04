@@ -26,7 +26,7 @@ export const demoCases: DemoCase[] = [
     category: { zh: "模型架构图", en: "Model architecture" },
     width: 1536, height: 1024,
   },
-  { id: 'sample-0001', name: {zh:'类别统一的目标跟踪',en:'Category-unified tracking'}, category: {zh:'正式 80 图',en:'Formal cohort'}, width:968, height:510 },
+  { id: 'sample-0001', name: {zh:'类别统一的目标跟踪',en:'Category-unified tracking'}, category: {zh:'目标跟踪架构图',en:'Tracking architecture'}, width:968, height:510 },
 ];
 
 export function demoAsset(id: string, file: "input.png" | "result.png" | "result.svg" | "baseline.svg") {

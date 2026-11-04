@@ -7,10 +7,10 @@ import { mechanismAsset, mechanisms, relationBounds, representationBounds, type 
 
 const words = {
   zh: {
-    title: "重建与修复的技术细节",
+    title: "重建背后的五个机制",
     body: "框架图中的五个支撑模块，分别用于图像重建、差异检测和局部修复。",
-    tabs: "五个支撑模块", actual: "现有实验 · 学习与记忆", illustration: "方法示意",
-    enlarge: "放大局部对照", close: "关闭局部对照", open: "在案例中查看", formulaSource: "现有实验 · 潜空间扩散模型",
+    tabs: "五个支撑模块", actual: "学习与记忆", illustration: "方法示意",
+    enlarge: "放大局部对照", close: "关闭局部对照", open: "在案例中查看", formulaSource: "潜空间扩散模型",
     loading: "正在载入实验局部", error: "暂时无法载入实验局部", retry: "重新载入",
     receipt: "这次修复的执行回执", executed: "文字变换已执行", measured: "容纳与间距检查通过", pending: "视觉验收待完成",
     unconfirmed: "检查结果待确认", receiptMissing: "执行回执暂不可用",
@@ -18,10 +18,10 @@ const words = {
     publicNote: "选择模块，探索重建流程。",
   },
   en: {
-    title: "Reconstruction and repair in detail",
+    title: "Five mechanisms behind reconstruction",
     body: "The five support modules in the pipeline contribute to reconstruction, difference detection, and local repair.",
-    tabs: "Five support modules", actual: "Existing experiment · Learning and memory", illustration: "Method illustration",
-    enlarge: "Enlarge the local pair", close: "Close local pair", open: "Inspect in the example", formulaSource: "Existing experiment · Latent diffusion",
+    tabs: "Five support modules", actual: "Learning and memory", illustration: "Method illustration",
+    enlarge: "Enlarge the local pair", close: "Close local pair", open: "Inspect in the example", formulaSource: "Latent diffusion",
     loading: "Loading experiment details", error: "Experiment details could not be loaded", retry: "Try again",
     receipt: "Receipt for this repair", executed: "Text transformation executed", measured: "Containment and spacing checks passed", pending: "Visual acceptance pending",
     unconfirmed: "Check outcome unconfirmed", receiptMissing: "Repair receipt unavailable",

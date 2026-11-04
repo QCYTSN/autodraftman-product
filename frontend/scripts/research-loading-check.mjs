@@ -23,7 +23,7 @@ try {
   checks.push('Cold desktop: one summary, dedicated thumbnails, no original PNGs, hidden modal crops, sample index or product bundle');
   await page.locator('#demo-benchmarks').scrollIntoViewIfNeeded();
   assert.equal(requests.some(u => /\/(samples)\.json|\/sample-meta\/|\/details\//.test(u)), false);
-  await page.locator('.research-profiles button').first().click();
+  await page.locator('.research-definition button').click();
   await page.locator('.research-dialog [data-sample]').waitFor();
   assert.equal(await page.locator('.research-output-grid article').count(), 4);
   assert.equal(requests.filter(u => u.endsWith('/samples.json')).length, 1);
@@ -33,10 +33,10 @@ try {
   for (const sid of ['sample-0033','sample-0097']) {
     await sample.selectOption(sid);
     await page.locator(`[data-sample="${sid}"]`).waitFor();
-    const image = page.locator('[data-method="AFE"] .research-output img');
-    await image.evaluate(e => e.decode());
-    assert.ok(await image.evaluate(e => e.naturalWidth > 0 && getComputedStyle(e).objectFit === 'contain'));
-    assert.ok(new URL(await image.getAttribute('src'), base).pathname.endsWith(sid + '/AFE.webp'));
+    const image = page.locator('[data-method="AFE"] .research-output image');
+    await image.evaluate(async e => {const img=new Image();img.src=e.getAttribute('href');await img.decode();});
+    assert.ok(await image.evaluate(e => e.width.baseVal.value > 0 && e.parentElement.viewBox.baseVal.width > 0));
+    assert.ok(new URL(await image.getAttribute('href'), base).pathname.endsWith(sid + '/AFE.webp'));
   }
   await sample.selectOption('sample-0062');
   await page.locator('[data-sample="sample-0062"]').waitFor();
@@ -50,7 +50,7 @@ try {
   assert.equal(createHash('sha256').update(bytes).digest('hex'), metadata.artifacts.AFE.svgHash);
   await sample.selectOption('sample-0030');
   await page.locator('[data-sample="sample-0030"]').waitFor();
-  await page.locator('[data-method="AFE"] .research-output img').evaluate(e => e.decode());
+  await page.locator('[data-method="AFE"] .research-output image').evaluate(async e => {const img=new Image();img.src=e.getAttribute('href');await img.decode();});
   checks.push('AutoFigure previews 0033/0097 and original-SVG rendering 0030; damaged 0062 downloads with the exact original hash');
 
   // A slow unseen response must never overwrite the final selection.
@@ -78,7 +78,7 @@ try {
   await page.getByRole('button',{name:'关闭比较',exact:true}).click();
   await page.locator('.research-dialog').waitFor({state:'detached'});
   const before = await page.evaluate(() => scrollY);
-  await page.locator('.research-profiles button').first().click();
+  await page.locator('.research-definition button').click();
   await page.locator('.research-dialog [data-sample]').waitFor();
   await page.getByRole('button',{name:'关闭比较',exact:true}).click();
   await page.waitForTimeout(100);

@@ -12,6 +12,7 @@ import xml.etree.ElementTree as ET
 from collections import Counter
 from pathlib import Path
 from PIL import Image
+from research_examples import apply_examples
 
 ROOT = Path(__file__).resolve().parents[1]
 SOURCE = Path(sys.argv[1] if len(sys.argv) > 1 else r'D:/Downloads/FigFox-研究资料总库/FigFox-研究资料总库')
@@ -214,6 +215,7 @@ provenance = {'snapshot': '2026-11-04', 'version': VERSION, 'cohortN': 80,
               for n in ['statistics.json', 'harness-judgments.json', 'artifact-manifest.json', 'inputs.json']},
               'scopes': {scope: {'methods': s['methods'], 'aggregation': s['aggregation'],
                                  'reviewMethod': s['review_method']} for scope, s in statistics.items()}}
+apply_examples(OUT, examples)
 write('summary.json', {'methods': methods, 'metrics': metrics, 'summaries': scopes['comparison'],
                        'ablationSummaries': scopes['ablation'], 'resources': resources,
                        'examples': examples, 'provenance': provenance})

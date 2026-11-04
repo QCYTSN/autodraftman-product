@@ -7,7 +7,7 @@ import { refinementCases } from "./refinementCases";
 
 const words = {
   zh: {
-    title: "初稿与修复结果", body: "对照同一张图在初稿与修复阶段的差异。",
+    title: "初稿与修复结果", body: "查看公式、连接线和文字布局的具体变化。",
     cases: "修复案例", views: "对照范围", detail: "重点局部", full: "完整图",
     draft: "SVG 初稿", repaired: "修复后", original: "查看原图", originalTitle: "原图参照",
     enlarge: "放大对照", close: "关闭对照", open: "在案例中查看",
@@ -16,7 +16,7 @@ const words = {
     note: "放大局部，查看公式、文字和连接的变化。",
   },
   en: {
-    title: "Drafts and repair outputs", body: "Compare the same figure before and after the repair stage.",
+    title: "Drafts and repair outputs", body: "Explore changes in formulas, connections and text layout.",
     cases: "Repair examples", views: "Comparison region", detail: "Key detail", full: "Full figure",
     draft: "Draft SVG", repaired: "After repair", original: "View original", originalTitle: "Original reference",
     enlarge: "Enlarge comparison", close: "Close comparison", open: "Inspect in the example",
@@ -64,6 +64,7 @@ export function RefinementSection({ language, onOpenCase }: {
   const status = matches ? loaded.status : "loading";
   const views = matches ? loaded.views : undefined;
   const bounds = detail ? item.bounds : [0, 0, item.figure.width, item.figure.height];
+  const regionLabel = ({ formula: { zh: '根号横线与下标', en: 'Radical bars & subscripts' }, connections: { zh: '上下路径的汇合连接', en: 'Joining the two routes' }, layout: { zh: '标题收进模块内', en: 'Title inside its module' } } as const)[item.id as 'formula' | 'connections' | 'layout'][language];
 
   useEffect(() => {
     if (visible || !section.current) return;
@@ -173,7 +174,7 @@ export function RefinementSection({ language, onOpenCase }: {
       <div className="demo-refinement-image" style={{position:"relative"}}>
         {views && <img src={views[stage]} width={bounds[2]} height={bounds[3]}
           alt={item.figure.name[language] + " · " + content[stage] + " · " + (detail ? item.region[language] : content.full)} />}
-        {highlight && <span key={emphasis} className="demo-change-region" style={detail ? {inset:'4%'} : {left:item.bounds[0]/item.figure.width*100+'%',top:item.bounds[1]/item.figure.height*100+'%',width:item.bounds[2]/item.figure.width*100+'%',height:item.bounds[3]/item.figure.height*100+'%'}} />}
+        {highlight && <><svg className="demo-refinement-region-overlay" viewBox={`0 0 ${bounds[2]} ${bounds[3]}`} aria-hidden="true"><rect key={emphasis} className="demo-change-region" x={detail ? bounds[2] * .03 : item.bounds[0]} y={detail ? bounds[3] * .03 : item.bounds[1]} width={detail ? bounds[2] * .94 : item.bounds[2]} height={detail ? bounds[3] * .94 : item.bounds[3]} rx="3" vectorEffect="non-scaling-stroke" /></svg><button className="demo-region-label" onClick={() => { setDetail(true); setEmphasis(value => value + 1); }}>{regionLabel} ↗</button></>}
       </div>
       <p className="demo-refinement-caption">{item[stage][language]}</p>
     </figure>)}
@@ -219,7 +220,7 @@ export function RefinementSection({ language, onOpenCase }: {
       </div>
       <p className="demo-refinement-note">{content.note}</p>
     </div>
-    <a className="research-caption" href="#research-samples">{language === "zh" ? "查看正式 80 图的修复前后评分 ↓" : "Explore paired scores for the formal 80-image cohort ↓"}</a>
+    <a className="research-caption" href="#demo-ablations">{language === "zh" ? "查看检查与修复的评分变化 ↓" : "Explore scores before and after repair ↓"}</a>
     <dialog className="demo-diagram-dialog demo-refinement-dialog" ref={dialog} aria-label={modal === "original" ? content.originalTitle : content.enlarge}
       onClose={() => setModal(null)}
       onClick={event => { if (event.target === event.currentTarget) dialog.current?.close(); }}>

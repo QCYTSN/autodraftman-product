@@ -25,21 +25,20 @@ type Props = {
 
 const words = {
   zh: {
-    cases: "案例", method: "方法", scope: "支撑机制", results: "修复对照", evaluation: "评测", source: "源代码", try: "开始使用",
+    cases: "案例", method: "方法", scope: "消融", results: "实验结果", evaluation: "效率", source: "代码", try: "开始使用",
     titleFirst: "将科研图像", titlePrefix: "重建为", titleAccent: "可编辑",
-    intro: "根据图中关系，重建文字、图形与布局。",
-    introDetail: "对照原图检测差异，核对后执行原生修复。",
+    intro: "重建科研图中的文字、图形与连接关系。",
+    introDetail: "对照原图检查差异，修正文字、布局与连接。",
     replay: "重播", replayLabel: "重播关系重建与局部修复示意",
     explore: "查看案例", scroll: "向下探索",
-    examplesTitle: "直接编辑 FigFox 的重建结果",
-    examplesBody: "拖动元素、修改文字，或按住对照原图。选择一个案例开始。",
-    caseNote: "现有实验案例",
-    comparisonTitle: "对照原图，查看重建细节",
-    comparisonBody: "移动分割线，比较文字、图形和布局。也可以切换其他案例。",
+    examplesTitle: "亲手编辑重建结果",
+    examplesBody: "拖动元素、双击改字，按住“对照”查看原图。",
+    comparisonTitle: "原图与重建结果",
+    comparisonBody: "拖动分割线，对照同一区域的细节。",
     original: "原图", result: "重建结果",
     comparisonLabel: "原图与重建结果的分割位置",
     methodTitle: "FigFox 如何重建一张图",
-    methodBody: "SAM 辅助初稿 → 基于证据的问题检测 → 原生 SVG 修复。",
+    methodBody: "构建初稿 → 定位差异 → 修复 SVG",
     steps: [
       ["关系引导重建", "识别图形与相对布局，构建 SVG 初稿。"],
       ["错误检测与计划", "结合原图与局部对照，定位需要修复的问题。"],
@@ -47,28 +46,26 @@ const words = {
     ],
     enlarge: "放大流程图", close: "关闭流程图",
     methodAlt: "FigFox 核心流程：关系引导 SVG 重建、错误检测与计划、执行与迭代修复。",
-    evidenceNote: "以上为现有实验案例，展示原始重建结果及可编辑内容。完整评测将在固定设置下补充。",
     closingTitle: "从图像，回到可编辑的结构",
     closingBody: "在自己的科研图上，开始重建与编辑。",
-    workspace: "进入工作台", guide: "使用指南", pricing: "定价", privacy: "隐私",
+    workspace: "开始使用", guide: "使用指南", pricing: "定价", privacy: "隐私",
     footer: "科研图像的重建与编辑",
   },
   en: {
-    cases: "Examples", method: "Method", scope: "Mechanisms", results: "Repairs", evaluation: "Evaluation", source: "Source", try: "Try FigFox",
+    cases: "Examples", method: "Method", scope: "Ablation", results: "Results", evaluation: "Efficiency", source: "Code", try: "Try FigFox",
     titleFirst: "Reconstruct scientific figures", titlePrefix: "as ", titleAccent: "editable",
-    intro: "Reconstruct text, shapes, and their relationships.",
-    introDetail: "Inspect against the source. Verify, then repair.",
+    intro: "Reconstruct text, shapes and connections in scientific figures.",
+    introDetail: "Inspect differences against the source, then repair text, layout and connections.",
     replay: "Replay", replayLabel: "Replay the relation-guided reconstruction and local refinement illustration",
     explore: "Explore examples", scroll: "Scroll to explore",
-    examplesTitle: "Edit actual FigFox reconstructions",
-    examplesBody: "Move elements, edit text, and hold to compare with the original. Choose an example to begin.",
-    caseNote: "Existing experiment examples",
-    comparisonTitle: "Compare the reconstruction with its source",
-    comparisonBody: "Move the divider to inspect text, shapes, and layout. Switch examples to explore more.",
+    examplesTitle: "Edit a reconstruction yourself",
+    examplesBody: "Drag elements, double-click to edit text, and hold “Compare” to see the source.",
+    comparisonTitle: "Source and reconstruction",
+    comparisonBody: "Drag the divider to compare details in the same region.",
     original: "Original", result: "Reconstruction",
     comparisonLabel: "Original and reconstruction split position",
     methodTitle: "How FigFox reconstructs a figure",
-    methodBody: "SAM-guided drafting → evidence-grounded inspection → native SVG repair.",
+    methodBody: "Build a draft → Locate differences → Repair the SVG",
     steps: [
       ["Relation-guided reconstruction", "Identify elements and relative layout to compose a draft SVG."],
       ["Error detection and planning", "Inspect the original and local comparisons to plan corrections."],
@@ -76,10 +73,9 @@ const words = {
     ],
     enlarge: "Enlarge the diagram", close: "Close diagram",
     methodAlt: "FigFox pipeline: relation-guided SVG reconstruction, error detection and planning, execution and refinement.",
-    evidenceNote: "These existing experiments show original reconstructions and editable content. A full evaluation will follow under fixed settings.",
     closingTitle: "From pixels, back to editable structure",
     closingBody: "Start reconstructing and editing your own scientific figures.",
-    workspace: "Open workspace", guide: "Guide", pricing: "Pricing", privacy: "Privacy",
+    workspace: "Get started", guide: "Guide", pricing: "Pricing", privacy: "Privacy",
     footer: "Scientific figure reconstruction and editing",
   },
 } as const;
@@ -143,12 +139,10 @@ function DemoPageContent({ language, onLanguageChange, onNavigate, hrefFor }: Pr
             <span className="demo-nav-indicator" aria-hidden="true" />
             <a href="#demo-examples">{content.cases}</a>
             <a href="#demo-method">{content.method}</a>
-            <a className="demo-nav-detail" href="#demo-content">{content.scope}</a>
-            <a href="#demo-results">{content.results}</a>
-            <a href="#demo-evaluation">{content.evaluation}</a>
-            <a href="https://github.com/LawrenceRiver/FigFox" target="_blank" rel="noreferrer">
-              <GithubLogo size={17} />{content.source}
-            </a>
+            <a href="#demo-benchmarks">{content.results}</a>
+            <a href="#demo-ablations">{content.scope}</a>
+            <a href="#demo-efficiency">{content.evaluation}</a>
+            <a href="#research-provenance">{content.source}</a>
           </nav>
           <div className="demo-header-actions">
             <button className="demo-language" type="button" onClick={onLanguageChange}
@@ -215,7 +209,6 @@ function DemoPageContent({ language, onLanguageChange, onNavigate, hrefFor }: Pr
                   </button>
                 ))}
               </div>
-              <p className="demo-case-note">{content.caseNote}</p>
             </div>
         </section>
 
@@ -258,6 +251,7 @@ function DemoPageContent({ language, onLanguageChange, onNavigate, hrefFor }: Pr
             </button>
           </figure>
           <Pipeline stage={methodStage} onStage={setMethodStage} />
+          <nav className="demo-method-index" data-demo-reveal="fade"><a href="#demo-content">{language === "zh" ? "重建机制" : "Reconstruction mechanisms"} ↓</a><a href="#demo-results">{language === "zh" ? "局部修复对照" : "Local repair comparisons"} ↓</a></nav>
         </section>
 
         <MechanismSection language={language} localCasesAvailable onOpenCase={openContentCase} />

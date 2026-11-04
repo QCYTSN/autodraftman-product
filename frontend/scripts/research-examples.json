@@ -1,0 +1,640 @@
+{
+  "comparison": {
+    "D01": {
+      "sample": "sample-0061",
+      "title": {
+        "zh": "SQL 文本与字段",
+        "en": "SQL text and fields"
+      },
+      "note": {
+        "zh": "观察右侧 SQL 中 CASE、AND 与 THEN 之间的间隔，以及 JOIN 字段。",
+        "en": "Inspect the spaces around CASE, AND and THEN, and the JOIN fields in the right-hand SQL panel."
+      },
+      "methods": [
+        "A",
+        "DrawAI",
+        "AFE",
+        "Crafter"
+      ],
+      "regions": {
+        "source": {
+          "bounds": [
+            0.655,
+            0.19,
+            0.33,
+            0.77
+          ]
+        },
+        "A": {
+          "bounds": [
+            0.655,
+            0.19,
+            0.33,
+            0.77
+          ]
+        },
+        "DrawAI": {
+          "bounds": [
+            0.655,
+            0.19,
+            0.33,
+            0.77
+          ]
+        },
+        "AFE": {
+          "bounds": [
+            0.655,
+            0.19,
+            0.33,
+            0.77
+          ]
+        },
+        "Crafter": {
+          "bounds": [
+            0.655,
+            0.19,
+            0.33,
+            0.77
+          ]
+        }
+      },
+      "evidence": "details/sample-0061.json#D01"
+    },
+    "D02": {
+      "sample": "sample-0057",
+      "title": {
+        "zh": "流轨迹中的数学符号",
+        "en": "Mathematical notation in a flow trajectory"
+      },
+      "note": {
+        "zh": "观察左上角起点 x 的上划线，以及速度公式中的下标和条件变量。",
+        "en": "Inspect the overbar on the starting x and the subscripts and conditioning variables in the velocity formula."
+      },
+      "methods": [
+        "A",
+        "DrawAI",
+        "AFE",
+        "Crafter"
+      ],
+      "regions": {
+        "source": {
+          "bounds": [
+            0.01,
+            0.04,
+            0.39,
+            0.52
+          ]
+        },
+        "A": {
+          "bounds": [
+            0.01,
+            0.04,
+            0.39,
+            0.52
+          ]
+        },
+        "DrawAI": {
+          "bounds": [
+            0.01,
+            0.04,
+            0.39,
+            0.55
+          ]
+        },
+        "AFE": {
+          "bounds": [
+            0.01,
+            0.04,
+            0.39,
+            0.55
+          ]
+        },
+        "Crafter": {
+          "bounds": [
+            0.01,
+            0.04,
+            0.39,
+            0.55
+          ]
+        }
+      },
+      "evidence": "details/sample-0057.json#D02"
+    },
+    "D05": {
+      "sample": "sample-0001",
+      "title": {
+        "zh": "全局池化的连接关系",
+        "en": "Connections into global pooling"
+      },
+      "note": {
+        "zh": "沿上半部的三个特征点查看箭头，检查它们是否接入全局池化路径。",
+        "en": "Follow the arrows from the three upper feature points and check their connection to global pooling."
+      },
+      "methods": [
+        "A",
+        "DrawAI",
+        "AFE",
+        "Crafter"
+      ],
+      "regions": {
+        "source": {
+          "bounds": [
+            0.54,
+            0.15,
+            0.44,
+            0.3
+          ]
+        },
+        "A": {
+          "bounds": [
+            0.54,
+            0.15,
+            0.44,
+            0.3
+          ]
+        },
+        "DrawAI": {
+          "bounds": [
+            0.54,
+            0.15,
+            0.44,
+            0.3
+          ]
+        },
+        "AFE": {
+          "bounds": [
+            0.54,
+            0.15,
+            0.44,
+            0.3
+          ]
+        },
+        "Crafter": {
+          "bounds": [
+            0.54,
+            0.11,
+            0.44,
+            0.33
+          ]
+        }
+      },
+      "evidence": "details/sample-0001.json#D05"
+    },
+    "D08": {
+      "sample": "sample-0027",
+      "title": {
+        "zh": "图像与模块的相对布局",
+        "en": "Layout of images and modules"
+      },
+      "note": {
+        "zh": "比较左上角三张道路图与下方模块的相对位置和占用空间。",
+        "en": "Compare the placement and size of the three road images against the modules below them."
+      },
+      "methods": [
+        "A",
+        "DrawAI",
+        "AFE",
+        "Crafter"
+      ],
+      "regions": {
+        "source": {
+          "bounds": [
+            0.01,
+            0.025,
+            0.6,
+            0.94
+          ]
+        },
+        "A": {
+          "bounds": [
+            0.01,
+            0.025,
+            0.6,
+            0.94
+          ]
+        },
+        "DrawAI": {
+          "bounds": [
+            0.01,
+            0.025,
+            0.6,
+            0.94
+          ]
+        },
+        "AFE": {
+          "bounds": [
+            0.01,
+            0.025,
+            0.6,
+            0.94
+          ]
+        },
+        "Crafter": {
+          "bounds": [
+            0.01,
+            0.025,
+            0.6,
+            0.94
+          ]
+        }
+      },
+      "evidence": "details/sample-0027.json#D08"
+    },
+    "D11": {
+      "sample": "sample-0058",
+      "title": {
+        "zh": "文字与语音令牌的配色",
+        "en": "Colors of text and speech tokens"
+      },
+      "note": {
+        "zh": "观察 Transformer 右侧第四个文字令牌 _speech，核对它与前三个令牌的配色。",
+        "en": "Inspect the fourth text token, _speech, to the right of the Transformer and compare its color with the first three tokens."
+      },
+      "methods": [
+        "A",
+        "DrawAI",
+        "AFE",
+        "Crafter"
+      ],
+      "regions": {
+        "source": {
+          "bounds": [
+            0.55,
+            0.025,
+            0.205,
+            0.56
+          ]
+        },
+        "A": {
+          "bounds": [
+            0.55,
+            0.025,
+            0.205,
+            0.56
+          ]
+        },
+        "DrawAI": {
+          "bounds": [
+            0.55,
+            0.025,
+            0.205,
+            0.56
+          ]
+        },
+        "AFE": {
+          "bounds": [
+            0.55,
+            0.025,
+            0.205,
+            0.56
+          ]
+        },
+        "Crafter": {
+          "bounds": [
+            0.55,
+            0.025,
+            0.205,
+            0.56
+          ]
+        }
+      },
+      "evidence": "details/sample-0058.json#D11"
+    },
+    "D13": {
+      "sample": "sample-0033",
+      "title": {
+        "zh": "训练流程中的可编辑文字",
+        "en": "Editable text in a training workflow"
+      },
+      "note": {
+        "zh": "训练区域的 Train 与 Encoder 标题保留为原生文字，可在下载的 SVG 中逐项选择。",
+        "en": "The Train and Encoder labels remain native text and can be selected in the downloaded SVG."
+      },
+      "methods": [
+        "A",
+        "DrawAI",
+        "AFE",
+        "Crafter"
+      ],
+      "regions": {
+        "source": {
+          "bounds": [
+            0.005,
+            0.005,
+            0.51,
+            0.475
+          ]
+        },
+        "A": {
+          "bounds": [
+            0.005,
+            0.005,
+            0.51,
+            0.475
+          ],
+          "objectIds": [
+            "title_train",
+            "plus_node_25"
+          ]
+        },
+        "DrawAI": {
+          "bounds": [
+            0.005,
+            0.005,
+            0.51,
+            0.475
+          ],
+          "objectIds": [
+            "title-train",
+            "label-train-encoder"
+          ]
+        },
+        "AFE": {
+          "bounds": [
+            0.005,
+            0.005,
+            0.51,
+            0.475
+          ]
+        },
+        "Crafter": {
+          "bounds": [
+            0.005,
+            0.005,
+            0.51,
+            0.475
+          ]
+        }
+      },
+      "evidence": "details/sample-0033.json#D13"
+    }
+  },
+  "ablation": {
+    "D01": {
+      "sample": "sample-0061",
+      "title": {
+        "zh": "SQL 文本与字段",
+        "en": "SQL text and fields"
+      },
+      "note": {
+        "zh": "观察右侧 SQL 中 CASE、AND 与 THEN 之间的间隔，以及 JOIN 字段。",
+        "en": "Inspect the spaces around CASE, AND and THEN, and the JOIN fields in the right-hand SQL panel."
+      },
+      "methods": [
+        "A",
+        "B",
+        "C"
+      ],
+      "regions": {
+        "source": {
+          "bounds": [
+            0.655,
+            0.19,
+            0.33,
+            0.77
+          ]
+        },
+        "A": {
+          "bounds": [
+            0.655,
+            0.19,
+            0.33,
+            0.77
+          ]
+        },
+        "C": {
+          "bounds": [
+            0.655,
+            0.19,
+            0.33,
+            0.77
+          ]
+        }
+      },
+      "evidence": "details/sample-0061.json#D01"
+    },
+    "D02": {
+      "sample": "sample-0057",
+      "title": {
+        "zh": "流轨迹中的数学符号",
+        "en": "Mathematical notation in a flow trajectory"
+      },
+      "note": {
+        "zh": "观察左上角起点 x 的上划线，以及速度公式中的下标和条件变量。",
+        "en": "Inspect the overbar on the starting x and the subscripts and conditioning variables in the velocity formula."
+      },
+      "methods": [
+        "A",
+        "B",
+        "C"
+      ],
+      "regions": {
+        "source": {
+          "bounds": [
+            0.01,
+            0.04,
+            0.39,
+            0.52
+          ]
+        },
+        "A": {
+          "bounds": [
+            0.01,
+            0.04,
+            0.39,
+            0.52
+          ]
+        },
+        "C": {
+          "bounds": [
+            0.01,
+            0.04,
+            0.39,
+            0.52
+          ]
+        }
+      },
+      "evidence": "details/sample-0057.json#D02"
+    },
+    "D05": {
+      "sample": "sample-0001",
+      "title": {
+        "zh": "全局池化的连接关系",
+        "en": "Connections into global pooling"
+      },
+      "note": {
+        "zh": "沿上半部的三个特征点查看箭头，检查它们是否接入全局池化路径。",
+        "en": "Follow the arrows from the three upper feature points and check their connection to global pooling."
+      },
+      "methods": [
+        "A",
+        "B",
+        "C"
+      ],
+      "regions": {
+        "source": {
+          "bounds": [
+            0.54,
+            0.15,
+            0.44,
+            0.3
+          ]
+        },
+        "A": {
+          "bounds": [
+            0.54,
+            0.15,
+            0.44,
+            0.3
+          ]
+        },
+        "C": {
+          "bounds": [
+            0.54,
+            0.15,
+            0.44,
+            0.3
+          ]
+        }
+      },
+      "evidence": "details/sample-0001.json#D05"
+    },
+    "D08": {
+      "sample": "sample-0027",
+      "title": {
+        "zh": "图像与模块的相对布局",
+        "en": "Layout of images and modules"
+      },
+      "note": {
+        "zh": "比较左上角三张道路图与下方模块的相对位置和占用空间。",
+        "en": "Compare the placement and size of the three road images against the modules below them."
+      },
+      "methods": [
+        "A",
+        "B",
+        "C"
+      ],
+      "regions": {
+        "source": {
+          "bounds": [
+            0.01,
+            0.025,
+            0.6,
+            0.94
+          ]
+        },
+        "A": {
+          "bounds": [
+            0.01,
+            0.025,
+            0.6,
+            0.94
+          ]
+        },
+        "C": {
+          "bounds": [
+            0.01,
+            0.025,
+            0.6,
+            0.94
+          ]
+        }
+      },
+      "evidence": "details/sample-0027.json#D08"
+    },
+    "D11": {
+      "sample": "sample-0058",
+      "title": {
+        "zh": "文字与语音令牌的配色",
+        "en": "Colors of text and speech tokens"
+      },
+      "note": {
+        "zh": "观察 Transformer 右侧第四个文字令牌 _speech，核对它与前三个令牌的配色。",
+        "en": "Inspect the fourth text token, _speech, to the right of the Transformer and compare its color with the first three tokens."
+      },
+      "methods": [
+        "A",
+        "B",
+        "C"
+      ],
+      "regions": {
+        "source": {
+          "bounds": [
+            0.55,
+            0.025,
+            0.205,
+            0.56
+          ]
+        },
+        "A": {
+          "bounds": [
+            0.55,
+            0.025,
+            0.205,
+            0.56
+          ]
+        },
+        "C": {
+          "bounds": [
+            0.55,
+            0.025,
+            0.205,
+            0.56
+          ]
+        }
+      },
+      "evidence": "details/sample-0058.json#D11"
+    },
+    "D13": {
+      "sample": "sample-0033",
+      "title": {
+        "zh": "训练流程中的可编辑文字",
+        "en": "Editable text in a training workflow"
+      },
+      "note": {
+        "zh": "训练区域的 Train 与 Encoder 标题保留为原生文字，可在下载的 SVG 中逐项选择。",
+        "en": "The Train and Encoder labels remain native text and can be selected in the downloaded SVG."
+      },
+      "methods": [
+        "A",
+        "B",
+        "C"
+      ],
+      "regions": {
+        "source": {
+          "bounds": [
+            0.005,
+            0.005,
+            0.51,
+            0.475
+          ]
+        },
+        "A": {
+          "bounds": [
+            0.005,
+            0.005,
+            0.51,
+            0.475
+          ],
+          "objectIds": [
+            "title_train",
+            "plus_node_25"
+          ]
+        },
+        "C": {
+          "bounds": [
+            0.005,
+            0.005,
+            0.51,
+            0.475
+          ],
+          "objectIds": [
+            "title_train",
+            "plus_node_25"
+          ]
+        }
+      },
+      "evidence": "details/sample-0033.json#D13"
+    }
+  }
+}

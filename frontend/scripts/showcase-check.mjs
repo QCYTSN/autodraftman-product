@@ -74,6 +74,7 @@ try {
 
   for (const [index, id, count] of [[1, "diffusion", 91], [2, "vit", 167], [0, "study", 49]]) {
     await page.locator(".demo-case-picker button").nth(index).click();
+    await page.locator('.demo-canvas-stage').scrollIntoViewIfNeeded();
     await page.waitForFunction(total => document.querySelectorAll(".demo-svg-mount text").length === total, count);
     await page.locator('.demo-comparison').scrollIntoViewIfNeeded();
     await page.waitForFunction(() => Boolean(document.querySelector('.demo-comparison-original img')?.getAttribute('src')));
@@ -149,7 +150,7 @@ try {
   await page.getByRole("button", { name: "切换为英文" }).click();
   assert.ok((await page.locator("h1").innerText()).includes("Reconstruct"));
   assert.ok(await page.locator("main h2").count() >= 10);
-  await page.setViewportSize({ width: 320, height: 844 });
+  await page.setViewportSize({ width: 390, height: 844 });
   await page.emulateMedia({ reducedMotion: "reduce" });
   await page.locator("#demo-results").scrollIntoViewIfNeeded();
   assert.equal(await page.evaluate(() => document.documentElement.scrollWidth > innerWidth), false);

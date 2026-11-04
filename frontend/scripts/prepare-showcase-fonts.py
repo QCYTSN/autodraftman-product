@@ -11,7 +11,7 @@ font_root = root / 'node_modules/@fontsource-variable/noto-sans-sc'
 target = root / 'public/assets/demo/fonts'
 target.mkdir(parents=True, exist_ok=True)
 paths = list((root / 'src/features/demo').rglob('*.tsx')) + list((root / 'src/features/demo').rglob('*.ts'))
-paths += [root / 'public/assets/research/summary.json', root / 'src/SiteEntry.tsx']
+paths += [root / 'public/assets/research/summary.json', root / 'scripts/research-examples.json', root / 'src/SiteEntry.tsx']
 text = ''.join(p.read_text('utf-8') for p in paths)
 characters = {ord(c) for c in text if ord(c) >= 0x100}
 rules, used, total = [], set(), 0

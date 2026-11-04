@@ -7,9 +7,12 @@ export type Artifact = { status: string; image?: string; svg?: string; width?: n
 export type SampleIndex = { id: string; category: string; sourceUrl: string };
 export type Sample = SampleIndex & { resources: Record<string,{cost:number;seconds:number;tokens:number}>; source: Artifact; artifacts: Record<string, Artifact>; scores: Record<string, Record<string, Score>>; eligible: Record<'comparison'|'ablation',string[]> };
 export type Summary = { methods: Method[]; metrics: Metric[]; summaries: Record<string, Record<string, Score>>; ablationSummaries: Record<string, Record<string, Score>>; examples: Record<'comparison'|'ablation',Record<string,string>>; resources: Record<string, { cost: number; minutes: number; tokens: number; n: number; comparable: boolean }>; provenance: { snapshot: string; version: string; cohortN: number; judgments: number; coverage: Record<string, number> } };
-export type Selection = { sample: string; metric: string; methods?: string[]; condition?: string };
+export type Selection = { sample: string; metric: string; methods?: string[]; condition?: string; view?: 'overview' | 'pair'; scope?: 'comparison' | 'ablation' };
+export type ObservationRegion = { bounds: [number, number, number, number]; objectIds?: string[] };
+export type Observation = { sample: string; title: { zh: string; en: string }; note: { zh: string; en: string }; methods: string[]; regions: Record<string, ObservationRegion>; evidence: string };
+export type Observations = Record<'comparison' | 'ablation', Record<string, Observation>>;
 // Keep a newly deployed schema and previews separate from browsers' old cached files.
-export const asset = (path: string) => import.meta.env.BASE_URL + 'assets/research/' + path + '?v=20261104-1';
+export const asset = (path: string) => import.meta.env.BASE_URL + 'assets/research/' + path + '?v=20261104-2';
 type Cached = { promise: Promise<unknown>; pending: boolean; signal?: AbortSignal };
 const cache = new Map<string, Cached>();
 export function load<T>(file: string, signal?: AbortSignal): Promise<T> {

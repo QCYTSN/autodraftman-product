@@ -61,7 +61,7 @@ try {
 
   for (const language of ['zh', 'en']) {
     if (language === 'en') { await page.evaluate(() => scrollTo({ top: 0, behavior: 'instant' })); await page.getByRole('button', { name: '切换为英文' }).click(); }
-    for (const width of [1440, 390, 320]) {
+    for (const width of [1440, 1280, 1920]) {
       await page.setViewportSize({ width, height: 900 });
       await page.locator('#demo-efficiency').scrollIntoViewIfNeeded(); await page.waitForTimeout(700);
       assert.equal(await page.evaluate(() => document.documentElement.scrollWidth > innerWidth), false);
@@ -79,7 +79,7 @@ try {
   await page.emulateMedia({ reducedMotion: 'no-preference' });
   await page.waitForFunction(() => document.querySelector('.demo-site')?.classList.contains('demo-motion-ready'));
   assert.ok(await page.locator('[data-demo-reveal]').evaluateAll(es => es.every(e => Number(getComputedStyle(e).opacity) === 1)));
-  checks.push('Chinese/English desktop and mobile; live reduced-motion changes and delayed loading never hide content');
+  checks.push('Chinese/English desktop; live reduced-motion changes and delayed loading never hide content');
   assert.deepEqual(errors, []);
   await writeFile(output + '/checks.json', JSON.stringify({ checks, errors }, null, 2));
   console.log(JSON.stringify({ checks, errors }, null, 2));

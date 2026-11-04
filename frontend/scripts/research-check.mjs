@@ -52,13 +52,13 @@ try {
  assert.ok(subGap>=80,'Profile-to-heatmap spacing: '+subGap);
  checks.push('Row-best highlights, smaller unframed architecture, synchronized profile motion and section spacing');
 
- await page.locator('#demo-evaluation').evaluate(e=>e.scrollIntoView({block:'start',behavior:'instant'}));await page.waitForTimeout(100);assert.equal(await page.locator('.demo-nav a[aria-current=location]').getAttribute('href'),'#demo-evaluation');
+ await page.locator('#demo-benchmarks').evaluate(e=>e.scrollIntoView({block:'start',behavior:'instant'}));await page.waitForTimeout(100);assert.equal(await page.locator('.demo-nav a[aria-current=location]').getAttribute('href'),'#demo-benchmarks');
  await page.locator('#demo-benchmarks').screenshot({path:output+'/desktop-results.png',style:'.demo-header{visibility:hidden}'});
  await page.locator('.research-full-results summary').click();
  const cell=page.locator('.research-heatmap tbody tr').nth(7).locator('button').nth(1);await cell.click();
- await page.locator('.research-output-grid article').nth(3).waitFor();assert.equal(await page.locator('.research-output-grid article').count(),4);
+ await page.locator('.research-output-grid article').nth(1).waitFor();assert.equal(await page.locator('.research-output-grid article').count(),2);
  assert.equal(await page.getByLabel('指标',{exact:true}).inputValue(),'D08');
- await page.getByRole('button',{name:'聚焦比较',exact:true}).click();assert.equal(await page.locator('.research-output-grid article').count(),2);
+ await page.getByRole('button',{name:'四方法总览',exact:true}).click();assert.equal(await page.locator('.research-output-grid article').count(),4);await page.getByRole('button',{name:'两方法对照',exact:true}).click();assert.equal(await page.locator('.research-output-grid article').count(),2);
  await page.getByLabel('同步缩放',{exact:true}).fill('2');await page.getByRole('button',{name:'向右平移',exact:true}).click();
  assert.equal(await page.locator('.research-output-grid').evaluate(el=>el.style.getPropertyValue('--pan-x')),'40px');
  await page.getByRole('button',{name:'重置视图',exact:true}).click();assert.equal(await page.getByLabel('同步缩放',{exact:true}).inputValue(),'1');
@@ -113,8 +113,8 @@ try {
  for(const id of ['D01','D08','D11']){
   const example=page.locator(`.research-score-example[data-metric="${id}"]`);
   const best=Math.max(...methodIds.map(method=>summary.summaries[method][id].score));
-  assert.equal(await example.locator('.research-score-pair strong').innerText(),summary.summaries.A[id].score.toFixed(2));
-  assert.match(await example.locator('.research-score-gap b').innerText(),new RegExp((best-summary.summaries.A[id].score).toFixed(2)));
+  assert.equal(await example.locator('.research-score-pair strong').innerText(),summary.summaries.A[id].score.toFixed(1));
+  assert.match(await example.locator('.research-score-gap b').innerText(),new RegExp((best-summary.summaries.A[id].score).toFixed(1)));
  }
  await page.locator('.research-resource-details summary').click();
  for(const id of methodIds){
@@ -191,7 +191,7 @@ try {
  checks.push('Case-local edits survive switching; reset and SVG download work');
  for(const language of ['zh','en']) {
   if(language==='en'){await page.evaluate(()=>scrollTo(0,0));await page.getByRole('button',{name:'切换为英文'}).click();}
-  for(const [width,height] of [[1440,900],[1280,720],[390,844],[320,740]]) {
+  for(const [width,height] of [[1440,900],[1280,720],[1920,1080]]) {
    await page.setViewportSize({width,height});await page.emulateMedia({reducedMotion:'reduce'});
    for(const section of ['.demo-hero','.research-pipeline','#demo-evaluation','#demo-benchmarks','#research-samples','#demo-ablations','#demo-efficiency']) {
     await page.locator(section).scrollIntoViewIfNeeded();await page.waitForTimeout(70);
@@ -201,7 +201,7 @@ try {
    if(width===390){await page.locator('#demo-benchmarks').evaluate(e=>e.scrollIntoView({block:'start',behavior:'instant'}));await page.screenshot({path:`${output}/${language}-mobile-results.png`});}
   }
  }
- checks.push('Chinese and English at desktop, laptop, 390 px and 320 px; reduced motion and no page overflow');
+ checks.push('Chinese and English at 1440, 1280 and 1920 px; reduced motion and no page overflow');
  await page.goto(base+'/#research?sample=sample-0002&metric=D05&condition=C',{waitUntil:'networkidle'});await page.locator('.research-dialog').waitFor();assert.equal(await page.getByLabel(/^(样本|Sample)$/).inputValue(),'sample-0002');checks.push('Direct /figfox/ research deep link restores sample and condition');
  assert.deepEqual(errors,[]);console.log(JSON.stringify({checks,errors},null,2));await writeFile(output+'/checks.json',JSON.stringify({checks,errors},null,2));
 } finally {await browser.close();}

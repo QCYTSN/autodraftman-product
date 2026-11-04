@@ -2,13 +2,14 @@ import { useState } from 'react';
 import { motion, useTransform } from 'motion/react';
 import { useResearch } from './ResearchContext';
 import { label, mainIds, number } from './data';
-import { comparableMetrics, criterionRank, gapToBest, meanScore, rankCounts } from './comparisonData';
+import { bestResult, comparableMetrics, criterionRank, gapToBest, meanScore, rankCounts } from './comparisonData';
+import { differenceText } from './display';
 import { useAnimatedScore } from './useAnimatedScore';
 import './comparisons.css';
 import { QualityCostPlot } from './QualityCostPlot';
 import { CriterionSelect } from './CriterionSelect';
 
-export function ScoreComparison() {
+export function ScoreComparison({ onLocate }: { onLocate: (metric: string) => void }) {
   const { data, language } = useResearch();
   if (!data) return null;
   const zh = language === 'zh';
@@ -20,18 +21,20 @@ export function ScoreComparison() {
       const metric = data.metrics.find(item => item.id === id)!;
       const score = data.summaries.A[id].score!;
       const gap = gapToBest(data, metric, 'A');
-      const best = score + gap;
+      const best = bestResult(data, metric);
+      const bestNames = best.methods.map(method => data.methods.find(item => item.id === method)!.name).join(' / ');
       return <figure className="research-score-example" data-demo-reveal key={id} data-metric={id}>
         <figcaption>{label(metric, language)}</figcaption>
-        <div className="research-score-pair"><div><small>FigFox</small><strong>{number(score, 2)}</strong></div><div><small>{zh ? '该项最高分' : 'Highest score'}</small><b>{number(best, 2)}</b></div></div>
-        <div className="research-score-track" role="img" aria-label={`FigFox ${number(score, 2)}, ${zh ? '最高分' : 'highest'} ${number(best, 2)}, 0–100`}>
-          <i style={{ left: `${score}%`, width: `${gap}%` }} /><b style={{ left: `${best}%` }} /><span style={{ left: `${score}%` }} />
+        <div className="research-score-pair"><div><small>FigFox</small><strong title={String(score)}>{number(score)}</strong></div><div><small>{zh ? '本项最高' : 'Best result'} · {bestNames}</small><b title={String(best.score)}>{number(best.score)}</b></div></div>
+        <div className="research-score-track" role="img" aria-label={`FigFox ${number(score)}, ${bestNames} ${number(best.score)}, 0–100`}>
+          <i style={{ left: `${Math.min(score, best.score ?? score)}%`, width: `${Number.isFinite(gap) ? gap : 0}%` }} /><b style={{ left: `${best.score ?? 0}%` }} /><span style={{ left: `${score}%` }} />
         </div>
-        <div className="research-score-gap"><span>0–100</span><b>{zh ? `相差 ${number(gap, 2)} 分` : `${number(gap, 2)} points apart`}</b></div>
+        <div className="research-score-gap"><span>0–100</span><b title={String(gap)}>{gap === 0 ? (best.methods.length > 1 ? (zh ? '本项并列最高' : 'Joint highest score') : (zh ? '本项最高' : 'Highest score')) : zh ? `相差 ${differenceText(gap)} 分` : `${differenceText(gap)} points apart`}</b></div>
+        <button className="research-text-action research-locate" onClick={() => onLocate(id)}>{zh ? '查看完整比较' : 'View full comparison'} ↓</button>
       </figure>;
     })}</div>
-    <p className="research-score-summary" data-demo-reveal>{zh ? `16 项同口径指标中，${closeCount} 项与该项最高分相差不超过 5 分。` : `Across 16 comparable criteria, ${closeCount} are within 5 points of their highest score.`}</p>
     <details className="research-settings research-ranking-details" data-demo-reveal="fade"><summary>{zh ? '查看排名分布' : 'View rank distribution'}<span>{zh ? '按原始分数计算，含并列' : 'Unrounded scores, including ties'}</span></summary>
+    <p className="research-score-summary">{zh ? `16 项同口径指标中，${closeCount} 项与该项最高分相差不超过 5 分。` : `Across 16 comparable criteria, ${closeCount} are within 5 points of their highest score.`}</p>
     <figure className="research-rank-distribution">
       <figcaption><span>{zh ? '四方法排名分布' : 'Rank distribution across four methods'}</span><div className="research-rank-legend">{rankLabels.map((text, index) => <span key={text}><i data-rank={index + 1} />{text}</span>)}</div></figcaption>
       {mainIds.map(id => {

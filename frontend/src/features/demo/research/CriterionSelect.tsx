@@ -3,6 +3,7 @@ import { CaretDown, Check } from '@phosphor-icons/react';
 import type { DemoLanguage } from '../cases';
 import { label as metricLabel, type Metric } from './data';
 import './criterion-select.css';
+import { groupLabel } from './display';
 
 type Props = {
   metrics: Metric[];
@@ -36,7 +37,7 @@ export function CriterionSelect({ metrics, value, onValueChange, label, ariaLabe
             <Select.List className="research-criterion-list">
               {overview && <Select.Group className="research-criterion-group"><Select.GroupLabel className="research-criterion-group-label">{zh ? '综合表现' : 'Across all criteria'}</Select.GroupLabel>{option(overview)}</Select.Group>}
               {groups.map(group => <Select.Group key={group} className="research-criterion-group">
-                <Select.GroupLabel className="research-criterion-group-label">{zh ? group : metrics.find(metric => metric.group === group)!.groupEn}</Select.GroupLabel>
+                <Select.GroupLabel className="research-criterion-group-label">{groupLabel(group, metrics.find(metric => metric.group === group)!.groupEn, zh)}</Select.GroupLabel>
                 {metrics.filter(metric => metric.group === group).map(metric => option({ value: metric.id, label: metricLabel(metric, language) }))}
               </Select.Group>)}
             </Select.List>

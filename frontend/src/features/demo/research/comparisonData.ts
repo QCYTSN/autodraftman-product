@@ -36,7 +36,15 @@ export function meanScore(data: Summary, method: string) {
 }
 
 export function gapToBest(data: Summary, metric: Metric, method: string) {
-  const scores = mainIds.map(id => data.summaries[id][metric.id].score!);
-  const best = metric.direction === 'lower' ? Math.min(...scores) : Math.max(...scores);
-  return Math.abs(best - data.summaries[method][metric.id].score!);
+  const best = bestResult(data, metric).score;
+  const score = data.summaries[method][metric.id].score;
+  return best === null || score === null ? Infinity : Math.abs(best - score);
+}
+
+export function bestResult(data: Summary, metric: Metric) {
+  const valid = mainIds.filter(id => { const score = data.summaries[id][metric.id].score; return score !== null && Number.isFinite(score); });
+  if (!valid.length) return { score: null, methods: [] as string[] };
+  const values = valid.map(id => data.summaries[id][metric.id].score!);
+  const score = metric.direction === 'lower' ? Math.min(...values) : Math.max(...values);
+  return { score, methods: valid.filter(id => data.summaries[id][metric.id].score === score) };
 }
