@@ -1329,6 +1329,10 @@ function WorkspacePage({
   const [sourceOpen, setSourceOpen] = useState(false);
   const dialogTrigger = useRef<HTMLElement | null>(null);
   const reconstruction = useReconstructionTask();
+  const reconstructionLimited = taskMode === "rebuild" && !!reconstruction.unavailableReason;
+  const reconstructionLimitLabel = reconstruction.unavailableReason === "test_limit"
+    ? language === "zh" ? "本轮手动测试次数已用完" : "This manual test has been used"
+    : language === "zh" ? "本轮测试剩余额度不足" : "Local test budget is insufficient";
   const progressTrigger = useRef<HTMLButtonElement | null>(null);
   useEffect(() => { if (!active) reconstruction.setOpen(false); }, [active, reconstruction.open, reconstruction.setOpen]);
   const [dragging, setDragging] = useState(false);
@@ -2296,7 +2300,7 @@ function WorkspacePage({
             <button type="button" className="workspace-process-button" onClick={event => {dialogTrigger.current=event.currentTarget;setProcessPreview(true);}}><PlayCircle size={17}/>{language === "zh" ? "流程示意" : "Process overview"}</button>
           </div>
           <div className="workspace-task-content">
-            {!(taskMode === "rebuild" && reconstruction.available) && <div className="workspace-service-status" id="workspace-service-status"><strong>{taskMode === "rebuild" && reconstruction.unavailableReason === "budget" ? language === "zh" ? "本轮测试剩余额度不足" : "Local test budget is insufficient" : language === "zh" ? taskMode === "rebuild" ? "重建服务未开放" : "生成服务未开放" : taskMode === "rebuild" ? "Reconstruction unavailable" : "Generation unavailable"}</strong><span>{taskMode === "rebuild" && reconstruction.unavailableReason === "budget" ? language === "zh" ? "已完成的结果仍可查看、下载和编辑。" : "Completed results remain available to view, download and edit." : language === "zh" ? taskMode === "rebuild" ? "目前可保存原图与要求，暂不能提交重建。" : "目前可保存绘图要求，暂不能提交生成。" : taskMode === "rebuild" ? "You can save the source image and notes, but cannot submit a reconstruction yet." : "You can save the brief, but cannot submit a generation yet."}</span></div>}
+            {!(taskMode === "rebuild" && reconstruction.available) && <div className="workspace-service-status" id="workspace-service-status"><strong>{reconstructionLimited ? reconstructionLimitLabel : language === "zh" ? taskMode === "rebuild" ? "重建服务未开放" : "生成服务未开放" : taskMode === "rebuild" ? "Reconstruction unavailable" : "Generation unavailable"}</strong><span>{reconstructionLimited ? language === "zh" ? "已完成的结果仍可查看、下载和编辑。" : "Completed results remain available to view, download and edit." : language === "zh" ? taskMode === "rebuild" ? "目前可保存原图与要求，暂不能提交重建。" : "目前可保存绘图要求，暂不能提交生成。" : taskMode === "rebuild" ? "You can save the source image and notes, but cannot submit a reconstruction yet." : "You can save the brief, but cannot submit a generation yet."}</span></div>}
             <section className={`control-panel ${dragging ? "is-dragging" : ""}`}
               onDragOver={event => {if(event.dataTransfer.types.includes("Files")){event.preventDefault();event.dataTransfer.dropEffect="copy";setDragging(true);}}}
               onDragLeave={event => {if(!event.currentTarget.contains(event.relatedTarget as Node | null))setDragging(false);}}

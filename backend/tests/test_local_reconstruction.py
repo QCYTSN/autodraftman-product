@@ -6,6 +6,7 @@ import subprocess
 import sys
 import threading
 import uuid
+from dataclasses import replace
 
 import httpx
 import pytest
@@ -198,3 +199,38 @@ def test_stream_requires_completion_and_keeps_usage():
         completed_response(iter(['data: {"type":"response.output_text.delta","delta":"<svg"}', ""]))
     with pytest.raises(ValueError, match="failed or incomplete"):
         completed_response(iter(['data: {"type":"response.incomplete"}', ""]))
+
+
+def test_manual_test_limit_accepts_one_job_and_keeps_idempotence(local):
+    _, _, settings, launches = local
+    limited = replace(settings, max_jobs=1)
+    with TestClient(
+        bridge.create_app(limited), base_url="http://127.0.0.1", client=("127.0.0.1", 1234)
+    ) as client:
+        key = str(uuid.uuid4())
+        first = submit(client, key)
+        assert first.status_code == 202
+        assert submit(client, key).json()["id"] == first.json()["id"]
+        state = client.get("/local-api/health").json()
+        assert state["available"] is False
+        assert state["remainingTestJobs"] == 0
+        assert "test_limit_reached" in state["problems"]
+        assert submit(client).status_code in (409, 503)
+        assert len(launches) == 1
+
+
+def test_explicit_limits_preserve_existing_cost_records(tmp_path, monkeypatch):
+    monkeypatch.setenv("FIGFOX_LOCAL_DATA", str(tmp_path))
+    assert Settings.from_env().total_budget == 5
+    receipt = tmp_path / "jobs/prior/run/G0/receipt.json"
+    receipt.parent.mkdir(parents=True)
+    receipt.write_text(json.dumps({"reserved_usd": 2.3, "known_usd": 0.7}))
+    limits = tmp_path / "test-limits.json"
+    limits.write_text(json.dumps({"cumulative_budget_usd": 8, "max_jobs": 2}))
+    settings = Settings.from_env()
+    assert settings.total_budget - exposure(tmp_path) == 5
+    assert settings.max_jobs == 2
+    assert receipt.is_file()
+    limits.write_text(json.dumps({"cumulative_budget_usd": -1, "max_jobs": 2}))
+    with pytest.raises(ValueError, match="Invalid local test budget"):
+        Settings.from_env()

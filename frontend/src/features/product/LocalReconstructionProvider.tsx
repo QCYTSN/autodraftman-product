@@ -39,7 +39,7 @@ export function LocalReconstructionProvider({ children }: { children: ReactNode 
     if (!import.meta.env.DEV || import.meta.env.VITE_LOCAL_RECONSTRUCTION !== "true" || !["127.0.0.1", "localhost"].includes(location.hostname)) return;
     const controller = new AbortController();
     request("/local-api/health", { signal: controller.signal }).then(state => {
-      if (!controller.signal.aborted && state.service === "figfox-local-v1") setConnectedClient({ ...client, canSubmit: state.available === true, unavailableReason: state.problems.includes("budget_exceeded") ? "budget" : undefined });
+      if (!controller.signal.aborted && state.service === "figfox-local-v1") setConnectedClient({ ...client, canSubmit: state.available === true, unavailableReason: state.problems.includes("test_limit_reached") ? "test_limit" : state.problems.includes("budget_exceeded") ? "budget" : undefined });
     }).catch(() => {});
     return () => controller.abort();
   }, []);

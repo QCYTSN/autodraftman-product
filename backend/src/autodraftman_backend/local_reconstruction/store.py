@@ -63,6 +63,10 @@ class JobStore:
             )
         return snapshot
 
+    def count(self):
+        with self.connect() as db:
+            return db.execute("SELECT COUNT(*) FROM jobs").fetchone()[0]
+
     def update(self, job_id, **changes):
         with self.connect() as db:
             db.execute("BEGIN IMMEDIATE")

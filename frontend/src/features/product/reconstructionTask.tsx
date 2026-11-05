@@ -20,7 +20,7 @@ export type ReconstructionInput = { draftId: string; image: File; prompt: string
  */
 export type ReconstructionClient = {
   canSubmit?: boolean;
-  unavailableReason?: "budget";
+  unavailableReason?: "budget" | "test_limit";
   submit: (input: ReconstructionInput & { requestId: string }, signal: AbortSignal) => Promise<ReconstructionSnapshot>;
   read: (id: string, signal: AbortSignal) => Promise<ReconstructionSnapshot>;
   recent?: (signal: AbortSignal) => Promise<ReconstructionSnapshot | null>;

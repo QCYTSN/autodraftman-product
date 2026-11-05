@@ -104,6 +104,8 @@ def create_app(settings: Settings | None = None):
         used = await asyncio.to_thread(exposure, settings.data)
         if used >= settings.total_budget or settings.total_budget - used < minimum_reserve:
             problems.append("budget_exceeded")
+        if settings.max_jobs is not None and store.count() >= settings.max_jobs:
+            problems.append("test_limit_reached")
         return {
             "service": "figfox-local-v1",
             "available": not problems,
@@ -111,6 +113,9 @@ def create_app(settings: Settings | None = None):
             "kernelCommit": KERNEL_COMMIT,
             "sam": True,
             "remainingBudgetUsd": max(0, round(settings.total_budget - used, 6)),
+            "remainingTestJobs": max(0, settings.max_jobs - store.count())
+            if settings.max_jobs is not None
+            else None,
         }
 
     @app.get("/local-api/health")
