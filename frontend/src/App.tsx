@@ -127,6 +127,8 @@ import { useWorkspaceView, rememberEditorOrigin, workspaceReturnHref } from "./f
 import { saveWorkspaceImage, readWorkspaceImage, deleteWorkspaceImage, imageDimensions } from "./features/product/workspaceImages";
 import { ProductPromptField } from "./features/product/ProductPromptField";
 import { FigureProcessPreview } from "./features/product/FigureProcess";
+import { ReconstructionProgress } from "./features/product/ReconstructionProgress";
+import { useReconstructionTask } from "./features/product/reconstructionTask";
 import { ProductLoginPage } from "./features/product/ProductLoginPage";
 import { PublicFeedbackPage } from "./features/product/PublicFeedbackPage";
 import { usePageTransition, type PageTransitionScope } from "./features/product/usePageTransition";
@@ -1325,6 +1327,9 @@ function WorkspacePage({
   const [processPreview, setProcessPreview] = useState(false);
   const [sourceOpen, setSourceOpen] = useState(false);
   const dialogTrigger = useRef<HTMLElement | null>(null);
+  const reconstruction = useReconstructionTask();
+  const progressTrigger = useRef<HTMLButtonElement | null>(null);
+  useEffect(() => { if (!active) reconstruction.setOpen(false); }, [active, reconstruction.open, reconstruction.setOpen]);
   const [dragging, setDragging] = useState(false);
   useEffect(() => { if (!active) { setProcessPreview(false); setSourceOpen(false); setHistoryOpen(false); } }, [active]);
   const [referenceAsset, setReferenceAsset] = useState<Asset | null>(null);
@@ -1777,7 +1782,13 @@ function WorkspacePage({
     setMessage(ui.workspace.generationUnavailable);
   };
 
-  const handleGenerate = () => {
+  const handleGenerate = async () => {
+    if (taskMode === "rebuild" && reconstruction.available) {
+      if (!referenceFile || !draftsReady || imageSaveState !== "saved" || reconstruction.busy) return;
+      if (!flushLocalDraft().ok) return;
+      await reconstruction.submit({ draftId: activeDraftId, image: referenceFile, prompt: prompt.trim() });
+      return;
+    }
     if (!apiConfigured) {
       setMessage(ui.workspace.generationUnavailable);
       return;
@@ -2264,6 +2275,11 @@ function WorkspacePage({
         <input ref={svg.input} className="sr-only" type="file" tabIndex={-1} accept=".svg,image/svg+xml" aria-label={language === "zh" ? "导入 SVG 文档" : "Import SVG document"} onChange={event => { const file = event.target.files?.[0]; event.target.value = ""; void svg.importFile(file); }}/>
         <div className="workspace-scroll">
         <div className={`workspace-layout workspace-view-${workspaceView}`}>
+        {reconstruction.task && <div className="workspace-progress-strip">
+          <span title={reconstruction.task.name}>{reconstruction.task.name}</span>
+          <button ref={progressTrigger} type="button" onClick={() => reconstruction.setOpen(true)}><ClockCounterClockwise size={17}/>{language === "zh" ? "查看进度" : "View progress"}</button>
+        </div>}
+        {reconstruction.submitFailed && <p className="workspace-file-error" role="alert">{language === "zh" ? "任务未能提交，请稍后重试。原图与要求已保留。" : "The task could not be submitted. Try again shortly; your image and notes are retained."}</p>}
         {svg.error && <p className="workspace-file-error" role="alert"><WarningCircle size={17}/>{svg.error}</p>}
         {workspaceView === "documents" ? <WorkspaceDocuments language={language} onOpenDocument={id => void svg.openDocument(id)} onExample={() => void svg.example()} operationBusy={svg.busy} onDocumentsChange={svg.refresh}/> : <>
           <h2 className="sr-only">{taskMode === "rebuild" ? language === "zh" ? "图片转 SVG" : "Image to SVG" : language === "zh" ? "文生图" : "Text to image"}</h2>
@@ -2278,7 +2294,7 @@ function WorkspacePage({
             <button type="button" className="workspace-process-button" onClick={event => {dialogTrigger.current=event.currentTarget;setProcessPreview(true);}}><PlayCircle size={17}/>{language === "zh" ? "流程示意" : "Process overview"}</button>
           </div>
           <div className="workspace-task-content">
-            <div className="workspace-service-status" id="workspace-service-status"><strong>{language === "zh" ? taskMode === "rebuild" ? "重建服务未开放" : "生成服务未开放" : taskMode === "rebuild" ? "Reconstruction unavailable" : "Generation unavailable"}</strong><span>{language === "zh" ? taskMode === "rebuild" ? "目前可保存原图与要求，暂不能提交重建。" : "目前可保存绘图要求，暂不能提交生成。" : taskMode === "rebuild" ? "You can save the source image and notes, but cannot submit a reconstruction yet." : "You can save the brief, but cannot submit a generation yet."}</span></div>
+            {!(taskMode === "rebuild" && reconstruction.available) && <div className="workspace-service-status" id="workspace-service-status"><strong>{language === "zh" ? taskMode === "rebuild" ? "重建服务未开放" : "生成服务未开放" : taskMode === "rebuild" ? "Reconstruction unavailable" : "Generation unavailable"}</strong><span>{language === "zh" ? taskMode === "rebuild" ? "目前可保存原图与要求，暂不能提交重建。" : "目前可保存绘图要求，暂不能提交生成。" : taskMode === "rebuild" ? "You can save the source image and notes, but cannot submit a reconstruction yet." : "You can save the brief, but cannot submit a generation yet."}</span></div>}
             <section className={`control-panel ${dragging ? "is-dragging" : ""}`}
               onDragOver={event => {if(event.dataTransfer.types.includes("Files")){event.preventDefault();event.dataTransfer.dropEffect="copy";setDragging(true);}}}
               onDragLeave={event => {if(!event.currentTarget.contains(event.relatedTarget as Node | null))setDragging(false);}}
@@ -2387,7 +2403,7 @@ function WorkspacePage({
           </Collapsible.Root>}
 
 
-                <div className="workspace-submit"><span id="workspace-submit-reason">{language === "zh" ? "服务未开放" : "Service unavailable"}</span><button type="button" className="generate-button" disabled aria-describedby="workspace-service-status workspace-submit-reason">{language === "zh" ? taskMode === "rebuild" ? "重建 SVG" : "生成图片" : taskMode === "rebuild" ? "Reconstruct SVG" : "Generate image"}<ArrowRight size={16}/></button></div>
+                <div className="workspace-submit"><span id="workspace-submit-reason">{taskMode === "rebuild" && reconstruction.available ? reconstruction.busy ? language === "zh" ? "任务处理中" : "Task in progress" : !referenceFile ? language === "zh" ? "请先添加原图" : "Add a source image" : "" : language === "zh" ? "服务未开放" : "Service unavailable"}</span><button type="button" className="generate-button" onClick={() => void handleGenerate()} disabled={taskMode !== "rebuild" || !reconstruction.available || !referenceFile || !draftsReady || imageSaveState !== "saved" || reconstruction.busy} aria-describedby="workspace-submit-reason">{reconstruction.submitting ? language === "zh" ? "正在提交…" : "Submitting…" : language === "zh" ? taskMode === "rebuild" ? "重建 SVG" : "生成图片" : taskMode === "rebuild" ? "Reconstruct SVG" : "Generate image"}<ArrowRight size={16}/></button></div>
               </div>
             </section>
             <button type="button" className="workspace-example" disabled={svg.busy} onClick={() => void svg.example()}><VectorThree size={17}/>{language === "zh" ? "编辑科研 SVG 示例" : "Edit a research SVG example"}<ArrowUpRight size={15}/></button>
@@ -2396,6 +2412,13 @@ function WorkspacePage({
         </div>
         </div>
       </div>
+
+      <Dialog.Root open={reconstruction.open && active} onOpenChange={reconstruction.setOpen}>
+        <Dialog.Portal><Dialog.Backdrop className="workspace-dialog-backdrop"/><Dialog.Viewport className="workspace-dialog-viewport"><Dialog.Popup className="workspace-dialog workspace-process-dialog" finalFocus={progressTrigger}>
+          <header><Dialog.Title>{language === "zh" ? "重建进度" : "Reconstruction progress"}</Dialog.Title><Dialog.Close aria-label={language === "zh" ? "关闭进度" : "Close progress"}><X size={20}/></Dialog.Close></header>
+          {reconstruction.task && <ReconstructionProgress snapshot={reconstruction.task.snapshot} name={reconstruction.task.name} disconnected={reconstruction.disconnected} language={language} onClose={() => reconstruction.setOpen(false)}/>}
+        </Dialog.Popup></Dialog.Viewport></Dialog.Portal>
+      </Dialog.Root>
 
       <Dialog.Root open={(sourceOpen || processPreview) && active} onOpenChange={open => {if(!open){setSourceOpen(false);setProcessPreview(false);}}}>
         <Dialog.Portal><Dialog.Backdrop className="workspace-dialog-backdrop"/><Dialog.Viewport className="workspace-dialog-viewport"><Dialog.Popup className={`workspace-dialog ${sourceOpen ? "workspace-source-dialog" : "workspace-process-dialog"}`} finalFocus={dialogTrigger}>

@@ -1,5 +1,5 @@
 import { ArrowClockwise, ArrowLeft, Check, Pause, Play, X } from "@phosphor-icons/react";
-import { motion, useReducedMotion } from "motion/react";
+import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import { useEffect, useId, useState, type CSSProperties } from "react";
 import type { ProductLanguage } from "../../ProductPages";
 import "./figure-process.css";
@@ -134,7 +134,7 @@ export function FigureProcessPreview({ active = true, language, mode, onClose }:
   return <section className="figure-process-preview" aria-label={zh ? "处理流程预览" : "Process preview"}>
     <header className="figure-process-preview-header"><span><i />{zh ? "流程示意" : "Process illustration"}</span><button type="button" onClick={onClose} aria-label={zh ? "关闭流程预览" : "Close process preview"}><X size={18} /></button></header>
     <FigureProcessGraphic stage={stage} mode={mode} running={active && playing && visible} />
-    <div className="figure-process-caption" aria-live="polite" aria-atomic="true"><h2>{phases[stage].title}</h2><p>{phases[stage].description}</p></div>
+    <div className="figure-process-caption" aria-live="polite" aria-atomic="true"><AnimatePresence initial={false} mode="wait"><motion.div key={stage} initial={{opacity:0,y:reducedMotion ? 0 : 5}} animate={{opacity:1,y:0}} exit={{opacity:0,y:reducedMotion ? 0 : -3}} transition={{duration:reducedMotion ? 0 : .16}}><h2>{phases[stage].title}</h2><p>{phases[stage].description}</p></motion.div></AnimatePresence></div>
     <ol className="figure-process-steps" style={{ "--process-steps": phases.length } as CSSProperties}>
       {phases.map((phase, index) => <li key={phase.title} data-state={index < stage ? "done" : index === stage ? "current" : "waiting"}><button type="button" aria-current={index === stage ? "step" : undefined} onClick={() => { setStage(index); setPlaying(false); }}><span>{index < stage ? <Check size={13} /> : String(index + 1).padStart(2, "0")}</span><strong>{phase.title}</strong></button></li>)}
     </ol>

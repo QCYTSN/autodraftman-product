@@ -135,6 +135,9 @@
 .workspace-process-dialog .figure-process-graphic { max-height:34vh; }
 .workspace-dialog-backdrop[data-starting-style], .workspace-dialog-backdrop[data-ending-style] { opacity:0; }
 .workspace-dialog[data-starting-style], .workspace-dialog[data-ending-style] { opacity:0; transform:translateY(6px); }
+.workspace-progress-strip { display:flex; align-items:center; justify-content:space-between; gap:16px; margin-bottom:20px; padding-block:12px; border-bottom:1px solid #e5e1ec; }
+.workspace-progress-strip > span { min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; color:#62697b; font-size:13px; }
+.workspace-progress-strip > button { display:inline-flex; align-items:center; flex-shrink:0; gap:7px; min-height:36px; padding:6px 0; color:#6243ce; background:transparent; font-size:14px; }
 @keyframes workspace-body-in { from { opacity:0; transform:translateY(6px); } to { opacity:1; transform:translateY(0); } }
 @media (min-width:901px) and (max-width:1199px) {
  .workspace-continue-header { display:none; }

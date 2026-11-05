@@ -1,0 +1,64 @@
+import { Check } from "@phosphor-icons/react";
+import { AnimatePresence, motion, useReducedMotion } from "motion/react";
+import { useEffect, useState, type CSSProperties } from "react";
+import type { ProductLanguage } from "../../ProductPages";
+import { FigureProcessGraphic } from "./FigureProcess";
+import { isReconstructionActive, reconstructionStages, type ReconstructionSnapshot } from "./reconstructionTask";
+
+const copy = {
+  zh: {
+    titles: ["重建 SVG", "检查关系", "修复问题", "整理结果"],
+    descriptions: ["重建文字、图形及它们之间的相对位置。", "检查局部布局、文字与连接关系。", "根据检查结果，调整需要修复的局部。", "准备可查看、下载和继续编辑的 SVG。"],
+    queued: "等待处理", running: "正在处理", succeeded: "SVG 已就绪", failed: "重建未完成", cancelled: "任务已取消",
+  },
+  en: {
+    titles: ["Reconstruct SVG", "Check relationships", "Repair issues", "Prepare the result"],
+    descriptions: ["Rebuild text, shapes and their relative positions.", "Review local layouts, labels and connections.", "Adjust the regions identified during review.", "Prepare the SVG for viewing, downloading and editing."],
+    queued: "Waiting to start", running: "Processing", succeeded: "SVG is ready", failed: "Reconstruction did not finish", cancelled: "Task cancelled",
+  },
+};
+
+export function ReconstructionProgress({ snapshot, name, disconnected, language, onClose }: {
+  snapshot: ReconstructionSnapshot; name: string; disconnected: boolean; language: ProductLanguage; onClose: () => void;
+}) {
+  const reduced = useReducedMotion();
+  const [visible, setVisible] = useState(document.visibilityState !== "hidden");
+  useEffect(() => {
+    const update = () => setVisible(document.visibilityState !== "hidden");
+    document.addEventListener("visibilitychange", update);
+    return () => document.removeEventListener("visibilitychange", update);
+  }, []);
+  const zh = language === "zh";
+  const text = copy[language];
+  const stage = snapshot.stage ? reconstructionStages.indexOf(snapshot.stage) : -1;
+  const running = snapshot.status === "running";
+  const done = snapshot.status === "succeeded";
+  const active = isReconstructionActive(snapshot);
+  const title = running && stage >= 0 ? text.titles[stage] : text[snapshot.status];
+  const description = running && stage >= 0 ? text.descriptions[stage] : snapshot.status === "queued"
+    ? zh ? "任务已提交，开始处理后会自动更新。" : "Your task is submitted. Progress will update when processing starts."
+    : done ? zh ? "重建已完成，可以返回工作台。" : "Reconstruction is complete. Return to your workspace."
+    : !active ? zh ? "原图与要求仍保留在工作台中。" : "Your source image and notes are still in the workspace."
+    : zh ? "收到阶段信息后会自动更新。" : "The current stage will appear when reported by the service.";
+
+  return <section className="figure-process-preview reconstruction-progress" aria-label={zh ? "重建进度" : "Reconstruction progress"} data-status={snapshot.status} data-stage={snapshot.stage || "unknown"}>
+    <p className="reconstruction-source" title={name}>{name}</p>
+    <FigureProcessGraphic stage={done ? 4 : Math.max(0, stage)} running={running && !disconnected && visible} />
+    <div className="figure-process-caption" role="status" aria-live="polite" aria-atomic="true">
+      <AnimatePresence initial={false} mode="wait">
+        <motion.div key={`${snapshot.status}-${snapshot.stage}`} initial={{ opacity: 0, y: reduced ? 0 : 5 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: reduced ? 0 : -3 }} transition={{ duration: reduced ? 0 : .16 }}>
+          <h2>{title}</h2><p>{description}</p>
+        </motion.div>
+      </AnimatePresence>
+    </div>
+    <ol className="figure-process-steps" style={{ "--process-steps": 4 } as CSSProperties}>
+      {text.titles.map((label, index) => <li key={label} data-state={done || index < stage ? "done" : running && index === stage ? "current" : "waiting"} aria-current={running && index === stage ? "step" : undefined}>
+        <div className="figure-process-step"><span>{done || index < stage ? <Check size={13}/> : String(index + 1).padStart(2, "0")}</span><strong>{label}</strong></div>
+      </li>)}
+    </ol>
+    <footer className="figure-process-preview-footer">
+      <p role={disconnected ? "status" : undefined}>{disconnected ? zh ? "正在重新连接，显示上次收到的阶段。" : "Reconnecting. Showing the last reported stage." : active ? zh ? "关闭窗口后仍会继续处理，可随时查看进度。" : "Processing continues when you close this window. Reopen progress at any time." : zh ? "任务状态已更新。" : "Task status updated."}</p>
+      <button type="button" onClick={onClose}>{zh ? "返回工作台" : "Back to workspace"}</button>
+    </footer>
+  </section>;
+}

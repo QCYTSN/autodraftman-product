@@ -26,6 +26,7 @@ try {
   assert.equal(await page.locator('.product-plan img[src*="pricing-"]').count(), 3);
   assert.deepEqual(await page.locator(".product-plan-price strong").allTextContents(), ["9", "19", "39"]);
   await page.getByRole("button", { name: /年付/ }).click();
+  await page.waitForFunction(() => [...document.querySelectorAll('.product-plan-price strong')].map(el => el.textContent).join(',') === '7,15,31' && document.querySelector('.product-plan-billing')?.textContent.includes('84'));
   assert.deepEqual(await page.locator(".product-plan-price strong").allTextContents(), ["7", "15", "31"]);
   assert.ok((await page.locator(".product-plan-billing").first().innerText()).includes("84"));
   record("Three original plan names and icons; monthly and annual prices");
