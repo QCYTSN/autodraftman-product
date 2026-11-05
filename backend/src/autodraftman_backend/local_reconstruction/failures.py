@@ -2,10 +2,15 @@
 
 import json
 
+from .background import RequestNotSubmitted
+from .recovery import recovery_mode
 
-def failure_details(job, error):
+
+def failure_details(job, error, stage=None):
     message = str(error).lower()
-    if "input bound before http" in message:
+    if isinstance(error, RequestNotSubmitted):
+        code = "connection_unavailable"
+    elif "input bound before http" in message:
         code = "input_too_large"
     elif "budget" in message:
         code = "budget_exceeded"
@@ -17,31 +22,29 @@ def failure_details(job, error):
         code = "kernel_failed"
     known, reserved, calls = 0.0, 0.0, 0
     for path in job.glob("**/receipt.json"):
-        calls += 1
         try:
             receipt = json.loads(path.read_text(encoding="utf-8"))
+            calls += receipt.get("status") != "not_submitted"
             known += float(receipt.get("known_usd") or 0)
             reserved += float(receipt.get("reserved_usd") or 0)
         except (ValueError, TypeError):
             return {"error": code, "failure": {"billing": "unknown", "retryable": False}}
     if reserved:
         code = "provider_unconfirmed" if code not in ("budget_exceeded", "timeout") else code
+    mode = recovery_mode({"status": "failed", "stage": stage, "error": code}, job)
     return {
         "error": code,
         "failure": {
             "billing": "unconfirmed" if reserved else "recorded" if calls else "not_started",
             "costUsd": round(known, 6),
             "reservedUsd": round(reserved, 6),
-            "retryable": calls == 0 and code in ("input_too_large", "preparation_failed"),
+            "retryable": mode is not None,
+            "resume": mode == "resume",
         },
     }
 
 
 def can_retry(snapshot, folder):
-    # No retry may hide a submitted or ambiguously charged request, regardless of UI state.
-    return (
-        snapshot["status"] == "failed"
-        and (snapshot.get("failure") or {}).get("retryable") is True
-        and snapshot.get("retryCount", 0) < 2
-        and not any(folder.glob("**/receipt.json"))
-    )
+    return (snapshot.get("failure") or {}).get("retryable") is True and recovery_mode(
+        snapshot, folder
+    ) is not None

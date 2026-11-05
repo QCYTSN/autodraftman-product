@@ -12,6 +12,7 @@ export function ReconstructionResult({ snapshot, zh, onEdit, busy }: { snapshot:
         <a href={snapshot.result.svg} download><DownloadSimple size={16}/>SVG</a><a href={snapshot.result.png} download><DownloadSimple size={16}/>PNG</a>
       </div>
       <small>{zh ? "耗时" : "Time"} {(snapshot.result.elapsedSeconds / 60).toFixed(1)} {zh ? "分钟" : "min"}{snapshot.result.costUsd != null ? ` · ${zh ? "估算 API 费用" : "Estimated API cost"} $${snapshot.result.costUsd.toFixed(3)}` : ""}</small>
+      {snapshot.result.costUsd == null && snapshot.result.knownCostUsd != null && <small>{zh ? "已记录 API 费用" : "Recorded API cost"} ${snapshot.result.knownCostUsd.toFixed(3)}{(snapshot.result.reservedCostUsd || 0) > 0 ? zh ? " · 另有断线调用费用待确认" : " · Disconnected call billing pending" : ""}</small>}
     </div>
   </section>;
 }

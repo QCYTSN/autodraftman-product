@@ -7,13 +7,14 @@ await mkdir('.review/local-retry', { recursive: true });
 const browser = await chromium.launch({ executablePath: 'C:/Program Files/Google/Chrome/Application/chrome.exe', headless: true });
 const errors = [];
 try {
-  for (const uncertain of [false, true]) {
+  for (const mode of ['retry', 'resume', 'uncertain']) {
+    const uncertain = mode === 'uncertain', resume = mode === 'resume';
     const context = await browser.newContext({ viewport: { width: 390, height: 844 }, reducedMotion: 'reduce' });
     await context.addInitScript(() => localStorage.setItem('autodraftman-language', 'zh'));
     const page = await context.newPage();
     page.on('pageerror', e => errors.push(e.message));
     let posts = 0;
-    const job = { id: 'a'.repeat(32), revision: 2, status: 'failed', stage: 'reconstruct', name: 'example.png', error: uncertain ? 'provider_unconfirmed' : 'input_too_large', failure: { billing: uncertain ? 'unconfirmed' : 'not_started', retryable: !uncertain, costUsd: 0, reservedUsd: uncertain ? 2.29 : 0 } };
+    const job = { id: 'a'.repeat(32), revision: 2, status: 'failed', stage: resume ? 'repair' : 'reconstruct', name: 'example.png', error: uncertain ? 'provider_unconfirmed' : 'input_too_large', failure: { billing: uncertain ? 'unconfirmed' : resume ? 'recorded' : 'not_started', retryable: !uncertain, resume, costUsd: resume ? .47 : 0, reservedUsd: uncertain ? 2.29 : 0 } };
     await page.route('**/local-api/**', async route => {
       const url = new URL(route.request().url());
       let body;
@@ -30,11 +31,11 @@ try {
     await page.getByRole('button', { name: '查看进度', exact: true }).click();
     const dialog = page.getByRole('dialog');
     await dialog.locator('.reconstruction-failure').waitFor();
-    const retry = dialog.getByRole('button', { name: '重试此图', exact: true });
+    const retry = dialog.getByRole('button', { name: resume ? '继续未完成的步骤' : '重试此图', exact: true });
     assert.equal(await retry.count(), uncertain ? 0 : 1);
     await page.waitForTimeout(600);
     assert.equal(await dialog.evaluate(el => el.scrollWidth <= el.clientWidth + 1), true);
-    await page.screenshot({ path: `.review/local-retry/mobile-${uncertain ? 'unconfirmed' : 'retry'}.png` });
+    await page.screenshot({ path: `.review/local-retry/mobile-${mode}.png` });
     if (!uncertain) {
       await retry.evaluate(el => { el.click(); el.click(); });
       await dialog.locator('[data-status="queued"]').waitFor();
@@ -49,5 +50,5 @@ try {
     await context.close();
   }
   assert.deepEqual(errors, []);
-  console.log('PASS: mobile failure, safe retry, duplicate-click guard, reopen, unconfirmed billing, reduced motion');
+  console.log('PASS: mobile failure, safe retry/resume, duplicate-click guard, reopen, unconfirmed billing, reduced motion');
 } finally { await browser.close(); }

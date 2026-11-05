@@ -22,6 +22,7 @@ from starlette.middleware.trustedhost import TrustedHostMiddleware
 
 from .failures import can_retry, failure_details
 from .locking import exclusive
+from .recovery import is_unsent, recovery_mode
 from .settings import KERNEL_COMMIT, ROOT, Settings, exposure, load_credentials
 from .store import JobStore
 
@@ -77,7 +78,7 @@ def create_app(settings: Settings | None = None):
         response.headers["X-Content-Type-Options"] = "nosniff"
         return response
 
-    async def readiness(*, existing_job=False):
+    async def readiness(*, existing_job=False, stage_name="G0"):
         problems = []
         minimum_reserve = 0
         if not (settings.kernel / "product-runtime-manifest.json").is_file():
@@ -90,7 +91,7 @@ def create_app(settings: Settings | None = None):
                 keys = load_credentials(settings.credentials)
                 if any(not keys.get(value["key_env"]) for value in config["stages"].values()):
                     problems.append("credentials_missing")
-                first = config["stages"]["G0"]
+                first = config["stages"][stage_name]
                 minimum_reserve = (
                     first["max_input_tokens"] * first["input_usd_per_million"]
                     + first["max_output_tokens"] * first["output_usd_per_million"]
@@ -283,20 +284,50 @@ def create_app(settings: Settings | None = None):
                 raise HTTPException(409, "This task cannot be retried safely")
             if tasks:
                 raise HTTPException(409, "A reconstruction is already running")
-            state = await readiness(existing_job=True)
+            mode = recovery_mode(job, folder)
+            pending = (
+                {"inspect": "G1", "repair": "G2"}.get(job.get("stage"), "G0")
+                if mode == "resume"
+                else "G0"
+            )
+            state = await readiness(existing_job=True, stage_name=pending)
             if not state["available"]:
                 raise HTTPException(503, {"code": "unavailable", "problems": state["problems"]})
             try:
                 with exclusive(settings.data / "worker.lock"):
-                    archive = folder / "preflight-attempts" / str(job["revision"])
+                    if not can_retry(job, folder):
+                        raise OSError("Recovery evidence changed")
+                    pending_call = folder / "run" / pending / "call"
+                    pending_receipt = pending_call / "receipt.json"
+                    if mode == "resume" and pending_receipt.exists() and is_unsent(pending_receipt):
+                        retained = folder / "run" / pending / "unsent-calls" / str(job["revision"])
+                        if not pending_call.resolve().is_relative_to(
+                            folder.resolve()
+                        ) or not retained.resolve().is_relative_to(folder.resolve()):
+                            raise OSError("Recovery path outside task")
+                        retained.parent.mkdir(parents=True, exist_ok=True)
+                        pending_call.rename(retained)
+                    archive = (
+                        folder
+                        / ("resume-records" if mode == "resume" else "preflight-attempts")
+                        / str(job["revision"])
+                    )
                     archive.mkdir(parents=True, exist_ok=False)
-                    for name in (
-                        "run",
-                        "failure.txt",
-                        "events.json",
-                        "effective-config.json",
-                        "worker.log",
-                    ):
+                    names = (
+                        ("failure.txt", "worker.log")
+                        if mode == "resume"
+                        else (
+                            "run",
+                            "failure.txt",
+                            "events.json",
+                            "effective-config.json",
+                            "worker.log",
+                        )
+                    )
+                    (archive / "snapshot.json").write_text(
+                        json.dumps(job, indent=2), encoding="utf-8"
+                    )
+                    for name in names:
                         source = folder / name
                         if source.exists():
                             if not source.resolve().is_relative_to(
@@ -312,6 +343,7 @@ def create_app(settings: Settings | None = None):
                         failure=None,
                         retryCount=job.get("retryCount", 0) + 1,
                         retryOfRevision=job["revision"],
+                        resumeStage=job["stage"] if mode == "resume" else None,
                     )
             except OSError:
                 raise HTTPException(409, "Task recovery is not available yet") from None

@@ -1332,7 +1332,7 @@ function WorkspacePage({
   const reconstructionLimited = taskMode === "rebuild" && !!reconstruction.unavailableReason;
   const reconstructionLimitLabel = reconstruction.unavailableReason === "test_limit"
     ? language === "zh" ? "本轮手动测试次数已用完" : "This manual test has been used"
-    : language === "zh" ? "本轮测试剩余额度不足" : "Local test budget is insufficient";
+    : (language === "zh" ? "本轮测试剩余额度不足" : "Local test budget is insufficient") + (reconstruction.remainingBudgetUsd != null ? ` ($${reconstruction.remainingBudgetUsd.toFixed(2)})` : "");
   const progressTrigger = useRef<HTMLButtonElement | null>(null);
   useEffect(() => { if (!active) reconstruction.setOpen(false); }, [active, reconstruction.open, reconstruction.setOpen]);
   const [dragging, setDragging] = useState(false);

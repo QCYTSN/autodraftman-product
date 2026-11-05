@@ -10,8 +10,8 @@ export type ReconstructionSnapshot = {
   name?: string;
   draftId?: string;
   error?: string | null;
-  failure?: { billing: "not_started" | "recorded" | "unconfirmed" | "unknown"; costUsd?: number; reservedUsd?: number; retryable: boolean } | null;
-  result?: { svg: string; png: string; costUsd: number | null; elapsedSeconds: number; unresolvedCount: number; sha256: string } | null;
+  failure?: { billing: "not_started" | "recorded" | "unconfirmed" | "unknown"; costUsd?: number; reservedUsd?: number; retryable: boolean; resume?: boolean } | null;
+  result?: { svg: string; png: string; costUsd: number | null; knownCostUsd?: number; reservedCostUsd?: number; elapsedSeconds: number; unresolvedCount: number; sha256: string } | null;
 };
 export type ReconstructionInput = { draftId: string; image: File; prompt: string };
 
@@ -22,6 +22,7 @@ export type ReconstructionInput = { draftId: string; image: File; prompt: string
 export type ReconstructionClient = {
   canSubmit?: boolean;
   unavailableReason?: "budget" | "test_limit";
+  remainingBudgetUsd?: number;
   submit: (input: ReconstructionInput & { requestId: string }, signal: AbortSignal) => Promise<ReconstructionSnapshot>;
   read: (id: string, signal: AbortSignal) => Promise<ReconstructionSnapshot>;
   recent?: (signal: AbortSignal) => Promise<ReconstructionSnapshot | null>;
@@ -134,5 +135,5 @@ export function useReconstructionTask() {
     }
   };
 
-  return { available: !!client && client.canSubmit !== false, unavailableReason: client?.unavailableReason, task, open, setOpen, submit, retry: client?.retry ? retry : undefined, submitting, submitFailed, disconnected, busy: submitting || running };
+  return { available: !!client && client.canSubmit !== false, unavailableReason: client?.unavailableReason, remainingBudgetUsd: client?.remainingBudgetUsd, task, open, setOpen, submit, retry: client?.retry ? retry : undefined, submitting, submitFailed, disconnected, busy: submitting || running };
 }

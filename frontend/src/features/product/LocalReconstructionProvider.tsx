@@ -43,10 +43,19 @@ export function LocalReconstructionProvider({ children }: { children: ReactNode 
     // No service probe or client is enabled in a static/production build.
     if (!import.meta.env.DEV || import.meta.env.VITE_LOCAL_RECONSTRUCTION !== "true" || !["127.0.0.1", "localhost"].includes(location.hostname)) return;
     const controller = new AbortController();
-    request("/local-api/health", { signal: controller.signal }).then(state => {
-      if (!controller.signal.aborted && state.service === "figfox-local-v1") setConnectedClient({ ...client, canSubmit: state.available === true, unavailableReason: state.problems.includes("test_limit_reached") ? "test_limit" : state.problems.includes("budget_exceeded") ? "budget" : undefined });
-    }).catch(() => {});
-    return () => controller.abort();
+    let timer: ReturnType<typeof setTimeout>;
+    const refresh = async () => {
+      try {
+        const state = await request("/local-api/health", { signal: controller.signal });
+        if (!controller.signal.aborted && state.service === "figfox-local-v1") {
+          const next: ReconstructionClient = { ...client, canSubmit: state.available === true, remainingBudgetUsd: state.remainingBudgetUsd, unavailableReason: state.problems.includes("test_limit_reached") ? "test_limit" : state.problems.includes("budget_exceeded") ? "budget" : undefined };
+          setConnectedClient(previous => previous?.canSubmit === next.canSubmit && previous?.unavailableReason === next.unavailableReason && previous?.remainingBudgetUsd === next.remainingBudgetUsd ? previous : next);
+        }
+      } catch { /* Task polling retains the last known stage during a service interruption. */ }
+      if (!controller.signal.aborted) timer = setTimeout(refresh, 10_000);
+    };
+    void refresh();
+    return () => { controller.abort(); clearTimeout(timer); };
   }, []);
   return <ReconstructionContext value={connectedClient}>{children}</ReconstructionContext>;
 }

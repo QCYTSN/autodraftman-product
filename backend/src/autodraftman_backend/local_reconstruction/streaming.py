@@ -6,6 +6,8 @@ import time
 
 import httpx
 
+from .background import RequestNotSubmitted, background_response, release_unsent_reserve
+
 
 def completed_response(lines):
     """Accept only the final provider response, including its usage; never partial text."""
@@ -26,18 +28,31 @@ def completed_response(lines):
     raise ValueError("Provider stream ended without completion")
 
 
-def install(transport):
+def install(transport, *, background=False):
     original = transport.request
 
     def request(folder, prompt, images, settings, *, http=None):
         if http is not None or settings.get("protocol", "responses") != "responses":
             return original(folder, prompt, images, settings, http=http)
 
+        if background:
+            settings = {**settings, "local_request_mode": "responses-background-v1"}
+            try:
+                return original(
+                    folder,
+                    prompt,
+                    images,
+                    settings,
+                    http=lambda body: background_response(body, settings, folder),
+                )
+            except RequestNotSubmitted:
+                release_unsent_reserve(folder)
+                raise
+
         def stream(body):
             timeout = settings.get("timeout_seconds", 900)
             started = time.monotonic()
-            # httpx does not use the Windows registry's implicit proxy; explicit
-            # HTTP(S)_PROXY remains supported. There are no automatic paid retries.
+            # Preserve the configured/system proxy. No read-side failure resubmits a POST.
             with httpx.Client(timeout=timeout) as client:
                 with client.stream(
                     "POST",

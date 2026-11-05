@@ -9,7 +9,7 @@ import time
 from pathlib import Path
 
 from .failures import failure_details
-from .inputs import pack_sam_inputs
+from .inputs import INPUT_POLICY, prepare_inputs
 from .locking import exclusive
 from .settings import Settings, exposure, load_credentials
 from .store import JobStore
@@ -25,17 +25,25 @@ def run(job_id: str, settings: Settings):
     sys.path.insert(0, str(settings.kernel / "src"))
     from figfox_plus.factual import pipeline, transport
 
-    install_streaming(transport)
+    install_streaming(transport, background=True)
 
-    config = json.loads(settings.config.read_text(encoding="utf-8"))
-    config["local_transport"] = "responses-sse-v1"
-    config["local_input_policy"] = "sam-contact-sheets-v1"
-    config["budget_usd"] = min(
-        config["budget_usd"], settings.total_budget - exposure(settings.data)
-    )
-    (job / "effective-config.json").write_text(json.dumps(config, indent=2), encoding="utf-8")
+    saved_config = job / "effective-config.json"
+    if saved_config.exists():
+        # The original budget and completed-stage identities stay frozen on continuation.
+        config = json.loads(saved_config.read_text(encoding="utf-8"))
+    else:
+        config = json.loads(settings.config.read_text(encoding="utf-8"))
+        config["local_transport"] = "responses-background-v1"
+        config["local_input_policy"] = INPUT_POLICY
+        config["budget_usd"] = min(
+            config["budget_usd"], settings.total_budget - exposure(settings.data)
+        )
+        saved_config.write_text(json.dumps(config, indent=2), encoding="utf-8")
     started = time.monotonic()
-    events = []
+    snapshot = store.get(job_id)
+    previous_seconds = snapshot.get("processingSeconds", 0)
+    events_file = job / "events.json"
+    events = json.loads(events_file.read_text(encoding="utf-8")) if events_file.exists() else []
 
     def stage(value):
         store.update(job_id, status="running", stage=value)
@@ -43,7 +51,7 @@ def run(job_id: str, settings: Settings):
         (job / "events.json").write_text(json.dumps(events, indent=2), encoding="utf-8")
 
     try:
-        stage("reconstruct")
+        stage(snapshot.get("resumeStage") or "reconstruct")
         send_kernel = transport.sender(config, job / "run")
 
         def send(name, prompt, payload, images, folder):
@@ -51,16 +59,23 @@ def run(job_id: str, settings: Settings):
                 stage("inspect")
             elif name == "G2":
                 stage("repair")
-            if name == "G0":
-                prompt, images = pack_sam_inputs(
-                    prompt,
-                    payload,
-                    images,
-                    folder,
-                    config["stages"][name]["max_input_tokens"]
-                    - len(request["prompt"].encode("utf-8"))
-                    - 128,
-                )
+            provider = config["stages"][name]
+            if not (folder / "receipt.json").exists():
+                reserve = (
+                    provider["max_input_tokens"] * provider["input_usd_per_million"]
+                    + provider["max_output_tokens"] * provider["output_usd_per_million"]
+                ) / 1e6
+                if reserve > settings.total_budget - exposure(settings.data):
+                    raise ValueError("request reserve exceeds cumulative budget")
+            prompt, images = prepare_inputs(
+                name,
+                prompt,
+                payload,
+                images,
+                folder,
+                provider["max_input_tokens"]
+                - (len(request["prompt"].encode("utf-8")) + 128 if name == "G0" else 0),
+            )
             # Preserve the kernel prompts and bind the user's request explicitly to G0.
             if name == "G0" and request["prompt"]:
                 prompt += (
@@ -90,20 +105,25 @@ def run(job_id: str, settings: Settings):
         ):
             raise ValueError("Result validation failed")
         known_cost = 0.0
+        reserved_cost = 0.0
         usage_known = True
         for receipt in (job / "run").glob("**/receipt.json"):
             usage = json.loads(receipt.read_text(encoding="utf-8"))
             usage_known &= usage.get("known_usd") is not None
             known_cost += usage.get("known_usd") or 0
+            reserved_cost += usage.get("reserved_usd") or 0
         store.update(
             job_id,
             status="succeeded",
             stage="finalize",
+            processingSeconds=round(previous_seconds + time.monotonic() - started, 2),
             result={
                 "svg": f"/local-api/jobs/{job_id}/result.svg",
                 "png": f"/local-api/jobs/{job_id}/result.png",
                 "costUsd": round(known_cost, 6) if usage_known else None,
-                "elapsedSeconds": round(time.monotonic() - started, 2),
+                "knownCostUsd": round(known_cost, 6),
+                "reservedCostUsd": round(reserved_cost, 6),
+                "elapsedSeconds": round(previous_seconds + time.monotonic() - started, 2),
                 "unresolvedCount": len(
                     (result.get("native_acceptance") or {}).get("unresolved", [])
                 ),
@@ -115,10 +135,15 @@ def run(job_id: str, settings: Settings):
         import traceback
 
         (job / "failure.txt").write_text(traceback.format_exc(), encoding="utf-8")
-        details = failure_details(job, error)
+        details = failure_details(job, error, store.get(job_id).get("stage"))
         if store.get(job_id).get("retryCount", 0) >= 2:
             details["failure"]["retryable"] = False
-        store.update(job_id, status="failed", **details)
+        store.update(
+            job_id,
+            status="failed",
+            processingSeconds=round(previous_seconds + time.monotonic() - started, 2),
+            **details,
+        )
         return 1
     return 0
 

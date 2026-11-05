@@ -16,16 +16,17 @@ try {
   await page.goto(base + '/workspace', { waitUntil: 'networkidle' });
   await page.getByRole('button', { name: '查看进度', exact: true }).click();
   const dialog = page.getByRole('dialog');
-  await dialog.getByText('本次尚未调用模型', { exact: false }).waitFor();
-  await dialog.getByRole('button', { name: '重试此图', exact: true }).waitFor();
-  await page.waitForTimeout(600);
-  await page.screenshot({ path: out + '/failure-recovery.png' });
   const history = await (await page.request.get(base + '/local-api/jobs')).json();
   job = history[0];
-  assert.equal(job.failure.billing, 'not_started');
+  const retryName = job.failure?.resume ? '继续未完成的步骤' : '重试此图';
+  await dialog.getByRole('button', { name: retryName, exact: true }).waitFor();
+  await page.waitForTimeout(600);
+  await page.screenshot({ path: out + '/failure-recovery.png' });
+  assert.equal(job.failure.retryable, true);
+  assert.ok(['not_started', 'recorded'].includes(job.failure.billing));
   if (process.argv.includes('--retry')) {
     const response = page.waitForResponse(r => r.url().endsWith('/retry') && r.request().method() === 'POST');
-    await dialog.getByRole('button', { name: '重试此图', exact: true }).click();
+    await dialog.getByRole('button', { name: retryName, exact: true }).click();
     const accepted = await response;
     assert.equal(accepted.status(), 202);
     assert.equal((await accepted.json()).id, job.id);

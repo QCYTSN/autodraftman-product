@@ -7,6 +7,12 @@ from pathlib import Path
 
 from PIL import Image, ImageDraw, ImageFont
 
+INPUT_POLICY = "bounded-attachments-v2"
+
+
+class InputTooLarge(ValueError):
+    pass
+
 
 def input_bound(prompt, images):
     bound = len(prompt.encode("utf-8"))
@@ -97,3 +103,86 @@ def pack_sam_inputs(prompt, payload, images, folder, limit):
         encoding="utf-8",
     )
     return prompt, packed
+
+
+def prepare_inputs(stage, prompt, payload, images, folder, limit):
+    """Apply one input guard to every stage, without dropping or resampling evidence."""
+    serialized = "\n" + json.dumps(payload, ensure_ascii=False)
+    before = input_bound(prompt + serialized, images)
+    if before <= limit:
+        return prompt, images
+    if stage == "G0":
+        prompt, images = pack_sam_inputs(prompt, payload, images, folder, limit)
+    if input_bound(prompt + serialized, images) <= limit:
+        return prompt, images
+
+    # Source/initial remain separate. Pack the other images at their exact pixel size.
+    # A shelf layout removes repeated image overhead and avoids sparse half-empty tiles.
+    keep = 1 if stage == "G0" else 2
+    output = Path(folder).parent / "model-atlas"
+    output.mkdir(exist_ok=True)
+    packed, entries, shelf = list(images[:keep]), [], []
+    x = y = row_height = used_width = 0
+    font = ImageFont.load_default(size=14)
+
+    def flush():
+        nonlocal shelf, x, y, row_height, used_width
+        if not shelf:
+            return
+        atlas = Image.new("RGB", (used_width, y + row_height), "white")
+        draw = ImageDraw.Draw(atlas)
+        for item, image in shelf:
+            left, top = item["atlas_box"][:2]
+            draw.text((left + 4, top - 22), item["label"], font=font, fill="black")
+            atlas.paste(image, (left, top), image)
+            entries.append(item)
+        path = output / f"evidence-{len(packed) - keep + 1}.png"
+        atlas.save(path)
+        packed.append(path)
+        shelf, x, y, row_height, used_width = [], 0, 0, 0, 0
+
+    for index, path in enumerate(images[keep:], start=keep + 1):
+        with Image.open(path) as source:
+            image = source.convert("RGBA")
+        width, height = image.size
+        cell_width, cell_height = max(width, 256), height + 28
+        if x and x + cell_width > 1536:
+            x, y, row_height = 0, y + row_height, 0
+        if shelf and y + cell_height > 2048:
+            flush()
+        item = {
+            "input_index": index,
+            "label": f"INPUT {index}: {Path(path).name}",
+            "attachment": len(packed) + 1,
+            "atlas_box": [x, y + 28, x + width, y + 28 + height],
+            "original_size": [width, height],
+            "sha256": hashlib.sha256(Path(path).read_bytes()).hexdigest(),
+        }
+        shelf.append((item, image))
+        x += cell_width
+        row_height = max(row_height, cell_height)
+        used_width = max(used_width, x)
+    flush()
+    note = (
+        "\nAttachment layout: the first " + str(keep) + " images are unchanged. "
+        "Subsequent original attachments are packed into labelled evidence sheets at EXACT "
+        "original pixel size. Read each INPUT panel as the corresponding original image. "
+        "Source/initial sides, crop coordinates and display_scale values in the payload are "
+        "unchanged. Sheet positions are not source-canvas coordinates. Panel mapping: "
+        + json.dumps([{k: v for k, v in item.items() if k != "sha256"} for item in entries])
+    )
+    candidate = prompt + note
+    after = input_bound(candidate + serialized, packed)
+    manifest = {
+        "policy": INPUT_POLICY,
+        "stage": stage,
+        "before_bound": before,
+        "after_bound": after,
+        "limit": limit,
+        "resampled": False,
+        "panels": entries,
+    }
+    (output / "manifest.json").write_text(json.dumps(manifest, indent=2), encoding="utf-8")
+    if after > limit:
+        raise InputTooLarge("complete request exceeds configured input bound before HTTP")
+    return candidate, packed
