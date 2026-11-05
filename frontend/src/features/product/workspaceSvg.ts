@@ -1,7 +1,8 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { importSvgDocument, restoreSvgDocument, SvgImportError, type ImportedSvgDocument } from '../../svgDocument';
 import { demoAsset } from '../demo/cases';
-import { activateEditorDocument, readEditorDocument, saveEditorDocument, type StoredEditorDocument } from './editorStorage';
+import { activateEditorDocument, readEditorDocument, readEditorDocuments, saveEditorDocument, type StoredEditorDocument } from './editorStorage';
+import type { ReconstructionSnapshot } from './reconstructionTask';
 import { hasFilePicker, isFileCancel, pickSvgFile, type EditorFileHandle } from './editorFiles';
 
 export const blankSvg = '<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="720" viewBox="0 0 1280 720"><title>Untitled canvas</title></svg>';
@@ -75,6 +76,21 @@ export function useWorkspaceSvg({ active, zh, saveTask, enterEditor }: { active:
       void selection.then(async handles => { const handle = handles[0]; if (handle) await commit(token, await importSvgDocument(await handle.getFile()), handle); }).catch(failure => { if (token === operation.current) report(failure); }).finally(() => { if (token === operation.current) finish(); });
     } catch (failure) { report(failure); finish(); }
   };
+  const openReconstruction = (job: ReconstructionSnapshot) => run(async token => {
+    if (job.status !== 'succeeded' || !job.result) return;
+    if (!saveTaskRef.current()) throw new Error('task-save');
+    // Reopening a result must preserve edits already saved in this browser.
+    if (!(await readEditorDocuments()).some(document => document.id === job.id)) {
+      const response = await fetch(job.result.svg, { signal: AbortSignal.timeout(20_000) });
+      if (!response.ok) throw new Error('result-unavailable');
+      const imported = await importSvgDocument(new File([await response.text()], `${(job.name || 'FigFox').replace(/\.[^.]+$/, '')}-figfox.svg`, { type: 'image/svg+xml' }));
+      if (token !== operation.current) return;
+      await saveEditorDocument({ id: job.id, fileName: imported.fileName, markup: imported.markup, updatedAt: new Date().toISOString() });
+    }
+    if (token !== operation.current) return;
+    await activateEditorDocument(job.id);
+    if (token === operation.current) enterEditor();
+  });
   const importFile = async (file?: File) => {
     if (lock.current && !awaitingInput.current) return;
     if (!lock.current) { if (!start()) return; operation.current++; }
@@ -82,5 +98,5 @@ export function useWorkspaceSvg({ active, zh, saveTask, enterEditor }: { active:
     const token = operation.current;
     try { if (file) await commit(token, await importSvgDocument(file)); } catch (failure) { if (token === operation.current) report(failure); } finally { if (token === operation.current) finish(); }
   };
-  return { document, busy, error, input, refresh, create, example, openDocument, choose, importFile };
+  return { document, busy, error, input, refresh, create, example, openDocument, openReconstruction, choose, importFile };
 }

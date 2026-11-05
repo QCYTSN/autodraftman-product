@@ -3,6 +3,7 @@ import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import { useEffect, useState, type CSSProperties } from "react";
 import type { ProductLanguage } from "../../ProductPages";
 import { FigureProcessGraphic } from "./FigureProcess";
+import { ReconstructionResult } from "./ReconstructionResult";
 import { isReconstructionActive, reconstructionStages, type ReconstructionSnapshot } from "./reconstructionTask";
 
 const copy = {
@@ -18,8 +19,8 @@ const copy = {
   },
 };
 
-export function ReconstructionProgress({ snapshot, name, disconnected, language, onClose }: {
-  snapshot: ReconstructionSnapshot; name: string; disconnected: boolean; language: ProductLanguage; onClose: () => void;
+export function ReconstructionProgress({ snapshot, name, disconnected, language, onClose, onEdit, resultBusy = false }: {
+  snapshot: ReconstructionSnapshot; name: string; disconnected: boolean; language: ProductLanguage; onClose: () => void; onEdit?: () => void; resultBusy?: boolean;
 }) {
   const reduced = useReducedMotion();
   const [visible, setVisible] = useState(document.visibilityState !== "hidden");
@@ -38,13 +39,14 @@ export function ReconstructionProgress({ snapshot, name, disconnected, language,
   const description = running && stage >= 0 ? text.descriptions[stage] : snapshot.status === "queued"
     ? zh ? "任务已提交，开始处理后会自动更新。" : "Your task is submitted. Progress will update when processing starts."
     : done ? zh ? "重建已完成，可以返回工作台。" : "Reconstruction is complete. Return to your workspace."
+    : snapshot.error === "budget_exceeded" ? zh ? "本轮本地测试已达到费用上限，原图与要求已保留。" : "The local test budget was reached. Your source and notes are retained."
     : !active ? zh ? "原图与要求仍保留在工作台中。" : "Your source image and notes are still in the workspace."
     : zh ? "收到阶段信息后会自动更新。" : "The current stage will appear when reported by the service.";
 
   return <section className="figure-process-preview reconstruction-progress" aria-label={zh ? "重建进度" : "Reconstruction progress"} data-status={snapshot.status} data-stage={snapshot.stage || "unknown"}>
     <p className="reconstruction-source" title={name}>{name}</p>
-    <FigureProcessGraphic stage={done ? 4 : Math.max(0, stage)} running={running && !disconnected && visible} />
-    <div className="figure-process-caption" role="status" aria-live="polite" aria-atomic="true">
+    {done && snapshot.result && onEdit ? <ReconstructionResult snapshot={snapshot} zh={zh} onEdit={onEdit} busy={resultBusy}/> : <FigureProcessGraphic stage={done ? 4 : Math.max(0, stage)} running={running && !disconnected && visible} />}
+    <div className={done && snapshot.result ? "sr-only" : "figure-process-caption"} role="status" aria-live="polite" aria-atomic="true">
       <AnimatePresence initial={false} mode="wait">
         <motion.div key={`${snapshot.status}-${snapshot.stage}`} initial={{ opacity: 0, y: reduced ? 0 : 5 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: reduced ? 0 : -3 }} transition={{ duration: reduced ? 0 : .16 }}>
           <h2>{title}</h2><p>{description}</p>

@@ -176,3 +176,13 @@
 @media (prefers-reduced-motion:reduce) {
  .product-site .workspace-page.ff-workspace-v3, .product-site .ff-workspace-v3 .workspace-layout, .product-site .ff-workspace-v3 .workspace-task-indicator, .workspace-dialog, .workspace-dialog-backdrop { transition:none; animation:none; transform:none; }
 }
+
+.workspace-reconstruction-result { grid-column:1/-1; display:grid; grid-template-columns:minmax(0,1fr) minmax(220px,1fr); gap:32px; align-items:center; padding:28px; border:1px solid #e5dff0; border-radius:16px; background:#fff; }
+.workspace-reconstruction-result > img { display:block; width:100%; max-height:280px; object-fit:contain; }
+.workspace-reconstruction-result h3 { margin:0 0 12px; font-size:24px; }
+.workspace-reconstruction-result p { margin:0 0 24px; color:#71687d; }
+.workspace-reconstruction-result small { display:block; margin-top:22px; color:#71687d; }
+.reconstruction-result-actions { display:flex; align-items:center; flex-wrap:wrap; gap:20px; }
+.reconstruction-result-actions a { display:inline-flex; gap:6px; align-items:center; color:#6343cf; text-decoration:none; }
+.reconstruction-progress .workspace-reconstruction-result { width:100%; margin-bottom:24px; }
+@media (max-width:680px) { .workspace-reconstruction-result { grid-template-columns:minmax(0,1fr); gap:20px; padding:20px; } }

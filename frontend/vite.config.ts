@@ -11,6 +11,10 @@ const mathFonts = new Map(readdirSync(fileURLToPath(fontDirectory)).filter(name 
 export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, ".", "");
   return {
+    ...(mode === "local-kernel" ? {
+      define: { "import.meta.env.VITE_LOCAL_RECONSTRUCTION": '"true"', "import.meta.env.VITE_API_BASE_URL": '""' },
+      server: { proxy: { "/local-api": { target: "http://127.0.0.1:8787", changeOrigin: false } } },
+    } : {}),
     base:
       env.VITE_PUBLIC_BASE_PATH ||
       (mode === "github-pages" ? "/figfox/" : "/"),

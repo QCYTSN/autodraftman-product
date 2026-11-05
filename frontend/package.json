@@ -5,6 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite --host 127.0.0.1",
+    "dev:kernel": "vite --mode local-kernel --host 127.0.0.1 --port 5178 --strictPort",
     "build": "tsc -b && vite build",
     "build:pages": "tsc -b && vite build --mode github-pages && node scripts/prepare-pages.mjs",
     "preview": "vite preview --host 127.0.0.1",

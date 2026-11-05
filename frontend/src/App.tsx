@@ -128,6 +128,7 @@ import { saveWorkspaceImage, readWorkspaceImage, deleteWorkspaceImage, imageDime
 import { ProductPromptField } from "./features/product/ProductPromptField";
 import { FigureProcessPreview } from "./features/product/FigureProcess";
 import { ReconstructionProgress } from "./features/product/ReconstructionProgress";
+import { ReconstructionResult } from "./features/product/ReconstructionResult";
 import { useReconstructionTask } from "./features/product/reconstructionTask";
 import { ProductLoginPage } from "./features/product/ProductLoginPage";
 import { PublicFeedbackPage } from "./features/product/PublicFeedbackPage";
@@ -2280,6 +2281,7 @@ function WorkspacePage({
           <button ref={progressTrigger} type="button" onClick={() => reconstruction.setOpen(true)}><ClockCounterClockwise size={17}/>{language === "zh" ? "查看进度" : "View progress"}</button>
         </div>}
         {reconstruction.submitFailed && <p className="workspace-file-error" role="alert">{language === "zh" ? "任务未能提交，请稍后重试。原图与要求已保留。" : "The task could not be submitted. Try again shortly; your image and notes are retained."}</p>}
+        {reconstruction.task && <ReconstructionResult snapshot={reconstruction.task.snapshot} zh={language === "zh"} busy={svg.busy} onEdit={() => void svg.openReconstruction(reconstruction.task!.snapshot)}/>}
         {svg.error && <p className="workspace-file-error" role="alert"><WarningCircle size={17}/>{svg.error}</p>}
         {workspaceView === "documents" ? <WorkspaceDocuments language={language} onOpenDocument={id => void svg.openDocument(id)} onExample={() => void svg.example()} operationBusy={svg.busy} onDocumentsChange={svg.refresh}/> : <>
           <h2 className="sr-only">{taskMode === "rebuild" ? language === "zh" ? "图片转 SVG" : "Image to SVG" : language === "zh" ? "文生图" : "Text to image"}</h2>
@@ -2294,7 +2296,7 @@ function WorkspacePage({
             <button type="button" className="workspace-process-button" onClick={event => {dialogTrigger.current=event.currentTarget;setProcessPreview(true);}}><PlayCircle size={17}/>{language === "zh" ? "流程示意" : "Process overview"}</button>
           </div>
           <div className="workspace-task-content">
-            {!(taskMode === "rebuild" && reconstruction.available) && <div className="workspace-service-status" id="workspace-service-status"><strong>{language === "zh" ? taskMode === "rebuild" ? "重建服务未开放" : "生成服务未开放" : taskMode === "rebuild" ? "Reconstruction unavailable" : "Generation unavailable"}</strong><span>{language === "zh" ? taskMode === "rebuild" ? "目前可保存原图与要求，暂不能提交重建。" : "目前可保存绘图要求，暂不能提交生成。" : taskMode === "rebuild" ? "You can save the source image and notes, but cannot submit a reconstruction yet." : "You can save the brief, but cannot submit a generation yet."}</span></div>}
+            {!(taskMode === "rebuild" && reconstruction.available) && <div className="workspace-service-status" id="workspace-service-status"><strong>{taskMode === "rebuild" && reconstruction.unavailableReason === "budget" ? language === "zh" ? "本轮测试剩余额度不足" : "Local test budget is insufficient" : language === "zh" ? taskMode === "rebuild" ? "重建服务未开放" : "生成服务未开放" : taskMode === "rebuild" ? "Reconstruction unavailable" : "Generation unavailable"}</strong><span>{taskMode === "rebuild" && reconstruction.unavailableReason === "budget" ? language === "zh" ? "已完成的结果仍可查看、下载和编辑。" : "Completed results remain available to view, download and edit." : language === "zh" ? taskMode === "rebuild" ? "目前可保存原图与要求，暂不能提交重建。" : "目前可保存绘图要求，暂不能提交生成。" : taskMode === "rebuild" ? "You can save the source image and notes, but cannot submit a reconstruction yet." : "You can save the brief, but cannot submit a generation yet."}</span></div>}
             <section className={`control-panel ${dragging ? "is-dragging" : ""}`}
               onDragOver={event => {if(event.dataTransfer.types.includes("Files")){event.preventDefault();event.dataTransfer.dropEffect="copy";setDragging(true);}}}
               onDragLeave={event => {if(!event.currentTarget.contains(event.relatedTarget as Node | null))setDragging(false);}}
@@ -2416,7 +2418,7 @@ function WorkspacePage({
       <Dialog.Root open={reconstruction.open && active} onOpenChange={reconstruction.setOpen}>
         <Dialog.Portal><Dialog.Backdrop className="workspace-dialog-backdrop"/><Dialog.Viewport className="workspace-dialog-viewport"><Dialog.Popup className="workspace-dialog workspace-process-dialog" finalFocus={progressTrigger}>
           <header><Dialog.Title>{language === "zh" ? "重建进度" : "Reconstruction progress"}</Dialog.Title><Dialog.Close aria-label={language === "zh" ? "关闭进度" : "Close progress"}><X size={20}/></Dialog.Close></header>
-          {reconstruction.task && <ReconstructionProgress snapshot={reconstruction.task.snapshot} name={reconstruction.task.name} disconnected={reconstruction.disconnected} language={language} onClose={() => reconstruction.setOpen(false)}/>}
+          {reconstruction.task && <ReconstructionProgress snapshot={reconstruction.task.snapshot} name={reconstruction.task.name} disconnected={reconstruction.disconnected} language={language} onClose={() => reconstruction.setOpen(false)} resultBusy={svg.busy} onEdit={() => void svg.openReconstruction(reconstruction.task!.snapshot)}/>}
         </Dialog.Popup></Dialog.Viewport></Dialog.Portal>
       </Dialog.Root>
 

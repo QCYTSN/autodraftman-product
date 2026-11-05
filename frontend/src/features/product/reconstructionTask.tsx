@@ -7,6 +7,10 @@ export type ReconstructionSnapshot = {
   revision: number;
   status: "queued" | "running" | "succeeded" | "failed" | "cancelled";
   stage: ReconstructionStage | null;
+  name?: string;
+  draftId?: string;
+  error?: string | null;
+  result?: { svg: string; png: string; costUsd: number | null; elapsedSeconds: number; unresolvedCount: number; sha256: string } | null;
 };
 export type ReconstructionInput = { draftId: string; image: File; prompt: string };
 
@@ -15,8 +19,11 @@ export type ReconstructionInput = { draftId: string; image: File; prompt: string
  * revision must increase per job; submit must deduplicate by requestId.
  */
 export type ReconstructionClient = {
+  canSubmit?: boolean;
+  unavailableReason?: "budget";
   submit: (input: ReconstructionInput & { requestId: string }, signal: AbortSignal) => Promise<ReconstructionSnapshot>;
   read: (id: string, signal: AbortSignal) => Promise<ReconstructionSnapshot>;
+  recent?: (signal: AbortSignal) => Promise<ReconstructionSnapshot | null>;
 };
 export const ReconstructionContext = createContext<ReconstructionClient | null>(null);
 export const isReconstructionActive = (snapshot: ReconstructionSnapshot) => snapshot.status === "queued" || snapshot.status === "running";
@@ -31,9 +38,21 @@ export function useReconstructionTask() {
   const latest = useRef(task);
   const submitController = useRef<AbortController | null>(null);
   const locked = useRef(false);
+  const attempt = useRef<(ReconstructionInput & { requestId: string }) | null>(null);
   latest.current = task;
 
   useEffect(() => () => submitController.current?.abort(), []);
+  useEffect(() => {
+    if (!client?.recent) return;
+    const controller = new AbortController();
+    client.recent(controller.signal).then(snapshot => {
+      if (snapshot && !controller.signal.aborted && !latest.current && !locked.current) {
+        latest.current = { snapshot, name: snapshot.name || "FigFox.svg" };
+        setTask(latest.current);
+      }
+    }).catch(() => {});
+    return () => controller.abort();
+  }, [client]);
 
   const jobId = task?.snapshot.id;
   const running = !!task && isReconstructionActive(task.snapshot);
@@ -72,12 +91,16 @@ export function useReconstructionTask() {
     const controller = new AbortController();
     submitController.current = controller;
     try {
-      const snapshot = await client.submit({ ...input, requestId: crypto.randomUUID() }, controller.signal);
+      if (!attempt.current || attempt.current.image !== input.image || attempt.current.prompt !== input.prompt || attempt.current.draftId !== input.draftId) {
+        attempt.current = { ...input, requestId: crypto.randomUUID() };
+      }
+      const snapshot = await client.submit(attempt.current, controller.signal);
       if (controller.signal.aborted) return;
       latest.current = { snapshot, name: input.image.name };
       setTask(latest.current);
       setDisconnected(false);
       setOpen(true);
+      attempt.current = null;
     } catch {
       if (!controller.signal.aborted) setSubmitFailed(true);
     } finally {
@@ -86,5 +109,5 @@ export function useReconstructionTask() {
     }
   };
 
-  return { available: !!client, task, open, setOpen, submit, submitting, submitFailed, disconnected, busy: submitting || running };
+  return { available: !!client && client.canSubmit !== false, unavailableReason: client?.unavailableReason, task, open, setOpen, submit, submitting, submitFailed, disconnected, busy: submitting || running };
 }
