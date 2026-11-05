@@ -8,6 +8,8 @@ import sys
 import time
 from pathlib import Path
 
+from .failures import failure_details
+from .inputs import pack_sam_inputs
 from .locking import exclusive
 from .settings import Settings, exposure, load_credentials
 from .store import JobStore
@@ -27,6 +29,7 @@ def run(job_id: str, settings: Settings):
 
     config = json.loads(settings.config.read_text(encoding="utf-8"))
     config["local_transport"] = "responses-sse-v1"
+    config["local_input_policy"] = "sam-contact-sheets-v1"
     config["budget_usd"] = min(
         config["budget_usd"], settings.total_budget - exposure(settings.data)
     )
@@ -48,6 +51,16 @@ def run(job_id: str, settings: Settings):
                 stage("inspect")
             elif name == "G2":
                 stage("repair")
+            if name == "G0":
+                prompt, images = pack_sam_inputs(
+                    prompt,
+                    payload,
+                    images,
+                    folder,
+                    config["stages"][name]["max_input_tokens"]
+                    - len(request["prompt"].encode("utf-8"))
+                    - 128,
+                )
             # Preserve the kernel prompts and bind the user's request explicitly to G0.
             if name == "G0" and request["prompt"]:
                 prompt += (
@@ -102,8 +115,10 @@ def run(job_id: str, settings: Settings):
         import traceback
 
         (job / "failure.txt").write_text(traceback.format_exc(), encoding="utf-8")
-        code = "budget_exceeded" if "budget" in str(error).lower() else "kernel_failed"
-        store.update(job_id, status="failed", error=code)
+        details = failure_details(job, error)
+        if store.get(job_id).get("retryCount", 0) >= 2:
+            details["failure"]["retryable"] = False
+        store.update(job_id, status="failed", **details)
         return 1
     return 0
 

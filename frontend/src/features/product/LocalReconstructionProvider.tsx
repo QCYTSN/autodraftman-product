@@ -24,6 +24,11 @@ const client: ReconstructionClient = {
     return snapshot(await request("/local-api/jobs", { method: "POST", body: form, headers: { "Idempotency-Key": input.requestId }, signal }));
   },
   async read(id, signal) { return snapshot(await request(`/local-api/jobs/${encodeURIComponent(id)}`, { signal })); },
+  async retry(id, revision, signal) {
+    return snapshot(await request(`/local-api/jobs/${encodeURIComponent(id)}/retry`, {
+      method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ revision }), signal,
+    }));
+  },
   async recent(signal) {
     const jobs = await request("/local-api/jobs", { signal });
     if (!Array.isArray(jobs)) throw new Error("Invalid task history");

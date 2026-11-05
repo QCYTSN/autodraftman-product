@@ -2422,7 +2422,7 @@ function WorkspacePage({
       <Dialog.Root open={reconstruction.open && active} onOpenChange={reconstruction.setOpen}>
         <Dialog.Portal><Dialog.Backdrop className="workspace-dialog-backdrop"/><Dialog.Viewport className="workspace-dialog-viewport"><Dialog.Popup className="workspace-dialog workspace-process-dialog" finalFocus={progressTrigger}>
           <header><Dialog.Title>{language === "zh" ? "重建进度" : "Reconstruction progress"}</Dialog.Title><Dialog.Close aria-label={language === "zh" ? "关闭进度" : "Close progress"}><X size={20}/></Dialog.Close></header>
-          {reconstruction.task && <ReconstructionProgress snapshot={reconstruction.task.snapshot} name={reconstruction.task.name} disconnected={reconstruction.disconnected} language={language} onClose={() => reconstruction.setOpen(false)} resultBusy={svg.busy} onEdit={() => void svg.openReconstruction(reconstruction.task!.snapshot)}/>}
+          {reconstruction.task && <ReconstructionProgress snapshot={reconstruction.task.snapshot} name={reconstruction.task.name} disconnected={reconstruction.disconnected} language={language} onClose={() => reconstruction.setOpen(false)} resultBusy={svg.busy} onEdit={() => void svg.openReconstruction(reconstruction.task!.snapshot)} onRetry={reconstruction.retry ? () => void reconstruction.retry!() : undefined} retryBusy={reconstruction.submitting} retryFailed={reconstruction.submitFailed}/>}
         </Dialog.Popup></Dialog.Viewport></Dialog.Portal>
       </Dialog.Root>
 

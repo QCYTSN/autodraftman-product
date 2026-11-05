@@ -20,6 +20,8 @@ from PIL import Image, ImageOps, UnidentifiedImageError
 from starlette.datastructures import UploadFile
 from starlette.middleware.trustedhost import TrustedHostMiddleware
 
+from .failures import can_retry, failure_details
+from .locking import exclusive
 from .settings import KERNEL_COMMIT, ROOT, Settings, exposure, load_credentials
 from .store import JobStore
 
@@ -75,7 +77,7 @@ def create_app(settings: Settings | None = None):
         response.headers["X-Content-Type-Options"] = "nosniff"
         return response
 
-    async def readiness():
+    async def readiness(*, existing_job=False):
         problems = []
         minimum_reserve = 0
         if not (settings.kernel / "product-runtime-manifest.json").is_file():
@@ -104,7 +106,11 @@ def create_app(settings: Settings | None = None):
         used = await asyncio.to_thread(exposure, settings.data)
         if used >= settings.total_budget or settings.total_budget - used < minimum_reserve:
             problems.append("budget_exceeded")
-        if settings.max_jobs is not None and store.count() >= settings.max_jobs:
+        if (
+            not existing_job
+            and settings.max_jobs is not None
+            and store.count() >= settings.max_jobs
+        ):
             problems.append("test_limit_reached")
         return {
             "service": "figfox-local-v1",
@@ -160,7 +166,9 @@ def create_app(settings: Settings | None = None):
                 except subprocess.TimeoutExpired:
                     process.terminate()
                     await asyncio.to_thread(process.wait, 10)
-                    store.update(job["id"], status="failed", error="timeout")
+                    store.update(
+                        job["id"], status="failed", **failure_details(folder, TimeoutError())
+                    )
                     return
             current = store.get(job["id"])
             if code or current["status"] in ("queued", "running"):
@@ -254,6 +262,63 @@ def create_app(settings: Settings | None = None):
         if job is None:
             raise HTTPException(404, "Task not found")
         return job
+
+    @app.post("/local-api/jobs/{job_id}/retry", status_code=202)
+    async def retry(job_id: str, request: Request):
+        # The failed revision makes a double click/lost response an idempotent operation.
+        try:
+            body = await request.json()
+        except ValueError:
+            raise HTTPException(400, "A failed task revision is required") from None
+        if not isinstance(body, dict) or type(body.get("revision")) is not int:
+            raise HTTPException(400, "A failed task revision is required")
+        async with submit_lock:
+            job = store.get(job_id)
+            if job is None:
+                raise HTTPException(404, "Task not found")
+            if job.get("retryOfRevision") == body["revision"]:
+                return job
+            folder = settings.data / "jobs" / job_id
+            if body["revision"] != job["revision"] or not can_retry(job, folder):
+                raise HTTPException(409, "This task cannot be retried safely")
+            if tasks:
+                raise HTTPException(409, "A reconstruction is already running")
+            state = await readiness(existing_job=True)
+            if not state["available"]:
+                raise HTTPException(503, {"code": "unavailable", "problems": state["problems"]})
+            try:
+                with exclusive(settings.data / "worker.lock"):
+                    archive = folder / "preflight-attempts" / str(job["revision"])
+                    archive.mkdir(parents=True, exist_ok=False)
+                    for name in (
+                        "run",
+                        "failure.txt",
+                        "events.json",
+                        "effective-config.json",
+                        "worker.log",
+                    ):
+                        source = folder / name
+                        if source.exists():
+                            if not source.resolve().is_relative_to(
+                                folder.resolve()
+                            ) or not archive.resolve().is_relative_to(folder.resolve()):
+                                raise OSError("Recovery path outside task")
+                            source.rename(archive / name)
+                    queued = store.update(
+                        job_id,
+                        status="queued",
+                        stage=None,
+                        error=None,
+                        failure=None,
+                        retryCount=job.get("retryCount", 0) + 1,
+                        retryOfRevision=job["revision"],
+                    )
+            except OSError:
+                raise HTTPException(409, "Task recovery is not available yet") from None
+            task = asyncio.create_task(execute(queued))
+            tasks.add(task)
+            task.add_done_callback(tasks.discard)
+            return queued
 
     @app.get("/local-api/jobs/{job_id}/{artifact}")
     async def result(job_id: str, artifact: str):

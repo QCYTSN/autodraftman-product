@@ -14,6 +14,8 @@ from fastapi.testclient import TestClient
 from PIL import Image
 
 from autodraftman_backend.local_reconstruction import app as bridge
+from autodraftman_backend.local_reconstruction.failures import can_retry, failure_details
+from autodraftman_backend.local_reconstruction.inputs import input_bound, pack_sam_inputs
 from autodraftman_backend.local_reconstruction.locking import exclusive
 from autodraftman_backend.local_reconstruction.settings import Settings, exposure
 from autodraftman_backend.local_reconstruction.store import JobStore
@@ -234,3 +236,80 @@ def test_explicit_limits_preserve_existing_cost_records(tmp_path, monkeypatch):
     limits.write_text(json.dumps({"cumulative_budget_usd": -1, "max_jobs": 2}))
     with pytest.raises(ValueError, match="Invalid local test budget"):
         Settings.from_env()
+
+
+def test_many_crops_are_packed_without_dropping_assets_or_changing_source(tmp_path):
+    source = tmp_path / "source.png"
+    source.write_bytes(png())
+    assets = []
+    for index in range(32):
+        crop = tmp_path / f"crop-{index}.png"
+        crop.write_bytes(png())
+        assets.append({"id": f"P{index}", "path": str(crop)})
+    (tmp_path / "sam.json").write_text(json.dumps({"assets": assets}))
+    images = [source] + [a["path"] for a in assets]
+    prompt = "Canvas: 32 x 24\nActual attachment manifest (in order): old individual crops"
+    packed_prompt, packed = pack_sam_inputs(prompt, {}, images, tmp_path / "call", 131072)
+    assert packed[0] == source and source.read_bytes() == png()
+    assert len(packed) == 3
+    assert input_bound(packed_prompt + "\n{}", packed) < 131072
+    assert "old individual crops" not in packed_prompt
+    manifest = json.loads((tmp_path / "model-attachments/manifest.json").read_text())
+    assert [a["id"] for a in manifest["assets"]] == [a["id"] for a in assets]
+    assert pack_sam_inputs("small", {}, [source], tmp_path / "call", 131072) == ("small", [source])
+
+
+def test_failure_billing_and_retry_never_hide_paid_or_uncertain_calls(tmp_path):
+    error = ValueError("complete request exceeds configured input bound before HTTP")
+    details = failure_details(tmp_path, error)
+    job = {"status": "failed", **details}
+    assert details["error"] == "input_too_large"
+    assert details["failure"]["billing"] == "not_started"
+    assert can_retry(job, tmp_path)
+    receipt = tmp_path / "receipt.json"
+    receipt.write_text(json.dumps({"reserved_usd": 2.29}))
+    assert not can_retry(job, tmp_path)
+    details = failure_details(tmp_path, ConnectionError("Disconnected"))
+    assert details["error"] == "provider_unconfirmed"
+    assert details["failure"]["reservedUsd"] == 2.29
+    assert details["failure"]["retryable"] is False
+    receipt.write_text("broken")
+    assert failure_details(tmp_path, error)["failure"]["billing"] == "unknown"
+
+
+def test_retry_reuses_job_and_archives_preflight_without_consuming_test_slot(local):
+    client, store, settings, launches = local
+    job = store.create(str(uuid.uuid4()), "hash", "source.png", "draft")
+    folder = settings.data / "jobs" / job["id"]
+    (folder / "run").mkdir(parents=True)
+    (folder / "run/identity.json").write_text('{"prior":true}')
+    error = ValueError("complete request exceeds configured input bound before HTTP")
+    failed = store.update(job["id"], status="failed", **failure_details(folder, error))
+    limited = replace(settings, max_jobs=1)
+    with TestClient(
+        bridge.create_app(limited), base_url="http://127.0.0.1", client=("127.0.0.1", 1234)
+    ) as retry_client:
+        url = f"/local-api/jobs/{job['id']}/retry"
+        response = retry_client.post(url, json={"revision": failed["revision"]})
+        assert response.status_code == 202
+        assert response.json()["id"] == job["id"]
+        assert retry_client.post(url, json={"revision": failed["revision"]}).status_code == 202
+        assert len(launches) == 1 and store.count() == 1
+        archived = folder / "preflight-attempts" / str(failed["revision"]) / "run/identity.json"
+        assert json.loads(archived.read_text()) == {"prior": True}
+
+
+def test_retry_refuses_uncertain_receipts_even_with_stale_retry_flag(local):
+    client, store, settings, launches = local
+    job = store.create(str(uuid.uuid4()), "hash", "source.png", "draft")
+    folder = settings.data / "jobs" / job["id"] / "run"
+    folder.mkdir(parents=True)
+    (folder / "receipt.json").write_text(json.dumps({"reserved_usd": 2.29}))
+    job = store.update(job["id"], status="failed", failure={"retryable": True})
+    assert (
+        client.post(
+            f"/local-api/jobs/{job['id']}/retry", json={"revision": job["revision"]}
+        ).status_code
+        == 409
+    )
+    assert launches == []
