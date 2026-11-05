@@ -21,7 +21,8 @@ export type ReconstructionInput = { draftId: string; image: File; prompt: string
  */
 export type ReconstructionClient = {
   canSubmit?: boolean;
-  unavailableReason?: "budget" | "test_limit";
+  unavailableReason?: "budget" | "test_limit" | "model" | "configuration";
+  supportsUserPrompt?: boolean;
   remainingBudgetUsd?: number;
   submit: (input: ReconstructionInput & { requestId: string }, signal: AbortSignal) => Promise<ReconstructionSnapshot>;
   read: (id: string, signal: AbortSignal) => Promise<ReconstructionSnapshot>;
@@ -135,5 +136,5 @@ export function useReconstructionTask() {
     }
   };
 
-  return { available: !!client && client.canSubmit !== false, unavailableReason: client?.unavailableReason, remainingBudgetUsd: client?.remainingBudgetUsd, task, open, setOpen, submit, retry: client?.retry ? retry : undefined, submitting, submitFailed, disconnected, busy: submitting || running };
+  return { available: !!client && client.canSubmit !== false, supportsUserPrompt: client?.supportsUserPrompt, unavailableReason: client?.unavailableReason, remainingBudgetUsd: client?.remainingBudgetUsd, task, open, setOpen, submit, retry: client?.retry ? retry : undefined, submitting, submitFailed, disconnected, busy: submitting || running };
 }

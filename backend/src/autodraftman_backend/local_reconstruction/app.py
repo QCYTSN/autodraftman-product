@@ -16,12 +16,14 @@ import httpx
 from fastapi import FastAPI, HTTPException, Request
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import FileResponse, JSONResponse
-from PIL import Image, ImageOps, UnidentifiedImageError
+from PIL import Image, UnidentifiedImageError
 from starlette.datastructures import UploadFile
 from starlette.middleware.trustedhost import TrustedHostMiddleware
 
 from .failures import can_retry, failure_details
+from .kernel_contract import PROFILE, validate_config
 from .locking import exclusive
+from .provider_check import model_problems
 from .recovery import is_unsent, recovery_mode
 from .settings import KERNEL_COMMIT, ROOT, Settings, exposure, load_credentials
 from .store import JobStore
@@ -35,6 +37,8 @@ def create_app(settings: Settings | None = None):
     submit_lock = asyncio.Lock()
     tasks: set[asyncio.Task] = set()
     process: subprocess.Popen | None = None
+    model_check = {"fingerprint": None, "checked": 0, "problems": []}
+    model_check_lock = asyncio.Lock()
 
     @asynccontextmanager
     async def lifespan(_):
@@ -88,6 +92,7 @@ def create_app(settings: Settings | None = None):
         else:
             try:
                 config = json.loads(settings.config.read_text(encoding="utf-8"))
+                validate_config(config, settings.kernel)
                 keys = load_credentials(settings.credentials)
                 if any(not keys.get(value["key_env"]) for value in config["stages"].values()):
                     problems.append("credentials_missing")
@@ -96,7 +101,21 @@ def create_app(settings: Settings | None = None):
                     first["max_input_tokens"] * first["input_usd_per_million"]
                     + first["max_output_tokens"] * first["output_usd_per_million"]
                 ) / 1e6
-            except (ValueError, KeyError, TypeError):
+                fingerprint = hashlib.sha256(
+                    json.dumps([config, keys], sort_keys=True).encode()
+                ).hexdigest()
+                async with model_check_lock:
+                    if (
+                        fingerprint != model_check["fingerprint"]
+                        or time.monotonic() - model_check["checked"] > 60
+                    ):
+                        model_check.update(
+                            fingerprint=fingerprint,
+                            checked=time.monotonic(),
+                            problems=await model_problems(config, keys),
+                        )
+                problems.extend(model_check["problems"])
+            except (OSError, ValueError, KeyError, TypeError):
                 problems.append("config_invalid")
         try:
             async with httpx.AsyncClient(timeout=3, trust_env=False) as client:
@@ -118,6 +137,8 @@ def create_app(settings: Settings | None = None):
             "available": not problems,
             "problems": problems,
             "kernelCommit": KERNEL_COMMIT,
+            "profile": PROFILE,
+            "supportsUserPrompt": False,
             "sam": True,
             "remainingBudgetUsd": max(0, round(settings.total_budget - used, 6)),
             "remainingTestJobs": max(0, settings.max_jobs - store.count())
@@ -198,6 +219,10 @@ def create_app(settings: Settings | None = None):
                 raise HTTPException(400, "Invalid input")
             if len(prompt) > 1200 or len(draft_id) > 100:
                 raise HTTPException(400, "Input text too long")
+            if prompt.strip():
+                raise HTTPException(
+                    422, "The original kernel accepts an image without added prompts"
+                )
             content = await upload.read(MAX_UPLOAD + 1)
             if len(content) > MAX_UPLOAD:
                 raise HTTPException(413, "Image too large")
@@ -211,15 +236,15 @@ def create_app(settings: Settings | None = None):
                 ):
                     raise ValueError("Unsupported image")
                 image.load()
-                image = ImageOps.exif_transpose(image)
                 normalized = io.BytesIO()
-                if image.mode in ("RGBA", "LA") or "transparency" in image.info:
-                    rgba = image.convert("RGBA")
-                    canvas = Image.new("RGBA", rgba.size, "white")
-                    canvas.alpha_composite(rgba)
-                    canvas.convert("RGB").save(normalized, format="PNG")
+                if image.format in ("PNG", "JPEG"):
+                    # Upstream sees the exact upload bytes, including alpha and orientation.
+                    normalized.write(content)
+                    conversion = "none"
                 else:
-                    image.convert("RGB").save(normalized, format="PNG")
+                    # Upstream transport only supports PNG/JPEG MIME types.
+                    image.save(normalized, format="PNG")
+                    conversion = "webp-to-png-same-pixels"
         except (ValueError, UnidentifiedImageError, OSError, Image.DecompressionBombError):
             raise HTTPException(400, "Invalid or unsupported image") from None
         fingerprint = hashlib.sha256(
@@ -240,6 +265,7 @@ def create_app(settings: Settings | None = None):
             folder = settings.data / "jobs" / job["id"]
             folder.mkdir(parents=True)
             (folder / "source.png").write_bytes(normalized.getvalue())
+            (folder / "uploaded-original").write_bytes(content)
             (folder / "input.json").write_text(
                 json.dumps(
                     {
@@ -247,6 +273,8 @@ def create_app(settings: Settings | None = None):
                         "prompt": prompt,
                         "draftId": draft_id,
                         "uploaded_sha256": hashlib.sha256(content).hexdigest(),
+                        "source_sha256": hashlib.sha256(normalized.getvalue()).hexdigest(),
+                        "source_conversion": conversion,
                         "receivedAt": time.time(),
                     }
                 ),

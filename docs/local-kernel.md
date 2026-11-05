@@ -1,35 +1,47 @@
 # FigFox 本地内核接入
 
-本地工作台：<http://127.0.0.1:5178/workspace>。只接通「图片转 SVG」；「文生图」沿用原状态。
+工作台：<http://127.0.0.1:5178/workspace>。本地仅接通「图片转 SVG」。本页以 2026-11-05 的原版一致性核查为准，取代此前拼板、后台请求和全 GPT 配置的接入说明。
 
-## 版本与运行方式
+## 当前执行链路
 
-- 内核采用 [LawrenceRiver/FigFox 的 21ffc012](https://github.com/LawrenceRiver/FigFox/commit/21ffc01271904d6c5610f0f96afd84530968f11e)，2026-11-03 的 `factual` 流水线。
-- 独立下载到 `data/kernel/`，不修改已有的 FigFox-926 工作区或研究资料包。
-- 使用源码内的 `historical-cohort.json`：G0 / G1 / G2 均为 GPT-5.5、medium；SAM3 在本机 CPU 执行。默认配置中的实验性 DeepSeek 视觉型号不在当前账号模型列表中，本次未使用。
-- 初稿 → G1 检查 → G2 修复计划 → 原生 SVG 操作与渲染。阶段来自实际调用边界，页面不按计时器推断完成进度。
-- 本地配置从历史配置派生：单图费用上限 USD 5，累计测试额度单独配置；G0 保守输入上界 262144，其他阶段保持 131072。三个阶段在发出请求前统一核算完整文本和图像输入。
-- 新调用使用 [Responses 后台任务](https://developers.openai.com/api/docs/guides/background)，保持 GPT-5.5 与 `store=false`，保存任务编号后以 GET 查询完成结果与 usage。查询断线不会重新生成；仅连接建立失败允许最多三次连接尝试。已发出但未确认的请求保留费用预留。后台数据有官方文档说明的临时轮询保留期。
+采用 [LawrenceRiver/FigFox 的 21ffc012](https://github.com/LawrenceRiver/FigFox/commit/21ffc01271904d6c5610f0f96afd84530968f11e)，入口是 `figfox_plus.factual.pipeline.run`：
+
+1. 原图经 SAM3 提取素材，G0 使用 GPT-5.5 生成初稿；素材绑定、坐标处理沿用原版。
+2. G1 对照原图、初稿与四组局部图，检查事实、关系和差异，并可请求细节图。
+3. G2 接收初稿 SVG、对象索引、G1 报告和图像证据，独立复核并给出原生 SVG 修改操作。
+4. 本地代码校验计划、执行操作、渲染，输出 SVG、PNG 与未解决问题。
+
+G1/G2 使用用户指定的 DS V4.1 Flash，正式接口名 `deepseek-flash`。这是明确记录的模型配置更新；上游原文件仍保留 `deepseek-v4-flash-vision-exp`。官方说明旧名称也转接至最新 Flash，不能仅凭 `/models` 未列出旧名称判断它不可用。[官方说明](https://api-docs.deepseek.com/quick_start/)
+
+当前入口没有独立 DeepSeek 缺口指导、第二次实现翻译或多轮自动视觉复审调用。执行完成表示操作链完成，原版结果中的 `visual_quality_pass` 仍为空。研究资料包包含不同代际的源码与实验脚本，不能统一当作这份入口的副本。完整对照见 [核查报告](reviews/kernel-parity-2026-11-05/README.md)。
+
+## 明确记录的配置差异
+
+- 单图预算最多 USD 5；本地累计额度另外计入历史调用和待确认预留。
+- G1/G2 的模型名称更新为 `deepseek-flash`。
+- G1/G2 费用预留采用 2026-11-05 查到的 Flash 高峰价：输入/缓存输入/输出每百万 token 分别 USD 0.3 / 0.006 / 1.2。用于保守预算和费用估计，不是账单实付值。[价格来源](https://api-docs.deepseek.com/quick_start/pricing/)
+
+其余模型角色、提示词、输入/输出限制、请求协议和超时沿用上游。三个阶段输入限制均为 131072；G0 输出 32768，G1/G2 输出 24000。没有额外的拼板、缩图、提示词附加、SSE/后台请求替换或自动付费重发。
 
 ## 本机启动
 
-已经准备好依赖时，在仓库根目录运行：
+依赖已就绪时：
 
 ```powershell
 .\scripts\start-local-kernel.ps1
 ```
 
-脚本复用已经运行的本地服务；新服务使用隐藏窗口，日志在 `data/local-reconstruction/services/`。
+脚本复用已有服务，新服务使用隐藏窗口。日志在 `data/local-reconstruction/services/`。
 
 | 服务 | 地址 |
 | --- | --- |
-| Vite 工作台 | `127.0.0.1:5178` |
-| 本地任务 API | `127.0.0.1:8787` |
-| 现有 SAM3 bridge | `127.0.0.1:18080` |
+| 工作台 | `127.0.0.1:5178` |
+| 任务 API | `127.0.0.1:8787` |
+| SAM3 bridge | `127.0.0.1:18080` |
 
-当前机器使用 `D:/Github_Ku/FigFox-926/.env` 的凭据，以及 `D:/fyp/sam3-local-test/runtime/.venv/Scripts/python.exe`。脚本参数 `-Credentials`、`-SamPython`、`-SamBridge` 可指定其他路径。密钥仅由后端读取，不返回网页、不复制进源码。
+当前机器的凭据来自 `D:/Github_Ku/FigFox-926/.env`，SAM 环境位于 `D:/fyp/sam3-local-test/runtime/.venv/Scripts/python.exe`。启动参数 `-Credentials`、`-SamPython`、`-SamBridge` 可指定其他路径。凭据仅在后端使用。
 
-干净机器的依赖准备（还需已有 SAM3 模型、bridge 及 Chrome）：
+干净机器的准备命令（还需 SAM3 模型、bridge 和 Chrome）：
 
 ```powershell
 python scripts/prepare-local-kernel.py
@@ -39,47 +51,35 @@ npm ci --prefix data/kernel/FigFox-21ffc01271904d6c5610f0f96afd84530968f11e
 npm ci --prefix frontend
 ```
 
-`prepare-local-kernel.py` 核验下载包 SHA256，应用三处 Windows 兼容适配：运行目录锁、旧 provider 的延迟 POSIX 导入、目录 fsync 兼容。文件内容的 fsync 和哈希验证保留。不会修改提示词、执行人工 SVG 修复，也不会覆盖未知的内核文件改动。
+已使用旧适配配置的机器，可执行 `python scripts/prepare-local-kernel.py --restore-upstream-config`。脚本先按内容哈希备份私有配置，再生成上述公开声明的配置；不会覆盖历史任务的配置、结果和费用。
 
-## 工作台交互
+下载包固定 SHA256，逐一核验 1111 个文件。只允许三处 Windows 兼容修改：运行锁、旧 provider 的延迟 POSIX 导入、目录 fsync。每次 worker 启动都会再次核验源码和配置。未知改动会在模型提交前停止。
 
-上传 PNG/JPEG/WebP，可添加要求，然后点「重建 SVG」。进度自动打开，可以关闭并通过「查看进度」重新打开；刷新页面会恢复最近任务。成功后预览真实结果，可下载 SVG/PNG，或进入现有编辑器。再次打开同一结果优先使用浏览器内已编辑的文档，避免覆盖修改。
+## 工作台与失败处理
 
-每次提交使用幂等键，本机同时执行一个任务；进程锁同时保护跨服务重启的费用计数。服务重启将中断任务标记为失败，不自动再调用模型。原图、模型输出、结果和账本留在 `data/local-reconstruction/jobs/`，该目录不提交 Git。
+PNG/JPEG 直接以原始字节传给内核，保留透明度和 EXIF；WebP 为兼容原版传输转换为同像素的 PNG，同时保存上传原件。用户补充要求留在草稿，不发送给模型，因为该上游入口没有用户提示词参数。
 
-失败弹层显示阶段、原因和费用状态。输入准备失败且确认没有请求收据时，可点「重试此图」：保留任务 ID、原图和要求，归档此前的准备记录，不另占手动测试名额；最多允许两次这样的恢复。后端重新检查收据、费用余额和进程锁，重复点击同一失败版本只启动一个任务。已有付费或费用待确认的调用不会通过此入口重发。
+进度来自实际阶段调用。进度弹层可关闭、重新打开；结果可预览、下载或送入编辑器，编辑后的文档不会被重复打开原结果覆盖。
 
-如果失败发生在尚未提交的 G1/G2 阶段，可从该阶段继续。后端先核验此前响应、G1 数据、初稿和配置的哈希/一致性，复用完成的阶段；原预算与请求记录保留。读取失败或校验不一致不会重新生成前面的阶段。连接建立失败会保留原始收据，并明确记为未提交；请求发出后的断线仍按费用未确认处理。
+每次提交使用幂等键，同一时刻仅运行一个任务。服务重启后中断的任务标记失败，不自动付费重发。结果、请求收据、原图和阶段产物保存在 `data/local-reconstruction/jobs/`，不提交 Git。
 
-当 G0 的多个 SAM 小切片超过输入上界时，本地适配层将全部切片整理为带素材 ID 的图板，替换附件清单说明。原图和标注总览保持原尺寸，源素材与坐标仍用于内核绑定；模型图板中的大切片按比例缩小。策略版本写入任务配置，图板清单记录每个素材的哈希、原始尺寸和位置。未超限的请求不改变附件。此适配不修改模型生成的 SVG，也不放宽输入或费用限制。
+失败时保留原因、阶段、已知费用与待确认预留。只有当前一致性配置下、确认尚未发送的可恢复任务才允许手动恢复；已发出但未收到完整响应的请求保留费用预留。原版输入上限错误不提供相同输入的重复提交。旧适配任务保留下载和查看，但不能跨配置续跑。
 
-G0/G1/G2 超限时还会统一使用证据图板：保留原图和初稿独立显示，其余对照图按原始像素排列，附编号与像素位置映射。图板不缩放、不删减任何对照图；原来的裁剪坐标和比例含义保持不变。超出图板仍可容纳的输入会在该次模型请求前停止，已完成阶段保留。
-
-费用数字按配置价格与 provider usage 估算。未收到完整响应的请求保留全部预留费用，后续任务也会扣除这些预留。没有足够的请求预留时停止提交。不要通过删除账本或换目录绕过测试上限。
-
-本地测试额度在私有的 `data/local-reconstruction/test-limits.json` 配置：`cumulative_budget_usd` 是累计费用上限，`max_jobs: null` 允许用户在余额范围内连续手动测试。追加额度应保留全部历史费用与待确认预留，不能清空账本。此文件没有网页写入接口，修改后重启本地 API 生效。内核配置中的单图 USD 5 上限仍然独立执行。网页定时刷新可用状态，并显示余额不足的具体金额。
+预算不足时停止提交，不删除账本、不自动增加额度。累计额度文件是私有的 `data/local-reconstruction/test-limits.json`；`max_jobs: null` 表示在余额范围内允许继续手动测试。模型可用性检查只读取模型列表，不创建生成请求。
 
 ## 验证
 
-离线接口检查（不会调用模型）：
+离线测试与原版对照，无模型费用：
 
 ```powershell
 backend/.venv-local/Scripts/python.exe -m pytest backend/tests -q
+backend/.venv-local/Scripts/python.exe scripts/check-kernel-parity.py
 ```
 
-真实浏览器检查会提交一次付费任务，需要显式指定图片：
+第二项把原版入口与真实网页 worker 放在相同配置、相同输入和固定模型/SAM 响应下，比较请求内容、附件字节、操作与最终产物；覆盖无素材和带素材/细节裁剪/实际 SVG 操作两种情况。这证明这些测试路径的适配一致性，不是实际模型质量验证。
 
-```powershell
-cd frontend
-node scripts/local-kernel-check.mjs --submit --image '完整原图路径.png'
-```
-
-脚本记录进度、截图和结果，写入 `frontend/.review/local-kernel/`，不自动重试付费调用。
-
-`node scripts/reconstruction-failure-check.mjs` 使用拦截接口的离线浏览器场景验证失败提示、手机布局、防重复点击与费用待确认保护。`node scripts/local-retry-check.mjs` 只读检查最近一次可恢复失败；增加 `--retry` 才实际点击恢复并等待结果，可能产生模型费用。
+浏览器只读复查已有真实结果：在 `frontend` 运行 `node scripts/local-result-check.mjs`。显式的付费端到端验证使用 `node scripts/local-kernel-check.mjs --submit --image '完整图片路径.png'`，每次都需要足够额度，不自动重试。
 
 ## 发布边界
 
-本地 API 是单用户本机验证入口，只接受回环地址及指定的本地网页来源；上传有格式、大小、像素数校验。SVG 导入编辑器时使用现有清洗流程。生产构建不会启用本地客户端或探测 localhost。
-
-本轮没有部署云端。正式上线前需要将执行器接入现有账号、任务权限与存储系统，部署独立 SAM/生成进程，配置运行配额及超时回收。当前本地入口不应直接开放公网。
+本地入口仅接受回环地址和指定来源；上传受格式、大小与像素数限制。生产构建不启用本地客户端或探测 localhost。本轮未部署生成服务至云端；公网运行仍需账号鉴权、任务权限和独立执行服务。

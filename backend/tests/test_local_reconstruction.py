@@ -12,26 +12,15 @@ from dataclasses import replace
 import httpx
 import pytest
 from fastapi.testclient import TestClient
-from PIL import Image, ImageChops
+from PIL import Image
 
 from autodraftman_backend.local_reconstruction import app as bridge
-from autodraftman_backend.local_reconstruction.background import (
-    RequestNotSubmitted,
-    background_response,
-    release_unsent_reserve,
-)
 from autodraftman_backend.local_reconstruction.failures import can_retry, failure_details
-from autodraftman_backend.local_reconstruction.inputs import (
-    InputTooLarge,
-    input_bound,
-    pack_sam_inputs,
-    prepare_inputs,
-)
+from autodraftman_backend.local_reconstruction.kernel_contract import COMMIT, PROFILE
 from autodraftman_backend.local_reconstruction.locking import exclusive
 from autodraftman_backend.local_reconstruction.recovery import recovery_mode
 from autodraftman_backend.local_reconstruction.settings import Settings, exposure
 from autodraftman_backend.local_reconstruction.store import JobStore
-from autodraftman_backend.local_reconstruction.streaming import completed_response
 
 
 def png():
@@ -64,6 +53,12 @@ def local(tmp_path, monkeypatch):
     credentials = tmp_path / ".env"
     credentials.write_text("OPENAI_API_KEY=offline-test-value\n")
     settings = Settings(kernel, tmp_path / "data", credentials, config)
+    monkeypatch.setattr(bridge, "validate_config", lambda *args: None)
+
+    async def available_models(*args):
+        return []
+
+    monkeypatch.setattr(bridge, "model_problems", available_models)
     gate = threading.Event()
     launches = []
 
@@ -101,7 +96,7 @@ def submit(client, key=None, content=None, **kwargs):
         "/local-api/jobs",
         headers={"Idempotency-Key": key or str(uuid.uuid4())},
         files={"image": ("source.png", content if content is not None else png(), "image/png")},
-        data={"prompt": "Keep labels", "draftId": "local-test"},
+        data={"prompt": "", "draftId": "local-test"},
         **kwargs,
     )
 
@@ -127,6 +122,34 @@ def test_invalid_input_never_starts_worker(local):
     assert submit(client, content=b"<svg><script>bad</script></svg>").status_code == 400
     assert submit(client, key="invalid").status_code == 400
     assert submit(client, content=b"x" * (10 * 1024 * 1024 + 1)).status_code == 413
+    assert launches == []
+
+
+@pytest.mark.parametrize("format,mode", [("PNG", "RGBA"), ("JPEG", "RGB")])
+def test_original_image_bytes_are_not_reencoded_or_flattened(local, format, mode):
+    client, _, settings, _ = local
+    output = io.BytesIO()
+    Image.new(mode, (32, 24), (30, 40, 50, 100) if mode == "RGBA" else (30, 40, 50)).save(
+        output, format=format
+    )
+    content = output.getvalue()
+    response = submit(client, content=content)
+    assert response.status_code == 202
+    folder = settings.data / "jobs" / response.json()["id"]
+    assert (folder / "source.png").read_bytes() == content
+    assert (folder / "uploaded-original").read_bytes() == content
+    assert json.loads((folder / "input.json").read_text())["source_conversion"] == "none"
+
+
+def test_nonempty_prompt_is_rejected_before_generation(local):
+    client, _, _, launches = local
+    response = client.post(
+        "/local-api/jobs",
+        headers={"Idempotency-Key": str(uuid.uuid4())},
+        files={"image": ("source.png", png(), "image/png")},
+        data={"prompt": "change this text", "draftId": "fixture"},
+    )
+    assert response.status_code == 422
     assert launches == []
 
 
@@ -199,22 +222,6 @@ def test_two_processes_cannot_hold_budget_lock(tmp_path):
     assert subprocess.run(command, capture_output=True).returncode == 0
 
 
-def test_stream_requires_completion_and_keeps_usage():
-    result = {"status": "completed", "output": [], "usage": {"input_tokens": 22}}
-    lines = [
-        "event: response.created",
-        'data: {"type":"response.created"}',
-        "",
-        "data: " + json.dumps({"type": "response.completed", "response": result}),
-        "",
-    ]
-    assert completed_response(iter(lines)) == result
-    with pytest.raises(ValueError, match="without completion"):
-        completed_response(iter(['data: {"type":"response.output_text.delta","delta":"<svg"}', ""]))
-    with pytest.raises(ValueError, match="failed or incomplete"):
-        completed_response(iter(['data: {"type":"response.incomplete"}', ""]))
-
-
 def test_manual_test_limit_accepts_one_job_and_keeps_idempotence(local):
     _, _, settings, launches = local
     limited = replace(settings, max_jobs=1)
@@ -250,34 +257,13 @@ def test_explicit_limits_preserve_existing_cost_records(tmp_path, monkeypatch):
         Settings.from_env()
 
 
-def test_many_crops_are_packed_without_dropping_assets_or_changing_source(tmp_path):
-    source = tmp_path / "source.png"
-    source.write_bytes(png())
-    assets = []
-    for index in range(32):
-        crop = tmp_path / f"crop-{index}.png"
-        crop.write_bytes(png())
-        assets.append({"id": f"P{index}", "path": str(crop)})
-    (tmp_path / "sam.json").write_text(json.dumps({"assets": assets}))
-    images = [source] + [a["path"] for a in assets]
-    prompt = "Canvas: 32 x 24\nActual attachment manifest (in order): old individual crops"
-    packed_prompt, packed = pack_sam_inputs(prompt, {}, images, tmp_path / "call", 131072)
-    assert packed[0] == source and source.read_bytes() == png()
-    assert len(packed) == 3
-    assert input_bound(packed_prompt + "\n{}", packed) < 131072
-    assert "old individual crops" not in packed_prompt
-    manifest = json.loads((tmp_path / "model-attachments/manifest.json").read_text())
-    assert [a["id"] for a in manifest["assets"]] == [a["id"] for a in assets]
-    assert pack_sam_inputs("small", {}, [source], tmp_path / "call", 131072) == ("small", [source])
-
-
 def test_failure_billing_and_retry_never_hide_paid_or_uncertain_calls(tmp_path):
     error = ValueError("complete request exceeds configured input bound before HTTP")
     details = failure_details(tmp_path, error)
     job = {"status": "failed", **details}
     assert details["error"] == "input_too_large"
     assert details["failure"]["billing"] == "not_started"
-    assert can_retry(job, tmp_path)
+    assert not can_retry(job, tmp_path)
     receipt = tmp_path / "receipt.json"
     receipt.write_text(json.dumps({"reserved_usd": 2.29}))
     assert not can_retry(job, tmp_path)
@@ -295,7 +281,10 @@ def test_retry_reuses_job_and_archives_preflight_without_consuming_test_slot(loc
     folder = settings.data / "jobs" / job["id"]
     (folder / "run").mkdir(parents=True)
     (folder / "run/identity.json").write_text('{"prior":true}')
-    error = ValueError("complete request exceeds configured input bound before HTTP")
+    (folder / "adapter-contract.json").write_text(
+        json.dumps({"profile": PROFILE, "commit": COMMIT})
+    )
+    error = ValueError("SAM preparation failed")
     failed = store.update(job["id"], status="failed", **failure_details(folder, error))
     limited = replace(settings, max_jobs=1)
     with TestClient(
@@ -327,50 +316,15 @@ def test_retry_refuses_uncertain_receipts_even_with_stale_retry_flag(local):
     assert launches == []
 
 
-@pytest.mark.parametrize(
-    "stage,count,text_size",
-    [("G0", 24, 8000), ("G1", 8, 12000), ("G1", 8, 26000), ("G2", 10, 34000), ("G2", 12, 20000)],
-)
-def test_all_stage_inputs_preserve_every_evidence_pixel(tmp_path, stage, count, text_size):
-    sizes = [(609, 277)] * 2 + [(1232, 302)] * 4 + [(452, 180)] * (count - 6)
-    images = []
-    for index, size in enumerate(sizes):
-        path = tmp_path / f"input-{index}.png"
-        Image.new("RGB", size, (index * 7, 35, 128)).save(path)
-        images.append(path)
-    prompt = "p" * text_size
-    original = [p.read_bytes() for p in images]
-    packed_prompt, packed = prepare_inputs(stage, prompt, {}, images, tmp_path / "call", 131072)
-    assert input_bound(packed_prompt + "\n{}", packed) <= 131072
-    assert [p.read_bytes() for p in images] == original
-    if input_bound(prompt + "\n{}", images) <= 131072:
-        assert packed == images and packed_prompt == prompt
-        return
-    manifest = json.loads((tmp_path / "model-atlas/manifest.json").read_text())
-    assert manifest["resampled"] is False
-    assert len(manifest["panels"]) == len(images) - (1 if stage == "G0" else 2)
-    for entry in manifest["panels"]:
-        with (
-            Image.open(packed[entry["attachment"] - 1]) as atlas,
-            Image.open(images[entry["input_index"] - 1]) as source,
-        ):
-            assert ImageChops.difference(atlas.crop(entry["atlas_box"]), source).getbbox() is None
-
-
-def test_unrepresentable_input_fails_before_transport(tmp_path):
-    image = tmp_path / "image.png"
-    image.write_bytes(png())
-    with pytest.raises(InputTooLarge, match="before HTTP"):
-        prepare_inputs("G2", "x" * 131073, {}, [image, image], tmp_path / "call", 131072)
-    assert not list(tmp_path.glob("**/receipt.json"))
-
-
 def completed_checkpoints(folder):
     run = folder / "run"
     source = png()
     svg = b'<svg xmlns="http://www.w3.org/2000/svg"/>'
     config = {"budget_usd": 5}
     folder.mkdir(parents=True, exist_ok=True)
+    (folder / "adapter-contract.json").write_text(
+        json.dumps({"profile": PROFILE, "commit": COMMIT})
+    )
     (folder / "source.png").write_bytes(source)
     (folder / "effective-config.json").write_text(json.dumps(config))
     for stage in ("G0", "G1"):
@@ -399,10 +353,10 @@ def completed_checkpoints(folder):
 
 def test_resume_requires_verified_paid_checkpoints_and_unsent_stage(tmp_path):
     completed_checkpoints(tmp_path)
-    job = {"status": "failed", "stage": "repair", "error": "input_too_large"}
+    job = {"status": "failed", "stage": "repair", "error": "connection_unavailable"}
     assert recovery_mode(job, tmp_path) == "resume"
     details = failure_details(tmp_path, ValueError("input bound before HTTP"), "repair")
-    assert details["failure"]["resume"] is True
+    assert details["failure"]["retryable"] is False
     assert details["failure"]["costUsd"] == 0.5
     (tmp_path / "run/G1/model.json").write_text('{"changed":true}')
     assert recovery_mode(job, tmp_path) is None
@@ -425,7 +379,8 @@ def test_resume_endpoint_keeps_completed_stages_and_frozen_budget(local):
         job["id"],
         status="failed",
         stage="repair",
-        **failure_details(folder, ValueError("input bound before HTTP"), "repair"),
+        error="connection_unavailable",
+        failure={"retryable": True, "resume": True},
     )
     before = {p: p.read_bytes() for p in folder.glob("**/*.json")}
     url = f"/local-api/jobs/{job['id']}/retry"
@@ -437,99 +392,3 @@ def test_resume_endpoint_keeps_completed_stages_and_frozen_budget(local):
     assert exposure(settings.data) == 0.5
     assert client.post(url, json={"revision": failed["revision"]}).status_code == 202
     assert len(launches) == 1
-
-
-def test_background_transport_reconnects_by_get_without_resubmitting(tmp_path, monkeypatch):
-    monkeypatch.setenv("TEST_PROVIDER_KEY", "offline-value")
-    methods, bodies = [], []
-    result = {
-        "id": "resp_test",
-        "status": "completed",
-        "usage": {"input_tokens": 5, "output_tokens": 8},
-        "output": [],
-    }
-
-    def handle(request):
-        methods.append(request.method)
-        if request.method == "POST":
-            bodies.append(json.loads(request.content))
-            return httpx.Response(200, json={"id": "resp_test", "status": "queued"})
-        assert request.url.path.endswith("/resp_test")
-        if len(methods) == 2:
-            raise httpx.RemoteProtocolError("Read disconnected")
-        if len(methods) == 3:
-            return httpx.Response(503)
-        return httpx.Response(200, json=result)
-
-    settings = {"key_env": "TEST_PROVIDER_KEY", "endpoint": "https://example.test/v1/responses"}
-    with httpx.Client(transport=httpx.MockTransport(handle)) as client:
-        actual = background_response(
-            {"model": "gpt-5.5", "input": "test"},
-            settings,
-            tmp_path,
-            client=client,
-            sleep=lambda _: None,
-        )
-    assert actual == result
-    assert methods == ["POST", "GET", "GET", "GET"]
-    assert bodies[0]["background"] is True and bodies[0]["store"] is False
-    assert bodies[0]["model"] == "gpt-5.5"
-    task = json.loads((tmp_path / "provider-task.json").read_text())
-    assert task["response_id"] == "resp_test" and task["status"] == "completed"
-
-
-def test_background_creation_disconnect_is_never_automatically_retried(tmp_path, monkeypatch):
-    monkeypatch.setenv("TEST_PROVIDER_KEY", "offline-value")
-    methods = []
-
-    def handle(request):
-        methods.append(request.method)
-        raise httpx.RemoteProtocolError("No response headers")
-
-    settings = {"key_env": "TEST_PROVIDER_KEY", "endpoint": "https://example.test/v1/responses"}
-    with (
-        httpx.Client(transport=httpx.MockTransport(handle)) as client,
-        pytest.raises(httpx.RemoteProtocolError),
-    ):
-        background_response({}, settings, tmp_path, client=client, sleep=lambda _: None)
-    assert methods == ["POST"]
-
-
-def test_only_connection_establishment_is_retried_and_releases_unused_reserve(
-    tmp_path, monkeypatch
-):
-    monkeypatch.setenv("TEST_PROVIDER_KEY", "offline-value")
-    attempts = []
-
-    def handle(request):
-        attempts.append(request.method)
-        raise httpx.ConnectError("TLS handshake failed")
-
-    settings = {"key_env": "TEST_PROVIDER_KEY", "endpoint": "https://example.test/v1/responses"}
-    with (
-        httpx.Client(transport=httpx.MockTransport(handle)) as client,
-        pytest.raises(RequestNotSubmitted),
-    ):
-        background_response({}, settings, tmp_path, client=client, sleep=lambda _: None)
-    assert attempts == ["POST"] * 3
-    receipt = tmp_path / "receipt.json"
-    original = json.dumps(
-        {"status": "uncertain", "error_type": "RequestNotSubmitted", "reserved_usd": 1.6}
-    )
-    receipt.write_text(original)
-    release_unsent_reserve(tmp_path)
-    assert json.loads(receipt.read_text())["reserved_usd"] == 0
-    assert (tmp_path / "unsent-reserve-original.json").read_text() == original
-    assert (
-        recovery_mode({"status": "failed", "error": "connection_unavailable"}, tmp_path)
-        == "restart"
-    )
-
-
-def test_ambiguous_post_cannot_release_a_charge_reserve(tmp_path):
-    receipt = tmp_path / "receipt.json"
-    original = '{"status":"uncertain","error_type":"RemoteProtocolError","reserved_usd":1.6}'
-    receipt.write_text(original)
-    with pytest.raises(ValueError, match="proven connection failure"):
-        release_unsent_reserve(tmp_path)
-    assert receipt.read_text() == original

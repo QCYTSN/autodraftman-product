@@ -1332,6 +1332,8 @@ function WorkspacePage({
   const reconstructionLimited = taskMode === "rebuild" && !!reconstruction.unavailableReason;
   const reconstructionLimitLabel = reconstruction.unavailableReason === "test_limit"
     ? language === "zh" ? "本轮手动测试次数已用完" : "This manual test has been used"
+    : reconstruction.unavailableReason === "model" ? language === "zh" ? "原版所需模型暂不可用" : "An upstream model is unavailable"
+    : reconstruction.unavailableReason === "configuration" ? language === "zh" ? "运行配置与原版不一致" : "The runtime configuration differs from upstream"
     : (language === "zh" ? "本轮测试剩余额度不足" : "Local test budget is insufficient") + (reconstruction.remainingBudgetUsd != null ? ` ($${reconstruction.remainingBudgetUsd.toFixed(2)})` : "");
   const progressTrigger = useRef<HTMLButtonElement | null>(null);
   useEffect(() => { if (!active) reconstruction.setOpen(false); }, [active, reconstruction.open, reconstruction.setOpen]);
@@ -1791,7 +1793,7 @@ function WorkspacePage({
     if (taskMode === "rebuild" && reconstruction.available) {
       if (!referenceFile || !draftsReady || imageSaveState !== "saved" || reconstruction.busy) return;
       if (!flushLocalDraft().ok) return;
-      await reconstruction.submit({ draftId: activeDraftId, image: referenceFile, prompt: prompt.trim() });
+      await reconstruction.submit({ draftId: activeDraftId, image: referenceFile, prompt: reconstruction.supportsUserPrompt === false ? "" : prompt.trim() });
       return;
     }
     if (!apiConfigured) {
@@ -2087,7 +2089,9 @@ function WorkspacePage({
   };
 
   const changeWorkspaceView = (view: "task" | "documents") => setWorkspaceView(view);
-  const promptField = <ProductPromptField key="prompt-field"
+  const promptField = taskMode === "rebuild" && reconstruction.supportsUserPrompt === false
+    ? <div className="workspace-service-status"><strong>{language === "zh" ? "按原图重建" : "Reconstruct from the source"}</strong><span>{language === "zh" ? "原版流程仅使用参考图，生成后可在编辑器中调整。" : "The upstream workflow uses the reference image. You can edit the result afterward."}</span>{prompt.trim() && <span>{language === "zh" ? "已有补充要求保留在草稿中，本次不会发送给模型。" : "Existing notes stay in your draft and are not sent to the model."}</span>}</div>
+    : <ProductPromptField key="prompt-field"
     active={active && workspaceView === "task"}
     language={language}
     taskMode={taskMode}
@@ -2409,7 +2413,7 @@ function WorkspacePage({
           </Collapsible.Root>}
 
 
-                <div className="workspace-submit"><span id="workspace-submit-reason">{taskMode === "rebuild" && reconstruction.available ? reconstruction.busy ? language === "zh" ? "任务处理中" : "Task in progress" : !referenceFile ? language === "zh" ? "请先添加原图" : "Add a source image" : "" : language === "zh" ? "服务未开放" : "Service unavailable"}</span><button type="button" className="generate-button" onClick={() => void handleGenerate()} disabled={taskMode !== "rebuild" || !reconstruction.available || !referenceFile || !draftsReady || imageSaveState !== "saved" || reconstruction.busy} aria-describedby="workspace-submit-reason">{reconstruction.submitting ? language === "zh" ? "正在提交…" : "Submitting…" : language === "zh" ? taskMode === "rebuild" ? "重建 SVG" : "生成图片" : taskMode === "rebuild" ? "Reconstruct SVG" : "Generate image"}<ArrowRight size={16}/></button></div>
+                <div className="workspace-submit"><span id="workspace-submit-reason">{taskMode === "rebuild" && reconstruction.available ? reconstruction.busy ? language === "zh" ? "任务处理中" : "Task in progress" : !referenceFile ? language === "zh" ? "请先添加原图" : "Add a source image" : "" : reconstructionLimited ? reconstructionLimitLabel : language === "zh" ? "服务未开放" : "Service unavailable"}</span><button type="button" className="generate-button" onClick={() => void handleGenerate()} disabled={taskMode !== "rebuild" || !reconstruction.available || !referenceFile || !draftsReady || imageSaveState !== "saved" || reconstruction.busy} aria-describedby="workspace-submit-reason">{reconstruction.submitting ? language === "zh" ? "正在提交…" : "Submitting…" : language === "zh" ? taskMode === "rebuild" ? "重建 SVG" : "生成图片" : taskMode === "rebuild" ? "Reconstruct SVG" : "Generate image"}<ArrowRight size={16}/></button></div>
               </div>
             </section>
             <button type="button" className="workspace-example" disabled={svg.busy} onClick={() => void svg.example()}><VectorThree size={17}/>{language === "zh" ? "编辑科研 SVG 示例" : "Edit a research SVG example"}<ArrowUpRight size={15}/></button>

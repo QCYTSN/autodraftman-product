@@ -4,6 +4,8 @@ import hashlib
 import json
 import math
 
+from .kernel_contract import is_original_job
+
 
 def recovery_mode(snapshot, folder):
     if (
@@ -12,6 +14,12 @@ def recovery_mode(snapshot, folder):
         or snapshot.get("error")
         not in ("input_too_large", "preparation_failed", "connection_unavailable")
     ):
+        return None
+    # Never continue requests prepared with removed thumbnail/background policies.
+    if not is_original_job(folder):
+        return None
+    # An identical upstream request cannot cure a deterministic input limit.
+    if snapshot.get("error") == "input_too_large":
         return None
     receipts = list(folder.glob("**/receipt.json"))
     try:

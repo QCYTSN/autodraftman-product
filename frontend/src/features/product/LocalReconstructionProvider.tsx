@@ -48,8 +48,10 @@ export function LocalReconstructionProvider({ children }: { children: ReactNode 
       try {
         const state = await request("/local-api/health", { signal: controller.signal });
         if (!controller.signal.aborted && state.service === "figfox-local-v1") {
-          const next: ReconstructionClient = { ...client, canSubmit: state.available === true, remainingBudgetUsd: state.remainingBudgetUsd, unavailableReason: state.problems.includes("test_limit_reached") ? "test_limit" : state.problems.includes("budget_exceeded") ? "budget" : undefined };
-          setConnectedClient(previous => previous?.canSubmit === next.canSubmit && previous?.unavailableReason === next.unavailableReason && previous?.remainingBudgetUsd === next.remainingBudgetUsd ? previous : next);
+          const problems: string[] = state.problems;
+          const next: ReconstructionClient = { ...client, canSubmit: state.available === true, supportsUserPrompt: state.supportsUserPrompt, remainingBudgetUsd: state.remainingBudgetUsd,
+            unavailableReason: problems.includes("config_invalid") ? "configuration" : problems.some(problem => problem.startsWith("model_")) ? "model" : problems.includes("test_limit_reached") ? "test_limit" : problems.includes("budget_exceeded") ? "budget" : undefined };
+          setConnectedClient(previous => previous?.canSubmit === next.canSubmit && previous?.supportsUserPrompt === next.supportsUserPrompt && previous?.unavailableReason === next.unavailableReason && previous?.remainingBudgetUsd === next.remainingBudgetUsd ? previous : next);
         }
       } catch { /* Task polling retains the last known stage during a service interruption. */ }
       if (!controller.signal.aborted) timer = setTimeout(refresh, 10_000);

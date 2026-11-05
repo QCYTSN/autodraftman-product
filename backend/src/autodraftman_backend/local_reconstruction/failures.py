@@ -2,14 +2,16 @@
 
 import json
 
-from .background import RequestNotSubmitted
+from .kernel_contract import KernelContractError
 from .recovery import recovery_mode
 
 
 def failure_details(job, error, stage=None):
     message = str(error).lower()
-    if isinstance(error, RequestNotSubmitted):
-        code = "connection_unavailable"
+    if isinstance(error, KernelContractError) or "original contract mismatch" in message:
+        code = "original_contract_mismatch"
+    elif "original prompt unsupported" in message:
+        code = "original_prompt_unsupported"
     elif "input bound before http" in message:
         code = "input_too_large"
     elif "budget" in message:

@@ -9,11 +9,16 @@ import time
 from pathlib import Path
 
 from .failures import failure_details
-from .inputs import INPUT_POLICY, prepare_inputs
+from .kernel_contract import (
+    DS41_OVERRIDES,
+    PROFILE,
+    is_original_job,
+    validate_config,
+    verify_kernel,
+)
 from .locking import exclusive
 from .settings import Settings, exposure, load_credentials
 from .store import JobStore
-from .streaming import install as install_streaming
 
 
 def run(job_id: str, settings: Settings):
@@ -23,18 +28,12 @@ def run(job_id: str, settings: Settings):
     os.environ.update(load_credentials(settings.credentials))
     os.environ.setdefault("PLUS_CHROMIUM", "C:/Program Files/Google/Chrome/Application/chrome.exe")
     sys.path.insert(0, str(settings.kernel / "src"))
-    from figfox_plus.factual import pipeline, transport
-
-    install_streaming(transport, background=True)
-
     saved_config = job / "effective-config.json"
     if saved_config.exists():
-        # The original budget and completed-stage identities stay frozen on continuation.
+        # Historical adapted jobs are retained, but cannot enter a different protocol.
         config = json.loads(saved_config.read_text(encoding="utf-8"))
     else:
         config = json.loads(settings.config.read_text(encoding="utf-8"))
-        config["local_transport"] = "responses-background-v1"
-        config["local_input_policy"] = INPUT_POLICY
         config["budget_usd"] = min(
             config["budget_usd"], settings.total_budget - exposure(settings.data)
         )
@@ -51,6 +50,29 @@ def run(job_id: str, settings: Settings):
         (job / "events.json").write_text(json.dumps(events, indent=2), encoding="utf-8")
 
     try:
+        if saved_config.exists() and (job / "run").exists() and not is_original_job(job):
+            raise ValueError("original contract mismatch: legacy adapted task")
+        if request["prompt"].strip():
+            raise ValueError("original prompt unsupported")
+        proof = verify_kernel(settings.kernel)
+        validate_config(config, settings.kernel)
+        from figfox_plus.factual import pipeline, transport
+
+        (job / "adapter-contract.json").write_text(
+            json.dumps(
+                {
+                    "profile": PROFILE,
+                    **proof,
+                    "declared_overrides": {
+                        "budget_usd": config["budget_usd"],
+                        "G1_G2": DS41_OVERRIDES,
+                    },
+                    "config_sha256": hashlib.sha256(saved_config.read_bytes()).hexdigest(),
+                },
+                indent=2,
+            ),
+            encoding="utf-8",
+        )
         stage(snapshot.get("resumeStage") or "reconstruct")
         send_kernel = transport.sender(config, job / "run")
 
@@ -67,21 +89,8 @@ def run(job_id: str, settings: Settings):
                 ) / 1e6
                 if reserve > settings.total_budget - exposure(settings.data):
                     raise ValueError("request reserve exceeds cumulative budget")
-            prompt, images = prepare_inputs(
-                name,
-                prompt,
-                payload,
-                images,
-                folder,
-                provider["max_input_tokens"]
-                - (len(request["prompt"].encode("utf-8")) + 128 if name == "G0" else 0),
-            )
-            # Preserve the kernel prompts and bind the user's request explicitly to G0.
-            if name == "G0" and request["prompt"]:
-                prompt += (
-                    "\nUser reconstruction notes "
-                    "(preserve the source canvas and SVG safety rules):\n" + request["prompt"]
-                )
+            # Forward upstream prompts, payloads and attachment objects unchanged.
+            # Upstream owns request bodies, limits, transport and response parsing.
             return send_kernel(name, prompt, payload, images, folder)
 
         original_render = pipeline.render
@@ -92,9 +101,12 @@ def run(job_id: str, settings: Settings):
             return original_render(svg, png)
 
         pipeline.render = render
-        result = pipeline.run(
-            job / "source.png", job / "run", sam=True, repair=True, send=send, config=config
-        )
+        try:
+            result = pipeline.run(
+                job / "source.png", job / "run", sam=True, repair=True, send=send, config=config
+            )
+        finally:
+            pipeline.render = original_render
         svg = job / "run/final.svg"
         png = job / "run/final.png"
         if (
