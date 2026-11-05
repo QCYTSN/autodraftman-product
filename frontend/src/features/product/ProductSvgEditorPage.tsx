@@ -1,3 +1,5 @@
+import { FigFoxMark, FigFoxWordmark } from "../../components/brand/FigFoxBrand";
+import { registerEditorLeave } from "./editorNavigation";
 import { ArrowLeft, ArrowRight, BezierCurve, Check, DownloadSimple, FileSvg, Globe, PencilSimple, Plus, UploadSimple, WarningCircle, X } from "@phosphor-icons/react";
 import { Dialog } from "@base-ui/react/dialog";
 import { Popover } from "@base-ui/react/popover";
@@ -67,8 +69,8 @@ export function ProductSvgEditorPage({ language, ui, onLanguageChange: changeLan
 
   // Capture while the SVG host is still mounted. Its change notification may
   // be queued when a user edits and immediately follows the back link.
-  const onNavigate: ProductNavigation["onNavigate"] = async route => {
-    if (!latestSnapshot.current) { navigate(route); return; }
+  const saveBeforeLeave = async () => {
+    if (!latestSnapshot.current) return true;
     ++saveSequence.current;
     setSaveState("saving");
     try {
@@ -76,10 +78,12 @@ export function ProductSvgEditorPage({ language, ui, onLanguageChange: changeLan
       latestSnapshot.current = snapshot;
       setMarkup(snapshot.markup);
       await saveEditorDocument(snapshot);
-      navigate(route);
+      return true;
     }
-    catch { setSaveState("failed"); setFileError(zh ? "文档未能保存到此浏览器。请先导出 SVG，再离开编辑器。" : "This document could not be saved in the browser. Export the SVG before leaving the editor."); }
+    catch { setSaveState("failed"); setFileError(zh ? "文档未能保存到此浏览器。请先导出 SVG，再离开编辑器。" : "This document could not be saved in the browser. Export the SVG before leaving the editor."); return false; }
   };
+  useEffect(() => registerEditorLeave(saveBeforeLeave));
+  const onNavigate: ProductNavigation["onNavigate"] = async route => { if (await saveBeforeLeave()) navigate(route); };
 
   useEffect(() => {
     let cancelled = false;
@@ -191,7 +195,7 @@ export function ProductSvgEditorPage({ language, ui, onLanguageChange: changeLan
   return <div className="product-editor product-page-enter">
     <input className="sr-only" ref={fileInput} type="file" accept=".svg,image/svg+xml" aria-label={zh ? "选择 SVG 文件" : "Choose SVG file"} onChange={chooseFile} />
     <header className="product-editor-header">
-      <div className="product-editor-leading"><ProductLink route="/" hrefFor={hrefFor} onNavigate={onNavigate} className="product-brand" aria-label={zh ? "FigFox 首页" : "FigFox home"}><img src={`${import.meta.env.BASE_URL}assets/demo/figfox-logo.svg`} width="36" height="36" alt="" /><strong>FigFox</strong></ProductLink><ProductLink route="/workspace" hrefFor={hrefFor} onNavigate={onNavigate} className="product-editor-back"><ArrowLeft size={17} /><span>{zh ? "工作台" : "Workspace"}</span></ProductLink></div>
+      <div className="product-editor-leading"><ProductLink route="/" hrefFor={hrefFor} onNavigate={onNavigate} className="product-brand" aria-label={zh ? "FigFox 首页" : "FigFox home"}><FigFoxMark /><FigFoxWordmark className="figfox-wordmark" /></ProductLink><ProductLink route="/workspace" hrefFor={hrefFor} onNavigate={onNavigate} className="product-editor-back"><ArrowLeft size={17} /><span>{zh ? "工作台" : "Workspace"}</span></ProductLink></div>
       <div className="product-editor-title">
         {document ? renaming ? <form className="product-editor-rename" onSubmit={event => { event.preventDefault(); const name = documentName.trim().replace(/[\\/:*?"<>|]/g, "-"); if (!name) return; setDocument(previous => previous ? { ...previous, fileName: /\.svg$/i.test(name) ? name : `${name}.svg` } : previous); setFileNotice(""); setRenaming(false); }}>
           <input autoFocus aria-label={zh ? "文档名称" : "Document name"} maxLength={100} value={documentName} onChange={event => setDocumentName(event.target.value)} onKeyDown={event => { if (event.key === "Escape") setRenaming(false); if (event.key === "Enter" && event.nativeEvent.isComposing) event.preventDefault(); }}/>

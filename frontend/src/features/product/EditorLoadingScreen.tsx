@@ -1,3 +1,4 @@
+import { FigFoxMark, FigFoxWordmark } from "../../components/brand/FigFoxBrand";
 import { ArrowLeft } from "@phosphor-icons/react";
 import { ProductLink, type ProductNavigation } from "./ProductHeader";
 import "./editor-loading.css";
@@ -14,7 +15,7 @@ export function EditorLoadingScreen({ language, phase, leaving = false, hrefFor,
     : zh ? "正在准备编辑界面" : "Preparing the editing tools";
   return <section className="product-editor-loading-screen" data-leaving={leaving || undefined} data-failed={failed || undefined} aria-label={zh ? "打开 SVG 编辑器" : "Opening the SVG editor"}>
     <header className="product-editor-loader-header">
-      <ProductLink route="/" hrefFor={hrefFor} onNavigate={onNavigate} className="product-brand" aria-label={zh ? "FigFox 首页" : "FigFox home"}><img src={`${import.meta.env.BASE_URL}assets/demo/figfox-logo.svg`} width="36" height="36" alt="" /><strong>FigFox</strong></ProductLink>
+      <ProductLink route="/" hrefFor={hrefFor} onNavigate={onNavigate} className="product-brand" aria-label={zh ? "FigFox 首页" : "FigFox home"}><FigFoxMark /><FigFoxWordmark className="figfox-wordmark" /></ProductLink>
       <ProductLink route="/workspace" hrefFor={hrefFor} onNavigate={onNavigate} className="product-editor-loader-back"><ArrowLeft size={16} />{zh ? "返回工作台" : "Back to workspace"}</ProductLink>
     </header>
     <div className="product-editor-loader-content">

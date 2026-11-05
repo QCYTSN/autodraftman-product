@@ -138,7 +138,7 @@ try {
     assert.equal(await page.locator('.figfox-site').evaluate(root => root.hasAttribute('data-figfox-cursor-active')), false);
   };
   const navigateProduct = async route => {
-    if (page.url().endsWith('/workspace')) await page.getByRole('button', {name: route === '/docs' ? '使用指南' : '定价', exact:true}).click();
+    if (new URL(page.url()).pathname.endsWith('/workspace')) await page.getByRole('button', {name: route === '/docs' ? '使用指南' : '定价', exact:true}).click();
     else await page.locator('.product-nav a[href$="'+route+'"]').click();
     await page.waitForURL(url=>url.pathname.endsWith(route));
   };
@@ -159,7 +159,7 @@ try {
   await page.locator('.workspace-account-summary').click();
   await page.waitForURL(/\/login$/); await productNative();
   await page.getByRole('button',{name:'继续使用工作台',exact:true}).click();
-  await page.waitForURL(/\/workspace$/); await productNative();
+  await page.waitForURL(/\/workspace(?:\?view=(?:task|documents))?$/); await productNative();
   record('Draft text, confirmation dialogs and sign-in keep native interaction');
   await navigateProduct('/pricing');
   const summary = page.locator('.product-faq summary').first(); await summary.hover();
@@ -169,7 +169,7 @@ try {
   record('FAQ and selectable product copy retain system pointers');
   await navigateProduct('/workspace');
   await page.getByRole('button',{name:'我的 SVG',exact:true}).click();
-  await page.getByRole('button',{name:'新建画布',exact:true}).click();
+  await page.getByRole('button',{name:'新建 SVG 画布',exact:true}).click();
   await page.waitForURL(/\/editor$/);
   await page.waitForFunction(()=>document.querySelector('.ff-editor-stage')?.dataset.ready==='true');
   await page.locator('.product-editor-back').hover(); await productNative();
@@ -177,7 +177,7 @@ try {
   assert.equal(await fit.evaluate(el=>getComputedStyle(el).cursor),'pointer');
   await page.locator('.figfox-svgedit-frame').hover(); await productNative();
   await page.locator('.product-editor-back').click();
-  await page.waitForURL(/\/workspace$/);
+  await page.waitForURL(/\/workspace(?:\?view=(?:task|documents))?$/);
   record('Editor header, tools and canvas retain native cursors');
   for (const route of ['/docs','/pricing','/workspace','/docs','/workspace']) { await navigateProduct(route); await productNative(); }
   await page.locator('.workspace-brand').click();

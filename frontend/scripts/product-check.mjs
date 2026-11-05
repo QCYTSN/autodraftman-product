@@ -38,7 +38,7 @@ try {
   await page.waitForURL(/\/login$/);
   assert.equal(await page.locator(".product-login-providers .oauth-button:disabled").count(), 3);
   await page.getByRole("button", { name: /继续使用工作台/ }).click();
-  await page.waitForURL(/\/workspace$/);
+  await page.waitForURL(/\/workspace(?:\?view=(?:task|documents))?$/);
   assert.equal(await page.locator(".workspace-balance").count(), 0);
   assert.equal(await page.locator(".generate-button").isDisabled(), true);
   record("Static sign-in does not create an identity or a credit balance");
@@ -61,16 +61,17 @@ try {
   record("Draft deletion offers a keyboard-accessible cancel action");
   await page.getByRole("tab", { name: "图片转 SVG", exact: true }).click();
   await page.locator("#reference-file").setInputFiles({ name: "reference.png", mimeType: "image/png", buffer: Buffer.from("iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+/NhoAAAAASUVORK5CYII=", "base64") });
-  await page.waitForFunction(() => document.querySelector('.reference-upload-copy')?.textContent.includes('原图保存在此浏览器'));
+  await page.waitForFunction(() => document.querySelector('.draft-save-state')?.textContent.includes('已在当前浏览器保存') && !!document.querySelector('.product-workspace-source'));
   assert.equal(await page.locator(".product-workspace-source").count(), 1);
   await page.getByRole("button", { name: "我的 SVG", exact: true }).click();
   await page.locator(".product-documents").waitFor();
   assert.equal(await page.locator(".product-workspace-source:visible").count(), 0);
   await page.locator(".workspace-record-main").filter({hasText: "reference.png"}).click();
-  await page.getByRole("button", { name: "原图预览", exact: true }).click();
-  await page.locator(".product-source-review .product-workspace-source").waitFor({ state: "visible" });
+  await page.getByRole("button", { name: "放大查看", exact: true }).click();
+  await page.locator(".workspace-source-dialog img").waitFor({ state: "visible" });
   assert.equal(await page.locator(".product-workspace-source:visible").count(), 1);
   record("Reference image previews locally without an upload or authentication request");
+  await page.keyboard.press("Escape");
   while (await page.locator(".workspace-record-delete").count() > 1) {
     await page.locator(".workspace-record-delete").last().click();
     await page.getByRole("alertdialog").getByRole("button", { name: "删除草稿", exact: true }).click();

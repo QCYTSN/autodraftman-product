@@ -1622,37 +1622,6 @@ input:focus-visible {
   letter-spacing: 0.01em;
 }
 
-.history-collapsed .history-collapse-button,
-.history-collapsed .new-draft-button,
-.history-collapsed .workspace-account-summary {
-  justify-content: center;
-  padding-inline: 0;
-}
-
-.history-collapsed .history-collapse-button span,
-.history-collapsed .new-draft-button span,
-.history-collapsed .workspace-record-main > span,
-.history-collapsed .workspace-account-summary > strong,
-.history-collapsed .workspace-account-plan {
-  display: none;
-}
-
-.history-collapsed .workspace-account-summary {
-  grid-template-columns: auto;
-}
-
-.history-collapsed .workspace-record {
-  display: grid;
-  grid-template-columns: 1fr;
-  place-items: center;
-  padding-inline: 0;
-}
-
-.history-collapsed .workspace-record > .workspace-record-main {
-  width: 2rem;
-  justify-content: center;
-}
-
 .workspace-canvas {
   position: relative;
   display: grid;
@@ -2039,74 +2008,6 @@ input:focus-visible {
 .upload-zone small {
   color: var(--muted);
   font-size: var(--text-xs);
-}
-
-.reference-upload-card {
-  display: grid;
-  min-height: 5.5rem;
-  grid-template-columns: 4.25rem minmax(0, 1fr) auto;
-  align-items: center;
-  gap: 0.9rem;
-  padding: 0.65rem;
-  border: 1px solid var(--rule);
-  border-radius: var(--radius-medium);
-  background: var(--paper);
-}
-
-.reference-upload-card.ready {
-  border-color: color-mix(in srgb, var(--clay-deep) 42%, var(--rule));
-}
-
-.reference-upload-card.error {
-  border-color: color-mix(in srgb, var(--danger) 50%, var(--rule));
-}
-
-.reference-upload-card > img {
-  width: 4.25rem;
-  height: 4.25rem;
-  border-radius: 0.45rem;
-  background: var(--paper-deep);
-  object-fit: cover;
-}
-
-.reference-upload-copy {
-  display: flex;
-  min-width: 0;
-  flex-direction: column;
-  gap: 0.28rem;
-}
-
-.reference-upload-copy strong {
-  overflow: hidden;
-  font-size: var(--text-sm);
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
-.reference-upload-copy small {
-  color: var(--muted);
-  font-size: var(--text-xs);
-  line-height: 1.35;
-}
-
-.reference-upload-card.error .reference-upload-copy small:first-of-type {
-  color: var(--danger);
-}
-
-.reference-upload-card > button {
-  display: grid;
-  width: 2rem;
-  height: 2rem;
-  place-items: center;
-  border-radius: 50%;
-  color: var(--muted);
-  background: transparent;
-  cursor: pointer;
-}
-
-.reference-upload-card > button:hover {
-  color: var(--ink);
-  background: var(--paper-deep);
 }
 
 .reference-progress {

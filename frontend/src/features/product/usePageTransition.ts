@@ -3,7 +3,7 @@ import { flushSync } from "react-dom";
 import "./login-transition.css";
 import "./page-transition.css";
 
-export type PageTransitionScope = "login-in" | "login-out" | "workspace" | "editor-in" | "editor-out";
+export type PageTransitionScope = "login-in" | "login-out" | "workspace" | "workspace-task" | "workspace-layout" | "editor-in" | "editor-out";
 
 export function usePageTransition() {
   const active = useRef<ViewTransition | null>(null);
@@ -27,10 +27,10 @@ export function usePageTransition() {
     }
     if (!document.startViewTransition) {
       flushSync(update);
-      if (scope === "workspace") document.querySelector(".workspace-layout")?.animate([
+      if (scope.startsWith("workspace")) document.querySelector(scope === "workspace" ? ".workspace-layout" : ".workspace-task-content")?.animate([
         { opacity: .35, transform: "translateY(5px)" },
         { opacity: 1, transform: "translateY(0)" },
-      ], { duration: 230, easing: "cubic-bezier(.22,1,.36,1)" });
+      ], { duration: scope === "workspace" ? 260 : 180, easing: "cubic-bezier(.22,1,.36,1)" });
       return;
     }
 

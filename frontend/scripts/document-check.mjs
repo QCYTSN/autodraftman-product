@@ -80,11 +80,11 @@ try {
   await page.getByLabel("搜索 SVG 文档").fill("");
   record("Search filters document names and reports no matches");
 
-  await page.getByRole("button", { name: /新建画布/ }).click();
+  await page.getByRole("button", { name: "新建 SVG 画布", exact: true }).click();
   await ready(page);
   assert.equal(await page.frameLocator("iframe").locator("#svgcontent #document-a").count(), 0);
   await page.locator(".product-editor-back").click();
-  await card(page, "未命名图像.svg").waitFor();
+  await card(page, "未命名画布.svg").waitFor();
   assert.equal(await page.locator(".product-document-card").count(), 4);
   record("New canvases are separate documents and preserve previous work");
 
@@ -122,9 +122,9 @@ try {
   await card(page, "study-revised.svg").waitFor();
   assert.equal(await page.locator(".product-document-card").count(), 3);
   await page.locator(".workspace-record-main").first().click();
-  await page.getByRole("button", { name: "原图预览", exact: true }).click();
+  await page.getByRole("button", { name: "放大查看", exact: true }).click();
   assert.equal(await page.locator(".product-workspace-source:visible").getAttribute("src"), referenceUrl);
-  await page.locator(".workspace-record-main").first().click();
+  await page.keyboard.press("Escape");
   await page.getByRole("tab", { name: "文生图", exact: true }).click();
   await page.getByRole("button", { name: "我的 SVG", exact: true }).click();
   record("The source preview and saved SVG library switch without discarding either");

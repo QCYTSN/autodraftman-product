@@ -28,12 +28,14 @@ function openDatabase() {
     };
     request.onsuccess = () => {
       const db = request.result;
-      if (failed) { db.close(); return; }
+      if (failed) { db.close(); database = null; return; }
       db.onversionchange = () => { db.close(); database = null; };
       resolve(db);
     };
     request.onerror = () => { failed = true; database = null; reject(request.error); };
-    request.onblocked = () => { failed = true; database = null; reject(new EditorStorageBlockedError()); };
+    // Keep the rejected promise until this pending open finishes. Opening again
+    // while it is blocked queues a request that never receives its own onblocked.
+    request.onblocked = () => { failed = true; reject(new EditorStorageBlockedError()); };
   });
   return database;
 }

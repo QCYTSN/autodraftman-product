@@ -7,7 +7,8 @@
 .product-editor-loading-screen[data-failed] .product-editor-loader-path,
 .product-editor-loading-screen[data-failed] .product-editor-loader-bounds { animation: none; }
 .product-editor-loader-header { position: absolute; inset: 0 0 auto; min-height: 70px; display: flex; align-items: center; justify-content: space-between; gap: 20px; padding: 13px 26px; }
-.product-editor-loader-header .product-brand strong { font-size: 23px; }
+.product-editor-loader-header .product-brand svg, .product-editor-leading .product-brand svg { width:28px; height:28px; }
+.product-editor-loader-header .product-brand .figfox-wordmark, .product-editor-leading .product-brand .figfox-wordmark { font-size:20px; }
 .product-editor-loader-back { display: inline-flex; align-items: center; gap: 8px; color: #786b88; font-size: 12px; }
 .product-editor-loader-back:hover { color: #7050b9; }
 .product-editor-loader-content { display: grid; justify-items: center; gap: 23px; padding: 95px 24px; transform: translateY(-20px); }

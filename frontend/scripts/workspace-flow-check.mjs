@@ -34,7 +34,7 @@ try {
   await page.clock.fastForward(15000);
   assert.equal(await prompt.getAttribute("placeholder"), focused);
   await prompt.fill("A research workflow with a feedback connection.");
-  await page.locator(".workspace-start-heading h2").click();
+  await page.locator(".workspace-service-status").click();
   await page.clock.fastForward(15000);
   assert.equal(await prompt.inputValue(), "A research workflow with a feedback connection.");
   record("Suggestions stay stable while empty or focused and never overwrite entered text");
@@ -64,12 +64,12 @@ try {
   assert.equal(await page.title(), "登录 · FigFox");
   await page.clock.fastForward(14000);
   await page.getByRole("button", { name: "返回", exact: true }).click();
-  await page.waitForURL(/\/workspace$/);
+  await page.waitForURL(/\/workspace(?:\?view=(?:task|documents))?$/);
   assert.equal(await prompt.inputValue(), selected);
   assert.equal(await page.locator(".product-workspace-source").getAttribute("src"), sourceUrl);
   await page.locator(".workspace-account-summary").click();
   await page.getByRole("button", { name: "继续使用工作台", exact: true }).click();
-  await page.waitForURL(/\/workspace$/);
+  await page.waitForURL(/\/workspace(?:\?view=(?:task|documents))?$/);
   assert.equal(await prompt.inputValue(), selected);
   assert.equal(await page.locator(".product-workspace-source").getAttribute("src"), sourceUrl);
   assert.equal(await page.locator(".workspace-balance").count(), 0);
@@ -151,14 +151,14 @@ try {
       await preview.waitForTimeout(650);
       await preview.screenshot({ path: `${output}/login-${language}-${width}.png`, fullPage: true });
       await preview.locator(".product-login-back").click();
-      await preview.waitForURL(/\/workspace$/);
+      await preview.waitForURL(/\/workspace(?:\?view=(?:task|documents))?$/);
       if (width === 390) {
         await preview.getByRole("button", { name: language === "zh" ? "导航" : "Navigation", exact: true }).click();
         await preview.getByRole("dialog").getByRole("button", { name: language === "zh" ? "本地工作台" : "Local mode", exact: true }).click();
         await preview.waitForURL(/\/login$/);
         await preview.getByRole("dialog").waitFor({ state: "hidden" });
         await preview.locator(".product-login-back").click();
-        await preview.waitForURL(/\/workspace$/);
+        await preview.waitForURL(/\/workspace(?:\?view=(?:task|documents))?$/);
         assert.equal(await preview.getByRole("dialog").isVisible(), false);
       }
     }

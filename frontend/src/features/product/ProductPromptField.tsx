@@ -62,7 +62,7 @@ export function ProductPromptField({ language, taskMode, value, label, help, mes
   useLayoutEffect(() => {
     if (!input.current) return;
     input.current.style.height = "auto";
-    input.current.style.height = `${Math.min(420, Math.max(taskMode === "rebuild" ? 78 : 160, input.current.scrollHeight))}px`;
+    input.current.style.height = `${Math.min(240, Math.max(200, input.current.scrollHeight))}px`;
   }, [value, taskMode, language]);
 
   const applySuggestion = () => {
@@ -97,15 +97,15 @@ export function ProductPromptField({ language, taskMode, value, label, help, mes
         </AnimatePresence>
       </div>}
     </div>
-    {taskMode === "create" && <div className="product-prompt-meta">
+    <div className="product-prompt-meta">
       <div className="product-prompt-examples">
-        {empty && <>
+        {taskMode === "create" && empty && <>
           <button type="button" onClick={() => { if (!composing.current) setIndex(current => (current + 1) % samples.length); }}><ArrowClockwise size={14} />{zh ? "换个示例" : "Next example"}</button>
           <button type="button" onClick={applySuggestion}>{zh ? "填入示例" : "Use example"}<ArrowUpRight size={13} /></button>
         </>}
       </div>
       <span className="product-prompt-count">{value.length}/1200</span>
-    </div>}
-    {message ? <p className="field-message" id="prompt-message" role="status">{message}</p> : <p className={taskMode === "rebuild" ? "sr-only" : "field-help"} id="prompt-help">{help}</p>}
+    </div>
+    {message ? <p className="field-message" id="prompt-message" role="status">{message}</p> : <p className="sr-only" id="prompt-help">{help}</p>}
   </div>;
 }

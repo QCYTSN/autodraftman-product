@@ -161,7 +161,7 @@ try {
   await page.getByRole("button", { name: "Switch to Chinese" }).click();
   await page.screenshot({ path: output + "/showcase-desktop.png", fullPage: true });
   await page.locator(".demo-header").getByRole("link", { name: "开始使用" }).click();
-  await page.waitForURL(/\/workspace$/);
+  await page.waitForURL(/\/workspace(?:\?view=(?:task|documents))?$/);
   await page.locator("#figure-prompt").waitFor();
   assert.equal(await page.locator(".product-documents").count(), 0);
   record("The complete showcase supports both languages, small screens, reduced motion and product entry");

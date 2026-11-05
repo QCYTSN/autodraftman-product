@@ -1,0 +1,5 @@
+
+> figfox-frontend@0.1.0 review:editor-workflow
+> node scripts/editor-refinement-check.mjs
+
+{"checks":6,"errors":[]}

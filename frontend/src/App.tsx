@@ -116,10 +116,14 @@ import {
   type ProductRoute,
 } from "./ProductPages";
 import { FigFoxMark, FigFoxWordmark } from "./components/brand/FigFoxBrand";
+import { saveBeforeEditorLeave } from "./features/product/editorNavigation";
 import { ProductHeader } from "./features/product/ProductHeader";
 import { ProductPricingPage } from "./features/product/ProductPricingPage";
 import { ProductGuidePage } from "./features/product/ProductGuidePage";
-import { WorkspaceDocuments, openGuideExample } from "./features/product/WorkspaceDocuments";
+import { WorkspaceDocuments } from "./features/product/WorkspaceDocuments";
+import { useWorkspaceSvg } from "./features/product/workspaceSvg";
+import { WorkspaceImageField } from "./features/product/WorkspaceImageField";
+import { useWorkspaceView, rememberEditorOrigin, workspaceReturnHref } from "./features/product/workspaceNavigation";
 import { saveWorkspaceImage, readWorkspaceImage, deleteWorkspaceImage, imageDimensions } from "./features/product/workspaceImages";
 import { ProductPromptField } from "./features/product/ProductPromptField";
 import { FigureProcessPreview } from "./features/product/FigureProcess";
@@ -326,7 +330,7 @@ const copy = {
       rename: "重命名草稿",
       renameSave: "保存名称",
       renameCancel: "取消重命名",
-      draftUntitled: "新建任务",
+      draftUntitled: "未命名任务",
       draftSaving: "正在保存…",
       draftSaved: "草稿已保存",
       draftOffline: "网络已断开，修改已保存在此设备",
@@ -663,7 +667,7 @@ const copy = {
       rename: "Rename draft",
       renameSave: "Save name",
       renameCancel: "Cancel renaming",
-      draftUntitled: "New task",
+      draftUntitled: "Untitled task",
       draftSaving: "Saving…",
       draftSaved: "Draft saved",
       draftOffline: "Offline. Changes are saved on this device",
@@ -1299,10 +1303,16 @@ function WorkspacePage({
   onOpenEditor: () => void;
   onNavigate: (route: RoutePath) => void;
   onLanguageChange: () => void;
-  onViewTransition: (update: () => void, animate: boolean) => void;
+  onViewTransition: (update: () => void, animate: boolean | "task" | "layout") => void;
 }) {
   const workspaceCopy = figFoxWorkspaceCopy[language];
   const [taskMode, setTaskMode] = useState<"create" | "rebuild">("rebuild");
+  const requestedTaskMode = useRef(taskMode);
+  useEffect(() => { requestedTaskMode.current = taskMode; }, [taskMode]);
+  const changeTaskMode = (next: "create" | "rebuild") => {
+    requestedTaskMode.current = next;
+    onViewTransition(() => { setTaskMode(next); if (next === "rebuild") setMode("reference"); setMessage(""); }, "task");
+  };
   const [localImage, setLocalImage] = useState<WorkspaceImage | null>(null);
   const [imageSaveState, setImageSaveState] = useState<"saved" | "saving" | "restoring" | "failed">("saved");
   const imageSequenceRef = useRef(0);
@@ -1311,27 +1321,12 @@ function WorkspacePage({
   const [prompt, setPrompt] = useState("");
   const [referenceFile, setReferenceFile] = useState<File | null>(null);
   const [referencePreview, setReferencePreview] = useState("");
-  const [workspaceView, setWorkspaceView] = useState<"task" | "documents" | "source">(() => {
-    try { return window.sessionStorage.getItem("figfox-workspace-view") === "documents" ? "documents" : "task"; }
-    catch { return "task"; }
-  });
+  const { view: workspaceView, selectView: setWorkspaceView } = useWorkspaceView(active, onViewTransition);
   const [processPreview, setProcessPreview] = useState(false);
-  const [exampleBusy, setExampleBusy] = useState(false);
+  const [sourceOpen, setSourceOpen] = useState(false);
+  const dialogTrigger = useRef<HTMLElement | null>(null);
   const [dragging, setDragging] = useState(false);
-  useLayoutEffect(() => {
-    if (!active) return;
-    try {
-      if (window.sessionStorage.getItem("figfox-workspace-view") === "documents") {
-        setWorkspaceView("documents");
-        setProcessPreview(false);
-      }
-    } catch { /* The current view remains available without persisted navigation. */ }
-  }, [active]);
-  useEffect(() => {
-    try { window.sessionStorage.setItem("figfox-workspace-view", workspaceView); }
-    catch { /* The current view remains usable when storage is unavailable. */ }
-  }, [workspaceView]);
-  useEffect(() => { setProcessPreview(false); }, [taskMode]);
+  useEffect(() => { if (!active) { setProcessPreview(false); setSourceOpen(false); setHistoryOpen(false); } }, [active]);
   const [referenceAsset, setReferenceAsset] = useState<Asset | null>(null);
   const [referenceAssetId, setReferenceAssetId] = useState<string | null>(null);
   const [referenceStatus, setReferenceStatus] =
@@ -1372,13 +1367,14 @@ function WorkspacePage({
 
   const flushLocalDraft = () => {
     const draft = latestDraftRef.current;
-    if (!draft) return null;
+    if (!draft) return { ok: true, draft: null };
     const cached = readCachedDrafts();
     const previous = cached.find(item => item.id === draft.id);
-    if (previous && draftFingerprint(localDraftInput(previous)) === draftFingerprint(localDraftInput(draft))) return previous;
+    if (previous && draftFingerprint(localDraftInput(previous)) === draftFingerprint(localDraftInput(draft))) return { ok: true, draft: previous };
     const updated = { ...draft, updated_at: new Date().toISOString() };
-    if (!writeCachedDrafts([updated, ...cached.filter(item => item.id !== draft.id)])) setDraftSaveState("failed");
-    return updated;
+    const ok = writeCachedDrafts([updated, ...cached.filter(item => item.id !== draft.id)]);
+    if (!ok) setDraftSaveState("failed");
+    return { ok, draft: updated };
   };
 
   useEffect(() => {
@@ -1389,6 +1385,11 @@ function WorkspacePage({
 
   const currentDraft = drafts.find(draft => draft.id === activeDraftId);
   latestDraftRef.current = draftsReady && currentDraft ? { ...currentDraft, title: activeDraftTitle, prompt, mode, taskType: taskMode, localImage, aspect_ratio: ratio as WorkspaceDraftInput["aspect_ratio"], output_format: format as WorkspaceDraftInput["output_format"], visibility: isPublic ? "public" : "private", reference_asset_id: referenceAssetId } : null;
+
+  const svg = useWorkspaceSvg({ active, zh: language === "zh", saveTask: () => flushLocalDraft().ok && imageSaveState !== "failed", enterEditor: () => {
+    setProcessPreview(false); setSourceOpen(false); setHistoryOpen(false); onOpenEditor();
+  }});
+  const continueButton = (className: string) => svg.document && <button type="button" className={`workspace-continue ${className}`} disabled={svg.busy} onClick={() => void svg.openDocument(svg.document!.id)} title={`${language === "zh" ? "继续编辑" : "Continue editing"} · ${svg.document.fileName}`} aria-label={`${language === "zh" ? "继续编辑" : "Continue editing"} · ${svg.document.fileName}`}><NotePencil size={17}/><span>{language === "zh" ? "继续编辑" : "Continue editing"} · </span><strong>{svg.document.fileName}</strong></button>;
 
   const uploadBusy = ["preparing", "uploading", "verifying"].includes(
     referenceStatus,
@@ -1825,40 +1826,44 @@ function WorkspacePage({
     const sequence = ++imageSequenceRef.current;
     const metadata: WorkspaceImage = { key: crypto.randomUUID(), name: selected.name, type: mediaType, size: selected.size, ...dimensions };
     const oldKey = localImage?.key;
-    setMode("reference");
-    setWorkspaceView("task");
-    setReferenceFile(selected);
-    replacePreview(selected);
-    setReferenceProgress(0);
-    setLocalImage(metadata);
-    setImageSaveState("saving");
-    setReferenceStatus("local");
-    // Record the association immediately; a reload can report an interrupted
-    // Blob write instead of silently restoring an unrelated, older image.
-    if (latestDraftRef.current) {
-      latestDraftRef.current = { ...latestDraftRef.current, mode: "reference", localImage: metadata };
-      const updated = flushLocalDraft();
-      if (updated) setDrafts(items => items.map(item => item.id === updated.id ? updated : item));
-    }
-    try {
-      await saveWorkspaceImage(metadata.key, selected);
-      const cached = readCachedDrafts();
-      if (!cached.some(draft => draft.localImage?.key === metadata.key)) {
-        await deleteWorkspaceImage(metadata.key);
-        if (sequence === imageSequenceRef.current) throw new Error("Image association was not saved");
+    const accept = async () => {
+      if (sequence !== imageSequenceRef.current) return;
+      setMode("reference");
+      setReferenceFile(selected);
+      replacePreview(selected);
+      setReferenceProgress(0);
+      setLocalImage(metadata);
+      setImageSaveState("saving");
+      setReferenceStatus("local");
+      // Record the association immediately; a reload can report an interrupted
+      // Blob write instead of silently restoring an unrelated, older image.
+      if (latestDraftRef.current) {
+        latestDraftRef.current = { ...latestDraftRef.current, mode: "reference", localImage: metadata };
+        const { draft: updated } = flushLocalDraft();
+        if (updated) setDrafts(items => items.map(item => item.id === updated.id ? updated : item));
+      }
+      try {
+        await saveWorkspaceImage(metadata.key, selected);
+        const cached = readCachedDrafts();
+        if (!cached.some(draft => draft.localImage?.key === metadata.key)) {
+          await deleteWorkspaceImage(metadata.key);
+          if (sequence === imageSequenceRef.current) throw new Error("Image association was not saved");
+          return;
+        }
+        if (oldKey && !cached.some(draft => draft.localImage?.key === oldKey)) await deleteWorkspaceImage(oldKey);
+        if (sequence !== imageSequenceRef.current) return;
+        setImageSaveState("saved");
+      } catch {
+        if (oldKey && !readCachedDrafts().some(draft => draft.localImage?.key === oldKey)) void deleteWorkspaceImage(oldKey).catch(() => undefined);
+        if (sequence !== imageSequenceRef.current) return;
+        setImageSaveState("failed");
+        setReferenceError(language === "zh" ? "图片未保存到此浏览器，请重新选择以重试。文字草稿仍保留。" : "The image was not saved in this browser. Select it again to retry; your text is retained.");
         return;
       }
-      if (oldKey && !cached.some(draft => draft.localImage?.key === oldKey)) await deleteWorkspaceImage(oldKey);
-      if (sequence !== imageSequenceRef.current) return;
-      setImageSaveState("saved");
-    } catch {
-      if (oldKey && !readCachedDrafts().some(draft => draft.localImage?.key === oldKey)) void deleteWorkspaceImage(oldKey).catch(() => undefined);
-      if (sequence !== imageSequenceRef.current) return;
-      setImageSaveState("failed");
-      setReferenceError(language === "zh" ? "图片未保存到此浏览器，请重新选择以重试。文字草稿仍保留。" : "The image was not saved in this browser. Select it again to retry; your text is retained.");
-      return;
-    }
-    if (apiConfigured) requestAuth(() => void uploadReference(selected, mediaType));
+      if (apiConfigured) requestAuth(() => void uploadReference(selected, mediaType));
+    };
+    if (taskMode === "create" && !referencePreview && !localImage) onViewTransition(() => { void accept(); }, "layout");
+    else await accept();
   };
 
   const handleFile = (event: ChangeEvent<HTMLInputElement>) => {
@@ -1887,7 +1892,7 @@ function WorkspacePage({
     setImageSaveState("saved");
     if (latestDraftRef.current) {
       latestDraftRef.current = { ...latestDraftRef.current, localImage: null, reference_asset_id: null, mode: taskMode === "create" ? "text" : mode };
-      const updated = flushLocalDraft();
+      const { draft: updated } = flushLocalDraft();
       if (updated) setDrafts(items => items.map(item => item.id === updated.id ? updated : item));
     }
     if (oldKey && !readCachedDrafts().some(draft => draft.localImage?.key === oldKey)) void deleteWorkspaceImage(oldKey).catch(() => undefined);
@@ -1914,11 +1919,21 @@ function WorkspacePage({
   };
 
   const startNewDraft = () => {
+    if (!draftsReady) return;
+    const current = latestDraftRef.current;
+    if (current && !current.title?.trim() && !current.prompt && !current.localImage && !current.reference_asset_id && !referenceFile) {
+      onViewTransition(() => { setWorkspaceView("task", false); setTaskMode("rebuild"); setHistoryOpen(false); }, "task"); return;
+    }
+    onViewTransition(createNewDraft, "task");
+  };
+  const createNewDraft = () => {
     ++draftSaveSequenceRef.current;
     ++imageSequenceRef.current;
-    setWorkspaceView("task");
+    setWorkspaceView("task", false);
     setProcessPreview(false);
-    const flushed = flushLocalDraft();
+    const result = flushLocalDraft();
+    if (!result.ok) return;
+    const flushed = result.draft;
     uploadSequenceRef.current += 1;
     uploadAbortRef.current?.abort();
     uploadAbortRef.current = null;
@@ -1954,15 +1969,17 @@ function WorkspacePage({
     setDraftSaveState(locallySaved ? "saved" : "failed");
   };
 
-  const selectDraft = (draft: WorkspaceDraft) => {
-    setWorkspaceView("task");
+  const selectDraft = (draft: WorkspaceDraft) => onViewTransition(() => {
+    setWorkspaceView("task", false);
     setProcessPreview(false);
     if (draft.id === activeDraftId) { setHistoryOpen(false); return; }
-    const flushed = flushLocalDraft();
+    const result = flushLocalDraft();
+    if (!result.ok) return;
+    const flushed = result.draft;
     if (flushed) setDrafts(current => current.map(item => item.id === flushed.id ? flushed : item));
     applyDraft(draft);
     setHistoryOpen(false);
-  };
+  }, "task");
 
   const beginRenameDraft = (draft: WorkspaceDraft) => {
     setRenamingDraftId(draft.id);
@@ -2030,18 +2047,6 @@ function WorkspacePage({
     if (!locallySaved) setDraftSaveState("failed");
   };
 
-  const referenceStatusLabel = (() => {
-    if (referenceStatus === "local") return language === "zh" ? "原图保存在此浏览器" : "Image saved in this browser";
-    if (referenceStatus === "preparing") return ui.workspace.uploadPreparing;
-    if (referenceStatus === "uploading") {
-      return `${ui.workspace.uploadProgress} · ${referenceProgress}%`;
-    }
-    if (referenceStatus === "verifying") return ui.workspace.uploadVerifying;
-    if (referenceStatus === "ready") return ui.workspace.uploadReady;
-    if (referenceStatus === "error") return referenceError;
-    return ui.workspace.uploadPrivateNote;
-  })();
-
   const draftSaveLabel =
     imageSaveState === "failed" ? (language === "zh" ? "原图未保存或无法恢复" : "Image not saved or unavailable")
     : imageSaveState === "saving" ? (language === "zh" ? "正在保存原图…" : "Saving image…")
@@ -2065,25 +2070,17 @@ function WorkspacePage({
     }
   };
 
-  const changeWorkspaceView = (nextView: "task" | "documents" | "source", focusPrompt = false) => {
-    onViewTransition(() => {
-      setWorkspaceView(nextView);
-      setProcessPreview(false);
-      if (focusPrompt) window.requestAnimationFrame(() => document.getElementById("figure-prompt")?.focus({ preventScroll: true }));
-    }, nextView !== workspaceView || processPreview);
-  };
-  const returnToDraft = () => changeWorkspaceView("task", true);
-
-  const promptField = <ProductPromptField
-    active={active && workspaceView === "task" && !processPreview}
+  const changeWorkspaceView = (view: "task" | "documents") => setWorkspaceView(view);
+  const promptField = <ProductPromptField key="prompt-field"
+    active={active && workspaceView === "task"}
     language={language}
     taskMode={taskMode}
     value={prompt}
     onChange={setPrompt}
     onKeyDown={handlePromptKeyDown}
-    label={taskMode === "rebuild" ? language === "zh" ? "补充要求（可选）" : "Additional notes (optional)" : ui.workspace.promptLabel}
+    label={taskMode === "rebuild" ? language === "zh" ? "补充要求（可选）" : "Additional notes (optional)" : language === "zh" ? "绘图要求" : "Figure brief"}
     help={taskMode === "rebuild"
-      ? language === "zh" ? "可补充需要保留或调整的文字、布局与细节。" : "Add notes on text, layout and details to preserve or adjust."
+      ? language === "zh" ? "可说明需要保留或调整的文字、布局和细节。" : "Add notes on text, layout and details to preserve or adjust."
       : language === "zh" ? "明确的主体、标签和布局，会让绘图要求更清楚。" : "Describe the subject, labels and layout to make the brief clearer."}
     message={message}
     invalid={message === ui.workspace.promptError}
@@ -2093,13 +2090,13 @@ function WorkspacePage({
 
   return (
     <main
-      className={`workspace-page ff-workspace-v3 task-${taskMode} page-enter ${
+      className={`workspace-page ff-workspace-v3 task-${taskMode} ${
         historyCollapsed ? "history-collapsed" : ""
       }`}
     >
       <aside className="workspace-history" aria-label={ui.workspace.history}>
         <div className="workspace-history-heading">
-          <button className="workspace-brand" type="button" aria-label={language === "zh" ? "FigFox 展示首页" : "FigFox home"} onClick={() => onNavigate("/")}><FigFoxMark /><span>FigFox</span></button>
+          <button className="workspace-brand" type="button" aria-label={language === "zh" ? "FigFox 展示首页" : "FigFox home"} onClick={() => onNavigate("/")}><FigFoxMark /><FigFoxWordmark className="figfox-wordmark" /></button>
           <button
             type="button"
             className="history-collapse-button"
@@ -2119,17 +2116,17 @@ function WorkspacePage({
           </button>
         </div>
 
-        <button className="new-draft-button" type="button" onClick={startNewDraft}>
+        <button className="new-draft-button" type="button" onClick={startNewDraft} title={ui.workspace.newDraft} aria-label={ui.workspace.newDraft}>
           <Plus size={18} />
           <span>{ui.workspace.newDraft}</span>
         </button>
 
-        <button type="button" className="workspace-documents-link" aria-pressed={workspaceView === "documents"} onClick={() => changeWorkspaceView("documents")} title={language === "zh" ? "我的 SVG" : "My SVGs"}><Stack size={18} /><span>{language === "zh" ? "我的 SVG" : "My SVGs"}</span></button>
+        <button type="button" className="workspace-new-svg" disabled={svg.busy} onClick={() => void svg.create()} title={language === "zh" ? "新建 SVG 画布" : "New SVG canvas"} aria-label={language === "zh" ? "新建 SVG 画布" : "New SVG canvas"}><BoundingBox size={18}/><span>{language === "zh" ? "新建 SVG 画布" : "New SVG canvas"}</span></button>
+        <button type="button" className="workspace-documents-link" aria-current={workspaceView === "documents" ? "page" : undefined} aria-label={language === "zh" ? "我的 SVG" : "My SVGs"} onClick={() => changeWorkspaceView("documents")} title={language === "zh" ? "我的 SVG" : "My SVGs"}><Stack size={18} /><span>{language === "zh" ? "我的 SVG" : "My SVGs"}</span></button>
 
+        {continueButton("workspace-continue-sidebar")}
         <div className="workspace-records">
-          {!historyCollapsed && (
-            <p className="workspace-records-label">{ui.workspace.history}</p>
-          )}
+          <p className="workspace-records-label">{ui.workspace.history}</p>
           {drafts.length > 0
             ? drafts.map((draft) => (
                 <article
@@ -2177,6 +2174,8 @@ function WorkspacePage({
                     </form>
                   ) : (
                     <button
+                      title={draftTitle(draft.id === activeDraftId && latestDraftRef.current ? latestDraftRef.current : draft, ui.workspace.draftUntitled)}
+                      aria-label={draftTitle(draft.id === activeDraftId && latestDraftRef.current ? latestDraftRef.current : draft, ui.workspace.draftUntitled)}
                       className="workspace-record-main"
                       type="button"
                       data-allow-wrap="true"
@@ -2196,8 +2195,7 @@ function WorkspacePage({
                       </span>
                     </button>
                   )}
-                  {!historyCollapsed && (
-                    <span className="workspace-record-actions">
+                  <span className="workspace-record-actions">
                       <button
                         className="workspace-record-rename"
                         type="button"
@@ -2217,7 +2215,6 @@ function WorkspacePage({
                         <Trash size={15} />
                       </button>
                     </span>
-                  )}
                 </article>
               ))
             : !historyCollapsed && (
@@ -2229,8 +2226,8 @@ function WorkspacePage({
         </div>
 
         <nav className="workspace-utilities" aria-label={language === "zh" ? "帮助与设置" : "Help and settings"}>
-          <button type="button" onClick={() => onNavigate("/docs")} title={language === "zh" ? "使用指南" : "Guide"}><NotePencil size={17}/><span>{language === "zh" ? "使用指南" : "Guide"}</span></button>
-          <button type="button" onClick={() => onNavigate("/pricing")} title={language === "zh" ? "定价" : "Pricing"}><Stack size={17}/><span>{language === "zh" ? "定价" : "Pricing"}</span></button>
+          <button type="button" onClick={() => onNavigate("/docs")} aria-label={language === "zh" ? "使用指南" : "Guide"} title={language === "zh" ? "使用指南" : "Guide"}><NotePencil size={17}/><span>{language === "zh" ? "使用指南" : "Guide"}</span></button>
+          <button type="button" onClick={() => onNavigate("/pricing")} aria-label={language === "zh" ? "定价" : "Pricing"} title={language === "zh" ? "定价" : "Pricing"}><Stack size={17}/><span>{language === "zh" ? "定价" : "Pricing"}</span></button>
           <button type="button" onClick={onLanguageChange} aria-label={language === "zh" ? "Switch to English" : "切换中文"}><Globe size={17}/><span>{language === "zh" ? "English" : "中文"}</span></button>
         </nav>
         <WorkspaceAccountSummary
@@ -2245,7 +2242,7 @@ function WorkspacePage({
         <header className="workspace-heading">
           <div className="workspace-heading-copy">
             <div className="workspace-title-line">
-              <h1>{workspaceView === "documents" ? language === "zh" ? "我的 SVG" : "My SVGs" : latestDraftRef.current ? draftTitle(latestDraftRef.current, ui.workspace.draftUntitled) : ui.workspace.draftUntitled}</h1>
+              <h1 title={workspaceView === "documents" ? language === "zh" ? "我的 SVG" : "My SVGs" : latestDraftRef.current ? draftTitle(latestDraftRef.current, ui.workspace.draftUntitled) : ui.workspace.draftUntitled}>{workspaceView === "documents" ? language === "zh" ? "我的 SVG" : "My SVGs" : latestDraftRef.current ? draftTitle(latestDraftRef.current, ui.workspace.draftUntitled) : ui.workspace.draftUntitled}</h1>
               {workspaceView !== "documents" && <span className={`draft-save-state ${imageSaveState === "failed" ? "failed" : draftSaveState}`} role="status">
                 {draftSaveLabel}
               </span>}
@@ -2260,142 +2257,42 @@ function WorkspacePage({
               <ClockCounterClockwise size={17} />
               {language === "zh" ? "导航" : "Navigation"}
             </button>
-            {apiConfigured && <div className="workspace-balance">
-              <span>{ui.workspace.credits}</span>
-              <strong>{credits ?? "—"}</strong>
-            </div>}
+            {continueButton("workspace-continue-header")}
+            <button type="button" className="workspace-open-svg" disabled={svg.busy} onClick={svg.choose}><UploadSimple size={18}/><span>{language === "zh" ? "打开 SVG" : "Open SVG"}</span></button>
           </div>
         </header>
-
-        <div className={`workspace-layout workspace-view-${workspaceView} ${processPreview ? "is-process-preview" : ""}`}>
-        {workspaceView === "task" && !processPreview && <div className="workspace-start-heading">
-          <h2>{language === "zh" ? taskMode === "create" ? "创建科研图" : "将图片重建为 SVG" : taskMode === "create" ? "Create a scientific figure" : "Reconstruct an image as SVG"}</h2>
-          <div className="workspace-editor-entries"><button type="button" onClick={onOpenEditor}>{language === "zh" ? "已有 SVG？直接编辑" : "Have an SVG? Edit it"}<ArrowUpRight size={16}/></button><button type="button" disabled={exampleBusy} onClick={async () => { setExampleBusy(true); setMessage(""); try { await openGuideExample(onOpenEditor); } catch { setMessage(language === "zh" ? "示例打开失败，请重试或导入自己的 SVG。" : "Could not open the example. Retry or import your SVG."); } finally { setExampleBusy(false); } }}>{exampleBusy ? language === "zh" ? "正在打开…" : "Opening…" : language === "zh" ? "用示例体验" : "Try an example"}</button></div>
-        </div>}
-        {processPreview && <FigureProcessPreview key={taskMode} active={active} language={language} mode={taskMode} onClose={returnToDraft} />}
-        {workspaceView !== "task" && !processPreview && <section className={`result-panel ${taskMode}`}>
-          {workspaceView === "source" && <div className="workspace-documents-back"><button type="button" onClick={returnToDraft}><CaretLeft size={16} />{language === "zh" ? "返回任务" : "Back to task"}</button></div>}
-          {taskMode === "rebuild" && referencePreview && workspaceView === "source" ? <div className="product-source-review">
-            <div className="product-source-review-heading"><h2>{language === "zh" ? "原图预览" : "Source preview"}</h2><span>{referenceFile?.name}</span></div>
-            <img src={referencePreview} alt={language === "zh" ? "准备重建的本地原图" : "Local source prepared for reconstruction"} width="1280" height="720" className="product-workspace-source" />
-            <p>{language === "zh" ? "可以先补充要保留的文字、布局和细节。重建服务开放后再提交处理。" : "Add notes on the text, layout and details to preserve. Processing will become available with the reconstruction service."}</p>
-            <button type="button" className="product-button product-button-secondary" onClick={onOpenEditor}>{language === "zh" ? "打开 SVG 编辑器" : "Open SVG editor"}<ArrowRight size={17} /></button>
-          </div> : <WorkspaceDocuments language={language} onOpenEditor={onOpenEditor} />}
-        </section>}
-        <aside className={`control-panel ${dragging ? "is-dragging" : ""}`} hidden={workspaceView !== "task" || processPreview}
-          onDragOver={event => { if (event.dataTransfer.types.includes("Files")) { event.preventDefault(); event.dataTransfer.dropEffect = "copy"; setDragging(true); } }}
-          onDragLeave={event => { if (!event.currentTarget.contains(event.relatedTarget as Node | null)) setDragging(false); }}
-          onDrop={event => { event.preventDefault(); setDragging(false); const file = event.dataTransfer.files[0]; if (file) void acceptReferenceFile(file); }}
-          onPaste={event => { if ((event.target as HTMLElement).closest("textarea, input, [contenteditable=true]")) return; const file = [...event.clipboardData.items].find(item => item.kind === "file" && item.type.startsWith("image/"))?.getAsFile(); if (file) { event.preventDefault(); void acceptReferenceFile(file); } }}>
-          <Tabs.Root
-            className="workspace-task-root"
-            value={taskMode}
-            onValueChange={(value) => {
-              const nextMode = value as "create" | "rebuild";
-              setTaskMode(nextMode);
-              if (nextMode === "rebuild") setMode("reference");
-              setWorkspaceView("task");
-              setMessage("");
-            }}
-          >
-            <Tabs.List className="workspace-task-switch" aria-label={ui.workspace.title}>
-              <Tabs.Tab value="rebuild">
-                <BezierCurve size={16} />
-                {language === "zh" ? "图片转 SVG" : "Image to SVG"}
-              </Tabs.Tab>
-              <Tabs.Tab value="create"><Plus size={16} />{language === "zh" ? "文生图" : "Text to image"}</Tabs.Tab>
-              <Tabs.Indicator className="workspace-task-indicator" />
-            </Tabs.List>
-          </Tabs.Root>
-
-          {taskMode === "create" && promptField}
-
-          {(taskMode === "rebuild" || mode === "reference") && (
-            <div className="form-block reference-block">
-              <label htmlFor="reference-file">{taskMode === "rebuild" ? language === "zh" ? "原图" : "Source image" : ui.workspace.referenceLabel}</label>
-              {referencePreview ? (
-                <div className={`reference-upload-card ${referenceStatus}`}>
-                  <img src={referencePreview} alt="" className={taskMode === "rebuild" ? "product-workspace-source" : undefined} />
-                  <div className="reference-upload-copy">
-                    <strong>
-                      {referenceFile?.name ??
-                        referenceAsset?.original_filename ??
-                        ui.workspace.referenceLabel}
-                    </strong>
-                    <small>{imageSaveState === "saved" ? referenceStatusLabel : draftSaveLabel}</small>
-                    {localImage && <small>{localImage.width} × {localImage.height} · {(localImage.size / 1024 / 1024).toFixed(1)} MB</small>}
-                    {uploadBusy && (
-                      <span
-                        className="reference-progress"
-                        role="progressbar"
-                        aria-valuemin={0}
-                        aria-valuemax={100}
-                        aria-valuenow={referenceProgress}
-                      >
-                        <span style={{ width: `${referenceProgress}%` }} />
-                      </span>
-                    )}
-                    {referenceStatus === "ready" && referenceAsset && (
-                      <small>
-                        {referenceAsset.width_px} × {referenceAsset.height_px} ·{" "}
-                        {(referenceAsset.byte_size / 1024 / 1024).toFixed(1)} MB
-                      </small>
-                    )}
-                  </div>
-                  <button
-                    type="button"
-                    onClick={uploadBusy ? cancelReferenceUpload : removeReference}
-                    aria-label={
-                      uploadBusy
-                        ? ui.workspace.uploadCancel
-                        : ui.workspace.uploadRemove
-                    }
-                    title={
-                      uploadBusy
-                        ? ui.workspace.uploadCancel
-                        : ui.workspace.uploadRemove
-                    }
-                  >
-                    {uploadBusy ? <X size={18} /> : <Trash size={17} />}
-                  </button>
-                </div>
-              ) : (
-                <button type="button" className="upload-zone" data-allow-wrap="true" onClick={() => document.getElementById("reference-file")?.click()} disabled={uploadBusy}>
-                  <UploadSimple size={20} />
-                  <span>
-                    <strong>{taskMode === "rebuild" ? language === "zh" ? "选择需要重建的图片" : "Choose an image to reconstruct" : ui.workspace.uploadTitle}</strong>
-                    <small>{language === "zh" ? "点击、拖入或粘贴图片 · PNG / JPEG / WebP · 最大 10 MB" : "Click, drop or paste · PNG / JPEG / WebP · Up to 10 MB"}</small>
-                  </span>
-                </button>
-              )}
-              {referenceError && <p className="field-message" role="alert">{referenceError}</p>}
-              {referencePreview && !uploadBusy && (
-                <div className="workspace-reference-actions">
-                <button type="button" className="reference-replace" onClick={() => document.getElementById("reference-file")?.click()}>
-                  <UploadSimple size={15} />
-                  {ui.workspace.replace}
-                </button>
-                {taskMode === "rebuild" && <button type="button" onClick={() => changeWorkspaceView("source")}>{language === "zh" ? "原图预览" : "Source preview"}<ArrowUpRight size={13} /></button>}
-                </div>
-              )}
-            </div>
-          )}
-          {taskMode === "rebuild" && promptField}
-          <input
-                className="sr-only"
-                id="reference-file"
-                type="file"
-                tabIndex={-1}
-                accept=".png,.jpg,.jpeg,.webp,image/png,image/jpeg,image/webp"
-                aria-label={ui.workspace.referenceLabel}
-                onChange={handleFile}
-                disabled={uploadBusy}
-              />
-
-          <div className="workspace-composer-footer">
-          {taskMode === "create" && <button type="button" className="workspace-attach-reference" onClick={() => document.getElementById("reference-file")?.click()} disabled={uploadBusy}><UploadSimple size={17} /><span>{language === "zh" ? "添加参考图" : "Add reference"}</span></button>}
-          {taskMode === "rebuild" && <span className="workspace-output-info">{language === "zh" ? "输出：可编辑 SVG" : "Output: editable SVG"}</span>}
-
+        <input ref={svg.input} className="sr-only" type="file" tabIndex={-1} accept=".svg,image/svg+xml" aria-label={language === "zh" ? "导入 SVG 文档" : "Import SVG document"} onChange={event => { const file = event.target.files?.[0]; event.target.value = ""; void svg.importFile(file); }}/>
+        <div className="workspace-scroll">
+        <div className={`workspace-layout workspace-view-${workspaceView}`}>
+        {svg.error && <p className="workspace-file-error" role="alert"><WarningCircle size={17}/>{svg.error}</p>}
+        {workspaceView === "documents" ? <WorkspaceDocuments language={language} onOpenDocument={id => void svg.openDocument(id)} onExample={() => void svg.example()} operationBusy={svg.busy} onDocumentsChange={svg.refresh}/> : <>
+          <h2 className="sr-only">{taskMode === "rebuild" ? language === "zh" ? "图片转 SVG" : "Image to SVG" : language === "zh" ? "文生图" : "Text to image"}</h2>
+          <div className="workspace-mode-row">
+            <Tabs.Root value={taskMode} onValueChange={value => changeTaskMode(value as "create" | "rebuild")}>
+              <Tabs.List className="workspace-task-switch" aria-label={ui.workspace.title}>
+                <Tabs.Tab value="rebuild" onClick={() => { if (taskMode === "rebuild" && requestedTaskMode.current !== "rebuild") changeTaskMode("rebuild"); }}>{language === "zh" ? "图片转 SVG" : "Image to SVG"}</Tabs.Tab>
+                <Tabs.Tab value="create" onClick={() => { if (taskMode === "create" && requestedTaskMode.current !== "create") changeTaskMode("create"); }}>{language === "zh" ? "文生图" : "Text to image"}</Tabs.Tab>
+                <Tabs.Indicator className="workspace-task-indicator"/>
+              </Tabs.List>
+            </Tabs.Root>
+            <button type="button" className="workspace-process-button" onClick={event => {dialogTrigger.current=event.currentTarget;setProcessPreview(true);}}><PlayCircle size={17}/>{language === "zh" ? "流程示意" : "Process overview"}</button>
+          </div>
+          <div className="workspace-task-content">
+            <div className="workspace-service-status" id="workspace-service-status"><strong>{language === "zh" ? taskMode === "rebuild" ? "重建服务未开放" : "生成服务未开放" : taskMode === "rebuild" ? "Reconstruction unavailable" : "Generation unavailable"}</strong><span>{language === "zh" ? taskMode === "rebuild" ? "目前可保存原图与要求，暂不能提交重建。" : "目前可保存绘图要求，暂不能提交生成。" : taskMode === "rebuild" ? "You can save the source image and notes, but cannot submit a reconstruction yet." : "You can save the brief, but cannot submit a generation yet."}</span></div>
+            <section className={`control-panel ${dragging ? "is-dragging" : ""}`}
+              onDragOver={event => {if(event.dataTransfer.types.includes("Files")){event.preventDefault();event.dataTransfer.dropEffect="copy";setDragging(true);}}}
+              onDragLeave={event => {if(!event.currentTarget.contains(event.relatedTarget as Node | null))setDragging(false);}}
+              onDrop={event => {event.preventDefault();setDragging(false);const file=event.dataTransfer.files[0];if(file)void acceptReferenceFile(file);}}
+              onPaste={event => {if((event.target as HTMLElement).closest("textarea,input,[contenteditable=true]"))return;const file=[...event.clipboardData.items].find(item=>item.kind==="file" && item.type.startsWith("image/"))?.getAsFile();if(file){event.preventDefault();void acceptReferenceFile(file);}}}>
+              <div className={`workspace-input-body ${taskMode === "create" && (referencePreview || localImage) ? "has-reference" : ""}`}>
+                {(taskMode === "rebuild" || referencePreview || localImage) && <WorkspaceImageField key="image-field" zh={language === "zh"} isRebuild={taskMode === "rebuild"} source={referencePreview} name={referenceFile?.name || localImage?.name || referenceAsset?.original_filename || ""} metadata={localImage} error={referenceError} pending={uploadBusy} choose={() => document.getElementById("reference-file")?.click()} remove={() => onViewTransition(uploadBusy ? cancelReferenceUpload : removeReference, "layout")} enlarge={trigger => {dialogTrigger.current=trigger;setSourceOpen(true);}}/>}
+                {promptField}
+              </div>
+              {taskMode === "create" && !referencePreview && !localImage && referenceError && <p className="workspace-reference-error" role="alert">{referenceError}</p>}
+              <input className="sr-only" id="reference-file" type="file" tabIndex={-1} accept=".png,.jpg,.jpeg,.webp,image/png,image/jpeg,image/webp" aria-label={ui.workspace.referenceLabel} onChange={handleFile} disabled={uploadBusy}/>
+              <div className="workspace-composer-footer">
+                {taskMode === "create" && !referencePreview && !localImage && <button type="button" className="workspace-attach-reference" onClick={() => document.getElementById("reference-file")?.click()} disabled={uploadBusy}><UploadSimple size={17}/><span>{language === "zh" ? "添加参考图" : "Add reference"}</span></button>}
+                {taskMode === "rebuild" && <span className="workspace-output-info">{language === "zh" ? "输出：可编辑 SVG" : "Output: editable SVG"}</span>}
           {taskMode === "create" && <Collapsible.Root
             className="settings-disclosure"
             open={settingsOpen}
@@ -2489,20 +2386,23 @@ function WorkspacePage({
             </Collapsible.Panel>
           </Collapsible.Root>}
 
-          <button
-            className="generate-button"
-            type="button"
-            disabled
-            onClick={handleGenerate}
-          >
-            {language === "zh" ? taskMode === "rebuild" ? "重建 SVG" : "生成图片" : taskMode === "rebuild" ? "Reconstruct SVG" : "Generate image"}<ArrowRight size={16} />
-          </button>
-          </div>
-        </aside>
-        {workspaceView === "task" && !processPreview && <div className="workspace-process-entry"><p>{language === "zh" ? taskMode === "rebuild" ? "重建服务尚未开放，可先体验 SVG 编辑。" : "生成服务尚未开放，可先体验 SVG 编辑。" : taskMode === "rebuild" ? "Reconstruction is not open yet. Try SVG editing first." : "Generation is not open yet. Try SVG editing first."}</p><button type="button" onClick={() => setProcessPreview(true)}><PlayCircle size={17} />{language === "zh" ? "流程示意" : "Process overview"}</button></div>}
 
+                <div className="workspace-submit"><span id="workspace-submit-reason">{language === "zh" ? "服务未开放" : "Service unavailable"}</span><button type="button" className="generate-button" disabled aria-describedby="workspace-service-status workspace-submit-reason">{language === "zh" ? taskMode === "rebuild" ? "重建 SVG" : "生成图片" : taskMode === "rebuild" ? "Reconstruct SVG" : "Generate image"}<ArrowRight size={16}/></button></div>
+              </div>
+            </section>
+            <button type="button" className="workspace-example" disabled={svg.busy} onClick={() => void svg.example()}><VectorThree size={17}/>{language === "zh" ? "编辑科研 SVG 示例" : "Edit a research SVG example"}<ArrowUpRight size={15}/></button>
+          </div>
+        </>}
+        </div>
+        </div>
       </div>
-      </div>
+
+      <Dialog.Root open={(sourceOpen || processPreview) && active} onOpenChange={open => {if(!open){setSourceOpen(false);setProcessPreview(false);}}}>
+        <Dialog.Portal><Dialog.Backdrop className="workspace-dialog-backdrop"/><Dialog.Viewport className="workspace-dialog-viewport"><Dialog.Popup className={`workspace-dialog ${sourceOpen ? "workspace-source-dialog" : "workspace-process-dialog"}`} finalFocus={dialogTrigger}>
+          <header><Dialog.Title>{sourceOpen ? referenceFile?.name || localImage?.name : language === "zh" ? "流程示意" : "Process overview"}</Dialog.Title><Dialog.Close aria-label={language === "zh" ? "关闭预览" : "Close preview"}><X size={20}/></Dialog.Close></header>
+          {sourceOpen ? <img src={referencePreview} alt={language === "zh" ? "完整原图" : "Full source image"}/> : <FigureProcessPreview active={active && processPreview} language={language} mode={taskMode} onClose={() => setProcessPreview(false)}/>}
+        </Dialog.Popup></Dialog.Viewport></Dialog.Portal>
+      </Dialog.Root>
 
       <Dialog.Root open={historyOpen && active} onOpenChange={setHistoryOpen}>
         <Dialog.Portal>
@@ -2519,6 +2419,8 @@ function WorkspacePage({
             </div>
             <nav className="workspace-drawer-nav" aria-label={language === "zh" ? "工作台导航" : "Workspace navigation"}>
               <button type="button" onClick={() => { startNewDraft(); setHistoryOpen(false); }}>{ui.workspace.newDraft}</button>
+              <button type="button" className="workspace-new-svg" disabled={svg.busy} onClick={() => void svg.create()}>{language === "zh" ? "新建 SVG 画布" : "New SVG canvas"}</button>
+              {continueButton("workspace-continue-drawer")}
               <button type="button" onClick={() => { changeWorkspaceView("documents"); setHistoryOpen(false); }}>{language === "zh" ? "我的 SVG" : "My SVGs"}</button>
               <button type="button" onClick={() => { setHistoryOpen(false); onNavigate("/docs"); }}>{language === "zh" ? "使用指南" : "Guide"}</button>
               <button type="button" onClick={() => { setHistoryOpen(false); onNavigate("/pricing"); }}>{language === "zh" ? "定价" : "Pricing"}</button>
@@ -3272,9 +3174,17 @@ export default function App() {
   };
 
   useEffect(() => {
-    const handlePopState = () => {
+    let sequence = 0;
+    const handlePopState = async () => {
+      const current = ++sequence;
       pendingAction.current = null;
       const nextRoute = routeFromLocation(window.location.pathname);
+      if (nextRoute === currentRoute.current) return;
+      if (currentRoute.current === "/editor") {
+        const saved = await saveBeforeEditorLeave();
+        if (current !== sequence) return;
+        if (!saved) { window.history.forward(); return; }
+      }
       transitionPage(routeTransition(currentRoute.current, nextRoute), () => {
         currentRoute.current = nextRoute;
         setRoute(nextRoute);
@@ -3381,13 +3291,11 @@ export default function App() {
   const navigate = (path: RoutePath) => {
     const previousRoute = currentRoute.current;
     if (previousRoute === "/login" && path !== "/login") pendingAction.current = null;
-    if (path === "/editor" && previousRoute !== "/workspace") {
-      try { window.sessionStorage.setItem("figfox-workspace-view", "documents"); } catch { /* The workspace can still open without persisted view state. */ }
-    }
+    const navigationState = path === "/editor" ? rememberEditorOrigin(previousRoute === "/workspace") : {};
     transitionPage(routeTransition(previousRoute, path), () => {
-      const nextHref = routeHref(path);
-      if (window.location.pathname !== nextHref) {
-        window.history.pushState({}, "", nextHref);
+      const nextHref = path === "/workspace" ? workspaceReturnHref(routeHref(path), previousRoute === "/editor") : routeHref(path);
+      if (window.location.pathname + window.location.search !== nextHref) {
+        window.history.pushState(navigationState, "", nextHref);
       }
       currentRoute.current = path;
       setRoute(path);
@@ -3598,7 +3506,7 @@ export default function App() {
             onOpenEditor={() => navigate("/editor")}
             onNavigate={navigate}
             onLanguageChange={() => setLanguage(value => value === "zh" ? "en" : "zh")}
-            onViewTransition={(update, animate) => transitionPage(animate ? "workspace" : null, update)}
+            onViewTransition={(update, animate) => transitionPage(animate === "task" ? "workspace-task" : animate === "layout" ? "workspace-layout" : animate ? "workspace" : null, update)}
             onAccount={() => {
               if (identity === "user") {
                 void openAccount();

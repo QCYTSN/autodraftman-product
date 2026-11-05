@@ -1,0 +1,24 @@
+
+> figfox-frontend@0.1.0 review:editor-layout
+> node scripts/editor-layout-check.mjs
+
+{
+  "checks": [
+    "Numeric bold, decoration state, custom font input and all native dash presets",
+    "Canvas preset changes actual document dimensions; JPEG quality control exports an image",
+    "Paint dialog applies gradient; modified SVG copy downloaded",
+    "1440×900 en: properties, page, layer management, star parameters, tools and collapsed canvas",
+    "1440×900 zh: properties, page, layer management, star parameters, tools and collapsed canvas",
+    "1366×768 zh: properties, page, layer management, star parameters, tools and collapsed canvas",
+    "1366×768 en: properties, page, layer management, star parameters, tools and collapsed canvas",
+    "1024×768 en: properties, page, layer management, star parameters, tools and collapsed canvas",
+    "820×700 en: properties, page, layer management, star parameters, tools and collapsed canvas",
+    "1280×600 zh: properties, page, layer management, star parameters, tools and collapsed canvas",
+    "Narrow image dialog fits; image URL rejects unsupported schemes",
+    "390×844 en: properties, page, layer management, star parameters, tools and collapsed canvas",
+    "390×844 zh: properties, page, layer management, star parameters, tools and collapsed canvas",
+    "320×640 en: properties, page, layer management, star parameters, tools and collapsed canvas"
+  ],
+  "issues": [],
+  "errors": []
+}

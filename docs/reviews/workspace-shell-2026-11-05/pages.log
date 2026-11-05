@@ -1,0 +1,101 @@
+
+> figfox-frontend@0.1.0 review:pages
+> node scripts/run-pages-review.mjs
+
+{
+  "checks": [
+    {
+      "route": "/",
+      "status": 200,
+      "title": "FigFox — Editable scientific figures",
+      "horizontalOverflow": false
+    },
+    {
+      "route": "/examples",
+      "status": 200,
+      "title": "FigFox — Editable scientific figures",
+      "horizontalOverflow": false
+    },
+    {
+      "route": "/pricing",
+      "status": 200,
+      "title": "FigFox — Editable scientific figures",
+      "horizontalOverflow": false
+    },
+    {
+      "route": "/workspace",
+      "status": 200,
+      "title": "FigFox — Editable scientific figures",
+      "horizontalOverflow": false
+    },
+    {
+      "route": "/login",
+      "status": 200,
+      "title": "登录 · FigFox",
+      "horizontalOverflow": false
+    },
+    {
+      "route": "/editor",
+      "status": 200,
+      "title": "FigFox — Editable scientific figures",
+      "horizontalOverflow": false
+    },
+    {
+      "route": "/docs",
+      "status": 200,
+      "title": "FigFox — Editable scientific figures",
+      "horizontalOverflow": false
+    },
+    {
+      "route": "/feedback",
+      "status": 200,
+      "title": "FigFox — Editable scientific figures",
+      "horizontalOverflow": false
+    },
+    {
+      "route": "/privacy",
+      "status": 200,
+      "title": "FigFox — Editable scientific figures",
+      "horizontalOverflow": false
+    },
+    {
+      "route": "/terms",
+      "status": 200,
+      "title": "FigFox — Editable scientific figures",
+      "horizontalOverflow": false
+    },
+    {
+      "route": "/content-policy",
+      "status": 200,
+      "title": "FigFox — Editable scientific figures",
+      "horizontalOverflow": false
+    }
+  ],
+  "errors": [],
+  "failedResources": []
+}
+{"checks":21,"errors":[],"apiRequests":[]}
+{"workspaceChecks":6,"errors":[],"apiRequests":[]}
+{"checks":12,"errors":[],"apiRequests":[]}
+{"checks":8,"errors":[],"assetCount":21}
+{"checks":17,"errors":[],"apiRequests":[]}
+{
+  "checks": [
+    "Empty feedback cannot navigate or submit a report",
+    "Public feedback preserves encoded details and opens a review page without automatic submission",
+    "Feedback draft survives refresh and language changes",
+    "Long feedback uses a short destination URL and copies the entire message",
+    "Clipboard denial selects the message without claiming a successful copy",
+    "Mobile feedback and policy pages accurately describe the public local version"
+  ],
+  "errors": [],
+  "apiRequests": []
+}
+{
+  "checks": [
+    "Export commits the latest edited document before delivering its download",
+    "Refreshing immediately after export restores that document and its edits",
+    "A failed local save still exports the real edited SVG and reports the failure honestly"
+  ],
+  "errors": []
+}

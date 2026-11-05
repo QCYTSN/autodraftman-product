@@ -52,7 +52,7 @@ try {
   assert.equal(await page.locator('.privacy-control').count(),0);
   for(const [width,height] of [[1440,900],[1366,768]]) {
     await page.setViewportSize({width,height}); await page.evaluate(()=>document.fonts.ready);
-    const boxes=await page.locator('.upload-zone,.generate-button,.workspace-process-entry').evaluateAll(elements=>elements.map(el=>({top:el.getBoundingClientRect().top,bottom:el.getBoundingClientRect().bottom})));
+    const boxes=await page.locator('.upload-zone,.generate-button,.workspace-service-status').evaluateAll(elements=>elements.map(el=>({top:el.getBoundingClientRect().top,bottom:el.getBoundingClientRect().bottom})));
     assert.ok(boxes.every(box=>box.top>=0 && box.bottom<=height),JSON.stringify(boxes));
     await page.screenshot({path:`${output}/new-task-zh-${width}.png`,fullPage:true});
   }
@@ -96,7 +96,7 @@ try {
   assert.equal((await active(page)).localImage.key,pasteKey);
   record('Invalid drops are prevented; image paste is scoped to the upload context and leaves text inputs alone');
 
-  await page.getByRole('button',{name:'用示例体验',exact:true}).click(); await editorReady(page);
+  await page.getByRole('button',{name:'编辑科研 SVG 示例',exact:true}).click(); await editorReady(page);
   await page.locator('.product-editor-back').click();
   assert.equal(await page.locator('#figure-prompt').inputValue(),'保留所有文字与箭头');
   assert.equal((await active(page)).localImage.key,pasteKey);
