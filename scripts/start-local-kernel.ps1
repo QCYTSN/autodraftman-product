@@ -1,7 +1,8 @@
 param(
     [string]$Credentials = 'D:\Github_Ku\FigFox-926\.env',
     [string]$SamPython = 'D:\fyp\sam3-local-test\runtime\.venv\Scripts\python.exe',
-    [string]$SamBridge = 'D:\Github_Ku\FigFox-926\local\sam_bridge.py'
+    [string]$SamBridge = 'D:\Github_Ku\FigFox-926\local\sam_bridge.py',
+    [switch]$InternalAccounts
 )
 $ErrorActionPreference = 'Stop'
 $projectRoot = Split-Path -Parent $PSScriptRoot
@@ -14,6 +15,12 @@ foreach ($required in @($runtimePython, $SamPython, $SamBridge, $Credentials)) {
 New-Item -ItemType Directory -Force -Path $logRoot | Out-Null
 $env:PYTHONUTF8 = '1'
 $env:FIGFOX_KERNEL_ENV = (Resolve-Path -LiteralPath $Credentials).Path
+if ($InternalAccounts) {
+    $accountSettings = Join-Path $projectRoot 'backend/.env.internal'
+    if (-not (Test-Path -LiteralPath $accountSettings)) { throw 'Internal account configuration is missing.' }
+    $env:FIGFOX_ACCOUNT_BUDGETS_REQUIRED = '1'
+    $env:FIGFOX_ACCOUNT_SETTINGS = $accountSettings
+}
 
 function Test-LocalService([string]$Url) {
     try { $null = Invoke-RestMethod -Uri $Url -TimeoutSec 2; return $true }

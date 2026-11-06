@@ -3,6 +3,7 @@
 import json
 import math
 
+from .account_gate import AccountStagePaused
 from .background import (
     BackgroundExpired,
     BackgroundIdentityError,
@@ -11,12 +12,14 @@ from .background import (
 )
 from .input_count import InputCountUnavailable
 from .kernel_contract import KernelContractError
-from .recovery import recovery_mode
+from .recovery import ACCOUNT_PAUSES, REPLAY_MODES, recovery_mode
 
 
 def failure_details(job, error, stage=None):
     message = str(error).lower()
-    if isinstance(error, InputCountUnavailable):
+    if isinstance(error, AccountStagePaused):
+        code = error.code
+    elif isinstance(error, InputCountUnavailable):
         code = "input_count_unavailable"
     elif isinstance(error, BackgroundPending):
         code = "background_pending"
@@ -67,6 +70,7 @@ def failure_details(job, error, stage=None):
                 "background_rejected",
                 "background_expired",
                 "background_identity_mismatch",
+                *ACCOUNT_PAUSES,
             )
             else code
         )
@@ -78,12 +82,12 @@ def failure_details(job, error, stage=None):
             "costUsd": round(known, 6),
             "reservedUsd": round(reserved, 6),
             "retryable": mode is not None,
-            "resume": mode in ("resume", "background", "finalize"),
+            "resume": mode in ("resume", *REPLAY_MODES),
         },
     }
 
 
 def can_retry(snapshot, folder):
-    return (snapshot.get("failure") or {}).get("retryable") is True and recovery_mode(
-        snapshot, folder
-    ) is not None
+    # Older snapshots may have cached the former, incomplete recovery decision.
+    # Re-evaluate verified artifacts; never alter their receipts or failure billing.
+    return recovery_mode(snapshot, folder) is not None

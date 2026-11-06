@@ -38,6 +38,13 @@ class JobStore:
             ).fetchone()
         return (row[0], json.loads(row[1])) if row else None
 
+    def request_key(self, job_id):
+        with self.connect() as db:
+            row = db.execute("SELECT request_id FROM jobs WHERE id=?", (job_id,)).fetchone()
+        if row is None:
+            raise KeyError(job_id)
+        return row[0]
+
     def list(self):
         with self.connect() as db:
             rows = db.execute("SELECT snapshot FROM jobs ORDER BY rowid DESC LIMIT 50").fetchall()

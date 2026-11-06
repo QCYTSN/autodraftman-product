@@ -10,7 +10,7 @@ await mkdir(out, { recursive: true });
 const browser = await chromium.launch({ executablePath: process.env.CHROME_PATH || 'C:/Program Files/Google/Chrome/Application/chrome.exe', headless: true });
 const context = await browser.newContext({ viewport: { width: 1440, height: 960 }, acceptDownloads: true });
 const errors = [], checks = [], sessions = new Map(), jobs = [];
-let sequence = 0, submissions = 0, apiCalls = 0;
+let sequence = 0, submissions = 0, apiCalls = 0, retries = 0;
 const png = Buffer.from('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+a7WQAAAAASUVORK5CYII=', 'base64');
 const svg = '<svg xmlns="http://www.w3.org/2000/svg" width="160" height="90"><rect width="160" height="90" fill="#7155cf"/><text x="20" y="50" fill="white">Test SVG</text></svg>';
 await context.addInitScript(() => {
@@ -49,7 +49,7 @@ await context.route('**/*', async route => {
   if (path.endsWith('/identity/me')) return json({ id, kind: 'user', display_name: username, providers: ['password'], default_visibility: 'private', balance: { available: 0, reserved: 0 } });
   if (path.endsWith('/auth/identities')) return json({ identities: [] });
   if (path.endsWith('/credits/transactions')) return json({ items: [], limit: 8, offset: 0 });
-  if (path.endsWith('/reconstructions/health')) return json({ accountId: id, available: true, problems: [], supportsUserPrompt: false, remainingBudgetUsd: 5 });
+  if (path.endsWith('/reconstructions/health')) return json({ accountId: id, available: !submissions, problems: submissions ? ['budget_exceeded'] : [], supportsUserPrompt: false, remainingBudgetUsd: submissions ? 0 : 5 });
   if (path === '/api/v1/reconstructions' && request.method() === 'POST') {
     submissions++;
     jobs.push({ id: 'a'.repeat(32), owner: id, name: 'synthetic-source.png', status: 'running', stage: 'reconstruct', revision: 1, result: null });
@@ -58,8 +58,18 @@ await context.route('**/*', async route => {
   if (path === '/api/v1/reconstructions') return json(jobs.filter(job => job.owner === id));
   const job = jobs.find(job => path.includes(job.id) && job.owner === id);
   if (!job) return json({ detail: 'Task not found' }, 404);
+  if (path.endsWith('/retry') && request.method() === 'POST') {
+    retries++; job.revision++; job.status = 'running'; job.stage = 'inspect';
+    delete job.failure; delete job.error;
+    return json(job);
+  }
   if (path.endsWith('result.svg')) return route.fulfill({ headers, contentType: 'image/svg+xml', body: svg });
   if (path.endsWith('result.png')) return route.fulfill({ headers, contentType: 'image/png', body: png });
+  if (!retries) {
+    job.revision++; job.status = 'failed'; job.stage = 'inspect'; job.error = 'account_budget_paused';
+    job.failure = { billing: 'recorded', costUsd: .5, reservedUsd: 0, retryable: true, resume: true };
+    return json(job);
+  }
   job.revision++; job.stage = 'finalize'; job.status = 'succeeded';
   job.result = { svg: `/api/v1/reconstructions/${job.id}/result.svg`, png: `/api/v1/reconstructions/${job.id}/result.png`, costUsd: 0, elapsedSeconds: 1, unresolvedCount: 0 };
   return json(job);
@@ -89,6 +99,12 @@ try {
   await page.locator('#reference-file').setInputFiles({ name: 'synthetic-source.png', mimeType: 'image/png', buffer: png });
   await page.waitForFunction(() => !document.querySelector('.generate-button')?.disabled);
   await page.getByRole('button', { name: '重建 SVG', exact: true }).click();
+  await page.getByRole('heading', { name: '重建已暂停', exact: true }).waitFor();
+  await page.getByText('账号额度不足，已在新模型请求前暂停。已有回答和处理结果已保留。', { exact: true }).waitFor();
+  await page.screenshot({ path: out + '/account-paused.png', fullPage: true });
+  assert.equal(retries, 0, 'No automatic retry on account pause');
+  await page.getByRole('button', { name: '继续未完成的步骤', exact: true }).click();
+  checks.push('Account pause keeps a manual continue action even when new-run budget is exhausted');
   await page.locator('.reconstruction-progress[data-status="succeeded"]').waitFor();
   await page.waitForFunction(() => [...document.querySelectorAll('.workspace-reconstruction-result img')].some(image => image.complete && image.naturalWidth > 0 && image.src.startsWith('blob:')));
   const result = page.locator('.reconstruction-progress .workspace-reconstruction-result');
@@ -120,8 +136,8 @@ try {
   await page.locator('#internal-username').waitFor();
   assert.equal(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth), true);
   await page.screenshot({ path: out + '/login-mobile.png', fullPage: true });
-  assert.deepEqual(errors, []); assert.equal(submissions, 1);
-  const evidence = { checks, errors, syntheticSubmissions: submissions, realGenerationSubmissions: 0 };
+  assert.deepEqual(errors, []); assert.equal(submissions, 1); assert.equal(retries, 1);
+  const evidence = { checks, errors, syntheticSubmissions: submissions, syntheticRetries: retries, realGenerationSubmissions: 0 };
   await writeFile(out + '/result.json', JSON.stringify(evidence, null, 2));
   console.log(JSON.stringify(evidence, null, 2));
 } catch (error) {

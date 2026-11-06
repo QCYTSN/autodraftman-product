@@ -18,6 +18,8 @@ class Settings:
     origins: tuple[str, ...] = ("http://127.0.0.1:5178", "http://localhost:5178")
     total_budget: float = 5.0
     max_jobs: int | None = None
+    account_budgets_required: bool = False
+    account_settings_file: Path | None = None
 
     @classmethod
     def from_env(cls):
@@ -48,6 +50,9 @@ class Settings:
             ),
             total_budget=budget,
             max_jobs=max_jobs,
+            account_budgets_required=os.environ.get("FIGFOX_ACCOUNT_BUDGETS_REQUIRED") == "1",
+            account_settings_file=Path(os.environ["FIGFOX_ACCOUNT_SETTINGS"])
+            if os.environ.get("FIGFOX_ACCOUNT_SETTINGS") else None,
         )
 
 

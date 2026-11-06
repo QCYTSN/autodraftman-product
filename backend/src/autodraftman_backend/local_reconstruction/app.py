@@ -24,7 +24,7 @@ from .failures import can_retry, failure_details
 from .kernel_contract import PROFILE, validate_config
 from .locking import busy, exclusive
 from .provider_check import model_problems
-from .recovery import is_unsent, recovery_mode
+from .recovery import ACCOUNT_PAUSES, REPLAY_MODES, is_unsent, recovery_mode
 from .settings import KERNEL_COMMIT, ROOT, Settings, exposure, load_credentials
 from .store import JobStore
 
@@ -178,7 +178,16 @@ def create_app(settings: Settings | None = None):
     @app.get("/local-api/jobs")
     async def jobs():
         await recover_idle()
-        return store.list()
+        return [visible_job(job) for job in store.list()]
+
+    def visible_job(job):
+        if job["status"] != "failed":
+            return job
+        mode = recovery_mode(job, settings.data / "jobs" / job["id"])
+        return {**job, "failure": {
+            **(job.get("failure") or {}), "retryable": mode is not None,
+            "resume": mode in ("resume", *REPLAY_MODES),
+        }}
 
     async def execute(job):
         nonlocal process
@@ -204,6 +213,9 @@ def create_app(settings: Settings | None = None):
             FIGFOX_LOCAL_DATA=str(settings.data),
             FIGFOX_KERNEL_ENV=str(settings.credentials),
             FIGFOX_KERNEL_CONFIG=str(settings.config),
+            FIGFOX_ACCOUNT_BUDGETS_REQUIRED="1" if settings.account_budgets_required else "0",
+            FIGFOX_ACCOUNT_SETTINGS=str(settings.account_settings_file)
+            if settings.account_settings_file else "",
         )
         try:
             with (folder / "worker.log").open("wb") as log:
@@ -290,7 +302,7 @@ def create_app(settings: Settings | None = None):
             if previous:
                 if previous[0] != fingerprint:
                     raise HTTPException(409, "Idempotency key already belongs to different input")
-                return previous[1]
+                return visible_job(previous[1])
             if tasks:
                 raise HTTPException(409, "A reconstruction is already running")
             state = await readiness()
@@ -326,7 +338,18 @@ def create_app(settings: Settings | None = None):
         job = store.get(job_id)
         if job is None:
             raise HTTPException(404, "Task not found")
-        return job
+        return visible_job(job)
+
+    @app.get("/local-api/jobs/{job_id}/recovery")
+    async def recovery_plan(job_id: str):
+        job = store.get(job_id)
+        if job is None:
+            raise HTTPException(404, "Task not found")
+        return {
+            "id": job_id, "revision": job["revision"],
+            "mode": recovery_mode(job, settings.data / "jobs" / job_id),
+            "accountStageBudgetGuard": settings.account_budgets_required,
+        }
 
     @app.post("/local-api/jobs/{job_id}/retry", status_code=202)
     async def retry(job_id: str, request: Request):
@@ -342,7 +365,7 @@ def create_app(settings: Settings | None = None):
             if job is None:
                 raise HTTPException(404, "Task not found")
             if job.get("retryOfRevision") == body["revision"]:
-                return job
+                return visible_job(job)
             folder = settings.data / "jobs" / job_id
             if body["revision"] != job["revision"] or not can_retry(job, folder):
                 raise HTTPException(409, "This task cannot be retried safely")
@@ -351,11 +374,11 @@ def create_app(settings: Settings | None = None):
             mode = recovery_mode(job, folder)
             pending = (
                 {"inspect": "G1", "repair": "G2"}.get(job.get("stage"), "G0")
-                if mode in ("resume", "background", "finalize")
+                if mode in ("resume", *REPLAY_MODES)
                 else "G0"
             )
             retrieval_config = None
-            if mode in ("background", "finalize"):
+            if mode in REPLAY_MODES:
                 try:
                     retrieval_config = json.loads(
                         (folder / "effective-config.json").read_text(encoding="utf-8")
@@ -385,7 +408,7 @@ def create_app(settings: Settings | None = None):
                         folder
                         / (
                             "resume-records"
-                            if mode in ("resume", "background", "finalize")
+                            if mode in ("resume", *REPLAY_MODES)
                             else "preflight-attempts"
                         )
                         / str(job["revision"])
@@ -393,7 +416,7 @@ def create_app(settings: Settings | None = None):
                     archive.mkdir(parents=True, exist_ok=False)
                     names = (
                         ("failure.txt", "worker.log")
-                        if mode in ("resume", "background", "finalize")
+                        if mode in ("resume", *REPLAY_MODES)
                         else (
                             "run",
                             "failure.txt",
@@ -421,10 +444,12 @@ def create_app(settings: Settings | None = None):
                         failure=None,
                         retryCount=job.get("retryCount", 0) + 1,
                         preflightRetryCount=job.get("preflightRetryCount", job.get("retryCount", 0))
-                        + int(mode in ("restart", "resume")),
+                        + int(
+                            mode in ("restart", "resume") and job.get("error") not in ACCOUNT_PAUSES
+                        ),
                         retryOfRevision=job["revision"],
                         resumeStage=job["stage"]
-                        if mode in ("resume", "background", "finalize")
+                        if mode in ("resume", *REPLAY_MODES)
                         else None,
                     )
             except OSError:

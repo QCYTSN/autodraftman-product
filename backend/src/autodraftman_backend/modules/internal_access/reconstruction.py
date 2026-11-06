@@ -139,6 +139,31 @@ async def prepare_forward(session, principal, request, settings, job_id, retry_r
                 return owned, item
             if item.get("revision") != retry_revision or item.get("status") != "failed":
                 raise HTTPException(409, "This task cannot be retried safely")
+            # Only a worker that enforces account authorization before each NEW
+            # stage may accept recovery without a fresh whole-run reservation.
+            # The plan comes from the private worker, never from browser input.
+            try:
+                plan = (await bridge(
+                    settings, "GET", f"/jobs/{owned.bridge_job_id}/recovery",
+                )).json()
+            except HTTPException as exc:
+                if exc.status_code != 404:
+                    raise
+                plan = {}  # An older worker still requires the original whole-run hold.
+            if (
+                plan.get("id") == owned.bridge_job_id
+                and plan.get("revision") == retry_revision
+                and plan.get("accountStageBudgetGuard") is True
+                and plan.get("mode") in ("background", "replay", "finalize", "resume")
+            ):
+                if owned.budget_pending and owned.budget_retry_revision == retry_revision:
+                    return owned, None
+                # Keep all existing exposure. The revision fence prevents health()
+                # settling this hold from the old failed snapshot during recovery.
+                owned.budget_pending = True
+                owned.budget_retry_revision = retry_revision
+                await session.commit()
+                continue
         needs_hold = (
             owned.budget_exposure_usd < budget.RUN_RESERVE or not owned.budget_pending
             or owned.bridge_job_id and owned.budget_retry_revision != retry_revision

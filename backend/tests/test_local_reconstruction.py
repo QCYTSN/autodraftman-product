@@ -437,7 +437,9 @@ def completed_checkpoints(folder):
     run = folder / "run"
     source = png()
     svg = b'<svg xmlns="http://www.w3.org/2000/svg"/>'
-    config = {"budget_usd": 5}
+    config = {"budget_usd": 5, "stages": {
+        name: {"key_env": "OPENAI_API_KEY"} for name in ("G0", "G1", "G2")
+    }}
     folder.mkdir(parents=True, exist_ok=True)
     (folder / "adapter-contract.json").write_text(
         json.dumps({"profile": PROFILE, "commit": COMMIT})
@@ -706,3 +708,111 @@ def test_get_recoveries_do_not_consume_new_stage_retry_allowance(tmp_path, count
     completed_checkpoints(tmp_path)
     snapshot = {"status": "failed", "stage": "repair", "error": "budget_exceeded", **counts}
     assert recovery_mode(snapshot, tmp_path) == expected
+
+
+def test_saved_g1_answer_replays_without_cached_model_and_keeps_billing(tmp_path):
+    completed_checkpoints(tmp_path)
+    (tmp_path / "run/G1/model.json").unlink()
+    snapshot = {"status": "failed", "stage": "inspect", "error": "interrupted",
+                "failure": {"retryable": False}}
+    before = {p: p.read_bytes() for p in tmp_path.glob("run/**/receipt.json")}
+    assert recovery_mode(snapshot, tmp_path) == "replay"
+    assert can_retry(snapshot, tmp_path)
+    assert all(p.read_bytes() == content for p, content in before.items())
+    (tmp_path / "run/G0/initial.svg").write_text('<svg id="tampered"/>')
+    assert recovery_mode(snapshot, tmp_path) is None
+
+
+def test_saved_g0_answer_requires_retained_sam_identity_before_local_replay(tmp_path):
+    completed_checkpoints(tmp_path)
+    # Only G0 completed: a crash before initial.svg was written.
+    import shutil
+
+    shutil.rmtree(tmp_path / "run/G1")
+    (tmp_path / "run/G0/initial.svg").unlink()
+    (tmp_path / "run/G0/manifest.json").unlink()
+    snapshot = {"status": "failed", "stage": "reconstruct", "error": "interrupted"}
+    assert recovery_mode(snapshot, tmp_path) is None
+    source_hash = hashlib.sha256((tmp_path / "source.png").read_bytes()).hexdigest()
+    manifest = {"source_hash": source_hash, "status": {"sam": "ok"}, "assets": []}
+    target = tmp_path / "run/G0/sam.json"
+    target.write_text(json.dumps(manifest))
+    assert recovery_mode(snapshot, tmp_path) == "replay"
+    for invalid in ({**manifest, "mock": True}, {**manifest, "status": {"other": "ok"}}):
+        target.write_text(json.dumps(invalid))
+        assert recovery_mode(snapshot, tmp_path) is None
+    manifest["assets"] = [{"path": str(tmp_path / "missing.png"),
+                           "source_hash": source_hash, "asset_hash": "0" * 64}]
+    target.write_text(json.dumps(manifest))
+    assert recovery_mode(snapshot, tmp_path) is None
+
+
+def test_saved_g1_malformed_json_is_not_a_replay_candidate(tmp_path):
+    completed_checkpoints(tmp_path)
+    (tmp_path / "run/G1/model.json").unlink()
+    call = tmp_path / "run/G1/call"
+    response = json.dumps({"text": "{broken"}).encode()
+    (call / "response.json").write_bytes(response)
+    receipt = json.loads((call / "receipt.json").read_text())
+    receipt["response_sha256"] = hashlib.sha256(response).hexdigest()
+    (call / "receipt.json").write_text(json.dumps(receipt))
+    assert retained_mode(tmp_path) is None
+
+
+def test_old_failed_snapshot_gets_live_replay_eligibility_without_rewriting_record(local):
+    client, store, settings, _ = local
+    job = store.create(str(uuid.uuid4()), "fixture", "synthetic.png", "")
+    folder = settings.data / "jobs" / job["id"]
+    completed_checkpoints(folder)
+    (folder / "run/G1/model.json").unlink()
+    failed = store.update(job["id"], status="failed", stage="inspect", error="interrupted",
+                          failure={"retryable": False, "billing": "recorded", "costUsd": .5})
+    response = client.get(f'/local-api/jobs/{job["id"]}').json()
+    assert response["failure"]["retryable"] and response["failure"]["resume"]
+    assert response["failure"]["costUsd"] == .5
+    assert store.get(job["id"]) == failed
+    plan = client.get(f'/local-api/jobs/{job["id"]}/recovery').json()
+    assert plan["mode"] == "replay" and plan["revision"] == failed["revision"]
+    assert plan["accountStageBudgetGuard"] is False
+
+
+def test_replay_endpoint_does_not_require_new_model_budget_or_sam(local, monkeypatch):
+    client, store, settings, launches = local
+    job = store.create(str(uuid.uuid4()), "fixture", "synthetic.png", "")
+    folder = settings.data / "jobs" / job["id"]
+    completed_checkpoints(folder)
+    (folder / "run/G1/model.json").unlink()
+    failed = store.update(job["id"], status="failed", stage="inspect", error="interrupted",
+                          failure={"retryable": False, "billing": "recorded", "costUsd": .5})
+
+    def forbidden(*args, **kwargs):
+        raise AssertionError("Replay preflight must not contact SAM or provider")
+
+    monkeypatch.setattr(bridge.httpx, "AsyncClient", forbidden)
+    monkeypatch.setattr(bridge, "model_problems", forbidden)
+    before = {p: p.read_bytes() for p in folder.glob("run/**/receipt.json")}
+    response = client.post(f'/local-api/jobs/{job["id"]}/retry',
+                           json={"revision": failed["revision"]})
+    assert response.status_code == 202
+    assert response.json()["preflightRetryCount"] == 0
+    wait_for_launch(launches)
+    assert all(p.read_bytes() == value for p, value in before.items())
+
+
+@pytest.mark.parametrize("reason", ["budget", "permission", "check"])
+def test_account_pauses_remain_recoverable_after_repeated_checks(local, reason):
+    client, store, settings, launches = local
+    config = json.loads(settings.config.read_text())
+    config["stages"]["G2"] = config["stages"]["G0"]
+    settings.config.write_text(json.dumps(config))
+    job = store.create(str(uuid.uuid4()), "fixture", "synthetic.png", "")
+    folder = settings.data / "jobs" / job["id"]
+    completed_checkpoints(folder)
+    failed = store.update(job["id"], status="failed", stage="repair",
+                          error=f"account_{reason}_paused", preflightRetryCount=2, retryCount=5)
+    assert recovery_mode(failed, folder) == "resume"
+    response = client.post(f'/local-api/jobs/{job["id"]}/retry',
+                           json={"revision": failed["revision"]})
+    assert response.status_code == 202
+    assert response.json()["preflightRetryCount"] == 2
+    wait_for_launch(launches)

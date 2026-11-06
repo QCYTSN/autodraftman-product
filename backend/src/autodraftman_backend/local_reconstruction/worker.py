@@ -8,6 +8,7 @@ import sys
 import time
 from pathlib import Path
 
+from .account_gate import authorize_new_stage
 from .background import background_response, resumable_task
 from .failures import failure_details
 from .input_count import count_input_tokens
@@ -19,7 +20,7 @@ from .kernel_contract import (
     verify_kernel,
 )
 from .locking import exclusive
-from .recovery import retained_mode
+from .recovery import ACCOUNT_PAUSES, retained_mode
 from .settings import Settings, exposure, load_credentials
 from .store import JobStore
 
@@ -90,6 +91,7 @@ def run(job_id: str, settings: Settings):
                 ) / 1e6
                 if reserve > settings.total_budget - exposure(settings.data):
                     raise ValueError("request reserve exceeds cumulative budget")
+                authorize_new_stage(settings, store, job_id, job, reserve)
             # Forward upstream prompts, payloads and attachment objects unchanged.
             # Upstream owns request bodies, limits, transport and response parsing.
             return send_kernel(name, prompt, payload, images, folder)
@@ -195,7 +197,7 @@ def run(job_id: str, settings: Settings):
         details = failure_details(job, error, store.get(job_id).get("stage"))
         if store.get(job_id).get(
             "preflightRetryCount", store.get(job_id).get("retryCount", 0)
-        ) >= 2 and not retained_mode(job):
+        ) >= 2 and details["error"] not in ACCOUNT_PAUSES and not retained_mode(job):
             details["failure"]["retryable"] = False
         store.update(
             job_id,

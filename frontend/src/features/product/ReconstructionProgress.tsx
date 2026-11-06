@@ -36,7 +36,8 @@ export function ReconstructionProgress({ snapshot, name, disconnected, language,
   const running = snapshot.status === "running";
   const done = snapshot.status === "succeeded";
   const active = isReconstructionActive(snapshot);
-  const title = running && stage >= 0 ? text.titles[stage] : snapshot.status === "failed" && stage >= 0 ? zh ? `${text.titles[stage]}未完成` : `${text.titles[stage]} did not finish` : text[snapshot.status];
+  const paused = snapshot.status === "failed" && ["account_budget_paused", "account_permission_paused", "account_check_paused", "budget_exceeded"].includes(snapshot.error || "");
+  const title = paused ? zh ? "重建已暂停" : "Reconstruction paused" : running && stage >= 0 ? text.titles[stage] : snapshot.status === "failed" && stage >= 0 ? zh ? `${text.titles[stage]}未完成` : `${text.titles[stage]} did not finish` : text[snapshot.status];
   const description = running && stage >= 0 ? text.descriptions[stage] : snapshot.status === "queued"
     ? zh ? "任务已提交，开始处理后会自动更新。" : "Your task is submitted. Progress will update when processing starts."
     : done ? zh ? "重建已完成，可以返回工作台。" : "Reconstruction is complete. Return to your workspace."

@@ -35,6 +35,8 @@ class FakeBridge:
         self.calls = []
         self.jobs = {}
         self.drop_next_submission = False
+        self.recovery_mode = None
+        self.stage_guard = False
 
     async def __call__(self, settings, method, path, **kwargs):
         self.calls.append((method, path, kwargs))
@@ -67,6 +69,11 @@ class FakeBridge:
             return httpx.Response(200, json=copy.deepcopy(self.jobs[key]))
         identifier = path.split("/")[2]
         job = next(job for job in self.jobs.values() if job["id"] == identifier)
+        if path.endswith("/recovery"):
+            return httpx.Response(200, json={
+                "id": identifier, "revision": job["revision"],
+                "mode": self.recovery_mode, "accountStageBudgetGuard": self.stage_guard,
+            })
         if path.endswith("/retry"):
             job["retryOfRevision"] = kwargs["json"]["revision"]
             job["revision"] += 1
@@ -636,3 +643,119 @@ async def test_stale_retry_cannot_release_another_retrys_durable_hold(access, mo
     proceed.set()
     assert (await correct_request).status_code == 200
     assert sum(path.endswith("/retry") for _, path, _ in fake.calls) == 1
+
+
+@pytest.mark.parametrize("mode", ["background", "replay", "finalize", "resume"])
+async def test_verified_recovery_does_not_need_new_run_budget(access, mode):
+    new, fake, _, _ = access
+    client = new()
+    await login(client)
+    task = (await submit(client)).json()
+    job = next(iter(fake.jobs.values()))
+    job.update(status="failed", revision=2, failure={"costUsd": .5, "reservedUsd": .25})
+    await client.get("/api/v1/reconstructions/health")
+    await manage.set_budget(Decimal(".75"))
+    fake.recovery_mode, fake.stage_guard = mode, True
+    health = (await client.get("/api/v1/reconstructions/health")).json()
+    assert health["remainingBudgetUsd"] == 0 and not health["available"]
+    assert (await submit(client)).status_code == 429
+    response = await client.post(f'/api/v1/reconstructions/{task["id"]}/retry',
+                                 json={"revision": 2})
+    assert response.status_code == 200
+    assert (await client.get("/api/v1/reconstructions/health")).json()["allocatedBudgetUsd"] == .75
+
+
+async def test_recovery_without_worker_account_guard_still_requires_full_hold(access):
+    new, fake, _, _ = access
+    client = new()
+    await login(client)
+    task = (await submit(client)).json()
+    job = next(iter(fake.jobs.values()))
+    job.update(status="failed", revision=2, failure={"costUsd": .5, "reservedUsd": 0})
+    await client.get("/api/v1/reconstructions/health")
+    await manage.set_budget(Decimal(".5"))
+    fake.recovery_mode = "finalize"
+    assert (await client.post(f'/api/v1/reconstructions/{task["id"]}/retry',
+                               json={"revision": 2})).status_code == 429
+    assert not any(path.endswith("/retry") for _, path, _ in fake.calls)
+
+
+async def test_new_stage_claim_checks_actual_account_and_only_reserves_increment(access):
+    from autodraftman_backend.local_reconstruction.account_gate import AccountStagePaused
+    from autodraftman_backend.modules.internal_access.stage_budget import claim
+
+    new, fake, sessions, _ = access
+    client = new()
+    await login(client)
+    await submit(client)
+    job = next(iter(fake.jobs.values()))
+    job.update(status="failed", revision=2, failure={"costUsd": .5, "reservedUsd": .25})
+    await client.get("/api/v1/reconstructions/health")
+    job.update(status="running", revision=3)
+    await manage.set_budget(Decimal(".8"))
+    async with sessions() as session:
+        owned = await session.scalar(select(OwnedReconstruction))
+        key = str(owned.id)
+        with pytest.raises(AccountStagePaused, match="budget"):
+            await claim(session, key, job["id"], Decimal(".75"), Decimal(".2"))
+        await session.rollback()
+    await manage.set_budget(Decimal("1"))
+    async with sessions() as session:
+        await claim(session, key, job["id"], Decimal(".75"), Decimal(".2"))
+        owned = await session.scalar(select(OwnedReconstruction))
+        assert owned.budget_exposure_usd == Decimal(".95")
+    await manage.disable("figfox01")
+    async with sessions() as session:
+        with pytest.raises(AccountStagePaused, match="permission"):
+            await claim(session, key, job["id"], Decimal(".75"), Decimal(".2"))
+
+
+async def test_new_stage_claim_rejects_foreign_job_binding_and_missing_owner(access):
+    from autodraftman_backend.local_reconstruction.account_gate import AccountStagePaused
+    from autodraftman_backend.modules.internal_access.stage_budget import claim
+
+    new, _, sessions, _ = access
+    client = new()
+    await login(client)
+    await submit(client)
+    async with sessions() as session:
+        owned = await session.scalar(select(OwnedReconstruction))
+        for key, job_id in [(str(owned.id), "f" * 32), (str(uuid.uuid4()), owned.bridge_job_id)]:
+            with pytest.raises(AccountStagePaused, match="permission"):
+                await claim(session, key, job_id, Decimal("0"), Decimal("1"))
+            await session.rollback()
+
+
+async def test_concurrent_new_stages_cannot_overdraw_one_account(access):
+    from autodraftman_backend.local_reconstruction.account_gate import AccountStagePaused
+    from autodraftman_backend.modules.internal_access.stage_budget import claim
+
+    _, _, sessions, _ = access
+    await manage.set_budget(Decimal("1.5"))
+    async with sessions() as session:
+        account = await session.scalar(select(InternalAccount).where(
+            InternalAccount.username == "figfox01",
+        ))
+        jobs = [OwnedReconstruction(
+            user_id=account.user_id, client_request_id=uuid.uuid4(), fingerprint="0" * 64,
+            bridge_job_id=uuid.uuid4().hex, budget_exposure_usd=Decimal(".1"),
+        ) for _ in range(2)]
+        session.add_all(jobs)
+        await session.commit()
+        identities = [(str(job.id), job.bridge_job_id) for job in jobs]
+
+    async def reserve_stage(identity):
+        async with sessions() as session:
+            try:
+                await claim(session, *identity, Decimal(".1"), Decimal(".9"))
+                # A repeated check for the same unchanged stage does not double its hold.
+                await claim(session, *identity, Decimal(".1"), Decimal(".9"))
+                return "authorized"
+            except AccountStagePaused as exc:
+                return exc.code
+
+    outcomes = await asyncio.gather(*(reserve_stage(identity) for identity in identities))
+    assert sorted(outcomes) == ["account_budget_paused", "authorized"]
+    async with sessions() as session:
+        amounts = list(await session.scalars(select(OwnedReconstruction.budget_exposure_usd)))
+        assert sum(amounts) == Decimal("1.1")

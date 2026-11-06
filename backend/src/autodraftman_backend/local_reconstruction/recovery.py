@@ -3,8 +3,12 @@
 import hashlib
 import json
 import math
+from pathlib import Path
 
 from .kernel_contract import is_original_job
+
+REPLAY_MODES = ("background", "replay", "finalize")
+ACCOUNT_PAUSES = ("account_budget_paused", "account_permission_paused", "account_check_paused")
 
 
 def recovery_mode(snapshot, folder):
@@ -24,7 +28,10 @@ def recovery_mode(snapshot, folder):
             return retained
     if (
         snapshot["status"] != "failed"
-        or snapshot.get("preflightRetryCount", snapshot.get("retryCount", 0)) >= 2
+        or (
+            snapshot.get("error") not in ACCOUNT_PAUSES
+            and snapshot.get("preflightRetryCount", snapshot.get("retryCount", 0)) >= 2
+        )
         or snapshot.get("error")
         not in (
             "input_too_large",
@@ -33,6 +40,7 @@ def recovery_mode(snapshot, folder):
             "connection_unavailable",
             "interrupted",
             "budget_exceeded",
+            *ACCOUNT_PAUSES,
         )
     ):
         return None
@@ -56,6 +64,7 @@ def recovery_mode(snapshot, folder):
         "connection_unavailable",
         "interrupted",
         "budget_exceeded",
+        *ACCOUNT_PAUSES,
     ):
         return None
     run = folder / "run"
@@ -131,12 +140,13 @@ def retained_mode(folder):
                 raw = (path.parent / "response.json").read_bytes()
                 if hashlib.sha256(raw).hexdigest() != receipt.get("response_sha256"):
                     return None
+                text = json.loads(raw)["text"]
+                if not isinstance(text, str):
+                    return None
                 model = path.parent.parent / "model.json"
-                if index and model.exists():
-                    text = json.loads(raw)["text"]
-                    if json.loads(
-                        text.removeprefix("```json").removesuffix("```").strip()
-                    ) != json.loads(model.read_text(encoding="utf-8")):
+                if index:
+                    parsed = json.loads(text.removeprefix("```json").removesuffix("```").strip())
+                    if model.exists() and parsed != json.loads(model.read_text(encoding="utf-8")):
                         return None
         initial = run / "G0/initial.svg"
         if initial.exists():
@@ -148,13 +158,41 @@ def retained_mode(folder):
                 return None
         elif len(receipts) > 1:
             return None
+        elif not verified_saved_sam(run, source_hash):
+            return None
         if pending:
             return "background"
         if len(receipts) == 3:
             return "finalize"
+        # Only the newly identified gaps: the saved answer exists but its local
+        # stage artifact has not been written. Upstream request() checks the exact
+        # reconstructed input identity again before returning that saved answer.
+        if not initial.exists() or len(receipts) == 2 and not (run / "G1/model.json").exists():
+            return "replay"
     except (ImportError, OSError, ValueError, KeyError, TypeError, AttributeError):
         return None
     return None
+
+
+def verified_saved_sam(run, source_hash):
+    """No manufactured manifest, new segmentation, or relaxed asset identity."""
+    manifest = json.loads((run / "G0/sam.json").read_text(encoding="utf-8"))
+    status = manifest.get("status")
+    assets = manifest.get("assets")
+    return (
+        not manifest.get("legacy_injected_fixture")
+        and manifest.get("mock") is not True
+        and manifest.get("source_hash") == source_hash
+        and isinstance(status, dict) and status.get("sam") == "ok"
+        and all(value == "ok" for value in status.values())
+        and isinstance(assets, list)
+        and all(
+            asset.get("source_hash") == source_hash
+            and hashlib.sha256(Path(asset["path"]).read_bytes()).hexdigest()
+            == asset.get("asset_hash")
+            for asset in assets
+        )
+    )
 
 
 def valid_retained_accounting(receipt):
