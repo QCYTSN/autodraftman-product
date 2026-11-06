@@ -48,6 +48,7 @@ jobs:
         working-directory: frontend
         env:
           SOURCE_REVISION: ${{ inputs.source_revision }}
+          VITE_CLOUD_APP_URL: https://34.143.155.158
         run: |
           test "$(git rev-parse HEAD)" = "$SOURCE_REVISION"
           npm ci
@@ -59,6 +60,7 @@ jobs:
           if (revision !== process.env.SOURCE_REVISION) throw new Error('Source SHA mismatch');
           writeFileSync('dist/_release.json', JSON.stringify({
             sourceRepository: 'QCYTSN/autodraftman-product', sourceRevision: revision,
+            cloudAppUrl: process.env.VITE_CLOUD_APP_URL,
             builtAt: new Date().toISOString(), workflowRun: process.env.GITHUB_RUN_ID
           }, null, 2) + '\n');
           NODE

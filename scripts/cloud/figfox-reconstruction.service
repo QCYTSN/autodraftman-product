@@ -1,0 +1,24 @@
+[Unit]
+Description=FigFox frozen reconstruction pipeline (private)
+Wants=figfox-sam.service
+After=network-online.target figfox-sam.service
+
+[Service]
+Type=simple
+User=figfox
+Group=figfox
+WorkingDirectory=/opt/figfox/current
+EnvironmentFile=/etc/figfox/runtime.env
+ExecStart=/opt/figfox/runtime/backend/bin/python -m uvicorn autodraftman_backend.local_reconstruction.app:app --host 127.0.0.1 --port 8787 --no-access-log
+Restart=on-failure
+RestartSec=5
+TimeoutStopSec=60
+UMask=0077
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=true
+ReadWritePaths=/var/lib/figfox
+
+[Install]
+WantedBy=multi-user.target

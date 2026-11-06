@@ -1,9 +1,12 @@
 # Deployment
 
-## Current static release
+## Current release
 
-The showcase and local product tools are published at
-[FigFox](https://qcytsn.github.io/figfox/). There is no hosted API in this release.
+The showcase remains at [FigFox](https://qcytsn.github.io/figfox/).
+Product links lead to the cloud workspace at `https://34.143.155.158`, where the
+four internal accounts can access the authenticated reconstruction gateway.
+See [cloud deployment](../docs/cloud-deployment.md) for services, state, HTTPS
+renewal and the unchanged generation pipeline.
 
 The only production source is a reviewed, full commit SHA in
 `QCYTSN/autodraftman-product`. The `QCYTSN/figfox` repository hosts the Pages
@@ -13,6 +16,7 @@ Ordinary pushes to that repository do **not** deploy anything.
 ## Release procedure
 
 1. Build and inspect the product source:
+   set `VITE_CLOUD_APP_URL=https://34.143.155.158`, then run
    `npm run build:pages`, `npm run review:research`,
    `npm run review:showcase` and `node scripts/verify-pages.mjs` in `frontend/`.
    Serve the built `/figfox/` path for browser checks.
@@ -35,9 +39,11 @@ before releasing. Its only trigger is `workflow_dispatch`, with a required full
 source SHA. There is no mirror-copy or ordinary-push publishing path.
 To roll back, explicitly dispatch a previously reviewed source SHA.
 
-## Future API deployment
+## Future general-availability API deployment
 
-The development Compose file is not a production deployment.
+The development Compose file is not a production deployment. The cloud internal
+test above runs the original reconstruction pipeline through its dedicated
+gateway; the broader product infrastructure below is a separate future scope.
 
 The first shared environment will contain:
 
