@@ -40,6 +40,9 @@ class Settings(BaseSettings):
     oauth_attempt_ttl_minutes: int = 10
     frontend_url: str = "http://127.0.0.1:5173"
     public_api_url: str | None = None
+    internal_accounts_enabled: bool = False
+    reconstruction_gateway_enabled: bool = False
+    reconstruction_bridge_url: str = "http://127.0.0.1:8787"
     oauth_google_client_id: str | None = None
     oauth_google_client_secret: str | None = None
     oauth_github_client_id: str | None = None
@@ -68,6 +71,21 @@ class Settings(BaseSettings):
 
     @model_validator(mode="after")
     def validate_production_cookie(self) -> Settings:
+        from urllib.parse import urlsplit
+
+        bridge = urlsplit(self.reconstruction_bridge_url)
+        if (
+            bridge.scheme != "http"
+            or bridge.hostname not in {"127.0.0.1", "::1"}
+            or bridge.username
+            or bridge.password
+            or bridge.query
+            or bridge.fragment
+            or bridge.path not in {"", "/"}
+        ):
+            raise ValueError("The reconstruction bridge must be a private loopback HTTP service.")
+        if self.reconstruction_gateway_enabled and not self.internal_accounts_enabled:
+            raise ValueError("Reconstruction gateway requires internal accounts.")
         if self.environment == "production" and not self.cookie_secure:
             raise ValueError("Secure cookies are required in production.")
         if self.cookie_samesite == "none" and not self.cookie_secure:

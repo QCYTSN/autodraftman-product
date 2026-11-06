@@ -12,7 +12,7 @@ export function mergeRemoteDraft(remote: RemoteDraft, local?: WorkspaceDraft): W
 
 const draftStorageKey = "autodraftman-workspace-drafts-v1";
 
-function isDraft(value: unknown): value is WorkspaceDraft {
+export function isDraft(value: unknown): value is WorkspaceDraft {
   if (!value || typeof value !== "object") return false;
   const draft = value as Partial<WorkspaceDraft>;
   return (
@@ -30,9 +30,9 @@ function isDraft(value: unknown): value is WorkspaceDraft {
   );
 }
 
-export function readCachedDrafts(): WorkspaceDraft[] {
+export function readCachedDrafts(scope?: string): WorkspaceDraft[] {
   try {
-    const parsed = JSON.parse(window.localStorage.getItem(draftStorageKey) ?? "[]");
+    const parsed = JSON.parse(window.localStorage.getItem(scope ? `${draftStorageKey}:${scope}` : draftStorageKey) ?? "[]");
     if (!Array.isArray(parsed)) return [];
     return parsed
       .filter(isDraft)
@@ -43,10 +43,10 @@ export function readCachedDrafts(): WorkspaceDraft[] {
   }
 }
 
-export function writeCachedDrafts(drafts: WorkspaceDraft[]): boolean {
+export function writeCachedDrafts(drafts: WorkspaceDraft[], scope?: string): boolean {
   try {
     window.localStorage.setItem(
-      draftStorageKey,
+      scope ? `${draftStorageKey}:${scope}` : draftStorageKey,
       JSON.stringify(
         [...drafts]
           .sort((left, right) => right.updated_at.localeCompare(left.updated_at))

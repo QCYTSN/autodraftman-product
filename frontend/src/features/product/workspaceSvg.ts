@@ -81,7 +81,7 @@ export function useWorkspaceSvg({ active, zh, saveTask, enterEditor }: { active:
     if (!saveTaskRef.current()) throw new Error('task-save');
     // Reopening a result must preserve edits already saved in this browser.
     if (!(await readEditorDocuments()).some(document => document.id === job.id)) {
-      const response = await fetch(job.result.svg, { signal: AbortSignal.timeout(20_000) });
+      const response = await fetch(job.result.svg, { credentials: "include", signal: AbortSignal.timeout(20_000) });
       if (!response.ok) throw new Error('result-unavailable');
       const imported = await importSvgDocument(new File([await response.text()], `${(job.name || 'FigFox').replace(/\.[^.]+$/, '')}-figfox.svg`, { type: 'image/svg+xml' }));
       if (token !== operation.current) return;

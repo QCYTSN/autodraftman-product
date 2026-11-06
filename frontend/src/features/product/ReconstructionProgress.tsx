@@ -56,8 +56,8 @@ export function ReconstructionProgress({ snapshot, name, disconnected, language,
     </div>
     {snapshot.status === "failed" && <motion.div className="reconstruction-failure" role="status" initial={{ opacity: 0, y: reduced ? 0 : 5 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: reduced ? 0 : .2 }}>
       <p>{zh ? "原图与要求已保留。" : "Your source image and notes are retained."}{snapshot.failure?.billing === "not_started" ? zh ? "本次尚未调用模型，API 费用为 $0。" : "No model call was made. API cost: $0." : snapshot.failure?.billing === "unconfirmed" ? zh ? "本次费用待确认，未自动重试。" : "Billing is unconfirmed. No automatic retry was made." : snapshot.failure?.billing === "recorded" && snapshot.failure.costUsd != null ? zh ? `已记录 API 费用 $${snapshot.failure.costUsd.toFixed(3)}。` : `Recorded API cost: $${snapshot.failure.costUsd.toFixed(3)}.` : ""}</p>
-      {snapshot.failure?.resume && <p>{zh ? "已完成的步骤会直接复用，从中断的阶段继续。" : "Completed steps will be reused. Continue from the interrupted stage."}</p>}
-      {onRetry && snapshot.failure?.retryable && <button type="button" onClick={onRetry} disabled={retryBusy}>{retryBusy ? zh ? "正在重新提交…" : "Retrying…" : snapshot.failure.resume ? zh ? "继续未完成的步骤" : "Continue remaining steps" : zh ? "重试此图" : "Retry this image"}</button>}
+      {snapshot.failure?.resume && !snapshot.submissionPending && <p>{zh ? "已完成的步骤会直接复用，从中断的阶段继续。" : "Completed steps will be reused. Continue from the interrupted stage."}</p>}
+      {onRetry && snapshot.failure?.retryable && <button type="button" onClick={onRetry} disabled={retryBusy}>{retryBusy ? zh ? "正在重新提交…" : "Retrying…" : snapshot.submissionPending ? zh ? "重新确认提交" : "Confirm submission" : snapshot.failure.resume ? zh ? "继续未完成的步骤" : "Continue remaining steps" : zh ? "重试此图" : "Retry this image"}</button>}
       {retryFailed && <p role="alert">{zh ? "暂时无法重试，请稍后再试。" : "Retry is unavailable right now. Try again shortly."}</p>}
     </motion.div>}
     <ol className="figure-process-steps" style={{ "--process-steps": 4 } as CSSProperties}>

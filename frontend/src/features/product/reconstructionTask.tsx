@@ -10,6 +10,7 @@ export type ReconstructionSnapshot = {
   name?: string;
   draftId?: string;
   error?: string | null;
+  submissionPending?: boolean;
   failure?: { billing: "not_started" | "recorded" | "unconfirmed" | "unknown"; costUsd?: number; reservedUsd?: number; retryable: boolean; resume?: boolean } | null;
   result?: { svg: string; png: string; costUsd: number | null; knownCostUsd?: number; reservedCostUsd?: number; elapsedSeconds: number; unresolvedCount: number; sha256: string } | null;
 };
@@ -20,10 +21,11 @@ export type ReconstructionInput = { draftId: string; image: File; prompt: string
  * revision must increase per job; submit must deduplicate by requestId.
  */
 export type ReconstructionClient = {
+  scope?: string;
   canSubmit?: boolean;
   connected?: boolean;
   history?: (signal: AbortSignal) => Promise<ReconstructionSnapshot[]>;
-  unavailableReason?: "budget" | "test_limit" | "model" | "configuration";
+  unavailableReason?: "budget" | "test_limit" | "model" | "configuration" | "signin" | "forbidden";
   supportsUserPrompt?: boolean;
   remainingBudgetUsd?: number;
   submit: (input: ReconstructionInput & { requestId: string }, signal: AbortSignal) => Promise<ReconstructionSnapshot>;
@@ -49,6 +51,13 @@ export function useReconstructionTask() {
   latest.current = task;
 
   useEffect(() => () => submitController.current?.abort(), []);
+  useEffect(() => {
+    // Task state belongs to the current account, including in-flight responses.
+    submitController.current?.abort();
+    latest.current = null; attempt.current = null; locked.current = false;
+    setTask(null); setHistory([]); setOpen(false); setSubmitting(false);
+    setSubmitFailed(false); setDisconnected(false);
+  }, [client?.scope]);
   useEffect(() => {
     if (!client?.recent) return;
     const controller = new AbortController();

@@ -52,6 +52,7 @@ def _http_error(exc: OAuthFlowError, status_code: int = status.HTTP_400_BAD_REQU
 @router.get("/providers", response_model=AuthProvidersResponse)
 async def providers(settings: SettingsDependency) -> AuthProvidersResponse:
     return AuthProvidersResponse(
+        password_enabled=settings.internal_accounts_enabled,
         providers=[
             AuthProviderStatus(
                 id="google",

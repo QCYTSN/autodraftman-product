@@ -1,19 +1,23 @@
 import { ArrowLeft, ArrowRight, BezierCurve, GithubLogo, Globe, GoogleLogo, TextT, VectorThree, WechatLogo } from "@phosphor-icons/react";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { apiConfigured, type AuthProvider } from "../../api";
 import { ProductLink, type ProductNavigation } from "./ProductHeader";
 import { FigureProcessGraphic } from "./FigureProcess";
 import "./login.css";
 
-export function ProductLoginPage({ language, providers, busy, error, onSelect, onBack, onLanguageChange, hrefFor, onNavigate }: ProductNavigation & {
+export function ProductLoginPage({ language, providers, busy, error, passwordEnabled = false, onPassword, onSelect, onBack, onLanguageChange, hrefFor, onNavigate }: ProductNavigation & {
   providers: AuthProvider[];
   busy: boolean;
   error: string;
+  passwordEnabled?: boolean;
+  onPassword?: (username: string, password: string) => Promise<boolean>;
   onSelect: (choice: AuthProvider["id"] | "guest") => void;
   onBack: () => void;
   onLanguageChange: () => void;
 }) {
   const zh = language === "zh";
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
   const title = useRef<HTMLHeadingElement>(null);
   useEffect(() => { title.current?.focus({ preventScroll: true }); }, []);
   useEffect(() => {
@@ -40,9 +44,19 @@ export function ProductLoginPage({ language, providers, busy, error, onSelect, o
     <section className="product-login-form-area">
       <div className="product-login-form">
         <h1 ref={title} tabIndex={-1}>{zh ? "登录 FigFox" : "Sign in to FigFox"}</h1>
-        <p className="product-login-description">{zh ? "选择一种登录方式，继续你的工作。" : "Choose a sign-in method to continue your work."}</p>
+        <p className="product-login-description">{passwordEnabled ? zh ? "使用组内账号，开始重建科研图。" : "Sign in with your team account to reconstruct figures." : zh ? "选择一种登录方式，继续你的工作。" : "Choose a sign-in method to continue your work."}</p>
+        {passwordEnabled && <form className="product-password-form" onSubmit={event => {
+          event.preventDefault();
+          if (!busy && onPassword) void onPassword(username.trim(), password).then(ok => { if (ok) setPassword(""); });
+        }}>
+          <label htmlFor="internal-username">{zh ? "内测账号" : "Team account"}</label>
+          <input id="internal-username" name="username" autoComplete="username" autoCapitalize="none" spellCheck={false} required maxLength={32} value={username} onChange={event => setUsername(event.target.value)} disabled={busy} />
+          <label htmlFor="internal-password">{zh ? "密码" : "Password"}</label>
+          <input id="internal-password" name="password" type="password" autoComplete="current-password" required maxLength={128} value={password} onChange={event => setPassword(event.target.value)} disabled={busy} />
+          <button type="submit" className="product-login-continue" disabled={busy}>{busy ? zh ? "正在登录…" : "Signing in…" : zh ? "登录并进入工作台" : "Sign in to workspace"}<ArrowRight size={18} /></button>
+        </form>}
         <div className="product-login-providers">
-          {providers.map(provider => {
+          {providers.filter(provider => !passwordEnabled || provider.enabled).map(provider => {
             const available = apiConfigured && provider.enabled && provider.id !== "wechat";
             const Icon = provider.id === "google" ? GoogleLogo : provider.id === "github" ? GithubLogo : WechatLogo;
             const providerName = provider.id === "wechat" ? zh ? "微信" : "WeChat" : provider.name;
@@ -51,7 +65,7 @@ export function ProductLoginPage({ language, providers, busy, error, onSelect, o
         </div>
         {!apiConfigured && <p className="product-login-availability">{zh ? "登录服务尚未开放，可以先使用本地工作台。" : "Sign-in is not open yet. You can use the local workspace."}</p>}
         {error && <p className="product-login-error" role="alert">{error}</p>}
-        <button type="button" className="product-login-continue" onClick={() => onSelect("guest")} disabled={busy}>{busy ? zh ? "正在连接…" : "Connecting…" : zh ? "继续使用工作台" : "Continue to workspace"}<ArrowRight size={18} /></button>
+        <button type="button" className={passwordEnabled ? "product-login-local-link" : "product-login-continue"} onClick={() => onSelect("guest")} disabled={busy}>{busy ? zh ? "正在连接…" : "Connecting…" : passwordEnabled ? zh ? "先使用本地编辑" : "Continue with local editing" : zh ? "继续使用工作台" : "Continue to workspace"}<ArrowRight size={18} /></button>
         <p className="product-login-local-note">{zh ? "本地 SVG 编辑无需登录，文件保存在当前浏览器。" : "Local SVG editing needs no sign-in. Files stay in this browser."}</p>
         <p className="product-login-legal">{zh ? "继续使用即表示你同意" : "By continuing, you agree to the"} <ProductLink route="/terms" hrefFor={hrefFor} onNavigate={onNavigate}>{zh ? "服务条款" : "Terms of Service"}</ProductLink> {zh ? "与" : "and"} <ProductLink route="/privacy" hrefFor={hrefFor} onNavigate={onNavigate}>{zh ? "隐私政策" : "Privacy Policy"}</ProductLink>{zh ? "。" : "."}</p>
       </div>

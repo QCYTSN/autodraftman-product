@@ -17,6 +17,14 @@
 .product-site .product-login-form h1 { margin: 0; color: #302a41; font-size: 30px; font-weight: 550; letter-spacing: -.8px; line-height: 1.5; outline: none; }
 .product-login-description { margin: 11px 0 36px; color: #786c86; font-size: 14px; line-height: 1.8; }
 .product-login-providers { display: grid; gap: 12px; }
+.internal-transfer-error { position: fixed; inset: auto 20px 20px; z-index: 10000; padding: 18px; border: 1px solid #ded7e8; border-radius: 10px; background: #fff; color: #786c86; box-shadow: 0 8px 25px #302a4110; }
+.internal-transfer-error button { margin-left: 12px; color: #7050c4; text-decoration: underline; }
+.product-password-form { display: grid; gap: 10px; }
+.product-password-form label { color: #786c86; font-size: 13px; margin-top: 10px; }
+.product-password-form input { width: 100%; height: 50px; padding: 0 15px; background: white; border: 1px solid #ded7e8; border-radius: 10px; color: #302a41; font: inherit; transition: border-color 180ms, box-shadow 180ms; }
+.product-password-form input:focus { outline: none; border-color: #9271d2; box-shadow: 0 0 0 3px #7050c414; }
+.product-password-form .product-login-continue { margin: 20px 0 8px; }
+.product-login-local-link { display: flex; gap: 10px; align-items: center; justify-content: center; width: 100%; margin-top: 25px; padding: 10px; color: #786c86; background: none; font-size: 13px; }
 .product-login-providers .oauth-button { display: flex; align-items: center; gap: 15px; justify-content: flex-start; width: 100%; height: 54px; padding: 0 18px; background: white; border: 1px solid #e9e5ee; border-radius: 10px; color: #4f475f; font-size: 14px; }
 .product-login-providers .oauth-button:disabled { opacity: 1; color: #9b93a7; border-color: #eeebf2; }
 .product-login-providers .oauth-button > svg { flex-shrink: 0; }

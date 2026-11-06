@@ -15,6 +15,10 @@ export default defineConfig(({ mode }) => {
       define: { "import.meta.env.VITE_LOCAL_RECONSTRUCTION": '"true"', "import.meta.env.VITE_API_BASE_URL": '""' },
       server: { proxy: { "/local-api": { target: "http://127.0.0.1:8787", changeOrigin: false } } },
     } : {}),
+    ...(mode === "internal-test" ? {
+      define: { "import.meta.env.VITE_INTERNAL_RECONSTRUCTION": '"true"', "import.meta.env.VITE_API_BASE_URL": '"/"', "import.meta.env.VITE_LOCAL_RECONSTRUCTION": '"false"' },
+      server: { proxy: { "/api/v1": { target: "http://127.0.0.1:8788", changeOrigin: false } } },
+    } : {}),
     base:
       env.VITE_PUBLIC_BASE_PATH ||
       (mode === "github-pages" ? "/figfox/" : "/"),

@@ -1,6 +1,9 @@
 import type { ReconstructionSnapshot } from "./reconstructionTask";
 
 export function reconstructionFailure(snapshot: ReconstructionSnapshot, zh: boolean) {
+  if (snapshot.submissionPending) return zh
+    ? "提交回执尚未确认。重新确认会找回原任务；若上次未送达，会提交这张原图。"
+    : "The submission receipt is unconfirmed. Confirm to recover the same task, or send it if it was not received.";
   const messages: Record<string, [string, string]> = {
     background_pending: ["后台请求仍在处理，可稍后继续查询同一任务。", "The background request is still processing. Continue later to check the same request."],
     background_expired: ["后台结果已过期，无法恢复。", "The background result has expired and cannot be recovered."],

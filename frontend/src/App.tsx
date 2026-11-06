@@ -57,6 +57,7 @@ import {
   type KeyboardEvent as ReactKeyboardEvent,
   type ReactNode,
   useEffect,
+  useContext,
   useLayoutEffect,
   useRef,
   useState,
@@ -76,7 +77,9 @@ import {
   deleteDraft,
   getAsset,
   getAssetDownloadUrl,
-  getAuthProviders,
+  getAuthConfiguration,
+  signInWithPassword,
+  notifyIdentityChanged,
   getBoundIdentities,
   getCreditTransactions,
   getCurrentIdentity,
@@ -106,8 +109,8 @@ import {
   type LocalDraftInput,
   type WorkspaceImage,
   makeLocalDraft,
-  readCachedDrafts,
-  writeCachedDrafts,
+  readCachedDrafts as readDraftCache,
+  writeCachedDrafts as writeDraftCache,
 } from "./drafts";
 import {
   footerCopy,
@@ -130,6 +133,7 @@ import { FigureProcessPreview } from "./features/product/FigureProcess";
 import { ReconstructionProgress } from "./features/product/ReconstructionProgress";
 import { ReconstructionResult } from "./features/product/ReconstructionResult";
 import { useReconstructionTask } from "./features/product/reconstructionTask";
+import { InternalIdentityContext } from "./features/product/InternalIdentityContext";
 import { ProductLoginPage } from "./features/product/ProductLoginPage";
 import { PublicFeedbackPage } from "./features/product/PublicFeedbackPage";
 import { usePageTransition, type PageTransitionScope } from "./features/product/usePageTransition";
@@ -1308,6 +1312,13 @@ function WorkspacePage({
   onLanguageChange: () => void;
   onViewTransition: (update: () => void, animate: boolean | "task" | "layout") => void;
 }) {
+  const internalMode = import.meta.env.VITE_INTERNAL_RECONSTRUCTION === "true";
+  // Keep the established local image/draft flow; the gateway owns generated tasks.
+  const workspaceApiConfigured = apiConfigured && !internalMode;
+  const cacheScope = internalMode ? currentIdentity?.id || "anonymous" : undefined;
+  const activeTaskKey = cacheScope ? `figfox-active-task:${cacheScope}` : "figfox-active-task";
+  const readCachedDrafts = () => readDraftCache(cacheScope);
+  const writeCachedDrafts = (items: WorkspaceDraft[]) => writeDraftCache(items, cacheScope);
   const workspaceCopy = figFoxWorkspaceCopy[language];
   const [taskMode, setTaskMode] = useState<"create" | "rebuild">("rebuild");
   const requestedTaskMode = useRef(taskMode);
@@ -1336,6 +1347,8 @@ function WorkspacePage({
     ? language === "zh" ? "本轮手动测试次数已用完" : "This manual test has been used"
     : reconstruction.unavailableReason === "model" ? language === "zh" ? "原版所需模型暂不可用" : "An upstream model is unavailable"
     : reconstruction.unavailableReason === "configuration" ? language === "zh" ? "运行配置与原版不一致" : "The runtime configuration differs from upstream"
+    : reconstruction.unavailableReason === "signin" ? language === "zh" ? "登录内测账号后可重建 SVG" : "Sign in with a team account to reconstruct SVG"
+    : reconstruction.unavailableReason === "forbidden" ? language === "zh" ? "当前账号尚未获得重建权限" : "This account does not have reconstruction access"
     : (language === "zh" ? "本轮测试剩余额度不足" : "Local test budget is insufficient") + (reconstruction.remainingBudgetUsd != null ? ` ($${reconstruction.remainingBudgetUsd.toFixed(2)})` : "");
   const progressTrigger = useRef<HTMLButtonElement | null>(null);
   useEffect(() => { if (!active) reconstruction.setOpen(false); }, [active, reconstruction.open, reconstruction.setOpen]);
@@ -1362,7 +1375,7 @@ function WorkspacePage({
   const [draftsReady, setDraftsReady] = useState(false);
   useEffect(() => {
     if (!draftsReady || !activeDraftId) return;
-    try { window.localStorage.setItem("figfox-active-task", activeDraftId); } catch { /* Text save reports storage errors separately. */ }
+    try { window.localStorage.setItem(activeTaskKey, activeDraftId); } catch { /* Text save reports storage errors separately. */ }
   }, [activeDraftId, draftsReady]);
   const [draftSaveState, setDraftSaveState] = useState<DraftSaveState>("saved");
   const [draftToDelete, setDraftToDelete] = useState<WorkspaceDraft | null>(null);
@@ -1457,7 +1470,7 @@ function WorkspacePage({
   });
 
   const restoreReferenceAsset = async (assetId: string) => {
-    if (!apiConfigured) return;
+    if (!workspaceApiConfigured) return;
     const sequence = ++uploadSequenceRef.current;
     setReferenceStatus("preparing");
     try {
@@ -1533,7 +1546,7 @@ function WorkspacePage({
     let cancelled = false;
     const cached = readCachedDrafts();
     let activeId = "";
-    try { activeId = window.localStorage.getItem("figfox-active-task") || ""; } catch { /* Restore the latest task if preferences are unavailable. */ }
+    try { activeId = window.localStorage.getItem(activeTaskKey) || ""; } catch { /* Restore the latest task if preferences are unavailable. */ }
 
     const useDrafts = (items: WorkspaceDraft[]) => {
       if (cancelled) return;
@@ -1549,7 +1562,7 @@ function WorkspacePage({
       setDraftsReady(true);
     };
 
-    if (!apiConfigured) {
+    if (!workspaceApiConfigured) {
       useDrafts(cached);
       return () => {
         cancelled = true;
@@ -1623,7 +1636,7 @@ function WorkspacePage({
     if (draftSaveTimerRef.current !== null) {
       window.clearTimeout(draftSaveTimerRef.current);
     }
-    setDraftSaveState(apiConfigured && !online ? "offline" : "saving");
+    setDraftSaveState(workspaceApiConfigured && !online ? "offline" : "saving");
 
     const sequence = ++draftSaveSequenceRef.current;
     draftSaveTimerRef.current = window.setTimeout(() => {
@@ -1638,7 +1651,7 @@ function WorkspacePage({
       const locallySaved = writeCachedDrafts(next);
       setDrafts(next);
 
-      if (!apiConfigured) {
+      if (!workspaceApiConfigured) {
         if (locallySaved) lastSavedDraftRef.current = fingerprint;
         setDraftSaveState(locallySaved ? "saved" : "failed");
         return;
@@ -1798,7 +1811,7 @@ function WorkspacePage({
       await reconstruction.submit({ draftId: activeDraftId, image: referenceFile, prompt: reconstruction.supportsUserPrompt === false ? "" : prompt.trim() });
       return;
     }
-    if (!apiConfigured) {
+    if (!workspaceApiConfigured) {
       setMessage(ui.workspace.generationUnavailable);
       return;
     }
@@ -1885,7 +1898,7 @@ function WorkspacePage({
         setReferenceError(language === "zh" ? "图片未保存到此浏览器，请重新选择以重试。文字草稿仍保留。" : "The image was not saved in this browser. Select it again to retry; your text is retained.");
         return;
       }
-      if (apiConfigured) requestAuth(() => void uploadReference(selected, mediaType));
+      if (workspaceApiConfigured) requestAuth(() => void uploadReference(selected, mediaType));
     };
     if (taskMode === "create" && !referencePreview && !localImage) onViewTransition(() => { void accept(); }, "layout");
     else await accept();
@@ -2028,7 +2041,7 @@ function WorkspacePage({
       setActiveDraftTitle(title);
       return;
     }
-    if (!apiConfigured || draft.id.startsWith("local-")) return;
+    if (!workspaceApiConfigured || draft.id.startsWith("local-")) return;
     try {
       const saved = await updateDraft(draft.id, { title });
       setDrafts((current) => {
@@ -2045,7 +2058,7 @@ function WorkspacePage({
     if (!draftToDelete) return;
     const deletedId = draftToDelete.id;
     setDraftToDelete(null);
-    if (apiConfigured && !deletedId.startsWith("local-")) {
+    if (workspaceApiConfigured && !deletedId.startsWith("local-")) {
       try {
         await deleteDraft(deletedId);
       } catch {
@@ -2081,10 +2094,10 @@ function WorkspacePage({
       : draftSaveState === "offline"
         ? ui.workspace.draftOffline
         : draftSaveState === "failed"
-          ? apiConfigured ? ui.workspace.draftFailed : language === "zh" ? "本地保存失败，请保留草稿内容" : "Local save failed. Keep a copy of your draft."
+          ? workspaceApiConfigured ? ui.workspace.draftFailed : language === "zh" ? "本地保存失败，请保留草稿内容" : "Local save failed. Keep a copy of your draft."
           : draftSaveState === "session-expired"
             ? ui.workspace.draftSessionExpired
-          : apiConfigured ? ui.workspace.draftSaved : language === "zh" ? "已在当前浏览器保存" : "Saved in this browser";
+          : workspaceApiConfigured ? ui.workspace.draftSaved : language === "zh" ? "已在当前浏览器保存" : "Saved in this browser";
 
   const handlePromptKeyDown = (
     event: ReactKeyboardEvent<HTMLTextAreaElement>,
@@ -2313,7 +2326,7 @@ function WorkspacePage({
             <button type="button" className="workspace-process-button" onClick={event => {dialogTrigger.current=event.currentTarget;setProcessPreview(true);}}><PlayCircle size={17}/>{language === "zh" ? "流程示意" : "Process overview"}</button>
           </div>
           <div className="workspace-task-content">
-            {!(taskMode === "rebuild" && reconstruction.available) && <div className="workspace-service-status" id="workspace-service-status"><strong>{reconstructionLimited ? reconstructionLimitLabel : language === "zh" ? taskMode === "rebuild" ? "重建服务未开放" : "生成服务未开放" : taskMode === "rebuild" ? "Reconstruction unavailable" : "Generation unavailable"}</strong><span>{reconstructionLimited ? language === "zh" ? "已完成的结果仍可查看、下载和编辑。" : "Completed results remain available to view, download and edit." : language === "zh" ? taskMode === "rebuild" ? "目前可保存原图与要求，暂不能提交重建。" : "目前可保存绘图要求，暂不能提交生成。" : taskMode === "rebuild" ? "You can save the source image and notes, but cannot submit a reconstruction yet." : "You can save the brief, but cannot submit a generation yet."}</span></div>}
+            {!(taskMode === "rebuild" && reconstruction.available) && <div className="workspace-service-status" id="workspace-service-status"><strong>{reconstructionLimited ? reconstructionLimitLabel : language === "zh" ? taskMode === "rebuild" ? "重建服务未开放" : "生成服务未开放" : taskMode === "rebuild" ? "Reconstruction unavailable" : "Generation unavailable"}</strong><span>{reconstruction.unavailableReason === "signin" ? <button type="button" disabled={imageValidating || imageSaveState === "saving" || imageSaveState === "restoring" || !draftsReady} onClick={() => { const saved = flushLocalDraft(); if (!saved.ok || !saved.draft) return; try { sessionStorage.setItem("figfox-transfer-snapshot", JSON.stringify(saved.draft)); sessionStorage.setItem("figfox-transfer-draft", saved.draft.id); onNavigate("/login"); } catch { setMessage(language === "zh" ? "暂时无法移交草稿，请检查浏览器存储后重试。" : "Could not carry this draft. Check browser storage and try again."); } }}>{language === "zh" ? "登录内测账号" : "Sign in"}</button> : reconstruction.unavailableReason === "forbidden" ? language === "zh" ? "请联系组内管理员开通。" : "Contact your team administrator." : reconstructionLimited ? language === "zh" ? "已完成的结果仍可查看、下载和编辑。" : "Completed results remain available to view, download and edit." : language === "zh" ? taskMode === "rebuild" ? "目前可保存原图与要求，暂不能提交重建。" : "目前可保存绘图要求，暂不能提交生成。" : taskMode === "rebuild" ? "You can save the source image and notes, but cannot submit a reconstruction yet." : "You can save the brief, but cannot submit a generation yet."}</span></div>}
             <section className={`control-panel ${dragging ? "is-dragging" : ""}`}
               onDragOver={event => {if(event.dataTransfer.types.includes("Files")){event.preventDefault();event.dataTransfer.dropEffect="copy";setDragging(true);}}}
               onDragLeave={event => {if(!event.currentTarget.contains(event.relatedTarget as Node | null))setDragging(false);}}
@@ -2393,7 +2406,7 @@ function WorkspacePage({
                   </div>
                 </div>}
 
-                {apiConfigured && <div className="privacy-control">
+                {workspaceApiConfigured && <div className="privacy-control">
                   <div>
                     <LockKey size={17} />
                     <span>
@@ -2526,7 +2539,7 @@ function WorkspacePage({
           <AlertDialog.Popup className="draft-delete-dialog product-delete-dialog">
             <p className="kicker">{ui.workspace.draftLabel}</p>
             <AlertDialog.Title>{ui.workspace.deleteDraftTitle}</AlertDialog.Title>
-            <AlertDialog.Description>{apiConfigured ? ui.workspace.deleteDraftBody : language === "zh" ? "删除后无法恢复这份本地草稿。" : "This local draft cannot be restored after deletion."}</AlertDialog.Description>
+            <AlertDialog.Description>{workspaceApiConfigured ? ui.workspace.deleteDraftBody : language === "zh" ? "删除后无法恢复这份本地草稿。" : "This local draft cannot be restored after deletion."}</AlertDialog.Description>
             <div>
               <AlertDialog.Close
                 className="button secondary-button"
@@ -3189,10 +3202,15 @@ export default function App() {
     const stored = window.localStorage.getItem("autodraftman-language");
     return stored === "en" ? "en" : "zh";
   });
-  const [currentIdentity, setCurrentIdentity] = useState<CurrentIdentity | null>(null);
-  const [identity, setIdentity] = useState<Identity>(null);
-  const [credits, setCredits] = useState<number | null>(null);
+  const internalIdentity = useContext(InternalIdentityContext);
+  const [serverIdentity, setCurrentIdentity] = useState<CurrentIdentity | null>(null);
+  const [serverKind, setIdentity] = useState<Identity>(null);
+  const [serverCredits, setCredits] = useState<number | null>(null);
+  const currentIdentity = internalIdentity === undefined ? serverIdentity : internalIdentity;
+  const identity = internalIdentity === undefined ? serverKind : internalIdentity?.kind || null;
+  const credits = internalIdentity === undefined ? serverCredits : internalIdentity?.balance.available ?? null;
   const [providers, setProviders] = useState<AuthProvider[]>(defaultAuthProviders);
+  const [passwordEnabled, setPasswordEnabled] = useState(false);
   const [boundIdentities, setBoundIdentities] = useState<BoundIdentity[]>([]);
   const [creditTransactions, setCreditTransactions] = useState<CreditTransaction[]>([]);
   const [authReturnRoute, setAuthReturnRoute] = useState<RoutePath>(() => {
@@ -3239,7 +3257,7 @@ export default function App() {
   }, [transitionPage]);
 
   useEffect(() => {
-    if (!apiConfigured) return;
+    if (!apiConfigured || internalIdentity !== undefined) return;
     const returnedFromOAuth =
       new URL(window.location.href).searchParams.get("auth") === "success";
     if (
@@ -3272,11 +3290,12 @@ export default function App() {
   useEffect(() => {
     if (!apiConfigured) return;
     let cancelled = false;
-    getAuthProviders()
-      .then((available) => {
+    getAuthConfiguration()
+      .then((configuration) => {
         if (!cancelled) {
+          setPasswordEnabled(configuration.password_enabled === true);
           const providersById = new Map(
-            available.map((provider) => [provider.id, provider]),
+            configuration.providers.map((provider) => [provider.id, provider]),
           );
           setProviders(
             defaultAuthProviders.map(
@@ -3416,6 +3435,22 @@ export default function App() {
     }
   };
 
+  const passwordSignIn = async (username: string, password: string) => {
+    setAuthBusy(true); setAuthError("");
+    try {
+      const current = await signInWithPassword(username, password);
+      applyServerIdentity(current);
+      window.localStorage.setItem(sessionMarker, "active");
+      pendingAction.current = null;
+      notifyIdentityChanged();
+      navigate("/workspace");
+      return true;
+    } catch (error) {
+      setAuthError(error instanceof ApiError && [401, 429].includes(error.status) ? error.message : ui.auth.connectionError);
+      return false;
+    } finally { setAuthBusy(false); }
+  };
+
   const refreshAccount = async () => {
     const [current, linked, transactions] = await Promise.all([
       getCurrentIdentity(),
@@ -3466,6 +3501,7 @@ export default function App() {
     setAccountError("");
     try {
       await logout();
+      notifyIdentityChanged();
       setCurrentIdentity(null);
       setIdentity(null);
       setCredits(null);
@@ -3487,6 +3523,7 @@ export default function App() {
     setAccountError("");
     try {
       await deleteAccount();
+      notifyIdentityChanged();
       setCurrentIdentity(null);
       setIdentity(null);
       setCredits(null);
@@ -3539,6 +3576,7 @@ export default function App() {
         )}
         {(route === "/workspace" || route === "/login" && authReturnRoute === "/workspace" || route === "/editor" && workspaceVisited) && <div hidden={route !== "/workspace"} inert={route !== "/workspace" ? true : undefined}>
           <WorkspacePage
+            key={import.meta.env.VITE_INTERNAL_RECONSTRUCTION === "true" ? currentIdentity?.id || "anonymous" : "workspace"}
             active={route === "/workspace"}
             ui={ui}
             language={language}
@@ -3559,7 +3597,7 @@ export default function App() {
             }}
           />
         </div>}
-        {route === "/login" && <ProductLoginPage language={language} providers={providers} busy={authBusy} error={authError} onSelect={choice => void selectIdentity(choice)} onBack={() => { pendingAction.current = null; setAuthError(""); navigate(authReturnRoute); }} onLanguageChange={() => setLanguage(value => value === "zh" ? "en" : "zh")} hrefFor={routeHref} onNavigate={navigate} />}
+        {route === "/login" && <ProductLoginPage language={language} passwordEnabled={passwordEnabled} onPassword={passwordSignIn} providers={providers} busy={authBusy} error={authError} onSelect={choice => void selectIdentity(choice)} onBack={() => { pendingAction.current = null; setAuthError(""); navigate(authReturnRoute); }} onLanguageChange={() => setLanguage(value => value === "zh" ? "en" : "zh")} hrefFor={routeHref} onNavigate={navigate} />}
         {route === "/editor" && (
           <ProductEditorRoute ui={ui} language={language} onLanguageChange={() => setLanguage(value => value === "zh" ? "en" : "zh")} onNavigate={navigate} hrefFor={routeHref} />
         )}

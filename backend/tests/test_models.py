@@ -7,6 +7,7 @@ from autodraftman_backend.modules.credits import models as credit_models  # noqa
 from autodraftman_backend.modules.drafts import models as draft_models  # noqa: F401
 from autodraftman_backend.modules.feedback import models as feedback_models  # noqa: F401
 from autodraftman_backend.modules.identity import models as identity_models  # noqa: F401
+from autodraftman_backend.modules.internal_access import models as internal_models  # noqa: F401
 
 
 def test_all_foundation_tables_compile_for_postgresql() -> None:
@@ -21,6 +22,9 @@ def test_all_foundation_tables_compile_for_postgresql() -> None:
         "credit_transactions",
         "drafts",
         "feedback",
+        "internal_accounts",
+        "internal_login_throttles",
+        "owned_reconstructions",
     }
 
     assert expected_tables == set(Base.metadata.tables)

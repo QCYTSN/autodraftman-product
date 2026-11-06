@@ -2,6 +2,12 @@ import type { EditorFileHandle } from "./editorFiles";
 export type LocalEditorDocument = { id?: string; fileName: string; markup: string; updatedAt: string; fileHandle?: EditorFileHandle };
 export type StoredEditorDocument = LocalEditorDocument & { id: string };
 let database: Promise<IDBDatabase> | null = null;
+let accountScope: string | undefined;
+export function setEditorAccountScope(scope: string) {
+  if (accountScope === scope) return;
+  if (database) throw new Error("Account changes require a fresh editor context");
+  accountScope = scope;
+}
 export class EditorStorageBlockedError extends Error {
   constructor() { super("Close other FigFox tabs to update local document storage"); this.name = "EditorStorageBlockedError"; }
 }
@@ -9,7 +15,7 @@ const isDocument = (value: unknown): value is LocalEditorDocument => !!value && 
 
 function openDatabase() {
   if (!database) database = new Promise<IDBDatabase>((resolve, reject) => {
-    const request = indexedDB.open("figfox-local-editor", 2);
+    const request = indexedDB.open(accountScope ? `figfox-local-editor:${accountScope}` : "figfox-local-editor", 2);
     let failed = false;
     request.onupgradeneeded = () => {
       const db = request.result;

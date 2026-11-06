@@ -12,7 +12,7 @@ export function ReconstructionResult({ snapshot, zh, onEdit, busy }: { snapshot:
     setDownloading(true);
     setDownloadError("");
     try {
-      const response = await fetch(snapshot.result[kind], { signal: AbortSignal.timeout(20_000) });
+      const response = await fetch(snapshot.result[kind], { credentials: "include", signal: AbortSignal.timeout(20_000) });
       if (!response.ok) throw new Error("Download unavailable");
       const blob = await response.blob();
       const url = URL.createObjectURL(blob);
@@ -27,7 +27,7 @@ export function ReconstructionResult({ snapshot, zh, onEdit, busy }: { snapshot:
   };
   if (!snapshot.result || snapshot.status !== "succeeded") return null;
   return <section className="workspace-reconstruction-result" aria-label={zh ? "重建结果" : "Reconstruction result"}>
-    <img src={snapshot.result.png} alt={zh ? "本次重建的图像" : "The reconstructed figure"}/>
+    <img src={snapshot.result.png} crossOrigin="use-credentials" alt={zh ? "本次重建的图像" : "The reconstructed figure"}/>
     <div><h3>{zh ? "SVG 已就绪" : "Your SVG is ready"}</h3>
       <p>{zh ? "打开编辑器，继续修改文字、图形与布局。" : "Continue editing text, shapes and layout."}</p>
       {snapshot.result.unresolvedCount > 0 && <p className="reconstruction-unresolved" role="status">{zh ? `仍有 ${snapshot.result.unresolvedCount} 项问题未解决，请在编辑器中检查。` : `${snapshot.result.unresolvedCount} issues remain unresolved. Review them in the editor.`}</p>}

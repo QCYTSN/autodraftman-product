@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "vite --host 127.0.0.1",
     "dev:kernel": "vite --mode local-kernel --host 127.0.0.1 --port 5178 --strictPort",
+    "dev:internal": "vite --mode internal-test --host 127.0.0.1 --port 5179 --strictPort",
     "build": "tsc -b && vite build",
     "build:pages": "tsc -b && vite build --mode github-pages && node scripts/prepare-pages.mjs",
     "preview": "vite preview --host 127.0.0.1",
@@ -13,6 +14,7 @@
     "review:quality": "node scripts/run-quality.mjs",
     "review:product": "node scripts/product-check.mjs",
     "review:product-motion": "node scripts/product-motion-check.mjs",
+    "review:internal-access": "node scripts/internal-access-check.mjs",
     "review:workspace": "node scripts/workspace-flow-check.mjs",
     "review:workspace-state": "node scripts/workspace-refinement-check.mjs",
     "review:workspace-shell": "node scripts/workspace-shell-check.mjs",

@@ -6,12 +6,12 @@ import "@radix-ui/themes/layout.css";
 import "../tokens.css";
 import "./base.css";
 import SiteEntry from "./SiteEntry";
-import { LocalReconstructionProvider } from "./features/product/LocalReconstructionProvider";
+import { ReconstructionProvider } from "./features/product/InternalReconstructionProvider";
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
     <Theme hasBackground={false} scaling="95%">
-      <LocalReconstructionProvider><SiteEntry /></LocalReconstructionProvider>
+      <ReconstructionProvider><SiteEntry /></ReconstructionProvider>
     </Theme>
   </React.StrictMode>,
 );

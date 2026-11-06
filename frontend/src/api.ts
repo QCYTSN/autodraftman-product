@@ -2,7 +2,15 @@ const configuredApiBaseUrl = import.meta.env.VITE_API_BASE_URL?.trim();
 
 export const apiConfigured = Boolean(configuredApiBaseUrl);
 
-const apiBaseUrl = (configuredApiBaseUrl ?? "").replace(/\/+$/, "");
+const apiBaseUrl = configuredApiBaseUrl === "/" ? window.location.origin : (configuredApiBaseUrl ?? "").replace(/\/+$/, "");
+
+export function apiResourceUrl(path: string) { return `${requireApiBaseUrl()}${path}`; }
+
+export function notifyIdentityChanged() {
+  window.dispatchEvent(new Event("figfox-identity-changed"));
+  // Notify other tabs without storing credentials or session tokens.
+  localStorage.setItem("figfox-identity-version", crypto.randomUUID());
+}
 
 export type CurrentIdentity = {
   kind: "guest" | "user";
@@ -216,6 +224,18 @@ export async function getAuthProviders(): Promise<AuthProvider[]> {
     "/api/v1/auth/providers",
   );
   return response.providers;
+}
+
+export function getAuthConfiguration() {
+  return requestJson<{ providers: AuthProvider[]; password_enabled: boolean }>("/api/v1/auth/providers");
+}
+
+export async function signInWithPassword(username: string, password: string) {
+  await requestJson("/api/v1/auth/password", {
+    method: "POST", headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ username, password }),
+  });
+  return getCurrentIdentity();
 }
 
 export function oauthStartUrl(
