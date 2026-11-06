@@ -37,7 +37,7 @@ export default function SiteEntry() {
     window.scrollTo(0, 0);
     setProduct(true);
   }
-  if (product) return <Suspense fallback={<div className="product-entry-loading" role="status" aria-label={language === 'zh' ? '加载页面' : 'Loading page'}><span /></div>}><ReconstructionProvider><ProductApp /></ReconstructionProvider></Suspense>;
+  if (product) return <ReconstructionProvider><Suspense fallback={<div className="product-entry-loading" role="status" aria-label={language === 'zh' ? '加载页面' : 'Loading page'}><span /></div>}><ProductApp /></Suspense></ReconstructionProvider>;
   return <div className="figfox-site" ref={site} lang={language === 'zh' ? 'zh-CN' : 'en'}>
     <FigFoxCursor site={site} route="/" />
     <a className="skip-link" href="#main-content">{language === 'zh' ? '跳到主要内容' : 'Skip to main content'}</a>
