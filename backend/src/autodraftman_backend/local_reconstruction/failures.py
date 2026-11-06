@@ -1,7 +1,14 @@
 """User-safe failure categories and conservative recovery eligibility."""
 
 import json
+import math
 
+from .background import (
+    BackgroundExpired,
+    BackgroundIdentityError,
+    BackgroundPending,
+    BackgroundRejected,
+)
 from .input_count import InputCountUnavailable
 from .kernel_contract import KernelContractError
 from .recovery import recovery_mode
@@ -11,6 +18,16 @@ def failure_details(job, error, stage=None):
     message = str(error).lower()
     if isinstance(error, InputCountUnavailable):
         code = "input_count_unavailable"
+    elif isinstance(error, BackgroundPending):
+        code = "background_pending"
+    elif isinstance(error, BackgroundRejected):
+        code = "background_rejected"
+    elif isinstance(error, BackgroundExpired):
+        code = "background_expired"
+    elif isinstance(error, BackgroundIdentityError):
+        code = "background_identity_mismatch"
+    elif isinstance(error, InterruptedError):
+        code = "interrupted"
     elif isinstance(error, KernelContractError) or "original contract mismatch" in message:
         code = "original_contract_mismatch"
     elif "original prompt unsupported" in message:
@@ -29,13 +46,30 @@ def failure_details(job, error, stage=None):
     for path in job.glob("**/receipt.json"):
         try:
             receipt = json.loads(path.read_text(encoding="utf-8"))
+            for amount in (receipt.get("known_usd"), receipt.get("reserved_usd")):
+                if amount is not None and (
+                    type(amount) not in (int, float) or not math.isfinite(amount) or amount < 0
+                ):
+                    raise ValueError("Invalid receipt amount")
             calls += receipt.get("status") != "not_submitted"
             known += float(receipt.get("known_usd") or 0)
             reserved += float(receipt.get("reserved_usd") or 0)
-        except (ValueError, TypeError):
+        except (OSError, ValueError, TypeError, AttributeError):
             return {"error": code, "failure": {"billing": "unknown", "retryable": False}}
     if reserved:
-        code = "provider_unconfirmed" if code not in ("budget_exceeded", "timeout") else code
+        code = (
+            "provider_unconfirmed"
+            if code
+            not in (
+                "budget_exceeded",
+                "timeout",
+                "background_pending",
+                "background_rejected",
+                "background_expired",
+                "background_identity_mismatch",
+            )
+            else code
+        )
     mode = recovery_mode({"status": "failed", "stage": stage, "error": code}, job)
     return {
         "error": code,
@@ -44,7 +78,7 @@ def failure_details(job, error, stage=None):
             "costUsd": round(known, 6),
             "reservedUsd": round(reserved, 6),
             "retryable": mode is not None,
-            "resume": mode == "resume",
+            "resume": mode in ("resume", "background", "finalize"),
         },
     }
 

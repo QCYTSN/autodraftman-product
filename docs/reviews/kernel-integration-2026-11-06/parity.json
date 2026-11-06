@@ -1,0 +1,384 @@
+{
+  "commit": "21ffc01271904d6c5610f0f96afd84530968f11e",
+  "profile": "upstream-factual-gpt55-background-v1",
+  "config_source": "configs/historical-cohort.json",
+  "declared_overrides": {
+    "budget_usd": 5
+  },
+  "source_files_checked": 1111,
+  "portability_patches": [
+    "adapters/raw_evidence.py",
+    "src/figfox_plus/factual/pipeline.py",
+    "src/figfox_plus/providers.py"
+  ],
+  "input_count_patches": [
+    "src/figfox_plus/factual/transport.py"
+  ],
+  "connection_patches": [
+    "src/figfox_plus/factual/transport.py"
+  ],
+  "cases": [
+    {
+      "size": [
+        80,
+        64
+      ],
+      "sam_crops": 0,
+      "sam_arrow_crops": 0,
+      "asset_binding_verified": false,
+      "unresolved_count": 0,
+      "generation_inputs_equal": true,
+      "models": [
+        "gpt-5.5",
+        "gpt-5.5",
+        "gpt-5.5"
+      ],
+      "endpoints": [
+        "https://api.openai.com/v1/responses",
+        "https://api.openai.com/v1/responses",
+        "https://api.openai.com/v1/responses"
+      ],
+      "deepseek_calls": 0,
+      "count_requests": 3,
+      "progress_stages": [
+        "reconstruct",
+        "inspect",
+        "repair",
+        "finalize"
+      ],
+      "body_sha256": [
+        "c8d0d58ee9e2e7b7e23bc4566075b6e34d0e85c0ee918f8022bad5d99fa98e50",
+        "c87908bffefb6e70bbb76f128217ab19008b025f0d91b26e8a2902f702d778e6",
+        "ad34a7532e100130ad752fe24c5ccf5dbf5fc3f9214a3e4998a40b7bf822f2c4"
+      ],
+      "outputs_equal": true,
+      "executed_operations": 0,
+      "completed_reuse_calls": 0,
+      "retrieval_only_recovery": null,
+      "retrieval_calls": 0,
+      "finalize_without_generation": false,
+      "next_stage_budget_checked": false
+    },
+    {
+      "size": [
+        609,
+        277
+      ],
+      "sam_crops": 3,
+      "sam_arrow_crops": 1,
+      "asset_binding_verified": true,
+      "unresolved_count": 1,
+      "generation_inputs_equal": true,
+      "models": [
+        "gpt-5.5",
+        "gpt-5.5",
+        "gpt-5.5"
+      ],
+      "endpoints": [
+        "https://api.openai.com/v1/responses",
+        "https://api.openai.com/v1/responses",
+        "https://api.openai.com/v1/responses"
+      ],
+      "deepseek_calls": 0,
+      "count_requests": 3,
+      "progress_stages": [
+        "reconstruct",
+        "inspect",
+        "repair",
+        "finalize"
+      ],
+      "body_sha256": [
+        "43b7d5f9db2c014f3cdb8cf22a56baa51e3b632d32efbda92a0db65194b3982e",
+        "ef473be42e65f1ae15d23cb3e85775c074920e46ad38916bf0ceea1f881666ab",
+        "521e8264172ec40d6818f41a47123c0ec0bc699e340edbc3fd22d08dccddaf49"
+      ],
+      "outputs_equal": true,
+      "executed_operations": 1,
+      "completed_reuse_calls": 0,
+      "retrieval_only_recovery": null,
+      "retrieval_calls": 0,
+      "finalize_without_generation": false,
+      "next_stage_budget_checked": false
+    }
+  ],
+  "failure_cases": [
+    {
+      "failure_stage": "G0",
+      "generation_inputs_equal": true,
+      "models": [
+        "gpt-5.5"
+      ],
+      "deepseek_calls": 0,
+      "resend_calls": 0,
+      "uncertain_reserve_retained": true,
+      "count_requests": 1
+    },
+    {
+      "failure_stage": "G1",
+      "generation_inputs_equal": true,
+      "models": [
+        "gpt-5.5",
+        "gpt-5.5"
+      ],
+      "deepseek_calls": 0,
+      "resend_calls": 0,
+      "uncertain_reserve_retained": true,
+      "count_requests": 2
+    },
+    {
+      "failure_stage": "G2",
+      "generation_inputs_equal": true,
+      "models": [
+        "gpt-5.5",
+        "gpt-5.5",
+        "gpt-5.5"
+      ],
+      "deepseek_calls": 0,
+      "resend_calls": 0,
+      "uncertain_reserve_retained": true,
+      "count_requests": 3
+    }
+  ],
+  "recovery_cases": [
+    {
+      "size": [
+        609,
+        277
+      ],
+      "sam_crops": 3,
+      "sam_arrow_crops": 1,
+      "asset_binding_verified": true,
+      "unresolved_count": 1,
+      "generation_inputs_equal": true,
+      "models": [
+        "gpt-5.5",
+        "gpt-5.5",
+        "gpt-5.5"
+      ],
+      "endpoints": [
+        "https://api.openai.com/v1/responses",
+        "https://api.openai.com/v1/responses",
+        "https://api.openai.com/v1/responses"
+      ],
+      "deepseek_calls": 0,
+      "count_requests": 3,
+      "progress_stages": [
+        "reconstruct",
+        "reconstruct",
+        "inspect",
+        "repair",
+        "finalize"
+      ],
+      "body_sha256": [
+        "43b7d5f9db2c014f3cdb8cf22a56baa51e3b632d32efbda92a0db65194b3982e",
+        "ef473be42e65f1ae15d23cb3e85775c074920e46ad38916bf0ceea1f881666ab",
+        "521e8264172ec40d6818f41a47123c0ec0bc699e340edbc3fd22d08dccddaf49"
+      ],
+      "outputs_equal": true,
+      "executed_operations": 1,
+      "completed_reuse_calls": 0,
+      "retrieval_only_recovery": "G0",
+      "retrieval_calls": 4,
+      "finalize_without_generation": false,
+      "next_stage_budget_checked": false
+    },
+    {
+      "size": [
+        609,
+        277
+      ],
+      "sam_crops": 3,
+      "sam_arrow_crops": 1,
+      "asset_binding_verified": true,
+      "unresolved_count": 1,
+      "generation_inputs_equal": true,
+      "models": [
+        "gpt-5.5",
+        "gpt-5.5",
+        "gpt-5.5"
+      ],
+      "endpoints": [
+        "https://api.openai.com/v1/responses",
+        "https://api.openai.com/v1/responses",
+        "https://api.openai.com/v1/responses"
+      ],
+      "deepseek_calls": 0,
+      "count_requests": 3,
+      "progress_stages": [
+        "reconstruct",
+        "inspect",
+        "inspect",
+        "inspect",
+        "repair",
+        "finalize"
+      ],
+      "body_sha256": [
+        "43b7d5f9db2c014f3cdb8cf22a56baa51e3b632d32efbda92a0db65194b3982e",
+        "ef473be42e65f1ae15d23cb3e85775c074920e46ad38916bf0ceea1f881666ab",
+        "521e8264172ec40d6818f41a47123c0ec0bc699e340edbc3fd22d08dccddaf49"
+      ],
+      "outputs_equal": true,
+      "executed_operations": 1,
+      "completed_reuse_calls": 0,
+      "retrieval_only_recovery": "G1",
+      "retrieval_calls": 4,
+      "finalize_without_generation": false,
+      "next_stage_budget_checked": false
+    },
+    {
+      "size": [
+        609,
+        277
+      ],
+      "sam_crops": 3,
+      "sam_arrow_crops": 1,
+      "asset_binding_verified": true,
+      "unresolved_count": 1,
+      "generation_inputs_equal": true,
+      "models": [
+        "gpt-5.5",
+        "gpt-5.5",
+        "gpt-5.5"
+      ],
+      "endpoints": [
+        "https://api.openai.com/v1/responses",
+        "https://api.openai.com/v1/responses",
+        "https://api.openai.com/v1/responses"
+      ],
+      "deepseek_calls": 0,
+      "count_requests": 3,
+      "progress_stages": [
+        "reconstruct",
+        "inspect",
+        "repair",
+        "repair",
+        "repair",
+        "finalize"
+      ],
+      "body_sha256": [
+        "43b7d5f9db2c014f3cdb8cf22a56baa51e3b632d32efbda92a0db65194b3982e",
+        "ef473be42e65f1ae15d23cb3e85775c074920e46ad38916bf0ceea1f881666ab",
+        "521e8264172ec40d6818f41a47123c0ec0bc699e340edbc3fd22d08dccddaf49"
+      ],
+      "outputs_equal": true,
+      "executed_operations": 1,
+      "completed_reuse_calls": 0,
+      "retrieval_only_recovery": "G2",
+      "retrieval_calls": 4,
+      "finalize_without_generation": false,
+      "next_stage_budget_checked": false
+    }
+  ],
+  "finalize_recovery": {
+    "size": [
+      80,
+      64
+    ],
+    "sam_crops": 0,
+    "sam_arrow_crops": 0,
+    "asset_binding_verified": false,
+    "unresolved_count": 0,
+    "generation_inputs_equal": true,
+    "models": [
+      "gpt-5.5",
+      "gpt-5.5",
+      "gpt-5.5"
+    ],
+    "endpoints": [
+      "https://api.openai.com/v1/responses",
+      "https://api.openai.com/v1/responses",
+      "https://api.openai.com/v1/responses"
+    ],
+    "deepseek_calls": 0,
+    "count_requests": 3,
+    "progress_stages": [
+      "reconstruct",
+      "inspect",
+      "repair",
+      "finalize",
+      "reconstruct",
+      "finalize"
+    ],
+    "body_sha256": [
+      "c8d0d58ee9e2e7b7e23bc4566075b6e34d0e85c0ee918f8022bad5d99fa98e50",
+      "c87908bffefb6e70bbb76f128217ab19008b025f0d91b26e8a2902f702d778e6",
+      "ad34a7532e100130ad752fe24c5ccf5dbf5fc3f9214a3e4998a40b7bf822f2c4"
+    ],
+    "outputs_equal": true,
+    "executed_operations": 0,
+    "completed_reuse_calls": 0,
+    "retrieval_only_recovery": null,
+    "retrieval_calls": 0,
+    "finalize_without_generation": true,
+    "next_stage_budget_checked": false
+  },
+  "budget_recovery": {
+    "size": [
+      80,
+      64
+    ],
+    "sam_crops": 0,
+    "sam_arrow_crops": 0,
+    "asset_binding_verified": false,
+    "unresolved_count": 0,
+    "generation_inputs_equal": true,
+    "models": [
+      "gpt-5.5",
+      "gpt-5.5",
+      "gpt-5.5"
+    ],
+    "endpoints": [
+      "https://api.openai.com/v1/responses",
+      "https://api.openai.com/v1/responses",
+      "https://api.openai.com/v1/responses"
+    ],
+    "deepseek_calls": 0,
+    "count_requests": 3,
+    "progress_stages": [
+      "reconstruct",
+      "reconstruct",
+      "inspect",
+      "reconstruct",
+      "inspect",
+      "repair",
+      "finalize"
+    ],
+    "body_sha256": [
+      "c8d0d58ee9e2e7b7e23bc4566075b6e34d0e85c0ee918f8022bad5d99fa98e50",
+      "c87908bffefb6e70bbb76f128217ab19008b025f0d91b26e8a2902f702d778e6",
+      "ad34a7532e100130ad752fe24c5ccf5dbf5fc3f9214a3e4998a40b7bf822f2c4"
+    ],
+    "outputs_equal": true,
+    "executed_operations": 0,
+    "completed_reuse_calls": 0,
+    "retrieval_only_recovery": "G0",
+    "retrieval_calls": 4,
+    "finalize_without_generation": false,
+    "next_stage_budget_checked": true
+  },
+  "input_capacity": {
+    "synthetic_attachments": 20,
+    "upstream_rejected": true,
+    "cases": [
+      {
+        "mock_count": 1000,
+        "generation_dispatched_to_fixture": true
+      },
+      {
+        "mock_count": 131072,
+        "generation_dispatched_to_fixture": true
+      },
+      {
+        "mock_count": 131073,
+        "generation_dispatched_to_fixture": false
+      },
+      {
+        "mock_count": null,
+        "generation_dispatched_to_fixture": false
+      }
+    ]
+  },
+  "network_requests": 0,
+  "paid_calls": 0,
+  "scope": "Upstream generation inputs and outputs match offline fixtures; only background=true and connection timeouts differ; counting and GET recovery are mocked; no live validation"
+}

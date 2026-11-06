@@ -22,7 +22,7 @@ from starlette.middleware.trustedhost import TrustedHostMiddleware
 
 from .failures import can_retry, failure_details
 from .kernel_contract import PROFILE, validate_config
-from .locking import exclusive
+from .locking import busy, exclusive
 from .provider_check import model_problems
 from .recovery import is_unsent, recovery_mode
 from .settings import KERNEL_COMMIT, ROOT, Settings, exposure, load_credentials
@@ -37,18 +37,30 @@ def create_app(settings: Settings | None = None):
     submit_lock = asyncio.Lock()
     tasks: set[asyncio.Task] = set()
     process: subprocess.Popen | None = None
+    stopping = False
     model_check = {"fingerprint": None, "checked": 0, "problems": []}
     model_check_lock = asyncio.Lock()
 
     @asynccontextmanager
     async def lifespan(_):
-        store.recover()
-        yield
-        if process and process.poll() is None:
-            process.terminate()
-            await asyncio.to_thread(process.wait, 10)
-        if tasks:
-            await asyncio.gather(*tasks, return_exceptions=True)
+        nonlocal stopping
+        with exclusive(settings.data / "service.lock"):
+            stopping = False
+            store.recover()
+            try:
+                yield
+            finally:
+                stopping = True
+                if process and process.poll() is None:
+                    process.terminate()
+                if tasks:
+                    await asyncio.gather(*tasks, return_exceptions=True)
+
+    async def recover_idle():
+        # Serialize against submit: a queued worker may not hold worker.lock yet.
+        async with submit_lock:
+            if not tasks:
+                store.recover()
 
     app = FastAPI(title="FigFox local reconstruction", lifespan=lifespan)
     app.add_middleware(TrustedHostMiddleware, allowed_hosts=["127.0.0.1", "localhost", "[::1]"])
@@ -82,11 +94,24 @@ def create_app(settings: Settings | None = None):
         response.headers["X-Content-Type-Options"] = "nosniff"
         return response
 
-    async def readiness(*, existing_job=False, stage_name="G0"):
+    async def readiness(*, existing_job=False, stage_name="G0", retrieval_config=None):
         problems = []
+        if busy(settings.data / "worker.lock"):
+            problems.append("worker_busy")
         minimum_reserve = 0
         if not (settings.kernel / "product-runtime-manifest.json").is_file():
             problems.append("kernel_missing")
+        if retrieval_config is not None:
+            try:
+                validate_config(retrieval_config, settings.kernel)
+                keys = load_credentials(settings.credentials)
+                if any(
+                    not keys.get(value["key_env"]) for value in retrieval_config["stages"].values()
+                ):
+                    problems.append("credentials_missing")
+            except (OSError, ValueError, KeyError, TypeError):
+                problems.append("config_invalid")
+            return {"available": not problems, "problems": problems}
         if not settings.config.is_file():
             problems.append("config_missing")
         else:
@@ -152,11 +177,25 @@ def create_app(settings: Settings | None = None):
 
     @app.get("/local-api/jobs")
     async def jobs():
+        await recover_idle()
         return store.list()
 
     async def execute(job):
         nonlocal process
         folder = settings.data / "jobs" / job["id"]
+
+        def interrupted(error):
+            current = store.get(job["id"])
+            if current["status"] in ("queued", "running"):
+                store.update(
+                    job["id"],
+                    status="failed",
+                    **failure_details(folder, error, current.get("stage")),
+                )
+
+        if stopping:
+            interrupted(InterruptedError())
+            return
         environment = os.environ.copy()
         environment.update(
             PYTHONPATH=str(ROOT / "backend/src"),
@@ -183,22 +222,18 @@ def create_app(settings: Settings | None = None):
                     stderr=log,
                     creationflags=subprocess.CREATE_NO_WINDOW if os.name == "nt" else 0,
                 )
+                if stopping and process.poll() is None:
+                    process.terminate()
                 try:
-                    code = await asyncio.to_thread(process.wait, 3600)
+                    await asyncio.to_thread(process.wait, 3600)
                 except subprocess.TimeoutExpired:
                     process.terminate()
                     await asyncio.to_thread(process.wait, 10)
-                    store.update(
-                        job["id"], status="failed", **failure_details(folder, TimeoutError())
-                    )
+                    interrupted(TimeoutError())
                     return
-            current = store.get(job["id"])
-            if code or current["status"] in ("queued", "running"):
-                store.update(
-                    job["id"], status="failed", error=current.get("error") or "kernel_failed"
-                )
+            interrupted(InterruptedError())
         except Exception:
-            store.update(job["id"], status="failed", error="worker_unavailable")
+            interrupted(InterruptedError())
         finally:
             process = None
 
@@ -287,6 +322,7 @@ def create_app(settings: Settings | None = None):
 
     @app.get("/local-api/jobs/{job_id}")
     async def status(job_id: str):
+        await recover_idle()
         job = store.get(job_id)
         if job is None:
             raise HTTPException(404, "Task not found")
@@ -315,10 +351,20 @@ def create_app(settings: Settings | None = None):
             mode = recovery_mode(job, folder)
             pending = (
                 {"inspect": "G1", "repair": "G2"}.get(job.get("stage"), "G0")
-                if mode == "resume"
+                if mode in ("resume", "background", "finalize")
                 else "G0"
             )
-            state = await readiness(existing_job=True, stage_name=pending)
+            retrieval_config = None
+            if mode in ("background", "finalize"):
+                try:
+                    retrieval_config = json.loads(
+                        (folder / "effective-config.json").read_text(encoding="utf-8")
+                    )
+                except (OSError, ValueError):
+                    raise HTTPException(409, "Recovery configuration is unavailable") from None
+            state = await readiness(
+                existing_job=True, stage_name=pending, retrieval_config=retrieval_config
+            )
             if not state["available"]:
                 raise HTTPException(503, {"code": "unavailable", "problems": state["problems"]})
             try:
@@ -337,13 +383,17 @@ def create_app(settings: Settings | None = None):
                         pending_call.rename(retained)
                     archive = (
                         folder
-                        / ("resume-records" if mode == "resume" else "preflight-attempts")
+                        / (
+                            "resume-records"
+                            if mode in ("resume", "background", "finalize")
+                            else "preflight-attempts"
+                        )
                         / str(job["revision"])
                     )
                     archive.mkdir(parents=True, exist_ok=False)
                     names = (
                         ("failure.txt", "worker.log")
-                        if mode == "resume"
+                        if mode in ("resume", "background", "finalize")
                         else (
                             "run",
                             "failure.txt",
@@ -370,8 +420,12 @@ def create_app(settings: Settings | None = None):
                         error=None,
                         failure=None,
                         retryCount=job.get("retryCount", 0) + 1,
+                        preflightRetryCount=job.get("preflightRetryCount", job.get("retryCount", 0))
+                        + int(mode in ("restart", "resume")),
                         retryOfRevision=job["revision"],
-                        resumeStage=job["stage"] if mode == "resume" else None,
+                        resumeStage=job["stage"]
+                        if mode in ("resume", "background", "finalize")
+                        else None,
                     )
             except OSError:
                 raise HTTPException(409, "Task recovery is not available yet") from None

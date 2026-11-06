@@ -21,6 +21,8 @@ export type ReconstructionInput = { draftId: string; image: File; prompt: string
  */
 export type ReconstructionClient = {
   canSubmit?: boolean;
+  connected?: boolean;
+  history?: (signal: AbortSignal) => Promise<ReconstructionSnapshot[]>;
   unavailableReason?: "budget" | "test_limit" | "model" | "configuration";
   supportsUserPrompt?: boolean;
   remainingBudgetUsd?: number;
@@ -35,6 +37,7 @@ export const isReconstructionActive = (snapshot: ReconstructionSnapshot) => snap
 export function useReconstructionTask() {
   const client = useContext(ReconstructionContext);
   const [task, setTask] = useState<{ snapshot: ReconstructionSnapshot; name: string } | null>(null);
+  const [history, setHistory] = useState<ReconstructionSnapshot[]>([]);
   const [open, setOpen] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [submitFailed, setSubmitFailed] = useState(false);
@@ -49,14 +52,36 @@ export function useReconstructionTask() {
   useEffect(() => {
     if (!client?.recent) return;
     const controller = new AbortController();
-    client.recent(controller.signal).then(snapshot => {
-      if (snapshot && !controller.signal.aborted && !latest.current && !locked.current) {
-        latest.current = { snapshot, name: snapshot.name || "FigFox.svg" };
-        setTask(latest.current);
+    let timer: ReturnType<typeof setTimeout>;
+    const recover = async () => {
+      try {
+        const jobs = client.history ? await client.history(controller.signal) : [await client.recent!(controller.signal)].filter((job): job is ReconstructionSnapshot => !!job);
+        if (controller.signal.aborted) return;
+        setHistory(jobs);
+        const current = latest.current;
+        const updated = current && jobs.find(job => job.id === current.snapshot.id && job.revision > current.snapshot.revision);
+        if (updated && !locked.current) { latest.current = { ...current!, snapshot: updated }; setTask(latest.current); }
+        const snapshot = jobs.find(isReconstructionActive) || jobs[0];
+        if (snapshot && !latest.current && !locked.current) {
+          latest.current = { snapshot, name: snapshot.name || "FigFox.svg" };
+          setTask(latest.current);
+        }
+        timer = setTimeout(recover, 10_000);
+      } catch {
+        if (!controller.signal.aborted) timer = setTimeout(recover, 1500);
       }
-    }).catch(() => {});
-    return () => controller.abort();
+    };
+    void recover();
+    return () => { controller.abort(); clearTimeout(timer); };
   }, [client]);
+  useEffect(() => {
+    if (task) setHistory(items => [task.snapshot, ...items.filter(item => item.id !== task.snapshot.id)]);
+  }, [task]);
+  const selectTask = (id: string) => {
+    if (locked.current || (latest.current && isReconstructionActive(latest.current.snapshot))) return;
+    const snapshot = history.find(item => item.id === id);
+    if (snapshot) { latest.current = { snapshot, name: snapshot.name || "FigFox.svg" }; setTask(latest.current); setSubmitFailed(false); }
+  };
 
   const jobId = task?.snapshot.id;
   const running = !!task && isReconstructionActive(task.snapshot);
@@ -88,7 +113,7 @@ export function useReconstructionTask() {
   }, [client, jobId, running]);
 
   const submit = async (input: ReconstructionInput) => {
-    if (!client || locked.current || (latest.current && isReconstructionActive(latest.current.snapshot))) return;
+    if (!client || client.connected === false || client.canSubmit === false || history.some(isReconstructionActive) || locked.current || (latest.current && isReconstructionActive(latest.current.snapshot))) return;
     locked.current = true;
     setSubmitting(true);
     setSubmitFailed(false);
@@ -115,7 +140,7 @@ export function useReconstructionTask() {
 
   const retry = async () => {
     const current = latest.current;
-    if (!client?.retry || locked.current || !current?.snapshot.failure?.retryable) return;
+    if (!client?.retry || client.connected === false || locked.current || !current?.snapshot.failure?.retryable) return;
     locked.current = true;
     setSubmitting(true);
     setSubmitFailed(false);
@@ -136,5 +161,5 @@ export function useReconstructionTask() {
     }
   };
 
-  return { available: !!client && client.canSubmit !== false, supportsUserPrompt: client?.supportsUserPrompt, unavailableReason: client?.unavailableReason, remainingBudgetUsd: client?.remainingBudgetUsd, task, open, setOpen, submit, retry: client?.retry ? retry : undefined, submitting, submitFailed, disconnected, busy: submitting || running };
+  return { history, selectTask, connected: client?.connected, available: !!client && client.connected !== false && client.canSubmit !== false, supportsUserPrompt: client?.supportsUserPrompt, unavailableReason: client?.unavailableReason, remainingBudgetUsd: client?.remainingBudgetUsd, task, open, setOpen, submit, retry: client?.retry ? retry : undefined, submitting, submitFailed, disconnected: disconnected || client?.connected === false, selectionBusy: submitting || running, busy: submitting || running || history.some(isReconstructionActive) };
 }

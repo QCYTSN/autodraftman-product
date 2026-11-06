@@ -15,6 +15,7 @@ import sys
 import tempfile
 import uuid
 import xml.etree.ElementTree as ET
+from dataclasses import replace
 from pathlib import Path
 from unittest.mock import patch
 from urllib.request import urlopen as local_urlopen
@@ -44,7 +45,16 @@ def sha(path):
     return hashlib.sha256(Path(path).read_bytes()).hexdigest()
 
 
-def check_case(root, kernel, size, crop_count, failure_stage=None):
+def check_case(
+    root,
+    kernel,
+    size,
+    crop_count,
+    failure_stage=None,
+    resume_stage=None,
+    finalize_failure=False,
+    budget_after_retrieval=False,
+):
     from figfox_plus.factual import pipeline
     from figfox_plus.native import pipeline as native
 
@@ -74,8 +84,9 @@ def check_case(root, kernel, size, crop_count, failure_stage=None):
     if crop_count:
         # Exercise real upstream asset binding and coordinate restoration, not
         # just attachment forwarding. The last asset is an arrow-evidence crop.
-        svg = svg.replace('</svg>', '<image id="photo" href="asset_0" x="40" '
-                          'y="40" width="8" height="8"/></svg>')
+        svg = svg.replace(
+            "</svg>", '<image id="photo" href="asset_0" x="40" y="40" width="8" height="8"/></svg>'
+        )
     g1 = {
         "regions": [
             {
@@ -142,9 +153,7 @@ def check_case(root, kernel, size, crop_count, failure_stage=None):
                 "depends_on": [],
                 "instructions": "Change only rectangle fill",
                 "parameters": {
-                    "operations": [
-                        {"op": "set", "id": "r", "attributes": {"fill": "blue"}}
-                    ]
+                    "operations": [{"op": "set", "id": "r", "attributes": {"fill": "blue"}}]
                 },
                 "postconditions": ["The rectangle is blue"],
             }
@@ -164,11 +173,33 @@ def check_case(root, kernel, size, crop_count, failure_stage=None):
     cfg.write_text(json.dumps(config), encoding="utf-8")
 
     counted_requests = []
+    retrievals = []
+    disconnected = [True]
 
     def capture(target):
         def send(request, **kwargs):
             if request.full_url.startswith(("file:", "data:")):
                 return local_urlopen(request, **kwargs)
+            if request.get_method() == "GET":
+                retrievals.append(request.full_url)
+                assert request.full_url.startswith(
+                    "https://api.openai.com/v1/responses/resp_fixture_"
+                )
+                if disconnected[0]:
+                    raise TimeoutError("Offline polling disconnection")
+                index = int(request.full_url.rsplit("_", 1)[1])
+                return io.BytesIO(
+                    json.dumps(
+                        {
+                            "id": f"resp_fixture_{index}",
+                            "status": "completed",
+                            "output": [
+                                {"content": [{"type": "output_text", "text": responses[index]}]}
+                            ],
+                            "usage": {"input_tokens": 10, "output_tokens": 10},
+                        }
+                    ).encode()
+                )
             body = json.loads(request.data)
             if request.full_url == "https://api.openai.com/v1/responses/input_tokens":
                 counted_requests.append(body)
@@ -188,10 +219,13 @@ def check_case(root, kernel, size, crop_count, failure_stage=None):
             text = responses[len(target) - 1]
             usage = {"input_tokens": 10, "output_tokens": 10}
             raw = {
+                "id": f"resp_fixture_{len(target) - 1}",
                 "status": "completed",
                 "output": [{"content": [{"type": "output_text", "text": text}]}],
                 "usage": usage,
             }
+            if body.get("background") and resume_stage == ("G0", "G1", "G2")[len(target) - 1]:
+                raw = {"id": raw["id"], "status": "queued"}
             return io.BytesIO(json.dumps(raw).encode())
 
         return send
@@ -200,46 +234,93 @@ def check_case(root, kernel, size, crop_count, failure_stage=None):
     with patch.object(native, "prepare_assets", lambda *a, **kw: copy.deepcopy(sam)):
         with patch("urllib.request.urlopen", capture(original_calls)):
             try:
-                original = pipeline.run(
-                    source, root / "original", config=original_config
-                )
+                original = pipeline.run(source, root / "original", config=original_config)
             except TimeoutError:
                 assert failure_stage
             else:
                 assert failure_stage is None
-        settings = Settings(
-            kernel, root / "web", root / "absent.env", cfg, total_budget=5
-        )
+        settings = Settings(kernel, root / "web", root / "absent.env", cfg, total_budget=5)
         store = JobStore(settings.data)
         job = store.create(str(uuid.uuid4()), "fixture", "source.png", "fixture")
         folder = settings.data / "jobs" / job["id"]
         folder.mkdir(parents=True)
         (folder / "source.png").write_bytes(source.read_bytes())
         (folder / "input.json").write_text('{"prompt":""}')
-        with patch("urllib.request.urlopen", capture(web_calls)):
-            assert web_run(job["id"], settings) == (1 if failure_stage else 0), (
-                folder / "failure.txt"
-            ).read_text()
-    assert web_calls == original_calls, (
-        "The web adapter changed an upstream HTTP request"
-    )
+        original_render = pipeline.render
+
+        def render_fixture(svg, png):
+            if finalize_failure and Path(svg).name == "final.svg":
+                raise OSError("Synthetic final rendering failure")
+            return original_render(svg, png)
+
+        with (
+            patch("urllib.request.urlopen", capture(web_calls)),
+            patch.object(
+                pipeline,
+                "render",
+                render_fixture,
+            ),
+            patch(
+                "autodraftman_backend.local_reconstruction.background.time.sleep",
+                lambda _: None,
+            ),
+        ):
+            assert web_run(job["id"], settings) == int(
+                bool(failure_stage or resume_stage or finalize_failure)
+            ), (folder / "failure.txt").read_text()
+        if finalize_failure:
+            assert store.get(job["id"])["failure"]["resume"]
+            with patch("urllib.request.urlopen", side_effect=AssertionError("No more HTTP")):
+                assert web_run(job["id"], settings) == 0
+        if resume_stage:
+            failed = store.get(job["id"])
+            assert failed["error"] == "background_pending" and failed["failure"]["resume"]
+            # Even repeated read-only recovery must remain available. No real SAM
+            # service is usable on this second pass, including G0 recovery.
+            store.update(
+                job["id"], retryCount=3, preflightRetryCount=0, resumeStage=failed["stage"]
+            )
+            disconnected[0] = False
+            counts_before = len(counted_requests)
+            with (
+                patch("urllib.request.urlopen", capture(web_calls)),
+                patch.object(
+                    native,
+                    "prepare_assets",
+                    side_effect=AssertionError("SAM must not rerun"),
+                ),
+            ):
+                if budget_after_retrieval:
+                    before = len(web_calls)
+                    assert web_run(job["id"], replace(settings, total_budget=0)) == 1
+                    blocked = store.get(job["id"])
+                    assert blocked["error"] == "budget_exceeded"
+                    assert blocked["failure"]["resume"]
+                    assert len(web_calls) == before and len(counted_requests) == counts_before
+                assert web_run(job["id"], settings) == 0, (folder / "failure.txt").read_text()
+            assert len(counted_requests) - counts_before == 2 - ("G0", "G1", "G2").index(
+                resume_stage
+            )
+    assert len(web_calls) == len(original_calls)
+    for web, upstream in zip(web_calls, original_calls, strict=True):
+        assert web["url"] == upstream["url"]
+        assert web["body"] == {**upstream["body"], "background": True}, (
+            "Only the declared connection mode may differ from the upstream request"
+        )
+        assert 0 < web["timeout"] <= 45 and upstream["timeout"] == 900
     assert counted_requests == [
-        {k: item["body"][k] for k in ("model", "input", "reasoning")}
-        for item in web_calls
+        {k: item["body"][k] for k in ("model", "input", "reasoning")} for item in web_calls
     ], "Counting and generation must receive the same unchanged multimodal input"
     result = store.get(job["id"])
     if failure_stage:
         assert len(web_calls) == ("G0", "G1", "G2").index(failure_stage) + 1
         assert result["status"] == "failed"
         assert (
-            result["stage"]
-            == {"G0": "reconstruct", "G1": "inspect", "G2": "repair"}[failure_stage]
+            result["stage"] == {"G0": "reconstruct", "G1": "inspect", "G2": "repair"}[failure_stage]
         )
         assert result["failure"]["retryable"] is False
         assert result["failure"]["billing"] == "unconfirmed"
-        receipt = json.loads(
-            (folder / f"run/{failure_stage}/call/receipt.json").read_text()
-        )
+        receipt = json.loads((folder / f"run/{failure_stage}/call/receipt.json").read_text())
         assert receipt["status"] == "uncertain" and receipt["reserved_usd"] > 0
         # An explicit second invocation must also retain the uncertain request, not resend it.
         before = copy.deepcopy(web_calls)
@@ -248,7 +329,7 @@ def check_case(root, kernel, size, crop_count, failure_stage=None):
         assert web_calls == before
         return {
             "failure_stage": failure_stage,
-            "requests_equal": True,
+            "generation_inputs_equal": True,
             "models": [item["body"]["model"] for item in web_calls],
             "deepseek_calls": 0,
             "resend_calls": 0,
@@ -266,12 +347,13 @@ def check_case(root, kernel, size, crop_count, failure_stage=None):
         photo = next(node for node in ET.fromstring(final_text).iter() if node.get("id") == "photo")
         assert [float(photo.get(key)) for key in ("x", "y", "width", "height")] == [0, 0, 12, 10]
     events = json.loads((folder / "events.json").read_text())
-    assert [event["stage"] for event in events] == [
-        "reconstruct",
-        "inspect",
-        "repair",
-        "finalize",
-    ]
+    if not resume_stage and not finalize_failure:
+        assert [event["stage"] for event in events] == [
+            "reconstruct",
+            "inspect",
+            "repair",
+            "finalize",
+        ]
     assert sha(folder / "run/final.svg") == original["final_sha256"]
     assert sha(folder / "run/final.png") == original["png_sha256"]
     for file in (
@@ -280,9 +362,7 @@ def check_case(root, kernel, size, crop_count, failure_stage=None):
         "implementation.json",
         "native-acceptance.json",
     ):
-        assert (folder / "run" / file).read_bytes() == (
-            root / "original" / file
-        ).read_bytes()
+        assert (folder / "run" / file).read_bytes() == (root / "original" / file).read_bytes()
     before = copy.deepcopy(web_calls)
     with patch("urllib.request.urlopen", capture(web_calls)):
         assert web_run(job["id"], settings) == 0
@@ -293,7 +373,7 @@ def check_case(root, kernel, size, crop_count, failure_stage=None):
         "sam_arrow_crops": int(crop_count > 0),
         "asset_binding_verified": crop_count > 0,
         "unresolved_count": result["result"]["unresolvedCount"],
-        "requests_equal": True,
+        "generation_inputs_equal": True,
         "models": [item["body"]["model"] for item in web_calls],
         "endpoints": [item["url"] for item in web_calls],
         "deepseek_calls": 0,
@@ -306,6 +386,10 @@ def check_case(root, kernel, size, crop_count, failure_stage=None):
         "outputs_equal": True,
         "executed_operations": original["native_acceptance"]["executed_operations"],
         "completed_reuse_calls": 0,
+        "retrieval_only_recovery": resume_stage,
+        "retrieval_calls": len(retrievals),
+        "finalize_without_generation": finalize_failure,
+        "next_stage_budget_checked": budget_after_retrieval,
     }
 
 
@@ -346,14 +430,23 @@ def check_capacity(root, kernel):
             count_bodies.append(json.loads(request.data))
             if mock_count is None:
                 raise TimeoutError("Offline count timeout")
-            return io.BytesIO(json.dumps({
-                "object": "response.input_tokens", "input_tokens": mock_count,
-            }).encode())
+            return io.BytesIO(
+                json.dumps(
+                    {
+                        "object": "response.input_tokens",
+                        "input_tokens": mock_count,
+                    }
+                ).encode()
+            )
 
         with patch("urllib.request.urlopen", counting):
             try:
                 result = transport.request(
-                    folder, "unchanged", images, provider, http=generation,
+                    folder,
+                    "unchanged",
+                    images,
+                    provider,
+                    http=generation,
                     input_token_counter=count_input_tokens,
                 )
             except InputCountUnavailable:
@@ -369,9 +462,12 @@ def check_capacity(root, kernel):
         expected_generation = count in (1000, 131072)
         assert len(generation_bodies) - before == int(expected_generation)
         assert (folder / "receipt.json").exists() == expected_generation
-        records.append({
-            "mock_count": count, "generation_dispatched_to_fixture": expected_generation,
-        })
+        records.append(
+            {
+                "mock_count": count,
+                "generation_dispatched_to_fixture": expected_generation,
+            }
+        )
     assert len(count_bodies) == 4
     return {"synthetic_attachments": 20, "upstream_rejected": True, "cases": records}
 
@@ -407,6 +503,21 @@ def main():
             for stage in ("G0", "G1", "G2")
         ]
         capacity = check_capacity(Path(folder) / "capacity", kernel)
+        recoveries = [
+            check_case(
+                Path(folder) / ("resume-" + stage), kernel, (609, 277), 3, resume_stage=stage
+            )
+            for stage in ("G0", "G1", "G2")
+        ]
+        finalize = check_case(Path(folder) / "finalize", kernel, (80, 64), 0, finalize_failure=True)
+        budget_recovery = check_case(
+            Path(folder) / "budget-recovery",
+            kernel,
+            (80, 64),
+            0,
+            resume_stage="G0",
+            budget_after_retrieval=True,
+        )
     report = {
         "commit": COMMIT,
         "profile": PROFILE,
@@ -415,14 +526,19 @@ def main():
         "source_files_checked": proof["files_checked"],
         "portability_patches": proof["portability_patches"],
         "input_count_patches": proof["input_count_patches"],
+        "connection_patches": proof["connection_patches"],
         "cases": cases,
         "failure_cases": failures,
+        "recovery_cases": recoveries,
+        "finalize_recovery": finalize,
+        "budget_recovery": budget_recovery,
         "input_capacity": capacity,
         "network_requests": 0,
         "paid_calls": 0,
         "scope": (
-            "Generation bodies and outputs match upstream for offline fixtures; "
-            "extra input-count requests are mocked and verified; no live validation"
+            "Upstream generation inputs and outputs match offline fixtures; only background=true "
+            "and connection timeouts differ; counting and GET recovery are mocked; "
+            "no live validation"
         ),
     }
     if args.output:

@@ -6,9 +6,9 @@ import json
 import os
 import sys
 import time
-from functools import partial
 from pathlib import Path
 
+from .background import background_response, resumable_task
 from .failures import failure_details
 from .input_count import count_input_tokens
 from .kernel_contract import (
@@ -19,6 +19,7 @@ from .kernel_contract import (
     verify_kernel,
 )
 from .locking import exclusive
+from .recovery import retained_mode
 from .settings import Settings, exposure, load_credentials
 from .store import JobStore
 
@@ -101,11 +102,52 @@ def run(job_id: str, settings: Settings):
                 stage("finalize")
             return original_render(svg, png)
 
+        def connected_request(folder, prompt, images, provider, *, http=None):
+            return original_request(
+                folder,
+                prompt,
+                images,
+                provider,
+                http=http or (lambda body: background_response(body, provider, folder)),
+                input_token_counter=count_input_tokens,
+                resume_request=resumable_task,
+            )
+
+        def retained_first(image, folder, sam, send):
+            # Rebuild the identical upstream request from frozen, hash-checked
+            # assets. Retrieving a paid response must not rerun the SAM service.
+            from figfox_plus.native.document import serialize
+            from figfox_plus.native.pipeline import first
+
+            manifest = json.loads((folder / "sam.json").read_text(encoding="utf-8"))
+            if manifest.get("legacy_injected_fixture"):
+                raise ValueError("original contract mismatch: unverified SAM assets")
+
+            def forward(prompt, images, run_dir, purpose):
+                return send("G0", prompt, {}, images, folder / "call")
+
+            return serialize(
+                first(
+                    image,
+                    folder,
+                    send=forward,
+                    sam=manifest,
+                    capabilities={"version": "capabilities-v1", "sam": sam, "code_methods": False},
+                )
+            )
+
+        retained_g0 = (job / "run/G0/call/receipt.json").exists()
         pipeline.render = render
-        transport.request = partial(original_request, input_token_counter=count_input_tokens)
+        transport.request = connected_request
         try:
             result = pipeline.run(
-                job / "source.png", job / "run", sam=True, repair=True, send=send, config=config
+                job / "source.png",
+                job / "run",
+                sam=True,
+                repair=True,
+                send=send,
+                config=config,
+                g0_builder=retained_first if retained_g0 else None,
             )
         finally:
             pipeline.render = original_render
@@ -151,7 +193,9 @@ def run(job_id: str, settings: Settings):
 
         (job / "failure.txt").write_text(traceback.format_exc(), encoding="utf-8")
         details = failure_details(job, error, store.get(job_id).get("stage"))
-        if store.get(job_id).get("retryCount", 0) >= 2:
+        if store.get(job_id).get(
+            "preflightRetryCount", store.get(job_id).get("retryCount", 0)
+        ) >= 2 and not retained_mode(job):
             details["failure"]["retryable"] = False
         store.update(
             job_id,

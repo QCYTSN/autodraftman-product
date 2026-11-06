@@ -70,7 +70,13 @@ def exposure(data: Path) -> float:
         # A partially written receipt is conservatively treated as unknown exposure.
         try:
             record = json.loads(path.read_text(encoding="utf-8"))
-            total += float(record.get("known_usd") or 0) + float(record.get("reserved_usd") or 0)
-        except (ValueError, OSError):
+            amounts = [record.get("known_usd"), record.get("reserved_usd")]
+            for amount in amounts:
+                if amount is not None and (
+                    type(amount) not in (int, float) or not math.isfinite(amount) or amount < 0
+                ):
+                    return float("inf")
+            total += sum(amount or 0 for amount in amounts)
+        except (ValueError, OSError, TypeError, AttributeError):
             return float("inf")
     return total

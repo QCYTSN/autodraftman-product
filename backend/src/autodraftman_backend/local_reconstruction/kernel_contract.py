@@ -8,7 +8,7 @@ from pathlib import Path
 
 COMMIT = "21ffc01271904d6c5610f0f96afd84530968f11e"
 ARCHIVE_SHA256 = "cb8dd3e9bb794fda4fef627b5468e2d42179f5a5cb8ed3e082262c5d0ad0603f"
-PROFILE = "upstream-factual-gpt55-count-v1"
+PROFILE = "upstream-factual-gpt55-background-v1"
 CONFIG_SOURCE = "configs/historical-cohort.json"
 
 
@@ -49,18 +49,54 @@ def portable_source(relative, original):
             "    descriptor = os.open(path, os.O_RDONLY)",
         )
     if relative == "src/figfox_plus/factual/transport.py":
-        # Keep the original request body, limits, accounting and recovery intact.
-        # Without the optional callback, standalone upstream behavior is unchanged.
-        return original.replace(
-            "def request(folder,prompt,images,settings,*,http=None):",
-            "def request(folder,prompt,images,settings,*,http=None,input_token_counter=None):",
-            1,
-        ).replace(
-            "    if bound>settings['max_input_tokens']:",
-            "    if input_token_counter is not None:\n"
-            "        bound=input_token_counter(content,settings,folder)\n"
-            "    if bound>settings['max_input_tokens']:",
-            1,
+        # Optional callbacks change connection handling, not inputs or final-response parsing.
+        # Without them, the standalone upstream entry retains its original behavior.
+        return (
+            original.replace(
+                "def request(folder,prompt,images,settings,*,http=None):",
+                "def request(folder,prompt,images,settings,*,http=None,input_token_counter=None,"
+                "resume_request=None):",
+                1,
+            )
+            .replace(
+                "    receipt=folder/'receipt.json'",
+                "    saved=None\n    receipt=folder/'receipt.json'",
+                1,
+            )
+            .replace(
+                "        if saved['status']!='completed':"
+                "raise ValueError('uncertain or failed request retained; no automatic resend')\n"
+                "        data=(folder/'response.json').read_bytes()\n"
+                "        if hashlib.sha256(data).hexdigest()!=saved['response_sha256']:"
+                "raise ValueError('response hash mismatch')\n"
+                "        return json.loads(data)['text']",
+                "        if saved['status']=='completed':\n"
+                "            data=(folder/'response.json').read_bytes()\n"
+                "            if hashlib.sha256(data).hexdigest()!=saved['response_sha256']:"
+                "raise ValueError('response hash mismatch')\n"
+                "            return json.loads(data)['text']\n"
+                "        if resume_request is None or not resume_request(folder,saved):\n"
+                "            raise ValueError("
+                "'uncertain or failed request retained; no automatic resend')",
+                1,
+            )
+            .replace(
+                "    if reserve>settings['budget_usd']:",
+                "    if saved is None and reserve>settings['budget_usd']:",
+                1,
+            )
+            .replace(
+                "    if bound>settings['max_input_tokens']:",
+                "    if saved is None and input_token_counter is not None:\n"
+                "        bound=input_token_counter(content,settings,folder)\n"
+                "    if saved is None and bound>settings['max_input_tokens']:",
+                1,
+            )
+            .replace(
+                "    record={'request_id':uuid4().hex,",
+                "    record=saved or {'request_id':uuid4().hex,",
+                1,
+            )
         )
     return original
 
@@ -108,6 +144,7 @@ def verify_kernel(kernel):
         "files_checked": len(files),
         "portability_patches": [p for p in patches if p != "src/figfox_plus/factual/transport.py"],
         "input_count_patches": [p for p in patches if p == "src/figfox_plus/factual/transport.py"],
+        "connection_patches": [p for p in patches if p == "src/figfox_plus/factual/transport.py"],
         "file_hashes": files,
     }
 

@@ -186,3 +186,7 @@
 .reconstruction-result-actions a { display:inline-flex; gap:6px; align-items:center; color:#6343cf; text-decoration:none; }
 .reconstruction-progress .workspace-reconstruction-result { width:100%; margin-bottom:24px; }
 @media (max-width:680px) { .workspace-reconstruction-result { grid-template-columns:minmax(0,1fr); gap:20px; padding:20px; } }
+
+.workspace-reconstruction-history { display:flex; align-items:center; flex-wrap:wrap; gap:12px; margin-bottom:20px; font-size:13px; color:#62697b; }
+.workspace-reconstruction-history .ff-select-trigger { flex:1; min-width:0; max-width:420px; }
+.reconstruction-result-actions > button:not(.product-button-primary) { display:inline-flex; align-items:center; gap:6px; background:transparent; color:#6343cf; }

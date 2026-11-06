@@ -1317,6 +1317,8 @@ function WorkspacePage({
     onViewTransition(() => { setTaskMode(next); if (next === "rebuild") setMode("reference"); setMessage(""); }, "task");
   };
   const [localImage, setLocalImage] = useState<WorkspaceImage | null>(null);
+  const [imageValidating, setImageValidating] = useState(false);
+  const imageValidatingRef = useRef(false);
   const [imageSaveState, setImageSaveState] = useState<"saved" | "saving" | "restoring" | "failed">("saved");
   const imageSequenceRef = useRef(0);
   const imageValidationRef = useRef(0);
@@ -1791,7 +1793,7 @@ function WorkspacePage({
 
   const handleGenerate = async () => {
     if (taskMode === "rebuild" && reconstruction.available) {
-      if (!referenceFile || !draftsReady || imageSaveState !== "saved" || reconstruction.busy) return;
+      if (imageValidatingRef.current || !referenceFile || !draftsReady || imageSaveState !== "saved" || reconstruction.busy) return;
       if (!flushLocalDraft().ok) return;
       await reconstruction.submit({ draftId: activeDraftId, image: referenceFile, prompt: reconstruction.supportsUserPrompt === false ? "" : prompt.trim() });
       return;
@@ -1822,6 +1824,8 @@ function WorkspacePage({
   const acceptReferenceFile = async (selected: File) => {
     if (!draftsReady) return;
     const validation = ++imageValidationRef.current;
+    imageValidatingRef.current = false;
+    setImageValidating(false);
     const startingSequence = imageSequenceRef.current;
     const mediaType = mediaTypeFor(selected);
     setReferenceError("");
@@ -1838,8 +1842,11 @@ function WorkspacePage({
       return;
     }
     let dimensions: {width: number; height: number};
+    imageValidatingRef.current = true;
+    setImageValidating(true);
     try { dimensions = await imageDimensions(selected); }
     catch { if (validation === imageValidationRef.current && startingSequence === imageSequenceRef.current) setReferenceError(language === "zh" ? "无法读取这张图片，请选择有效的 PNG、JPEG 或 WebP。" : "Could not read this image. Choose a valid PNG, JPEG or WebP."); return; }
+    finally { if (validation === imageValidationRef.current) { imageValidatingRef.current = false; setImageValidating(false); } }
     if (validation !== imageValidationRef.current || startingSequence !== imageSequenceRef.current) return;
     const sequence = ++imageSequenceRef.current;
     const metadata: WorkspaceImage = { key: crypto.randomUUID(), name: selected.name, type: mediaType, size: selected.size, ...dimensions };
@@ -2288,8 +2295,10 @@ function WorkspacePage({
           <span title={reconstruction.task.name}>{reconstruction.task.name}</span>
           <button ref={progressTrigger} type="button" onClick={() => reconstruction.setOpen(true)}><ClockCounterClockwise size={17}/>{language === "zh" ? "查看进度" : "View progress"}</button>
         </div>}
+        {reconstruction.connected === false && <p role="status">{language === "zh" ? "重建服务已断开，正在重新连接。" : "Reconstruction service disconnected. Reconnecting."}</p>}
+        {reconstruction.history.length > 0 && <div className="workspace-reconstruction-history"><span>{language === "zh" ? "重建历史" : "Reconstruction history"}</span><FigFoxSelect ariaLabel={language === "zh" ? "重建历史" : "Reconstruction history"} disabled={reconstruction.selectionBusy} value={reconstruction.task?.snapshot.id || ""} options={reconstruction.history.map(job => ({ value: job.id, label: `${job.name || (language === "zh" ? "未命名图片" : "Untitled image")} · ${language === "zh" ? { queued: "等待处理", running: "处理中", succeeded: "已完成", failed: "未完成", cancelled: "已取消" }[job.status] : { queued: "Waiting", running: "Processing", succeeded: "Complete", failed: "Incomplete", cancelled: "Cancelled" }[job.status]}` }))} onValueChange={id => { reconstruction.selectTask(id); reconstruction.setOpen(true); }}/><button type="button" className="product-button" onClick={() => reconstruction.setOpen(true)}>{language === "zh" ? "查看任务" : "View task"}</button></div>}
         {reconstruction.submitFailed && <p className="workspace-file-error" role="alert">{language === "zh" ? "任务未能提交，请稍后重试。原图与要求已保留。" : "The task could not be submitted. Try again shortly; your image and notes are retained."}</p>}
-        {reconstruction.task && <ReconstructionResult snapshot={reconstruction.task.snapshot} zh={language === "zh"} busy={svg.busy} onEdit={() => void svg.openReconstruction(reconstruction.task!.snapshot)}/>}
+        {reconstruction.task && reconstruction.task.snapshot.draftId === activeDraftId && <ReconstructionResult key={reconstruction.task.snapshot.id} snapshot={reconstruction.task.snapshot} zh={language === "zh"} busy={svg.busy} onEdit={() => void svg.openReconstruction(reconstruction.task!.snapshot)}/>}
         {svg.error && <p className="workspace-file-error" role="alert"><WarningCircle size={17}/>{svg.error}</p>}
         {workspaceView === "documents" ? <WorkspaceDocuments language={language} onOpenDocument={id => void svg.openDocument(id)} onExample={() => void svg.example()} operationBusy={svg.busy} onDocumentsChange={svg.refresh}/> : <>
           <h2 className="sr-only">{taskMode === "rebuild" ? language === "zh" ? "图片转 SVG" : "Image to SVG" : language === "zh" ? "文生图" : "Text to image"}</h2>
@@ -2413,7 +2422,7 @@ function WorkspacePage({
           </Collapsible.Root>}
 
 
-                <div className="workspace-submit"><span id="workspace-submit-reason">{taskMode === "rebuild" && reconstruction.available ? reconstruction.busy ? language === "zh" ? "任务处理中" : "Task in progress" : !referenceFile ? language === "zh" ? "请先添加原图" : "Add a source image" : "" : reconstructionLimited ? reconstructionLimitLabel : language === "zh" ? "服务未开放" : "Service unavailable"}</span><button type="button" className="generate-button" onClick={() => void handleGenerate()} disabled={taskMode !== "rebuild" || !reconstruction.available || !referenceFile || !draftsReady || imageSaveState !== "saved" || reconstruction.busy} aria-describedby="workspace-submit-reason">{reconstruction.submitting ? language === "zh" ? "正在提交…" : "Submitting…" : language === "zh" ? taskMode === "rebuild" ? "重建 SVG" : "生成图片" : taskMode === "rebuild" ? "Reconstruct SVG" : "Generate image"}<ArrowRight size={16}/></button></div>
+                <div className="workspace-submit"><span id="workspace-submit-reason">{taskMode === "rebuild" && reconstruction.available ? reconstruction.busy ? language === "zh" ? "任务处理中" : "Task in progress" : !referenceFile ? language === "zh" ? "请先添加原图" : "Add a source image" : "" : reconstructionLimited ? reconstructionLimitLabel : language === "zh" ? "服务未开放" : "Service unavailable"}</span><button type="button" className="generate-button" onClick={() => void handleGenerate()} disabled={imageValidating || taskMode !== "rebuild" || !reconstruction.available || !referenceFile || !draftsReady || imageSaveState !== "saved" || reconstruction.busy} aria-describedby="workspace-submit-reason">{reconstruction.submitting ? language === "zh" ? "正在提交…" : "Submitting…" : language === "zh" ? taskMode === "rebuild" ? "重建 SVG" : "生成图片" : taskMode === "rebuild" ? "Reconstruct SVG" : "Generate image"}<ArrowRight size={16}/></button></div>
               </div>
             </section>
             <button type="button" className="workspace-example" disabled={svg.busy} onClick={() => void svg.example()}><VectorThree size={17}/>{language === "zh" ? "编辑科研 SVG 示例" : "Edit a research SVG example"}<ArrowUpRight size={15}/></button>
@@ -2426,7 +2435,8 @@ function WorkspacePage({
       <Dialog.Root open={reconstruction.open && active} onOpenChange={reconstruction.setOpen}>
         <Dialog.Portal><Dialog.Backdrop className="workspace-dialog-backdrop"/><Dialog.Viewport className="workspace-dialog-viewport"><Dialog.Popup className="workspace-dialog workspace-process-dialog" finalFocus={progressTrigger}>
           <header><Dialog.Title>{language === "zh" ? "重建进度" : "Reconstruction progress"}</Dialog.Title><Dialog.Close aria-label={language === "zh" ? "关闭进度" : "Close progress"}><X size={20}/></Dialog.Close></header>
-          {reconstruction.task && <ReconstructionProgress snapshot={reconstruction.task.snapshot} name={reconstruction.task.name} disconnected={reconstruction.disconnected} language={language} onClose={() => reconstruction.setOpen(false)} resultBusy={svg.busy} onEdit={() => void svg.openReconstruction(reconstruction.task!.snapshot)} onRetry={reconstruction.retry ? () => void reconstruction.retry!() : undefined} retryBusy={reconstruction.submitting} retryFailed={reconstruction.submitFailed}/>}
+          {reconstruction.task && <ReconstructionProgress key={reconstruction.task.snapshot.id} snapshot={reconstruction.task.snapshot} name={reconstruction.task.name} disconnected={reconstruction.disconnected} language={language} onClose={() => reconstruction.setOpen(false)} resultBusy={svg.busy} onEdit={() => void svg.openReconstruction(reconstruction.task!.snapshot)} onRetry={reconstruction.retry ? () => void reconstruction.retry!() : undefined} retryBusy={reconstruction.submitting} retryFailed={reconstruction.submitFailed}/>}
+          {svg.error && <p className="workspace-file-error" role="alert">{svg.error}</p>}
         </Dialog.Popup></Dialog.Viewport></Dialog.Portal>
       </Dialog.Root>
 

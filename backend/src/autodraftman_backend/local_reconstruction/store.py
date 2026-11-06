@@ -80,6 +80,22 @@ class JobStore:
         return value
 
     def recover(self):
-        for job in self.list():
-            if job["status"] in ("running", "queued"):
-                self.update(job["id"], status="failed", error="interrupted")
+        from .failures import failure_details
+        from .locking import exclusive
+
+        try:
+            with exclusive(self.path.parent / "worker.lock"):
+                with self.connect() as db:
+                    rows = db.execute("SELECT snapshot FROM jobs").fetchall()
+                for row in rows:
+                    job = json.loads(row[0])
+                    if job["status"] in ("running", "queued"):
+                        details = failure_details(
+                            self.path.parent / "jobs" / job["id"],
+                            InterruptedError(),
+                            job.get("stage"),
+                        )
+                        self.update(job["id"], status="failed", **details)
+        except OSError:
+            # An orphaned worker still owns execution; do not overwrite its state.
+            return

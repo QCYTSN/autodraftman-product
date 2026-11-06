@@ -18,6 +18,11 @@ function snapshot(value: unknown): ReconstructionSnapshot {
 }
 
 const client: ReconstructionClient = {
+  async history(signal) {
+    const jobs = await request("/local-api/jobs", { signal });
+    if (!Array.isArray(jobs)) throw new Error("Invalid task history");
+    return jobs.map(snapshot);
+  },
   async submit(input, signal) {
     const form = new FormData();
     form.set("image", input.image); form.set("prompt", input.prompt); form.set("draftId", input.draftId);
@@ -47,13 +52,16 @@ export function LocalReconstructionProvider({ children }: { children: ReactNode 
     const refresh = async () => {
       try {
         const state = await request("/local-api/health", { signal: controller.signal });
+        if (state.service !== "figfox-local-v1" || !Array.isArray(state.problems) || typeof state.available !== "boolean") throw new Error("Invalid reconstruction health response");
         if (!controller.signal.aborted && state.service === "figfox-local-v1") {
           const problems: string[] = state.problems;
-          const next: ReconstructionClient = { ...client, canSubmit: state.available === true, supportsUserPrompt: state.supportsUserPrompt, remainingBudgetUsd: state.remainingBudgetUsd,
+          const next: ReconstructionClient = { ...client, connected: true, canSubmit: state.available === true, supportsUserPrompt: state.supportsUserPrompt, remainingBudgetUsd: state.remainingBudgetUsd,
             unavailableReason: problems.includes("config_invalid") ? "configuration" : problems.some(problem => problem.startsWith("model_")) ? "model" : problems.includes("test_limit_reached") ? "test_limit" : problems.includes("budget_exceeded") ? "budget" : undefined };
-          setConnectedClient(previous => previous?.canSubmit === next.canSubmit && previous?.supportsUserPrompt === next.supportsUserPrompt && previous?.unavailableReason === next.unavailableReason && previous?.remainingBudgetUsd === next.remainingBudgetUsd ? previous : next);
+          setConnectedClient(previous => previous?.connected === true && previous?.canSubmit === next.canSubmit && previous?.supportsUserPrompt === next.supportsUserPrompt && previous?.unavailableReason === next.unavailableReason && previous?.remainingBudgetUsd === next.remainingBudgetUsd ? previous : next);
         }
-      } catch { /* Task polling retains the last known stage during a service interruption. */ }
+      } catch {
+        if (!controller.signal.aborted) setConnectedClient(previous => previous && previous.connected !== false ? { ...previous, connected: false } : previous);
+      }
       if (!controller.signal.aborted) timer = setTimeout(refresh, 10_000);
     };
     void refresh();

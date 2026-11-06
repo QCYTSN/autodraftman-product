@@ -20,3 +20,12 @@ def exclusive(path: Path):
 
             fcntl.flock(handle, fcntl.LOCK_EX | fcntl.LOCK_NB)
         yield
+
+
+def busy(path: Path):
+    """Probe ownership without releasing another process's lock."""
+    try:
+        with exclusive(path):
+            return False
+    except OSError:
+        return True

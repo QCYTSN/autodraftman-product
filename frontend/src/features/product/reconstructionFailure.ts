@@ -2,6 +2,10 @@ import type { ReconstructionSnapshot } from "./reconstructionTask";
 
 export function reconstructionFailure(snapshot: ReconstructionSnapshot, zh: boolean) {
   const messages: Record<string, [string, string]> = {
+    background_pending: ["后台请求仍在处理，可稍后继续查询同一任务。", "The background request is still processing. Continue later to check the same request."],
+    background_expired: ["后台结果已过期，无法恢复。", "The background result has expired and cannot be recovered."],
+    background_rejected: ["后台请求未能完成。", "The background request could not complete."],
+    background_identity: ["后台请求标识不匹配，已停止恢复。", "The background request identity did not match. Recovery stopped."],
     input_too_large: ["本阶段输入超过原版配置上限，运行已停止。", "This stage exceeds the upstream input limit; processing has stopped."],
     input_count_unavailable: ["暂时无法核验本阶段输入量，本阶段生成请求尚未发送。", "Input size could not be verified. This stage’s generation request was not sent."],
     original_contract_mismatch: ["运行文件或配置与原版不一致，已停止提交。", "Runtime files or configuration differ from upstream; submission stopped."],
