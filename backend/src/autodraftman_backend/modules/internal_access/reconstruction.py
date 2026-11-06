@@ -27,6 +27,7 @@ from sqlalchemy import select
 from sqlalchemy.dialects.postgresql import insert
 
 from autodraftman_backend.api.dependencies import SessionDependency, SettingsDependency
+from autodraftman_backend.api.session_transport import session_token
 from autodraftman_backend.core.config import Settings
 from autodraftman_backend.core.security import hash_opaque_token
 from autodraftman_backend.modules.identity.models import User, UserSession
@@ -41,7 +42,7 @@ router = APIRouter(prefix="/reconstructions", tags=["internal reconstruction"])
 
 async def authorize_forward(session, principal, request, settings):
     # A queued request may have waited for another submission's row lock.
-    token = request.cookies.get(settings.session_cookie_name)
+    token = session_token(request, settings)
     active = token and await session.scalar(
         select(UserSession.id)
         .join(User)

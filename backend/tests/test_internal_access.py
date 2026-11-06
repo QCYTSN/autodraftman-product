@@ -74,8 +74,8 @@ class FakeBridge:
         return httpx.Response(200, json=copy.deepcopy(job))
 
 
-@pytest_asyncio.fixture
-async def access(monkeypatch):
+@pytest_asyncio.fixture(params=["cookie", "bearer"])
+async def access(monkeypatch, request):
     url = os.environ.get("FIGFOX_ACCESS_TEST_DATABASE_URL")
     if not url:
         pytest.skip("Set FIGFOX_ACCESS_TEST_DATABASE_URL for PostgreSQL integration coverage")
@@ -93,7 +93,9 @@ async def access(monkeypatch):
         internal_accounts_enabled=True,
         reconstruction_gateway_enabled=True,
         cors_origins=ORIGIN,
+        bearer_origins=ORIGIN,
     )
+    monkeypatch.setattr("autodraftman_backend.main.get_settings", lambda: settings)
     app = create_app()
 
     async def session_dependency():
@@ -115,6 +117,7 @@ async def access(monkeypatch):
             transport=httpx.ASGITransport(app=app), base_url=ORIGIN, headers={"Origin": ORIGIN}
         )
         clients.append(instance)
+        instance.figfox_transport = request.param
         return instance
 
     yield client, fake, sessions, settings
@@ -124,9 +127,16 @@ async def access(monkeypatch):
 
 
 async def login(client, username="figfox01", password=TEST_PASSWORD):
-    return await client.post(
-        "/api/v1/auth/password", json={"username": username, "password": password}
+    response = await client.post(
+        "/api/v1/auth/password",
+        json={
+            "username": username, "password": password,
+            "session_transport": client.figfox_transport,
+        },
     )
+    if response.status_code == 200 and client.figfox_transport == "bearer":
+        client.headers["Authorization"] = "Bearer " + response.json()["session_token"]
+    return response
 
 
 async def submit(client, key=None, image=b"synthetic input"):
@@ -152,7 +162,12 @@ async def test_four_accounts_reuse_existing_identity_and_session(access, usernam
     client = new()
     response = await login(client, username)
     assert response.status_code == 200
-    assert "HttpOnly" in response.headers["set-cookie"]
+    if client.figfox_transport == "cookie":
+        assert "HttpOnly" in response.headers["set-cookie"]
+        assert "session_token" not in response.json()
+    else:
+        assert "set-cookie" not in response.headers and not client.cookies
+        assert response.headers["cache-control"] == "no-store"
     identity = (await client.get("/api/v1/identity/me")).json()
     assert identity["display_name"] == username and identity["providers"] == ["password"]
     assert (await client.get("/api/v1/reconstructions/health")).status_code == 200
@@ -370,3 +385,51 @@ async def test_revocation_while_waiting_for_submission_lock_blocks_retry(access,
     assert (await first).status_code == 503
     assert (await retry).status_code == 401
     assert len(fake.calls) == 1
+
+
+async def test_explicit_bearer_never_falls_back_to_cookie_or_guest(access):
+    new, fake, _, _ = access
+    client = new()
+    client.figfox_transport = "cookie"
+    await login(client)
+    for credential in ["Bearer " + "x" * 64, "Basic invalid", "Bearer malformed"]:
+        client.headers["Authorization"] = credential
+        assert (await client.get("/api/v1/identity/me")).status_code == 401
+        assert (await client.post("/api/v1/identity/guest")).status_code == 401
+        assert (await submit(client)).status_code == 401
+    assert not fake.calls
+
+
+async def test_bearer_requires_allowlisted_origin_for_issue_and_use(access):
+    new, fake, _, settings = access
+    client = new()
+    client.figfox_transport = "bearer"
+    await login(client)
+    for origin in ["https://attacker.invalid", "null", None]:
+        if origin is None:
+            client.headers.pop("Origin", None)
+        else:
+            client.headers["Origin"] = origin
+        assert (await client.get("/api/v1/identity/me")).status_code == 403
+        assert (await login(client)).status_code == 403
+    client.headers["Origin"] = ORIGIN
+    settings.bearer_origins = ""
+    assert (await client.get("/api/v1/identity/me")).status_code == 403
+    assert (await login(client)).status_code == 403
+    assert not fake.calls
+
+
+async def test_pages_preflight_allows_authorization_only_for_trusted_origin(access):
+    new, fake, _, _ = access
+    client = new()
+    headers = {
+        "Access-Control-Request-Method": "POST",
+        "Access-Control-Request-Headers": "authorization, content-type, idempotency-key",
+    }
+    response = await client.options("/api/v1/reconstructions", headers=headers)
+    assert response.status_code == 200
+    assert response.headers["access-control-allow-origin"] == ORIGIN
+    headers["Origin"] = "https://attacker.invalid"
+    denied = await client.options("/api/v1/reconstructions", headers=headers)
+    assert denied.status_code == 400 and "access-control-allow-origin" not in denied.headers
+    assert not fake.calls

@@ -31,6 +31,7 @@ class Settings(BaseSettings):
     guest_initial_credits: int = 1
     session_cookie_name: str = "autodraftman_session"
     session_ttl_days: int = 30
+    bearer_origins: str = ""
     asset_delete_grace_hours: int = 24
     account_purge_days: int = 30
     backup_retention_days: int = 30
@@ -88,6 +89,20 @@ class Settings(BaseSettings):
             raise ValueError("Reconstruction gateway requires internal accounts.")
         if self.environment == "production" and not self.cookie_secure:
             raise ValueError("Secure cookies are required in production.")
+        for origin in self.bearer_origin_list:
+            parsed = urlsplit(origin)
+            if (
+                origin not in self.cors_origin_list
+                or parsed.scheme not in {"https", "http"}
+                or not parsed.netloc
+                or parsed.username or parsed.password
+                or parsed.path or parsed.query or parsed.fragment
+                or (parsed.scheme != "https" and (
+                    self.environment == "production"
+                    or parsed.hostname not in {"localhost", "127.0.0.1", "::1"}
+                ))
+            ):
+                raise ValueError("Bearer origins must be explicit trusted HTTPS CORS origins.")
         if self.cookie_samesite == "none" and not self.cookie_secure:
             raise ValueError("SameSite=None cookies must also be Secure.")
         if self.guest_initial_credits < 0:
@@ -128,6 +143,10 @@ class Settings(BaseSettings):
     @property
     def cors_origin_list(self) -> list[str]:
         return [origin.strip() for origin in self.cors_origins.split(",") if origin.strip()]
+
+    @property
+    def bearer_origin_list(self) -> list[str]:
+        return [origin.strip() for origin in self.bearer_origins.split(",") if origin.strip()]
 
     @property
     def allowed_image_media_type_set(self) -> frozenset[str]:

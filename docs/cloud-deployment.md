@@ -1,14 +1,15 @@
 # FigFox cloud internal test deployment
 
 Deployment target: `figfoxserve`, `asia-southeast1-c`, Ubuntu 24.04 x86_64.
-Public workspace: `https://34.143.155.158/workspace`.
-The existing `https://qcytsn.github.io/figfox/` showcase remains the public entry.
+Public workspace: `https://qcytsn.github.io/figfox/workspace/`.
+The showcase and product pages share the same GitHub Pages entry.
+The existing `https://34.143.155.158/workspace` remains available during migration.
 
 ## Scope and frozen pipeline
 
 The application release is based on product commit `8e0bb3e` and pinned FigFox
 kernel `21ffc01271904d6c5610f0f96afd84530968f11e`. This deployment adds service
-definitions, Linux paths, a web proxy and the Pages-to-cloud navigation link.
+definitions, Linux paths, a web proxy and authenticated Pages-to-cloud API requests.
 It does not modify the reconstruction adapter, prompts, models, image sizes,
 SAM parameters, stage order, native edit execution, receipts or retry policy.
 
@@ -32,18 +33,24 @@ existing local configuration, not a cloud fallback that bypasses segmentation.
 Only `figfox01` through `figfox04` have internal generation grants. Password
 hashes and existing task ownership were migrated, not recreated. Every task and
 result request is checked by the backend. Anonymous requests return 401; foreign
-task IDs return 404. The public build uses the same-origin gateway, not the raw
+task IDs return 404. Both frontends use the ownership gateway, never the raw
 bridge. Public registration is not enabled.
 
-Production sessions use the `figfox_cloud_session` Secure, HttpOnly cookie.
-The allowed browser origin is exactly `https://34.143.155.158`. The GitHub Pages
-build navigates to the cloud product; it does not exchange cross-site cookies.
+The cloud frontend uses the `figfox_cloud_session` Secure, HttpOnly cookie.
+The GitHub Pages frontend uses the same opaque server sessions through an
+explicitly enabled bearer transport, kept in tab-scoped sessionStorage. Only
+`https://qcytsn.github.io` can request/use this transport; CORS allows that origin
+and `https://34.143.155.158`. The Pages build stays on its own URL and does not
+depend on third-party cookies. Result images are fetched with authentication
+and displayed via local blob URLs. No credentials are placed in URLs.
 
 ## Files and services
 
 - `/opt/figfox/current`: release symlink; release files and runtime code are
   root-owned, readable by `figfox`, and not writable by the application user.
 - `/opt/figfox/runtime/{backend,sam}`: isolated Python environments.
+- `/opt/figfox/gateway-releases/<source-SHA>/backend`: independent gateway releases;
+  systemd `figfox-gateway.service.d/20-release.conf` selects the active release.
 - `/opt/figfox/runtime/sam-assets`: unchanged local bridge and original sources.
 - `/var/lib/figfox/sam3`: SAM weights/cache; `/var/lib/figfox/browser`: Chromium.
 - `/var/lib/figfox/reconstruction`: persistent jobs, artifacts, receipts and limits.
@@ -54,6 +61,7 @@ build navigates to the cloud product; it does not exchange cross-site cookies.
 - `/var/lib/figfox/checks`: offline test/parity evidence.
 - `/var/www/figfox-cloud`: built public frontend only.
 - `/etc/figfox/{runtime,gateway,openai}.env`: private server configuration.
+- `/etc/figfox/gateway-release.env`: gateway source path and exact Pages origins.
 - `/etc/figfox/nginx.conf` and `/etc/figfox/http.d/`: private and public web routes.
 
 `figfox-sam`, `figfox-reconstruction`, `figfox-gateway` and `figfox-web` are enabled
@@ -115,7 +123,7 @@ symlink must never replace `/var/lib/figfox/reconstruction` with an older backup
 
 ## Verification and release
 
-Completed on Ubuntu: 150 backend tests against an isolated test database; frozen
+Initial cloud release: 150 backend tests against an isolated test database; frozen
 kernel parity with zero network requests and paid calls; original SAM CPU model
 initialization; native SVG rendering under service restrictions; and a production
 frontend build. Account/login/ownership checks use existing task reads only.
@@ -146,15 +154,33 @@ inference, GPT request or automatic retry was used for these checks. The origina
 pipeline and adapter sources, failed records and billing ledger are preserved.
 
 For the Pages entry, build from `frontend/` with
-`VITE_CLOUD_APP_URL=https://34.143.155.158` and `npm run build:pages` for local
+`VITE_API_BASE_URL=https://34.143.155.158`, `VITE_INTERNAL_RECONSTRUCTION=true`,
+`VITE_SESSION_TRANSPORT=bearer` and `npm run build:pages` for local
 verification. Commit and push the reviewed source, install the matching
 `deploy/pages-workflow.yml` in `QCYTSN/figfox`, then run
 `node deploy/publish-pages.mjs <full-source-SHA>`. The workflow rebuilds that exact
-source and records both source SHA and cloud URL in `_release.json`. Historical
+source and records source SHA, API URL and session transport in `_release.json`. Historical
 mirror frontend files and the portfolio's `site/figfox/` are not release inputs.
-The cloud URL is used only in `github-pages` mode. Build the cloud frontend with internal
+Build the optional cloud frontend with internal
 reconstruction enabled and `VITE_API_BASE_URL=/`; never deploy local-kernel mode.
 
 The deployment does not migrate browser-local unsaved drafts between origins.
 Server-owned history and results are preserved. Save/export an existing local
 editing document before changing its browser origin.
+
+### Unified Pages workspace, 2026-11-06
+
+The independent gateway release adds opt-in bearer session transport and leaves
+the original worker running. Local verification passed 177 backend tests using
+an isolated PostgreSQL database, the 12 research regression checks and a built
+Pages browser fixture covering sign-in, refresh, two-account tab isolation,
+revocation, authenticated PNG preview, SVG/PNG download bytes and SVG editor entry.
+The fixture uses synthetic API responses only. The 477 frozen local files and
+1,111 original cloud kernel files were verified unchanged.
+
+Deploy the gateway before Pages. `deploy/install-gateway.sh REV ARCHIVE SHA256`
+accepts a reviewed `git archive --format=tar.gz REV backend` and tests the release
+using a clean environment, a separate reconstruction directory with no credential
+file and the existing `figfox_cloud_test` database. Only the gateway is restarted;
+the script verifies that the reconstruction worker PID is unchanged. The previous
+gateway release and configuration remain available for rollback.

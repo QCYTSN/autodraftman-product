@@ -113,3 +113,8 @@ input:focus-visible {
 .skip-link:focus {
   transform: translateY(0);
 }
+
+.product-entry-loading { min-height: 80vh; display: grid; place-items: center; }
+.product-entry-loading > span { width: 32px; height: 3px; border-radius: 2px; background: #7956cf; animation: product-entry-pulse 1.2s ease-in-out infinite alternate; }
+@keyframes product-entry-pulse { from { opacity: .25; transform: scaleX(.6); } to { opacity: .8; transform: scaleX(1); } }
+@media (prefers-reduced-motion: reduce) { .product-entry-loading > span { animation: none; } }

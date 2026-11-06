@@ -2,9 +2,10 @@
 
 ## Current release
 
-The showcase remains at [FigFox](https://qcytsn.github.io/figfox/).
-Product links lead to the cloud workspace at `https://34.143.155.158`, where the
-four internal accounts can access the authenticated reconstruction gateway.
+The showcase and workspace share [FigFox](https://qcytsn.github.io/figfox/).
+Pages serves the frontend; `https://34.143.155.158/api/v1/` serves the authenticated
+API. The four internal accounts retain their existing task ownership and history.
+The cloud site's cookie-based sign-in remains available during the transition.
 See [cloud deployment](../docs/cloud-deployment.md) for services, state, HTTPS
 renewal and the unchanged generation pipeline.
 
@@ -16,10 +17,11 @@ Ordinary pushes to that repository do **not** deploy anything.
 ## Release procedure
 
 1. Build and inspect the product source:
-   set `VITE_CLOUD_APP_URL=https://34.143.155.158`, then run
-   `npm run build:pages`, `npm run review:research`,
-   `npm run review:showcase` and `node scripts/verify-pages.mjs` in `frontend/`.
-   Serve the built `/figfox/` path for browser checks.
+   set `VITE_API_BASE_URL=https://34.143.155.158`,
+   `VITE_INTERNAL_RECONSTRUCTION=true`, `VITE_SESSION_TRANSPORT=bearer`, then run
+   `npm run build:pages`, `npm run review:research` and
+   `node scripts/pages-workspace-check.mjs` in `frontend/`.
+   Serve with `vite preview --mode github-pages` for the built `/figfox/` path.
 2. Commit and push the reviewed source, including generated public assets.
 3. Run from the source checkout:
    `node deploy/publish-pages.mjs <full-40-character-source-SHA>`.
@@ -38,6 +40,28 @@ or a deployed workflow that differs from the reviewed template.
 before releasing. Its only trigger is `workflow_dispatch`, with a required full
 source SHA. There is no mirror-copy or ordinary-push publishing path.
 To roll back, explicitly dispatch a previously reviewed source SHA.
+
+## Pages session transport
+
+The gateway explicitly enables `https://qcytsn.github.io` in both
+`AUTODRAFTMAN_CORS_ORIGINS` and `AUTODRAFTMAN_BEARER_ORIGINS`. Bearer transport
+defaults to disabled. It reuses the existing opaque, revocable server session;
+it introduces no account migration or change to the reconstruction pipeline.
+The Pages frontend keeps its session in tab-scoped `sessionStorage`, sends it
+only to the configured API, and fetches private result previews as blob URLs.
+It does not rely on third-party cookies or place credentials in resource URLs.
+Tabs may sign into separate accounts. Closing the tab requires signing in again.
+All sites under `qcytsn.github.io` share a browser origin; publish only trusted
+code there. A future dedicated domain can use the existing cookie transport.
+
+Server-side tasks/results remain with their accounts. Browser-local drafts and
+SVG edits on the old IP origin remain there; they are not silently migrated.
+The old cloud entry can export those SVGs for import into the Pages workspace.
+
+Gateway releases can be installed independently with `deploy/install-gateway.sh`.
+Its archive contains only tracked backend source, runs the isolated test database
+suite before switching, and restarts only `figfox-gateway`. It keeps the previous
+release/config for rollback. SAM, reconstruction workers and their state are untouched.
 
 ## Future general-availability API deployment
 

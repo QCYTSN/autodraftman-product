@@ -35,7 +35,7 @@ def create_app() -> FastAPI:
         allow_origins=settings.cors_origin_list,
         allow_credentials=True,
         allow_methods=["GET", "POST", "PATCH", "DELETE", "OPTIONS"],
-        allow_headers=["Content-Type", "X-Request-ID", "Idempotency-Key"],
+        allow_headers=["Content-Type", "Authorization", "X-Request-ID", "Idempotency-Key"],
     )
     application.add_middleware(InternalBodyLimit)
 

@@ -1,5 +1,5 @@
 import { useEffect, useState, type ReactNode } from "react";
-import { ApiError, apiResourceUrl, getCurrentIdentity, type CurrentIdentity } from "../../api";
+import { ApiError, apiFetch, apiResourceUrl, getCurrentIdentity, type CurrentIdentity } from "../../api";
 import { InternalIdentityContext } from "./InternalIdentityContext";
 import { setEditorAccountScope } from "./editorStorage";
 import { transferInternalDraft } from "./transferInternalDraft";
@@ -8,8 +8,8 @@ import { ReconstructionContext, reconstructionStages, type ReconstructionClient,
 
 const base = "/api/v1/reconstructions";
 async function request(path: string, init: RequestInit = {}) {
-  const response = await fetch(apiResourceUrl(path), {
-    ...init, credentials: "include", cache: "no-store",
+  const response = await apiFetch(apiResourceUrl(path), {
+    ...init,
     signal: AbortSignal.any([AbortSignal.timeout(45_000), ...(init.signal ? [init.signal] : [])]),
   });
   if (!response.ok) throw new ApiError("Reconstruction request failed", response.status);
@@ -116,7 +116,7 @@ function InternalProvider({ children }: { children: ReactNode }) {
     void refresh(controller.signal);
     return () => { controller.abort(); clearTimeout(timer); window.removeEventListener("figfox-identity-changed", changed); window.removeEventListener("storage", storage); };
   }, []);
-  if (identity === undefined) return <main className="product-login-form-area" role="status">正在连接工作台…</main>;
+  if (identity === undefined) return <div className="product-entry-loading" role="status" aria-label="加载工作台"><span /></div>;
   return <InternalIdentityContext value={identity}><ReconstructionContext value={client}>
     {transferFailed && <aside className="internal-transfer-error" role="alert">登录成功，原图移交尚未完成，匿名草稿仍保留。<button type="button" onClick={() => location.reload()}>重新载入草稿</button></aside>}
     {children}

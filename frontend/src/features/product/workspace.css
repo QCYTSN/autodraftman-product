@@ -179,6 +179,7 @@
 
 .workspace-reconstruction-result { grid-column:1/-1; display:grid; grid-template-columns:minmax(0,1fr) minmax(220px,1fr); gap:32px; align-items:center; padding:28px; border:1px solid #e5dff0; border-radius:16px; background:#fff; }
 .workspace-reconstruction-result > img { display:block; width:100%; max-height:280px; object-fit:contain; }
+.reconstruction-preview-placeholder { display:grid; place-items:center; min-height:180px; color:#71687d; background:#f8f6fc; border-radius:12px; font-size:13px; }
 .workspace-reconstruction-result h3 { margin:0 0 12px; font-size:24px; }
 .workspace-reconstruction-result p { margin:0 0 24px; color:#71687d; }
 .workspace-reconstruction-result small { display:block; margin-top:22px; color:#71687d; }

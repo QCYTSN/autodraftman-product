@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import hashlib
 from datetime import UTC, datetime, timedelta
-from typing import Annotated
+from typing import Annotated, Literal
 
 from fastapi import APIRouter, Depends, HTTPException, Request, Response
 from pydantic import BaseModel, Field, SecretStr
@@ -17,6 +17,7 @@ from autodraftman_backend.api.dependencies import (
     clear_guest_cookie,
     set_user_session_cookie,
 )
+from autodraftman_backend.api.session_transport import require_bearer_origin, session_token
 from autodraftman_backend.modules.identity.models import User
 from autodraftman_backend.modules.identity.service import (
     Principal,
@@ -38,6 +39,7 @@ def trusted_origin(request: Request, settings: SettingsDependency) -> None:
 class LoginInput(BaseModel):
     username: str = Field(min_length=1, max_length=32, pattern=r"^[a-zA-Z0-9_-]+$")
     password: SecretStr = Field(min_length=1, max_length=128)
+    session_transport: Literal["cookie", "bearer"] = "cookie"
 
 
 async def throttle_login(request: Request, username: str, session: SessionDependency) -> None:
@@ -77,6 +79,9 @@ async def password_login(
 ) -> dict:
     if not settings.internal_accounts_enabled:
         raise HTTPException(404, "Internal sign-in is unavailable")
+    if body.session_transport == "bearer":
+        require_bearer_origin(request, settings)
+    previous_token = session_token(request, settings)
     username = body.username.lower()
     await throttle_login(request, username, session)
     row = (
@@ -95,12 +100,14 @@ async def password_login(
     if not valid or row is None or not row[0].enabled or not row[1].is_active:
         raise HTTPException(401, "账号或密码不正确。")
     now = datetime.now(UTC)
-    await revoke_user_session(session, request.cookies.get(settings.session_cookie_name), now)
+    await revoke_user_session(session, previous_token, now)
     token, _ = await create_user_session(session, row[1].id, settings, now)
     await session.commit()
+    response.headers["Cache-Control"] = "no-store"
+    if body.session_transport == "bearer":
+        return {"signed_in": True, "session_token": token}
     set_user_session_cookie(response, settings, token)
     clear_guest_cookie(response, settings)
-    response.headers["Cache-Control"] = "no-store"
     return {"signed_in": True}
 
 

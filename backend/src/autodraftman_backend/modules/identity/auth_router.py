@@ -15,6 +15,7 @@ from autodraftman_backend.api.dependencies import (
     clear_user_session_cookie,
     set_user_session_cookie,
 )
+from autodraftman_backend.api.session_transport import session_token
 from autodraftman_backend.modules.identity.oauth import (
     OAuthFlowError,
     OAuthProviderError,
@@ -255,7 +256,7 @@ async def logout(
 ) -> Response:
     await revoke_user_session(
         session,
-        request.cookies.get(settings.session_cookie_name),
+        session_token(request, settings),
         now=datetime.now(UTC),
     )
     await session.commit()

@@ -1,4 +1,5 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import { fetchReconstructionArtifact } from "../../api";
 import { ArrowRight, DownloadSimple } from "@phosphor-icons/react";
 import type { ReconstructionSnapshot } from "./reconstructionTask";
 
@@ -6,13 +7,28 @@ export function ReconstructionResult({ snapshot, zh, onEdit, busy }: { snapshot:
   const [downloadError, setDownloadError] = useState("");
   const [downloading, setDownloading] = useState(false);
   const downloadLock = useRef(false);
+  const [preview, setPreview] = useState<{ source: string; url: string } | null>(null);
+  const imageSource = snapshot.status === "succeeded" ? snapshot.result?.png : undefined;
+  useEffect(() => {
+    if (!imageSource) return;
+    const controller = new AbortController();
+    let objectUrl: string | undefined;
+    void fetchReconstructionArtifact(imageSource, { signal: controller.signal }).then(async response => {
+      if (!response.ok) throw new Error("Preview unavailable");
+      const blob = await response.blob();
+      if (controller.signal.aborted) return;
+      objectUrl = URL.createObjectURL(blob);
+      setPreview({ source: imageSource, url: objectUrl });
+    }).catch(() => { if (!controller.signal.aborted) setPreview(null); });
+    return () => { controller.abort(); if (objectUrl) URL.revokeObjectURL(objectUrl); };
+  }, [imageSource]);
   const download = async (kind: "svg" | "png") => {
     if (!snapshot.result || downloadLock.current) return;
     downloadLock.current = true;
     setDownloading(true);
     setDownloadError("");
     try {
-      const response = await fetch(snapshot.result[kind], { credentials: "include", signal: AbortSignal.timeout(20_000) });
+      const response = await fetchReconstructionArtifact(snapshot.result[kind], { signal: AbortSignal.timeout(20_000) });
       if (!response.ok) throw new Error("Download unavailable");
       const blob = await response.blob();
       const url = URL.createObjectURL(blob);
@@ -27,7 +43,7 @@ export function ReconstructionResult({ snapshot, zh, onEdit, busy }: { snapshot:
   };
   if (!snapshot.result || snapshot.status !== "succeeded") return null;
   return <section className="workspace-reconstruction-result" aria-label={zh ? "重建结果" : "Reconstruction result"}>
-    <img src={snapshot.result.png} crossOrigin="use-credentials" alt={zh ? "本次重建的图像" : "The reconstructed figure"}/>
+    {preview && preview.source === imageSource ? <img src={preview.url} alt={zh ? "本次重建的图像" : "The reconstructed figure"}/> : <div className="reconstruction-preview-placeholder" role="status">{zh ? "SVG 已生成，可打开编辑或下载" : "SVG ready to edit or download"}</div>}
     <div><h3>{zh ? "SVG 已就绪" : "Your SVG is ready"}</h3>
       <p>{zh ? "打开编辑器，继续修改文字、图形与布局。" : "Continue editing text, shapes and layout."}</p>
       {snapshot.result.unresolvedCount > 0 && <p className="reconstruction-unresolved" role="status">{zh ? `仍有 ${snapshot.result.unresolvedCount} 项问题未解决，请在编辑器中检查。` : `${snapshot.result.unresolvedCount} issues remain unresolved. Review them in the editor.`}</p>}
