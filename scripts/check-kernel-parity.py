@@ -5,6 +5,7 @@ must match. SAM/model responses are deterministic test fixtures, not live eviden
 """
 
 import argparse
+import base64
 import copy
 import hashlib
 import io
@@ -13,6 +14,7 @@ import os
 import sys
 import tempfile
 import uuid
+import xml.etree.ElementTree as ET
 from pathlib import Path
 from unittest.mock import patch
 from urllib.request import urlopen as local_urlopen
@@ -57,7 +59,7 @@ def check_case(root, kernel, size, crop_count, failure_stage=None):
             {
                 "id": f"asset_{index}",
                 "path": str(image),
-                "role": "picture",
+                "role": "arrow_hint" if index == crop_count - 1 else "picture",
                 "source_hash": sha(source),
                 "source_crop": [index, 0, 12, 10],
                 "asset_hash": sha(image),
@@ -69,6 +71,11 @@ def check_case(root, kernel, size, crop_count, failure_stage=None):
         f'<svg xmlns="http://www.w3.org/2000/svg" width="{size[0]}" height="{size[1]}">'
         '<rect id="r" width="10" height="10" fill="red"/></svg>'
     )
+    if crop_count:
+        # Exercise real upstream asset binding and coordinate restoration, not
+        # just attachment forwarding. The last asset is an arrow-evidence crop.
+        svg = svg.replace('</svg>', '<image id="photo" href="asset_0" x="40" '
+                          'y="40" width="8" height="8"/></svg>')
     g1 = {
         "regions": [
             {
@@ -142,6 +149,8 @@ def check_case(root, kernel, size, crop_count, failure_stage=None):
                 "postconditions": ["The rectangle is blue"],
             }
         ]
+        g1["issues"].append({**g1["issues"][0], "id": "A2", "repair": "Review uncertain boundary"})
+        g2["unresolved"] = [{"issue_id": "A2", "reason": "Boundary is ambiguous in this fixture"}]
     responses = [svg, json.dumps(g1), json.dumps(g2)]
     original_config = upstream_config(kernel)
     config = runtime_config(kernel)
@@ -158,7 +167,7 @@ def check_case(root, kernel, size, crop_count, failure_stage=None):
 
     def capture(target):
         def send(request, **kwargs):
-            if request.full_url.startswith("file:"):
+            if request.full_url.startswith(("file:", "data:")):
                 return local_urlopen(request, **kwargs)
             body = json.loads(request.data)
             if request.full_url == "https://api.openai.com/v1/responses/input_tokens":
@@ -248,6 +257,14 @@ def check_case(root, kernel, size, crop_count, failure_stage=None):
         }
     assert len(web_calls) == 3
     assert result["status"] == "succeeded"
+    assert result["result"]["unresolvedCount"] == len(g2["unresolved"])
+    if crop_count:
+        final_text = (folder / "run/final.svg").read_text()
+        assert base64.b64encode(Path(assets[0]["path"]).read_bytes()).decode() in final_text
+        placement = json.loads((folder / "run/G0/first-sam-placement.json").read_text())
+        assert placement[0]["source_box"] == [0, 0, 12, 10]
+        photo = next(node for node in ET.fromstring(final_text).iter() if node.get("id") == "photo")
+        assert [float(photo.get(key)) for key in ("x", "y", "width", "height")] == [0, 0, 12, 10]
     events = json.loads((folder / "events.json").read_text())
     assert [event["stage"] for event in events] == [
         "reconstruct",
@@ -273,6 +290,9 @@ def check_case(root, kernel, size, crop_count, failure_stage=None):
     return {
         "size": list(size),
         "sam_crops": crop_count,
+        "sam_arrow_crops": int(crop_count > 0),
+        "asset_binding_verified": crop_count > 0,
+        "unresolved_count": result["result"]["unresolvedCount"],
         "requests_equal": True,
         "models": [item["body"]["model"] for item in web_calls],
         "endpoints": [item["url"] for item in web_calls],

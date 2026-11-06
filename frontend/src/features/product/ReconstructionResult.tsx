@@ -7,6 +7,7 @@ export function ReconstructionResult({ snapshot, zh, onEdit, busy }: { snapshot:
     <img src={snapshot.result.png} alt={zh ? "本次重建的图像" : "The reconstructed figure"}/>
     <div><h3>{zh ? "SVG 已就绪" : "Your SVG is ready"}</h3>
       <p>{zh ? "打开编辑器，继续修改文字、图形与布局。" : "Continue editing text, shapes and layout."}</p>
+      {snapshot.result.unresolvedCount > 0 && <p className="reconstruction-unresolved" role="status">{zh ? `仍有 ${snapshot.result.unresolvedCount} 项问题未解决，请在编辑器中检查。` : `${snapshot.result.unresolvedCount} issues remain unresolved. Review them in the editor.`}</p>}
       <div className="reconstruction-result-actions">
         <button type="button" className="product-button product-button-primary" disabled={busy} onClick={onEdit}>{zh ? "打开 SVG 编辑" : "Edit SVG"}<ArrowRight size={16}/></button>
         <a href={snapshot.result.svg} download><DownloadSimple size={16}/>SVG</a><a href={snapshot.result.png} download><DownloadSimple size={16}/>PNG</a>
