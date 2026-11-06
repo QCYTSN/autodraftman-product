@@ -1,4 +1,4 @@
-"""Pinned upstream contract. Only three documented Windows portability patches are allowed."""
+"""Pinned upstream contract with explicit portability and input-counting patches."""
 
 import hashlib
 import json
@@ -8,7 +8,7 @@ from pathlib import Path
 
 COMMIT = "21ffc01271904d6c5610f0f96afd84530968f11e"
 ARCHIVE_SHA256 = "cb8dd3e9bb794fda4fef627b5468e2d42179f5a5cb8ed3e082262c5d0ad0603f"
-PROFILE = "upstream-factual-gpt55-v1"
+PROFILE = "upstream-factual-gpt55-count-v1"
 CONFIG_SOURCE = "configs/historical-cohort.json"
 
 
@@ -48,6 +48,20 @@ def portable_source(relative, original):
             "    if os.name == 'nt':\n        return\n"
             "    descriptor = os.open(path, os.O_RDONLY)",
         )
+    if relative == "src/figfox_plus/factual/transport.py":
+        # Keep the original request body, limits, accounting and recovery intact.
+        # Without the optional callback, standalone upstream behavior is unchanged.
+        return original.replace(
+            "def request(folder,prompt,images,settings,*,http=None):",
+            "def request(folder,prompt,images,settings,*,http=None,input_token_counter=None):",
+            1,
+        ).replace(
+            "    if bound>settings['max_input_tokens']:",
+            "    if input_token_counter is not None:\n"
+            "        bound=input_token_counter(content,settings,folder)\n"
+            "    if bound>settings['max_input_tokens']:",
+            1,
+        )
     return original
 
 
@@ -55,6 +69,7 @@ PATCHED_FILES = (
     "src/figfox_plus/factual/pipeline.py",
     "src/figfox_plus/providers.py",
     "adapters/raw_evidence.py",
+    "src/figfox_plus/factual/transport.py",
 )
 
 
@@ -91,7 +106,8 @@ def verify_kernel(kernel):
     return {
         "commit": COMMIT,
         "files_checked": len(files),
-        "portability_patches": patches,
+        "portability_patches": [p for p in patches if p != "src/figfox_plus/factual/transport.py"],
+        "input_count_patches": [p for p in patches if p == "src/figfox_plus/factual/transport.py"],
         "file_hashes": files,
     }
 

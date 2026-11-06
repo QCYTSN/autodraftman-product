@@ -6,9 +6,11 @@ import json
 import os
 import sys
 import time
+from functools import partial
 from pathlib import Path
 
 from .failures import failure_details
+from .input_count import count_input_tokens
 from .kernel_contract import (
     CONFIG_SOURCE,
     PROFILE,
@@ -92,6 +94,7 @@ def run(job_id: str, settings: Settings):
             return send_kernel(name, prompt, payload, images, folder)
 
         original_render = pipeline.render
+        original_request = transport.request
 
         def render(svg, png):
             if Path(svg).name == "final.svg":
@@ -99,12 +102,14 @@ def run(job_id: str, settings: Settings):
             return original_render(svg, png)
 
         pipeline.render = render
+        transport.request = partial(original_request, input_token_counter=count_input_tokens)
         try:
             result = pipeline.run(
                 job / "source.png", job / "run", sam=True, repair=True, send=send, config=config
             )
         finally:
             pipeline.render = original_render
+            transport.request = original_request
         svg = job / "run/final.svg"
         png = job / "run/final.png"
         if (

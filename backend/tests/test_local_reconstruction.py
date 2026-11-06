@@ -351,9 +351,10 @@ def completed_checkpoints(folder):
     )
 
 
-def test_resume_requires_verified_paid_checkpoints_and_unsent_stage(tmp_path):
+@pytest.mark.parametrize("code", ["connection_unavailable", "input_count_unavailable"])
+def test_resume_requires_verified_paid_checkpoints_and_unsent_stage(tmp_path, code):
     completed_checkpoints(tmp_path)
-    job = {"status": "failed", "stage": "repair", "error": "connection_unavailable"}
+    job = {"status": "failed", "stage": "repair", "error": code}
     assert recovery_mode(job, tmp_path) == "resume"
     details = failure_details(tmp_path, ValueError("input bound before HTTP"), "repair")
     assert details["failure"]["retryable"] is False

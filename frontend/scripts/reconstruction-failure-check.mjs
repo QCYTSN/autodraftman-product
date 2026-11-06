@@ -7,14 +7,15 @@ await mkdir('.review/local-retry', { recursive: true });
 const browser = await chromium.launch({ executablePath: 'C:/Program Files/Google/Chrome/Application/chrome.exe', headless: true });
 const errors = [];
 try {
-  for (const mode of ['retry', 'resume', 'uncertain']) {
-    const uncertain = mode === 'uncertain', resume = mode === 'resume';
+  for (const mode of ['retry', 'resume', 'uncertain', 'count']) {
+    const uncertain = mode === 'uncertain', resume = mode === 'resume', countFailure = mode === 'count';
     const context = await browser.newContext({ viewport: { width: 390, height: 844 }, reducedMotion: 'reduce' });
     await context.addInitScript(() => localStorage.setItem('autodraftman-language', 'zh'));
     const page = await context.newPage();
     page.on('pageerror', e => errors.push(e.message));
     let posts = 0;
     const job = { id: 'a'.repeat(32), revision: 2, status: 'failed', stage: resume ? 'repair' : 'reconstruct', name: 'example.png', error: uncertain ? 'provider_unconfirmed' : 'input_too_large', failure: { billing: uncertain ? 'unconfirmed' : resume ? 'recorded' : 'not_started', retryable: !uncertain, resume, costUsd: resume ? .47 : 0, reservedUsd: uncertain ? 2.29 : 0 } };
+    if (countFailure) job.error = 'input_count_unavailable';
     await page.route('**/local-api/**', async route => {
       const url = new URL(route.request().url());
       let body;
@@ -36,7 +37,10 @@ try {
     await page.waitForTimeout(600);
     assert.equal(await dialog.evaluate(el => el.scrollWidth <= el.clientWidth + 1), true);
     await page.screenshot({ path: `.review/local-retry/mobile-${mode}.png` });
-    if (!uncertain) {
+    if (countFailure) {
+      assert.match(await dialog.innerText(), /本阶段生成请求尚未发送/);
+      assert.equal(posts, 0, 'Input-count errors must not trigger an automatic retry');
+    } else if (!uncertain) {
       await retry.evaluate(el => { el.click(); el.click(); });
       await dialog.locator('[data-status="queued"]').waitFor();
       assert.equal(posts, 1);
@@ -50,5 +54,5 @@ try {
     await context.close();
   }
   assert.deepEqual(errors, []);
-  console.log('PASS: mobile failure, safe retry/resume, duplicate-click guard, reopen, unconfirmed billing, reduced motion');
+  console.log('PASS: mobile failure, safe retry/resume, duplicate-click guard, reopen, unconfirmed billing, input-count failure without automatic retry, reduced motion');
 } finally { await browser.close(); }

@@ -12,7 +12,10 @@ def recovery_mode(snapshot, folder):
         snapshot["status"] != "failed"
         or snapshot.get("retryCount", 0) >= 2
         or snapshot.get("error")
-        not in ("input_too_large", "preparation_failed", "connection_unavailable")
+        not in (
+            "input_too_large", "input_count_unavailable", "preparation_failed",
+            "connection_unavailable",
+        )
     ):
         return None
     # Never continue requests prepared with removed thumbnail/background policies.
@@ -31,6 +34,7 @@ def recovery_mode(snapshot, folder):
     pending = {"inspect": "G1", "repair": "G2"}.get(snapshot.get("stage"))
     if pending is None or snapshot.get("error") not in (
         "input_too_large",
+        "input_count_unavailable",
         "connection_unavailable",
     ):
         return None

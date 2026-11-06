@@ -3,6 +3,7 @@ import type { ReconstructionSnapshot } from "./reconstructionTask";
 export function reconstructionFailure(snapshot: ReconstructionSnapshot, zh: boolean) {
   const messages: Record<string, [string, string]> = {
     input_too_large: ["本阶段输入超过原版配置上限，运行已停止。", "This stage exceeds the upstream input limit; processing has stopped."],
+    input_count_unavailable: ["暂时无法核验本阶段输入量，本阶段生成请求尚未发送。", "Input size could not be verified. This stage’s generation request was not sent."],
     original_contract_mismatch: ["运行文件或配置与原版不一致，已停止提交。", "Runtime files or configuration differ from upstream; submission stopped."],
     original_prompt_unsupported: ["原版流程仅接受参考图，暂不附加提示词。", "The upstream workflow accepts a reference image without extra prompts."],
     preparation_failed: ["图像素材准备未完成，请稍后重试。", "Image preparation did not finish. Try again shortly."],

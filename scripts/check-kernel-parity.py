@@ -21,6 +21,10 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "backend/src"))
 from PIL import Image  # noqa: E402
 
+from autodraftman_backend.local_reconstruction.input_count import (  # noqa: E402
+    InputCountUnavailable,
+    count_input_tokens,
+)
 from autodraftman_backend.local_reconstruction.kernel_contract import (  # noqa: E402
     COMMIT,
     CONFIG_SOURCE,
@@ -150,11 +154,16 @@ def check_case(root, kernel, size, crop_count, failure_stage=None):
     cfg = root / "config.json"
     cfg.write_text(json.dumps(config), encoding="utf-8")
 
+    counted_requests = []
+
     def capture(target):
         def send(request, **kwargs):
             if request.full_url.startswith("file:"):
                 return local_urlopen(request, **kwargs)
             body = json.loads(request.data)
+            if request.full_url == "https://api.openai.com/v1/responses/input_tokens":
+                counted_requests.append(body)
+                return io.BytesIO(b'{"object":"response.input_tokens","input_tokens":1000}')
             assert request.full_url == "https://api.openai.com/v1/responses"
             assert body["model"] == "gpt-5.5"
             assert body["reasoning"] == {"effort": "medium"}
@@ -205,6 +214,10 @@ def check_case(root, kernel, size, crop_count, failure_stage=None):
     assert web_calls == original_calls, (
         "The web adapter changed an upstream HTTP request"
     )
+    assert counted_requests == [
+        {k: item["body"][k] for k in ("model", "input", "reasoning")}
+        for item in web_calls
+    ], "Counting and generation must receive the same unchanged multimodal input"
     result = store.get(job["id"])
     if failure_stage:
         assert len(web_calls) == ("G0", "G1", "G2").index(failure_stage) + 1
@@ -231,6 +244,7 @@ def check_case(root, kernel, size, crop_count, failure_stage=None):
             "deepseek_calls": 0,
             "resend_calls": 0,
             "uncertain_reserve_retained": True,
+            "count_requests": len(counted_requests),
         }
     assert len(web_calls) == 3
     assert result["status"] == "succeeded"
@@ -263,6 +277,7 @@ def check_case(root, kernel, size, crop_count, failure_stage=None):
         "models": [item["body"]["model"] for item in web_calls],
         "endpoints": [item["url"] for item in web_calls],
         "deepseek_calls": 0,
+        "count_requests": len(counted_requests),
         "progress_stages": [event["stage"] for event in events],
         "body_sha256": [
             hashlib.sha256(json.dumps(item, sort_keys=True).encode()).hexdigest()
@@ -272,6 +287,73 @@ def check_case(root, kernel, size, crop_count, failure_stage=None):
         "executed_operations": original["native_acceptance"]["executed_operations"],
         "completed_reuse_calls": 0,
     }
+
+
+def check_capacity(root, kernel):
+    """Synthetic crops only: exercise the exact guard without sending a real image."""
+    from figfox_plus.factual import transport
+
+    root.mkdir()
+    image = root / "synthetic-7x8.png"
+    Image.new("RGB", (7, 8), "white").save(image)
+    images = [image] * 20
+    provider = {**runtime_config(kernel)["stages"]["G0"], "budget_usd": 5}
+    generation_bodies = []
+    count_bodies = []
+
+    def generation(body):
+        generation_bodies.append(body)
+        return {
+            "status": "completed",
+            "output": [{"content": [{"type": "output_text", "text": "fixture"}]}],
+            "usage": {"input_tokens": 1000, "output_tokens": 10},
+        }
+
+    try:
+        transport.request(root / "original", "unchanged", images, provider, http=generation)
+    except ValueError as error:
+        assert "input bound before HTTP" in str(error)
+    else:
+        raise AssertionError("Expected the upstream small-crop false positive")
+    assert not generation_bodies
+    records = []
+    for index, count in enumerate((1000, 131072, 131073, None)):
+        folder = root / f"count-{index}"
+        before = len(generation_bodies)
+
+        def counting(request, *, mock_count=count, **kwargs):
+            assert request.full_url == "https://api.openai.com/v1/responses/input_tokens"
+            count_bodies.append(json.loads(request.data))
+            if mock_count is None:
+                raise TimeoutError("Offline count timeout")
+            return io.BytesIO(json.dumps({
+                "object": "response.input_tokens", "input_tokens": mock_count,
+            }).encode())
+
+        with patch("urllib.request.urlopen", counting):
+            try:
+                result = transport.request(
+                    folder, "unchanged", images, provider, http=generation,
+                    input_token_counter=count_input_tokens,
+                )
+            except InputCountUnavailable:
+                assert count is None
+            except ValueError as error:
+                assert count == 131073 and "input bound before HTTP" in str(error)
+            else:
+                assert count in (1000, 131072) and result == "fixture"
+                assert count_bodies[-1] == {
+                    k: generation_bodies[-1][k] for k in ("model", "input", "reasoning")
+                }
+                assert len(generation_bodies[-1]["input"][0]["content"]) == 21
+        expected_generation = count in (1000, 131072)
+        assert len(generation_bodies) - before == int(expected_generation)
+        assert (folder / "receipt.json").exists() == expected_generation
+        records.append({
+            "mock_count": count, "generation_dispatched_to_fixture": expected_generation,
+        })
+    assert len(count_bodies) == 4
+    return {"synthetic_attachments": 20, "upstream_rejected": True, "cases": records}
 
 
 def main():
@@ -304,6 +386,7 @@ def main():
             check_case(Path(folder) / stage, kernel, (80, 64), 0, failure_stage=stage)
             for stage in ("G0", "G1", "G2")
         ]
+        capacity = check_capacity(Path(folder) / "capacity", kernel)
     report = {
         "commit": COMMIT,
         "profile": PROFILE,
@@ -311,13 +394,15 @@ def main():
         "declared_overrides": {"budget_usd": 5},
         "source_files_checked": proof["files_checked"],
         "portability_patches": proof["portability_patches"],
+        "input_count_patches": proof["input_count_patches"],
         "cases": cases,
         "failure_cases": failures,
+        "input_capacity": capacity,
         "network_requests": 0,
         "paid_calls": 0,
         "scope": (
-            "Upstream entry and web worker use the same declared config; "
-            "exact HTTP bodies and outputs for offline fixtures; no live validation"
+            "Generation bodies and outputs match upstream for offline fixtures; "
+            "extra input-count requests are mocked and verified; no live validation"
         ),
     }
     if args.output:

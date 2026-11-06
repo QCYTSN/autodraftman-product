@@ -17,7 +17,7 @@ let job;
 try {
   await page.goto(base + '/workspace', { waitUntil: 'networkidle' });
   const health = await (await page.request.get(base + '/local-api/health')).json();
-  assert.equal(health.profile, 'upstream-factual-gpt55-v1', 'Expected the original three-GPT profile');
+  assert.equal(health.profile, 'upstream-factual-gpt55-count-v1', 'Expected the three-GPT profile with input counting');
   assert.equal(health.available, true, `Local service is not ready: ${health.problems?.join(', ')}`);
   assert.equal(health.supportsUserPrompt, false);
   await page.getByText('按原图重建', { exact: true }).waitFor();

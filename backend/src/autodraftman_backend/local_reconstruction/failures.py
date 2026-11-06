@@ -2,13 +2,16 @@
 
 import json
 
+from .input_count import InputCountUnavailable
 from .kernel_contract import KernelContractError
 from .recovery import recovery_mode
 
 
 def failure_details(job, error, stage=None):
     message = str(error).lower()
-    if isinstance(error, KernelContractError) or "original contract mismatch" in message:
+    if isinstance(error, InputCountUnavailable):
+        code = "input_count_unavailable"
+    elif isinstance(error, KernelContractError) or "original contract mismatch" in message:
         code = "original_contract_mismatch"
     elif "original prompt unsupported" in message:
         code = "original_prompt_unsupported"
