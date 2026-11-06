@@ -31,6 +31,7 @@ from autodraftman_backend.api.session_transport import session_token
 from autodraftman_backend.core.config import Settings
 from autodraftman_backend.core.security import hash_opaque_token
 from autodraftman_backend.modules.identity.models import User, UserSession
+from autodraftman_backend.modules.internal_access import budget
 from autodraftman_backend.modules.internal_access.auth import (
     GenerationPrincipal,
     trusted_origin,
@@ -114,10 +115,43 @@ async def owned_job(session, principal, job_id: str, *, lock: bool = False) -> O
         OwnedReconstruction.user_id == principal.subject_id,
         OwnedReconstruction.id == identifier,
     )
-    owned = await session.scalar(statement.with_for_update() if lock else statement)
+    owned = await session.scalar(
+        statement.with_for_update().execution_options(populate_existing=True) if lock else statement
+    )
     if not owned:
         raise HTTPException(404, "Task not found")
     return owned
+
+
+async def prepare_forward(session, principal, request, settings, job_id, retry_revision=None):
+    # Persist the hold, then reacquire in a consistent order and recheck it. Another
+    # request may have completed/rejected while the commit released our locks.
+    while True:
+        account = await budget.lock_account(session, principal.subject_id)
+        owned = await owned_job(session, principal, job_id, lock=True)
+        await authorize_forward(session, principal, request, settings)
+        if owned.bridge_job_id:
+            if retry_revision is None:
+                return owned, None
+            response = await bridge(settings, "GET", f"/jobs/{owned.bridge_job_id}")
+            item = snapshot(response, owned.bridge_job_id, owned.id.hex)
+            if item.get("retryOfRevision") == retry_revision:
+                return owned, item
+            if item.get("revision") != retry_revision or item.get("status") != "failed":
+                raise HTTPException(409, "This task cannot be retried safely")
+        needs_hold = (
+            owned.budget_exposure_usd < budget.RUN_RESERVE or not owned.budget_pending
+            or owned.bridge_job_id and owned.budget_retry_revision != retry_revision
+        )
+        if not needs_hold:
+            # Keep account and job locked throughout forwarding: refresh/rejection
+            # cannot release a reservation while another request is about to spend it.
+            return owned, None
+        await budget.refresh(session, account, settings, bridge)
+        await budget.reserve(session, account, owned)
+        if owned.bridge_job_id:
+            owned.budget_retry_revision = retry_revision
+        await session.commit()
 
 
 def unconfirmed(owned: OwnedReconstruction) -> dict:
@@ -145,14 +179,20 @@ async def forward_submission(owned, session, settings) -> dict:
     details = owned.submission
     if details is None or owned.source_bytes is None:
         raise HTTPException(409, "Submission data is unavailable")
-    response = await bridge(
-        settings,
-        "POST",
-        "/jobs",
-        headers={"Idempotency-Key": str(owned.id)},
-        files={"image": (details["filename"], owned.source_bytes, details["contentType"])},
-        data={"prompt": details["prompt"], "draftId": details["draftId"]},
-    )
+    try:
+        response = await bridge(
+            settings,
+            "POST",
+            "/jobs",
+            headers={"Idempotency-Key": str(owned.id)},
+            files={"image": (details["filename"], owned.source_bytes, details["contentType"])},
+            data={"prompt": details["prompt"], "draftId": details["draftId"]},
+        )
+    except HTTPException as exc:
+        if exc.status_code in {400, 409, 413, 415, 422, 429}:
+            budget.release_rejected(owned)
+            await session.commit()
+        raise
     item = snapshot(response)
     owned.bridge_job_id = item["id"]
     owned.source_bytes = None
@@ -162,19 +202,26 @@ async def forward_submission(owned, session, settings) -> dict:
 
 
 @router.get("/health")
-async def health(principal: GenerationPrincipal, settings: SettingsDependency) -> dict:
+async def health(
+    principal: GenerationPrincipal, session: SessionDependency, settings: SettingsDependency,
+) -> dict:
     data = (await bridge(settings, "GET", "/health")).json()
+    account = await budget.lock_account(session, principal.subject_id)
+    used = await budget.refresh(session, account, settings, bridge)
+    remaining = max(0, account.budget_limit_usd - used)
+    problems = list(data.get("problems") or [])
+    if remaining < budget.RUN_RESERVE and "budget_exceeded" not in problems:
+        problems.append("budget_exceeded")
+    await session.commit()
     return {
         "accountId": str(principal.subject_id),
-        **{
-            key: data.get(key)
-            for key in (
-                "available",
-                "problems",
-                "supportsUserPrompt",
-                "remainingBudgetUsd",
-            )
-        },
+        "available": bool(data.get("available")) and remaining >= budget.RUN_RESERVE,
+        "problems": problems,
+        "supportsUserPrompt": data.get("supportsUserPrompt"),
+        "remainingBudgetUsd": float(remaining),
+        "budgetLimitUsd": float(account.budget_limit_usd),
+        "allocatedBudgetUsd": float(used),
+        "runReserveUsd": float(budget.RUN_RESERVE),
     }
 
 
@@ -237,6 +284,9 @@ async def submit(
     ).hexdigest()
     # Ownership and the server-generated bridge idempotency key survive lost HTTP responses.
     # A guessed client key cannot retrieve another account's job from the private service.
+    account = await budget.lock_account(session, principal.subject_id)
+    await authorize_forward(session, principal, request, settings)
+    await budget.refresh(session, account, settings, bridge)
     await session.execute(
         insert(OwnedReconstruction)
         .values(
@@ -245,6 +295,8 @@ async def submit(
             client_request_id=request_id,
             fingerprint=fingerprint,
             source_bytes=data,
+            budget_exposure_usd=0,
+            budget_pending=False,
             submission={
                 "filename": image.filename or "image.png",
                 "contentType": image.content_type,
@@ -254,7 +306,6 @@ async def submit(
         )
         .on_conflict_do_nothing(index_elements=["user_id", "client_request_id"])
     )
-    await session.commit()
     owned = await session.scalar(
         select(OwnedReconstruction)
         .where(
@@ -265,6 +316,11 @@ async def submit(
     )
     if owned.fingerprint != fingerprint:
         raise HTTPException(409, "This submission key belongs to a different image or prompt")
+    if not owned.bridge_job_id:
+        await budget.reserve(session, account, owned)
+    # Durable hold BEFORE the network call. A crash or lost reply cannot lose the reservation.
+    await session.commit()
+    owned, _ = await prepare_forward(session, principal, request, settings, owned.id.hex)
     # Recheck after receiving the upload and acquiring the submission lock.
     await authorize_forward(session, principal, request, settings)
     return await forward_submission(owned, session, settings)
@@ -300,17 +356,30 @@ async def retry_job(
     session: SessionDependency,
     settings: SettingsDependency,
 ) -> dict:
-    owned = await owned_job(session, principal, job_id, lock=True)
-    await authorize_forward(session, principal, request, settings)
+    # Ownership is checked before any bridge read; budgets always lock account before job.
+    await owned_job(session, principal, job_id)
+    owned, previous = await prepare_forward(
+        session, principal, request, settings, job_id, body.revision,
+    )
+    if previous is not None:
+        return previous
     if not owned.bridge_job_id:
         return await forward_submission(owned, session, settings)
-    return snapshot(
-        await bridge(
+    try:
+        response = await bridge(
             settings,
             "POST",
             f"/jobs/{owned.bridge_job_id}/retry",
             json=body.model_dump(),
-        ),
+        )
+    except HTTPException as exc:
+        if exc.status_code in {400, 404, 409, 422, 429}:
+            # Definite rejection: allow the unchanged terminal receipt to settle the hold.
+            owned.budget_retry_revision = 0
+            await session.commit()
+        raise
+    return snapshot(
+        response,
         owned.bridge_job_id,
         owned.id.hex,
     )

@@ -60,8 +60,32 @@ The old cloud entry can export those SVGs for import into the Pages workspace.
 
 Gateway releases can be installed independently with `deploy/install-gateway.sh`.
 Its archive contains only tracked backend source, runs the isolated test database
-suite before switching, and restarts only `figfox-gateway`. It keeps the previous
+suite before switching, backs up PostgreSQL and applies additive migrations, and
+restarts only `figfox-gateway`. It keeps the previous
 release/config for rollback. SAM, reconstruction workers and their state are untouched.
+
+## Internal account budgets
+
+Each account has an independent lifetime USD cap; new accounts default to zero.
+An administrator can set the four existing accounts' caps with
+`python -m autodraftman_backend.modules.internal_access.manage budget --limit-usd 50`
+in the gateway environment. This changes neither passwords nor sessions and does
+not reset spending. Historical jobs are reserved until their existing billing
+snapshots are reconciled. Known fees and unresolved provider reserves both count.
+
+The gateway durably reserves the original whole-run maximum of $5 before submission
+or recovery. Terminal receipts settle that hold. Unknown billing keeps the hold;
+an accepted request with a lost reply keeps the same job and reservation. Account
+locks serialize admission, including concurrent tabs and retries. A fresh job needs
+at least $5 remaining; the original per-job cap, prompts and execution stay unchanged.
+Health reports `budgetLimitUsd`, `allocatedBudgetUsd`, `remainingBudgetUsd` and
+`runReserveUsd` for the authenticated account, counting all history.
+
+The worker's existing shared guard remains a second boundary. For the four $50
+accounts, configure it to cover $200 plus retained historical unowned exposure.
+Back up `test-limits.json` and all billing state first; update only its cumulative
+cap. A worker restart is required to load this configuration and must happen only
+with admission stopped and no active job. Never clear receipts to restore balance.
 
 ## Future general-availability API deployment
 

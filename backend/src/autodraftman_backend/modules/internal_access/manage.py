@@ -8,6 +8,7 @@ import getpass
 import json
 import sys
 from datetime import UTC, datetime
+from decimal import Decimal
 
 from sqlalchemy import select, update
 
@@ -88,9 +89,24 @@ async def disable(username: str) -> None:
         await session.commit()
 
 
+async def set_budget(limit: Decimal) -> None:
+    if not limit.is_finite() or limit < 0 or limit > Decimal("100000"):
+        raise ValueError("Budget must be between 0 and 100000 USD")
+    async with SessionFactory() as session:
+        accounts = list(await session.scalars(select(InternalAccount).where(
+            InternalAccount.username.in_(USERNAMES),
+        ).order_by(InternalAccount.username).with_for_update()))
+        if len(accounts) != 4:
+            raise ValueError("Provision the four accounts before setting budgets")
+        for account in accounts:
+            account.budget_limit_usd = limit
+        await session.commit()
+
+
 async def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("action", choices=["provision", "disable"])
+    parser.add_argument("action", choices=["provision", "disable", "budget"])
+    parser.add_argument("--limit-usd", type=Decimal)
     parser.add_argument("--stdin-json", action="store_true")
     parser.add_argument("--username", choices=USERNAMES)
     args = parser.parse_args()
@@ -103,6 +119,11 @@ async def main() -> None:
             )
             await provision(credentials)
             print("Provisioned: " + ", ".join(USERNAMES))
+        elif args.action == "budget":
+            if args.limit_usd is None:
+                parser.error("budget requires --limit-usd")
+            await set_budget(args.limit_usd)
+            print(f"Account caps updated to {args.limit_usd} USD; existing usage retained.")
         else:
             if not args.username:
                 parser.error("disable requires --username")

@@ -27,6 +27,9 @@ test_state=$(mktemp -d /var/lib/figfox/checks/pages-state.XXXXXX)
 # A clean environment excludes production secrets, origins and runtime/model settings.
 env -i PATH=/opt/figfox/runtime/backend/bin:/usr/bin:/bin HOME=/var/lib/figfox \
   PYTHONPATH="$1/backend/src" AUTODRAFTMAN_DATABASE_URL="$test_database" \
+  /opt/figfox/runtime/backend/bin/python -m alembic upgrade head
+env -i PATH=/opt/figfox/runtime/backend/bin:/usr/bin:/bin HOME=/var/lib/figfox \
+  PYTHONPATH="$1/backend/src" AUTODRAFTMAN_DATABASE_URL="$test_database" \
   FIGFOX_ACCESS_TEST_DATABASE_URL="$test_database" \
   FIGFOX_LOCAL_DATA="$test_state" FIGFOX_KERNEL_ENV="$test_state/no-credentials.env" \
   /opt/figfox/runtime/backend/bin/python -m pytest tests -q -p no:cacheprovider \
@@ -37,6 +40,16 @@ TEST
 
 backup=/var/lib/figfox/backups/gateway-$revision
 mkdir -m 700 "$backup"
+sudo -u postgres pg_dump --format=custom figfox_internal > "$backup/database.dump"
+sudo -u figfox bash -se -- "$release" <<'MIGRATE'
+set -a
+. /etc/figfox/gateway.env
+set +a
+cd "$1/backend"
+env -i PATH=/opt/figfox/runtime/backend/bin:/usr/bin:/bin HOME=/var/lib/figfox \
+  PYTHONPATH="$1/backend/src" AUTODRAFTMAN_DATABASE_URL="$AUTODRAFTMAN_DATABASE_URL" \
+  /opt/figfox/runtime/backend/bin/python -m alembic upgrade head
+MIGRATE
 dropin=/etc/systemd/system/figfox-gateway.service.d/20-release.conf
 config=/etc/figfox/gateway-release.env
 for file in "$dropin" "$config"; do
