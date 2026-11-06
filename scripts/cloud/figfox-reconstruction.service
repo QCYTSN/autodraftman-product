@@ -9,6 +9,7 @@ User=figfox
 Group=figfox
 WorkingDirectory=/opt/figfox/current
 EnvironmentFile=/etc/figfox/runtime.env
+ExecStartPre=/opt/figfox/runtime/backend/bin/python /opt/figfox/current/scripts/cloud/check-runtime.py
 ExecStart=/opt/figfox/runtime/backend/bin/python -m uvicorn autodraftman_backend.local_reconstruction.app:app --host 127.0.0.1 --port 8787 --no-access-log
 Restart=on-failure
 RestartSec=5

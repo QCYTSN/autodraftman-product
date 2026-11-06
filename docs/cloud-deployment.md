@@ -47,6 +47,9 @@ build navigates to the cloud product; it does not exchange cross-site cookies.
 - `/opt/figfox/runtime/sam-assets`: unchanged local bridge and original sources.
 - `/var/lib/figfox/sam3`: SAM weights/cache; `/var/lib/figfox/browser`: Chromium.
 - `/var/lib/figfox/reconstruction`: persistent jobs, artifacts, receipts and limits.
+- `/var/lib/figfox/kernel-cache/<kernel-directory>/sam-cache`: persistent SAM
+  collection cache. The original kernel's `runs/sam-cache` is a symlink here;
+  its source and the `runs` parent remain root-owned and read-only to the service.
 - `/var/lib/figfox/backups`: migration snapshots; keep these private.
 - `/var/lib/figfox/checks`: offline test/parity evidence.
 - `/var/www/figfox-cloud`: built public frontend only.
@@ -56,6 +59,20 @@ build navigates to the cloud product; it does not exchange cross-site cookies.
 `figfox-sam`, `figfox-reconstruction`, `figfox-gateway` and `figfox-web` are enabled
 system services. Model/API secrets, account databases, uploads and backups must
 never be copied into the web root or committed.
+
+After installing a kernel release, run the following deployment step as root,
+using that release's kernel path, before enabling reconstruction:
+
+```bash
+sudo python3 /opt/figfox/current/scripts/cloud/prepare-cache.py /opt/figfox/current/data/kernel/FigFox-21ffc01271904d6c5610f0f96afd84530968f11e
+```
+
+It preserves an existing matching link and refuses to replace an existing cache
+directory or an unexpected link. Migrate any existing cache explicitly instead
+of deleting it. `figfox-reconstruction.service` runs `check-runtime.py` as
+`ExecStartPre`, under its actual filesystem restrictions. This checks cache and
+task-state mkdir/fsync/atomic rename before the service accepts work. It makes no
+SAM or model request.
 
 ## Certificate renewal
 
@@ -109,6 +126,24 @@ to cloud workspace/login/docs passed. The showcase's 12 research regression
 checks passed, including data, charts, motion, responsive layout and deep links.
 No cloud image generation was submitted during deployment. A real end-to-end
 generation is reserved for the user's manual action in the workspace.
+
+### Cache-path correction, 2026-11-06
+
+The first two user-submitted cloud jobs failed before SAM or GPT with `Errno 30`:
+the frozen native pipeline creates `PLUS_ROOT/runs/sam-cache`, which was initially
+left in the read-only release tree. Both failures recorded zero known and
+reserved cost. Model initialization and the original offline parity tests had
+not exercised this deployment-specific write path; those checks did not establish
+that live generation worked.
+
+The correction maps only this cache to persistent state and adds the startup
+check above. Under `User=figfox`, `ProtectSystem=strict`, `ProtectHome=true`,
+`ReadWritePaths=/var/lib/figfox`, `NoNewPrivileges=true`, `PrivateTmp=true` and
+`IPAddressDeny=any`, the new check failed before the mapping and passed after it.
+Its optional `--render` check also passed the original Chromium measurement and
+CairoSVG rendering functions using a synthetic rectangle. No user image, SAM
+inference, GPT request or automatic retry was used for these checks. The original
+pipeline and adapter sources, failed records and billing ledger are preserved.
 
 For the Pages entry, build from `frontend/` with
 `VITE_CLOUD_APP_URL=https://34.143.155.158` and `npm run build:pages` for local
