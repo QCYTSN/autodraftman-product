@@ -8,16 +8,8 @@ from pathlib import Path
 
 COMMIT = "21ffc01271904d6c5610f0f96afd84530968f11e"
 ARCHIVE_SHA256 = "cb8dd3e9bb794fda4fef627b5468e2d42179f5a5cb8ed3e082262c5d0ad0603f"
-PROFILE = "upstream-factual-ds41-v1"
-# Explicit user-approved model update; these fields do not alter the pipeline or prompts.
-# Peak rates conservatively reserve funds; they are not the provider's final invoice.
-# https://api-docs.deepseek.com/quick_start/pricing/ (checked 2026-11-05)
-DS41_OVERRIDES = {
-    "model": "deepseek-flash",
-    "input_usd_per_million": 0.3,
-    "cached_usd_per_million": 0.006,
-    "output_usd_per_million": 1.2,
-}
+PROFILE = "upstream-factual-gpt55-v1"
+CONFIG_SOURCE = "configs/historical-cohort.json"
 
 
 class KernelContractError(ValueError):
@@ -105,15 +97,12 @@ def verify_kernel(kernel):
 
 
 def upstream_config(kernel):
-    return json.loads((Path(kernel) / "configs/factual.json").read_text(encoding="utf-8"))
+    return json.loads((Path(kernel) / CONFIG_SOURCE).read_text(encoding="utf-8"))
 
 
 def runtime_config(kernel):
     config = upstream_config(kernel)
     config["budget_usd"] = 5
-    config["price_basis"] = "DS V4.1 Flash peak-rate reserve, checked 2026-11-05; G0 upstream rates"
-    for stage in ("G1", "G2"):
-        config["stages"][stage].update(DS41_OVERRIDES)
     return config
 
 

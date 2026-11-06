@@ -1,27 +1,25 @@
 # FigFox 本地内核接入
 
-工作台：<http://127.0.0.1:5178/workspace>。本地仅接通「图片转 SVG」。本页以 2026-11-05 的原版一致性核查为准，取代此前拼板、后台请求和全 GPT 配置的接入说明。
+工作台：<http://127.0.0.1:5178/workspace>。本地仅接通「图片转 SVG」。本页以 2026-11-06 用户确认的三阶段 GPT 链路为准，取代此前混合模型配置的接入说明。
 
 ## 当前执行链路
 
-采用 [LawrenceRiver/FigFox 的 21ffc012](https://github.com/LawrenceRiver/FigFox/commit/21ffc01271904d6c5610f0f96afd84530968f11e)，入口是 `figfox_plus.factual.pipeline.run`：
+采用 [LawrenceRiver/FigFox 的 21ffc012](https://github.com/LawrenceRiver/FigFox/commit/21ffc01271904d6c5610f0f96afd84530968f11e)，入口是 `figfox_plus.factual.pipeline.run`，直接加载仓库的 `configs/historical-cohort.json`：
 
 1. 原图经 SAM3 提取素材，G0 使用 GPT-5.5 生成初稿；素材绑定、坐标处理沿用原版。
-2. G1 对照原图、初稿与四组局部图，检查事实、关系和差异，并可请求细节图。
-3. G2 接收初稿 SVG、对象索引、G1 报告和图像证据，独立复核并给出原生 SVG 修改操作。
+2. G1 使用 GPT-5.5 对照原图、初稿与四组局部图，检查事实、关系和差异，并可请求细节图。
+3. G2 使用 GPT-5.5 接收初稿 SVG、对象索引、G1 报告和图像证据，独立复核并给出原生 SVG 修改操作。
 4. 本地代码校验计划、执行操作、渲染，输出 SVG、PNG 与未解决问题。
 
-G1/G2 使用用户指定的 DS V4.1 Flash，正式接口名 `deepseek-flash`。这是明确记录的模型配置更新；上游原文件仍保留 `deepseek-v4-flash-vision-exp`。官方说明旧名称也转接至最新 Flash，不能仅凭 `/models` 未列出旧名称判断它不可用。[官方说明](https://api-docs.deepseek.com/quick_start/)
+从新图成功完成一次完整重建，共调用 GPT-5.5 三次，统一走 OpenAI Responses 接口。此配置不使用 DS，不读取或要求 DS 凭据，也没有 DS 补救或自动评分调用。完成的阶段沿用原版哈希验证和复用规则。
 
-当前入口没有独立 DeepSeek 缺口指导、第二次实现翻译或多轮自动视觉复审调用。执行完成表示操作链完成，原版结果中的 `visual_quality_pass` 仍为空。研究资料包包含不同代际的源码与实验脚本，不能统一当作这份入口的副本。完整对照见 [核查报告](reviews/kernel-parity-2026-11-05/README.md)。
+G2 的操作由本地代码直接执行，没有第二次模型实现翻译或多轮自动视觉复审调用。执行完成表示操作链完成，原版结果中的 `visual_quality_pass` 仍为空。完整对照见 [三阶段 GPT 接入报告](reviews/kernel-gpt-chain-2026-11-06/README.md)。
 
 ## 明确记录的配置差异
 
-- 单图预算最多 USD 5；本地累计额度另外计入历史调用和待确认预留。
-- G1/G2 的模型名称更新为 `deepseek-flash`。
-- G1/G2 费用预留采用 2026-11-05 查到的 Flash 高峰价：输入/缓存输入/输出每百万 token 分别 USD 0.3 / 0.006 / 1.2。用于保守预算和费用估计，不是账单实付值。[价格来源](https://api-docs.deepseek.com/quick_start/pricing/)
+相对 `historical-cohort.json` 唯一的配置差异是预算：单图最多 USD 5，本地累计额度另外计入历史调用和待确认预留。模型、接口、价格字段、输入/输出限制和超时逐字段保持原配置；费用仍按原版价格字段和 usage 估算，不表示账单实付值。
 
-其余模型角色、提示词、输入/输出限制、请求协议和超时沿用上游。三个阶段输入限制均为 131072；G0 输出 32768，G1/G2 输出 24000。没有额外的拼板、缩图、提示词附加、SSE/后台请求替换或自动付费重发。
+三个阶段输入限制均为 131072、输出均为 32768，推理设置为 medium，请求超时 900 秒。没有额外的拼板、缩图、提示词附加、SSE/后台请求替换或自动付费重发。
 
 ## 本机启动
 
@@ -39,7 +37,7 @@ G1/G2 使用用户指定的 DS V4.1 Flash，正式接口名 `deepseek-flash`。�
 | 任务 API | `127.0.0.1:8787` |
 | SAM3 bridge | `127.0.0.1:18080` |
 
-当前机器的凭据来自 `D:/Github_Ku/FigFox-926/.env`，SAM 环境位于 `D:/fyp/sam3-local-test/runtime/.venv/Scripts/python.exe`。启动参数 `-Credentials`、`-SamPython`、`-SamBridge` 可指定其他路径。凭据仅在后端使用。
+当前机器仅从 `D:/Github_Ku/FigFox-926/.env` 或环境变量读取 `OPENAI_API_KEY`，SAM 环境位于 `D:/fyp/sam3-local-test/runtime/.venv/Scripts/python.exe`。启动参数 `-Credentials`、`-SamPython`、`-SamBridge` 可指定其他路径。凭据仅在后端使用，原凭据文件不修改。
 
 干净机器的准备命令（还需 SAM3 模型、bridge 和 Chrome）：
 
@@ -76,7 +74,7 @@ backend/.venv-local/Scripts/python.exe -m pytest backend/tests -q
 backend/.venv-local/Scripts/python.exe scripts/check-kernel-parity.py
 ```
 
-第二项把原版入口与真实网页 worker 放在相同配置、相同输入和固定模型/SAM 响应下，比较请求内容、附件字节、操作与最终产物；覆盖无素材和带素材/细节裁剪/实际 SVG 操作两种情况。这证明这些测试路径的适配一致性，不是实际模型质量验证。
+第二项对照原版入口和真实网页 worker：原版读取原始全 GPT 配置，网页仅调整预算；采用相同输入和固定模型/SAM 响应，比较请求内容、附件字节、操作与最终产物。覆盖无素材、带素材/细节裁剪/实际 SVG 操作，以及 G0/G1/G2 分别断线的情况。验证失败时不会转调 DS 或重发不确定的请求。这是适配一致性验证，不是实际模型质量验证。
 
 浏览器只读复查已有真实结果：在 `frontend` 运行 `node scripts/local-result-check.mjs`。显式的付费端到端验证使用 `node scripts/local-kernel-check.mjs --submit --image '完整图片路径.png'`，每次都需要足够额度，不自动重试。
 

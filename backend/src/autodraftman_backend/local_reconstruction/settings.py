@@ -57,11 +57,10 @@ def load_credentials(path: Path) -> dict[str, str]:
         for line in path.read_text(encoding="utf-8-sig").splitlines():
             if line.strip() and not line.lstrip().startswith("#") and "=" in line:
                 key, value = line.split("=", 1)
-                if key.strip() in {"OPENAI_API_KEY", "DEEPSEEK_API_KEY"}:
+                if key.strip() == "OPENAI_API_KEY":
                     values[key.strip()] = value.strip().strip('"').strip("'")
-    for key in ("OPENAI_API_KEY", "DEEPSEEK_API_KEY"):
-        if os.environ.get(key):
-            values[key] = os.environ[key]
+    if os.environ.get("OPENAI_API_KEY"):
+        values["OPENAI_API_KEY"] = os.environ["OPENAI_API_KEY"]
     return values
 
 

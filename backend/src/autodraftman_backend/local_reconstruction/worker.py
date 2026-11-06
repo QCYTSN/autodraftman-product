@@ -10,7 +10,7 @@ from pathlib import Path
 
 from .failures import failure_details
 from .kernel_contract import (
-    DS41_OVERRIDES,
+    CONFIG_SOURCE,
     PROFILE,
     is_original_job,
     validate_config,
@@ -62,11 +62,9 @@ def run(job_id: str, settings: Settings):
             json.dumps(
                 {
                     "profile": PROFILE,
+                    "config_source": CONFIG_SOURCE,
                     **proof,
-                    "declared_overrides": {
-                        "budget_usd": config["budget_usd"],
-                        "G1_G2": DS41_OVERRIDES,
-                    },
+                    "declared_overrides": {"budget_usd": config["budget_usd"]},
                     "config_sha256": hashlib.sha256(saved_config.read_bytes()).hexdigest(),
                 },
                 indent=2,

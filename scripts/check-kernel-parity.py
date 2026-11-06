@@ -23,9 +23,10 @@ from PIL import Image  # noqa: E402
 
 from autodraftman_backend.local_reconstruction.kernel_contract import (  # noqa: E402
     COMMIT,
-    DS41_OVERRIDES,
+    CONFIG_SOURCE,
     PROFILE,
     runtime_config,
+    upstream_config,
     verify_kernel,
 )
 from autodraftman_backend.local_reconstruction.settings import Settings  # noqa: E402
@@ -37,7 +38,7 @@ def sha(path):
     return hashlib.sha256(Path(path).read_bytes()).hexdigest()
 
 
-def check_case(root, kernel, size, crop_count):
+def check_case(root, kernel, size, crop_count, failure_stage=None):
     from figfox_plus.factual import pipeline
     from figfox_plus.native import pipeline as native
 
@@ -138,7 +139,14 @@ def check_case(root, kernel, size, crop_count):
             }
         ]
     responses = [svg, json.dumps(g1), json.dumps(g2)]
+    original_config = upstream_config(kernel)
     config = runtime_config(kernel)
+    assert {**config, "budget_usd": original_config["budget_usd"]} == original_config
+    assert set(config["stages"]) == {"G0", "G1", "G2"}
+    for provider in config["stages"].values():
+        assert provider["model"] == "gpt-5.5"
+        assert provider["protocol"] == "responses"
+        assert provider["key_env"] == "OPENAI_API_KEY"
     cfg = root / "config.json"
     cfg.write_text(json.dumps(config), encoding="utf-8")
 
@@ -147,6 +155,9 @@ def check_case(root, kernel, size, crop_count):
             if request.full_url.startswith("file:"):
                 return local_urlopen(request, **kwargs)
             body = json.loads(request.data)
+            assert request.full_url == "https://api.openai.com/v1/responses"
+            assert body["model"] == "gpt-5.5"
+            assert body["reasoning"] == {"effort": "medium"}
             target.append(
                 {
                     "url": request.full_url,
@@ -154,22 +165,15 @@ def check_case(root, kernel, size, crop_count):
                     "timeout": kwargs.get("timeout"),
                 }
             )
+            if failure_stage == ("G0", "G1", "G2")[len(target) - 1]:
+                raise TimeoutError("Offline stage failure")
             text = responses[len(target) - 1]
             usage = {"input_tokens": 10, "output_tokens": 10}
-            raw = (
-                {
-                    "status": "completed",
-                    "output": [{"content": [{"type": "output_text", "text": text}]}],
-                    "usage": usage,
-                }
-                if "input" in body
-                else {
-                    "choices": [
-                        {"finish_reason": "stop", "message": {"content": text}}
-                    ],
-                    "usage": usage,
-                }
-            )
+            raw = {
+                "status": "completed",
+                "output": [{"content": [{"type": "output_text", "text": text}]}],
+                "usage": usage,
+            }
             return io.BytesIO(json.dumps(raw).encode())
 
         return send
@@ -177,7 +181,14 @@ def check_case(root, kernel, size, crop_count):
     original_calls, web_calls = [], []
     with patch.object(native, "prepare_assets", lambda *a, **kw: copy.deepcopy(sam)):
         with patch("urllib.request.urlopen", capture(original_calls)):
-            original = pipeline.run(source, root / "original", config=config)
+            try:
+                original = pipeline.run(
+                    source, root / "original", config=original_config
+                )
+            except TimeoutError:
+                assert failure_stage
+            else:
+                assert failure_stage is None
         settings = Settings(
             kernel, root / "web", root / "absent.env", cfg, total_budget=5
         )
@@ -188,15 +199,48 @@ def check_case(root, kernel, size, crop_count):
         (folder / "source.png").write_bytes(source.read_bytes())
         (folder / "input.json").write_text('{"prompt":""}')
         with patch("urllib.request.urlopen", capture(web_calls)):
-            assert web_run(job["id"], settings) == 0, (
+            assert web_run(job["id"], settings) == (1 if failure_stage else 0), (
                 folder / "failure.txt"
             ).read_text()
     assert web_calls == original_calls, (
         "The web adapter changed an upstream HTTP request"
     )
-    assert len(web_calls) == 3
     result = store.get(job["id"])
+    if failure_stage:
+        assert len(web_calls) == ("G0", "G1", "G2").index(failure_stage) + 1
+        assert result["status"] == "failed"
+        assert (
+            result["stage"]
+            == {"G0": "reconstruct", "G1": "inspect", "G2": "repair"}[failure_stage]
+        )
+        assert result["failure"]["retryable"] is False
+        assert result["failure"]["billing"] == "unconfirmed"
+        receipt = json.loads(
+            (folder / f"run/{failure_stage}/call/receipt.json").read_text()
+        )
+        assert receipt["status"] == "uncertain" and receipt["reserved_usd"] > 0
+        # An explicit second invocation must also retain the uncertain request, not resend it.
+        before = copy.deepcopy(web_calls)
+        with patch("urllib.request.urlopen", capture(web_calls)):
+            assert web_run(job["id"], settings) == 1
+        assert web_calls == before
+        return {
+            "failure_stage": failure_stage,
+            "requests_equal": True,
+            "models": [item["body"]["model"] for item in web_calls],
+            "deepseek_calls": 0,
+            "resend_calls": 0,
+            "uncertain_reserve_retained": True,
+        }
+    assert len(web_calls) == 3
     assert result["status"] == "succeeded"
+    events = json.loads((folder / "events.json").read_text())
+    assert [event["stage"] for event in events] == [
+        "reconstruct",
+        "inspect",
+        "repair",
+        "finalize",
+    ]
     assert sha(folder / "run/final.svg") == original["final_sha256"]
     assert sha(folder / "run/final.png") == original["png_sha256"]
     for file in (
@@ -217,6 +261,9 @@ def check_case(root, kernel, size, crop_count):
         "sam_crops": crop_count,
         "requests_equal": True,
         "models": [item["body"]["model"] for item in web_calls],
+        "endpoints": [item["url"] for item in web_calls],
+        "deepseek_calls": 0,
+        "progress_stages": [event["stage"] for event in events],
         "body_sha256": [
             hashlib.sha256(json.dumps(item, sort_keys=True).encode()).hexdigest()
             for item in web_calls
@@ -240,7 +287,6 @@ def main():
             os.environ,
             {
                 "OPENAI_API_KEY": "offline-fixture",
-                "DEEPSEEK_API_KEY": "offline-fixture",
             },
         ),
         patch(
@@ -248,21 +294,25 @@ def main():
             side_effect=AssertionError("Network forbidden in parity test"),
         ),
     ):
+        # No DS credential is present; an unexpected remote call also fails at socket level.
+        os.environ.pop("DEEPSEEK_API_KEY", None)
         cases = [
             check_case(Path(folder) / str(i), kernel, size, crops)
             for i, (size, crops) in enumerate([((80, 64), 0), ((609, 277), 3)])
         ]
+        failures = [
+            check_case(Path(folder) / stage, kernel, (80, 64), 0, failure_stage=stage)
+            for stage in ("G0", "G1", "G2")
+        ]
     report = {
         "commit": COMMIT,
         "profile": PROFILE,
-        "declared_overrides": {
-            "budget_usd": 5,
-            "G1_G2": DS41_OVERRIDES,
-            "price_basis": runtime_config(kernel)["price_basis"],
-        },
+        "config_source": CONFIG_SOURCE,
+        "declared_overrides": {"budget_usd": 5},
         "source_files_checked": proof["files_checked"],
         "portability_patches": proof["portability_patches"],
         "cases": cases,
+        "failure_cases": failures,
         "network_requests": 0,
         "paid_calls": 0,
         "scope": (

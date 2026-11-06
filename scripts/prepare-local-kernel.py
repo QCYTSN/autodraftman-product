@@ -13,7 +13,7 @@ sys.path.insert(0, str(ROOT / "backend/src"))
 from autodraftman_backend.local_reconstruction.kernel_contract import (  # noqa: E402
     ARCHIVE_SHA256,
     COMMIT,
-    DS41_OVERRIDES,
+    CONFIG_SOURCE,
     PATCHED_FILES,
     PROFILE,
     portable_source,
@@ -70,8 +70,9 @@ def main():
     manifest = {
         "repository": "https://github.com/LawrenceRiver/FigFox",
         "profile": PROFILE,
+        "config_source": CONFIG_SOURCE,
         "archive_sha256": ARCHIVE_SHA256,
-        "declared_overrides": {"budget_usd": 5, "G1_G2": DS41_OVERRIDES},
+        "declared_overrides": {"budget_usd": 5},
         **proof,
     }
     (KERNEL / "product-runtime-manifest.json").write_text(

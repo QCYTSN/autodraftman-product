@@ -24,9 +24,6 @@ async def model_problems(config, credentials):
                 )
                 response.raise_for_status()
                 available = {item["id"] for item in response.json()["data"]}
-            # Official compatibility aliases are accepted although /models omits them.
-            if url == "https://api.deepseek.com/models" and "deepseek-flash" in available:
-                available.update(("deepseek-v4-flash", "deepseek-v4-flash-vision-exp"))
             return ["model_unavailable:" + model for model in sorted(expected - available)]
         except (httpx.HTTPError, ValueError, KeyError, TypeError):
             return ["model_availability_unconfirmed"]

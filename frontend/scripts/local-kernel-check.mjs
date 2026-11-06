@@ -16,8 +16,12 @@ await page.addInitScript(() => localStorage.setItem('autodraftman-language', 'zh
 let job;
 try {
   await page.goto(base + '/workspace', { waitUntil: 'networkidle' });
+  const health = await (await page.request.get(base + '/local-api/health')).json();
+  assert.equal(health.profile, 'upstream-factual-gpt55-v1', 'Expected the original three-GPT profile');
+  assert.equal(health.available, true, `Local service is not ready: ${health.problems?.join(', ')}`);
+  assert.equal(health.supportsUserPrompt, false);
+  await page.getByText('按原图重建', { exact: true }).waitFor();
   await page.locator('#reference-file').setInputFiles(input);
-  await page.locator('#figure-prompt').fill('保留原图的文字、颜色和连接关系。');
   const button = page.getByRole('button', { name: '重建 SVG', exact: true });
   await page.waitForFunction(() => !document.querySelector('.generate-button')?.disabled);
   await page.screenshot({ path: output + '/01-ready.png' });
