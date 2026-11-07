@@ -89,7 +89,7 @@ function InternalProvider({ children }: { children: ReactNode }) {
         const problems: string[] = state.problems;
         const next: ReconstructionClient = { ...transport, scope: identity.id, connected: true,
           canSubmit: state.available, supportsUserPrompt: state.supportsUserPrompt, remainingBudgetUsd: state.remainingBudgetUsd,
-          unavailableReason: problems.includes("config_invalid") ? "configuration" : problems.some(p => p.startsWith("model_")) ? "model" : problems.includes("test_limit_reached") ? "test_limit" : problems.includes("budget_exceeded") ? "budget" : undefined,
+          unavailableReason: problems.includes("config_invalid") ? "configuration" : problems.some(p => p.startsWith("model_")) ? "model" : problems.includes("test_limit_reached") ? "test_limit" : problems.includes("budget_exceeded") ? "budget" : problems.includes("worker_busy") ? "busy" : undefined,
         };
         setClient(previous => previous?.scope === next.scope && previous?.connected === true && previous.canSubmit === next.canSubmit && previous.remainingBudgetUsd === next.remainingBudgetUsd && previous.unavailableReason === next.unavailableReason ? previous : next);
       } catch (error) {

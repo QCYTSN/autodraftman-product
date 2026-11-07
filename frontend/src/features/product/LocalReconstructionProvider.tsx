@@ -56,7 +56,7 @@ export function LocalReconstructionProvider({ children }: { children: ReactNode 
         if (!controller.signal.aborted && state.service === "figfox-local-v1") {
           const problems: string[] = state.problems;
           const next: ReconstructionClient = { ...client, connected: true, canSubmit: state.available === true, supportsUserPrompt: state.supportsUserPrompt, remainingBudgetUsd: state.remainingBudgetUsd,
-            unavailableReason: problems.includes("config_invalid") ? "configuration" : problems.some(problem => problem.startsWith("model_")) ? "model" : problems.includes("test_limit_reached") ? "test_limit" : problems.includes("budget_exceeded") ? "budget" : undefined };
+            unavailableReason: problems.includes("config_invalid") ? "configuration" : problems.some(problem => problem.startsWith("model_")) ? "model" : problems.includes("test_limit_reached") ? "test_limit" : problems.includes("budget_exceeded") ? "budget" : problems.includes("worker_busy") ? "busy" : undefined };
           setConnectedClient(previous => previous?.connected === true && previous?.canSubmit === next.canSubmit && previous?.supportsUserPrompt === next.supportsUserPrompt && previous?.unavailableReason === next.unavailableReason && previous?.remainingBudgetUsd === next.remainingBudgetUsd ? previous : next);
         }
       } catch {

@@ -25,7 +25,7 @@ export type ReconstructionClient = {
   canSubmit?: boolean;
   connected?: boolean;
   history?: (signal: AbortSignal) => Promise<ReconstructionSnapshot[]>;
-  unavailableReason?: "budget" | "test_limit" | "model" | "configuration" | "signin" | "forbidden";
+  unavailableReason?: "budget" | "test_limit" | "model" | "configuration" | "signin" | "forbidden" | "busy";
   supportsUserPrompt?: boolean;
   remainingBudgetUsd?: number;
   submit: (input: ReconstructionInput & { requestId: string }, signal: AbortSignal) => Promise<ReconstructionSnapshot>;

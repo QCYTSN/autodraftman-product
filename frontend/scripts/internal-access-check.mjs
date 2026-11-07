@@ -11,6 +11,7 @@ const context = await browser.newContext({ viewport: { width: 1440, height: 960 
 await context.addInitScript(() => { try { localStorage.setItem("autodraftman-language", "zh"); } catch { /* Sandboxed SVG previews have no storage. */ } });
 let current = null;
 let submissions = 0;
+let serviceBusy = false;
 const jobs = [];
 const identities = Object.fromEntries([1, 2, 3, 4].map(number => [`figfox0${number}`, {
   kind: "user", id: `00000000-0000-4000-8000-00000000000${number}`, display_name: `figfox0${number}`,
@@ -36,7 +37,7 @@ await context.route("**/api/v1/**", async route => {
   if (!current) return json({ detail: "Sign in required" }, 401);
   if (path.endsWith("/auth/identities")) return json({ identities: [] });
   if (path.includes("/credits/transactions")) return json({ items: [], limit: 8, offset: 0 });
-  if (path.endsWith("/reconstructions/health")) return json({ accountId: current.id, available: true, problems: [], supportsUserPrompt: false, remainingBudgetUsd: 5 });
+  if (path.endsWith("/reconstructions/health")) return json({ accountId: current.id, available: !serviceBusy, problems: serviceBusy ? ["worker_busy"] : [], supportsUserPrompt: false, remainingBudgetUsd: 5 });
   if (path === "/api/v1/reconstructions" && method === "POST") {
     submissions++;
     const id = crypto.randomUUID().replaceAll("-", "");
@@ -91,6 +92,17 @@ try {
   await page.waitForFunction(() => !document.querySelector(".generate-button")?.disabled);
   checks.push("Explicit anonymous draft survives sign-in; authenticated submit becomes available");
   await page.screenshot({ path: `${out}/workspace-ready.png`, fullPage: true });
+  serviceBusy = true;
+  await page.locator("#workspace-submit-reason").filter({ hasText: "正在处理重建任务，请稍候" }).waitFor({ timeout: 15000 });
+  assert.equal(await submit.isDisabled(), true);
+  assert.equal(await page.locator(".workspace-service-status").getByText("重建服务未开放", { exact: true }).count(), 0);
+  await page.locator(".workspace-service-status").getByText(/当前一次处理一项任务/).waitFor();
+  await page.screenshot({ path: `${out}/workspace-busy.png`, fullPage: true });
+  serviceBusy = false;
+  await page.waitForFunction(() => !document.querySelector(".generate-button")?.disabled, null, { timeout: 15000 });
+  await page.getByText("team-source.png", { exact: true }).first().waitFor();
+  assert.equal(submissions, 0);
+  checks.push("Shared worker busy state explains the wait; idle health restores submission and preserves the draft without auto-submitting");
   await submit.click();
   await page.locator(".reconstruction-progress[data-status='running']").waitFor();
   await page.screenshot({ path: `${out}/mock-progress.png`, fullPage: true });
