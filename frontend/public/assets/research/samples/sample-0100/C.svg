@@ -1,0 +1,147 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1644" height="471" viewBox="0 0 1644 471">
+  <title>Information Retrieval, Prompt Formulation, and Generation workflow</title>
+  <desc>
+    Inventory: a left-side history/input notation and person icon feed by a right-pointing gray arrow into a three-stage rounded workflow frame. Stage 1 contains a dashed information-retrieval frame with two pastel rounded blocks for filtering and context sample selection. Stage 2 contains a dashed prompt-formulation frame with prompt text and a bottom condition. Stage 3 contains a dashed generation frame with three stacked pastel blocks for next state, next action, and history update; the next-state block includes a small multicolor probability landscape icon. A thick gray loop runs along the bottom with vertical arrows back into stages 1 and 2, labeled Else, condition, and While f&lt;F. Symmetry/equipartition basis: three main columns aligned along a common top title baseline and within one enclosing rounded outer frame; stage 3 inner blocks are vertically stacked with equal left/right margins, while stages 1 and 2 use centered content.
+    SAM mapping: Original Figure Object avatar/person icon - Constructed Element ID draft_avatar - SAM Asset ID asset_sam_region_000015. Original Figure Object multicolor probability landscape in Generate next state - Constructed Element ID draft_chart - SAM Asset ID asset_sam_region_000016.
+  </desc>
+
+  <defs>
+    <marker id="arrowGray" markerUnits="userSpaceOnUse" markerWidth="18" markerHeight="18" refX="17" refY="9" orient="auto">
+      <path d="M0,0 L18,9 L0,18 Z" fill="#b9b9b9" id="plus_node_0" />
+    </marker>
+    <marker id="arrowGrayBig" markerUnits="userSpaceOnUse" markerWidth="34" markerHeight="34" refX="32" refY="17" orient="auto">
+      <path d="M0,0 L34,17 L0,34 Z" fill="#b9b9b9" id="plus_node_1" />
+    </marker>
+    <style>
+      .serif{font-family:"Times New Roman", Times, serif;}
+      .math{font-family:"Times New Roman", Times, serif;font-style:italic;}
+      .title{font-family:"Times New Roman", Times, serif;font-weight:700;font-size:28px;letter-spacing:.2px;}
+      .boxTitle{font-family:"Times New Roman", Times, serif;font-weight:700;font-size:28px;}
+      .formula{font-family:"Times New Roman", Times, serif;font-size:27px;}
+      .smallFormula{font-family:"Times New Roman", Times, serif;font-size:25px;}
+      .dashFrame{fill:none;stroke:#b8b8b8;stroke-width:1.25;stroke-dasharray:10 8;}
+      .outerFrame{fill:#ffffff;stroke:#b8b8b8;stroke-width:1.35;}
+    </style>
+  </defs>
+
+  
+  <rect id="f00" data-plus-kind="frame" class="outerFrame" x="257" y="25" width="1358" height="415" rx="31" ry="31" />
+  <rect id="f01" data-plus-kind="frame" class="dashFrame" x="268" y="60" width="438" height="237" rx="21" ry="21" />
+  <rect id="f01a" data-plus-kind="frame" x="282" y="72" width="416" height="119" rx="14" ry="14" fill="#fff0f0" stroke="none" />
+  <rect id="f01b" data-plus-kind="frame" x="282" y="202" width="412" height="82" rx="12" ry="12" fill="#f5f8fd" stroke="none" />
+  <rect id="f02" data-plus-kind="frame" class="dashFrame" x="719" y="60" width="435" height="296" rx="11" ry="11" />
+  <rect id="f03" data-plus-kind="frame" class="dashFrame" x="1166" y="60" width="437" height="367" rx="20" ry="20" />
+  <rect id="f03a" data-plus-kind="frame" x="1178" y="72" width="413" height="154" rx="15" ry="15" fill="#fff8e5" stroke="none" />
+  <rect id="f03b" data-plus-kind="frame" x="1178" y="232" width="413" height="77" rx="10" ry="10" fill="#f7effb" stroke="none" />
+  <rect id="f03c" data-plus-kind="frame" x="1178" y="316" width="413" height="104" rx="12" ry="12" fill="#eef7f0" stroke="none" />
+
+  
+  <g id="left_input_group" class="serif" fill="#000">
+    <text id="txt_history" x="16" y="111" class="formula">
+      <tspan class="math">h</tspan>
+      <tspan> = {</tspan><tspan class="math">x</tspan><tspan>(</tspan><tspan class="math">m</tspan><tspan>),</tspan><tspan class="math">a</tspan><tspan>(</tspan><tspan class="math">m</tspan><tspan>)}</tspan>
+      <tspan dy="-14" font-size="18">l−1</tspan>
+      <tspan dy="14" font-size="18"> </tspan>
+      <tspan dy="14" font-size="18" dx="-36">m=0</tspan>
+    </text>
+    <text id="txt_left_pi" x="143" y="150" class="smallFormula">
+      <tspan class="math">π, K</tspan><tspan font-size="18" dy="5">τ</tspan><tspan dy="-5">, </tspan><tspan class="math">D</tspan><tspan font-size="18" dy="5">τ</tspan>
+    </text>
+    <text id="txt_left_params" x="152" y="184" class="smallFormula"><tspan class="math">r, F, l, c</tspan></text>
+    <text id="txt_left_f0" x="178" y="231" class="smallFormula"><tspan class="math">f</tspan><tspan> = 0</tspan></text>
+  </g>
+
+  <g id="sam_avatar_replacement" data-plus-keeps="txt_history txt_left_pi txt_left_params txt_left_f0">
+    <image href="data:image/png;base64,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" x="91" y="163" width="51" height="74" id="plus_node_7" preserveAspectRatio="none" />
+  </g>
+
+  <path id="arrow_left_to_frame" d="M145,202 H254" fill="none" stroke="#b9b9b9" stroke-width="6" marker-end="url(#arrowGray)" />
+
+  
+  <text id="stage1_title" x="333" y="51" class="title">1) Information Retrieval</text>
+  <text id="stage2_title" x="789" y="51" class="title">2) Prompt Formulation</text>
+  <text id="stage3_title" x="1297" y="51" class="title">3) Generation</text>
+
+  
+  <g id="stage1_content">
+    <text id="s1_filter_title" x="377" y="99" class="boxTitle">Filter information</text>
+    <text id="s1_filter_formula1" x="309" y="133" class="formula">
+      <tspan class="math">K</tspan><tspan font-size="18" dy="8">f</tspan><tspan dy="-8"> = {</tspan>
+      <tspan class="math">k</tspan><tspan font-size="18" dy="8">i</tspan><tspan dy="-8"> ∈ </tspan>
+      <tspan class="math">K</tspan><tspan>|isRelevant(</tspan><tspan class="math">k</tspan><tspan font-size="18" dy="8">i</tspan><tspan dy="-8">, </tspan><tspan class="math">h</tspan><tspan>)}</tspan>
+    </text>
+    <text id="s1_filter_formula2" x="309" y="168" class="formula">
+      <tspan class="math">D</tspan><tspan font-size="18" dy="8">f</tspan><tspan dy="-8"> = {</tspan>
+      <tspan class="math">d</tspan><tspan font-size="18" dy="8">i</tspan><tspan dy="-8"> ∈ </tspan>
+      <tspan class="math">D</tspan><tspan font-size="18" dy="8">τ</tspan><tspan dy="-8">|isRelevant(</tspan><tspan class="math">d</tspan><tspan font-size="18" dy="8">i</tspan><tspan dy="-8">, </tspan><tspan class="math">h</tspan><tspan>)}</tspan>
+    </text>
+
+    <text id="s1_select_title" x="349" y="229" class="boxTitle">Select context samples</text>
+    <text id="s1_select_formula" x="284" y="263" class="formula">
+      <tspan class="math">C</tspan><tspan font-size="18" dy="8">f</tspan><tspan dy="-8"> = arg top</tspan>
+      <tspan font-size="18" dy="8">c</tspan><tspan dy="-8">{</tspan>
+      <tspan class="math">d</tspan><tspan font-size="18" dy="8">i</tspan><tspan dy="-8"> ∈ </tspan>
+      <tspan class="math">D</tspan><tspan font-size="18" dy="8">f</tspan><tspan dy="-8">|</tspan>
+      <tspan class="math">ϕ</tspan><tspan font-size="18" dy="8">t</tspan><tspan dy="-8">(</tspan><tspan class="math">h</tspan><tspan>) · </tspan>
+      <tspan class="math">ϕ</tspan><tspan font-size="18" dy="8">c</tspan><tspan dy="-8">(</tspan><tspan class="math">d</tspan><tspan font-size="18" dy="8">i</tspan><tspan dy="-8">)}</tspan>
+    </text>
+  </g>
+
+  
+  <g id="stage2_content" class="serif">
+    <text id="s2_prompt_eq" x="887" y="85" font-size="26">Prompt =</text>
+    <text id="s2_data" x="805" y="126" font-size="25">&lt;Data description in <tspan class="math">K</tspan><tspan font-size="17" dy="7">f</tspan><tspan dy="-7"> &gt;</tspan></text>
+    <text id="s2_vars" x="786" y="167" font-size="25">&lt;Variable descriptions in <tspan class="math">K</tspan><tspan font-size="17" dy="7">f</tspan><tspan dy="-7"> &gt;</tspan></text>
+    <text id="s2_for" x="874" y="211" font-size="25">For <tspan class="math">c</tspan><tspan font-size="17" dy="7">i</tspan><tspan dy="-7"> ∈ </tspan><tspan class="math">C</tspan><tspan font-size="17" dy="7">f</tspan><tspan dy="-7"> :</tspan></text>
+    <text id="s2_sample" x="734" y="251" font-size="25">&lt;Sample <tspan class="math">c</tspan><tspan font-size="17" dy="7">i</tspan><tspan dy="-7"> history&gt;, &lt;Sample <tspan class="math">c</tspan><tspan font-size="17" dy="7">i</tspan><tspan dy="-7"> future&gt;</tspan></tspan></text>
+    <text id="s2_target" x="831" y="294" font-size="25">&lt;Target history <tspan class="math">h</tspan> &gt;</text>
+    <text id="s2_simulate" x="723" y="336" font-size="25">Simulate the next state of the target system.</text>
+  </g>
+
+  
+  <g id="stage3_content" class="serif">
+    <text id="s3_next_state_title" x="1262" y="99" class="boxTitle">Generate next state</text>
+    <text id="s3_phi" x="1186" y="147" class="formula">
+      <tspan class="math">Φ̂</tspan><tspan> = </tspan><tspan class="math">LLM</tspan><tspan>(Prompt) =</tspan>
+    </text>
+    <text id="s3_fplus" x="1239" y="181" class="formula"><tspan class="math">f</tspan><tspan> = </tspan><tspan class="math">f</tspan><tspan> + 1</tspan></text>
+    <text id="s3_x" x="1238" y="214" class="formula"><tspan class="math">x</tspan><tspan>(</tspan><tspan class="math">f</tspan><tspan>) ~ </tspan><tspan class="math">Φ̂</tspan></text>
+
+    <g id="sam_chart_replacement" data-plus-keeps="s3_next_state_title s3_phi s3_fplus s3_x prob_labels">
+      <image href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEoAAAA7CAYAAADcrhwVAAAPP0lEQVR4nOVc2W8cR37+eqZ7Znpuzn0fvCTqomzZayPOxrvYnA4QYJEgr8lDHoIgQP6A/AFB8hLkYbEJEC8SP0SJE68SrTfrWJbsBS1LlkmRkqiheJNDzn1w7pnunu4KuoekxWNEUpqR5PU3GBBTXV1d/VX9fvU7qkgRLoEXDUIIGs0Wyk0BK7kq+XIph4VMHQ2Bwm+/9hYEUQLHc+DaPKr1LVSrRZx2qqm3z/gQ9digUqn63kcaLwFJ65ktTK0WMBWvkRbRI+gcxGtjetA0DYqilC8oCir5L6Egkc6tKuXC8wH1ImeUJElY2Mzh/a82SYuyI+D0wGQwdAg5hFAZoiiixfPIbGXB1bN4I2Kkvn8+BJNe96tL1EqqgJ9MxInREkTA4QJ1AhES2m1UG3Vk8km42Rr+8I1Byme3/OoRVW008d7nq6RK3PA7nVBRJ9cz8ixrchyyxQzEVg5/8laICntsfelv/7VgF3yxmCHZpgEBh+OpSJIhqyi9VouA0w+tMYB/uRnHYiKPXuPW7ckXQ5TQbuPGXBEehw+USv1sjVEUaFoNj80BDeshH86kSSJXQi8xOjL4/ImSJAm35pNEx7pg1rO9aVQmS62G1+GBQDvxX3fWSa5U603bAOx22/MnqlRr4losj6DH39uGKQoMrYbd6kRBMOHyF0ukXGv0rPnnSlS73cZCqgSOGMFqmN4/gKKgZRj4nQFs1nT4aHqNCEL7m0dUrcnh9nKBBFw9nk37FbxOh6A7iNm0hMnFJNmxwb4RRImiiNVMiWyUKQyYTH19luzSWA1GmC0efDpfwEoy/80hqlStY3K9BMeA57n4ZvIzbGYbOMqK/3uQIPlS9eX39SRJwmauQpIVFQLdDEKpDYavQdsqwlxchLm6Dq1QA91uosk60NJYkfG9CV5rgaCzHk9faRh4HF5spJr4ZWyTvPPqIMXqtC8vUeVqHbFMHbTGCq32oBJnq0nYM9OwVVfhaOfBGo1Q2WxQGcIAkUCaNRC+gMj8u8jRTqRdl5B3ngfRmo7UV0ZWD/uADw9ScYTjObw2Gng5iSJydCBbJksFwOt2g3rMClfxDbgSt+DP3oHLbgITcEBtHgPF7Bv1gc4fi28UxmISruwvkcjfx+rQH4Az+Y4UQbvFCo5r4tZKngTsJsrzFD5h3329ZLaID+9nSBUeeOzO3XKmWUT04WWEmCoMwRGozM5jO8WEb4HPJ5HfXMf80A9Rcp478h7ZJ1xPruKip02982oUJxXBvhIliiKuTa+Qz1YljEVPgVbTii5ypKYwunIFjtFx0M7gU7cvE9aKTWBefw5rg+9A0hi61yUE+XIZjUocvzdmosaH/SdaVPq6/Myupsl0UkDAHVJIUvF1eDYmcDH9EVwXv/tMJMmgNDroxn8TZ5kshpeuQFfPdK9LUbCbzdCwTiVAmDyhP9gXoggheLieJZ/Ml8GafLAaDKDaHIZil3G2ehem878BlaE3sSOZACY6jmEjjzOzPwFdzx2hrxzIcXrcixeV8PMLJWpmOUV+ejcNQe2AzTSg6J5o7N8xzNZhHrkIiu69+6L1DcPvc2N89p+hEppd62k0DGwWD2ZSAonFc4pb9dyJ4oU2JmIbuDKTg87gh9fhBk14DM69j7N2CezIpYMrWo8gDwbjH0Xw3EVcmvkHMK3uomU0GADajs9XyiRVqDw/80AURVQaLXw2l8bEYpUEPENwD1gVxR1avYZTmgIY73n0GnWuhSvr08jaKIQHQ9CzOiUImGDtGJ98FxsX/gyS7nAR9zpcWIyXZBEkNhNLGY4I+aiePc3EYW4jj3+8sYS7m2pybuQi3LaO4RNY+wSjSEAXHnuWx3R//m4/JKgoKCSpVBQotRo32ByoyR+h3TzcddEyNLzOAO4lOcSzZcV76It5wPMCMls1TG9skcn1BvR6NzwOJxi6M0ldGzcxXp+Cceg8KHXvdVKD53E1PoOSh0F4KAyaZmSvZRepXB5Lk/dwumSE+q2/Vq4fNtCJfBoezRZ+f9xDOQbMvSOKEIJcqYr5ZAl31qqk0jbC6/DCwLK7aSbn5hd4JXsdxovfRz/ACQJ+sTGLtBMID4fBMIcPRDKbRXzyAUYaTtCX/hKU1nCo2lhLLOM7IeDtMX9XX/BEolcoVTG5mMDV6ST5eL5FaEMIw/4ITHr9Lkm6ehajyevQn3kT/YAsItfXY1jS1eAN+8E8YQX1uVzwvDKGuC6L9uwHkMSDK5xarYbD5sNn8yVs5CukmwgeqcwVi7ZUxXyigIVsk6yVKBhMLgwG7dBsi9nuQ1sVnFp4H/bBMag0PYqH78N6KY91pgZvNKAobxyRK454fSDnRZSnpmHbGAYiv3agjjzQeqMXn8SyCDosYHWa4xMlE5QpVjC7nsNyniOpuhpqxoqA26FEEPf7ZVSbx+nYewiF3FAPuNEP1FpN3EgvgA/p4HTYO6n2YyAc8GOuUkHt3r/BYPJBbY8cMETDHh9ml0q4v5Ylr4/6qP3uzaFEpfJlTK9m8CjLkxLHQM/aEfA4oNNq9nj/u5BEhFY+xKBDB8bmRT8gD9xkag2VAWA4Gjk07d4NKrUKoWgE8UYbrjt/g+bbfwtKvzemJWdxRoLDuPZoASGHiXgdFqorUcvJPKZXc+RBsglCm2Ay+hAYMIPVap7oQFrzMYzwq6Ajr6JfyNerWCBFmLwO6DQnN1pNRgMGwh7EixWEHv4HWhf/FNhn/BpYHViDFx/NpvDHb+hgYL++rpKV10qygMsTc+Rfv0iQhwUWRmsEIe8gvHaHcrPqCSTRrRJGNj6GaXi8L67Jzmy6sfkIBRNByOfbYwacBC6nA+2wG0VxFa7Y+wcrUIDDasPqFo2JuYSi2HcSE/TfXZ0mZY6B0eSAy2WFXstCw6i35b/TI9VhHSNEuXpq/j/hiUYVT75fWMqlUTJKGBsdUQzKp4UsXr6QD4k6B9fDm6ArP0Db/Hjgj1JWQa8jgGuPZuGysIRWq6gLETfoM9ERWAx6qFSdvUjy6zNq+Rai7EOSv/T2hNr5LcokSSIsC9cRsanAWF3oFxoch/v1JCSPDga9/pnbMxuNKHvtWKm28d2pvwf3vb9Cy+zfnTlqCmgbWZiYQepuPKOUK0RpNRrotbJV+/VI6RkC9WPSpqWJ0sBOFblN7eYs6MJ90KPfQT8xl01ig24g5B15apHbD5fLgXi5hmVRgze//BH43/lzYNt70GgYSjalIixBvWXe2bQGWnaNDm/u62Kqk9TYASG1LVB3P4I2Og5Kjlr2CU2exwYpg/UNKBvMegV5cti8TmxWNpESzDgfvwXD9/5IvtR1KOjfOi3rFpm2/dnU7tnV2swNEFcYFNvfROZkchUPqS284r/Qs9m0A4vFjLLDiFizgXAqBU0xA8bm7l30gF9+ADGdAO0MQZQkNHhO2cbTa6RKW1gkRYRHwtAwBy3lZ4Ws2O1uO/IGEUusDbX//ie0C6mus+NEcsOVi2jc/hhN7xlMxRex0iyA18ppJ4JBjQ2v+aJgNc/+UjLxi9UcGmYaXlt/dtDJMBmN0LosmFpOYDD0ClTXLsPww78ArdU9/YySJBHtqeukaHTj0+IqJkgC+SADaciGRtSIr+gcPli7i/Vi95j1cZGulrEgFmALupStPP2CbB86XU7ULWrMlHKg9Ha0bl49dFYdmyghvkDiiU18xhWRHBAxND6Ks6OjCHu9GI5EMHh+GDknhf/NPMRyvns25CjUWi3cKawhYxThGujfbNqByaCHzefAXCuHmsUHYXkWQv6gCB6LqHYxg+SnP8NdvQ5lrwbR0UFYjF8rclnRyjbO8HAUVMSKT0vLWHvKmbVWzmGNrmF87PSRkYFewW6zgXLpcS+fgPbi76J25ccQKsWTESXyHFLXPyB3GDXydgrhaEhZXvdDtsNYlkU4EoIqYsX1rUXEt0623abUqGOOy8IYtEOn7U8S4jDodFpYPDYstAsot5pgBi+B++pj0uaaxyeqcW+CPCoVEDPw8ET80HSJJu5AjjZ6/R5IQTN+no0hUd47Mt0gihKm83E8UG1hKBzG84Q8yLK5INp1uJfbgNrqhlTnIdz7/HhECbUKFm9/godWHfzDwU6g7BiQyfIHvKCjNvw8F0OmWj7ynpVSFvdJDpcuXMCLgFajhcU1gEd8AeVmA7R3GK3ZL4mQTz6ZKLEtIHX1XTywO8G79fA4T+bPaTQaBIJ+0FE7/if9AIV6941cG6UCruZm4TkTxVFpo36BUlEwWcwgDq0yq+TApPbCD1D76Y8hlAvdiWrFvsIaJ5B1VkAwGDh2NPFxMAwNn98D7YgL7yUmMZNeP1AnXS3hZ9lZ6Ee9sMu5wBcIrVYDs9uGWCuHSrOpvDMdvkC4O9e6Z2E2bn+CXxRWieDTIuTzPnuCtFrFZjyNVqqMX/eehlbNYL2UxiMui+C5KAKu/oSPT4pWi0N8cQ3jNTPeCo4qZUJygTrUMpfz8SmLnRRaSxjzuJ55mVbTalitFhiNRjSiLcyXy4r1bfUO4HVzGLQc13lJoNFqYHHbcbecw+suNww6FkwocrgLky9tYSa7AJdrQAlk9WzXCUPDTBtgMspxJfkcXqf8ZYIcGDSYDMhYtrAhCjjnjHbK91fkOA7z2VWS4NOwWXt/rIuSDyiqtlPfLxlJO5BzBA7nAO5uxHYDegeI2qpWMJ2eg8/nVA7jfBuhVqlhMRuQ4LLIbBvNqv26Kb6VIhXU4BzY3mH6bQQlW+sa2JwmTMxPHSRKPlE5nY4hEvLsbrb4tkKtUsNkZLG4ta4sPHuISpVyJMPlMWDuvqvjWwNKtqu0YCxq3Fm9T/ZMm4m1KSUl3v8+UDt9eSxMvRPZeCw4v/15UWAYNXxuB24uT+81Dy4NnaWMFpaotjsrQt7ZISewto/Sb5e3idgpk38r5QS8JChlnUTE9v2SBIG09xDCizzaUns3TE8RqnM2WOBA7Svj2wKI1Mkfysf45Y1iRoseGp2m8yz5qL9ytUPozu+dj9z/Tq936gGS/CFy+WOrLoHSf/lddoZJIgQCeMVUyLOVvURdcJ1CW2zvVud5fntEqU6J8n8HSEdmKZXiH+0QKImikuPv7HrrfOW4tOwzyXWe8qDQgekkk88R/rEaRBmMNhEO3MhJPKTHm5DJJwJEIu6pK5Oy36oWZZqJGrSKKO+5hyg5hPJ4GIXV9fd/CeBoHDC0Di3oLp3HktsnWXPbk476fyUlScO4A7FhAAAAAElFTkSuQmCC" x="1431" y="109" width="74" height="59" id="plus_node_11" preserveAspectRatio="none" />
+    </g>
+
+    <g id="prob_labels" class="serif" font-size="22">
+      <text x="1505" y="116" id="plus_node_12"><tspan class="math">P</tspan><tspan font-size="14" dy="6">(</tspan><tspan class="math" font-size="18">x</tspan><tspan font-size="14">1</tspan><tspan font-size="14">)</tspan></text>
+      <text x="1517" y="138" id="plus_node_13"><tspan class="math">P</tspan><tspan font-size="14" dy="6">(</tspan><tspan class="math" font-size="18">x</tspan><tspan font-size="14">2</tspan><tspan font-size="14">)</tspan></text>
+      <text x="1538" y="162" id="plus_node_14"><tspan class="math">P</tspan><tspan font-size="14" dy="6">(</tspan><tspan class="math" font-size="18">x</tspan><tspan font-size="14">3</tspan><tspan font-size="14">)</tspan></text>
+      <text x="1553" y="181" font-size="26" id="plus_node_15">⋮</text>
+    </g>
+
+    <text id="s3_action_title" x="1253" y="259" class="boxTitle">Generate next action</text>
+    <text id="s3_action_formula" x="1290" y="294" class="formula">
+      <tspan class="math">a</tspan><tspan>(</tspan><tspan class="math">f</tspan><tspan>) ~ </tspan><tspan class="math">π</tspan><tspan>(</tspan><tspan class="math">x</tspan><tspan>(</tspan><tspan class="math">f</tspan><tspan>), </tspan><tspan class="math">f</tspan><tspan>)</tspan>
+    </text>
+
+    <text id="s3_update_title" x="1291" y="342" class="boxTitle">Update history</text>
+    <text id="s3_update1" x="1266" y="371" class="formula">
+      <tspan class="math">h</tspan><tspan> = </tspan><tspan class="math">h</tspan><tspan> ∪ {</tspan><tspan class="math">x</tspan><tspan>(</tspan><tspan class="math">f</tspan><tspan>),</tspan><tspan class="math">a</tspan><tspan>(</tspan><tspan class="math">f</tspan><tspan>)}</tspan>
+    </text>
+    <text id="s3_update2" x="1297" y="405" class="formula">
+      <tspan class="math">h</tspan><tspan> = {</tspan><tspan class="math">h</tspan><tspan font-size="18" dy="8">i</tspan><tspan dy="-8">}</tspan>
+      <tspan font-size="18" dy="-14">f</tspan>
+      <tspan font-size="18" dy="28" dx="-12">i=f−l+1</tspan>
+    </text>
+  </g>
+
+  
+  <g id="bottom_loop">
+    <path id="loop_bottom_bar" d="M380,415 H1162" fill="none" stroke="#b9b9b9" stroke-width="12" stroke-linecap="butt" />
+    <path id="loop_up_stage1" d="M380,415 V303" fill="none" stroke="#b9b9b9" stroke-width="12" marker-end="url(#arrowGrayBig)" />
+    <path id="loop_up_stage2" d="M761,415 V360" fill="none" stroke="#b9b9b9" stroke-width="12" marker-end="url(#arrowGrayBig)" />
+    <text id="loop_else" x="388" y="405" class="serif" font-size="25">Else</text>
+    <text id="loop_condition" x="785" y="378" class="serif" font-size="24">If <tspan class="math">f</tspan> mod <tspan class="math">r</tspan> ≠ 0 and</text>
+    <text id="loop_condition2" x="827" y="402" class="serif" font-size="24"><tspan class="math">a</tspan>(<tspan class="math">f</tspan>) ∈ <tspan class="math">h</tspan><tspan font-size="16" dy="6">a</tspan></text>
+    <text id="loop_while" x="1016" y="402" class="serif" font-size="26">While <tspan class="math">f</tspan> &lt; <tspan class="math">F</tspan></text>
+  </g>
+</svg>

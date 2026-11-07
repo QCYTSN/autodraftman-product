@@ -1,0 +1,147 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="2048" height="617" viewBox="0 0 2048 617">
+  <defs>
+    <marker id="arrow-black" markerWidth="15" markerHeight="12" refX="1" refY="6" orient="auto" markerUnits="userSpaceOnUse">
+      <path d="M 15 0 L 0 6 L 15 12 Z" fill="#000000"/>
+    </marker>
+    <marker id="arrow-blue" markerWidth="15" markerHeight="12" refX="14" refY="6" orient="auto" markerUnits="userSpaceOnUse">
+      <path d="M 0 0 L 15 6 L 0 12 Z" fill="#0e7ec3"/>
+    </marker>
+    <marker id="arrow-range-start" markerWidth="15" markerHeight="12" refX="1" refY="6" orient="auto" markerUnits="userSpaceOnUse">
+      <path d="M 15 0 L 0 6 L 15 12 Z" fill="#000000"/>
+    </marker>
+    <marker id="arrow-range-end" markerWidth="15" markerHeight="12" refX="14" refY="6" orient="auto" markerUnits="userSpaceOnUse">
+      <path d="M 0 0 L 15 6 L 0 12 Z" fill="#000000"/>
+    </marker>
+  </defs>
+  <rect id="background" data-pb-role="background" data-pb-editable="true" x="0" y="0" width="2048" height="617" fill="#ffffff"/>
+
+  <g id="panel-left-title" data-pb-role="title" data-pb-editable="true">
+    <text id="label-left-title" x="226" y="77" font-family="Arial, Helvetica, sans-serif" font-size="42" font-style="normal" font-weight="700" fill="#000000" data-pb-role="title" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="horizontal">Biased train/val distribution</text>
+  </g>
+  <g id="panel-right-title" data-pb-role="title" data-pb-editable="true">
+    <text id="label-right-title" x="1297" y="68" font-family="Arial, Helvetica, sans-serif" font-size="42" font-style="normal" font-weight="700" fill="#000000" data-pb-role="title" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="horizontal">Unbiased test distribution</text>
+  </g>
+
+  <g id="module-left-causal" data-pb-role="node" data-pb-editable="true">
+    <g id="label-left-xs" data-pb-role="formula" data-pb-editable="true" data-pb-formula-bbox="312 106 54 45" data-pb-formula-latex-b64="WF9T">
+      <text id="label-left-xs-fallback" x="314" y="141" font-family="Arial, Helvetica, sans-serif" font-size="48" font-style="normal" font-weight="400" fill="#000000" data-pb-role="formula" data-pb-editable="true" data-pb-text-source="visual_inferred" data-pb-orientation="horizontal">X<tspan baseline-shift="sub" font-size="30">S</tspan></text>
+      <desc>LaTeX: X_S</desc>
+    </g>
+    <text id="label-left-s" x="488" y="141" font-family="Arial, Helvetica, sans-serif" font-size="48" font-style="normal" font-weight="400" fill="#000000" data-pb-role="label" data-pb-editable="true" data-pb-text-source="visual_inferred" data-pb-orientation="horizontal">S</text>
+    <g id="label-left-xa" data-pb-role="formula" data-pb-editable="true" data-pb-formula-bbox="313 208 54 45" data-pb-formula-latex-b64="WF9B">
+      <text id="label-left-xa-fallback" x="314" y="244" font-family="Arial, Helvetica, sans-serif" font-size="48" font-style="normal" font-weight="400" fill="#000000" data-pb-role="formula" data-pb-editable="true" data-pb-text-source="visual_inferred" data-pb-orientation="horizontal">X<tspan baseline-shift="sub" font-size="30">A</tspan></text>
+      <desc>LaTeX: X_A</desc>
+    </g>
+    <text id="label-left-a" x="488" y="244" font-family="Arial, Helvetica, sans-serif" font-size="48" font-style="normal" font-weight="400" fill="#000000" data-pb-role="label" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="horizontal">A</text>
+    <g id="label-left-xy" data-pb-role="formula" data-pb-editable="true" data-pb-formula-bbox="313 310 54 45" data-pb-formula-latex-b64="WF9Z">
+      <text id="label-left-xy-fallback" x="314" y="346" font-family="Arial, Helvetica, sans-serif" font-size="48" font-style="normal" font-weight="400" fill="#000000" data-pb-role="formula" data-pb-editable="true" data-pb-text-source="visual_inferred" data-pb-orientation="horizontal">X<tspan baseline-shift="sub" font-size="30">Y</tspan></text>
+      <desc>LaTeX: X_Y</desc>
+    </g>
+    <text id="label-left-y" x="488" y="346" font-family="Arial, Helvetica, sans-serif" font-size="48" font-style="normal" font-weight="400" fill="#000000" data-pb-role="label" data-pb-editable="true" data-pb-text-source="visual_inferred" data-pb-orientation="horizontal">Y</text>
+    <line id="connector-left-s-xs" data-pb-role="connector" data-pb-editable="true" x1="506" y1="177" x2="337" y2="177" stroke="#000000" stroke-width="6" stroke-linecap="round" marker-end="url(#arrow-black)"/>
+    <line id="connector-left-a-xa" data-pb-role="connector" data-pb-editable="true" x1="505" y1="277" x2="340" y2="277" stroke="#000000" stroke-width="6" stroke-linecap="round" marker-end="url(#arrow-black)"/>
+    <line id="connector-left-y-xy" data-pb-role="connector" data-pb-editable="true" x1="505" y1="376" x2="340" y2="376" stroke="#000000" stroke-width="6" stroke-linecap="round" marker-end="url(#arrow-black)"/>
+    <circle id="node-left-xs" data-pb-role="node" data-pb-editable="true" cx="324" cy="176" r="16" fill="#000000"/>
+    <circle id="node-left-s" data-pb-role="node" data-pb-editable="true" cx="505" cy="179" r="16" fill="#000000"/>
+    <circle id="node-left-xa" data-pb-role="node" data-pb-editable="true" cx="327" cy="276" r="16" fill="#000000"/>
+    <circle id="node-left-a" data-pb-role="node" data-pb-editable="true" cx="505" cy="274" r="16" fill="#000000"/>
+    <circle id="node-left-xy" data-pb-role="node" data-pb-editable="true" cx="327" cy="376" r="16" fill="#000000"/>
+    <circle id="node-left-y" data-pb-role="node" data-pb-editable="true" cx="505" cy="376" r="16" fill="#000000"/>
+  </g>
+
+  <g id="flow-selection" data-pb-role="connector" data-pb-editable="true">
+    <line id="connector-selection-top" data-pb-role="connector" data-pb-editable="true" x1="520" y1="174" x2="690" y2="266" stroke="#0e7ec3" stroke-width="6" stroke-linecap="round" marker-end="url(#arrow-blue)"/>
+    <line id="connector-selection-mid" data-pb-role="connector" data-pb-editable="true" x1="522" y1="276" x2="690" y2="278" stroke="#0e7ec3" stroke-width="6" stroke-linecap="round" marker-end="url(#arrow-blue)"/>
+    <line id="connector-selection-low" data-pb-role="connector" data-pb-editable="true" x1="520" y1="375" x2="690" y2="288" stroke="#0e7ec3" stroke-width="6" stroke-linecap="round" marker-end="url(#arrow-blue)"/>
+    <circle id="node-selection" data-pb-role="node" data-pb-editable="true" cx="704" cy="279" r="15" fill="#0e7ec3"/>
+    <text id="label-selection" x="696" y="245" font-family="Arial, Helvetica, sans-serif" font-size="48" font-style="normal" font-weight="400" fill="#0e7ec3" data-pb-role="label" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="horizontal">Selection</text>
+  </g>
+
+  <g id="module-right-causal" data-pb-role="node" data-pb-editable="true">
+    <g id="label-right-xs" data-pb-role="formula" data-pb-editable="true" data-pb-formula-bbox="1359 105 55 45" data-pb-formula-latex-b64="WF9T">
+      <text id="label-right-xs-fallback" x="1361" y="141" font-family="Arial, Helvetica, sans-serif" font-size="48" font-style="normal" font-weight="400" fill="#000000" data-pb-role="formula" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="horizontal">X<tspan baseline-shift="sub" font-size="30">S</tspan></text>
+      <desc>LaTeX: X_S</desc>
+    </g>
+    <text id="label-right-s" x="1536" y="141" font-family="Arial, Helvetica, sans-serif" font-size="48" font-style="normal" font-weight="400" fill="#000000" data-pb-role="label" data-pb-editable="true" data-pb-text-source="visual_inferred" data-pb-orientation="horizontal">S</text>
+    <g id="label-right-xa" data-pb-role="formula" data-pb-editable="true" data-pb-formula-bbox="1359 208 55 45" data-pb-formula-latex-b64="WF9B">
+      <text id="label-right-xa-fallback" x="1361" y="244" font-family="Arial, Helvetica, sans-serif" font-size="48" font-style="normal" font-weight="400" fill="#000000" data-pb-role="formula" data-pb-editable="true" data-pb-text-source="visual_inferred" data-pb-orientation="horizontal">X<tspan baseline-shift="sub" font-size="30">A</tspan></text>
+      <desc>LaTeX: X_A</desc>
+    </g>
+    <text id="label-right-a" x="1536" y="244" font-family="Arial, Helvetica, sans-serif" font-size="48" font-style="normal" font-weight="400" fill="#000000" data-pb-role="label" data-pb-editable="true" data-pb-text-source="visual_inferred" data-pb-orientation="horizontal">A</text>
+    <g id="label-right-xy" data-pb-role="formula" data-pb-editable="true" data-pb-formula-bbox="1359 310 55 45" data-pb-formula-latex-b64="WF9Z">
+      <text id="label-right-xy-fallback" x="1361" y="346" font-family="Arial, Helvetica, sans-serif" font-size="48" font-style="normal" font-weight="400" fill="#000000" data-pb-role="formula" data-pb-editable="true" data-pb-text-source="visual_inferred" data-pb-orientation="horizontal">X<tspan baseline-shift="sub" font-size="30">Y</tspan></text>
+      <desc>LaTeX: X_Y</desc>
+    </g>
+    <text id="label-right-y" x="1536" y="346" font-family="Arial, Helvetica, sans-serif" font-size="48" font-style="normal" font-weight="400" fill="#000000" data-pb-role="label" data-pb-editable="true" data-pb-text-source="visual_inferred" data-pb-orientation="horizontal">Y</text>
+    <line id="connector-right-s-xs" data-pb-role="connector" data-pb-editable="true" x1="1554" y1="177" x2="1385" y2="177" stroke="#000000" stroke-width="6" stroke-linecap="round" marker-end="url(#arrow-black)"/>
+    <line id="connector-right-a-xa" data-pb-role="connector" data-pb-editable="true" x1="1553" y1="277" x2="1388" y2="277" stroke="#000000" stroke-width="6" stroke-linecap="round" marker-end="url(#arrow-black)"/>
+    <line id="connector-right-y-xy" data-pb-role="connector" data-pb-editable="true" x1="1554" y1="376" x2="1388" y2="376" stroke="#000000" stroke-width="6" stroke-linecap="round" marker-end="url(#arrow-black)"/>
+    <circle id="node-right-xs" data-pb-role="node" data-pb-editable="true" cx="1373" cy="176" r="16" fill="#000000"/>
+    <circle id="node-right-s" data-pb-role="node" data-pb-editable="true" cx="1554" cy="179" r="16" fill="#000000"/>
+    <circle id="node-right-xa" data-pb-role="node" data-pb-editable="true" cx="1376" cy="276" r="16" fill="#000000"/>
+    <circle id="node-right-a" data-pb-role="node" data-pb-editable="true" cx="1554" cy="274" r="16" fill="#000000"/>
+    <circle id="node-right-xy" data-pb-role="node" data-pb-editable="true" cx="1376" cy="376" r="16" fill="#000000"/>
+    <circle id="node-right-y" data-pb-role="node" data-pb-editable="true" cx="1554" cy="376" r="16" fill="#000000"/>
+  </g>
+
+  <g id="legend" data-pb-role="legend" data-pb-editable="true">
+    <rect id="legend-frame" data-pb-role="legend" data-pb-editable="true" x="829" y="279" width="396" height="181" fill="#ffffff" stroke="#777777" stroke-width="4"/>
+    <text id="legend-title" x="967" y="319" font-family="Arial, Helvetica, sans-serif" font-size="32" font-style="normal" font-weight="400" fill="#000000" data-pb-role="legend" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="horizontal">Legend:</text>
+    <rect id="legend-y0-icon" data-pb-role="legend" data-pb-editable="true" x="849" y="336" width="38" height="39" fill="#000000" stroke="#000000" stroke-width="2"/>
+    <text id="legend-y0-text" x="899" y="363" font-family="Arial, Helvetica, sans-serif" font-size="28" font-style="normal" font-weight="400" fill="#000000" data-pb-role="legend" data-pb-editable="true" data-pb-text-source="visual_inferred" data-pb-orientation="horizontal">Y = 0</text>
+    <rect id="legend-a0-icon" data-pb-role="legend" data-pb-editable="true" x="973" y="337" width="35" height="36" fill="#ffffff" stroke="#000000" stroke-width="7"/>
+    <path id="legend-a0-hatch" data-pb-role="decorative" data-pb-editable="true" d="M 979 369 L 1003 344 M 985 373 L 1008 350 M 974 359 L 996 337" fill="none" stroke="#000000" stroke-width="6" stroke-linecap="square"/>
+    <text id="legend-a0-text" x="1023" y="363" font-family="Arial, Helvetica, sans-serif" font-size="28" font-style="normal" font-weight="400" fill="#000000" data-pb-role="legend" data-pb-editable="true" data-pb-text-source="visual_inferred" data-pb-orientation="horizontal">A = 0</text>
+    <rect id="legend-s0-icon" data-pb-role="legend" data-pb-editable="true" x="1102" y="338" width="31" height="33" fill="#ffffff" stroke="#ff9300" stroke-width="6"/>
+    <text id="legend-s0-text" x="1149" y="363" font-family="Arial, Helvetica, sans-serif" font-size="28" font-style="normal" font-weight="400" fill="#000000" data-pb-role="legend" data-pb-editable="true" data-pb-text-source="visual_inferred" data-pb-orientation="horizontal">S = 0</text>
+    <rect id="legend-y1-icon" data-pb-role="legend" data-pb-editable="true" x="851" y="411" width="34" height="34" fill="#ffffff" stroke="#000000" stroke-width="7"/>
+    <text id="legend-y1-text" x="899" y="435" font-family="Arial, Helvetica, sans-serif" font-size="28" font-style="normal" font-weight="400" fill="#000000" data-pb-role="legend" data-pb-editable="true" data-pb-text-source="visual_inferred" data-pb-orientation="horizontal">Y = 1</text>
+    <rect id="legend-a1-icon" data-pb-role="legend" data-pb-editable="true" x="974" y="410" width="34" height="34" fill="#ffffff" stroke="#000000" stroke-width="7"/>
+    <text id="legend-a1-text" x="1023" y="435" font-family="Arial, Helvetica, sans-serif" font-size="28" font-style="normal" font-weight="400" fill="#000000" data-pb-role="legend" data-pb-editable="true" data-pb-text-source="visual_inferred" data-pb-orientation="horizontal">A = 1</text>
+    <rect id="legend-s1-icon" data-pb-role="legend" data-pb-editable="true" x="1102" y="410" width="32" height="34" fill="#ffffff" stroke="#1ba5cf" stroke-width="6"/>
+    <text id="legend-s1-text" x="1149" y="435" font-family="Arial, Helvetica, sans-serif" font-size="28" font-style="normal" font-weight="400" fill="#000000" data-pb-role="legend" data-pb-editable="true" data-pb-text-source="visual_inferred" data-pb-orientation="horizontal">S = 1</text>
+  </g>
+
+  <g id="flow-probability-labels" data-pb-role="label" data-pb-editable="true">
+    <g id="label-p-train" data-pb-role="formula" data-pb-editable="true" data-pb-formula-bbox="484 429 91 49" data-pb-formula-latex-b64="UF97dHJhaW59">
+      <text id="label-p-train-fallback" x="484" y="462" font-family="Arial, Helvetica, sans-serif" font-size="40" font-style="normal" font-weight="400" fill="#000000" data-pb-role="formula" data-pb-editable="true" data-pb-text-source="visual_inferred" data-pb-orientation="horizontal">P<tspan baseline-shift="sub" font-size="28">train</tspan></text>
+      <desc>LaTeX: P_{train}</desc>
+    </g>
+    <g id="label-p-test" data-pb-role="formula" data-pb-editable="true" data-pb-formula-bbox="1518 429 80 49" data-pb-formula-latex-b64="UF97dGVzdH0=">
+      <text id="label-p-test-fallback" x="1518" y="462" font-family="Arial, Helvetica, sans-serif" font-size="40" font-style="normal" font-weight="400" fill="#000000" data-pb-role="formula" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="horizontal">P<tspan baseline-shift="sub" font-size="28">test</tspan></text>
+      <desc>LaTeX: P_{test}</desc>
+    </g>
+    <line id="connector-p-train-range" data-pb-role="connector" data-pb-editable="true" x1="55" y1="477" x2="968" y2="477" stroke="#000000" stroke-width="6" marker-start="url(#arrow-range-start)" marker-end="url(#arrow-range-end)"/>
+    <line id="connector-p-test-range" data-pb-role="connector" data-pb-editable="true" x1="1095" y1="477" x2="2004" y2="477" stroke="#000000" stroke-width="6" marker-start="url(#arrow-range-start)" marker-end="url(#arrow-range-end)"/>
+  </g>
+
+  <g id="panel-train-strip" data-pb-role="panel" data-pb-editable="true">
+    <rect id="train-block-orange-1" data-pb-role="panel" data-pb-editable="true" x="48" y="483" width="232" height="95" fill="#ff9300" stroke="none"/>
+    <path id="train-block-orange-1-hatch" data-pb-role="decorative" data-pb-editable="true" d="M 64 560 L 126 498 M 77 560 L 139 498 M 90 560 L 152 498 M 103 560 L 165 498 M 116 560 L 178 498 M 129 560 L 191 498 M 142 560 L 204 498 M 155 560 L 217 498 M 168 560 L 230 498 M 181 560 L 244 497 M 194 560 L 246 508 M 207 560 L 246 521 M 220 560 L 246 534 M 233 560 L 246 547" fill="none" stroke="#000000" stroke-width="7" stroke-linecap="square"/>
+    <rect id="train-block-blue-1" data-pb-role="panel" data-pb-editable="true" x="280" y="483" width="233" height="95" fill="#1ba5cf" stroke="none"/>
+    <path id="train-block-blue-1-hatch" data-pb-role="decorative" data-pb-editable="true" d="M 297 560 L 359 498 M 310 560 L 372 498 M 323 560 L 385 498 M 336 560 L 398 498 M 349 560 L 411 498 M 362 560 L 424 498 M 375 560 L 437 498 M 388 560 L 437 511 M 401 560 L 437 524 M 414 560 L 437 537" fill="none" stroke="#000000" stroke-width="7" stroke-linecap="square"/>
+    <rect id="train-block-orange-2" data-pb-role="panel" data-pb-editable="true" x="513" y="483" width="231" height="95" fill="#ff9300" stroke="none"/>
+    <rect id="train-white-thin" data-pb-role="panel" data-pb-editable="true" x="528" y="499" width="7" height="64" fill="#ffffff" stroke="none"/>
+    <path id="train-white-thin-hatch" data-pb-role="decorative" data-pb-editable="true" d="M 529 558 L 535 552 M 529 535 L 535 529 M 529 512 L 535 506" fill="none" stroke="#000000" stroke-width="3"/>
+    <rect id="train-orange-white-rect" data-pb-role="panel" data-pb-editable="true" x="563" y="499" width="166" height="64" fill="#ffffff" stroke="none"/>
+    <rect id="train-block-blue-2" data-pb-role="panel" data-pb-editable="true" x="744" y="483" width="232" height="95" fill="#1ba5cf" stroke="none"/>
+    <rect id="train-blue-white-hatch" data-pb-role="panel" data-pb-editable="true" x="760" y="499" width="38" height="64" fill="#ffffff" stroke="none"/>
+    <path id="train-blue-white-hatch-lines" data-pb-role="decorative" data-pb-editable="true" d="M 761 559 L 797 523 M 761 543 L 798 506 M 763 525 L 789 499 M 777 563 L 798 542 M 790 563 L 798 555" fill="none" stroke="#000000" stroke-width="6" stroke-linecap="square"/>
+    <rect id="train-blue-white-rect" data-pb-role="panel" data-pb-editable="true" x="826" y="499" width="137" height="64" fill="#ffffff" stroke="none"/>
+  </g>
+
+  <g id="panel-test-strip" data-pb-role="panel" data-pb-editable="true">
+    <rect id="test-block-orange-1" data-pb-role="panel" data-pb-editable="true" x="1084" y="483" width="233" height="95" fill="#ff9300" stroke="none"/>
+    <path id="test-block-orange-1-hatch" data-pb-role="decorative" data-pb-editable="true" d="M 1102 560 L 1164 498 M 1115 560 L 1177 498 M 1128 560 L 1190 498 M 1141 560 L 1203 498 M 1154 560 L 1187 527 M 1167 560 L 1187 540" fill="none" stroke="#000000" stroke-width="7" stroke-linecap="square"/>
+    <rect id="test-block-blue-1" data-pb-role="panel" data-pb-editable="true" x="1317" y="483" width="232" height="95" fill="#1ba5cf" stroke="none"/>
+    <path id="test-block-blue-1-hatch" data-pb-role="decorative" data-pb-editable="true" d="M 1332 560 L 1394 498 M 1345 560 L 1407 498 M 1358 560 L 1420 498 M 1371 560 L 1433 498 M 1384 560 L 1417 527 M 1397 560 L 1417 540" fill="none" stroke="#000000" stroke-width="7" stroke-linecap="square"/>
+    <rect id="test-block-orange-2" data-pb-role="panel" data-pb-editable="true" x="1549" y="483" width="232" height="95" fill="#ff9300" stroke="none"/>
+    <rect id="test-orange-white-hatch" data-pb-role="panel" data-pb-editable="true" x="1566" y="499" width="86" height="64" fill="#ffffff" stroke="none"/>
+    <path id="test-orange-white-hatch-lines" data-pb-role="decorative" data-pb-editable="true" d="M 1568 560 L 1629 499 M 1581 560 L 1642 499 M 1594 560 L 1652 502 M 1607 560 L 1652 515 M 1620 560 L 1652 528 M 1633 560 L 1652 541 M 1567 546 L 1614 499 M 1567 533 L 1601 499 M 1567 520 L 1588 499" fill="none" stroke="#000000" stroke-width="7" stroke-linecap="square"/>
+    <rect id="test-orange-white-rect" data-pb-role="panel" data-pb-editable="true" x="1681" y="499" width="86" height="64" fill="#ffffff" stroke="none"/>
+    <rect id="test-block-blue-2" data-pb-role="panel" data-pb-editable="true" x="1781" y="483" width="233" height="95" fill="#1ba5cf" stroke="none"/>
+    <rect id="test-blue-white-hatch" data-pb-role="panel" data-pb-editable="true" x="1798" y="499" width="86" height="64" fill="#ffffff" stroke="none"/>
+    <path id="test-blue-white-hatch-lines" data-pb-role="decorative" data-pb-editable="true" d="M 1800 560 L 1861 499 M 1813 560 L 1874 499 M 1826 560 L 1884 502 M 1839 560 L 1884 515 M 1852 560 L 1884 528 M 1865 560 L 1884 541 M 1799 546 L 1846 499 M 1799 533 L 1833 499 M 1799 520 L 1820 499" fill="none" stroke="#000000" stroke-width="7" stroke-linecap="square"/>
+    <rect id="test-blue-white-rect" data-pb-role="panel" data-pb-editable="true" x="1913" y="499" width="86" height="64" fill="#ffffff" stroke="none"/>
+  </g>
+</svg>

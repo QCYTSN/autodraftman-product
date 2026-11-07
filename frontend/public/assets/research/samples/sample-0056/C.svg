@@ -1,0 +1,114 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="977" height="389" viewBox="0 0 977 389">
+  <title>Neural compression and adversarial classification block diagram</title>
+  <desc>
+    Inventory: three left source labels Y, S, X feed the diagram; X flows through Encoder, plus node, Quantizer, Z, minus node, Decoder, reconstructed Y-tilde, Classifier, and Classification Loss. Y also travels by a dashed horizontal reference line to the Discriminator; S travels by a dashed line to Classification Loss; X travels by a dashed lower bypass to Distortion Loss. Y-tilde branches upward to the Discriminator and downward to Distortion Loss. Discriminator feeds Wasserstein Loss. U supplies two upward auxiliary inputs to the plus and minus nodes. Whole section basis: a mostly horizontal left-to-right processing chain with vertical auxiliary branches and right-aligned loss boxes.
+  </desc>
+
+  <defs>
+    <marker id="arrowBlack" markerUnits="userSpaceOnUse" markerWidth="10" markerHeight="8" refX="9" refY="4" orient="auto">
+      <path d="M0,0 L10,4 L0,8 Z" fill="#000000" id="plus_node_0" />
+    </marker>
+    <marker id="arrowBlackStart" markerUnits="userSpaceOnUse" markerWidth="10" markerHeight="8" refX="1" refY="4" orient="auto-start-reverse">
+      <path d="M0,0 L10,4 L0,8 Z" fill="#000000" id="plus_node_1" />
+    </marker>
+    <clipPath id="topCrop">
+      <rect x="0" y="0" width="977" height="5" id="plus_node_2" />
+    </clipPath>
+  </defs>
+
+  <rect id="f01" data-plus-kind="frame" x="0" y="0" width="977" height="389" fill="#ffffff" stroke="none" />
+
+  
+  <g id="top_clipped_text_fragments" clip-path="url(#topCrop)" fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="19" font-weight="600">
+    <text x="235" y="4" id="plus_node_3">I</text>
+    <text x="421" y="4" id="plus_node_4">g</text>
+    <text x="694" y="4" id="plus_node_5">p</text>
+    <text x="902" y="4" id="plus_node_6">p</text>
+  </g>
+
+  
+  <rect id="f02" data-plus-kind="frame" x="19" y="19" width="29" height="80" fill="#f9dfd0" stroke="#ff5a1c" stroke-width="1.6" />
+  <text id="txt_Y" x="30.5" y="59" font-family="Arial, Helvetica, sans-serif" font-size="18" font-style="italic" text-anchor="middle" dominant-baseline="middle" fill="#000000">Y</text>
+
+  <rect id="f03" data-plus-kind="frame" x="19" y="115" width="24" height="48" fill="#f9dfd0" stroke="#ff5a1c" stroke-width="1.6" />
+  <text id="txt_S" x="31" y="139" font-family="Arial, Helvetica, sans-serif" font-size="18" font-style="italic" text-anchor="middle" dominant-baseline="middle" fill="#000000">S</text>
+
+  <rect id="f04" data-plus-kind="frame" x="19" y="181" width="24" height="80" fill="#f9dfd0" stroke="#ff5a1c" stroke-width="1.6" />
+  <text id="txt_X" x="31" y="221" font-family="Arial, Helvetica, sans-serif" font-size="18" font-style="italic" text-anchor="middle" dominant-baseline="middle" fill="#000000">X</text>
+
+  
+  <polygon id="f05" data-plus-kind="frame" points="57,171 153,194 153,246 57,269" fill="#ff9a96" stroke="#ff0000" stroke-width="1.7" />
+  <text id="txt_encoder_1" x="105" y="215" font-family="Arial, Helvetica, sans-serif" font-size="20" text-anchor="middle" dominant-baseline="middle" fill="#000000">Encoder</text>
+  <text id="txt_encoder_2" x="105" y="241" font-family="Arial, Helvetica, sans-serif" font-size="20" font-style="italic" text-anchor="middle" dominant-baseline="middle" fill="#000000">(f)</text>
+
+  <circle id="f06" data-plus-kind="frame" cx="190" cy="221" r="17" fill="#86d7f7" stroke="#2daee0" stroke-width="1.5" />
+  <text id="txt_plus" x="190" y="220" font-family="Arial, Helvetica, sans-serif" font-size="20" text-anchor="middle" dominant-baseline="middle" fill="#000000">+</text>
+
+  <rect id="f07" data-plus-kind="frame" x="239" y="197" width="99" height="48" fill="#d889d7" stroke="#a720a7" stroke-width="1.6" />
+  <text id="txt_quantizer" x="288.5" y="221" font-family="Arial, Helvetica, sans-serif" font-size="20" text-anchor="middle" dominant-baseline="middle" fill="#000000">Quantizer</text>
+
+  <rect id="f08" data-plus-kind="frame" x="366" y="202" width="35" height="37" fill="#ffe76a" stroke="#f5bd00" stroke-width="1.6" />
+  <text id="txt_Z" x="383.5" y="221" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="600" text-anchor="middle" dominant-baseline="middle" fill="#000000">Z</text>
+
+  <circle id="f09" data-plus-kind="frame" cx="439" cy="221" r="17" fill="#86d7f7" stroke="#2daee0" stroke-width="1.5" />
+  <text id="txt_minus" x="439" y="218" font-family="Arial, Helvetica, sans-serif" font-size="22" text-anchor="middle" dominant-baseline="middle" fill="#000000">-</text>
+
+  <polygon id="f10" data-plus-kind="frame" points="484,195 589,171 589,269 484,245" fill="#c8e8bd" stroke="#34a331" stroke-width="1.7" />
+  <text id="txt_decoder_1" x="538" y="212" font-family="Arial, Helvetica, sans-serif" font-size="20" text-anchor="middle" dominant-baseline="middle" fill="#000000">Decoder</text>
+  <text id="txt_decoder_2" x="545" y="239" font-family="Arial, Helvetica, sans-serif" font-size="20" font-style="italic" text-anchor="middle" dominant-baseline="middle" fill="#000000">(g)</text>
+
+  <rect id="f11" data-plus-kind="frame" x="611" y="180" width="29" height="80" fill="#f9dfd0" stroke="#ff5a1c" stroke-width="1.6" />
+  <text id="txt_ytilde" x="625.5" y="220" font-family="Arial, Helvetica, sans-serif" font-size="18" font-style="italic" text-anchor="middle" dominant-baseline="middle" fill="#000000">Ỹ</text>
+
+  <rect id="f12" data-plus-kind="frame" x="674" y="187" width="104" height="64" fill="#ffff00" stroke="#ff7b00" stroke-width="1.7" />
+  <text id="txt_classifier_1" x="726" y="211" font-family="Arial, Helvetica, sans-serif" font-size="20" text-anchor="middle" dominant-baseline="middle" fill="#000000">Classifier</text>
+  <text id="txt_classifier_2" x="726" y="235" font-family="Arial, Helvetica, sans-serif" font-size="20" font-style="italic" text-anchor="middle" dominant-baseline="middle" fill="#000000">(c)</text>
+
+  <rect id="f13" data-plus-kind="frame" x="291" y="262" width="37" height="31" fill="#d889d7" stroke="#a720a7" stroke-width="1.6" />
+  <text id="txt_U" x="309.5" y="278" font-family="Arial, Helvetica, sans-serif" font-size="20" font-style="italic" text-anchor="middle" dominant-baseline="middle" fill="#000000">U</text>
+
+  
+  <polygon id="f14" data-plus-kind="frame" points="653,29 786,54 786,104 653,129" fill="#d8bfef" stroke="#6a28a7" stroke-width="1.7" />
+  <text id="txt_discriminator_1" x="720" y="70" font-family="Arial, Helvetica, sans-serif" font-size="19" text-anchor="middle" dominant-baseline="middle" fill="#000000">Discriminator</text>
+  <text id="txt_discriminator_2" x="721" y="95" font-family="Arial, Helvetica, sans-serif" font-size="20" font-style="italic" text-anchor="middle" dominant-baseline="middle" fill="#000000">(d)</text>
+
+  <rect id="f15" data-plus-kind="frame" x="818" y="38" width="142" height="81" fill="#f9e4d8" stroke="#ff5a1c" stroke-width="1.7" />
+  <text id="txt_wasserstein_1" x="889" y="68" font-family="Arial, Helvetica, sans-serif" font-size="20" text-anchor="middle" dominant-baseline="middle" fill="#000000">Wasserstein</text>
+  <text id="txt_wasserstein_2" x="889" y="93" font-family="Arial, Helvetica, sans-serif" font-size="20" text-anchor="middle" dominant-baseline="middle" fill="#000000">Loss</text>
+
+  <rect id="f16" data-plus-kind="frame" x="818" y="179" width="142" height="80" fill="#f9e4d8" stroke="#ff5a1c" stroke-width="1.7" />
+  <text id="txt_classloss_1" x="889" y="209" font-family="Arial, Helvetica, sans-serif" font-size="20" text-anchor="middle" dominant-baseline="middle" fill="#000000">Classification</text>
+  <text id="txt_classloss_2" x="889" y="234" font-family="Arial, Helvetica, sans-serif" font-size="20" text-anchor="middle" dominant-baseline="middle" fill="#000000">Loss</text>
+
+  <rect id="f17" data-plus-kind="frame" x="818" y="291" width="142" height="81" fill="#f9e4d8" stroke="#ff5a1c" stroke-width="1.7" />
+  <text id="txt_distortion_1" x="889" y="320" font-family="Arial, Helvetica, sans-serif" font-size="20" text-anchor="middle" dominant-baseline="middle" fill="#000000">Distortion</text>
+  <text id="txt_distortion_2" x="889" y="346" font-family="Arial, Helvetica, sans-serif" font-size="20" text-anchor="middle" dominant-baseline="middle" fill="#000000">Loss</text>
+
+  
+  <path id="arrow_X_to_encoder" d="M43,221 L57,221" fill="none" stroke="#000000" stroke-width="1.6" marker-end="url(#arrowBlack)" />
+  <path id="arrow_encoder_to_plus" d="M153,221 L173,221" fill="none" stroke="#000000" stroke-width="1.6" marker-end="url(#arrowBlack)" />
+  <path id="arrow_plus_to_quantizer" d="M207,221 L239,221" fill="none" stroke="#000000" stroke-width="1.6" marker-end="url(#arrowBlack)" />
+  <path id="arrow_quantizer_to_Z" d="M338,221 L366,221" fill="none" stroke="#000000" stroke-width="1.6" marker-end="url(#arrowBlack)" />
+  <path id="arrow_Z_to_minus" d="M401,221 L422,221" fill="none" stroke="#000000" stroke-width="1.6" marker-end="url(#arrowBlack)" />
+  <path id="arrow_minus_to_decoder" d="M456,221 L484,221" fill="none" stroke="#000000" stroke-width="1.6" marker-end="url(#arrowBlack)" />
+  <path id="arrow_decoder_to_ytilde" d="M589,221 L611,221" fill="none" stroke="#000000" stroke-width="1.6" marker-end="url(#arrowBlack)" />
+  <path id="arrow_ytilde_to_classifier" d="M640,221 L674,221" fill="none" stroke="#000000" stroke-width="1.6" marker-end="url(#arrowBlack)" />
+  <path id="arrow_classifier_to_classloss" d="M778,221 L818,221" fill="none" stroke="#000000" stroke-width="1.6" marker-end="url(#arrowBlack)" />
+  <text id="txt_Shat" x="799" y="205" font-family="Arial, Helvetica, sans-serif" font-size="19" font-style="italic" text-anchor="middle" dominant-baseline="middle" fill="#000000">Ŝ</text>
+
+  
+  <path id="arrow_U_to_plus" d="M291,277 L190,277 L190,238" fill="none" stroke="#000000" stroke-width="1.6" marker-end="url(#arrowBlack)" />
+  <path id="arrow_U_to_minus" d="M328,277 L439,277 L439,238" fill="none" stroke="#000000" stroke-width="1.6" marker-end="url(#arrowBlack)" />
+
+  
+  <path id="arrow_ytilde_to_discriminator" d="M625,180 L625,78 L653,78" fill="none" stroke="#000000" stroke-width="1.6" marker-end="url(#arrowBlack)" />
+  <path id="arrow_ytilde_to_distortion" d="M625,260 L625,330 L818,330" fill="none" stroke="#000000" stroke-width="1.6" marker-end="url(#arrowBlack)" />
+
+  
+  <path id="arrow_discriminator_to_wasserstein" d="M786,78 L818,78" fill="none" stroke="#000000" stroke-width="1.6" marker-end="url(#arrowBlack)" />
+
+  
+  <path id="dash_Y_to_discriminator" d="M48,58 L653,58" fill="none" stroke="#000000" stroke-width="1.5" stroke-dasharray="7 5" marker-end="url(#arrowBlack)" />
+  <path id="dash_S_to_classloss" d="M43,138 L889,138 L889,179" fill="none" stroke="#000000" stroke-width="1.5" stroke-dasharray="7 5" marker-end="url(#arrowBlack)" />
+  <path id="dash_X_to_distortion" d="M31,261 L31,342 L818,342" fill="none" stroke="#000000" stroke-width="1.5" stroke-dasharray="7 5" marker-end="url(#arrowBlack)" />
+</svg>

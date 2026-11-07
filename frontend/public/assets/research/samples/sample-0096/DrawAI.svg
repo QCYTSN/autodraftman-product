@@ -1,0 +1,159 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="2048" height="937" viewBox="0 0 2048 937">
+  <defs>
+    <marker id="arrow-black" markerWidth="5" markerHeight="4" refX="4.6" refY="2" orient="auto" markerUnits="strokeWidth">
+      <path d="M 0 0 L 5 2 L 0 4 Z" fill="#000000" stroke="none"/>
+    </marker>
+    <marker id="arrow-teal" markerWidth="6" markerHeight="5" refX="5.5" refY="2.5" orient="auto" markerUnits="strokeWidth">
+      <path d="M 0 0 L 6 2.5 L 0 5 Z" fill="#74b7aa" stroke="none"/>
+    </marker>
+  </defs>
+  <rect id="background" data-pb-role="background" data-pb-editable="true" x="0" y="0" width="2048" height="937" fill="#ffffff" stroke="none"/>
+
+  <g id="connectors-main" data-pb-role="connector" data-pb-editable="true">
+    <path id="connector-input-upper" d="M 112 388 C 132 188 260 92 466 89" fill="none" stroke="#000000" stroke-width="3" marker-end="url(#arrow-black)"/>
+    <path id="connector-input-lower" d="M 112 388 C 126 616 260 759 469 754" fill="none" stroke="#000000" stroke-width="3" marker-end="url(#arrow-black)"/>
+    <line id="connector-input-middle" x1="113" y1="388" x2="262" y2="388" stroke="#000000" stroke-width="4" marker-end="url(#arrow-black)"/>
+    <line id="connector-samples-middle" x1="392" y1="393" x2="478" y2="393" stroke="#000000" stroke-width="4" marker-end="url(#arrow-black)"/>
+    <line id="connector-top-via-phi" x1="594" y1="102" x2="660" y2="102" stroke="#000000" stroke-width="3" marker-end="url(#arrow-black)"/>
+    <line id="connector-top-vector-linear" x1="742" y1="102" x2="852" y2="102" stroke="#000000" stroke-width="3" marker-end="url(#arrow-black)"/>
+    <line id="connector-top-linear-y" x1="970" y1="102" x2="1082" y2="102" stroke="#000000" stroke-width="3" marker-end="url(#arrow-black)"/>
+    <path id="connector-y-loss" d="M 1159 102 C 1392 103 1685 111 1724 241" fill="none" stroke="#000000" stroke-width="3" marker-end="url(#arrow-black)"/>
+    <line id="connector-mid-via-phi" x1="599" y1="393" x2="695" y2="393" stroke="#000000" stroke-width="3" marker-end="url(#arrow-black)"/>
+    <line id="connector-mid-vector-linear" x1="858" y1="393" x2="960" y2="393" stroke="#000000" stroke-width="4" marker-end="url(#arrow-black)"/>
+    <line id="connector-mid-linear-shap" x1="1079" y1="394" x2="1182" y2="394" stroke="#000000" stroke-width="3" marker-end="url(#arrow-black)"/>
+    <line id="connector-shap-loss" x1="1324" y1="394" x2="1406" y2="394" stroke="#000000" stroke-width="3" marker-end="url(#arrow-black)"/>
+    <line id="connector-loss-up" x1="1724" y1="514" x2="1724" y2="432" stroke="#000000" stroke-width="3" marker-end="url(#arrow-black)"/>
+    <line id="connector-bottom-via-phi" x1="591" y1="754" x2="659" y2="754" stroke="#000000" stroke-width="3" marker-end="url(#arrow-black)"/>
+    <line id="connector-bottom-vector-samples" x1="741" y1="754" x2="833" y2="754" stroke="#000000" stroke-width="4" marker-end="url(#arrow-black)"/>
+    <line id="connector-bottom-samples-linear" x1="947" y1="754" x2="1044" y2="754" stroke="#000000" stroke-width="4" marker-end="url(#arrow-black)"/>
+    <line id="connector-bottom-linear-output" x1="1162" y1="754" x2="1254" y2="754" stroke="#000000" stroke-width="3" marker-end="url(#arrow-black)"/>
+    <path id="connector-output-loss" d="M 1411 763 C 1572 763 1696 689 1719 432" fill="none" stroke="#000000" stroke-width="3" marker-end="url(#arrow-black)"/>
+  </g>
+
+  <g id="vectors-and-masks" data-pb-role="grid" data-pb-editable="true" stroke="#111111" stroke-width="1.4">
+    <g id="vector-input-x">
+      <rect x="76" y="312" width="20" height="21" fill="#d7ecd6"/><rect x="76" y="333" width="20" height="21" fill="#ead8e8"/><rect x="76" y="354" width="20" height="21" fill="#f16f72"/><rect x="76" y="375" width="20" height="21" fill="#ffd966"/><rect x="76" y="396" width="20" height="21" fill="#75b9ad"/><rect x="76" y="417" width="20" height="21" fill="#c36b9b"/><rect x="76" y="438" width="20" height="21" fill="#74a4d7"/>
+    </g>
+    <g id="mask-left-a">
+      <rect x="304" y="232" width="20" height="21" fill="#000000"/><rect x="304" y="253" width="20" height="21" fill="#ffffff"/><rect x="304" y="274" width="20" height="21" fill="#000000"/><rect x="304" y="295" width="20" height="21" fill="#ffffff"/><rect x="304" y="316" width="20" height="21" fill="#000000"/><rect x="304" y="337" width="20" height="21" fill="#000000"/><rect x="304" y="358" width="20" height="21" fill="#ffffff"/>
+    </g>
+    <g id="mask-left-b">
+      <rect x="350" y="320" width="20" height="21" fill="#ffffff"/><rect x="350" y="341" width="20" height="21" fill="#ffffff"/><rect x="350" y="362" width="20" height="21" fill="#ffffff"/><rect x="350" y="383" width="20" height="21" fill="#000000"/><rect x="350" y="404" width="20" height="21" fill="#ffffff"/><rect x="350" y="425" width="20" height="21" fill="#ffffff"/><rect x="350" y="446" width="20" height="21" fill="#000000"/>
+    </g>
+    <g id="mask-left-c">
+      <rect x="304" y="432" width="20" height="21" fill="#ffffff"/><rect x="304" y="453" width="20" height="21" fill="#000000"/><rect x="304" y="474" width="20" height="21" fill="#ffffff"/><rect x="304" y="495" width="20" height="21" fill="#000000"/><rect x="304" y="516" width="20" height="21" fill="#ffffff"/><rect x="304" y="537" width="20" height="21" fill="#000000"/><rect x="304" y="558" width="20" height="21" fill="#000000"/>
+    </g>
+    <g id="vector-top">
+      <rect x="721" y="31" width="19" height="21" fill="#ffc0c0"/><rect x="721" y="52" width="19" height="21" fill="#c8d8eb"/><rect x="721" y="73" width="19" height="21" fill="#0068b7"/><rect x="721" y="94" width="19" height="21" fill="#1f78c7"/><rect x="721" y="115" width="19" height="21" fill="#ff6969"/><rect x="721" y="136" width="19" height="21" fill="#e60000"/><rect x="721" y="157" width="19" height="21" fill="#c8d8eb"/>
+    </g>
+    <g id="mask-upper-mid">
+      <rect x="751" y="204" width="19" height="21" fill="#000000"/><rect x="751" y="225" width="19" height="21" fill="#c8d8eb"/><rect x="751" y="246" width="19" height="21" fill="#000000"/><rect x="751" y="267" width="19" height="21" fill="#7db3ec"/><rect x="751" y="288" width="19" height="21" fill="#ff6969"/><rect x="751" y="309" width="19" height="21" fill="#000000"/><rect x="751" y="330" width="19" height="21" fill="#c8d8eb"/>
+    </g>
+    <g id="vector-middle">
+      <rect x="810" y="316" width="20" height="21" fill="#ffc0c0"/><rect x="810" y="337" width="20" height="21" fill="#c8d8eb"/><rect x="810" y="358" width="20" height="21" fill="#0068b7"/><rect x="810" y="379" width="20" height="21" fill="#000000"/><rect x="810" y="400" width="20" height="21" fill="#ff6969"/><rect x="810" y="421" width="20" height="21" fill="#e60000"/><rect x="810" y="442" width="20" height="21" fill="#000000"/>
+    </g>
+    <g id="vector-center-low">
+      <rect x="755" y="437" width="19" height="21" fill="#ffc0c0"/><rect x="755" y="458" width="19" height="21" fill="#000000"/><rect x="755" y="479" width="19" height="21" fill="#0068b7"/><rect x="755" y="500" width="19" height="21" fill="#7db3ec"/><rect x="755" y="521" width="19" height="21" fill="#000000"/><rect x="755" y="542" width="19" height="21" fill="#e60000"/><rect x="755" y="563" width="19" height="21" fill="#000000"/>
+    </g>
+    <g id="mask-lower-a">
+      <rect x="860" y="555" width="20" height="21" fill="#000000"/><rect x="860" y="576" width="20" height="21" fill="#ffffff"/><rect x="860" y="597" width="20" height="21" fill="#000000"/><rect x="860" y="618" width="20" height="21" fill="#ffffff"/><rect x="860" y="639" width="20" height="21" fill="#000000"/><rect x="860" y="660" width="20" height="21" fill="#000000"/><rect x="860" y="681" width="20" height="21" fill="#ffffff"/>
+    </g>
+    <g id="mask-lower-b">
+      <rect x="910" y="646" width="20" height="21" fill="#ffffff"/><rect x="910" y="667" width="20" height="21" fill="#ffffff"/><rect x="910" y="688" width="20" height="21" fill="#ffffff"/><rect x="910" y="709" width="20" height="21" fill="#000000"/><rect x="910" y="730" width="20" height="21" fill="#ffffff"/><rect x="910" y="751" width="20" height="21" fill="#ffffff"/><rect x="910" y="772" width="20" height="21" fill="#000000"/>
+    </g>
+    <g id="mask-lower-c">
+      <rect x="859" y="757" width="20" height="21" fill="#ffffff"/><rect x="859" y="778" width="20" height="21" fill="#000000"/><rect x="859" y="799" width="20" height="21" fill="#ffffff"/><rect x="859" y="820" width="20" height="21" fill="#000000"/><rect x="859" y="841" width="20" height="21" fill="#ffffff"/><rect x="859" y="862" width="20" height="21" fill="#000000"/><rect x="859" y="883" width="20" height="21" fill="#000000"/>
+    </g>
+    <g id="vector-bottom">
+      <rect x="721" y="682" width="19" height="21" fill="#ffc0c0"/><rect x="721" y="703" width="19" height="21" fill="#c8d8eb"/><rect x="721" y="724" width="19" height="21" fill="#0068b7"/><rect x="721" y="745" width="19" height="21" fill="#1f78c7"/><rect x="721" y="766" width="19" height="21" fill="#ff6969"/><rect x="721" y="787" width="19" height="21" fill="#e60000"/><rect x="721" y="808" width="19" height="21" fill="#c8d8eb"/>
+    </g>
+  </g>
+
+  <g id="annotation-same-samples" data-pb-role="label" data-pb-editable="true">
+    <line id="annotation-arrow-up" x1="473" y1="549" x2="403" y2="499" stroke="#74b7aa" stroke-width="4" marker-end="url(#arrow-teal)"/>
+    <line id="annotation-arrow-down" x1="699" y1="604" x2="782" y2="660" stroke="#74b7aa" stroke-width="4" marker-end="url(#arrow-teal)"/>
+    <g id="annotation-hatch" stroke="#cfe6dc" stroke-width="3" opacity="0.85">
+      <line x1="470" y1="585" x2="535" y2="520"/><line x1="478" y1="591" x2="548" y2="521"/><line x1="486" y1="597" x2="561" y2="522"/><line x1="494" y1="603" x2="574" y2="523"/><line x1="502" y1="609" x2="587" y2="524"/><line x1="515" y1="609" x2="600" y2="524"/><line x1="528" y1="609" x2="613" y2="524"/><line x1="541" y1="609" x2="626" y2="524"/><line x1="554" y1="609" x2="639" y2="524"/><line x1="567" y1="609" x2="652" y2="524"/><line x1="580" y1="609" x2="665" y2="524"/><line x1="593" y1="609" x2="678" y2="524"/><line x1="606" y1="609" x2="696" y2="519"/>
+    </g>
+    <text id="label-same-samples" x="484" y="570" font-family="Times New Roman, Times, serif" font-size="31" font-style="normal" font-weight="400" fill="#000000" data-pb-role="label" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="horizontal">Apply the same<tspan x="495" y="606">set of samples</tspan></text>
+  </g>
+
+  <g id="labels-input" data-pb-role="label" data-pb-editable="true">
+    <text id="label-x" x="26" y="394" font-family="Times New Roman, Times, serif" font-size="56" font-style="normal" font-weight="700" fill="#000000" data-pb-role="label" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="horizontal">x</text>
+  </g>
+
+  <g id="module-top-via" data-pb-role="formula" data-pb-editable="true" data-pb-formula-bbox="479 43 114 119" data-pb-formula-latex-b64="XHBoaV57dmlhfQ==">
+    <rect x="479" y="43" width="114" height="119" rx="15" ry="15" fill="#ffffff" stroke="#333333" stroke-width="2"/>
+    <text x="490" y="123" font-family="Times New Roman, Times, serif" font-size="60" font-style="italic" font-weight="400" fill="#000000" data-pb-role="formula" data-pb-editable="true" data-pb-text-source="visual_inferred" data-pb-orientation="horizontal">φ<tspan baseline-shift="super" font-size="41">via</tspan></text>
+    <desc>LaTeX: \phi^{via}</desc>
+  </g>
+  <g id="label-top-phi" data-pb-role="formula" data-pb-editable="true" data-pb-formula-bbox="671 77 38 48" data-pb-formula-latex-b64="XHBoaQ==">
+    <text x="670" y="118" font-family="Times New Roman, Times, serif" font-size="62" font-style="italic" font-weight="400" fill="#000000" data-pb-role="formula" data-pb-editable="true" data-pb-text-source="visual_inferred" data-pb-orientation="horizontal">φ</text>
+    <desc>LaTeX: \phi</desc>
+  </g>
+  <g id="module-top-linear" data-pb-role="formula" data-pb-editable="true" data-pb-formula-bbox="855 45 114 118" data-pb-formula-latex-b64="MV5UXHBoaQ==">
+    <rect x="855" y="45" width="114" height="118" rx="15" ry="15" fill="#ffffff" stroke="#333333" stroke-width="2"/>
+    <text x="863" y="124" font-family="Times New Roman, Times, serif" font-size="58" font-style="normal" font-weight="700" fill="#000000" data-pb-role="formula" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="horizontal">1<tspan baseline-shift="super" font-size="36" font-weight="400">T</tspan><tspan font-style="italic" font-weight="400"> φ</tspan></text>
+    <desc>LaTeX: 1^T\phi</desc>
+  </g>
+  <g id="node-yhat" data-pb-role="formula" data-pb-editable="true" data-pb-formula-bbox="1086 67 72 74" data-pb-formula-latex-b64="XGhhdHt5fQ==">
+    <ellipse cx="1122" cy="104" rx="36" ry="36" fill="#ffffff" stroke="#000000" stroke-width="2"/>
+    <text x="1101" y="124" font-family="Times New Roman, Times, serif" font-size="55" font-style="italic" font-weight="400" fill="#000000" data-pb-role="formula" data-pb-editable="true" data-pb-text-source="visual_inferred" data-pb-orientation="horizontal">ŷ</text>
+    <desc>LaTeX: \hat{y}</desc>
+  </g>
+
+  <g id="module-middle-via" data-pb-role="formula" data-pb-editable="true" data-pb-formula-bbox="484 333 115 121" data-pb-formula-latex-b64="XHBoaV57dmlhfQ==">
+    <rect x="484" y="333" width="115" height="121" rx="15" ry="15" fill="#ffffff" stroke="#333333" stroke-width="2"/>
+    <text x="496" y="413" font-family="Times New Roman, Times, serif" font-size="60" font-style="italic" font-weight="400" fill="#000000" data-pb-role="formula" data-pb-editable="true" data-pb-text-source="visual_inferred" data-pb-orientation="horizontal">φ<tspan baseline-shift="super" font-size="41">via</tspan></text>
+    <desc>LaTeX: \phi^{via}</desc>
+  </g>
+  <g id="label-middle-phi" data-pb-role="formula" data-pb-editable="true" data-pb-formula-bbox="707 364 37 46" data-pb-formula-latex-b64="XHBoaQ==">
+    <text x="705" y="405" font-family="Times New Roman, Times, serif" font-size="62" font-style="italic" font-weight="400" fill="#000000" data-pb-role="formula" data-pb-editable="true" data-pb-text-source="visual_inferred" data-pb-orientation="horizontal">φ</text>
+    <desc>LaTeX: \phi</desc>
+  </g>
+  <g id="module-middle-linear" data-pb-role="formula" data-pb-editable="true" data-pb-formula-bbox="964 337 115 118" data-pb-formula-latex-b64="MV5UXHBoaQ==">
+    <rect x="964" y="337" width="115" height="118" rx="15" ry="15" fill="#ffffff" stroke="#333333" stroke-width="2"/>
+    <text x="971" y="415" font-family="Times New Roman, Times, serif" font-size="58" font-style="normal" font-weight="700" fill="#000000" data-pb-role="formula" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="horizontal">1<tspan baseline-shift="super" font-size="36" font-weight="400">T</tspan><tspan font-style="italic" font-weight="400"> φ</tspan></text>
+    <desc>LaTeX: 1^T\phi</desc>
+  </g>
+  <g id="node-via-shap" data-pb-role="formula" data-pb-editable="true" data-pb-formula-bbox="1184 327 141 138" data-pb-formula-latex-b64="dmlhX2pee1NIQVB9KHhfUyk=">
+    <ellipse cx="1254.5" cy="396" rx="70.5" ry="69" fill="#ffffff" stroke="#000000" stroke-width="2"/>
+    <text x="1187" y="404" font-family="Times New Roman, Times, serif" font-size="29" font-style="italic" font-weight="400" fill="#000000" data-pb-role="formula" data-pb-editable="true" data-pb-text-source="visual_inferred" data-pb-orientation="horizontal">via<tspan baseline-shift="super" font-size="18">SHAP</tspan><tspan baseline-shift="sub" font-size="18">j</tspan><tspan font-size="28">(x</tspan><tspan baseline-shift="sub" font-size="18">S</tspan><tspan font-size="28">)</tspan></text>
+    <desc>LaTeX: via_j^{SHAP}(x_S)</desc>
+  </g>
+
+  <g id="module-bottom-via" data-pb-role="formula" data-pb-editable="true" data-pb-formula-bbox="475 696 115 120" data-pb-formula-latex-b64="XHBoaV57dmlhfQ==">
+    <rect x="475" y="696" width="115" height="120" rx="15" ry="15" fill="#ffffff" stroke="#333333" stroke-width="2"/>
+    <text x="488" y="775" font-family="Times New Roman, Times, serif" font-size="60" font-style="italic" font-weight="400" fill="#000000" data-pb-role="formula" data-pb-editable="true" data-pb-text-source="visual_inferred" data-pb-orientation="horizontal">φ<tspan baseline-shift="super" font-size="41">via</tspan></text>
+    <desc>LaTeX: \phi^{via}</desc>
+  </g>
+  <g id="label-bottom-phi" data-pb-role="formula" data-pb-editable="true" data-pb-formula-bbox="671 730 38 47" data-pb-formula-latex-b64="XHBoaQ==">
+    <text x="670" y="770" font-family="Times New Roman, Times, serif" font-size="62" font-style="italic" font-weight="400" fill="#000000" data-pb-role="formula" data-pb-editable="true" data-pb-text-source="visual_inferred" data-pb-orientation="horizontal">φ</text>
+    <desc>LaTeX: \phi</desc>
+  </g>
+  <g id="module-bottom-linear" data-pb-role="formula" data-pb-editable="true" data-pb-formula-bbox="1048 696 114 120" data-pb-formula-latex-b64="U15UXHBoaQ==">
+    <rect x="1048" y="696" width="114" height="120" rx="15" ry="15" fill="#ffffff" stroke="#333333" stroke-width="2"/>
+    <text x="1057" y="774" font-family="Times New Roman, Times, serif" font-size="55" font-style="italic" font-weight="400" fill="#000000" data-pb-role="formula" data-pb-editable="true" data-pb-text-source="visual_inferred" data-pb-orientation="horizontal">S<tspan baseline-shift="super" font-size="34" font-style="normal">T</tspan><tspan> φ</tspan></text>
+    <desc>LaTeX: S^T\phi</desc>
+  </g>
+  <g id="node-bottom-output" data-pb-role="formula" data-pb-editable="true" data-pb-formula-bbox="1256 680 155 156" data-pb-formula-latex-b64="U15UXHBoaV57dmlF9KHg7XHRoZXRhKQ==">
+    <ellipse cx="1333.5" cy="758" rx="77.5" ry="78" fill="#ffffff" stroke="#000000" stroke-width="2"/>
+    <text x="1259" y="766" font-family="Times New Roman, Times, serif" font-size="28" font-style="italic" font-weight="400" fill="#000000" data-pb-role="formula" data-pb-editable="true" data-pb-text-source="visual_inferred" data-pb-orientation="horizontal">S<tspan baseline-shift="super" font-size="18" font-style="normal">T</tspan><tspan>φ</tspan><tspan baseline-shift="super" font-size="18">via</tspan><tspan font-size="27">(x;θ)</tspan></text>
+    <desc>LaTeX: S^T\phi^{via}(x;\theta)</desc>
+  </g>
+
+  <g id="loss-pred-box" data-pb-role="formula" data-pb-editable="true" data-pb-formula-bbox="1538 250 357 65" data-pb-formula-latex-b64="TGF0ZXg6IFxtYXRoY2Fse0x9X3ByZWQoXHRoZXRhKSA9IChcaGF0IHt5fSwgeSBcaW4gWSk=">
+    <rect x="1538" y="250" width="357" height="65" fill="#ffffff" stroke="#111111" stroke-width="2"/>
+    <text x="1545" y="294" font-family="Times New Roman, Times, serif" font-size="41" font-style="italic" font-weight="400" fill="#000000" data-pb-role="formula" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="horizontal">L<tspan baseline-shift="sub" font-size="24">pred</tspan><tspan font-style="normal">(θ) = (ŷ, y in Y)</tspan></text>
+    <desc>LaTeX: \mathcal{L}_{pred}(\theta) = (\hat {y}, y \in Y)</desc>
+  </g>
+  <g id="plus-sign" data-pb-role="formula" data-pb-editable="true" data-pb-formula-bbox="1683 312 53 51" data-pb-formula-latex-b64="Kw==">
+    <text x="1691" y="355" font-family="Times New Roman, Times, serif" font-size="63" font-style="normal" font-weight="700" fill="#000000" data-pb-role="formula" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="horizontal">+</text>
+    <desc>LaTeX: +</desc>
+  </g>
+  <g id="loss-shap-box" data-pb-role="formula" data-pb-editable="true" data-pb-formula-bbox="1409 365 602 67" data-pb-formula-latex-b64="XG1hdGhjYWx7TH1fe1xwaGl9KFx0aGV0YSkgPSBFX3twKFMpfVtbKHZpYV9qXntTSEFQfSh4XlMpLXZpYV9qXntTSEFQfSgwKS0xX1NeVFxyXHBoaV9qXnt2aWF9KHg7XHRoZXRhKSleMl1d">
+    <rect x="1409" y="365" width="602" height="67" fill="#ffffff" stroke="#111111" stroke-width="2"/>
+    <text x="1414" y="406" font-family="Times New Roman, Times, serif" font-size="28" font-style="italic" font-weight="400" fill="#000000" data-pb-role="formula" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="horizontal">L<tspan baseline-shift="sub" font-size="17">φ</tspan><tspan font-style="normal">(θ) = </tspan><tspan font-style="normal">E</tspan><tspan baseline-shift="sub" font-size="16">p(S)</tspan><tspan font-style="normal">[(via</tspan><tspan baseline-shift="super" font-size="16">SHAP</tspan><tspan baseline-shift="sub" font-size="16">j</tspan><tspan font-style="normal">(x</tspan><tspan baseline-shift="super" font-size="16">S</tspan><tspan font-style="normal">) - via</tspan><tspan baseline-shift="super" font-size="16">SHAP</tspan><tspan baseline-shift="sub" font-size="16">j</tspan><tspan font-style="normal">(0) - 1</tspan><tspan baseline-shift="super" font-size="16">T</tspan><tspan baseline-shift="sub" font-size="16">S</tspan><tspan>φ</tspan><tspan baseline-shift="super" font-size="16">via</tspan><tspan baseline-shift="sub" font-size="16">j</tspan><tspan font-style="normal">(x;θ))</tspan><tspan baseline-shift="super" font-size="16">2</tspan><tspan font-style="normal">]</tspan></text>
+    <desc>LaTeX: \mathcal{L}_{\phi}(\theta) = E_{p(S)}[(via_j^{SHAP}(x^S)-via_j^{SHAP}(0)-1_S^T\phi_j^{via}(x;\theta))^2]</desc>
+  </g>
+</svg>

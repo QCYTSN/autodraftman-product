@@ -1,0 +1,113 @@
+{
+  "description": "Selected showcase assets; not a completed benchmark.",
+  "sourceRepository": "https://github.com/LawrenceRiver/FigFox",
+  "sourceRun": "20260928-review-recovery-v3",
+  "files": [
+    {
+      "file": "study/input.png",
+      "bytes": 1243735,
+      "sha256": "e69af98b94d11e114c0f7daea02d3b89bfa2be32dca26d9794b0e58435260d3c"
+    },
+    {
+      "file": "study/result.png",
+      "bytes": 262546,
+      "sha256": "bae4cdeb5c56c256d083e07c4b3609158b6b2f21b2c8e541c7a30923d2224a08"
+    },
+    {
+      "file": "study/result.svg",
+      "bytes": 167572,
+      "sha256": "2c42d203bb857d4d587c2fb0005170b3923d759bacabf1a8d0fbb331e51ce769"
+    },
+    {
+      "file": "study/baseline.svg",
+      "bytes": 166414,
+      "sha256": "213eb55adf6ab3ca41584a9f2272a3d981e3c9f3080162f449ea1b1fd65310a4"
+    },
+    {
+      "file": "diffusion/input.png",
+      "bytes": 1630252,
+      "sha256": "90c9da80ea5694bca82f999bf6ee193a3831f5d08713b1961dd594c3a157ca90"
+    },
+    {
+      "file": "diffusion/result.png",
+      "bytes": 472033,
+      "sha256": "09cf3e08562cbca8a2fa64b24465611e27ab4062962b297ff46e8cfcc0c3fe48"
+    },
+    {
+      "file": "diffusion/result.svg",
+      "bytes": 227481,
+      "sha256": "16c0b39ded37b592eaa5a4d244a5043e7f539d3114465ee98318bad9a7dc6ac3"
+    },
+    {
+      "file": "diffusion/baseline.svg",
+      "bytes": 155797,
+      "sha256": "80904ed98242a453f1cee265ba37496f241c2d66cef8239db21bd81ea8ec335f"
+    },
+    {
+      "file": "vit/input.png",
+      "bytes": 1226475,
+      "sha256": "4677ebf3361000b60fec8dc54a8f93fb1f5786a0e5e5d9b8afe0b4b689bb4451"
+    },
+    {
+      "file": "vit/result.png",
+      "bytes": 312901,
+      "sha256": "b42c5b28917db20b697b858b0dbbbab9bf48b7c6d074a04d168e9c78255aa85c"
+    },
+    {
+      "file": "vit/result.svg",
+      "bytes": 211148,
+      "sha256": "cd38726786e8de46fab031543f8fa0c419ab725ac7f04b04425f1d3e603c9825"
+    },
+    {
+      "file": "vit/baseline.svg",
+      "bytes": 197122,
+      "sha256": "3b5faf2679bd2c86fdbc1a7ef52bd20d9f14ff1a11c621df1490724940fba0ff"
+    },
+    {
+      "file": "wages/input.png",
+      "bytes": 1893399,
+      "sha256": "cc2b36f90b7a6a8892269bd7e2e368b843c742eec5c3c34e726cf922175ad2db"
+    },
+    {
+      "file": "privacy/input.png",
+      "bytes": 654916,
+      "sha256": "cfcaae0716961663c968f7dcb76c1e413bd9c08919fce974a37240111d7d0552"
+    },
+    {
+      "file": "vgg/input.png",
+      "bytes": 1964475,
+      "sha256": "cbf7e07aa054e94c183a8a52e723caa4c634f69acc5150fd9455341dc3c3ffd5"
+    },
+    {
+      "file": "study/crop-original.png",
+      "bytes": 311234,
+      "sha256": "f70015ead2974bab92d61957e8da2be69a96f8ffb8bad19e0add88244d6e9371"
+    },
+    {
+      "file": "study/crop-draft.png",
+      "bytes": 60737,
+      "sha256": "c3d6d35cb73c3b7ee37b4974852563b68002c763fe43b0181c07c2a582842203"
+    },
+    {
+      "file": "study/sam-reading.png",
+      "bytes": 7932,
+      "sha256": "456f9e32c0de236d669ca78a01df592d89be7d904a0c57f0090a7970c89b0ae2"
+    },
+    {
+      "file": "study/sam-restudy.png",
+      "bytes": 5204,
+      "sha256": "7e6d28d75103b059c292319c267322d7eb11ff6730226b8d5902453f74461b70"
+    },
+    {
+      "file": "study/sam-recall.png",
+      "bytes": 6277,
+      "sha256": "afccecdf127996d6d4b7cb000650da5463b3705390866aa1d99c89cd27d8b67f"
+    },
+    {
+      "file": "study/repair-receipt.json",
+      "bytes": 369,
+      "sha256": "b949d5e0e1299cab121f9332cafba0a9c15d2d187f84f7eaea541ce2d1401d7e",
+      "derived": true
+    }
+  ]
+}

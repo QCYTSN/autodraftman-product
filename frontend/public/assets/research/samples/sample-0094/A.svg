@@ -1,0 +1,539 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1668" height="729" viewBox="0 0 1668 729">
+  <title>SeLo graph prompt pipeline</title>
+  <desc>
+    Complete editable SVG reconstruction of the original figure. Base frames: left input image patches and graph nodes, central top vision-graph/prompted-feature/GNN pipeline, legend, and three lower prompt examples. Conduction inventories include: image patch grid linked to graph nodes through an encoder; top block with vision graph structure, semantic low-rank decomposition, prompted graph features, GNN block, downstream head and loss; legend with add/product/frozen/trainable symbols and prompt color matrices; bottom SeLo-Graph Prompt, SeLo-Edge Prompt, and SeLo-Node Prompt panels with graph structures, dashed virtual nodes, equation labels, feature bars, MLPs, prompt matrices, operators, trainable flames and arrows. SAM mappings are used only for confirmed small icon/picture crops, preserving the original crop coordinates.
+  </desc>
+
+  <defs>
+    <marker id="arrowBlack" viewBox="0 0 10 8" refX="10" refY="4" markerUnits="userSpaceOnUse" markerWidth="12" markerHeight="10" orient="auto">
+      <path d="M0,0 L10,4 L0,8 Z" fill="#000" id="plus_node_0" />
+    </marker>
+    <marker id="arrowGray" viewBox="0 0 10 8" refX="10" refY="4" markerUnits="userSpaceOnUse" markerWidth="12" markerHeight="10" orient="auto">
+      <path d="M0,0 L10,4 L0,8 Z" fill="#555" id="plus_node_1" />
+    </marker>
+    <marker id="arrowBlue" viewBox="0 0 10 8" refX="10" refY="4" markerUnits="userSpaceOnUse" markerWidth="12" markerHeight="10" orient="auto">
+      <path d="M0,0 L10,4 L0,8 Z" fill="#6ea6dc" id="plus_node_2" />
+    </marker>
+    <marker id="arrowBothBlackStart" viewBox="0 0 10 8" refX="0" refY="4" markerUnits="userSpaceOnUse" markerWidth="12" markerHeight="10" orient="auto-start-reverse">
+      <path d="M10,0 L0,4 L10,8 Z" fill="#000" id="plus_node_3" />
+    </marker>
+    <marker id="arrowBothBlackEnd" viewBox="0 0 10 8" refX="10" refY="4" markerUnits="userSpaceOnUse" markerWidth="12" markerHeight="10" orient="auto">
+      <path d="M0,0 L10,4 L0,8 Z" fill="#000" id="plus_node_4" />
+    </marker>
+
+    <symbol id="symNode" viewBox="0 0 28 28">
+      <circle cx="14" cy="14" r="12.2" fill="#f8f8f8" stroke="#000" stroke-width="3" id="plus_node_5" />
+    </symbol>
+
+    <symbol id="symSmallNode" viewBox="0 0 20 20">
+      <circle cx="10" cy="10" r="8.5" fill="#f7f7f7" stroke="#000" stroke-width="2.3" id="plus_node_6" />
+    </symbol>
+
+    <symbol id="symDashedVirtual" viewBox="0 0 28 28">
+      <circle cx="14" cy="14" r="12" fill="#cfeefa" fill-opacity=".55" stroke="#000" stroke-width="3" stroke-dasharray="7 5" id="plus_node_7" />
+    </symbol>
+
+    <symbol id="symFeatureGray" viewBox="0 0 12 72">
+      <rect x="2" y="1" width="8" height="70" fill="#bfbfbf" stroke="#000" stroke-width="2" id="plus_node_8" />
+      <path d="M2 11H10 M2 21H10 M2 31H10 M2 41H10 M2 51H10 M2 61H10" stroke="#000" stroke-width="1" id="plus_node_9" />
+    </symbol>
+
+    <symbol id="symFeatureBlue" viewBox="0 0 12 72">
+      <rect x="2" y="1" width="8" height="70" fill="#9cc9ec" stroke="#000" stroke-width="2" id="plus_node_10" />
+      <path d="M2 11H10 M2 21H10 M2 31H10 M2 41H10 M2 51H10 M2 61H10" stroke="#000" stroke-width="1" id="plus_node_11" />
+    </symbol>
+
+    <symbol id="symFeatureGreen" viewBox="0 0 12 72">
+      <rect x="2" y="1" width="8" height="70" fill="#a7c895" stroke="#000" stroke-width="2" id="plus_node_12" />
+      <path d="M2 11H10 M2 21H10 M2 31H10 M2 41H10 M2 51H10 M2 61H10" stroke="#000" stroke-width="1" id="plus_node_13" />
+    </symbol>
+
+    <symbol id="symFeatureOrange" viewBox="0 0 12 72">
+      <rect x="2" y="1" width="8" height="70" fill="#efb24b" stroke="#000" stroke-width="2" id="plus_node_14" />
+      <path d="M2 11H10 M2 21H10 M2 31H10 M2 41H10 M2 51H10 M2 61H10" stroke="#000" stroke-width="1" id="plus_node_15" />
+    </symbol>
+
+    <symbol id="symPlus" viewBox="0 0 32 32">
+      <circle cx="16" cy="16" r="12.5" fill="#e6e6e6" stroke="#000" stroke-width="2" id="plus_node_16" />
+      <path d="M16 5V27 M5 16H27" stroke="#000" stroke-width="2" id="plus_node_17" />
+    </symbol>
+
+    <symbol id="symProduct" viewBox="0 0 32 32">
+      <circle cx="16" cy="16" r="12.5" fill="#e6e6e6" stroke="#000" stroke-width="2" id="plus_node_18" />
+      <path d="M8 8L24 24 M24 8L8 24" stroke="#000" stroke-width="2" id="plus_node_19" />
+    </symbol>
+
+    <symbol id="symSnow" viewBox="0 0 28 28">
+      <g stroke="#16a7f2" stroke-width="3" stroke-linecap="round" id="plus_node_20">
+        <path d="M14 3V25 M4.5 8.5L23.5 19.5 M23.5 8.5L4.5 19.5" id="plus_node_21" />
+        <path d="M10 5L14 9L18 5 M10 23L14 19L18 23 M5 12L10 13L7 9 M23 12L18 13L21 9 M5 16L10 15L7 19 M23 16L18 15L21 19" id="plus_node_22" />
+      </g>
+    </symbol>
+
+    <symbol id="symFlame" viewBox="0 0 28 28">
+      <path d="M16 2C18 8 25 10 23 18C21 25 14 28 8 24C2 20 5 12 10 8C10 13 14 12 14 8C14 6 15 4 16 2Z" fill="#ff781f" id="plus_node_23" />
+      <path d="M15 12C18 16 16 22 12 23C9 21 10 17 13 14C13 16 15 16 15 12Z" fill="#ffe44a" id="plus_node_24" />
+      <path d="M20 5C21 8 23 10 23 13" fill="none" stroke="#e33d16" stroke-width="2" id="plus_node_25" />
+    </symbol>
+
+    <style>
+      text{font-family:"Times New Roman", Times, serif; fill:#000}
+      .title{font-size:26px}
+      .small{font-size:21px}
+      .tiny{font-size:18px}
+      .eq{font-size:20px; fill:#777}
+      .dash{fill:none;stroke:#000;stroke-width:2;stroke-dasharray:8 7}
+      .solidFrame{fill:none;stroke:#000;stroke-width:3}
+      .thinFrame{fill:none;stroke:#000;stroke-width:2}
+      .edge{fill:none;stroke:#000;stroke-width:3;stroke-linecap:round;stroke-linejoin:round}
+      .edgeGray{fill:none;stroke:#555;stroke-width:3;stroke-linecap:round;stroke-linejoin:round}
+      .edgeDashed{fill:none;stroke:#000;stroke-width:3;stroke-dasharray:8 7;stroke-linecap:round;stroke-linejoin:round}
+      .softGray{fill:none;stroke:#999;stroke-width:2}
+      .bluePanel{fill:#cfe8f8;stroke:#000;stroke-width:2;stroke-dasharray:8 6}
+      .edgePanel{fill:#fff2d5;stroke:#000;stroke-width:2;stroke-dasharray:8 6}
+      .nodePanel{fill:#dff2d8;stroke:#000;stroke-width:2;stroke-dasharray:8 6}
+    </style>
+  </defs>
+
+  
+  <rect id="f01_left_input_area" data-plus-kind="frame" x="12" y="15" width="420" height="350" fill="none" stroke="none" />
+  <rect id="f02_encoder_frame" data-plus-kind="frame" x="376" y="132" width="46" height="112" fill="#e8e8e8" stroke="#000" stroke-width="3" />
+  <rect id="f03_top_pipeline_outer" data-plus-kind="frame" x="466" y="15" width="1092" height="347" class="solidFrame" />
+  <rect id="f04_vision_graph_structure" data-plus-kind="frame" x="498" y="68" width="280" height="276" class="dash" />
+  <rect id="f05_low_rank_decomp" data-plus-kind="frame" x="794" y="79" width="224" height="240" rx="8" fill="#e9e9e9" stroke="#000" stroke-width="2" />
+  <rect id="f06_prompted_graph_features" data-plus-kind="frame" x="1038" y="68" width="285" height="276" class="dash" />
+  <rect id="f07_vision_gnn_block" data-plus-kind="frame" x="1326" y="15" width="232" height="42" class="dash" />
+  <rect id="f08_legend" data-plus-kind="frame" x="43" y="406" width="381" height="301" class="dash" />
+  <rect id="f09_selo_graph_prompt" data-plus-kind="frame" x="452" y="406" width="382" height="300" class="solidFrame" />
+  <rect id="f10_selo_edge_prompt" data-plus-kind="frame" x="851" y="406" width="433" height="300" class="solidFrame" />
+  <rect id="f11_selo_node_prompt" data-plus-kind="frame" x="1298" y="406" width="346" height="300" class="solidFrame" />
+
+  
+  <g id="left_input_content">
+    <desc>Origin is the upper image patch grid; downward conduction reaches the blue double arrow and graph nodes, then rightward to encoder.</desc>
+    <text x="17" y="89" class="title" id="plus_node_26">Image Patches</text>
+    <g id="image_patch_grid" transform="translate(176 17)">
+      <rect x="0" y="0" width="161" height="133" fill="#f6f6f6" id="plus_node_27" />
+      <g id="patch_cells">
+        <rect x="0" y="0" width="19" height="19" fill="#243029" id="plus_node_28" /><rect x="23" y="0" width="19" height="19" fill="#4b5c62" id="plus_node_29" /><rect x="46" y="0" width="19" height="19" fill="#343c37" id="plus_node_30" /><rect x="69" y="0" width="19" height="19" fill="#575d66" id="plus_node_31" /><rect x="92" y="0" width="19" height="19" fill="#adb4bd" id="plus_node_32" /><rect x="115" y="0" width="19" height="19" fill="#7b8890" id="plus_node_33" /><rect x="138" y="0" width="19" height="19" fill="#2a3430" id="plus_node_34" />
+        <rect x="0" y="23" width="19" height="19" fill="#40583a" id="plus_node_35" /><rect x="23" y="23" width="19" height="19" fill="#586b4f" id="plus_node_36" /><rect x="46" y="23" width="19" height="19" fill="#61714b" id="plus_node_37" /><rect x="69" y="23" width="19" height="19" fill="#606b73" id="plus_node_38" /><rect x="92" y="23" width="19" height="19" fill="#8a8f9a" id="plus_node_39" /><rect x="115" y="23" width="19" height="19" fill="#7f888d" id="plus_node_40" /><rect x="138" y="23" width="19" height="19" fill="#536744" id="plus_node_41" />
+        <rect x="0" y="46" width="19" height="19" fill="#37602e" id="plus_node_42" /><rect x="23" y="46" width="19" height="19" fill="#5e813e" id="plus_node_43" /><rect x="46" y="46" width="19" height="19" fill="#6a7b4e" id="plus_node_44" /><rect x="69" y="46" width="19" height="19" fill="#65676d" id="plus_node_45" /><rect x="92" y="46" width="19" height="19" fill="#a2a6ad" id="plus_node_46" /><rect x="115" y="46" width="19" height="19" fill="#5f704c" id="plus_node_47" /><rect x="138" y="46" width="19" height="19" fill="#526f3b" id="plus_node_48" />
+        <rect x="0" y="69" width="19" height="19" fill="#343c35" id="plus_node_49" /><rect x="23" y="69" width="19" height="19" fill="#455b38" id="plus_node_50" /><rect x="46" y="69" width="19" height="19" fill="#6a6a65" id="plus_node_51" /><rect x="69" y="69" width="19" height="19" fill="#646c75" id="plus_node_52" /><rect x="92" y="69" width="19" height="19" fill="#8d929a" id="plus_node_53" /><rect x="115" y="69" width="19" height="19" fill="#78836d" id="plus_node_54" /><rect x="138" y="69" width="19" height="19" fill="#4d6940" id="plus_node_55" />
+        <rect x="0" y="92" width="19" height="19" fill="#4c6f39" id="plus_node_56" /><rect x="23" y="92" width="19" height="19" fill="#718247" id="plus_node_57" /><rect x="46" y="92" width="19" height="19" fill="#6e7558" id="plus_node_58" /><rect x="69" y="92" width="19" height="19" fill="#80898e" id="plus_node_59" /><rect x="92" y="92" width="19" height="19" fill="#979d9b" id="plus_node_60" /><rect x="115" y="92" width="19" height="19" fill="#81945f" id="plus_node_61" /><rect x="138" y="92" width="19" height="19" fill="#64804c" id="plus_node_62" />
+        <rect x="0" y="115" width="19" height="19" fill="#728646" id="plus_node_63" /><rect x="23" y="115" width="19" height="19" fill="#818c55" id="plus_node_64" /><rect x="46" y="115" width="19" height="19" fill="#8b9369" id="plus_node_65" /><rect x="69" y="115" width="19" height="19" fill="#8a9084" id="plus_node_66" /><rect x="92" y="115" width="19" height="19" fill="#929477" id="plus_node_67" /><rect x="115" y="115" width="19" height="19" fill="#7d8d5d" id="plus_node_68" /><rect x="138" y="115" width="19" height="19" fill="#6d834f" id="plus_node_69" />
+      </g>
+      <path d="M83 -1 C116 5 126 35 112 60 C98 87 68 89 53 109" fill="none" stroke="#dedede" stroke-width="6" opacity=".9" id="plus_node_70" />
+      <g stroke="#fff" stroke-width="4" id="plus_node_71">
+        <path d="M21 0V133 M44 0V133 M67 0V133 M90 0V133 M113 0V133 M136 0V133" id="plus_node_72" />
+        <path d="M0 21H161 M0 44H161 M0 67H161 M0 90H161 M0 113H161" id="plus_node_73" />
+      </g>
+    </g>
+
+    <path id="input_double_arrow" d="M261 153V213" stroke="#79aee3" stroke-width="6" fill="none" marker-start="url(#arrowBlue)" marker-end="url(#arrowBlue)" />
+    <text x="17" y="301" class="title" id="plus_node_74">Graph Nodes</text>
+
+    <g id="left_graph_nodes" transform="translate(150 210)">
+      <path d="M40 38L70 10L97 12L118 40L91 66L54 65Z" fill="none" stroke="#e08b1d" stroke-width="3" id="plus_node_75" />
+      <path d="M65 95L99 122L142 108L146 72L115 52L83 71Z" fill="none" stroke="#276ada" stroke-width="3" id="plus_node_76" />
+      <path d="M137 18L174 37L169 76L132 96L94 72L108 37Z" fill="none" stroke="#507ee9" stroke-width="3" id="plus_node_77" />
+      <path d="M188 69L212 111L190 139L150 126L139 88Z" fill="none" stroke="#8649ca" stroke-width="3" id="plus_node_78" />
+      <path d="M15 67L45 96L59 148L28 151L12 122Z" fill="none" stroke="#d99024" stroke-width="3" id="plus_node_79" />
+      <path d="M27 67L65 95 M72 35L115 52 M96 12L137 18 M133 96L190 139 M91 66L139 88 M59 148L142 108" fill="none" stroke="#4d6fd9" stroke-width="2" id="plus_node_80" />
+      <g fill="#55785e" stroke="#e38e1d" stroke-width="2" id="plus_node_81">
+        <circle cx="40" cy="38" r="9" id="plus_node_82" /><circle cx="70" cy="10" r="9" id="plus_node_83" /><circle cx="97" cy="12" r="9" id="plus_node_84" /><circle cx="12" cy="67" r="9" id="plus_node_85" /><circle cx="15" cy="121" r="9" id="plus_node_86" /><circle cx="28" cy="148" r="9" id="plus_node_87" /><circle cx="59" cy="126" r="9" id="plus_node_88" />
+      </g>
+      <g fill="#4c6584" stroke="#386fe8" stroke-width="2" id="plus_node_89">
+        <circle cx="83" cy="71" r="9" id="plus_node_90" /><circle cx="96" cy="95" r="9" id="plus_node_91" /><circle cx="115" cy="52" r="9" id="plus_node_92" /><circle cx="126" cy="19" r="9" id="plus_node_93" /><circle cx="146" cy="72" r="9" id="plus_node_94" /><circle cx="142" cy="108" r="9" id="plus_node_95" />
+      </g>
+      <g fill="#6e9c61" stroke="#8351cb" stroke-width="2" id="plus_node_96">
+        <circle cx="150" cy="126" r="9" id="plus_node_97" /><circle cx="188" cy="69" r="9" id="plus_node_98" /><circle cx="212" cy="67" r="9" id="plus_node_99" /><circle cx="190" cy="139" r="9" id="plus_node_100" /><circle cx="160" cy="90" r="9" id="plus_node_101" />
+      </g>
+      <g fill="none" stroke="#4277e8" stroke-width="3" id="plus_node_102">
+        <circle cx="124" cy="45" r="10" id="plus_node_103" /><circle cx="151" cy="44" r="10" id="plus_node_104" /><circle cx="154" cy="66" r="10" id="plus_node_105" /><circle cx="123" cy="121" r="10" id="plus_node_106" />
+      </g>
+    </g>
+
+    <path id="arrow_graph_to_encoder" d="M306 188H363" stroke="#000" stroke-width="3" fill="none" marker-end="url(#arrowBlack)" />
+    <text x="393" y="151" class="title" transform="rotate(90 393 151)" id="plus_node_107">Encoder</text><path id="arrow_encoder_to_top" d="M432 188H489" stroke="#000" stroke-width="3" fill="none" marker-end="url(#arrowBlack)" />
+  </g>
+
+  
+  <g id="top_pipeline_content">
+    <desc>Origin is the Vision Graph Structure title and dashed structure frame. The graph flows rightward through decomposition prompts to prompted graph features, then GNN layers and downstream head.</desc>
+    <text x="518" y="53" class="title" id="plus_node_108">Vision Graph Structure</text>
+    <text x="1054" y="53" class="title" id="plus_node_109">Prompted Graph Features</text>
+    <text x="1334" y="42" class="small" id="plus_node_110">Vision GNN Block ×N</text>
+
+    <g id="top_vision_graph">
+      <path class="edgeGray" d="M553 114H700 M700 114L610 180 M553 114L610 180 M525 232L610 180 M610 180L677 223 M677 223L748 161 M701 114L747 160 M747 160L677 223" id="plus_node_111" />
+      <path class="edgeGray" d="M553 114L690 114" marker-end="url(#arrowGray)" id="plus_node_112" />
+      <path class="edgeGray" d="M610 180L553 114" marker-end="url(#arrowGray)" id="plus_node_113" />
+      <path class="edgeGray" d="M610 180L525 232" marker-end="url(#arrowGray)" id="plus_node_114" />
+      <path class="edgeGray" d="M610 180L677 223" marker-end="url(#arrowGray)" id="plus_node_115" />
+      <path class="edgeGray" d="M701 114L747 160" marker-end="url(#arrowGray)" id="plus_node_116" />
+      <path class="edgeGray" d="M677 223L747 160" marker-end="url(#arrowGray)" id="plus_node_117" />
+      <use href="#symNode" x="539" y="100" width="28" height="28" id="plus_node_118" />
+      <use href="#symNode" x="687" y="99" width="28" height="28" id="plus_node_119" />
+      <use href="#symNode" x="596" y="166" width="28" height="28" id="plus_node_120" />
+      <use href="#symNode" x="511" y="218" width="28" height="28" id="plus_node_121" />
+      <use href="#symNode" x="663" y="209" width="28" height="28" id="plus_node_122" />
+      <use href="#symNode" x="734" y="146" width="28" height="28" id="plus_node_123" />
+      <use href="#symFeatureGray" x="527" y="128" width="12" height="72" id="plus_node_124" />
+      <use href="#symFeatureGray" x="544" y="230" width="12" height="72" id="plus_node_125" />
+      <use href="#symFeatureGray" x="605" y="199" width="12" height="72" id="plus_node_126" />
+      <use href="#symFeatureGray" x="694" y="129" width="12" height="72" id="plus_node_127" />
+      <use href="#symFeatureGray" x="694" y="222" width="12" height="72" id="plus_node_128" />
+      <use href="#symFeatureGray" x="751" y="181" width="12" height="72" id="plus_node_129" />
+      <text x="608" y="97" class="small" fill="#777" id="plus_node_130">Node</text>
+      <path d="M665 85C682 81 694 88 699 101" class="softGray" marker-end="url(#arrowGray)" id="plus_node_131" />
+      <text x="598" y="313" class="small" fill="#777" id="plus_node_132">Node Feature</text>
+      <path d="M658 294C662 276 674 263 690 258" class="softGray" marker-end="url(#arrowGray)" id="plus_node_133" />
+    </g>
+
+    <g id="low_rank_decomposition">
+      <text x="814" y="108" class="small" font-weight="700" id="plus_node_134">Semantic Low-Rank</text>
+      <text x="840" y="131" class="small" font-weight="700" id="plus_node_135">Decomposition</text>
+      <rect x="808" y="141" width="194" height="36" fill="#cce4f7" stroke="#000" stroke-width="2" id="plus_node_136" />
+      <text x="817" y="164" class="small" font-weight="700" id="plus_node_137">SeLo-Graph Prompt</text>
+      <rect x="808" y="199" width="194" height="38" fill="#fff3d8" stroke="#000" stroke-width="2" id="plus_node_138" />
+      <text x="818" y="224" class="small" font-weight="700" id="plus_node_139">SeLo-Edge Prompt</text>
+      <rect x="808" y="255" width="194" height="37" fill="#e2f2dc" stroke="#000" stroke-width="2" id="plus_node_140" />
+      <text x="819" y="279" class="small" font-weight="700" id="plus_node_141">SeLo-Node Prompt</text>
+    </g>
+    <path id="arrow_vg_to_decomp" d="M778 188H794" stroke="#000" stroke-width="3" marker-end="url(#arrowBlack)" />
+    <path id="arrow_decomp_graph" d="M1002 159H1031" stroke="#000" stroke-width="3" marker-end="url(#arrowBlack)" />
+    <path id="arrow_decomp_edge" d="M1002 218H1031" stroke="#000" stroke-width="3" marker-end="url(#arrowBlack)" />
+    <path id="arrow_decomp_node" d="M1002 273H1031" stroke="#000" stroke-width="3" marker-end="url(#arrowBlack)" />
+
+    <g id="top_prompted_features">
+      <rect x="1090" y="83" width="181" height="34" fill="#fff0cf" stroke="#000" stroke-width="2" stroke-dasharray="8 6" id="plus_node_142" />
+      <rect x="1143" y="146" width="39" height="37" fill="#dff2d8" stroke="#000" stroke-width="2" stroke-dasharray="8 6" id="plus_node_143" />
+      <rect x="1063" y="198" width="39" height="39" fill="#dff2d8" stroke="#000" stroke-width="2" stroke-dasharray="8 6" id="plus_node_144" />
+      <rect x="1212" y="198" width="38" height="37" fill="#dff2d8" stroke="#000" stroke-width="2" stroke-dasharray="8 6" id="plus_node_145" />
+      <use href="#symNode" x="1090" y="86" width="28" height="28" id="plus_node_146" />
+      <use href="#symNode" x="1238" y="86" width="28" height="28" id="plus_node_147" />
+      <use href="#symNode" x="1148" y="152" width="28" height="28" id="plus_node_148" />
+      <use href="#symNode" x="1068" y="204" width="28" height="28" id="plus_node_149" />
+      <use href="#symNode" x="1215" y="197" width="28" height="28" id="plus_node_150" />
+      <use href="#symNode" x="1286" y="133" width="28" height="28" id="plus_node_151" />
+      <use href="#symDashedVirtual" x="1104" y="246" width="28" height="28" id="plus_node_152" />
+      <use href="#symDashedVirtual" x="1188" y="246" width="28" height="28" id="plus_node_153" />
+      <use href="#symDashedVirtual" x="1264" y="226" width="28" height="28" id="plus_node_154" />
+      <path class="edgeGray" d="M1104 100H1252" marker-end="url(#arrowGray)" id="plus_node_155" />
+      <path class="edgeGray" d="M1104 100L1162 166" marker-end="url(#arrowGray)" id="plus_node_156" />
+      <path class="edgeGray" d="M1162 166L1252 100" marker-end="url(#arrowGray)" id="plus_node_157" />
+      <path class="edgeGray" d="M1082 218L1162 166" marker-end="url(#arrowGray)" id="plus_node_158" />
+      <path class="edgeGray" d="M1162 166L1229 211" marker-end="url(#arrowGray)" id="plus_node_159" />
+      <path class="edgeGray" d="M1229 211L1300 147" marker-end="url(#arrowGray)" id="plus_node_160" />
+      <path class="edgeGray" d="M1252 100L1300 147" marker-end="url(#arrowGray)" id="plus_node_161" />
+      <path class="edgeDashed" d="M1118 260C1150 286 1211 273 1278 240" id="plus_node_162" />
+      <path class="edgeDashed" d="M1278 240L1300 147" id="plus_node_163" />
+      <path class="edgeDashed" d="M1202 260L1300 147" id="plus_node_164" />
+      <use href="#symFeatureGray" x="1075" y="101" width="12" height="68" id="plus_node_165" />
+      <use href="#symFeatureGray" x="1245" y="116" width="12" height="76" id="plus_node_166" />
+      <use href="#symFeatureGray" x="1302" y="164" width="12" height="72" id="plus_node_167" />
+      <use href="#symFeatureBlue" x="1091" y="263" width="12" height="68" id="plus_node_168" />
+      <use href="#symFeatureBlue" x="1177" y="263" width="12" height="68" id="plus_node_169" />
+      <use href="#symFeatureBlue" x="1256" y="253" width="12" height="68" id="plus_node_170" />
+    </g>
+
+    <path id="arrow_prompt_to_gnn" d="M1326 196H1374" stroke="#000" stroke-width="3" marker-end="url(#arrowBlack)" />
+    <g id="gnn_layers">
+      <rect x="1380" y="80" width="48" height="250" fill="#dcdcdc" stroke="#000" stroke-width="3" id="plus_node_171" />
+      <rect x="1480" y="80" width="48" height="250" fill="#dcdcdc" stroke="#000" stroke-width="3" id="plus_node_172" />
+      <text x="1407" y="158" class="small" transform="rotate(90 1407 158)" id="plus_node_173">Graph Conv. Layer</text><text x="1507" y="157" class="small" transform="rotate(90 1507 157)" id="plus_node_174">Feed-Forward Layer</text><rect x="1390" y="94" width="29" height="60" rx="3" fill="#f7f7f7" stroke="#000" stroke-width="1.5" stroke-dasharray="4 4" id="plus_node_175" />
+      <path d="M1398 100C1410 115 1395 132 1414 148 M1416 99C1404 111 1419 130 1400 146" stroke="#cc2a2a" stroke-width="1.3" fill="none" stroke-dasharray="4 4" id="plus_node_176" />
+      <circle cx="1404" cy="112" r="2" fill="#cc2a2a" id="plus_node_177" /><circle cx="1413" cy="123" r="2" fill="#cc2a2a" id="plus_node_178" /><circle cx="1401" cy="138" r="2" fill="#cc2a2a" id="plus_node_179" />
+      <rect x="1488" y="94" width="31" height="61" rx="3" fill="#f9f2f6" stroke="#000" stroke-width="1.5" id="plus_node_180" />
+      <g stroke="#c34a8c" fill="#f6c4df" id="plus_node_181">
+        <circle cx="1496" cy="104" r="3" id="plus_node_182" /><circle cx="1509" cy="105" r="3" id="plus_node_183" /><circle cx="1502" cy="118" r="3" id="plus_node_184" /><circle cx="1518" cy="121" r="3" id="plus_node_185" /><circle cx="1494" cy="130" r="3" id="plus_node_186" /><circle cx="1510" cy="137" r="3" id="plus_node_187" />
+        <path d="M1496 104L1502 118L1494 130 M1509 105L1518 121L1510 137 M1502 118L1518 121" id="plus_node_188" />
+      </g>
+    </g>
+    <path id="arrow_gnn_middle" d="M1428 196H1474" stroke="#000" stroke-width="3" marker-end="url(#arrowBlack)" />
+    <path id="arrow_gnn_to_downstream" d="M1528 196H1577" stroke="#000" stroke-width="3" marker-end="url(#arrowBlack)" />
+    <rect id="downstream_head_box" x="1584" y="107" width="47" height="182" fill="#e4e4e4" stroke="#000" stroke-width="3" />
+    <text x="1612" y="122" class="small" transform="rotate(90 1612 122)" id="plus_node_189">Downstream Head</text><path id="loss_arrow" d="M1608 294V324" stroke="#000" stroke-width="3" marker-end="url(#arrowBlack)" />
+    <text x="1591" y="346" class="small" id="plus_node_190">Loss</text>
+  </g>
+
+  
+  <g id="legend_content">
+    <desc>Origin is upper-left add/product symbols; rightward conduction defines feature color swatches and prompt matrices. Symmetry basis: two-column legend with icon column and feature-matrix column.</desc>
+    <text x="74" y="470" class="small" id="plus_node_192">Add</text>
+    <text x="59" y="550" class="small" id="plus_node_194">Product</text>
+    <text x="62" y="630" class="small" id="plus_node_196">Frozen</text>
+    <text x="59" y="683" class="small" id="plus_node_198">Trainable</text>
+
+    <text x="178" y="460" class="small" id="plus_node_202">Virtual</text>
+    <text x="150" y="484" class="small" id="plus_node_203">Node Feature</text>
+
+    <text x="307" y="460" class="small" id="plus_node_207">Low-rank</text>
+    <text x="296" y="484" class="small" id="plus_node_208">Semantic Feature</text>
+
+    <g id="legend_matrix_graph">
+      <rect x="152" y="504" width="104" height="41" fill="#eaf2fb" stroke="#000" stroke-width="2" id="plus_node_209" />
+      <g stroke="#000" stroke-width="1" id="plus_node_210">
+        <path d="M165 504V545 M178 504V545 M191 504V545 M204 504V545 M217 504V545 M230 504V545 M243 504V545" id="plus_node_211" />
+        <path d="M152 518H256 M152 532H256" id="plus_node_212" />
+      </g>
+      <rect x="152" y="504" width="13" height="14" fill="#3695e7" id="plus_node_213" /><rect x="165" y="504" width="13" height="14" fill="#49a4ef" id="plus_node_214" /><rect x="178" y="504" width="13" height="14" fill="#5caef0" id="plus_node_215" />
+      <rect x="152" y="518" width="13" height="14" fill="#2d8de0" id="plus_node_216" /><rect x="165" y="518" width="13" height="14" fill="#418fe0" id="plus_node_217" /><rect x="178" y="518" width="13" height="14" fill="#6ab1ec" id="plus_node_218" />
+      <rect x="152" y="532" width="13" height="13" fill="#397ec8" id="plus_node_219" /><rect x="165" y="532" width="13" height="13" fill="#5497db" id="plus_node_220" /><rect x="178" y="532" width="13" height="13" fill="#8abce6" id="plus_node_221" />
+    </g>
+    <text x="149" y="570" class="small" id="plus_node_222">SeLo-Graph</text>
+    <text x="169" y="594" class="small" id="plus_node_223">Prompt</text>
+
+    <g id="legend_matrix_edge">
+      <rect x="298" y="504" width="103" height="41" fill="#fff2d7" stroke="#000" stroke-width="2" id="plus_node_224" />
+      <g stroke="#000" stroke-width="1" id="plus_node_225">
+        <path d="M311 504V545 M324 504V545 M337 504V545 M350 504V545 M363 504V545 M376 504V545 M389 504V545" id="plus_node_226" />
+        <path d="M298 518H401 M298 532H401" id="plus_node_227" />
+      </g>
+      <rect x="298" y="504" width="13" height="14" fill="#e3a73c" id="plus_node_228" /><rect x="311" y="504" width="13" height="14" fill="#e8b451" id="plus_node_229" /><rect x="324" y="504" width="13" height="14" fill="#efc265" id="plus_node_230" />
+      <rect x="298" y="518" width="13" height="14" fill="#e1a032" id="plus_node_231" /><rect x="311" y="518" width="13" height="14" fill="#ebb34d" id="plus_node_232" /><rect x="324" y="518" width="13" height="14" fill="#f3c66d" id="plus_node_233" />
+    </g>
+    <text x="302" y="570" class="small" id="plus_node_234">SeLo-Edge</text>
+    <text x="319" y="594" class="small" id="plus_node_235">Prompt</text>
+
+    <g id="legend_matrix_node">
+      <rect x="152" y="614" width="104" height="41" fill="#dff1d8" stroke="#000" stroke-width="2" id="plus_node_236" />
+      <g stroke="#000" stroke-width="1" id="plus_node_237">
+        <path d="M165 614V655 M178 614V655 M191 614V655 M204 614V655 M217 614V655 M230 614V655 M243 614V655" id="plus_node_238" />
+        <path d="M152 628H256 M152 642H256" id="plus_node_239" />
+      </g>
+      <rect x="152" y="614" width="13" height="14" fill="#8fc47b" id="plus_node_240" /><rect x="165" y="614" width="13" height="14" fill="#a5ce90" id="plus_node_241" /><rect x="178" y="614" width="13" height="14" fill="#badca7" id="plus_node_242" />
+      <rect x="152" y="628" width="13" height="14" fill="#83bd70" id="plus_node_243" /><rect x="165" y="628" width="13" height="14" fill="#9bcc89" id="plus_node_244" /><rect x="178" y="628" width="13" height="14" fill="#b2d8a2" id="plus_node_245" />
+    </g>
+    <text x="151" y="676" class="small" id="plus_node_246">SeLo-Node</text>
+    <text x="170" y="699" class="small" id="plus_node_247">Prompt</text>
+
+    <g id="legend_composed_prompts">
+      <rect x="298" y="614" width="103" height="14" fill="#e7e8df" stroke="#000" stroke-width="2" id="plus_node_248" />
+      <rect x="298" y="640" width="103" height="13" fill="#efb64b" stroke="#000" stroke-width="2" id="plus_node_249" />
+      <rect x="298" y="614" width="13" height="14" fill="#9ac986" id="plus_node_250" /><rect x="311" y="614" width="13" height="14" fill="#abd395" id="plus_node_251" /><rect x="324" y="614" width="13" height="14" fill="#c2dcae" id="plus_node_252" />
+      <rect x="376" y="614" width="13" height="14" fill="#f2b8a2" id="plus_node_253" /><rect x="389" y="614" width="12" height="14" fill="#ef5429" id="plus_node_254" />
+      <rect x="298" y="640" width="13" height="13" fill="#e2a23b" id="plus_node_255" /><rect x="311" y="640" width="13" height="13" fill="#eeb84f" id="plus_node_256" /><rect x="324" y="640" width="13" height="13" fill="#f4c76c" id="plus_node_257" />
+    <g id="repair_composed_prompt_grid_lines" stroke="#000" stroke-width="1" fill="none"><path id="repair_composed_prompt_grid_lines_path" d="M311 614V628 M324 614V628 M337 614V628 M350 614V628 M363 614V628 M376 614V628 M389 614V628 M311 640V653 M324 640V653 M337 640V653 M350 640V653 M363 640V653 M376 640V653 M389 640V653" /></g></g>
+    <text x="305" y="676" class="small" id="plus_node_258">Composed</text>
+    <text x="319" y="699" class="small" id="plus_node_259">Prompts</text>
+  </g>
+
+  
+  <g id="graph_prompt_content">
+    <desc>Origin is graph panel title and graph at upper left. Downward/rightward conduction reaches virtual nodes and the blue graph-prompt module. Central graph symmetry is a connected network with dashed virtual-node augmentation.</desc>
+    <text x="529" y="396" class="title" font-weight="700" id="plus_node_260">SeLo-Graph Prompt</text>
+    <g id="graph_prompt_graph">
+      <path class="edge" d="M528 430H676 M528 430L585 497 M585 497L676 430 M585 497L653 559 M653 559L722 484 M676 430L722 484 M722 484L653 559 M501 552L585 497" id="plus_node_261" />
+      <path class="edgeDashed" d="M528 430L542 591 M542 591L585 497 M585 497L604 597 M604 597L653 559 M542 591L604 597 M501 552L542 591" id="plus_node_262" />
+      <use href="#symNode" x="514" y="416" width="28" height="28" id="plus_node_263" />
+      <use href="#symNode" x="662" y="416" width="28" height="28" id="plus_node_264" />
+      <use href="#symNode" x="571" y="483" width="28" height="28" id="plus_node_265" />
+      <use href="#symNode" x="487" y="538" width="28" height="28" id="plus_node_266" />
+      <use href="#symNode" x="639" y="545" width="28" height="28" id="plus_node_267" />
+      <use href="#symNode" x="708" y="469" width="28" height="28" id="plus_node_268" />
+      <use href="#symDashedVirtual" x="528" y="577" width="28" height="28" id="plus_node_269" />
+      <use href="#symDashedVirtual" x="590" y="583" width="28" height="28" id="plus_node_270" />
+      <use href="#symFeatureGray" x="495" y="425" width="12" height="66" id="plus_node_271" />
+      <use href="#symFeatureGray" x="464" y="526" width="12" height="66" id="plus_node_272" />
+      <use href="#symFeatureGray" x="503" y="578" width="12" height="66" id="plus_node_273" />
+      <use href="#symFeatureGray" x="663" y="438" width="12" height="76" id="plus_node_274" />
+      <use href="#symFeatureGray" x="744" y="459" width="12" height="66" id="plus_node_275" />
+      <use href="#symFeatureBlue" x="579" y="608" width="12" height="66" id="plus_node_276" />
+      <text x="729" y="544" class="eq" id="plus_node_277">Equation 5</text>
+      <text x="476" y="643" class="small" id="plus_node_278">p<tspan baseline-shift="sub" font-size="16">i</tspan></text>
+      <text x="656" y="681" class="small" id="plus_node_279">n<tspan baseline-shift="sub" font-size="16">i</tspan></text>
+      <text x="772" y="682" class="small" id="plus_node_280">p<tspan baseline-shift="sub" font-size="16">i</tspan></text>
+      <text x="460" y="675" class="eq" id="plus_node_281">Virtual Node</text>
+      <path d="M526 667C526 636 531 614 540 606" class="softGray" marker-end="url(#arrowGray)" id="plus_node_282" />
+    </g>
+    <g id="graph_prompt_blue_module">
+      <rect x="624" y="552" width="200" height="143" class="bluePanel" id="plus_node_283" />
+      <g id="graph_prompt_matrix">
+        <rect x="664" y="568" width="106" height="42" fill="#e8f4ff" stroke="#000" stroke-width="2" id="plus_node_284" />
+        <g stroke="#000" stroke-width="1" id="plus_node_285">
+          <path d="M677 568V610 M690 568V610 M703 568V610 M716 568V610 M729 568V610 M742 568V610 M755 568V610" id="plus_node_286" />
+          <path d="M664 582H770 M664 596H770" id="plus_node_287" />
+        </g>
+        <rect x="664" y="568" width="13" height="14" fill="#3695e7" id="plus_node_288" /><rect x="677" y="568" width="13" height="14" fill="#49a4ef" id="plus_node_289" /><rect x="690" y="568" width="13" height="14" fill="#62aef0" id="plus_node_290" />
+        <rect x="664" y="582" width="13" height="14" fill="#2f89d6" id="plus_node_291" /><rect x="677" y="582" width="13" height="14" fill="#529ee0" id="plus_node_292" /><rect x="690" y="582" width="13" height="14" fill="#80bee9" id="plus_node_293" />
+        <rect x="664" y="596" width="13" height="14" fill="#589bd3" id="plus_node_294" /><rect x="677" y="596" width="13" height="14" fill="#8bc1e8" id="plus_node_295" /><rect x="690" y="596" width="13" height="14" fill="#b9d7ea" id="plus_node_296" />
+      </g>
+      <use href="#symFeatureBlue" x="632" y="607" width="12" height="70" id="plus_node_297" />
+      <use href="#symFeatureBlue" x="798" y="608" width="12" height="70" id="plus_node_298" />
+      <path d="M658 658H690" stroke="#000" stroke-width="2.5" marker-end="url(#arrowBlack)" id="plus_node_302" />
+      <path d="M744 658H785" stroke="#000" stroke-width="2.5" marker-end="url(#arrowBlack)" id="plus_node_303" />
+      <path d="M717 619V644" stroke="#000" stroke-width="2.5" marker-end="url(#arrowBlack)" id="plus_node_304" />
+      <text x="724" y="640" class="small" id="plus_node_305">P<tspan baseline-shift="sub" font-size="16">g</tspan></text>
+    </g>
+  </g>
+
+  
+  <g id="edge_prompt_content">
+    <desc>Origin is upper edge subgraph. Downward conduction reaches the cream SeLo-Edge prompt panel. Symmetry basis: source feature Xn flows through MLP and prompt/product/add operations to context feature Xc.</desc>
+    <text x="965" y="396" class="title" font-weight="700" id="plus_node_306">SeLo-Edge Prompt</text>
+    <g id="edge_prompt_top_graph">
+      <rect x="970" y="428" width="180" height="36" class="edgePanel" id="plus_node_307" />
+      <use href="#symNode" x="979" y="432" width="28" height="28" id="plus_node_308" />
+      <use href="#symNode" x="1116" y="432" width="28" height="28" id="plus_node_309" />
+      <use href="#symNode" x="1031" y="496" width="28" height="28" id="plus_node_310" />
+      <use href="#symNode" x="1160" y="478" width="28" height="28" id="plus_node_311" />
+      <path class="edge" d="M993 446H1130 M993 446L1045 510 M1130 446L1174 492" id="plus_node_312" />
+      <path class="edgeGray" d="M994 446H1125" marker-end="url(#arrowGray)" id="plus_node_313" />
+      <use href="#symFeatureGray" x="953" y="468" width="12" height="66" id="plus_node_314" />
+      <use href="#symFeatureGray" x="1125" y="467" width="12" height="68" id="plus_node_315" />
+      <text x="923" y="487" class="small" id="plus_node_316">X<tspan baseline-shift="sub" font-size="16">n</tspan></text>
+      <text x="1099" y="487" class="small" id="plus_node_317">X<tspan baseline-shift="sub" font-size="16">c</tspan></text>
+      <text x="1170" y="544" class="eq" id="plus_node_318">Equation 9</text>
+    </g>
+    <g id="edge_prompt_panel">
+      <rect x="866" y="552" width="398" height="143" class="edgePanel" id="plus_node_319" />
+      <use href="#symFeatureGray" x="890" y="581" width="14" height="103" id="plus_node_320" />
+      <text x="884" y="575" class="small" id="plus_node_321">X<tspan baseline-shift="sub" font-size="16">n</tspan></text>
+      <path d="M910 662H928" stroke="#000" stroke-width="2.5" marker-end="url(#arrowBlack)" id="plus_node_322" />
+      <rect x="932" y="618" width="23" height="67" fill="#efc48f" stroke="#000" stroke-width="2" id="plus_node_323" />
+      <text x="951" y="627" class="tiny" writing-mode="tb" id="plus_node_324">MLP</text>
+      <text x="924" y="603" class="small" id="plus_node_325">MLP<tspan baseline-shift="sub" font-size="14">s</tspan></text>
+      <path d="M963 662H982" stroke="#000" stroke-width="2.5" marker-end="url(#arrowBlack)" id="plus_node_327" />
+      <use href="#symFeatureOrange" x="987" y="640" width="12" height="40" id="plus_node_328" />
+      <text x="982" y="632" class="small" id="plus_node_329">S<tspan baseline-shift="sub" font-size="16">n</tspan></text>
+      <path d="M1011 662H1054" stroke="#000" stroke-width="2.5" marker-end="url(#arrowBlack)" id="plus_node_330" />
+      <path d="M1089 662H1138" stroke="#000" stroke-width="2.5" marker-end="url(#arrowBlack)" id="plus_node_332" />
+      <text x="1091" y="640" class="small" id="plus_node_333">P<tspan baseline-shift="sub" font-size="16">e</tspan></text>
+      <g id="edge_prompt_matrix">
+        <rect x="1018" y="573" width="105" height="42" fill="#fff2d6" stroke="#000" stroke-width="2" id="plus_node_334" />
+        <g stroke="#000" stroke-width="1" id="plus_node_335">
+          <path d="M1031 573V615 M1044 573V615 M1057 573V615 M1070 573V615 M1083 573V615 M1096 573V615 M1109 573V615" id="plus_node_336" />
+          <path d="M1018 587H1123 M1018 601H1123" id="plus_node_337" />
+        </g>
+        <rect x="1018" y="573" width="13" height="14" fill="#e3a73d" id="plus_node_338" /><rect x="1031" y="573" width="13" height="14" fill="#ecb650" id="plus_node_339" /><rect x="1044" y="573" width="13" height="14" fill="#f4c66a" id="plus_node_340" />
+        <rect x="1018" y="587" width="13" height="14" fill="#df9d31" id="plus_node_341" /><rect x="1031" y="587" width="13" height="14" fill="#e8af45" id="plus_node_342" /><rect x="1044" y="587" width="13" height="14" fill="#f2c162" id="plus_node_343" />
+      </g>
+      <path d="M1071 617V646" stroke="#000" stroke-width="2.5" marker-end="url(#arrowBlack)" id="plus_node_345" />
+      <use href="#symFeatureOrange" x="1147" y="584" width="14" height="102" id="plus_node_346" />
+      <path d="M1164 636H1178" stroke="#000" stroke-width="2.5" marker-end="url(#arrowBlack)" id="plus_node_348" />
+      <path d="M1212 636H1230" stroke="#000" stroke-width="2.5" marker-end="url(#arrowBlack)" id="plus_node_349" />
+      <use href="#symFeatureGray" x="1234" y="584" width="14" height="102" id="plus_node_350" />
+      <text x="1228" y="575" class="small" id="plus_node_351">X<tspan baseline-shift="sub" font-size="16">c</tspan></text>
+    </g>
+  </g>
+
+  
+  <g id="node_prompt_content">
+    <desc>Origin is title and upper graph. Downward conduction reaches green node-prompt panel. Symmetry basis: node feature Xi transforms through MLP to semantic feature and product with node prompt matrix, then added with residual path.</desc>
+    <text x="1366" y="396" class="title" font-weight="700" id="plus_node_352">SeLo-Node Prompt</text>
+    <g id="node_prompt_top_graph">
+      <rect x="1348" y="501" width="43" height="41" class="nodePanel" id="plus_node_353" />
+      <rect x="1437" y="428" width="40" height="38" class="nodePanel" id="plus_node_354" />
+      <rect x="1500" y="468" width="38" height="37" class="nodePanel" id="plus_node_355" />
+      <rect x="1565" y="412" width="39" height="39" class="nodePanel" id="plus_node_356" />
+      <use href="#symNode" x="1356" y="506" width="28" height="28" id="plus_node_357" />
+      <use href="#symNode" x="1443" y="436" width="28" height="28" id="plus_node_358" />
+      <use href="#symNode" x="1506" y="476" width="28" height="28" id="plus_node_359" />
+      <use href="#symNode" x="1571" y="418" width="28" height="28" id="plus_node_360" />
+      <path class="edge" d="M1370 520L1457 450L1520 490L1585 432" id="plus_node_361" />
+      <use href="#symFeatureGray" x="1335" y="466" width="12" height="66" id="plus_node_362" />
+      <use href="#symFeatureGray" x="1434" y="475" width="12" height="70" id="plus_node_363" />
+      <use href="#symFeatureGray" x="1612" y="422" width="12" height="66" id="plus_node_364" />
+      <text x="1410" y="447" class="small" id="plus_node_365">X<tspan baseline-shift="sub" font-size="16">i</tspan></text>
+      <text x="1524" y="544" class="eq" id="plus_node_366">Equation 10</text>
+    </g>
+
+    <g id="node_prompt_panel">
+      <rect x="1314" y="552" width="313" height="143" class="nodePanel" id="plus_node_367" />
+      <use href="#symFeatureGray" x="1339" y="581" width="14" height="103" id="plus_node_368" />
+      <text x="1333" y="575" class="small" id="plus_node_369">X<tspan baseline-shift="sub" font-size="16">i</tspan></text>
+      <rect x="1381" y="592" width="23" height="67" fill="#efc48f" stroke="#000" stroke-width="2" id="plus_node_370" />
+      <text x="1400" y="601" class="tiny" writing-mode="tb" id="plus_node_371">MLP</text>
+      <text x="1373" y="584" class="small" id="plus_node_372">MLP<tspan baseline-shift="sub" font-size="14">s</tspan></text>
+      <path d="M1356 642H1379" stroke="#000" stroke-width="2.5" marker-end="url(#arrowBlack)" id="plus_node_374" />
+      <path d="M1405 642H1433" stroke="#000" stroke-width="2.5" marker-end="url(#arrowBlack)" id="plus_node_375" />
+      <use href="#symFeatureOrange" x="1437" y="615" width="13" height="42" id="plus_node_376" />
+      <text x="1433" y="609" class="small" id="plus_node_377">S<tspan baseline-shift="sub" font-size="16">i</tspan></text>
+      <path d="M1456 642H1504" stroke="#000" stroke-width="2.5" marker-end="url(#arrowBlack)" id="plus_node_378" />
+      <path d="M1537 642H1581" stroke="#000" stroke-width="2.5" marker-end="url(#arrowBlack)" id="plus_node_380" />
+      <text x="1537" y="630" class="small" id="plus_node_381">P<tspan baseline-shift="sub" font-size="16">n</tspan></text>
+      <g id="node_prompt_matrix">
+        <rect x="1468" y="562" width="105" height="42" fill="#e2f2da" stroke="#000" stroke-width="2" id="plus_node_382" />
+        <g stroke="#000" stroke-width="1" id="plus_node_383">
+          <path d="M1481 562V604 M1494 562V604 M1507 562V604 M1520 562V604 M1533 562V604 M1546 562V604 M1559 562V604" id="plus_node_384" />
+          <path d="M1468 576H1573 M1468 590H1573" id="plus_node_385" />
+        </g>
+        <rect x="1468" y="562" width="13" height="14" fill="#92c77d" id="plus_node_386" /><rect x="1481" y="562" width="13" height="14" fill="#a7d093" id="plus_node_387" /><rect x="1494" y="562" width="13" height="14" fill="#b7d9a5" id="plus_node_388" />
+        <rect x="1468" y="576" width="13" height="14" fill="#86bf72" id="plus_node_389" /><rect x="1481" y="576" width="13" height="14" fill="#9aca87" id="plus_node_390" /><rect x="1494" y="576" width="13" height="14" fill="#afd79d" id="plus_node_391" />
+      </g>
+      <path d="M1521 606V629" stroke="#000" stroke-width="2.5" marker-end="url(#arrowBlack)" id="plus_node_393" />
+      <use href="#symFeatureGreen" x="1592" y="582" width="14" height="103" id="plus_node_394" />
+      <path d="M1590 676H1361" stroke="#000" stroke-width="2.5" marker-end="url(#arrowBlack)" id="plus_node_395" />
+      <g id="draft_add_node_prompt"><use href="#symPlus" x="1461" y="660" width="30" height="30" id="plus_node_396" /></g>
+    </g>
+  </g>
+
+  
+  <g id="sam_replacement_P001_product_legend" transform="translate(0 0)">
+    <image href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABsAAAAbCAYAAACN1PRVAAAEnElEQVR4nJVWWSi8bxQ+32cda43tQjL2ZCnLha1kv5Gy5cY+ljQkQlkuuKRc2S6GpKzZomQJSSLhauxrQomSbSxZ3l/n+H8yfwyemqbvvMvzvuc95zmHe3h4AHV4fHyE/v5+Nj09DcvLy7C1tQWMMRozMjICDw8P8Pb2hoSEBHB3d+fUboZkX/0uLi6gtLSUmZqa4s7vP0tLS+bk5MQcHByYvr6+ypifnx8bGRlh3+3JfXWzhYUFlpGRAXt7e6CpqQnh4eEQHR2NJwdjY+P3eXjDg4MDnA+dnZ00HyGVSqG6uhoMDAxUbvqJrK+vD5KTk9nr6yuEhYVBRUUFWFhYwG8wNTUFlZWVcH5+Dm5ubjA2NgYmJibcl2R9fX0sOTkZOI6DoqIiSEtLg7/i8vIS8vLyYGlpiQjHx8dBLBYTIS9M2tnZAXQdEgUGBkJTUxOsrq7+iYgxBnK5HLa3tylwFAoF5OTkvI8T2cvLC/qZHrawsBCcnZ3h+voa0tPT/0TY2NgILS0tdODy8nKQSCQwNDQE3d3db+GLBO3t7RRNHh4ebH19nW1ubjKZTEY2IyMjhu5Fm7pfSUkJzccIFeZ3dXUxjuMogpVKJeOFEyHy8/OB5988i36XyWS/umFXVxfU1NSASCQiN7q6upIdXRkUFAQnJycwPDwMPL7V/Pw82Nvbg4+Pj8omvyEcHByEqqoq0NLSonf29PRUGU9MTKT/1tZW4DGn8CMkJOTLU6sjHB0dhbKyMsrF+vr6T4dFoE1PTw8WFxeBX1lZIaNw9Z8IMR2QEOUL0wNRW1tLEfwV8FlcXFzg6uoKNFEBELa2tt+SCYSIhoYGSEpKgqenJ4pifKuIiAi1a+3s7CjveFyE0NHRUbtAIETZur+/h+fnZ8jOzoaoqKgf12lra7/dUiD5Sf0RmKQTExPv36iHv8lDYW8er4jY3d1VuwBLCwqsUqmkFME3vLm5oTdUKBRq12LEE5mXlxfplroF+/v7tCkGSFZWFkmQEDRIiFH63Xp8142NDRRk4H19fcmI7hGK4kccHx9Damoq1TcMjIKCgvex3xDOzMyQG5GHt7GxgeDgYDg6OoLZ2VmViaenp5CSkgJnZ2cQFxdHOYW69xE/EXZ0dNC/VCrliBW1DHUNK7BCoSBdm5ubYxKJhOyRkZFsbW1NrTbK/tNSQ0ND1tvbS7bm5may2djYsLu7u7dIwVAODg6mgZycHIaq4ujoSN+hoaFsdXX1RyHe/B9hW1sbs7CwoO+BgQHVtgDd6OnpydAd1tbWcHh4CAEBASTSQp78BnV1ddDT0wNmZmYUGPjOcrmc+1SpJyYmWHx8PHVUmBLYIqCS/wWnp6eQm5tL+efv70/1TOhF3is1Ijw8nEMCXV1dal4yMzN/zD8BqES9vb0QGRn5kYj72PR82V2h/zGBBZFG5Y6JiaGeAquvEJH46Ovr69RdIRFGrYaGBhQXF2Ol5rDsqOC7Hu/29hbVnNnZ2an0hiKRiJmbmzOxWExVWLDzPM+ioqLY/Pz83/rGj8BEn5ycxJLC8KboIjwI1jBs8by8vKgjjo2N5aysrNT6+h+UUzaFOEUVaQAAAABJRU5ErkJggg==" x="77" y="503" width="27" height="27" id="plus_node_397" preserveAspectRatio="none" />
+  </g>
+  <g id="sam_replacement_P002_add_legend" transform="translate(0 0)">
+    <image href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABsAAAAcCAYAAACQ0cTtAAADiklEQVR4nL1WTUhyTRR+7lXLghAzd4WbyqD/P2gbkRsrpOhuoh+KoE0IUQmBBYHUIog2QUFQmyAKpR9oE4JQREEkFWRBgotS3ESEZfZzXmb48nulsr731e+BuXPvDDPPnXPOPOcI4XAY3+Hh4YFOT09xfHyMQCAAIoJcLkd+fj7KysqQl5cHURSFbzdiZF80crlc1NbWRkqlkgB82bKzs8lqtZLX66U4+31O5vP5qKmpKbpZRkYGGQwGMpvN0bGJiQnq7u6m6upqEgSBj6WmppLNZqNQKPQp6YfTOBwOUqvVfLFOp+OL3W43eTwe3t7J3r9Zczqd1NfXx8nYXFVV1aenFH73md1up/b2dry9vaGrqwtmsxlKpTLG7AUFBbz3eDwfXOLz+TAyMoKjoyPodDrs7OwgJycn6kvx/WVvb486Ozv5+9TUFCwWywei76DT6bC0tITGxkZO3NDQwIMrhuzx8ZF6e3vx/PyM8fFxGI1G/CnkcjkmJydRW1uLi4sLWK1WxJAxAq/XC4PBgJaWFvwtZDIZbDYb1Go1ZmdncXBwwE8n3t/f0/z8PNLT0zE2NoZEITMzk7uC3cnp6Wk+Ji4vLyMUCnH7ajQaJBJGo5Hvubm5Cb/fT+L6+jqfaG1tRaKhUChgMpnw+vqKra0tiEyCWNQVFhYiGaisrOS92+2GeHt7C71ez7QtKWSF/xzi5OQE7MJF70GyIeJ/hJw9ioqKsLa29qMF8eTqM1xfX6Ourg41NTUQtVotLi8v8fLygmTg/Pyc96WlpRDLy8sRiUS4A5OBw8ND3jMe8V2eVlZWEk709PQEdo9TUlKYOAuiJEmCSqXC9vY2bm5uEkpmt9txd3eH5uZmriRiWloa+vv7uSlHR0cTRhQIBHiqYqI8MDDwb+hbLBaBXb7d3V0sLi7+NVEkEsHw8DDX3KGhIZSUlAhRMqZhCwsLAjsly0VMnP8U4XCYW4oFRkVFBcvcHzM1K8lWV1e5TrL8xtIDs/d/wdnZGSRJgsvl4jK1sbHBgyPmT35vTqcTrDRjMqbVamlwcJD29/fjFjwOh4MkSSKZTMbn6uvrye/3/6yUCwaD6OnpiW6sUCh4ydbR0REds1gsZDKZKDc3NzqmUqlobm7uy9oxXpHKzMJrRY1GE7dILS4uppmZGQoGg3GL1JhS7iuw1H51dcVyEjcP+2YhrdfrBebrrKysHzn1F5vegsGUfjImAAAAAElFTkSuQmCC" x="78" y="421" width="27" height="28" id="plus_node_398" preserveAspectRatio="none" />
+  </g>
+  <g id="sam_replacement_P003_frozen_legend" transform="translate(0 0)">
+    <image href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABUAAAAVCAYAAACpF6WWAAAEyklEQVR4nG2Ua2xTdRjGfz09bbe2W7fuvm5zHXNj3YVdGIEhQhQyIYaoMYGE8EElRhM/EEQxMX5QoomGEPygH/hgFMNFolHZMAp+AOIYsBvrLuwCG2xj3dzarVu7055ejulpWDbZk5yTvM//fZ68533P/yUQCLDW43JN8dOvlxW/36+0dnQrtSd/U1o7utT450sqv6YuEAggsDaUr/9qVz4X6jn2yw1cCzL9BTuZ9AY5cvYmH2squHDlhhLLW0ssrgzanX2KgIbaKgd7ym3840ngZ6mB2343RknipDeTnrR1NGj0VNrzVU1bV4+i12vZUO7QPPERVlZ3YiadT902JEliU2UZX2aMU5Yq0+2zsohCe9BMg17ik5wHVK0vxufz8eFMAR9cG1L1q0wlSVJiRgZZomcxSkf/sHpY51jHF1mzNFhiiSI7TRE+y1+grtyhnp/9u5XRkA5dgo7OLiedzj5l2XTP6Rb2dUJGTiZ+rYmzbQPL5dest7M53I3eIFMj9aoVPoEzmkwwEqViy0scXyjhhDtXrVg1rbIEGPFK/DACS8Egk0b1cBkawYRe1iBHDcvcrNvDXMqzLAa1fHd/kbGFALaZgeVBKfXZyUylmplwSUSiAp0ptRy+Oswuk5dmXwrXI3Z8gsLvunW4r47RaHTRtJjNDTmFqC5IIJxMSWGQ7Ys6Jl1TaAKBgJLZ5CchqiWVeQpCC0gJZoYiJpJFLQsRmU3KHJnjbTy0lOG02DEJUYJRLUUJ8xgCS0yLVmaVRCLhKNWutvgv9frgebJMAu/te4U0a4k61SOt0zT5bWyVBjndWITVuh+v18uB5l5aTPXs893ixAs1mM359PTd48c/W/CHI2wsyo2bfnv00Koems1mhAfXSM7LJnumB6u1TuUtFgv13mHuGjdQJi6qeTFUlpfxVXnZsl6IvQaH7j91K5LyCvATYindvoof16Uja6MExMSnNANDwzwYGY33tPCKTNbUAKVmsI53sJSZz52ULUxIUXINMs9PtpMmTzJtzOF65hZcIYFCg8Lm6dskeCeZtdVyN5JAJDkL28jNuOnBc/30WTMYlowYYhdVF6RCr1CjuHGKNvpDfsRwIkpUQ0kSVMmT3Itk0h2CsAbCSoj6ZAtpnns8p5+O93R74hgjEmg0hSwpAhsTZL6x+3EUF9M/NMKpWZEml8CB3BBvZsT5rv5BDk/ncGfOiE6cRxAlXhQnObS3Md7Ti0l1zBrL2J6hxSTI5A+04CiO99JRUkTW4xEUUSRpohdHcZHKV5UW41iaJoUldqWn8sin4w9TfKAxU837hlEu5A2S6xtFp4Ud+fGpxuDxeJi1VxAJwyOzDc/cvMprtVqSHjvRJ0ZJGbvFuWce8Y5eHbhG/fzGbZvUxIcT/5JjgDzRqMYzbjenxvQ0j4n4CHMpnEv6iMAxu4c0q5WD2zfQfD/C0FSImv2lqiEr9mksUDYvdIJoZtuuambcHk6NC3w/7ceQmIJWDpOj13PxcQBRhKPMUVlazNvOZnS52tW7Irb+/wd1fR0/f5Uz5nqqzSHsgsSZBRPvpgVwRiw455f4SOngrb27l31WGqza/CurfrnCxsy1y7yxo5re8RnyhmWKBB2v2bO4OT7Kq7u3PmX2BP8B2rMh+teUvRwAAAAASUVORK5CYII=" x="79" y="583" width="21" height="21" id="plus_node_399" preserveAspectRatio="none" />
+  </g>
+  <g id="sam_replacement_P004_trainable_legend" transform="translate(0 0)">
+    <image href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABMAAAAWCAYAAAAinad/AAACSklEQVR4nKWVTUhUURTHf+e9J5qIIUmNhaRCFEJlEUHRRrLaFEXSroWF26BWEUUE0SY3QbTog2ihFBS2EoyiiAgXSqkLow81kHTGrGnMnBnnzZx4c2Wm5/gx5oF3Oed+/O7/3HsuT2KxGEvarxDcaFL2NgoHmxecZi0Jmo7AzWaViRFwZ3SxqUvDup6qhIaNP9zHymA9HVnfgyUT+r8wJTirCpDYFHTeMf3LhiXiSGLOBT27C98+zQtcHGblDkvKhdZLkHSzwLdP5oHF/vwbKXYBWlCYCxwZgPYWE4SDSvt1ZSaKk5nR3QGhITh8xi+/qCSdbg7wdRu6tgqCg0h8Gu1/pUbZUC+0XlTEUlSN7I5bZtVMdMFTkMfXkDePTDAygMX0pHLvrIp3BuNf4cV95OEV8G4uOpXeNS9LujheHcnkhOl41wlfeow/Nuivsbxgn7uzsr0UI99N8LHLfPnamg04/BiddywNXo5VbcWiLMBKTcWCylosAjXLWmgfqkEqSvyd2+qhsBiH9ZvyoxTa2Mc2Y++qQFOKjk1lx/Y3ea04bG8QLQuohIO+tbKxFGtLOdgCq4uwasuRotkaj7vZFKvroGZH2rdwCqDxvMwVouE41r5K7Poq7J2BDEjDUVJ948b3XsfJq+m9DcyzugNow2k/bTKO+6AfDZl0NOaS+jBB4vZ7iMRRETjVAuuqM0LE9w/ofQ5tl1Wiv/3gYgdiSUiZctFVpXDiAuw+4svID/Ps56j3pJS+l0jEpJNJ3Wv2HIej56CkLOdo/gIHfd6osM952gAAAABJRU5ErkJggg==" x="79" y="650" width="19" height="22" id="plus_node_400" preserveAspectRatio="none" />
+  </g>
+  <g id="sam_replacement_P005_top_downstream_flame" data-plus-replaces="" transform="translate(0 0)">
+    <image href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABMAAAAXCAYAAADpwXTaAAACbUlEQVR4nJ2Vz2sTQRTHv7O73cayNrZNCRprg4o1erDqxR+VKL304KVFkKIGvIgE/AMsiIriwR8nL6JCsXgQpT2oiOAPECoIxkpRtLYaBC0WJG10LYnJ7D7ZWbN12WRt8mDhvXlvPvPNZN4MIyL4GJn6LPhAN1DMQ73ynvkVS/iP8dN7gfwvwOAwObdWpppg5ocXwI/vCzLHH/ku7Acj4+F1N3x0uGYYKDvjjt8+g/nptXCrgRFjDOl3bzyJmVN9sHKMMVEj2774fJUVTO9YKKDg6q5WZ9G7PSuwtUUVgVIaNadSQDhKUmPImaiXowFIdAShdcYxVh9FPHuPhqLtbFDbaSszno8Qv3jQBbJsnpeHMQB9uXGcaP4KFQbW0Bwlk0lI5vQkjBvHreMpCvntcygc6cD6YB2WqXLFLWAgBNIpOzC4+MkKv5SgEqh46wzoyZDwP+tFhJZUhpUzCXrGCejpTce/3NWKSEN1MMUV/VVoWWJdcNEQUtTF9eZizAiGa4TVeacUVm6oHiZtDkPp3+gas/rqZ/yw8BVICmCKv7ayaSrk7ijkrjbQfNGtKhKDqTVbLlPYjl5Go3c8jasc3WKfznoFbLkGJtn3ImXzLlXZnmMCJJTLh84CDY0eMebULKTVTZAiSxdAvzmMkQkHpG/bDx5e68xh1rVtfpkAP99P4kb9d4+2RyB1hoGAAkpnYaa+gaZ1kcu3b0LmwAVHlQMTSngBohs+vvLdPqs6F9uNud4Bz3vgwEpmvHxAxuNB5CbHEJDte0pUSDJ4UwSZfSdhtLSVfVg8MCfBGFnnZk9sFa4N3wcCmu/LZE36AxPb4AA0/SgQAAAAAElFTkSuQmCC" x="1577" y="102" width="19" height="23" id="plus_node_401" preserveAspectRatio="none" />
+  </g>
+  <g id="sam_replacement_P006_decomp_flame" data-plus-replaces="" transform="translate(0 0)">
+    <image href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABMAAAAXCAYAAADpwXTaAAACnklEQVR4nKWUS0hUURjH/+fcedSEpYMjau9MBKOFEbkoUIOgZQTWIjQiIwhqH9nGRdQypBaBm5CyjFZiBQVFWSL5iJjMR6PYwpkamZnGnHvn3nO+mHvHOw4qXu0P53Ae3/l9j3vPARHBSROhL9Cu1pAYeU2r2XA4EIVDMO5eJKSSgJ5e1c4RTLx4QPgbN8fyx5DJ3xCMjDTk0KvcfHzAHq4/ssRvgjqfg818gxjowcYim7fSWyrxuA2UnFsW3dqR8RVM5mMQj9psfxQLQ359C1dPT37Iiq5CuDfZhr5UDMdW8CE/90JUHYFSfw40O0lG9x3Glhq0HvJjOqlT50TSXiv0cESa960StQLXlXsQbx6CRj+CtbS0mOu1CFMzvqMD1RhBMU5iBnF4ECQ/brF+OBGLRqPEI1PwtZ8HM9LQTlwCj/6Ee/gl1NPXIUorsOW+5XAtuTKd+9MzE5SR50MXoC1YWURC4LPjjkA2TAkNYlEsc2Wycvc/BxM6nIqbXSy84uZ6QDZMFpbifyWKyrOwkt3OT3EG5Ww1sNmskK2xggoTxmTpfmegbV64LtdAOVwGXum3l1VDojvqtT6AXnuKed51EjO0vLPsYAB8ewHgUsACPrAqP5hiXS/SDNuuczKJibI5Zu7Q1gDSxy8sjyShgTfsgVK3C7y62AbJ6TgoZD0AqYIS3BiYg67ruYuerm9m+oH6PBbN/IHoCoJiKWue1CAGZ2F0jAC6BHl9GGu4hnhamvu5KnIOtek2E31Pydvbbv8WcjhiNrPgqVxqsqgMauNNqCmvWZF8WFb60TNM7K0hT98TKKPvwRcS1kYWRC4P0nVNmUwAtxcIBu3HYhnM9FpeydTGVkBK8F9TxBIRMMOADOyE9O8AXO6812ZR/wAuMj8tunm7KwAAAABJRU5ErkJggg==" x="999" y="71" width="19" height="23" id="plus_node_402" preserveAspectRatio="none" />
+  </g>
+  <g id="sam_replacement_P007_graph_blue_flame" transform="translate(0 0)">
+    <image href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABMAAAAXCAYAAADpwXTaAAACpElEQVR4nJ2U30tTYRjHv++7s7M5t6l55qy5GWoKpoUUIRoY4k0ShVFXEdFFXoQURXRrUNEf0F11JVYXiVAXaiBl0A80RDOtFGvaWnOOptuKbeo5b5xjHj0d51bfm/Pw/Pi8z3vO8xzyfGoB6eR+eYe5X9/F2/O9ZNkqpMyjaTjMOdqtgGQZ44tsq+R0MLgGO1Tb5h/D/8JYduADzBG/6siZGVT8/wpTCszRgMYpTD1DzsxQSuBmMDXRkIjqgqVPb4IuxTPqTHMiM/C6AnPkO4pf3F7LZbmfX8HmG9HCiLjMjLGQpnDFZN20g+0jjyBM9Ci23f+OuYY61mE0+YtVd54Fl4xpikQ+G6lU1ncDBe+fwDnajVzvG8bFI6BgjO3qaYc1OAlGOZgWvmH3g1bI7XNJ/TtbExWXUdZ7HcZEBFQSYYoGGNd/rhZ15ZKS0HXlJC6XSMjhgf6CBtTkcchURBLBnXDIX8akOC56liDwq4D80CcUzk5mDAOTwFXmrYJkOS3rnTT4+kAy5QCIbytOvQGZgmQl8jwQzXZQkaRdT62o/pjYjqrVUNDiyBwkZIFr269re776qPwg9It9Z3oIAWiNE8YLB0DddsBhWe+qsBJRzz7F5h6XHCZ1gSFG/9pdQ3MpiGABeAOIywZi3bBasSXV9Nee+XMcQH22IvQWN+makbyLIFUO0Ip8DWilZxqIryj23N4WhMsb1ZgyCw8rjpP8RJjVBofVAPv4A2LnOOhBN4iQBeaLQhqbhzQ8p8QjRTXwNl1Vu1KMlq4BFdD0dYCdnrgPE0n9d5Yjoaoj8DZeIvI4bJRmLvo9h3AsWI5bI2GEspzaaxt4RF17MH7qHqab23Ug9ZobRGZFE7s2HAbf2ob6+gbwP0NgBg5Je6H88bec5d9Vbt24FkN3RAAAAABJRU5ErkJggg==" x="641" y="625" width="19" height="23" id="plus_node_403" preserveAspectRatio="none" />
+  </g>
+  <g id="sam_replacement_P008_gnn_frozen" data-plus-replaces="" transform="translate(0 0)">
+    <image href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABcAAAAVCAYAAACt4nWrAAAE20lEQVR4nH2VaWxUVRTHf2/WdlYGKDCQdphaOgwttIUuQCIVEAUCEfwguMSICTEaNfDBoAlB/IIRRA0hURKjQIhoBAKxIAjIolJMS6GFsi9lGaalM9NlpvNme3PNTGnpUPAkJ3n3f8/5vfvuOfc+hBA8zf3+AHtqDolEIiHqmy6LKV/tE2eamtPjvQfS+lNzU67iySZSvrHmtFirlLFy51G83TLNebPxdMp88ONxVinj2XHwWDruoQ8yzeNC3bnzQpKgvGQiC0vyONmWxa/yVE53BjDIMusDQ2ka6mC6pKPUmZvO+behCb1WLUonFkkDWY+vXKy7b2W1dySyLDO1pIiNo1tx22I0hmwEEdRFTEzXyXyWd4eSCS5CoRArPaNYcaS574sHw2VZFimgPiZzPpikrvlKWq8sHseXuZ1Mt6aCNTxvVFiXH6ZyYnF6ftvBv7gV16LVa6lvaKT+3HkxCD578zEW10bJsY+gR21ke216JWmb7C5gerIJnT5GebSZsgmu/rlzCRNRJUnRtBdZ4xvL5605/V/QBxeltig3umS23YRwNMr9bHvmhqmM6GISEUXfL7X7AgSsBQSjan64HuROd4Rc/5XBBa2y27hvNnHPK6MkVdRby3i35gLzrD3s6zRzXBlLSCXYq8nHt/86883t7OsYzsmYlaQ2SiRhodAZZVY4C4/Xyxi7HSnVj6mVW3cFyEqqsdFJXrwbOcvEVcWIRaOmW4lRKToY5WnglrmQRqsToypJNKkmP6sTfSRMm2YoPpGNkkhS2lrPkQ/n0dfwYvm6b8XqTVtEu9+fGopgMCjerLkobD93ioVb/xnYz6Lki19E1s5uUbHi634ty2gWo8uqxZBJ1cJkd/bqffAn2bJNu4Vjl18s37AlA24rLBPDfvIJm7sqQ3/c+/f80pVruF3jMmpoHpNHj4gTHu58pJnNlCx+iwZ1khkvLCB/TlVGTkdXNypJwmoxp/c8ven234KMbL2Myww5987Sk5PLaWsV9+Qko/Uxhh3exoPGo4yft5SLRQvxxlWM1Qum3Psbjf8uwfxpNAkDimUE9hun2PFyyaOCLvnxLBeG5nBNNqAXKiRtlGKdYLII0KgZTXMshCaRDUmJQgsUR+5zWYygKQ4JCRIiToXFis1/iQqlhddmlD86RDNNHgxyO5IkEUaFOyvG9+4Qm1+awHcFPiqjLSTiMRaY2vg0+wKrSo18ZL5AoRVCihFFBSqNzLTItTQ444TuNJTSbnBTnaPGqIrhuHqKCeMK0nNFrgLaDuxFaDSEzxylwNF7YbmcebhDrQwhzJzhQ7gd0nJy1Iw+pNQHlz4xedjjvMmYnha0apjlsPYXyR8I8Myrb6MkIOGqoKurK62r1Wr0LWfQZStYWmrZlN3AK6G6NC/jhM6t7q16y6272PWQazCkxw98PjbckDjRYSeEwiGVE3tIYhkebFYri8qcHO5SuNoWo+g591Pv89TbxNTgOSSNkeqZlTzw+Vl/Q2FrawRdthV1PIFdp2WXN4I2N4c3aMeV7+D1P46ismRweh8edstA6xfWbN/PVkM5paY4hgctHDLks1Tl5a7FQVNnmPe6j7Nk5rMDc//3Z9EXkA5aVOJg/u3fWWvvoPabjxl+/hQ9J3bzfuIs73j+ZO7kSQPjM8Ap0n+XFWwe7Z6DtQAAAABJRU5ErkJggg==" x="1468" y="70" width="23" height="21" id="plus_node_404" preserveAspectRatio="none" />
+  </g>
+  <g id="sam_replacement_P009_graph_matrix_flame" transform="translate(0 0)">
+    <image href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABMAAAAXCAYAAADpwXTaAAADB0lEQVR4nK1VTUhUURT+7n1v3ntjMzo6+hot8ycLdSAXQUH/YQS5CIoSkdq1SKhF1CqIpKhFiBuhFrZoWYRFJkUWKElkm0yRrJyycbSx0Rx/ZtT5ezfeHZ1xUkejPriPc88757vnnHfueaTtixerYd1IH+z3a+DeXsVce8/qKrKcnbgKDzNMj6L04XmIQT8k32hSY1FkITBQRIjAFZRFQKFFmUCg9rbAMDvJ9+bhnuRkWWwcYSohIFu5Qgr6YIj4Ywbq59aYbBz/DnnSjUBaNlsuVWo0GmE1G1GqSnzZLAp0nb4URYHsH4sZ696FrTdXjkxV1QSFyWTiK0Yw60t4nz7QCbWnGZ5tR+PRMQYQApq0CDxveYmqoK0e0rSH0/D9q1vRNBOs3I7FO24IJR7lAoSAH8WPL4GG5iB7h5itqwmK1xVvDfLsNuCfADt5mS0OHXLKsgGbRvqwpeUKCNNAwFhm34v5yLpaQZ7fYSCUIRwCeXAd5O6FqNfM1IoVsPa3I8Pxmsv6VybHDu3HvU0/mEIZvgUMeD+r4IRlGu2+FNR5rHha6Fq+3f+Ax14BMcf9gSn5WVxRKIdgJXN6VWALT+CgbxgE6VgriOvGaaYOvMW/wrnvHKiZRvA/MJ1tBw1n5P6dl7i0NRkR4LcVg4Yz89ZOJBAIVaWgZYm3ZqzkMCKyCWJgQ+maeMhGM4TjxaC5qYj4Q0A3vwEcwztOcRMxlFOCuc07oXx9l+icnwahoigqp8kgGcZ4WhP6F4/CW7gLM+pWLvMCeCsuQpPixtxhcAqQBNACSwKR5pyE9maIywHzevRX1PLz+MMx+BOEEJbi6ITlUS3o7KKON0kQyvNBitIBXxCawxslmgtDE2X0VjfCZyuJ9fQCmV5bCFMeZmm6CsnZnbR+QVsRRstriCtnN7T5Cb2ETL/XlEWY8qkDzieNyPrVD1tKdBYwgwxk5YHtqYSv7AiGp0JkQjOCkXirLP2hUIEE7QfQ3PGRXWt4iYb6OpyprgRSM/XTeEr6UArMBMBC0QGzgN9fegWgyVfTLgAAAABJRU5ErkJggg==" x="760" y="557" width="19" height="23" id="plus_node_405" preserveAspectRatio="none" />
+  </g>
+  <g id="sam_replacement_P010_gnn_frozen" data-plus-replaces="" transform="translate(0 0)">
+    <image href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAVCAYAAABG1c6oAAAEzUlEQVR4nHWUaWxUVRTHf2/ebMzS6ZSWtkCnS7rQltoNW2iESlm0QqMkJnxAPxijCTGomBBiYkj9AoqgSPigBhWMyGpDoRggKIvIEkqlhQqltBTo0EKnC+20b2b63lwzr9JQxZOcl5z//57/Pe/cew9CCJ7mvb19oqbumFBVVdQ33RDFn9eKy03NenzwFx1/ap6Bp5vYXHeBaq2Q1bt/pWtQodmzAO+AwqrvT7FWm8GPR0+KyDr+ZcYng0tXrgpJgln5eVTlezjzwMp+ZTYXBvqwKQob+2JoikmmTDJTkJqk51xsaBIWkywV5OXq8YQK19938VFXPIqiMDs/l81Tu8l2h2j0uxlCcCngoMys8LHnLvk5Wfj9flZ7E3j/RPN4pbqgoigi4paQwtWhMJeaW3SyZGYGm5IGKHNFFhpZaNdYnzZCSd5Mnd959Hduj5owWUzUNzSK+itXxwQXbDvJsvNB4hKnMCzb+eF883jVRdnplIWbMFtCzAo2U5iTNc5dUR0EtTC5c15gnS+FDd1xIiIoCtxB2h4p7GyHkWCQ+5MSJ3baYMcckgholnGox9dHnyudoaDMd7eGuDsYIKm3BaO3q5vSRDf3nQ46uxS0sIF6VyEr665R6RqmdsDJKS0Fv0Fw0JiG78gtXnL2UNsfy5mQi7ApSECNIjM1SMWIFalyy3Hxx7RirGEZNwN4RgdRrA5uanaijDKDWogS0U+Ct4HbzkwaXanYDWGCYZk06wCWwAgPjDH4xCQ0NYyxwuplemsb8Q4D7614ldiYZP303jl9j8P+qTwXaGFH1QwmT35d/9X8T/fS4qkk7+K3nNuyWsesdicxmUWEtEgD/8fe2PqzSD7QK9767Gs9/ucSC3dmoZj8k0+4s0vHMZ5wY2tbO6qqkZ2VMeEcnNM8DItRRmJTJ+AJZZV45TDzFi8lbVHpBK7/0SDSvE1HxM3MucR33yDLCXGdfzIcl8QFVymdSpiplhDlXZf5bdeXxBRX4Hv+TbpUAykWQXHnWYy99xhKm0OTsKFFTUHauueQODsynWsxcbQqNizCgGQKMtMsKBJ9NBqn8tfoMPKoFRGW9E1nBu9zQ0yhaRRUCVQxyrNRLty91zGsWl7FfIcXm9KDJEmMYCDbGmJ7tp9tL+fwVbqPpS4FdTREhdSOZ98a1hbYWeO8RqYL/JodzQAGo8KcQOvYS9ltK6DHlk15nIzdECL55jlyMtL1vuRmpZPYdRthNNJetwuHWdbxrFQP2f5uohlhUWw0d/wmziTM0wWlDx1ealLbmTbcgUmGimTXeKN7+/roSclBUyF+wTJCIVXHZVnG0nEZ8ySNqI7zrBs+xqJ7x8cqfLG8lKK8HDqEm0QLJEXb9KSHPh+ftAoO37HjR+KUbQamFdX0P3qk868UpmIPa1z3Bvjg3ZWcPForPZ6HUuQze+iKkIx2yueX8NDXy8Y2jR3dASyTopFDKolmE3X9Mk5nHK/RQ1ZaMkv217B/3x4yMjKorq6eOGA3rKiKCOuzbWPNafbZZlHmkEkz9LBTtVHsa2DIU8CBToUpg00snz+XXJeZE2q/tH37XlwuF9LYI/ivNTReE9+cqOfthcU03nnI+sv9hA59weysZJ6Zs5gl5QURASlyMx57JPFvepVEMmqfWiIAAAAASUVORK5CYII=" x="1369" y="70" width="20" height="21" id="plus_node_406" preserveAspectRatio="none" />
+  </g>
+  <g id="sam_replacement_P011_edge_matrix_flame" transform="translate(0 0)">
+    <image href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABEAAAAVCAYAAACg/AXsAAACY0lEQVR4nJWUS0hUYRTHf+fOdXzMwxkbA0URKwwZikJqEbRPQnTRplZBRkRuWtYqWrS2XUkRFEGb6AH2oAIXFaSYZqRo+eqhg68ZmRlnHOfeL+beNAdnZPzDvd/jHH6c79z/d2V1YYBtNf9H8fEltLZLvhR9W8BiSNF1DXyBzEoBsnPI41sQjcBqEkwDNEdOkJYXsBJTTI3Y81QSQj/zpmrLCQeRFZ3MGE06MMx/kbFBMNcXQM+z9ZnaAgnHnYRXiliKO1mIOUmrIitgRpezM4c+wLe+nCDdX1Fh7yqFaZronnKMdEwtG17syCY96YL6RihzQyKumBgWgkfQPB4PmcerVvH5fIiIMqQUs9i19fCxCDy6aTd5dhpePbQrsd5v7oKRhhMXrDJ1hwPf7qrcXcz06ukdmJ+xPTQzJRpfe5DnnaBpinAI6TwL/S/QElHyqvctTA7b8/Cc0uTB1cyHVzL8Hrl/BRnvB90J4VkKkmGgSyJqHUHGP2+0XPq6YexTYRCHI9ux61aUoXcUrOr6bRxbiNzl4K/cAcRfgtR6s/caDllDQRCp8VB0sQntWE124HiLFdbT1ftFnxnNsrEEA4jbCcUOtD1+pDGAaJJ9f/cdhKo6u5LkyQ6UZN9uKdHRTzWitzSgBSstgFozMHtn7IRSF7S1W6kWxKg7QLL5khibajH7Q6S7f6DCCVTKwBxdJH3vC2oiAqLBmcsQ+O9omQv9toA3zp9WHa5pat32Lc4pbwW0noPg0Y0qMtrwyUiqRJpe/1IDt69TvfQdJgeRZBxV5iXl2sXa3sO4m9uguHTLL/IvqCbVtdLexe4AAAAASUVORK5CYII=" x="1118" y="559" width="17" height="21" id="plus_node_407" preserveAspectRatio="none" />
+  </g>
+  <g id="sam_replacement_P012_node_mlp_flame" transform="translate(0 0)">
+    <image href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABIAAAAVCAYAAABLy77vAAACVUlEQVR4nJ2Uy2sTURTGvztzM5M2mTylldSELMSV1BdVKIhZiFREiBsXPha6EDf9F1wpblwo/QPixi5aly21lQoi9AGKYAMGGrVWm4TYpmlekyaTuTIzdtIhrUn7Le7MOXPmd79758wl33NxtBPZliHNjqMwdJuB48leNVxbSr0G/8snzLEwrUH2LWsLcs2MMvFbHFy1DK64eWgQ61paMANhJaHnDgyi2d+guYwZO+anDuWI8ZtZS8Ke/ILuxZk9Xf3XERPsLTn3RAxcfn0HxsSvH1tBpCqbDG1Qxa7WJWzL8L16Bih1kEoJ3vERpt2bICG5BPdkzGKbia2ONIk/E/COjUCaHQNf2oI98YnpzRV2UsxFg5j6VWYPP2Tx9PwRpMoK3qVkLN4Iop22rt41HMUivcxv59mFHjseD/gxfNIDngP6HPs3oGVLFAUk/foR870ZNZOMUv1B7WhIb0Ka32gLKly5BSrk/7TQNQmZVXSqeiAMbu8+PZhqwRPgGpKn8zd4AhJyWd30hqBKHnANl7czSDcFvXcK/LXjlnTp4nX9SmETSC0QZkJqxVJA+iTAJQCUBxeUwA0EQJwC1LWiWdNwelA5G9HLqTZW+geJLbPKiKrucmCD7f7pFmPqZ+Mn1rY2H30AUJvei3ofqW4fyuciYKR5+LHlHJSJZTC5bsQbMpTJJNT3xtcsXr6Jav9gcwXpt8/NgK6nmWN+GnyltGuNhjuU/wE5HqVLURSG7gCkObMFpCdqVYjJOBPWfkA7Rggz+qNQVzGXkXHmRQxKz7GdKUz9BfaR1Lu+TJtmAAAAAElFTkSuQmCC" x="1393" y="585" width="18" height="21" id="plus_node_408" preserveAspectRatio="none" />
+  </g>
+  <g id="sam_replacement_P013_node_matrix_flame" transform="translate(0 0)">
+    <image href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABMAAAAWCAYAAAAinad/AAACx0lEQVR4nI1U30sUURT+7p2Z3R3dXfy1ZrZuJRmiEBKVYoYUJvSUhlH0ID0kvWQQQVDhQ1T00p8QBFGUlbESvSQkS4hmkZi6ohDabii6WK7uj9xx5sadzbFx3WU/ONxzzr33m++eueeSIX8/Jr5NIh3qG+uY60M35K8+snD7kWkuMBvE9+kZIxaLS1zglg72/h44+nug2vMYAPL/nGdPmW4boGlZ+M54lDn7Xui+EFmG8HuRE6YFTYQEcNuAloAec5OGPoGsK8acZcbPh7SElICCW4mtXLcCS6kec5NCQdNix/tusLW1tISix+MxJWRZxkaOiObF0q95ON4+x+qZiyAUKTXMVDMGYlqrwzncC8E/DZbUxmxjgyCJtS1kmgooCfNO2ZFCRsDg6n0IGgnrcc6Ij8kjPp1a9Hq9sCgxHBnrxkBNOxgVjHpUzgZRtY1kMbyIwicPED7dAZt/GDS2ilhtM4hAgHenSll1vgVlz2ax2y6i62ABbn1eQmd1Hm7U5GeoRBKaZMH8/ZcQvZdOsOMsAAUEdy5fwBV1BBao+FLVCvekF9mAqKo+0iYppDsSGK6XRmGHAgs03O04j4adtqzIwOvNj08TcSMnBScM3/74Gpx2KSsuNc+V+WrQP5HsVAFQPBV8IBl7M1skyvZnVrYtimQIzXtNKUYo4gfqk2SazZ4VD6kshNR5GLRulynPidT8Yr1VxHhtC3J9T1M2cwVMZSBWAaSiANTtTCpZ2vxhHJHGFsMXYw3nYBvtg7C8YGZz5UKs2ZHyEfVjwPBXjrZCce8zGpgyaw5ZOduFrcdVX09CGw+Baf86ejGKde8UtIGfehwrP4TlpnZzKYJzP0AI5cqY49U9SIFxsxSJAlYRiGw+AonKBsydvApaZCWCvPm0GWRcK2EMtsE3zDraB3FuKuWIrMgN1nYTrOoYVpQlEl0Pm16pv9XR8mEepoiqAAAAAElFTkSuQmCC" x="1563" y="553" width="19" height="22" id="plus_node_409" preserveAspectRatio="none" />
+  </g>
+  <g id="sam_replacement_P014_edge_mlp_flame" transform="translate(0 0)">
+    <image href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABIAAAAVCAYAAABLy77vAAACOElEQVR4nJWTTWgTQRiGn9ndmAatlBrT1qSlLS3+oKBSBA8Wj15KxZsg4kHw4MGbePAiigdPggcR/y7qRbRKD0FKwVQpiNTEv0pKlWqtsaGJiWka02Qzkt2QNSYb0vewM7v7zjPfzLwjsktBbCSN5485uHsZTl0QuDvsvGjUU3wRbl+E9G8o6CYYRC2rUhf0asyEFPVtprLSNYE+TVn92fd1rfag5SREv1vvoZfwZXrNoJrl8+g65LLW/9xqXZBpcjZV/4n9BP99y/f4Buj5/0ChFyClVYnDCaLGPJN+eD0OqQS8m5SEg8YY0/n8CUyMSoSAlZS1sYrNykduwp1LZjXmgUiFmbfw7IHkzwrEFuHaOXgTgHSqXHaVCjpEvpr9bMZolOCV85LiiuKLPD19An5FGR/1c+TAIRqSbk6m7XFbmzrcvcFoBztc7NtcY7NrqbnF/oo4FIFjXc2bUC1fXwPJbkRd/SZIao7GBmxyoR7bWfnN2wseX7EntHyrB0d0wR6gCJTdbaiHt4JTRVcEFEpxGxwq27TMjoEqkOhpQR3qNyCi1YVwmVspk1kL4t4Cu/YbdmO+fFsn2e5tFSA5l4CcjuJttiCrOvl7paA6XXD8LChq+UQMV3rgIFJVafr8sUSC/K0Qyt52hG8jMrJMIRyDWMZM+9Ez4PFWHKuIjF0tF+KYn2X9VACllNYq9WyH4ZPQ3lWVjX9zJHKdfTLh7UVbiqBFF9CSMQLT80yEI3yIZxkJPrQN118pzsAJnNYVbgAAAABJRU5ErkJggg==" x="946" y="606" width="18" height="21" id="plus_node_410" preserveAspectRatio="none" />
+  </g>
+  <g id="sam_replacement_P015_graph_product" transform="translate(0 0)">
+    <image href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB0AAAAeCAYAAADQBxWhAAAErklEQVR4nJ2Xa0xcRRTH/3fZXQqlFiQt0H6okLJdoEh5KiZtwqIxQivZlhqlvBKDvKzBxFIoBEJi2Q0pQcpDXuENGioiKqQpECIJ4REiIKBCWCQgBIRIi0sXcOWaGby4wD75f9mZu3PnN+fcM2fOMN1Ta9CnTdVzdH33Ffp/eML++tMwVpcX9/1vZmaGc+fFEL/shdev3WQ8X70MQ2J0QTeU66grfsC2NdVCuf5sDyASieDg4ACBQACVSgWFQoGFhYW99146L8a7MR/hTel7jEnQod5u5KTeZleWFiAUChEUFITQ0FC4u7vD3Nz80Pi1tTX09vaioaEBw8PD9Jnv5UDcuf+QOWV/xjC0Kl+G2qIclrSlUimSk5NhY2MDYzU2Noa0tDRMTU3h+IkXIC9vwkWvVxid0M/l6WiqLGKJNXl5eZBIJDiKtre3kZubi5qaGpjx+fis/vt9YB7XaHtUxxIgaW9tbWF+fh5H1c7ODrWU6B+1GnffD8Xy4jydew+6tDDHFmXfA5/PR0ZGBiwsLCCTyehKTdXm5ibi4+PR19cHFxcXRERE4PmGEjmpH4Jl2f+huelJUG0oERcXh7CwMJSWlh4JfBBYVVVFY4K0f+zrQVtTLaXypiZGWRKtTk5OFErk5+dnMphsn4NAa2trurWys7PpmC/K86m1vJa6MvogMjKSupeTKWACTEhIOATkRJ75+/tjce43DPZ0soz5MQtWwDdDT08PLC0tcVCDg4OIjY2lE6empiIqKsokIKeuri4kJiYiIPg6eFubKnh7e2sFchaXlZVptdhYIBGxlMfj4ZfRod1AIplGn3x9fQ+BTQESEaNI3Cz9PrcLdXZ2hiEdBJNsZSyQE8ehUF2u1QYuKCigbpqdnYWdnZ3RQE0OharVahgj4tKKigqacRiGwfLyMlpbW416V5Ozm5GWlmDsPuzv74erqyuKi4tNTiBL/3EodHx83CRgZWUlAgIC9n3j6upqvXOwLIuJiQlYHLfahXJnoLFA7htqBpdcLtcLVigUUCqVELl6gCe6eAkzMzMYGRnRCiSpURuQEwGXl5cbBDc3N9NfvyuB4ElvxdBOfX29VuDAwIBOICcfHx+9YJVKRaFCoTmCb0aCJ7l6HSdtbNHe3o7R0VGTgcaACwsLsb6+DsnVGzj5oi1DK4cn33zJypLj4ejoiMbGRiQlJZkE1NTQ0BBiYmLowlNSUuDh4UGPS1K6VLf3M7an7ffKFTY94RZ6O9tpPUQKraMAtYGtrKxoAN17UIo33n6H0SxXmDufPmRO25+lQDKwpKTkSEDO1VlZWbRNgEGhEXtATSjxNUpauplTdmfowOjoaFrZmSqyH0kpmpmZSfuS4Bv45H6+7mqQ6Omfq7Tm7et+THNsSEgIwsPD4ebmZjDFdXR00OxEth9fIED07RSExX7MkJSpF8rp8deNbLEsDX89e0r7YrEYnp6e9BjUrPCnp6dpRiOH/crKCh0rcvPAXXkR43RB+0J1QonIPabz20dsS30ZZiZ/1msp8cprgW9BGv4BvPyv6LxSGIRqilwxJsdGMDkxwq6t/gG1+m8Ihcdw9pwTLrhfYkh6s7Q6YdRc/wJx44fodZcycQAAAABJRU5ErkJggg==" x="702" y="643" width="29" height="30" id="plus_node_411" preserveAspectRatio="none" />
+  </g>
+  <g id="sam_replacement_P016_edge_product" transform="translate(0 0)">
+    <image href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAAdCAYAAAC9pNwMAAAE5klEQVR4nJ2XaUxcVRTH/++xDEuYBqEUBGytCAFkEiigWBZtAyIMAQQMIaCGhg/FqIGGxS/VWEvYAtEabKEsRkogEpWyyBaskKAzklJgZoiiWE1QQqEYyjosz5xbH2GZgRn+yZs7b96d93vn3HPPOY9bmx2GoVpaWsHw6LigHv8Ni0sr4DjgmNQGsufcIfN25yQSc4PvZXrYhMXFZdQ3taKm/hthVPUrBEHQOc/MzFR43l+GjDcTkBAbzpmZmR14X06fxRsbGyj5tA5l174QFh4tst9cXFzg4+MDT09PSKVS9hDz8/NQqVTsmJmZYfNOONjhw/czkZ72GmcUWPPL77iQeVm4O6KBRCKBXC5HamoqAx4kpVKJhoYG9PT0YHNzExHnXsT1Tz6As5MDdyj4R+U9RCVcFJZXVhEYGIiCggJmqTHSaDTIy8vDxMQEjtvb4k5HHdxOP8XpBSuGRnFOfkEgN0dHR6O0tBQcRdARpNVqmZdGR0chtbGG4vtGnD7lsn0zXvwy9/BfJKZlMSjBurq60Nvbi6OKXE5QExMTLDxaQtIb2dBq17EP/E5OgTDz4CGSk5NRXFyMra0tZGVlsfUyVnV1dSgsLISFhQVqa2sRHBwMlWYCV0tuCLtc3d03iJjX3xZcXV3R0tICKysrtLa2snXieR7l5eUIDw83GlpVVYWAgABMT0+zAF1eXsbI4NdwdzvJMYuvXb/FniQ/P59BSTExMSgqKjLKcrJuL5Tk6OiIzMxMdq/PbzY+tlitbIF3YKzg7Pwkenp6mYU7ZajlBKUH3QsVtbCwgNDQUJiZmuC+qht863d32IXExKR9UF2Wd3d3Gw0lUcKJiorCo8Ul9PUrwA8Nq9kFf39/vS4kuBhw2dnZu+Ai1NLSUi9UlJ+fHxvv3tPAlD5o+3h5eeEgUXCQcnNzGbysrAxTU1Pb0MrKygOhJEq3JDKWVRSp9JgwMDAAQ9TW1sbgJPKAoVDSysoKfH194e3pBl6rXRfMzQ0vZ2Q5rRVBSRkZGQZBSWLFoqzGSyTm3OrqKgxVTU0Ns5oelpaooqJCZ8Dp0traGhup8PAnXZ0wNzfHwt0QKAUZube6uholJSU6A06fJicn2UhM/oyvNztRq9UGQ8U1JbfvTK+HwVUqFRuJyfv/D1YoFHr/QNaJ0L1bRoRTU3AYXKlUspGYfJz8PKsgzc3NWF9f1wkll4pQXfud4DTnIPjs7CyrdvZ2tngpOAC8s5MDYqNeZhc6OjqMhoqi+n0QvKGhgRmWnhoP2sKsOv308wjCXn1LsLOzYxFra2trFHSn2tvbkZOTwyKecntERAQLqri4OPA8B5XiW7g6O3LbHQjV48rarxAZGckyzFGguuDUxVBgjo2NofjKJbx3MZV1Idtg6pnPhCYJf/w5xc6PCt0LJ9fTcfYFX/TevsmJhWi7HFlbW6Kl8TPO2sqSnQcFBUEmk+GoCgkJgYeHB4M6nrBHU13pNnQXmOTx7CkM9t6Cvb0t+vr6EB8fz1xkrPr7+yGXR2N8fBzPPO2KoR+auOP2T+yao7Ov/mf6ATKzrwgd3Y8LB/VMKSkpCAsLY1tPlyj/dnZ2or6+njV5pPS0eBR/dImzsbHeN1/vmwTpy8bbwsfFN3D/r7/ZOeVYKp+63iSohxbzgI+3O65efhevnD+rtzf+Dy/Og7iaU/w9AAAAAElFTkSuQmCC" x="1055" y="646" width="30" height="29" id="plus_node_412" preserveAspectRatio="none" />
+  </g>
+  <g id="sam_replacement_P017_edge_add" transform="translate(0 0)">
+    <image href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACEAAAAeCAYAAACiyHcXAAAEZklEQVR4nL2Xe0zbVRTHvz9oO55G/wDdwGxOsNBZyTZes7zBjEwRMwoDRF2ALG4GicPhEBkDF8lECSKhARGlojyyzmzdDMQR4gKGJQoFI5RHgU3ZBhTWbYoRaK+5t2EOC3RFyjdpTnNzcs+n5/acey73t7Yblura7zeg6lWTIc016PV6tvbIww/BRyzkxCJP2NvbWbQf70Edr/52ndTIz0Jefx7Xb06t5EZsbGwQEeKP9INSxESHcjye+RCcuUzc0t3Bsfc+InWNF0AIga2tLcRiMby9veHp6YnCwkLml5mZib6+PvT09GBycpKtuW12Renp43hxXzi3ZoiLLZfJkaPv4+aEFi4uLkhKSoJUKoWrq+s9Hy8vL2bVarUxFYSgvb0dDQ0NaG1tZWsJ+6NR9mEOR4/MIoiK6gby1vHTxk0SEpCdnQ0nJycTv/9C3K/Ozk7k5uZifHwc3sLt+O6MjNuy+d8fsCib5QCqaxUMwM7ODjKZjKV8OQBzCgwMhFKpREREBPoHRhC9/3Winb5lHuLn7l9JxrEPIBAIUFlZifDwcPwfOTg4oKysDFFRURgYGkXaGyfIqhBzc/NIz8iHwWBAfn4+AgICsB6iFVJSUgIPDw80X2pHXaOSrAhRWvEV6VNrEBwcjLi4OKynaGaLiopASzjr3WLcvnPXFEKv1xNZdQNzolmwhmhpx8fHQ3f7Lr5uukhMIC40X2ZNKDQ0FO7u7rCWkpOTmf3syzMwgTir/J5ZSmpNCYVC+Pj4gB67enCU3A9BVD3GOvfz84O15evry6yqtx+LEGR29i8MDI+xY3B2drY6hEgkYra71/jDuVcSY8gff87iW6WxxW6kntjqhqA9u0AvFpPmsdHiXTpfjYmpabyc9g78/f0hl8st2mC1u2MldXV1sSqJDAtEztF08IKf3c3Nz88TPp+H0dFRbIRGRkaYDdgtBo3PqoPP53M7vD0wNTXFPtZWf7+xKnye8VraJ/x2Pc1sR0eH1SEWY/ju3MEtgUiS7mMLdBixpuiMMTY2Ro8B7lsexRIISeBOiLyehEqlYiOatVRbW8vsoYPS5W/RrIzXmM3Ly8Pc3Ny6A7S0tKCtrQ3bt7njpRcil4dIORDDPRe+B4ODgygvL19XAK1Wi4KCAva98pN8CAR8bsXJSlZ6gnN2ckRVVRXq6+vXBUCn0yE1NRUzMzM4nHYAIRLj3bEixONuj0FRV4pNmwSMvKKigk1aaxX9E6akpLDs7o2UoPhUFl3mzA66oUG+3Ln6T+HoaM/mw8TERGg0GouCU/CamhrExsZieHgYz+8NQVPtx6wnWfTuGNJcxaE3T5Ifr6jYoycsLIwBSSQSNoEt17bp2SsUCjQ1NbFRn2b0ZM4RZB5O4egea3qBGQwGyD5vJMWlX+DGhLGb0qcAHU7oC4zP598LTl9gNPCioqOCUHzqbe4pj62rxjALsaiFhQUom38g8m/O4cpPv2B6RmfiQ7Mj9NzGUp/2ahxHS/FB9A8amrP9FEF8xAAAAABJRU5ErkJggg==" x="1179" y="620" width="33" height="30" id="plus_node_413" preserveAspectRatio="none" />
+  </g>
+  <g id="sam_replacement_P018_graph_virtual_node" data-plus-replaces="" transform="translate(0 0)">
+    <image href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABwAAAAcCAYAAAByDd+UAAAEgklEQVR4nLWWX0xbVRzHv+f29g9dp2USF8AF2SIJf2JSFutSXJbNTUWDhQyCKQLGxAAPPnROFEyY0Ck++CCLmUsXM9EHpjTCAxEjiXExFlxCJEEGlMkfFwjY0A7arv97zDnrvXSMB9zqNzm5v3PuvedzfveeP19CKcV2sbZEIiFf4/E4i6nD4YDH44FSqSSsTavVIi8vD6WlpcjIyAAhBAqFAoIg8Fi63td5aonFYohEIgiFQggEAtjc3ITX66UTExNsZDuW2tpaur6+zp4De97v9/P3WT/JwcpFSAWzmwwYjUaxuroKh8NBQ6EQDQRDUGZmI/dAHnZSifEovIEIDQZDdGlpCUNDQwiHw7wfViQok7gdxsrY2Bitq6vjI+7/8VfoDxSAgqCyvgnedTey9mdDFJW4E/Djr5k/Ufjs87gV0kBF4vi000YHHN/BYrGQnp4eqNVq3r8oivxz83/B/pOU2ejoKK2urobP5+MjOvaSGR9e+Aq70cLcNN58xSTXq6qqcOnSJaLRaKBSqThUkGDse7PMUmFPP2NCy/s27Fb5TxXi7PkeiEolrw8MDKC5uZn9Fp4M45BgMMgrHo+HlpWVYXl5mT9sOHIU3fZvodZk4L/K+fMwzr3diFg0yus2m42BCctSSGZHXS4XkJzCxQbjA8OYTCfKce6zK5A0Pz8vTyDC1lU4HKassuKLwX75Sxx/uQpPPHkID6u+yz0oPfIcThkOQSkq+Pola2trjEwjkShuxR5BYmulpE2ZJIBHxSgHCvF4nDqdTvyzGfpfYEx+qsbMzAwWFxchsF3BYrGg7HAJzp95C+nW1B/X8WpZCcrLy9HX10fF1tZWPl2Z2BJJt/Zl7YfHvcZjlqUwODgo39TqdGkH6vc9Jsdsfd/z0zL2pB8oKBRyzL6g0NnZKTcEA/60A/2bG3LMjjOhoqJCblhwTacduDC31Wd+fj4I2wXsdjs9WGxAnuEYVCp12qHu5UXMOX9AQUHBXWAikaAJSrBCM/kxlG7txR3ohSCP5UkjEAotwhh3XoNv43ZaQOO//QK/bwM6EpbbhKTnICsrK2hrqcfZNyrx+UdtDw1bvDmDtqbXUH+yFN/3X5WaCQdKRmdsbJRffxq8iovdHzww7O/5ObzTWIloJIzbXg9mZ2fZqU+4sZKAOTk5pKurS36p/8pFXLC9J59pu9XNG5Ow1lfIu0tRURGsViuHcSD3GcmK2WxGd3e3/PLAN3Z8/G7TrmELrhtoOn38Hlhvby/R6XQyQ2TAFCtHampqWO5ob2/nO8NpS6Pc4e/XRhCLRZH1eDa3EZKJesFcC61uLw4WFMJw2Ijx66MoLi4mvb290Ov1Moz7VLfbzf3Mdjs3OTlJR0ZGYLWeQQQi/FSD182nMDc9eV9mn3zxNV48eQJ7EIZrdhrDw8OkpaWFOzYJxhJTKpUgzApKHpKdGpLjThGvMGdgNBp3/JQNDQ3o6OiQJ0aqpMwYMOncRBkiFU7ZghIWs9Eynzk1NcXdNRucVqulubm5MJlMd9dWCkyKU7NjGf4Lkp6Cvnduf2AAAAAASUVORK5CYII=" x="589" y="583" width="28" height="28" id="plus_node_414" preserveAspectRatio="none" />
+  </g>
+  <g id="sam_replacement_P019_node_product" transform="translate(0 0)">
+    <image href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAAeCAYAAAA7MK6iAAAFCklEQVR4nKWXeUwUVxzHvzMsIJAgINhApcpRKAUMR4GSmBYQNWBpaKGmQArKEdMSuS2R2pqQQExMudRwLERAUCFQDoMpZxp70GIEFjDByrGRqxzlSqQQjmneo7Pd7S7LQL//zOzMe/N5v/c73m+ZkfkB7KZfHv+Gh9894iRPB/BicAibm5sK7984Zg5HZ3vG188bfh+ehpaW5q7fZHYCcxyHmnv1nPjWHQw9H5E9NzU1hZWVFbS1tbGxsYHx8XGMjIzQ8USHTA4h7MI5XIyLZHR0dfYGnhib5FIvfU0tJXJ1dUVoaCg8PT1hZGSkNH5lZQUSiQTV1dVoaWmhO3LUwhw3bmcw77zrIgz8609PuJiQWLx6tQI7Ozukp6fD0dERQjU9PY3MzEw0NzeDYRhcSU9momPPqwcT6GcfRdMVx8TEIC4uDpqau/tLlZqampCamkrdkfzVJSY2+aLCe5a/kY685KI+/VwWOFKpFP9HExMTFEr0bcZN7lF9szJ4a2uLS/kiDX+trCIyMhIWFhZobW1FUlIS1tfX9wwtKipCVlYWdHV1kZaWRrf8anI6NzszpwguK6pEd1cvnJyckJKSgvLy8n3D5aHFxcUIDw9HREQEFheWcO1yBifz8e8zvdx7TmcwPTVD/WJpaUlfzM7O0kmjo6Pw9fVFdnb2rv4uLCyk43ioi8t2RK+trcHf359uf/uTJsbC6ijYlqYO/DE5DW9vbxmUyMTERGZ5W1sbEhMT1Vq+E5SI5HxISAi9v1t8n1rN1j1opA/CwsKUPsbDyYLUwXmonp6eEpRXcHAwXUBdVSMtNmzv0z5oaWnB3d1dpSUEXlZWtiNcHioWi1VCiQwMDGg9WFpcphnE/jk3D1tbW7X+2wkuFMqLL0R9PQMQkRsbGxu1E+ThJEIJPDAwEMPDw4Kh8pzRIel2OpGAECIebmhoSKEaGhooKCgQBCXS0dk+NFZX17bBfIURotraWiwsLNCiQKpcaWmp4Dzf+Icj0tDYBpPCLkTEupycHLq9+fn51Oft7e1ISEgQBJ+ZmaFXI2NDsCKRCAMDA3uCkpTx8vKSpZpQeH9/P706ONmDtX37TbqSqakpwVBnZ2f63NjYeE9wiURCXeRw3A7s+ydPyHynSmRLVUF5CYV3dnZicnISpDHQ1dNl2NAL58CyLKqqqpQmEGhubu6O0P/CSUtE4PHx8UrfqqyspNfw6O3SyZodMcXpsyfpoVBSUqISSp7vBJWHk1Qj8I6ODgV4V1cXzf3XTA/jTIAvI+tAXkrHOL8TH2NjfQM1NTV0ojyUHJdCNTc3R4sMyXMfHx/aBgUFBdGT6XZpFulC/wUT3S25z127nAF9fX0sLy/vC6oKTprD+fl5BAT5IVd8g0IVwBzHcbHnE/H9wzYaeXl5eTh16hT2K2JhQEAA7UDNjx1BY0cVc9DgoHLPxTAMc+tOFkiUk2OLtCx1dXX7gvb09CAqKopCXzc3Q33bAwWogsW8tra2kJVxkyvILaH3Hh4etBMhjQKJfnUihaiiogINDQ108SRor+elMwaGilCVYF6S7n7uy9irePF8mP42MzODm5sbPdqsra3poU6ilvyTIMDu7m4MDg7SsQT0zfUrCPzkA5lPIRTMW/9D249cufgeHrf/rNZaorfsbREeE0KBB3QOqB2rFiyvpcUl9PU8Q3/vM4xJx7G2usaJNEUwOWzMHHdxgKOTPUhNEKq/ATKWsbOGMrBiAAAAAElFTkSuQmCC" x="1505" y="629" width="30" height="30" id="plus_node_415" preserveAspectRatio="none" />
+  </g>
+  <g id="sam_replacement_P020_virtual_feature_legend" transform="translate(0 0)">
+    <image href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACoAAAAQCAYAAABgIu2QAAAAvElEQVR4nGO8desWw4ULFxgYGBj+MwxOwCglJcXAMH36dJADBzUOCgpiYEF2uopPKNHevLNlNUl67pCoHgTe373J8Pb6JRDzP9yhmpHJDBrBsSQ7VDchmybqQeD9nRsMByoywGwmhiECmBiGCGBiGCKAiWGIACaGIQKYGIYIYGIYIoCJYYgAJoYhAlhgjNeXzzEIq2mTbABIH63Uv797E8GZPn06wxBolPxnUVdXZ0hMTGQcxM08BmNjY0YAX7SE2PcJmOcAAAAASUVORK5CYII=" x="183" y="423" width="42" height="16" id="plus_node_416" preserveAspectRatio="none" />
+  </g>
+  <g id="sam_replacement_P021_graph_virtual_node" data-plus-replaces="" transform="translate(0 0)">
+    <image href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABwAAAAdCAYAAAC5UQwxAAAEx0lEQVR4nLVWbUybVRR+7tuPF9ZlY5TBgFGZC5hBMmGTmGiMRpMNjB+YiCYSEkzsHwxKmUjcEom6odkSDRskAoJGIx9ZhnEJOJOBIcwfhv6YMUUy2AqDtUBLC4WWQmmvORfeN8A2xVmf5PTe9/be+5xz7rn3HHDO8U8SiURQXl7OAQjp7+/nVqtV9GNjY3ltbS3fzj6cc2hxH2wko93i4+PV/6amptDS0iL6S0tL0Gq1CIfDnK0BJPfFvaxZXV1FKBRCMBhEIBDgfr+fFxUVqRZuFFmWud1u5zRveXmZ0zpav67o31sYDofFRBKPx0MtNxgMCIcj2Je6/54K62UZhp27sLy8DI1GA6fTyU0mE/UZfUuStGm+5Pf7MT8/L7Rat4x3dXXxnJwcfqb2Uzh8IQx7gaPHXheLUx96GBlZh3EgMwu74vbg8aePY8jLcMsbxvDNceTm5qKkpIQU5nfu3OEWiwVWq1UlZHl5edi9eze/dOmS2LC1tRUVFRXCfJ1ej29/HsS+VJOYHFwKICZ2xyaNN46dO/UOei5+J/pJSUnCEDqW/Px81t3dLfbXDg4OiglmsxnZ2dmoqalRNzv6xDPCTQq2km0dy3r0MfRf+RH+BR+mp6fV8b6+Pj42NsbS09PBdDqdOOitKHqzDGUfnMG/hX3kT7xX+go8rjXCxMRE9Pb24uDBg9DpdExqamq6K4ZLyqoeiIxwIOMQzrf/BOPefeKb3EhxokQvc7lcaGxs5JKkQWzKI+i7chmVH3+B/4rrv13DtavdqDpRCVPCTuj1ehLGHA6HiMy5kAaeiAHRhhZhmOQA9HodZFmGZLfbMTQ0hIWIjP8Dq9DA6V3AwMCAcKvU1taGgoICFD51GEPX1yI2mjhdacaTRw+juLgYi4uL0NpsNnqi4J52Ij4hKeqEjDHxgpGMjIxAIlYFexL2Rp0wzpig9n0+HyR6UTZqE21IG97SQCAAiR5nBfPe2agTemfdar+0tBRSZmamMEsvx8BxeyzqhDOOyU3frKenhxIqN+Udg0aO/j30uKbx9dmTuG0fFYmajY6O0jhf4DGY49EnlBBBMjyQJCbOUzlRZkAQ9uE/8M2Fz6JCdMP2O9qb6xCz6hNkgoQxaOmHIrWh/gLq6+vFfYmLT0Bh8VsPTOZxz+D0CTMmbo2g74fv0dzchLS0NMGpxiwNEBmh7qMqdH514YHIZpyTePeN5wUZQaORRDJWLJSUu1dYWMjMZrN6Eb88+yHOnSyHb867bbJfe3vw9mvHMTl2U3wnJyejoaFBZAqlohOECml1dTUsFotKeqWrDXOzrm0TXr18Ee5ph+hTdu/s7KRWMImAkSSw8fFxtVpT0NHRASpuX3jxJbz/yefwQ8bE7XGUvfoc0jMOIXaHAauhEGZnppCVm4eqM+chYwVzEzfwcv6zOHLkCOrq6pjRaFxzoySJUkWn04FNTk6KtKHUkQRqnU4n5S9OiyIRjvaLXag5VX2XVan709D7Sz+0bE1hm81GtZHqJYWQ7iC5ViJmpX5UXEttSkoKjEYjDTAK64DPg7i4uE1ktGanYQeWFufV/YlMKXq3WicsdLvdWFlZEVaSa5XJ9wNll2AwyEljeoepMFK8svHxV2JDIVsvMfAXRqmAo0ka3IEAAAAASUVORK5CYII=" x="527" y="576" width="28" height="29" id="plus_node_417" preserveAspectRatio="none" />
+  </g>
+  <g id="sam_replacement_P022_lowrank_feature_legend" transform="translate(0 0)">
+    <image href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACoAAAAPCAYAAACSol3eAAAAsElEQVR4nGPctm0bw5cvXxgYGBj+M9AWMJJhB0gPg52dHQODqqoqSPOgxkeOHGFggTk9SUOUgZUJ7AGCYOa1V2A6XUuM6KCZSYEeEIA7tMFUmoGNmYkkAxrNZEi2tJEEPc+//WLY9OADiPmfOJcNAsDEMEQAE8MQAUwMQwQwMQwRwMQwRAATwxABTAxDBDAxDBHAAmMcef6ZgZXImgkGDj//TLKFh0nQA3ITHAyVRgkATayABxVXMKYAAAAASUVORK5CYII=" x="329" y="423" width="42" height="15" id="plus_node_418" preserveAspectRatio="none" />
+  </g>
+<style id="repair_white_page_background_style">svg{background-color:#ffffff;}</style></svg>

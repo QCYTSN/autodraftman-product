@@ -1,0 +1,158 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1883" height="2048" viewBox="0 0 1883 2048">
+  <defs>
+    <marker id="arrow-black" markerWidth="30" markerHeight="30" refX="24" refY="15" orient="auto" markerUnits="userSpaceOnUse">
+      <path d="M 0 0 L 30 15 L 0 30 Z" fill="#000000" data-pb-role="decorative" data-pb-editable="true"/>
+    </marker>
+    <marker id="arrow-blue" markerWidth="30" markerHeight="30" refX="24" refY="15" orient="auto" markerUnits="userSpaceOnUse">
+      <path d="M 0 0 L 30 15 L 0 30 Z" fill="#6f93ca" data-pb-role="decorative" data-pb-editable="true"/>
+    </marker>
+    <marker id="arrow-orange" markerWidth="30" markerHeight="30" refX="24" refY="15" orient="auto" markerUnits="userSpaceOnUse">
+      <path d="M 0 0 L 30 15 L 0 30 Z" fill="#e0a512" data-pb-role="decorative" data-pb-editable="true"/>
+    </marker>
+    <marker id="arrow-green" markerWidth="30" markerHeight="30" refX="24" refY="15" orient="auto" markerUnits="userSpaceOnUse">
+      <path d="M 0 0 L 30 15 L 0 30 Z" fill="#77ad62" data-pb-role="decorative" data-pb-editable="true"/>
+    </marker>
+  </defs>
+  <rect id="background-white" data-pb-role="background" data-pb-editable="true" x="0" y="0" width="1883" height="2048" fill="#ffffff"/>
+
+  <g id="module-top-cache-left" data-pb-role="node" data-pb-editable="true">
+    <rect id="box-top-left-c1" x="199" y="85" width="130" height="120" rx="16" ry="16" fill="#eef5ff" stroke="#6f93ca" stroke-width="4"/>
+    <path id="shade-top-left-c1-a" d="M215 199 L321 93" fill="none" stroke="#d8e9ff" stroke-width="4" opacity="0.9"/>
+    <path id="shade-top-left-c1-b" d="M199 146 L261 85" fill="none" stroke="#d8e9ff" stroke-width="4" opacity="0.9"/>
+    <text id="label-top-left-c1" x="264" y="163" font-family="Arial, Helvetica, sans-serif" font-size="54" font-style="normal" font-weight="400" fill="#000000" text-anchor="middle" data-pb-role="label" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="horizontal">C1</text>
+    <text id="label-kvcache-left" x="262" y="274" font-family="Arial, Helvetica, sans-serif" font-size="54" font-style="normal" font-weight="400" fill="#000000" text-anchor="middle" data-pb-role="label" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="horizontal">KV-Cache</text>
+  </g>
+
+  <g id="module-top-cache-middle" data-pb-role="node" data-pb-editable="true">
+    <rect id="box-top-middle-c1" x="747" y="82" width="130" height="128" rx="16" ry="16" fill="#ffffff" stroke="#6f93ca" stroke-width="4" stroke-dasharray="14 12"/>
+    <path id="shade-top-middle-c1-a" d="M764 204 L870 88" fill="none" stroke="#e1f0ff" stroke-width="4" opacity="0.9"/>
+    <path id="shade-top-middle-c1-b" d="M747 151 L816 82" fill="none" stroke="#e1f0ff" stroke-width="4" opacity="0.9"/>
+    <text id="label-top-middle-c1" x="812" y="164" font-family="Arial, Helvetica, sans-serif" font-size="54" font-style="normal" font-weight="400" fill="#000000" text-anchor="middle" data-pb-role="label" data-pb-editable="true" data-pb-text-source="visual_inferred" data-pb-orientation="horizontal">C1</text>
+    <rect id="box-top-middle-c2" x="877" y="84" width="129" height="121" rx="16" ry="16" fill="#fff6e9" stroke="#d99b00" stroke-width="4"/>
+    <text id="label-top-middle-c2" x="941" y="164" font-family="Arial, Helvetica, sans-serif" font-size="54" font-style="normal" font-weight="400" fill="#000000" text-anchor="middle" data-pb-role="label" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="horizontal">C2</text>
+    <line id="cancel-top-middle-c1" x1="732" y1="234" x2="913" y2="54" stroke="#000000" stroke-width="4" stroke-linecap="butt" data-pb-role="decorative" data-pb-editable="true"/>
+    <text id="label-kvcache-middle" x="871" y="274" font-family="Arial, Helvetica, sans-serif" font-size="54" font-style="normal" font-weight="400" fill="#000000" text-anchor="middle" data-pb-role="label" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="horizontal">KV-Cache</text>
+  </g>
+
+  <g id="module-top-cache-right" data-pb-role="node" data-pb-editable="true">
+    <rect id="box-top-right-c1" x="1361" y="85" width="129" height="122" rx="16" ry="16" fill="#ffffff" stroke="#6f93ca" stroke-width="4" stroke-dasharray="14 12"/>
+    <path id="shade-top-right-c1-a" d="M1377 201 L1483 91" fill="none" stroke="#e1f0ff" stroke-width="4" opacity="0.9"/>
+    <path id="shade-top-right-c1-b" d="M1361 152 L1427 85" fill="none" stroke="#e1f0ff" stroke-width="4" opacity="0.9"/>
+    <text id="label-top-right-c1" x="1425" y="164" font-family="Arial, Helvetica, sans-serif" font-size="54" font-style="normal" font-weight="400" fill="#000000" text-anchor="middle" data-pb-role="label" data-pb-editable="true" data-pb-text-source="visual_inferred" data-pb-orientation="horizontal">C1</text>
+    <rect id="box-top-right-c3" x="1494" y="85" width="127" height="121" rx="16" ry="16" fill="#f0faee" stroke="#83b972" stroke-width="4"/>
+    <text id="label-top-right-c3" x="1558" y="164" font-family="Arial, Helvetica, sans-serif" font-size="54" font-style="normal" font-weight="400" fill="#000000" text-anchor="middle" data-pb-role="label" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="horizontal">C3</text>
+    <line id="cancel-top-right-c1" x1="1347" y1="235" x2="1527" y2="57" stroke="#000000" stroke-width="4" stroke-linecap="butt" data-pb-role="decorative" data-pb-editable="true"/>
+    <text id="label-kvcache-right" x="1488" y="274" font-family="Arial, Helvetica, sans-serif" font-size="54" font-style="normal" font-weight="400" fill="#000000" text-anchor="middle" data-pb-role="label" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="horizontal">KV-Cache</text>
+  </g>
+
+  <g id="connectors-top-to-cache" data-pb-role="connector" data-pb-editable="true">
+    <line id="arrow-host1-cache" x1="263" y1="412" x2="263" y2="316" stroke="#000000" stroke-width="4" marker-end="url(#arrow-black)"/>
+    <line id="arrow-host2-cache" x1="885" y1="412" x2="885" y2="316" stroke="#000000" stroke-width="4" marker-end="url(#arrow-black)"/>
+    <line id="arrow-host3-cache" x1="1470" y1="412" x2="1470" y2="316" stroke="#000000" stroke-width="4" marker-end="url(#arrow-black)"/>
+  </g>
+
+  <g id="module-host-1" data-pb-role="panel" data-pb-editable="true">
+    <rect id="frame-host-1" x="82" y="409" width="360" height="578" rx="48" ry="48" fill="#f7f7f7" stroke="#777777" stroke-width="4"/>
+    <rect id="host1-layer-n" x="120" y="448" width="287" height="109" rx="12" ry="12" fill="#ffffff" stroke="#000000" stroke-width="4"/>
+    <text id="label-host1-layer-n" x="264" y="526" font-family="Arial, Helvetica, sans-serif" font-size="54" font-style="normal" font-weight="400" fill="#000000" text-anchor="middle" data-pb-role="label" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="horizontal">Layer N</text>
+    <circle id="ellipsis-host1-dot1" cx="263" cy="572" r="4" fill="#000000" data-pb-role="decorative" data-pb-editable="true"/>
+    <circle id="ellipsis-host1-dot2" cx="263" cy="604" r="4" fill="#000000" data-pb-role="decorative" data-pb-editable="true"/>
+    <circle id="ellipsis-host1-dot3" cx="263" cy="636" r="4" fill="#000000" data-pb-role="decorative" data-pb-editable="true"/>
+    <rect id="host1-layer-2" x="120" y="661" width="287" height="110" rx="12" ry="12" fill="#ffffff" stroke="#000000" stroke-width="4"/>
+    <text id="label-host1-layer-2" x="264" y="741" font-family="Arial, Helvetica, sans-serif" font-size="54" font-style="normal" font-weight="400" fill="#000000" text-anchor="middle" data-pb-role="label" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="horizontal">Layer 2</text>
+    <line id="arrow-host1-internal" x1="263" y1="837" x2="263" y2="775" stroke="#000000" stroke-width="4" marker-end="url(#arrow-black)" data-pb-role="connector" data-pb-editable="true"/>
+    <rect id="host1-layer-1" x="120" y="837" width="287" height="111" rx="12" ry="12" fill="#ffffff" stroke="#000000" stroke-width="4"/>
+    <text id="label-host1-layer-1" x="264" y="917" font-family="Arial, Helvetica, sans-serif" font-size="54" font-style="normal" font-weight="400" fill="#000000" text-anchor="middle" data-pb-role="label" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="horizontal">Layer 1</text>
+  </g>
+
+  <g id="module-host-2" data-pb-role="panel" data-pb-editable="true">
+    <rect id="frame-host-2" x="703" y="409" width="359" height="579" rx="48" ry="48" fill="#f7f7f7" stroke="#777777" stroke-width="4"/>
+    <rect id="host2-layer-n" x="741" y="448" width="287" height="109" rx="12" ry="12" fill="#ffffff" stroke="#000000" stroke-width="4"/>
+    <text id="label-host2-layer-n" x="885" y="526" font-family="Arial, Helvetica, sans-serif" font-size="54" font-style="normal" font-weight="400" fill="#000000" text-anchor="middle" data-pb-role="label" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="horizontal">Layer N</text>
+    <circle id="ellipsis-host2-dot1" cx="884" cy="572" r="4" fill="#000000" data-pb-role="decorative" data-pb-editable="true"/>
+    <circle id="ellipsis-host2-dot2" cx="884" cy="604" r="4" fill="#000000" data-pb-role="decorative" data-pb-editable="true"/>
+    <circle id="ellipsis-host2-dot3" cx="884" cy="636" r="4" fill="#000000" data-pb-role="decorative" data-pb-editable="true"/>
+    <rect id="host2-layer-2" x="741" y="661" width="287" height="110" rx="12" ry="12" fill="#ffffff" stroke="#000000" stroke-width="4"/>
+    <text id="label-host2-layer-2" x="885" y="741" font-family="Arial, Helvetica, sans-serif" font-size="54" font-style="normal" font-weight="400" fill="#000000" text-anchor="middle" data-pb-role="label" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="horizontal">Layer 2</text>
+    <line id="arrow-host2-internal" x1="885" y1="837" x2="885" y2="775" stroke="#000000" stroke-width="4" marker-end="url(#arrow-black)" data-pb-role="connector" data-pb-editable="true"/>
+    <rect id="host2-layer-1" x="741" y="837" width="287" height="111" rx="12" ry="12" fill="#ffffff" stroke="#000000" stroke-width="4"/>
+    <text id="label-host2-layer-1" x="885" y="917" font-family="Arial, Helvetica, sans-serif" font-size="54" font-style="normal" font-weight="400" fill="#000000" text-anchor="middle" data-pb-role="label" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="horizontal">Layer 1</text>
+  </g>
+
+  <g id="module-host-3" data-pb-role="panel" data-pb-editable="true">
+    <rect id="frame-host-3" x="1289" y="410" width="359" height="577" rx="48" ry="48" fill="#f7f7f7" stroke="#777777" stroke-width="4"/>
+    <rect id="host3-layer-n" x="1326" y="448" width="288" height="109" rx="12" ry="12" fill="#ffffff" stroke="#000000" stroke-width="4"/>
+    <text id="label-host3-layer-n" x="1470" y="526" font-family="Arial, Helvetica, sans-serif" font-size="54" font-style="normal" font-weight="400" fill="#000000" text-anchor="middle" data-pb-role="label" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="horizontal">Layer N</text>
+    <circle id="ellipsis-host3-dot1" cx="1470" cy="572" r="4" fill="#000000" data-pb-role="decorative" data-pb-editable="true"/>
+    <circle id="ellipsis-host3-dot2" cx="1470" cy="604" r="4" fill="#000000" data-pb-role="decorative" data-pb-editable="true"/>
+    <circle id="ellipsis-host3-dot3" cx="1470" cy="636" r="4" fill="#000000" data-pb-role="decorative" data-pb-editable="true"/>
+    <rect id="host3-layer-2" x="1327" y="661" width="287" height="110" rx="12" ry="12" fill="#ffffff" stroke="#000000" stroke-width="4"/>
+    <text id="label-host3-layer-2" x="1471" y="741" font-family="Arial, Helvetica, sans-serif" font-size="54" font-style="normal" font-weight="400" fill="#000000" text-anchor="middle" data-pb-role="label" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="horizontal">Layer 2</text>
+    <line id="arrow-host3-internal" x1="1470" y1="837" x2="1470" y2="775" stroke="#000000" stroke-width="4" marker-end="url(#arrow-black)" data-pb-role="connector" data-pb-editable="true"/>
+    <rect id="host3-layer-1" x="1327" y="837" width="287" height="111" rx="12" ry="12" fill="#ffffff" stroke="#000000" stroke-width="4"/>
+    <text id="label-host3-layer-1" x="1471" y="917" font-family="Arial, Helvetica, sans-serif" font-size="54" font-style="normal" font-weight="400" fill="#000000" text-anchor="middle" data-pb-role="label" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="horizontal">Layer 1</text>
+  </g>
+
+  <g id="labels-hosts" data-pb-role="label" data-pb-editable="true">
+    <text id="label-host-1" x="263" y="1059" font-family="Arial, Helvetica, sans-serif" font-size="54" font-style="normal" font-weight="400" fill="#000000" text-anchor="middle" data-pb-role="label" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="horizontal">Host 1</text>
+    <text id="label-host-2" x="885" y="1059" font-family="Arial, Helvetica, sans-serif" font-size="54" font-style="normal" font-weight="400" fill="#000000" text-anchor="middle" data-pb-role="label" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="horizontal">Host 2</text>
+    <text id="label-host-3" x="1470" y="1059" font-family="Arial, Helvetica, sans-serif" font-size="54" font-style="normal" font-weight="400" fill="#000000" text-anchor="middle" data-pb-role="label" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="horizontal">Host 3</text>
+  </g>
+
+  <g id="connectors-input-to-hosts" data-pb-role="connector" data-pb-editable="true">
+    <line id="arrow-input-host1" x1="259" y1="1214" x2="259" y2="1114" stroke="#000000" stroke-width="4" marker-end="url(#arrow-black)"/>
+    <line id="arrow-input-host2" x1="884" y1="1215" x2="884" y2="1114" stroke="#000000" stroke-width="4" marker-end="url(#arrow-black)"/>
+    <line id="arrow-input-host3" x1="1469" y1="1215" x2="1469" y2="1114" stroke="#000000" stroke-width="4" marker-end="url(#arrow-black)"/>
+  </g>
+
+  <g id="module-anchor-left-input" data-pb-role="node" data-pb-editable="true">
+    <rect id="box-left-input-c1" x="160" y="1254" width="205" height="133" rx="16" ry="16" fill="#d9e8fb" stroke="#6f93ca" stroke-width="4"/>
+    <text id="label-left-input-c1" x="263" y="1341" font-family="Arial, Helvetica, sans-serif" font-size="54" font-style="normal" font-weight="400" fill="#000000" text-anchor="middle" data-pb-role="label" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="horizontal">C1</text>
+  </g>
+
+  <g id="module-anchor-middle" data-pb-role="node" data-pb-editable="true">
+    <rect id="box-anchor-middle-c1" x="673" y="1244" width="205" height="137" rx="16" ry="16" fill="#ffffff" stroke="#6f93ca" stroke-width="4" stroke-dasharray="14 12"/>
+    <path id="shade-anchor-middle-c1-a" d="M693 1373 L858 1252" fill="none" stroke="#e1f0ff" stroke-width="4" opacity="0.9"/>
+    <path id="shade-anchor-middle-c1-b" d="M673 1320 L755 1244" fill="none" stroke="#e1f0ff" stroke-width="4" opacity="0.9"/>
+    <text id="label-anchor-middle-c1" x="776" y="1331" font-family="Arial, Helvetica, sans-serif" font-size="54" font-style="normal" font-weight="400" fill="#000000" text-anchor="middle" data-pb-role="label" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="horizontal">C1</text>
+    <rect id="box-anchor-middle-c2" x="878" y="1246" width="206" height="132" rx="16" ry="16" fill="#ffe7c6" stroke="#d99b00" stroke-width="4"/>
+    <text id="label-anchor-middle-c2" x="981" y="1331" font-family="Arial, Helvetica, sans-serif" font-size="54" font-style="normal" font-weight="400" fill="#000000" text-anchor="middle" data-pb-role="label" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="horizontal">C2</text>
+    <text id="label-anchor-left" x="775" y="1452" font-family="Arial, Helvetica, sans-serif" font-size="54" font-style="normal" font-weight="400" fill="#000000" text-anchor="middle" data-pb-role="label" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="horizontal">Anchor</text>
+  </g>
+
+  <g id="module-anchor-right" data-pb-role="node" data-pb-editable="true">
+    <rect id="box-anchor-right-c1" x="1260" y="1244" width="203" height="134" rx="16" ry="16" fill="#ffffff" stroke="#6f93ca" stroke-width="4" stroke-dasharray="14 12"/>
+    <path id="shade-anchor-right-c1-a" d="M1280 1369 L1442 1250" fill="none" stroke="#e1f0ff" stroke-width="4" opacity="0.9"/>
+    <path id="shade-anchor-right-c1-b" d="M1260 1317 L1342 1244" fill="none" stroke="#e1f0ff" stroke-width="4" opacity="0.9"/>
+    <text id="label-anchor-right-c1" x="1361" y="1331" font-family="Arial, Helvetica, sans-serif" font-size="54" font-style="normal" font-weight="400" fill="#000000" text-anchor="middle" data-pb-role="label" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="horizontal">C1</text>
+    <rect id="box-anchor-right-c3" x="1466" y="1247" width="204" height="131" rx="16" ry="16" fill="#d8efd6" stroke="#83b972" stroke-width="4"/>
+    <text id="label-anchor-right-c3" x="1568" y="1331" font-family="Arial, Helvetica, sans-serif" font-size="54" font-style="normal" font-weight="400" fill="#000000" text-anchor="middle" data-pb-role="label" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="horizontal">C3</text>
+    <text id="label-anchor-right" x="1371" y="1452" font-family="Arial, Helvetica, sans-serif" font-size="54" font-style="normal" font-weight="400" fill="#000000" text-anchor="middle" data-pb-role="label" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="horizontal">Anchor</text>
+  </g>
+
+  <g id="connectors-context-to-anchors" data-pb-role="connector" data-pb-editable="true">
+    <line id="arrow-context-c1-left" x1="688" y1="1675" x2="344" y2="1469" stroke="#6f93ca" stroke-width="4" marker-end="url(#arrow-blue)"/>
+    <line id="arrow-context-c2" x1="903" y1="1676" x2="949" y2="1448" stroke="#e0a512" stroke-width="4" marker-end="url(#arrow-orange)"/>
+    <line id="arrow-context-c1-anchor-middle" x1="711" y1="1680" x2="764" y2="1508" stroke="#6f93ca" stroke-width="4" stroke-dasharray="12 12" marker-end="url(#arrow-blue)"/>
+    <line id="arrow-context-c1-anchor-right" x1="758" y1="1679" x2="1249" y2="1474" stroke="#6f93ca" stroke-width="4" stroke-dasharray="12 12" marker-end="url(#arrow-blue)"/>
+    <line id="arrow-context-c3" x1="1164" y1="1684" x2="1496" y2="1488" stroke="#77ad62" stroke-width="4" marker-end="url(#arrow-green)"/>
+  </g>
+
+  <g id="module-context" data-pb-role="node" data-pb-editable="true">
+    <path id="brace-context-c1" d="M615 1745 C615 1727 637 1727 655 1727 L687 1727 C704 1727 704 1711 704 1711 C704 1727 704 1727 722 1727 L757 1727 C777 1727 798 1727 798 1745" fill="none" stroke="#9a9a9a" stroke-width="4" stroke-linecap="round"/>
+    <path id="brace-context-c2" d="M830 1745 C830 1727 852 1727 870 1727 L902 1727 C920 1727 920 1711 920 1711 C920 1727 920 1727 938 1727 L972 1727 C991 1727 1011 1727 1011 1745" fill="none" stroke="#9a9a9a" stroke-width="4" stroke-linecap="round"/>
+    <path id="brace-context-c3" d="M1047 1745 C1047 1727 1068 1727 1086 1727 L1118 1727 C1136 1727 1136 1711 1136 1711 C1136 1727 1136 1727 1154 1727 L1188 1727 C1207 1727 1226 1727 1226 1745" fill="none" stroke="#9a9a9a" stroke-width="4" stroke-linecap="round"/>
+    <rect id="box-context-c1" x="610" y="1768" width="203" height="131" rx="16" ry="16" fill="#d9e8fb" stroke="#6f93ca" stroke-width="4"/>
+    <text id="label-context-c1" x="711" y="1853" font-family="Arial, Helvetica, sans-serif" font-size="54" font-style="normal" font-weight="400" fill="#000000" text-anchor="middle" data-pb-role="label" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="horizontal">C1</text>
+    <rect id="box-context-c2" x="814" y="1769" width="201" height="130" rx="16" ry="16" fill="#ffe7c6" stroke="#d99b00" stroke-width="4"/>
+    <text id="label-context-c2" x="915" y="1853" font-family="Arial, Helvetica, sans-serif" font-size="54" font-style="normal" font-weight="400" fill="#000000" text-anchor="middle" data-pb-role="label" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="horizontal">C2</text>
+    <rect id="box-context-c3" x="1014" y="1769" width="205" height="130" rx="16" ry="16" fill="#d8efd6" stroke="#83b972" stroke-width="4"/>
+    <text id="label-context-c3" x="1117" y="1853" font-family="Arial, Helvetica, sans-serif" font-size="54" font-style="normal" font-weight="400" fill="#000000" text-anchor="middle" data-pb-role="label" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="horizontal">C3</text>
+    <text id="label-context" x="916" y="1986" font-family="Arial, Helvetica, sans-serif" font-size="54" font-style="normal" font-weight="400" fill="#000000" text-anchor="middle" data-pb-role="label" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="horizontal">Context</text>
+  </g>
+
+  <g id="legend-query" data-pb-role="legend" data-pb-editable="true">
+    <rect id="box-query" x="1577" y="1780" width="212" height="127" rx="16" ry="16" fill="#ffffff" stroke="#555555" stroke-width="4" stroke-dasharray="12 12"/>
+    <text id="label-query" x="1683" y="1863" font-family="Arial, Helvetica, sans-serif" font-size="54" font-style="normal" font-weight="400" fill="#000000" text-anchor="middle" data-pb-role="legend" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="horizontal">Query</text>
+  </g>
+</svg>

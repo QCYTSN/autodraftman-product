@@ -1,0 +1,190 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1494" height="450" viewBox="0 0 1494 450">
+  <title>Biased train/val distribution and unbiased test distribution</title>
+  <desc>
+    The figure contains two causal-style diagrams at left and right, a central legend, and two segmented distribution bars beneath them.
+    Left frame inventory: title "Biased train/val distribution"; three left variables X_s, X_A, X_Y connected by left-pointing arrows from S, A, Y; blue arrows from S/A/Y into a blue Selection node.
+    Right frame inventory: title "Unbiased test distribution"; the same three left-pointing black arrows from S/A/Y to X_s/X_A/X_Y, without a selection node.
+    Legend inventory: rows for Y=0/Y=1, A=0/A=1, S=0/S=1 using black filled, outlined, hatched, orange-outline and blue-outline swatches.
+    Bottom inventory: P_train and P_test double-headed horizontal arrows above segmented orange/blue bars with black-hatched and white/hatched sub-blocks.
+    Symmetry basis: the two graph panels share vertical three-row alignment; the lower bars use equal-width four-part horizontal partitioning, with different internal sub-block proportions for biased train/val versus unbiased test.
+  </desc>
+
+  <defs>
+    <marker id="arrowBlackEnd" markerUnits="userSpaceOnUse" markerWidth="11" markerHeight="9" viewBox="0 0 10 8" refX="10" refY="4" orient="auto">
+      <path d="M0,0 L10,4 L0,8 Z" fill="#000000" id="plus_node_0" />
+    </marker>
+    <marker id="arrowBlackStart" markerUnits="userSpaceOnUse" markerWidth="11" markerHeight="9" viewBox="0 0 10 8" refX="10" refY="4" orient="auto-start-reverse">
+      <path d="M0,0 L10,4 L0,8 Z" fill="#000000" id="plus_node_1" />
+    </marker>
+    <marker id="arrowBlueEnd" markerUnits="userSpaceOnUse" markerWidth="11" markerHeight="9" viewBox="0 0 10 8" refX="10" refY="4" orient="auto">
+      <path d="M0,0 L10,4 L0,8 Z" fill="#0072bc" id="plus_node_2" />
+    </marker>
+
+    <pattern id="diagHatchBlack" patternUnits="userSpaceOnUse" width="10" height="10" patternTransform="rotate(35)">
+      <line x1="0" y1="-5" x2="0" y2="15" stroke="#000000" stroke-width="5" stroke-linecap="square" id="plus_node_3" />
+    </pattern>
+
+    <clipPath id="clipTrainOrange1"><rect x="47" y="363" width="130" height="48" id="plus_node_4" /></clipPath>
+    <clipPath id="clipTrainBlue1"><rect x="216" y="363" width="111" height="48" id="plus_node_5" /></clipPath>
+    <clipPath id="clipTrainTinyWhite"><rect x="384" y="364" width="7" height="47" id="plus_node_6" /></clipPath>
+    <clipPath id="clipTrainSmallWhite"><rect x="553" y="363" width="29" height="48" id="plus_node_7" /></clipPath>
+    <clipPath id="clipTestOrange1"><rect x="804" y="363" width="61" height="48" id="plus_node_8" /></clipPath>
+    <clipPath id="clipTestBlue1"><rect x="974" y="363" width="60" height="48" id="plus_node_9" /></clipPath>
+    <clipPath id="clipTestOrangeWhite"><rect x="1143" y="363" width="61" height="48" id="plus_node_10" /></clipPath>
+    <clipPath id="clipTestBlueWhite"><rect x="1310" y="363" width="63" height="48" id="plus_node_11" /></clipPath>
+    <clipPath id="clipLegendA0"><rect x="710" y="246" width="25" height="25" id="plus_node_12" /></clipPath>
+  </defs>
+
+  <rect width="1494" height="450" fill="#ffffff" id="plus_node_13" />
+
+  
+  <rect id="f01" data-plus-kind="frame" x="160" y="20" width="430" height="280" fill="none" stroke="none" />
+  <rect id="f02" data-plus-kind="frame" x="605" y="203" width="287" height="132" fill="#ffffff" stroke="#808080" stroke-width="3" />
+  <rect id="f03" data-plus-kind="frame" x="35" y="313" width="677" height="109" fill="none" stroke="none" />
+  <rect id="f04" data-plus-kind="frame" x="925" y="20" width="310" height="280" fill="none" stroke="none" />
+  <rect id="f05" data-plus-kind="frame" x="792" y="313" width="677" height="109" fill="none" stroke="none" />
+
+  
+  <text id="title_biased" x="370" y="56" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="31" font-weight="700" fill="#000000">Biased train/val distribution</text>
+
+  
+  <g id="left_graph_edges" stroke-linecap="round" stroke-linejoin="round" fill="none">
+    <path id="left_edge_s_to_xs" d="M368 129 L249 129" stroke="#000000" stroke-width="4" marker-end="url(#arrowBlackEnd)" />
+    <path id="left_edge_a_to_xa" d="M368 201 L250 201" stroke="#000000" stroke-width="4" marker-end="url(#arrowBlackEnd)" />
+    <path id="left_edge_y_to_xy" d="M368 273 L250 273" stroke="#000000" stroke-width="4" marker-end="url(#arrowBlackEnd)" />
+    <path id="left_edge_s_to_selection" d="M379 129 L503 197" stroke="#0072bc" stroke-width="4" marker-end="url(#arrowBlueEnd)" />
+    <path id="left_edge_a_to_selection" d="M379 201 L502 201" stroke="#0072bc" stroke-width="4" marker-end="url(#arrowBlueEnd)" />
+    <path id="left_edge_y_to_selection" d="M379 273 L503 207" stroke="#0072bc" stroke-width="4" marker-end="url(#arrowBlueEnd)" />
+  </g>
+
+  
+  <g id="left_graph_labels" font-family="Arial, Helvetica, sans-serif" font-size="34" fill="#000000">
+    <text id="label_left_xs" x="228" y="102">X<tspan baseline-shift="sub" font-size="20">s</tspan></text>
+    <text id="label_left_xa" x="228" y="178">X<tspan baseline-shift="sub" font-size="20">A</tspan></text>
+    <text id="label_left_xy" x="228" y="254">X<tspan baseline-shift="sub" font-size="20">Y</tspan></text>
+    <text id="label_left_s" x="356" y="102">S</text>
+    <text id="label_left_a" x="356" y="178">A</text>
+    <text id="label_left_y" x="356" y="254">Y</text>
+    <text id="label_selection" x="506" y="179" fill="#0072bc">Selection</text>
+  </g>
+
+  
+  <g id="left_graph_nodes" fill="#000000">
+    <circle id="node_left_xs" cx="237" cy="129" r="11" />
+    <circle id="node_left_xa" cx="239" cy="201" r="11" />
+    <circle id="node_left_xy" cx="239" cy="273" r="11" />
+    <circle id="node_left_s" cx="368" cy="129" r="11" />
+    <circle id="node_left_a" cx="368" cy="201" r="11" />
+    <circle id="node_left_y" cx="368" cy="273" r="11" />
+  </g>
+  <circle id="node_selection" cx="513" cy="203" r="11" fill="#0072bc" />
+
+  
+  <text id="title_unbiased" x="1138" y="49" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="31" font-weight="700" fill="#000000">Unbiased test distribution</text>
+
+  
+  <g id="right_graph_edges" stroke-linecap="round" stroke-linejoin="round" fill="none">
+    <path id="right_edge_s_to_xs" d="M1133 129 L1013 129" stroke="#000000" stroke-width="4" marker-end="url(#arrowBlackEnd)" />
+    <path id="right_edge_a_to_xa" d="M1133 201 L1014 201" stroke="#000000" stroke-width="4" marker-end="url(#arrowBlackEnd)" />
+    <path id="right_edge_y_to_xy" d="M1133 273 L1014 273" stroke="#000000" stroke-width="4" marker-end="url(#arrowBlackEnd)" />
+  </g>
+
+  
+  <g id="right_graph_labels" font-family="Arial, Helvetica, sans-serif" font-size="34" fill="#000000">
+    <text id="label_right_xs" x="993" y="102">X<tspan baseline-shift="sub" font-size="20">s</tspan></text>
+    <text id="label_right_xa" x="993" y="178">X<tspan baseline-shift="sub" font-size="20">A</tspan></text>
+    <text id="label_right_xy" x="993" y="254">X<tspan baseline-shift="sub" font-size="20">Y</tspan></text>
+    <text id="label_right_s" x="1121" y="102">S</text>
+    <text id="label_right_a" x="1121" y="178">A</text>
+    <text id="label_right_y" x="1121" y="254">Y</text>
+  </g>
+
+  
+  <g id="right_graph_nodes" fill="#000000">
+    <circle id="node_right_xs" cx="1002" cy="129" r="11" />
+    <circle id="node_right_xa" cx="1004" cy="201" r="11" />
+    <circle id="node_right_xy" cx="1004" cy="273" r="11" />
+    <circle id="node_right_s" cx="1133" cy="129" r="11" />
+    <circle id="node_right_a" cx="1133" cy="201" r="11" />
+    <circle id="node_right_y" cx="1133" cy="273" r="11" />
+  </g>
+
+  
+  <g id="legend_content" font-family="Arial, Helvetica, sans-serif" fill="#000000">
+    <text id="legend_title" x="748" y="231" text-anchor="middle" font-size="25">Legend:</text>
+
+    <rect id="legend_y0_swatch" x="620" y="246" width="27" height="27" fill="#000000" />
+    <text id="legend_y0_label" x="656" y="266" font-size="20">Y = 0</text>
+
+    <rect id="legend_y1_swatch" x="622" y="300" width="25" height="25" fill="#ffffff" stroke="#000000" stroke-width="5" />
+    <text id="legend_y1_label" x="656" y="320" font-size="20">Y = 1</text>
+
+    <rect id="legend_a0_bg" x="710" y="246" width="25" height="25" fill="#ffffff" stroke="#000000" stroke-width="4" />
+    <rect id="legend_a0_hatch" x="710" y="246" width="25" height="25" fill="url(#diagHatchBlack)" clip-path="url(#clipLegendA0)" />
+    <rect id="legend_a0_border" x="710" y="246" width="25" height="25" fill="none" stroke="#000000" stroke-width="4" />
+    <text id="legend_a0_label" x="745" y="266" font-size="20">A = 0</text>
+
+    <rect id="legend_a1_swatch" x="712" y="300" width="24" height="24" fill="#ffffff" stroke="#777777" stroke-width="5" />
+    <text id="legend_a1_label" x="745" y="320" font-size="20">A = 1</text>
+
+    <rect id="legend_s0_swatch" x="804" y="247" width="23" height="23" fill="#ffffff" stroke="#ff9300" stroke-width="5" />
+    <text id="legend_s0_label" x="839" y="266" font-size="20">S = 0</text>
+
+    <rect id="legend_s1_swatch" x="804" y="299" width="24" height="24" fill="#ffffff" stroke="#1a9fc7" stroke-width="5" />
+    <text id="legend_s1_label" x="839" y="320" font-size="20">S = 1</text>
+  </g>
+
+  
+  <g id="train_axis">
+    <path id="ptrain_arrow" d="M43 348 L706 348" fill="none" stroke="#000000" stroke-width="4" marker-start="url(#arrowBlackStart)" marker-end="url(#arrowBlackEnd)" />
+    <text id="ptrain_label" x="385" y="336" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="30" fill="#000000">P<tspan baseline-shift="sub" font-size="21">train</tspan></text>
+  </g>
+
+  
+  <g id="train_bar">
+    <rect id="train_seg_s0_y0" x="35" y="350" width="170" height="72" fill="#ff9300" />
+    <rect id="train_seg_s1_y0" x="205" y="350" width="169" height="72" fill="#1a9fc7" />
+    <rect id="train_seg_s0_y1" x="374" y="350" width="169" height="72" fill="#ff9300" />
+    <rect id="train_seg_s1_y1" x="543" y="350" width="169" height="72" fill="#1a9fc7" />
+
+    <rect id="train_orange_black_hatched_area" x="47" y="363" width="130" height="48" fill="url(#diagHatchBlack)" clip-path="url(#clipTrainOrange1)" />
+    <rect id="train_blue_black_hatched_area" x="216" y="363" width="111" height="48" fill="url(#diagHatchBlack)" clip-path="url(#clipTrainBlue1)" />
+
+    <rect id="train_tiny_white_bg" x="384" y="364" width="7" height="47" fill="#ffffff" />
+    <rect id="train_tiny_white_hatched" x="384" y="364" width="7" height="47" fill="url(#diagHatchBlack)" clip-path="url(#clipTrainTinyWhite)" />
+
+    <rect id="train_orange_white_block" x="412" y="363" width="121" height="47" fill="#ffffff" />
+
+    <rect id="train_blue_white_hatched_bg" x="553" y="363" width="29" height="48" fill="#ffffff" />
+    <rect id="train_blue_white_hatched" x="553" y="363" width="29" height="48" fill="url(#diagHatchBlack)" clip-path="url(#clipTrainSmallWhite)" />
+
+    <rect id="train_blue_white_block" x="603" y="363" width="99" height="47" fill="#ffffff" />
+  </g>
+
+  
+  <g id="test_axis">
+    <path id="ptest_arrow" d="M799 348 L1463 348" fill="none" stroke="#000000" stroke-width="4" marker-start="url(#arrowBlackStart)" marker-end="url(#arrowBlackEnd)" />
+    <text id="ptest_label" x="1135" y="337" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="30" fill="#000000">P<tspan baseline-shift="sub" font-size="21">test</tspan></text>
+  </g>
+
+  
+  <g id="test_bar">
+    <rect id="test_seg_s0_y0" x="792" y="350" width="169" height="72" fill="#ff9300" />
+    <rect id="test_seg_s1_y0" x="961" y="350" width="169" height="72" fill="#1a9fc7" />
+    <rect id="test_seg_s0_y1" x="1130" y="350" width="169" height="72" fill="#ff9300" />
+    <rect id="test_seg_s1_y1" x="1299" y="350" width="170" height="72" fill="#1a9fc7" />
+
+    <rect id="test_orange_black_hatched_area" x="804" y="363" width="61" height="48" fill="url(#diagHatchBlack)" clip-path="url(#clipTestOrange1)" />
+    <rect id="test_blue_black_hatched_area" x="974" y="363" width="60" height="48" fill="url(#diagHatchBlack)" clip-path="url(#clipTestBlue1)" />
+
+    <rect id="test_orange_white_hatched_bg" x="1143" y="363" width="61" height="48" fill="#ffffff" />
+    <rect id="test_orange_white_hatched" x="1143" y="363" width="61" height="48" fill="url(#diagHatchBlack)" clip-path="url(#clipTestOrangeWhite)" />
+
+    <rect id="test_orange_white_block" x="1226" y="363" width="62" height="47" fill="#ffffff" />
+
+    <rect id="test_blue_white_hatched_bg" x="1310" y="363" width="63" height="48" fill="#ffffff" />
+    <rect id="test_blue_white_hatched" x="1310" y="363" width="63" height="48" fill="url(#diagHatchBlack)" clip-path="url(#clipTestBlueWhite)" />
+
+    <rect id="test_blue_white_block" x="1394" y="363" width="62" height="47" fill="#ffffff" />
+  </g>
+</svg>

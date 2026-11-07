@@ -1,0 +1,148 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="753" height="819" viewBox="0 0 753 819">
+  <title>KV-cache context routing diagram</title>
+  <desc>
+    Complete native SVG reconstruction. The figure is organized into three aligned host columns, each with a layer stack, an upward arrow to a KV-Cache label and cache-token boxes above, and an upward arrow from an anchor/input cache-token box below. At the bottom, a three-token Context row fans out with colored and dashed arrows to the host anchors. A dashed Query box sits at lower right. Host columns are horizontally aligned; layer stacks are vertically symmetric inside each host frame.
+  </desc>
+
+  <defs>
+    <marker id="arrowBlack" markerUnits="userSpaceOnUse" markerWidth="12" markerHeight="12" viewBox="0 0 10 8" refX="9.6" refY="4" orient="auto">
+      <path d="M0,0 L10,4 L0,8 Z" fill="#000000" id="plus_node_0" />
+    </marker>
+    <marker id="arrowBlue" markerUnits="userSpaceOnUse" markerWidth="13" markerHeight="13" viewBox="0 0 10 8" refX="9.6" refY="4" orient="auto">
+      <path d="M0,0 L10,4 L0,8 Z" fill="#6c91ca" id="plus_node_1" />
+    </marker>
+    <marker id="arrowOrange" markerUnits="userSpaceOnUse" markerWidth="13" markerHeight="13" viewBox="0 0 10 8" refX="9.6" refY="4" orient="auto">
+      <path d="M0,0 L10,4 L0,8 Z" fill="#e8a000" id="plus_node_2" />
+    </marker>
+    <marker id="arrowGreen" markerUnits="userSpaceOnUse" markerWidth="13" markerHeight="13" viewBox="0 0 10 8" refX="9.6" refY="4" orient="auto">
+      <path d="M0,0 L10,4 L0,8 Z" fill="#75aa62" id="plus_node_3" />
+    </marker>
+  </defs>
+
+  <rect id="background" x="0" y="0" width="753" height="819" fill="#ffffff" />
+
+  <g id="host1_column">
+    <desc>Host 1 column: origin is the rounded host stack; upward are KV-Cache label and C1 cache box; downward is the input C1 box. The section uses a vertical centerline through x=105.</desc>
+
+    <rect id="f01" data-plus-kind="frame" x="33.5" y="166.5" width="142.5" height="227" rx="18.5" ry="18.5" fill="#f2f2f2" stroke="#6b6b6b" stroke-width="1.35" />
+    <rect id="f01_layerN" data-plus-kind="frame" x="48.5" y="180.3" width="113.6" height="41.5" rx="4.6" ry="4.6" fill="#ffffff" stroke="#000000" stroke-width="1.35" />
+    <rect id="f01_layer2" data-plus-kind="frame" x="48.5" y="265.0" width="113.6" height="43.1" rx="4.6" ry="4.6" fill="#ffffff" stroke="#000000" stroke-width="1.35" />
+    <rect id="f01_layer1" data-plus-kind="frame" x="48.5" y="336.4" width="113.6" height="42.5" rx="4.6" ry="4.6" fill="#ffffff" stroke="#000000" stroke-width="1.35" />
+
+    <text id="host1_layerN_text" x="105.3" y="209.8" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="22.5" fill="#000000">Layer N</text>
+    <text id="host1_ellipsis" x="104.8" y="252.0" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="27" fill="#000000">⋮</text>
+    <text id="host1_layer2_text" x="105.3" y="294.8" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="22.5" fill="#000000">Layer 2</text>
+    <text id="host1_layer1_text" x="105.3" y="366.0" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="22.5" fill="#000000">Layer 1</text>
+
+    <path id="host1_arrow_layer1_to_layer2" d="M105.3 336.0 L105.3 310.0" fill="none" stroke="#000000" stroke-width="1.7" marker-end="url(#arrowBlack)" />
+    <path id="host1_arrow_host_to_cache" d="M105.3 166.0 L105.3 125.0" fill="none" stroke="#000000" stroke-width="1.7" marker-end="url(#arrowBlack)" />
+    <path id="host1_arrow_input_to_host" d="M104.5 486.0 L104.5 443.0" fill="none" stroke="#000000" stroke-width="1.7" marker-end="url(#arrowBlack)" />
+
+    <text id="host1_label" x="104.5" y="423.2" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="23.5" fill="#000000">Host 1</text>
+    <text id="host1_kv_label" x="104.5" y="110.0" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="23.5" fill="#000000">KV-Cache</text>
+
+    <rect id="f04" data-plus-kind="frame" x="80.0" y="35.0" width="49.8" height="46.0" rx="6.0" ry="6.0" fill="#ffffff" stroke="#6d93cd" stroke-width="1.45" />
+    <text id="host1_top_c1_text" x="104.9" y="65.8" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-style="italic" font-size="22.5" fill="#000000">C1</text>
+
+    <rect id="f05" data-plus-kind="frame" x="64.5" y="503.0" width="81.2" height="51.5" rx="6.0" ry="6.0" fill="#dbeafa" stroke="#6c91ca" stroke-width="1.45" />
+    <text id="host1_input_c1_text" x="105.0" y="536.8" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="22.8" fill="#000000">C1</text>
+  </g>
+
+  <g id="host2_column">
+    <desc>Host 2 column: origin is the centered layer stack at x=354. The upper KV-cache contains a dashed C1 and solid C2 separated by a diagonal slash; the lower anchor mirrors that C1/C2 arrangement.</desc>
+
+    <rect id="f02" data-plus-kind="frame" x="282.4" y="166.5" width="142.5" height="227" rx="18.5" ry="18.5" fill="#f2f2f2" stroke="#6b6b6b" stroke-width="1.35" />
+    <rect id="f02_layerN" data-plus-kind="frame" x="297.4" y="180.3" width="113.6" height="41.5" rx="4.6" ry="4.6" fill="#ffffff" stroke="#000000" stroke-width="1.35" />
+    <rect id="f02_layer2" data-plus-kind="frame" x="297.4" y="265.0" width="113.6" height="43.1" rx="4.6" ry="4.6" fill="#ffffff" stroke="#000000" stroke-width="1.35" />
+    <rect id="f02_layer1" data-plus-kind="frame" x="297.4" y="336.4" width="113.6" height="42.5" rx="4.6" ry="4.6" fill="#ffffff" stroke="#000000" stroke-width="1.35" />
+
+    <text id="host2_layerN_text" x="354.2" y="209.8" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="22.5" fill="#000000">Layer N</text>
+    <text id="host2_ellipsis" x="353.7" y="252.0" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="27" fill="#000000">⋮</text>
+    <text id="host2_layer2_text" x="354.2" y="294.8" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="22.5" fill="#000000">Layer 2</text>
+    <text id="host2_layer1_text" x="354.2" y="366.0" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="22.5" fill="#000000">Layer 1</text>
+
+    <path id="host2_arrow_layer1_to_layer2" d="M354.2 336.0 L354.2 310.0" fill="none" stroke="#000000" stroke-width="1.7" marker-end="url(#arrowBlack)" />
+    <path id="host2_arrow_host_to_cache" d="M354.2 166.0 L354.2 125.0" fill="none" stroke="#000000" stroke-width="1.7" marker-end="url(#arrowBlack)" />
+    <path id="host2_arrow_anchor_to_host" d="M354.2 486.0 L354.2 443.0" fill="none" stroke="#000000" stroke-width="1.7" marker-end="url(#arrowBlack)" />
+
+    <text id="host2_label" x="353.8" y="423.2" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="23.5" fill="#000000">Host 2</text>
+    <text id="host2_kv_label" x="354.0" y="110.0" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="23.5" fill="#000000">KV-Cache</text>
+
+    <rect id="f06" data-plus-kind="frame" x="300.6" y="35.0" width="50.2" height="46.0" rx="6.0" ry="6.0" fill="#ffffff" stroke="#6c91ca" stroke-width="1.35" stroke-dasharray="5 4" />
+    <rect id="f07" data-plus-kind="frame" x="351.0" y="35.0" width="49.8" height="46.0" rx="6.0" ry="6.0" fill="#fff7e8" stroke="#e8a000" stroke-width="1.45" />
+    <path id="host2_cache_slash" d="M294.4 93.2 L364.5 22.8" fill="none" stroke="#000000" stroke-width="1.8" />
+    <text id="host2_top_c1_text" x="325.3" y="65.8" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-style="italic" font-size="22.5" fill="#000000">C1</text>
+    <text id="host2_top_c2_text" x="375.8" y="65.8" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-style="italic" font-size="22.5" fill="#000000">C2</text>
+
+    <rect id="f08" data-plus-kind="frame" x="270.0" y="500.0" width="81.3" height="51.5" rx="6.0" ry="6.0" fill="#ffffff" stroke="#6c91ca" stroke-width="1.35" stroke-dasharray="5 4" />
+    <rect id="f09" data-plus-kind="frame" x="351.2" y="500.0" width="81.3" height="51.5" rx="6.0" ry="6.0" fill="#ffe9cd" stroke="#e8a000" stroke-width="1.45" />
+    <text id="host2_anchor_c1_text" x="310.6" y="533.9" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="22.8" fill="#000000">C1</text>
+    <text id="host2_anchor_c2_text" x="391.8" y="533.9" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="22.8" fill="#000000">C2</text>
+    <text id="host2_anchor_label" x="312.7" y="580.2" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="23.0" fill="#000000">Anchor</text>
+  </g>
+
+  <g id="host3_column">
+    <desc>Host 3 column: origin is the centered layer stack at x=588. The upper KV-cache contains a dashed C1 and solid green C3 with diagonal slash; the lower anchor repeats the C1/C3 pair.</desc>
+
+    <rect id="f03" data-plus-kind="frame" x="516.5" y="166.5" width="142.5" height="227" rx="18.5" ry="18.5" fill="#f2f2f2" stroke="#6b6b6b" stroke-width="1.35" />
+    <rect id="f03_layerN" data-plus-kind="frame" x="531.5" y="180.3" width="113.6" height="41.5" rx="4.6" ry="4.6" fill="#ffffff" stroke="#000000" stroke-width="1.35" />
+    <rect id="f03_layer2" data-plus-kind="frame" x="531.5" y="265.0" width="113.6" height="43.1" rx="4.6" ry="4.6" fill="#ffffff" stroke="#000000" stroke-width="1.35" />
+    <rect id="f03_layer1" data-plus-kind="frame" x="531.5" y="336.4" width="113.6" height="42.5" rx="4.6" ry="4.6" fill="#ffffff" stroke="#000000" stroke-width="1.35" />
+
+    <text id="host3_layerN_text" x="588.3" y="209.8" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="22.5" fill="#000000">Layer N</text>
+    <text id="host3_ellipsis" x="587.8" y="252.0" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="27" fill="#000000">⋮</text>
+    <text id="host3_layer2_text" x="588.3" y="294.8" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="22.5" fill="#000000">Layer 2</text>
+    <text id="host3_layer1_text" x="588.3" y="366.0" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="22.5" fill="#000000">Layer 1</text>
+
+    <path id="host3_arrow_layer1_to_layer2" d="M588.3 336.0 L588.3 310.0" fill="none" stroke="#000000" stroke-width="1.7" marker-end="url(#arrowBlack)" />
+    <path id="host3_arrow_host_to_cache" d="M588.3 166.0 L588.3 125.0" fill="none" stroke="#000000" stroke-width="1.7" marker-end="url(#arrowBlack)" />
+    <path id="host3_arrow_anchor_to_host" d="M588.3 486.0 L588.3 443.0" fill="none" stroke="#000000" stroke-width="1.7" marker-end="url(#arrowBlack)" />
+
+    <text id="host3_label" x="588.0" y="423.2" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="23.5" fill="#000000">Host 3</text>
+    <text id="host3_kv_label" x="588.0" y="110.0" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="23.5" fill="#000000">KV-Cache</text>
+
+    <rect id="f10" data-plus-kind="frame" x="546.2" y="35.0" width="50.2" height="46.0" rx="6.0" ry="6.0" fill="#ffffff" stroke="#6c91ca" stroke-width="1.35" stroke-dasharray="5 4" />
+    <rect id="f11" data-plus-kind="frame" x="596.6" y="35.0" width="49.8" height="46.0" rx="6.0" ry="6.0" fill="#eef8e9" stroke="#75aa62" stroke-width="1.45" />
+    <path id="host3_cache_slash" d="M539.5 93.2 L610.0 22.8" fill="none" stroke="#000000" stroke-width="1.8" />
+    <text id="host3_top_c1_text" x="570.9" y="65.8" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-style="italic" font-size="22.5" fill="#000000">C1</text>
+    <text id="host3_top_c3_text" x="621.4" y="65.8" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-style="italic" font-size="22.5" fill="#000000">C3</text>
+
+    <rect id="f12" data-plus-kind="frame" x="505.0" y="500.0" width="81.3" height="51.5" rx="6.0" ry="6.0" fill="#ffffff" stroke="#6c91ca" stroke-width="1.35" stroke-dasharray="5 4" />
+    <rect id="f13" data-plus-kind="frame" x="586.1" y="500.0" width="81.3" height="51.5" rx="6.0" ry="6.0" fill="#dcefd7" stroke="#75aa62" stroke-width="1.45" />
+    <text id="host3_anchor_c1_text" x="545.6" y="533.9" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="22.8" fill="#000000">C1</text>
+    <text id="host3_anchor_c3_text" x="626.7" y="533.9" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="22.8" fill="#000000">C3</text>
+    <text id="host3_anchor_label" x="547.5" y="580.2" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="23.0" fill="#000000">Anchor</text>
+  </g>
+
+  <g id="context_arrows">
+    <desc>Fan-out arrows from the bottom Context row. The basis is left-to-right token order: C1 sends a solid blue arrow to Host 1 input and a dashed blue arrow to Host 2 anchor; C2 sends a solid orange arrow to Host 2 anchor and a dashed blue arrow toward Host 3 anchor; C3 sends a solid green arrow to Host 3 anchor.</desc>
+    <path id="arrow_context_c1_to_host1" d="M276.0 669.5 L135.0 586.0" fill="none" stroke="#6c91ca" stroke-width="1.45" marker-end="url(#arrowBlue)" />
+    <path id="arrow_context_c1_to_host2_anchor" d="M286.0 702.0 L305.0 600.0" fill="none" stroke="#6c91ca" stroke-width="1.45" stroke-dasharray="5 5" marker-end="url(#arrowBlue)" />
+    <path id="arrow_context_c2_to_host2_anchor" d="M361.5 706.8 L379.3 575.0" fill="none" stroke="#e8a000" stroke-width="1.55" marker-end="url(#arrowOrange)" />
+    <path id="arrow_context_c2_to_host3_anchor" d="M321.5 675.0 L503.5 590.0" fill="none" stroke="#6c91ca" stroke-width="1.35" stroke-dasharray="5 5" marker-end="url(#arrowBlue)" />
+    <path id="arrow_context_c3_to_host3_anchor" d="M451.0 690.0 L601.5 595.0" fill="none" stroke="#75aa62" stroke-width="1.45" marker-end="url(#arrowGreen)" />
+  </g>
+
+  <g id="context_row">
+    <desc>Bottom origin context row: three adjacent rounded token frames, ordered C1, C2, C3, with separate small gray braces above each token and a centered Context label below.</desc>
+
+    <path id="brace_context_c1" d="M247.0 699.0 C247.0 694.5 249.7 692.0 254.0 692.0 L276.0 692.0 C282.0 692.0 282.0 686.5 282.0 686.5 C282.0 686.5 282.0 692.0 288.0 692.0 L312.5 692.0 C317.0 692.0 319.0 694.8 319.0 699.0" fill="none" stroke="#9a9a9a" stroke-width="1.55" stroke-linecap="round" />
+    <path id="brace_context_c2" d="M333.0 699.0 C333.0 694.5 335.7 692.0 340.0 692.0 L362.0 692.0 C368.0 692.0 368.0 686.5 368.0 686.5 C368.0 686.5 368.0 692.0 374.0 692.0 L398.5 692.0 C403.0 692.0 405.0 694.8 405.0 699.0" fill="none" stroke="#9a9a9a" stroke-width="1.55" stroke-linecap="round" />
+    <path id="brace_context_c3" d="M418.5 699.0 C418.5 694.5 421.2 692.0 425.5 692.0 L447.5 692.0 C453.5 692.0 453.5 686.5 453.5 686.5 C453.5 686.5 453.5 692.0 459.5 692.0 L481.0 692.0 C485.5 692.0 487.3 694.8 487.3 699.0" fill="none" stroke="#9a9a9a" stroke-width="1.55" stroke-linecap="round" />
+
+    <rect id="f14" data-plus-kind="frame" x="244.2" y="708.0" width="81.3" height="51.5" rx="6.0" ry="6.0" fill="#dbeafa" stroke="#6c91ca" stroke-width="1.45" />
+    <rect id="f15" data-plus-kind="frame" x="325.4" y="708.0" width="81.3" height="51.5" rx="6.0" ry="6.0" fill="#ffe9cd" stroke="#e8a000" stroke-width="1.45" />
+    <rect id="f16" data-plus-kind="frame" x="406.6" y="708.0" width="81.3" height="51.5" rx="6.0" ry="6.0" fill="#dcefd7" stroke="#75aa62" stroke-width="1.45" />
+
+    <text id="context_c1_text" x="284.8" y="741.6" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="23.0" fill="#000000">C1</text>
+    <text id="context_c2_text" x="366.0" y="741.6" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="23.0" fill="#000000">C2</text>
+    <text id="context_c3_text" x="447.2" y="741.6" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="23.0" fill="#000000">C3</text>
+    <text id="context_label" x="366.1" y="794.2" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="24.0" fill="#000000">Context</text>
+  </g>
+
+  <g id="query_group">
+    <desc>Lower-right dashed query frame, independent from the context row and aligned horizontally with its upper half.</desc>
+    <rect id="f17" data-plus-kind="frame" x="630.0" y="713.0" width="86.5" height="50.3" rx="7.0" ry="7.0" fill="#ffffff" stroke="#777777" stroke-width="1.45" stroke-dasharray="5 4" />
+    <text id="query_text" x="673.2" y="744.2" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="22.5" fill="#000000">Query</text>
+  </g>
+</svg>

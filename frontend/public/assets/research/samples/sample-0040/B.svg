@@ -1,0 +1,203 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="597" height="561" viewBox="0 0 597 561">
+  <defs>
+    <marker id="arrowBlack" markerUnits="userSpaceOnUse" markerWidth="10" markerHeight="8" refX="10" refY="4" orient="auto">
+      <path d="M0,0 L10,4 L0,8 Z" fill="#111" id="plus_node_0" />
+    </marker>
+    <marker id="arrowBlackStart" markerUnits="userSpaceOnUse" markerWidth="10" markerHeight="8" refX="0" refY="4" orient="auto-start-reverse">
+      <path d="M0,0 L10,4 L0,8 Z" fill="#111" id="plus_node_1" />
+    </marker>
+
+    <symbol id="ico-doc" viewBox="0 0 24 24">
+      <path d="M5 2h14v20H5z" fill="#fff" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round" id="plus_node_2" />
+      <path d="M8 7h8M8 11h8M8 15h7" stroke="currentColor" stroke-width="1.45" stroke-linecap="round" id="plus_node_3" />
+    </symbol>
+    <symbol id="ico-img" viewBox="0 0 24 24">
+      <rect x="2.5" y="4" width="19" height="16" rx="1.6" fill="#fff" stroke="currentColor" stroke-width="1.6" id="plus_node_4" />
+      <circle cx="8.2" cy="9" r="2" fill="none" stroke="currentColor" stroke-width="1.3" id="plus_node_5" />
+      <path d="M4.6 18l5.2-5.2 3.7 3.1 2.7-3.7 4 5.8" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round" id="plus_node_6" />
+    </symbol>
+    <symbol id="ico-video" viewBox="0 0 24 24">
+      <circle cx="7.2" cy="5.2" r="3" fill="none" stroke="currentColor" stroke-width="1.6" id="plus_node_7" />
+      <circle cx="14" cy="5.4" r="2.4" fill="none" stroke="currentColor" stroke-width="1.6" id="plus_node_8" />
+      <rect x="4" y="10" width="12" height="8.5" rx="1.4" fill="currentColor" stroke="currentColor" stroke-width="1.2" id="plus_node_9" />
+      <path d="M16 12.2l5-2.9v9.2l-5-2.9z" fill="currentColor" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round" id="plus_node_10" />
+      <path d="M7.2 21h6.8" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" id="plus_node_11" />
+    </symbol>
+    <symbol id="ico-speaker" viewBox="0 0 24 24">
+      <path d="M3.5 14.6H7l5.5 4.2V5.2L7 9.4H3.5z" fill="#fff" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" id="plus_node_12" />
+      <path d="M16 8.5c1.3 1.3 1.9 2.5 1.9 3.6 0 1.3-.6 2.5-1.9 3.8" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" id="plus_node_13" />
+      <path d="M19 6c2 2 3 4.1 3 6.2s-1 4.3-3 6.4" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" id="plus_node_14" />
+    </symbol>
+  </defs>
+
+  <title>Multimodal retrieval systems and Audio-Centric MultiModal evaluation suite</title>
+  <desc>Inventory: top section compares query modalities routed to a multimodal retrieval encoder and OmniRet, both sending query embeddings into a shared vector database and returning target modalities. Bottom section contains four evaluation-task frames: Single Modality, Textual Binding, Visual-Audio, Composed Visual Text, and Composed Audio Text, with modality icons, plus signs and directional arrows. Layout basis: top is horizontally balanced around a central database, with query inputs left and targets right; bottom suite is partitioned into two columns and stacked task rows.</desc>
+
+  
+  <rect id="f01-top-system-frame" data-plus-kind="frame" x="0" y="0" width="597" height="337" fill="#fff" stroke="none" />
+  <rect id="f02-bottom-suite-frame" data-plus-kind="frame" x="0" y="337" width="597" height="224" fill="#fff" stroke="none" />
+
+  
+  <g id="section-a">
+    <text x="30" y="24" font-family="Arial, Helvetica, sans-serif" font-size="13" font-weight="700" fill="#000" id="plus_node_15">Query Modalities</text>
+    <text x="477" y="24" font-family="Arial, Helvetica, sans-serif" font-size="13" font-weight="700" fill="#000" id="plus_node_16">Target Modalities</text>
+
+    <g id="query-icons-top" color="#111">
+      <use href="#ico-doc" x="49" y="36" width="24" height="24" id="plus_node_17" />
+      <use href="#ico-img" x="79" y="36" width="24" height="24" id="plus_node_18" />
+      <use href="#ico-video" x="65" y="66" width="24" height="24" id="plus_node_19" />
+    </g>
+    <g id="target-icons-top" color="#111">
+      <use href="#ico-doc" x="501" y="36" width="24" height="24" id="plus_node_20" />
+      <use href="#ico-img" x="530" y="36" width="24" height="24" id="plus_node_21" />
+      <use href="#ico-video" x="517" y="66" width="24" height="24" id="plus_node_22" />
+    </g>
+
+    <rect id="f03-multimodal-encoder-frame" data-plus-kind="frame" x="155" y="36" width="155" height="55" rx="8" ry="8" fill="#bfeafa" stroke="none" />
+    <text x="232.5" y="58" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="17" fill="#000" id="plus_node_23">Multimodal</text>
+    <text x="232.5" y="80" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="17" fill="#000" id="plus_node_24">Retrieval Encoder</text>
+
+    <path id="arrow-query-to-mm" d="M110 64H154" fill="none" stroke="#0f2230" stroke-width="1.7" marker-end="url(#arrowBlack)" />
+
+    <g id="shared-vector-database">
+      <rect id="f04-database-frame" data-plus-kind="frame" x="368" y="87" width="112" height="59" rx="3" fill="#dce8ee" stroke="#0f2230" stroke-width="1.1" />
+      <ellipse cx="424" cy="96" rx="56" ry="15" fill="#dce8ee" stroke="#0f2230" stroke-width="1.1" id="plus_node_25" />
+      <path d="M368 137c8 12 104 12 112 0" fill="none" stroke="#0f2230" stroke-width="1.1" id="plus_node_26" />
+      <rect id="db-label-mask" x="377" y="101" width="94" height="18" fill="#dce8ee" stroke="none" />
+      <text x="424" y="113" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="14" fill="#000" id="plus_node_27">Shared Vector</text>
+      <text x="424" y="135" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="14" fill="#000" id="plus_node_28">Database</text>
+      <circle cx="467" cy="130" r="6.3" fill="none" stroke="#000" stroke-width="2" id="plus_node_29" />
+      <path d="M471.8 134.7l8 7.3" stroke="#000" stroke-width="2" stroke-linecap="round" id="plus_node_30" />
+    </g><path id="arrow-mm-to-database" d="M310 64 C338 63 336 101 367 116" fill="none" stroke="#0f2230" stroke-width="1.7" marker-end="url(#arrowBlack)" />
+    <text x="316" y="43" font-family="Arial, Helvetica, sans-serif" font-size="12" font-style="italic" fill="#000" id="plus_node_31">Query</text>
+    <text x="316" y="56" font-family="Arial, Helvetica, sans-serif" font-size="12" font-style="italic" fill="#000" id="plus_node_32">Embedding</text>
+
+    <path id="arrow-database-to-target-top" d="M424 82 C428 66 467 63 497 60" fill="none" stroke="#0f2230" stroke-width="1.7" marker-end="url(#arrowBlack)" />
+
+    <g id="dash-separator-top">
+      <line id="dash-separator-top-left" x1="48" y1="117" x2="366" y2="117" stroke="#f0b000" stroke-width="1.5" stroke-dasharray="7 6" />
+      <line id="dash-separator-top-right" x1="482" y1="117" x2="566" y2="117" stroke="#f0b000" stroke-width="1.5" stroke-dasharray="7 6" />
+    </g><g id="query-icons-bottom" color="#111">
+      <use href="#ico-doc" x="50" y="145" width="24" height="24" id="plus_node_33" />
+      <use href="#ico-img" x="80" y="145" width="24" height="24" id="plus_node_34" />
+      <use href="#ico-video" x="64" y="175" width="24" height="24" id="plus_node_35" />
+      <use href="#ico-speaker" x="82" y="176" width="24" height="24" color="#f05b2a" id="plus_node_36" />
+    </g>
+    <g id="target-icons-bottom" color="#111">
+      <use href="#ico-doc" x="501" y="146" width="24" height="24" id="plus_node_37" />
+      <use href="#ico-img" x="531" y="146" width="24" height="24" id="plus_node_38" />
+      <use href="#ico-video" x="516" y="176" width="24" height="24" id="plus_node_39" />
+      <use href="#ico-speaker" x="536" y="176" width="24" height="24" color="#f05b2a" id="plus_node_40" />
+    </g>
+
+    <rect id="f05-omniret-frame" data-plus-kind="frame" x="155" y="146" width="155" height="55" rx="8" ry="8" fill="#b9efc1" stroke="none" />
+    <text x="232.5" y="168" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="700" fill="#000" id="plus_node_41">OmniRet</text>
+    <text x="232.5" y="190" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="17" fill="#000" id="plus_node_42">(Ours)</text>
+    <path id="arrow-query-to-omniret" d="M111 174H154" fill="none" stroke="#0f2230" stroke-width="1.7" marker-end="url(#arrowBlack)" />
+    <path id="arrow-omniret-to-database" d="M310 174 C338 173 336 132 367 118" fill="none" stroke="#0f2230" stroke-width="1.7" marker-end="url(#arrowBlack)" />
+    <text x="316" y="192" font-family="Arial, Helvetica, sans-serif" font-size="12" font-style="italic" fill="#000" id="plus_node_43">Query</text>
+    <text x="316" y="205" font-family="Arial, Helvetica, sans-serif" font-size="12" font-style="italic" fill="#000" id="plus_node_44">Embedding</text>
+    <path id="arrow-database-to-target-bottom" d="M480 139 C486 158 493 170 499 174" fill="none" stroke="#0f2230" stroke-width="1.7" marker-end="url(#arrowBlack)" />
+
+    <path id="module-brace" d="M75 228 C75 220 82 216 91 216 H385 C394 216 400 220 401 228" fill="none" stroke="#111" stroke-width="1.3" />
+    <rect id="f06-resampler-frame" data-plus-kind="frame" x="75" y="229" width="156" height="55" rx="8" ry="8" fill="#ffd477" stroke="none" />
+    <rect id="f07-pooling-frame" data-plus-kind="frame" x="244" y="229" width="157" height="55" rx="8" ry="8" fill="#ffe1d3" stroke="none" />
+    <text x="153" y="245" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="14" fill="#000" id="plus_node_45">Shared Media</text>
+    <text x="153" y="262" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="14" fill="#000" id="plus_node_46">Resampler</text>
+    <text x="153" y="278" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="14" font-style="italic" fill="#000" id="plus_node_47">(Efficiency)</text>
+    <text x="322.5" y="245" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="14" fill="#000" id="plus_node_48">Attention Sliced</text>
+    <text x="322.5" y="262" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="14" fill="#000" id="plus_node_49">Wasserstein Pooling</text>
+    <text x="322.5" y="278" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="14" font-style="italic" fill="#000" id="plus_node_50">(High-Fidelity)</text>
+
+    <text x="53" y="313" font-family="Times New Roman, Times, serif" font-size="20" fill="#000" id="plus_node_51">
+      (a) Multimodal Retrieval Systems (top) and our OmniRet (bottom)
+    </text>
+  </g>
+
+  
+  <g id="section-b">
+    <rect id="f08-single-modality-frame" data-plus-kind="frame" x="32" y="342" width="260" height="48" rx="8" ry="8" fill="#fff" stroke="#2ecc40" stroke-width="2" />
+    <rect x="49" y="338" width="120" height="16" fill="#fff" id="plus_node_52" />
+    <text x="55" y="348" font-family="Arial, Helvetica, sans-serif" font-size="14" font-weight="700" fill="#2ecc40" id="plus_node_53">Single Modality</text>
+
+    <g id="single-modality-content">
+      <path d="M57 352h-5v29h7M121 352h6v29h-7" fill="none" stroke="#f28a62" stroke-width="1.2" id="plus_node_54" />
+      <use href="#ico-img" x="60" y="356" width="24" height="24" color="#222" id="plus_node_55" />
+      <path d="M91 354l-7 29" stroke="#f28a62" stroke-width="1.1" id="plus_node_56" />
+      <use href="#ico-doc" x="98" y="356" width="24" height="24" color="#222" id="plus_node_57" />
+      <path d="M150 368H178" fill="none" stroke="#111" stroke-width="1.5" marker-end="url(#arrowBlack)" id="plus_node_58" />
+      <path d="M207 352h-5v29h7M271 352h6v29h-7" fill="none" stroke="#f28a62" stroke-width="1.2" id="plus_node_59" />
+      <use href="#ico-img" x="210" y="356" width="24" height="24" color="#222" id="plus_node_60" />
+      <path d="M241 354l-7 29" stroke="#f28a62" stroke-width="1.1" id="plus_node_61" />
+      <use href="#ico-doc" x="248" y="356" width="24" height="24" color="#222" id="plus_node_62" />
+    </g>
+
+    <rect id="f09-composed-visual-text-frame" data-plus-kind="frame" x="315" y="342" width="260" height="103" rx="8" ry="8" fill="#fff" stroke="#148ee5" stroke-width="2" />
+    <rect x="347" y="338" width="147" height="16" fill="#fff" id="plus_node_63" />
+    <text x="354" y="348" font-family="Arial, Helvetica, sans-serif" font-size="14" font-weight="700" fill="#148ee5" id="plus_node_64">Composed Visual Text</text>
+
+    <g id="composed-visual-text-content">
+      <path d="M330 384h-5v22h7M446 384h6v22h-7" fill="none" stroke="#f28a62" stroke-width="1.2" id="plus_node_65" />
+      <use href="#ico-img" x="332" y="384" width="24" height="24" color="#222" id="plus_node_66" />
+      <text x="360" y="402" font-family="Arial, Helvetica, sans-serif" font-size="22" fill="#e1583a" id="plus_node_67">/</text>
+      <use href="#ico-video" x="377" y="382" width="24" height="24" color="#222" id="plus_node_68" />
+      <text x="404" y="402" font-family="Arial, Helvetica, sans-serif" font-size="22" fill="#e1583a" id="plus_node_69">+</text>
+      <use href="#ico-doc" x="421" y="383" width="24" height="24" color="#222" id="plus_node_70" />
+      <path d="M456 395H488" fill="none" stroke="#111" stroke-width="1.5" marker-end="url(#arrowBlack)" id="plus_node_71" />
+      <path d="M468 362h-5v66h7M556 362h6v66h-7" fill="none" stroke="#f28a62" stroke-width="1.2" id="plus_node_72" />
+      <use href="#ico-img" x="471" y="366" width="24" height="24" color="#222" id="plus_node_73" />
+      <text x="497" y="384" font-family="Arial, Helvetica, sans-serif" font-size="22" fill="#e1583a" id="plus_node_74">/</text>
+      <use href="#ico-video" x="511" y="363" width="24" height="24" color="#222" id="plus_node_75" />
+      <text x="535" y="384" font-family="Arial, Helvetica, sans-serif" font-size="22" fill="#e1583a" id="plus_node_76">+</text>
+      <use href="#ico-doc" x="542" y="380" width="24" height="24" color="#222" id="plus_node_77" />
+      <use href="#ico-img" x="471" y="408" width="24" height="24" color="#222" id="plus_node_78" />
+      <text x="497" y="426" font-family="Arial, Helvetica, sans-serif" font-size="22" fill="#e1583a" id="plus_node_79">/</text>
+      <use href="#ico-video" x="511" y="405" width="24" height="24" color="#222" id="plus_node_80" />
+      <text x="535" y="426" font-family="Arial, Helvetica, sans-serif" font-size="22" fill="#e1583a" id="plus_node_81">/</text>
+      <use href="#ico-doc" x="542" y="407" width="24" height="24" color="#222" id="plus_node_82" />
+    </g>
+
+    <rect id="f10-textual-binding-frame" data-plus-kind="frame" x="32" y="398" width="260" height="48" rx="8" ry="8" fill="#fff" stroke="#8fcf44" stroke-width="2" />
+    <rect x="49" y="394" width="105" height="16" fill="#fff" id="plus_node_83" />
+    <text x="55" y="405" font-family="Arial, Helvetica, sans-serif" font-size="14" font-weight="700" fill="#8fcf44" id="plus_node_84">Textual Binding</text>
+    <g id="textual-binding-content">
+      <path d="M47 410h-5v25h7M139 410h6v25h-7" fill="none" stroke="#f28a62" stroke-width="1.2" id="plus_node_85" />
+      <use href="#ico-img" x="48" y="413" width="24" height="24" color="#222" id="plus_node_86" />
+      <text x="75" y="432" font-family="Arial, Helvetica, sans-serif" font-size="22" fill="#e1583a" id="plus_node_87">/</text>
+      <use href="#ico-video" x="89" y="412" width="24" height="24" color="#222" id="plus_node_88" />
+      <text x="113" y="432" font-family="Arial, Helvetica, sans-serif" font-size="22" fill="#e1583a" id="plus_node_89">/</text>
+      <use href="#ico-speaker" x="121" y="412" width="24" height="24" color="#222" id="plus_node_90" />
+      <path d="M153 427H220" fill="none" stroke="#111" stroke-width="1.5" marker-start="url(#arrowBlackStart)" marker-end="url(#arrowBlack)" id="plus_node_91" />
+      <use href="#ico-doc" x="228" y="414" width="24" height="24" color="#222" id="plus_node_92" />
+    </g>
+
+    <line id="dash-separator-bottom" x1="30" y1="456" x2="578" y2="456" stroke="#f0b000" stroke-width="1.5" stroke-dasharray="7 6" />
+
+    <rect id="f11-visual-audio-frame" data-plus-kind="frame" x="32" y="470" width="260" height="48" rx="8" ry="8" fill="#fff" stroke="#35a23b" stroke-width="2" />
+    <rect x="50" y="466" width="103" height="16" fill="#fff" id="plus_node_93" />
+    <text x="56" y="477" font-family="Arial, Helvetica, sans-serif" font-size="14" font-weight="700" fill="#35a23b" id="plus_node_94">Visual-Audio</text>
+    <g id="visual-audio-content">
+      <path d="M57 482h-5v25h7M119 482h6v25h-7" fill="none" stroke="#f28a62" stroke-width="1.2" id="plus_node_95" />
+      <use href="#ico-img" x="59" y="484" width="24" height="24" color="#222" id="plus_node_96" />
+      <path d="M90 482l-7 29" stroke="#f28a62" stroke-width="1.1" id="plus_node_97" />
+      <use href="#ico-video" x="96" y="482" width="24" height="24" color="#222" id="plus_node_98" />
+      <path d="M145 496H211" fill="none" stroke="#111" stroke-width="1.5" marker-start="url(#arrowBlackStart)" marker-end="url(#arrowBlack)" id="plus_node_99" />
+      <use href="#ico-speaker" x="226" y="483" width="24" height="24" color="#222" id="plus_node_100" />
+    </g>
+
+    <rect id="f12-composed-audio-text-frame" data-plus-kind="frame" x="315" y="470" width="260" height="48" rx="8" ry="8" fill="#fff" stroke="#33a9f2" stroke-width="2" />
+    <rect x="349" y="466" width="150" height="16" fill="#fff" id="plus_node_101" />
+    <text x="356" y="477" font-family="Arial, Helvetica, sans-serif" font-size="14" font-weight="700" fill="#33a9f2" id="plus_node_102">Composed Audio Text</text>
+    <g id="composed-audio-text-content">
+      <use href="#ico-speaker" x="354" y="484" width="24" height="24" color="#222" id="plus_node_103" />
+      <text x="381" y="502" font-family="Arial, Helvetica, sans-serif" font-size="22" fill="#e1583a" id="plus_node_104">+</text>
+      <use href="#ico-doc" x="399" y="483" width="24" height="24" color="#222" id="plus_node_105" />
+      <path d="M431 495H486" fill="none" stroke="#111" stroke-width="1.5" marker-end="url(#arrowBlack)" id="plus_node_106" />
+      <use href="#ico-speaker" x="503" y="483" width="24" height="24" color="#222" id="plus_node_107" />
+    </g>
+
+    <text x="51" y="545" font-family="Times New Roman, Times, serif" font-size="20" fill="#000" id="plus_node_108">
+      (b) Our evaluation suite with new Audio-Centric MultiModal tasks.
+    </text>
+  </g>
+</svg>

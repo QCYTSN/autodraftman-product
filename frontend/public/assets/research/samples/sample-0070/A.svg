@@ -1,0 +1,194 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1695" height="528" viewBox="0 0 1695 528">
+  <title>Two-phase training architecture with three convolutional blocks, feature-output perturbation branches, losses, and linear classifier</title>
+  <desc>
+    Inventory and construction rationale: the figure is a left-to-right neural-network training pipeline. The origin is the Input label and arrow at the left. Moving rightward are Conv1, Conv2, Conv3, and a Linear Classifier. Phase 1 training is enclosed by a large dotted rounded frame and top brace over the three convolutional blocks; Phase 2 training is enclosed by a smaller dotted rounded frame and top brace over the classifier. Each convolution block contains vertical operation modules, with horizontal flow through the modules. Conv1 includes BatchNorm, Dropout, Conv, ReLU, MaxPooling; Conv2 includes BatchNorm, Conv, ReLU, MaxPooling; Conv3 includes BatchNorm, Conv, ReLU, AvgPooling. At the output side of each convolutional block is a circular tap feeding downward to an FOP box, then leftward into an L_dc loss box, then upward back into the convolution block. Conv1 also has a downward arrow from Dropout to the noisy-sample formula. Conv2 has a downward arrow from its L_dc box to the combined objective and ED formulas. Conv3 has an ED(X) formula beneath. The classifier contains Flatten, Dropout, and FC, with a downward Dropout regularization arrow and a rightward Output arrow. Overall symmetry/equipartition basis: three similarly spaced convolution sections are repeated across Phase 1, each with a top processing block and lower feedback/loss branch; Phase 2 repeats the vertical-module visual language at smaller scale.
+  </desc>
+
+  <defs>
+    <marker id="arrowBlack" markerUnits="userSpaceOnUse" markerWidth="13" markerHeight="11" viewBox="0 0 10 8" refX="10" refY="4" orient="auto">
+      <path d="M0,0 L10,4 L0,8 Z" fill="#000" id="plus_node_0" />
+    </marker>
+    <marker id="arrowBlackStart" markerUnits="userSpaceOnUse" markerWidth="13" markerHeight="11" viewBox="0 0 10 8" refX="0" refY="4" orient="auto-start-reverse">
+      <path d="M0,0 L10,4 L0,8 Z" fill="#000" id="plus_node_1" />
+    </marker>
+    <marker id="arrowGray" markerUnits="userSpaceOnUse" markerWidth="12" markerHeight="10" viewBox="0 0 10 8" refX="10" refY="4" orient="auto">
+      <path d="M0,0 L10,4 L0,8 Z" fill="#404040" id="plus_node_2" />
+    </marker>
+    <style>
+      .sans{font-family:Arial, Helvetica, sans-serif}
+      .serif{font-family:"Times New Roman", Times, serif}
+      .label{font-size:20px;fill:#000}
+      .small{font-size:18px;fill:#000}
+      .math{font-size:23px;fill:#000}
+      .vtext{font-family:Arial, Helvetica, sans-serif;font-size:18px;font-weight:700;text-anchor:middle;dominant-baseline:middle}
+      .moduleFill{fill:#f4f4f6}
+      .flow{stroke:#000;stroke-width:4;fill:none;stroke-linecap:square;stroke-linejoin:miter}
+      .feedback{stroke:#000;stroke-width:4;fill:none;stroke-linecap:square;stroke-linejoin:miter}
+      .grayfeedback{stroke:#4b4b4b;stroke-width:4;fill:none;stroke-linecap:square;stroke-linejoin:miter}
+      .frameStroke{fill:none;stroke:#777;stroke-width:4}
+      .dottedFrame{fill:none;stroke:#7c7c7c;stroke-width:4;stroke-linecap:round;stroke-dasharray:1 8}
+    </style>
+  </defs>
+
+  <rect id="background" x="0" y="0" width="1695" height="528" fill="#fff" />
+
+  
+  <g id="base_frames">
+    <rect id="f01" data-plus-kind="frame" x="190" y="97" width="1103" height="290" rx="40" ry="40" class="dottedFrame" />
+    <desc>Frame f01 encloses Phase 1 training: Conv1, Conv2, Conv3, their tap circles, FOP blocks, L_dc feedback branches, and related arrows.</desc>
+    <rect id="f02" data-plus-kind="frame" x="1318" y="97" width="262" height="290" rx="40" ry="40" class="dottedFrame" />
+    <desc>Frame f02 encloses Phase 2 training: the Linear Classifier and its regularization arrow.</desc>
+
+    <path id="phase1_brace" d="M203 89 C203 78 203 74 207 74 H720 C728 74 731 72 731 58 C731 72 734 74 742 74 H1256 C1260 74 1262 78 1262 89" fill="none" stroke="#000" stroke-width="2" />
+    <text id="phase1_title" class="sans label" x="732" y="47" text-anchor="middle">Phase 1  training</text>
+
+    <path id="phase2_brace" d="M1315 89 C1315 78 1316 74 1320 74 H1432 C1438 74 1440 72 1440 58 C1440 72 1442 74 1448 74 H1568 C1572 74 1573 78 1573 89" fill="none" stroke="#000" stroke-width="2" />
+    <text id="phase2_title" class="sans label" x="1440" y="50" text-anchor="middle">Phase 2 training</text>
+  </g>
+
+  
+  <g id="input_section">
+    <desc>Left origin: Input text and a rightward arrow carrying X' into Conv1.</desc>
+    <text id="input_label" class="sans label" x="80" y="207" text-anchor="middle" font-weight="700">Input</text>
+    <text id="input_math_1" class="serif math" x="34" y="234">
+      <tspan font-style="italic">X</tspan><tspan dy="-8" font-size="16">′</tspan><tspan dy="8"> ∈ ℝ</tspan><tspan dy="-12" font-size="16">B×F</tspan>
+    </text>
+    <text id="input_math_2" class="serif math" y="260"><tspan x="18" font-style="italic">F</tspan><tspan x="38">=</tspan><tspan x="58" font-style="italic">c</tspan><tspan x="76">×</tspan><tspan x="96" font-style="italic">h</tspan><tspan x="116">×</tspan><tspan x="136" font-style="italic">w</tspan></text><path id="arrow_input_to_conv1" class="flow" d="M158 223 H211" marker-end="url(#arrowBlack)" />
+  </g>
+
+  
+  <g id="conv1_group">
+    <desc>Conv1 frame contains five vertical modules: BatchNorm, Dropout, Conv, ReLU, and MaxPooling. Horizontal flow proceeds through all modules; Dropout also has a downward noisy-sample arrow.</desc>
+    <text id="conv1_title" class="sans label" x="347" y="124" text-anchor="middle">Conv1</text>
+    <rect id="f03" data-plus-kind="frame" x="214" y="136" width="267" height="174" class="frameStroke" fill="#f2f2f2" />
+    <rect id="conv1_batch_rect" class="moduleFill" x="228" y="155" width="39" height="136" stroke="#5ac5d0" stroke-width="4" />
+    <rect id="conv1_dropout_rect" class="moduleFill" x="278" y="155" width="39" height="136" stroke="#e8c84e" stroke-width="4" stroke-dasharray="10 6" />
+    <rect id="conv1_conv_rect" class="moduleFill" x="327" y="155" width="39" height="136" stroke="#ff9068" stroke-width="4" />
+    <rect id="conv1_relu_rect" class="moduleFill" x="377" y="155" width="39" height="136" stroke="#d39cef" stroke-width="4" />
+    <rect id="conv1_pool_rect" class="moduleFill" x="427" y="155" width="39" height="136" stroke="#79bd45" stroke-width="4" />
+    <text id="conv1_batch_text" class="vtext" fill="#58c7d1" transform="translate(249 223) rotate(-90)">BatchNorm</text>
+    <text id="conv1_dropout_text" class="vtext" fill="#e3bc3c" transform="translate(299 223) rotate(-90)">Dropout</text>
+    <text id="conv1_conv_text" class="vtext" fill="#ff815b" transform="translate(348 223) rotate(-90)">Conv</text>
+    <text id="conv1_relu_text" class="vtext" fill="#cf99ed" transform="translate(398 223) rotate(-90)">ReLU</text>
+    <text id="conv1_pool_text" class="vtext" fill="#76b943" transform="translate(449 223) rotate(-90)">MaxPooling</text>
+    <path id="conv1_internal_flow_1" class="flow" d="M267 223 H278" />
+    <path id="conv1_internal_flow_2" class="flow" d="M317 223 H327" />
+    <path id="conv1_internal_flow_3" class="flow" d="M366 223 H377" />
+    <path id="conv1_internal_flow_4" class="flow" d="M416 223 H427" />
+  </g>
+
+  
+  <g id="conv1_branch">
+    <circle id="conv1_tap_circle" cx="537" cy="223" r="7" fill="#fff" stroke="#222" stroke-width="4" />
+    <path id="arrow_conv1_to_conv2" class="flow" d="M481 223 H599" marker-end="url(#arrowBlack)" />
+    <path id="arrow_conv1_tap_to_fop" class="flow" d="M537 223 V285" marker-end="url(#arrowBlack)" />
+    <rect id="conv1_fop_rect" x="502" y="285" width="72" height="43" fill="#f7fff8" stroke="#7bdfa4" stroke-width="4" />
+    <text id="conv1_fop_text" class="sans small" x="538" y="316" fill="#6cdd95" font-weight="700" text-anchor="middle" style="fill:#6cdd95">FOP</text>
+    <path id="arrow_conv1_fop_to_ldc" class="feedback" d="M537 328 V356 H480" marker-end="url(#arrowBlack)" />
+    <rect id="conv1_ldc_rect" x="407" y="335" width="72" height="42" fill="#fff" stroke="#7330a8" stroke-width="4" />
+    <text id="conv1_ldc_text" class="serif math" x="443" y="363" fill="#7330a8" text-anchor="middle" font-weight="700" font-style="italic" style="fill:#7330a8">
+      L<tspan dy="6" font-size="16">dc</tspan>
+    </text>
+    <path id="arrow_conv1_ldc_to_conv" class="grayfeedback" d="M407 356 H346 V310" marker-end="url(#arrowGray)" />
+    <path id="arrow_conv1_dropout_to_noisy_samples" class="flow" d="M297 223 V413" marker-end="url(#arrowBlack)" />
+  </g>
+
+  
+  <g id="conv2_group">
+    <desc>Conv2 frame contains BatchNorm, Conv, ReLU, and MaxPooling. It repeats the Phase 1 block rhythm and has an FOP/L_dc feedback branch below its output tap.</desc>
+    <text id="conv2_title" class="sans label" x="715" y="124" text-anchor="middle">Conv2</text>
+    <rect id="f04" data-plus-kind="frame" x="600" y="136" width="230" height="174" class="frameStroke" fill="#f2f2f2" />
+    <rect id="conv2_batch_rect" class="moduleFill" x="619" y="155" width="39" height="136" stroke="#5ac5d0" stroke-width="4" />
+    <rect id="conv2_conv_rect" class="moduleFill" x="669" y="155" width="39" height="136" stroke="#ff9068" stroke-width="4" />
+    <rect id="conv2_relu_rect" class="moduleFill" x="719" y="155" width="39" height="136" stroke="#d39cef" stroke-width="4" />
+    <rect id="conv2_pool_rect" class="moduleFill" x="769" y="155" width="39" height="136" stroke="#79bd45" stroke-width="4" />
+    <text id="conv2_batch_text" class="vtext" fill="#58c7d1" transform="translate(640 223) rotate(-90)">BatchNorm</text>
+    <text id="conv2_conv_text" class="vtext" fill="#ff815b" transform="translate(690 223) rotate(-90)">Conv</text>
+    <text id="conv2_relu_text" class="vtext" fill="#cf99ed" transform="translate(740 223) rotate(-90)">ReLU</text>
+    <text id="conv2_pool_text" class="vtext" fill="#76b943" transform="translate(791 223) rotate(-90)">MaxPooling</text>
+    <path id="conv2_internal_flow_1" class="flow" d="M658 223 H669" />
+    <path id="conv2_internal_flow_2" class="flow" d="M708 223 H719" />
+    <path id="conv2_internal_flow_3" class="flow" d="M758 223 H769" />
+  </g>
+
+  <g id="conv2_branch">
+    <circle id="conv2_tap_circle" cx="886" cy="223" r="7" fill="#fff" stroke="#222" stroke-width="4" />
+    <path id="arrow_conv2_to_conv3" class="flow" d="M830 223 H949" marker-end="url(#arrowBlack)" />
+    <path id="arrow_conv2_tap_to_fop" class="flow" d="M886 223 V285" marker-end="url(#arrowBlack)" />
+    <rect id="conv2_fop_rect" x="851" y="287" width="72" height="42" fill="#f7fff8" stroke="#7bdfa4" stroke-width="4" />
+    <text id="conv2_fop_text" class="sans small" x="887" y="316" fill="#6cdd95" font-weight="700" text-anchor="middle" style="fill:#6cdd95">FOP</text>
+    <path id="arrow_conv2_fop_to_ldc" class="feedback" d="M886 329 V356 H830" marker-end="url(#arrowBlack)" />
+    <rect id="conv2_ldc_rect" x="746" y="335" width="83" height="42" fill="#fff" stroke="#7330a8" stroke-width="4" />
+    <text id="conv2_ldc_text" class="serif math" x="788" y="363" fill="#7330a8" text-anchor="middle" font-weight="700" font-style="italic" style="fill:#7330a8">
+      L<tspan dy="6" font-size="16">dc</tspan>
+    </text>
+    <path id="arrow_conv2_ldc_to_conv" class="feedback" d="M746 356 H714 V310" marker-end="url(#arrowBlack)" />
+    <path id="arrow_conv2_ldc_down" class="flow" d="M788 377 V413" marker-end="url(#arrowBlack)" />
+  </g>
+
+  
+  <g id="conv3_group">
+    <desc>Conv3 frame contains BatchNorm, Conv, ReLU, and AvgPooling. It matches Conv2 but uses AvgPooling in the final green module; the output tap feeds FOP and L_dc below.</desc>
+    <text id="conv3_title" class="sans label" x="1066" y="124" text-anchor="middle">Conv3</text>
+    <rect id="f05" data-plus-kind="frame" x="950" y="136" width="230" height="174" class="frameStroke" fill="#f2f2f2" />
+    <rect id="conv3_batch_rect" class="moduleFill" x="969" y="155" width="39" height="136" stroke="#5ac5d0" stroke-width="4" />
+    <rect id="conv3_conv_rect" class="moduleFill" x="1019" y="155" width="39" height="136" stroke="#ff9068" stroke-width="4" />
+    <rect id="conv3_relu_rect" class="moduleFill" x="1069" y="155" width="39" height="136" stroke="#d39cef" stroke-width="4" />
+    <rect id="conv3_pool_rect" class="moduleFill" x="1119" y="155" width="39" height="136" stroke="#79bd45" stroke-width="4" />
+    <text id="conv3_batch_text" class="vtext" fill="#58c7d1" transform="translate(990 223) rotate(-90)">BatchNorm</text>
+    <text id="conv3_conv_text" class="vtext" fill="#ff815b" transform="translate(1040 223) rotate(-90)">Conv</text>
+    <text id="conv3_relu_text" class="vtext" fill="#cf99ed" transform="translate(1090 223) rotate(-90)">ReLU</text>
+    <text id="conv3_pool_text" class="vtext" fill="#76b943" transform="translate(1140 223) rotate(-90)">AvgPooling</text>
+    <path id="conv3_internal_flow_1" class="flow" d="M1008 223 H1019" />
+    <path id="conv3_internal_flow_2" class="flow" d="M1058 223 H1069" />
+    <path id="conv3_internal_flow_3" class="flow" d="M1108 223 H1119" />
+  </g>
+
+  <g id="conv3_branch">
+    <circle id="conv3_tap_circle" cx="1237" cy="223" r="7" fill="#fff" stroke="#222" stroke-width="4" />
+    <path id="arrow_conv3_to_classifier" class="flow" d="M1180 223 H1354" marker-end="url(#arrowBlack)" />
+    <path id="arrow_conv3_tap_to_fop" class="flow" d="M1237 223 V285" marker-end="url(#arrowBlack)" />
+    <rect id="conv3_fop_rect" x="1202" y="285" width="72" height="43" fill="#f7fff8" stroke="#7bdfa4" stroke-width="4" />
+    <text id="conv3_fop_text" class="sans small" x="1238" y="315" fill="#6cdd95" font-weight="700" text-anchor="middle" style="fill:#6cdd95">FOP</text>
+    <path id="arrow_conv3_fop_to_ldc" class="feedback" d="M1237 328 V356 H1175" marker-end="url(#arrowBlack)" />
+    <rect id="conv3_ldc_rect" x="1092" y="335" width="83" height="42" fill="#fff" stroke="#7330a8" stroke-width="4" />
+    <text id="conv3_ldc_text" class="serif math" x="1134" y="363" fill="#7330a8" text-anchor="middle" font-weight="700" font-style="italic" style="fill:#7330a8">
+      L<tspan dy="6" font-size="16">dc</tspan>
+    </text>
+    <path id="arrow_conv3_ldc_to_conv" class="feedback" d="M1092 356 H1061 V310" marker-end="url(#arrowBlack)" />
+  </g>
+
+  
+  <g id="classifier_group">
+    <desc>The Phase 2 classifier contains Flatten, Dropout, and FC modules, followed by the Output expectation label. The center Dropout module has a downward regularization arrow.</desc>
+    <text id="classifier_title" class="sans label" x="1444" y="124" text-anchor="middle">Linear Classifier</text>
+    <rect id="f06" data-plus-kind="frame" x="1355" y="136" width="181" height="174" class="frameStroke" fill="#f2f2f2" />
+    <rect id="clf_flatten_rect" class="moduleFill" x="1375" y="155" width="39" height="136" stroke="#8fb2ff" stroke-width="4" />
+    <rect id="clf_dropout_rect" class="moduleFill" x="1425" y="155" width="39" height="136" stroke="#e8c84e" stroke-width="4" />
+    <rect id="clf_fc_rect" class="moduleFill" x="1475" y="155" width="39" height="136" stroke="#ff7aaa" stroke-width="4" />
+    <text id="clf_flatten_text" class="vtext" fill="#8fb2ff" transform="translate(1396 223) rotate(-90)">Flatten</text>
+    <text id="clf_dropout_text" class="vtext" fill="#e3bc3c" transform="translate(1446 223) rotate(-90)">Dropout</text>
+    <text id="clf_fc_text" class="vtext" fill="#ff6fa8" transform="translate(1496 223) rotate(-90)">FC</text>
+    <path id="classifier_internal_flow_1" class="flow" d="M1414 223 H1425" />
+    <path id="classifier_internal_flow_2" class="flow" d="M1464 223 H1475" />
+    <path id="arrow_classifier_to_output" class="flow" d="M1536 223 H1590" marker-end="url(#arrowBlack)" />
+    <path id="arrow_classifier_dropout_regularization" class="flow" d="M1445 223 V413" marker-end="url(#arrowBlack)" />
+  </g>
+
+  <g id="output_section">
+    <text id="output_label" class="sans label" x="1640" y="216" text-anchor="middle" font-weight="700">Output</text>
+    <text id="output_formula" class="serif math" x="1612" y="242">
+      <tspan>𝔼[</tspan><tspan font-style="italic">Y</tspan><tspan dy="-10" font-size="16">2</tspan><tspan dy="10">]</tspan>
+    </text>
+  </g>
+
+  
+  <g id="bottom_annotations">
+    <desc>Lower annotations specify noisy-sample creation, the combined loss/objective, ED_c and ED_d terms, ED(X), and regularization. These sit below the dotted training frames and align with their associated arrows.</desc>
+
+    <text id="noisy_title" class="sans label" x="298" y="440" text-anchor="middle">Creating noisy samples</text>
+    <g id="noisy_formula_1" class="serif" fill="#000"><text class="serif" font-size="23" x="141" y="467" font-style="italic">X</text><text class="serif" font-size="16" x="157" y="473">i,j</text><text class="serif" font-size="23" x="179" y="467"> = Dropout(</text><text class="serif" font-size="23" x="307" y="467" font-style="italic">X</text><text class="serif" font-size="16" x="322" y="457">′</text><text class="serif" font-size="16" x="329" y="473">i</text><text class="serif" font-size="23" x="337" y="467">), </text><text class="serif" font-size="23" x="362" y="467" font-style="italic">j</text><text class="serif" font-size="23" x="377" y="467"> = 1,2,...,</text><text class="serif" font-size="23" x="466" y="467" font-style="italic">n</text><text class="serif" font-size="23" x="480" y="467">,</text></g><g id="noisy_formula_2" class="serif" fill="#000"><text class="serif" font-size="23" x="240" y="494" font-style="italic">X</text><text class="serif" font-size="23" x="263" y="494">∈</text><text class="serif" font-size="23" x="287" y="494">ℝ</text><text class="serif" font-size="16" x="307" y="482">B×N×F</text></g><g id="loss_formula" class="serif" fill="#000"><text class="serif" font-size="23" x="542" y="463" font-style="italic">L</text><text class="serif" font-size="23" x="562" y="463"> = αED</text><text class="serif" font-size="16" x="643" y="469">c</text><text class="serif" font-size="23" x="656" y="463"> − (1 − α)ED</text><text class="serif" font-size="16" x="754" y="469">d</text></g><path id="ed_terms_brace" d="M796 421 C789 421 789 421 789 429 V488 C789 496 789 496 796 496" fill="none" stroke="#000" stroke-width="2" />
+    <g id="edc_formula" class="serif" fill="#000"><text class="serif" font-size="23" x="806" y="429">ED</text><text class="serif" font-size="16" x="837" y="435">c</text><text class="serif" font-size="23" x="850" y="429"> = </text><text class="serif" font-size="18" x="874" y="418">1</text><line x1="871" y1="423" x2="887" y2="423" stroke="#000" stroke-width="1.5" /><text class="serif" font-size="18" x="874" y="438">B</text><text class="serif" font-size="23" x="893" y="429">Σ</text><text class="serif" font-size="16" x="911" y="435">i</text><text class="serif" font-size="23" x="920" y="429"> ED (</text><text class="serif" font-size="23" x="982" y="429" font-style="italic">X</text><text class="serif" font-size="16" x="998" y="435">i</text><text class="serif" font-size="16" x="1006" y="416">(l)</text><text class="serif" font-size="23" x="1031" y="429">)</text></g><g id="edd_formula" class="serif" fill="#000"><text class="serif" font-size="23" x="806" y="503">ED</text><text class="serif" font-size="16" x="837" y="509">d</text><text class="serif" font-size="23" x="850" y="503"> = ED(𝔼[</text><text class="serif" font-size="23" x="947" y="503" font-style="italic">X</text><text class="serif" font-size="16" x="962" y="490">(l)</text><text class="serif" font-size="23" x="986" y="503">])</text></g><g id="edx_formula" class="serif" fill="#000"><text class="serif" font-size="23" x="1024" y="464">ED(</text><text class="serif" font-size="23" x="1066" y="464" font-style="italic">X</text><text class="serif" font-size="23" x="1083" y="464">) =</text><text class="serif" font-size="20" x="1111" y="454">tr(𝔼[</text><text class="serif" font-size="20" x="1160" y="454" font-style="italic">XX</text><text class="serif" font-size="14" x="1188" y="444">T</text><text class="serif" font-size="20" x="1198" y="454">])</text><text class="serif" font-size="14" x="1225" y="444">2</text></g><line id="edx_fraction_bar" x1="1106" y1="471" x2="1238" y2="471" stroke="#000" stroke-width="2" />
+    <g id="edx_denominator" class="serif" fill="#000"><text class="serif" font-size="18" x="1110" y="491">‖𝔼[</text><text class="serif" font-size="18" x="1152" y="491" font-style="italic">XX</text><text class="serif" font-size="13" x="1178" y="483">T</text><text class="serif" font-size="18" x="1189" y="491">]‖</text><text class="serif" font-size="12" x="1217" y="497">F</text><text class="serif" font-size="13" x="1228" y="483">2</text></g><text id="regularization_text" class="sans label" x="1445" y="440" text-anchor="middle">Regularization</text>
+  </g>
+</svg>

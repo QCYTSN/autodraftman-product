@@ -1,0 +1,239 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="879" height="405" viewBox="0 0 879 405">
+  <title>Encoder architecture diagram</title>
+  <desc>
+    Reconstructed editable SVG of an encoder pipeline. Base frames: left rounded self-attention block, middle rounded transformer block, and dashed legend block. Inside the left block are track tokens arranged by video frames and tracks, with read-out tokens in pink at the right. A dense support-track input slab feeds upward into the self-attention block. The middle transformer block contains cross-attention between pink read-out tokens and blue motion latent tokens plus vertical self-attention. Motion latents are compressed through a labeled arrow into compressed motion latents. Legend maps token styles to meanings.
+  </desc>
+
+  <defs>
+    <marker id="arrow-gray" markerUnits="userSpaceOnUse" markerWidth="18" markerHeight="14" viewBox="0 0 18 14" refX="17" refY="7" orient="auto">
+      <path d="M0,0 L18,7 L0,14 Z" fill="#9fa4a6" id="plus_node_0" />
+    </marker>
+    <marker id="arrow-dark" markerUnits="userSpaceOnUse" markerWidth="10" markerHeight="8" viewBox="0 0 10 8" refX="9" refY="4" orient="auto">
+      <path d="M0,0 L10,4 L0,8 Z" fill="#4a4f52" id="plus_node_1" />
+    </marker>
+    <marker id="arrow-thin" markerUnits="userSpaceOnUse" markerWidth="10" markerHeight="8" viewBox="0 0 10 8" refX="9" refY="4" orient="auto">
+      <path d="M0,0 L10,4 L0,8 Z" fill="#4b4f53" id="plus_node_2" />
+    </marker>
+    <style>
+      .label{font-family:Arial, Helvetica, sans-serif; fill:#42474b;}
+      .small{font-size:12px;}
+      .med{font-size:14px;}
+      .title{font-size:22px;}
+      .blocktitle{font-size:17px;}
+      .tiny{font-size:11px;}
+      .token-stroke{stroke:#4e5960; stroke-width:1.3; stroke-linejoin:round;}
+      .grey-front{fill:#dce1e5;}
+      .grey-top{fill:#eef1f3;}
+      .grey-side{fill:#aeb7bf;}
+      .pink-front{fill:#f3cbd0;}
+      .pink-top{fill:#f8dfe1;}
+      .pink-side{fill:#c8969d;}
+      .blue-front{fill:#aac7ee;}
+      .blue-top{fill:#d3e3fa;}
+      .blue-side{fill:#7193c5;}
+      .dotted{stroke:#40484e; stroke-width:2; stroke-linecap:round; stroke-dasharray:1 7;}
+    </style>
+  </defs>
+
+  <rect id="background" x="0" y="0" width="879" height="405" fill="#ffffff" />
+
+  <text id="main-title" class="label title" x="54" y="55">Encoder</text>
+
+  
+  <rect id="f01" data-plus-kind="frame" x="31" y="102" width="343" height="181" rx="31" ry="31" fill="#fde8ce" stroke="none" />
+  <rect id="f02" data-plus-kind="frame" x="407" y="98" width="183" height="183" rx="31" ry="31" fill="#fde8ce" stroke="none" />
+  <rect id="f03" data-plus-kind="frame" x="427" y="293" width="443" height="90" rx="18" ry="18" fill="none" stroke="#777d82" stroke-width="1.2" stroke-dasharray="4 3" />
+
+  
+  <g id="self-attention-title"><text id="self-attention-title-words" class="label blocktitle" x="111" y="94">Self-attention</text><text id="self-attention-repeat-glyph" x="222" y="99" font-family="Arial, Helvetica, sans-serif" font-size="30" font-weight="700" fill="#42474b">↻</text><text id="self-attention-title-times" class="label blocktitle" x="251" y="94">×N</text></g><g id="transformer-title"><text id="transformer-title-words" class="label blocktitle" x="426" y="92">Transformer</text><text id="transformer-repeat-glyph" x="524" y="97" font-family="Arial, Helvetica, sans-serif" font-size="30" font-weight="700" fill="#42474b">↻</text><text id="transformer-title-times" class="label blocktitle" x="553" y="92">×N</text></g><line id="time-axis-line" x1="52" y1="125" x2="276" y2="125" stroke="#555a5e" stroke-width="1.2" />
+  <text id="time-axis-label" class="label small" x="95" y="118">T: number of video frames</text>
+  <text id="track-axis-label" class="label small" transform="translate(351 149) rotate(90)">N: number of tracks</text>
+
+  
+  <g id="sa-grey-token-r1c1">
+    <polygon class="token-stroke grey-top" points="52,141 59,135 103,135 96,141" id="plus_node_3" />
+    <polygon class="token-stroke grey-front" points="52,141 96,141 96,159 52,159" id="plus_node_4" />
+    <polygon class="token-stroke grey-side" points="96,141 103,135 103,153 96,159" id="plus_node_5" />
+  </g>
+  <g id="sa-grey-token-r1c2">
+    <polygon class="token-stroke grey-top" points="109,141 116,135 160,135 153,141" id="plus_node_6" />
+    <polygon class="token-stroke grey-front" points="109,141 153,141 153,159 109,159" id="plus_node_7" />
+    <polygon class="token-stroke grey-side" points="153,141 160,135 160,153 153,159" id="plus_node_8" />
+  </g>
+  <text id="sa-top-ellipsis-1" class="label med" x="176" y="150">.....</text>
+  <g id="sa-grey-token-r1c3">
+    <polygon class="token-stroke grey-top" points="222,141 229,135 273,135 266,141" id="plus_node_9" />
+    <polygon class="token-stroke grey-front" points="222,141 266,141 266,159 222,159" id="plus_node_10" />
+    <polygon class="token-stroke grey-side" points="266,141 273,135 273,153 266,159" id="plus_node_11" />
+  </g>
+  <g id="sa-pink-token-r1c4">
+    <polygon class="token-stroke pink-top" points="289,141 296,135 340,135 333,141" id="plus_node_12" />
+    <polygon class="token-stroke pink-front" points="289,141 333,141 333,159 289,159" id="plus_node_13" />
+    <polygon class="token-stroke pink-side" points="333,141 340,135 340,153 333,159" id="plus_node_14" />
+  </g>
+
+  <line id="sa-dot-col1" class="dotted" x1="77" y1="172" x2="77" y2="199" />
+  <line id="sa-dot-col2" class="dotted" x1="134" y1="172" x2="134" y2="199" />
+  <line id="sa-dot-col3" class="dotted" x1="248" y1="172" x2="248" y2="199" />
+  <line id="sa-dot-col4" class="dotted" x1="314" y1="172" x2="314" y2="199" />
+
+  <g id="sa-grey-token-r2c1">
+    <polygon class="token-stroke grey-top" points="49,216 56,210 100,210 93,216" id="plus_node_15" />
+    <polygon class="token-stroke grey-front" points="49,216 93,216 93,234 49,234" id="plus_node_16" />
+    <polygon class="token-stroke grey-side" points="93,216 100,210 100,228 93,234" id="plus_node_17" />
+  </g>
+  <g id="sa-grey-token-r2c2">
+    <polygon class="token-stroke grey-top" points="107,216 114,210 158,210 151,216" id="plus_node_18" />
+    <polygon class="token-stroke grey-front" points="107,216 151,216 151,234 107,234" id="plus_node_19" />
+    <polygon class="token-stroke grey-side" points="151,216 158,210 158,228 151,234" id="plus_node_20" />
+  </g>
+  <text id="sa-mid-ellipsis-1" class="label med" x="176" y="225">.....</text>
+  <g id="sa-grey-token-r2c3">
+    <polygon class="token-stroke grey-top" points="220,216 227,210 271,210 264,216" id="plus_node_21" />
+    <polygon class="token-stroke grey-front" points="220,216 264,216 264,234 220,234" id="plus_node_22" />
+    <polygon class="token-stroke grey-side" points="264,216 271,210 271,228 264,234" id="plus_node_23" />
+  </g>
+  <g id="sa-pink-token-r2c4">
+    <polygon class="token-stroke pink-top" points="287,216 294,210 338,210 331,216" id="plus_node_24" />
+    <polygon class="token-stroke pink-front" points="287,216 331,216 331,234 287,234" id="plus_node_25" />
+    <polygon class="token-stroke pink-side" points="331,216 338,210 338,228 331,234" id="plus_node_26" />
+  </g>
+
+  <g id="sa-grey-token-r3c1">
+    <polygon class="token-stroke grey-top" points="49,253 56,247 100,247 93,253" id="plus_node_27" />
+    <polygon class="token-stroke grey-front" points="49,253 93,253 93,271 49,271" id="plus_node_28" />
+    <polygon class="token-stroke grey-side" points="93,253 100,247 100,265 93,271" id="plus_node_29" />
+  </g>
+  <g id="sa-grey-token-r3c2">
+    <polygon class="token-stroke grey-top" points="107,253 114,247 158,247 151,253" id="plus_node_30" />
+    <polygon class="token-stroke grey-front" points="107,253 151,253 151,271 107,271" id="plus_node_31" />
+    <polygon class="token-stroke grey-side" points="151,253 158,247 158,265 151,271" id="plus_node_32" />
+  </g>
+  <text id="sa-bottom-ellipsis-1" class="label med" x="176" y="262">.....</text>
+  <g id="sa-grey-token-r3c3">
+    <polygon class="token-stroke grey-top" points="220,253 227,247 271,247 264,253" id="plus_node_33" />
+    <polygon class="token-stroke grey-front" points="220,253 264,253 264,271 220,271" id="plus_node_34" />
+    <polygon class="token-stroke grey-side" points="264,253 271,247 271,265 264,271" id="plus_node_35" />
+  </g>
+  <g id="sa-pink-token-r3c4">
+    <polygon class="token-stroke pink-top" points="287,253 294,247 338,247 331,253" id="plus_node_36" />
+    <polygon class="token-stroke pink-front" points="287,253 331,253 331,271 287,271" id="plus_node_37" />
+    <polygon class="token-stroke pink-side" points="331,253 338,247 338,265 331,271" id="plus_node_38" />
+  </g>
+
+  
+  <g id="dense-support-input">
+    <polygon id="input-top-face" points="65,312 344,312 307,346 27,346" fill="#e9ecef" stroke="#646b70" stroke-width="1.2" />
+    <polygon id="input-front-face" points="27,346 307,346 307,364 27,364" fill="#d5d9dd" stroke="#646b70" stroke-width="1.2" />
+    <polygon id="input-side-face" points="344,312 344,329 307,364 307,346" fill="#bfc5cb" stroke="#646b70" stroke-width="1.2" />
+    <text id="input-label" class="label small" x="61" y="335">Input: dense set of “support” tracks from video</text>
+    <text id="input-t-label" class="label small" x="110" y="381">T: number of video frames</text>
+    <text id="input-n-label" class="label small" x="331" y="354">N tracks</text>
+    <text id="input-xyz-label" class="label tiny" x="348" y="323">x, y, occlusion</text>
+  </g>
+  <line id="encode-arrow" x1="167" y1="312" x2="167" y2="285" stroke="#555a5e" stroke-width="1.3" marker-end="url(#arrow-thin)" />
+  <text id="encode-label" class="label small" x="175" y="302">Encode</text>
+
+  
+  <polygon id="arrow-sa-to-transformer" points="376,170 392,170 392,158 408,193 392,227 392,216 376,216" fill="#a7acad" />
+
+  
+  <text id="cross-attention-label" class="label small" x="450" y="111">Cross-attention</text>
+  <line id="cross-attention-left-arrow" x1="494" y1="120" x2="440" y2="127" stroke="#4b4f53" stroke-width="1.1" marker-end="url(#arrow-dark)" />
+  <line id="cross-attention-right-arrow" x1="494" y1="120" x2="547" y2="127" stroke="#4b4f53" stroke-width="1.1" marker-end="url(#arrow-dark)" />
+  <text id="transformer-self-attention-label" class="label small" transform="translate(575 152) rotate(90)">Self-attention</text>
+  <path id="transformer-self-arrow" d="M566 194 C570 181 569 168 557 158" fill="none" stroke="#4b4f53" stroke-width="1.1" stroke-linecap="round" marker-end="url(#arrow-dark)" /><g id="tf-pink-token-top">
+    <polygon class="token-stroke pink-top" points="424,141 431,135 475,135 468,141" id="plus_node_39" />
+    <polygon class="token-stroke pink-front" points="424,141 468,141 468,159 424,159" id="plus_node_40" />
+    <polygon class="token-stroke pink-side" points="468,141 475,135 475,153 468,159" id="plus_node_41" />
+  </g>
+  <line id="tf-left-dots-1" class="dotted" x1="449" y1="171" x2="449" y2="204" />
+  <g id="tf-pink-token-mid">
+    <polygon class="token-stroke pink-top" points="421,216 428,210 472,210 465,216" id="plus_node_42" />
+    <polygon class="token-stroke pink-front" points="421,216 465,216 465,234 421,234" id="plus_node_43" />
+    <polygon class="token-stroke pink-side" points="465,216 472,210 472,228 465,234" id="plus_node_44" />
+  </g>
+  <g id="tf-pink-token-bottom">
+    <polygon class="token-stroke pink-top" points="421,253 428,247 472,247 465,253" id="plus_node_45" />
+    <polygon class="token-stroke pink-front" points="421,253 465,253 465,271 421,271" id="plus_node_46" />
+    <polygon class="token-stroke pink-side" points="465,253 472,247 472,265 465,271" id="plus_node_47" />
+  </g>
+
+  <g id="tf-blue-token-top">
+    <polygon class="token-stroke blue-top" points="504,159 511,153 555,153 548,159" id="plus_node_48" />
+    <polygon class="token-stroke blue-front" points="504,159 548,159 548,177 504,177" id="plus_node_49" />
+    <polygon class="token-stroke blue-side" points="548,159 555,153 555,171 548,177" id="plus_node_50" />
+  </g>
+  <line id="tf-blue-dots-1" class="dotted" x1="529" y1="190" x2="529" y2="217" />
+  <g id="tf-blue-token-bottom">
+    <polygon class="token-stroke blue-top" points="501,229 508,223 552,223 545,229" id="plus_node_51" />
+    <polygon class="token-stroke blue-front" points="501,229 545,229 545,247 501,247" id="plus_node_52" />
+    <polygon class="token-stroke blue-side" points="545,229 552,223 552,241 545,247" id="plus_node_53" />
+  </g>
+
+  
+  <polygon id="arrow-transformer-to-latents" points="592,170 609,170 609,158 625,193 609,227 609,216 592,216" fill="#a7acad" />
+
+  
+  <text id="motion-latents-label" class="label med" x="617" y="127">Motion latents</text>
+  <g id="motion-latent-top">
+    <polygon class="token-stroke blue-top" points="635,158 642,152 686,152 679,158" id="plus_node_54" />
+    <polygon class="token-stroke blue-front" points="635,158 679,158 679,176 635,176" id="plus_node_55" />
+    <polygon class="token-stroke blue-side" points="679,158 686,152 686,170 679,176" id="plus_node_56" />
+  </g>
+  <line id="motion-latent-dots" class="dotted" x1="659" y1="190" x2="659" y2="215" />
+  <g id="motion-latent-bottom">
+    <polygon class="token-stroke blue-top" points="632,229 639,223 683,223 676,229" id="plus_node_57" />
+    <polygon class="token-stroke blue-front" points="632,229 676,229 676,247 632,247" id="plus_node_58" />
+    <polygon class="token-stroke blue-side" points="676,229 683,223 683,241 676,247" id="plus_node_59" />
+  </g>
+
+  
+  <polygon id="compress-arrow" points="704,178 768,178 768,169 795,194 768,220 768,209 704,209" fill="#9ea3a5" />
+  <rect id="compress-label-bg" x="705" y="181" width="65" height="28" fill="#595d60" />
+  <text id="compress-label" class="label small" x="718" y="199" fill="#111111">Compress</text>
+
+  
+  <text id="compressed-label-1" class="label med" x="773" y="118">Compressed</text>
+  <text id="compressed-label-2" class="label med" x="769" y="135">motion latents</text>
+  <g id="compressed-latent-top">
+    <polygon class="token-stroke blue-top" points="808,158 814,152 830,152 824,158" id="plus_node_60" />
+    <polygon class="token-stroke blue-front" points="808,158 824,158 824,177 808,177" id="plus_node_61" />
+    <polygon class="token-stroke blue-side" points="824,158 830,152 830,171 824,177" id="plus_node_62" />
+  </g>
+  <line id="compressed-latent-dots" class="dotted" x1="817" y1="190" x2="817" y2="215" />
+  <g id="compressed-latent-bottom">
+    <polygon class="token-stroke blue-top" points="806,230 812,224 828,224 822,230" id="plus_node_63" />
+    <polygon class="token-stroke blue-front" points="806,230 822,230 822,249 806,249" id="plus_node_64" />
+    <polygon class="token-stroke blue-side" points="822,230 828,224 828,243 822,249" id="plus_node_65" />
+  </g>
+
+  
+  <g id="legend-track-token">
+    <polygon class="token-stroke grey-top" points="442,313 449,307 493,307 486,313" id="plus_node_66" />
+    <polygon class="token-stroke grey-front" points="442,313 486,313 486,331 442,331" id="plus_node_67" />
+    <polygon class="token-stroke grey-side" points="486,313 493,307 493,325 486,331" id="plus_node_68" />
+  </g>
+  <text id="legend-track-label" class="label small" x="497" y="324">Track tokens, one per point</text>
+
+  <g id="legend-motion-token">
+    <polygon class="token-stroke blue-top" points="664,313 671,307 715,307 708,313" id="plus_node_69" />
+    <polygon class="token-stroke blue-front" points="664,313 708,313 708,331 664,331" id="plus_node_70" />
+    <polygon class="token-stroke blue-side" points="708,313 715,307 715,325 708,331" id="plus_node_71" />
+  </g>
+  <text id="legend-motion-label" class="label small" x="720" y="324">Motion latents</text>
+
+  <g id="legend-readout-token">
+    <polygon class="token-stroke pink-top" points="442,350 449,344 493,344 486,350" id="plus_node_72" />
+    <polygon class="token-stroke pink-front" points="442,350 486,350 486,368 442,368" id="plus_node_73" />
+    <polygon class="token-stroke pink-side" points="486,350 493,344 493,362 486,368" id="plus_node_74" />
+  </g>
+  <text id="legend-readout-label" class="label small" x="497" y="360">Read-out tokens, one per track</text>
+
+  <g id="legend-compressed-token">
+    <polygon class="token-stroke blue-top" points="674,344 680,338 696,338 690,344" id="plus_node_75" />
+    <polygon class="token-stroke blue-front" points="674,344 690,344 690,365 674,365" id="plus_node_76" />
+    <polygon class="token-stroke blue-side" points="690,344 696,338 696,359 690,365" id="plus_node_77" />
+  </g>
+  <text id="legend-compressed-label" class="label small" x="720" y="360">Compressed motion latents</text>
+</svg>

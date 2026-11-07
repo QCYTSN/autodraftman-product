@@ -1,0 +1,146 @@
+<svg width="3531" height="3840" viewBox="0 0 3531 3840" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <pattern id="diagBlue" patternUnits="userSpaceOnUse" width="52" height="52" patternTransform="rotate(45)">
+      <line x1="0" y1="0" x2="0" y2="52" stroke="#e8f2ff" stroke-width="8"/>
+    </pattern>
+    <marker id="arrowBlack" markerWidth="18" markerHeight="18" refX="15" refY="9" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L18,9 L0,18 Z" fill="#000"/>
+    </marker>
+    <marker id="arrowBlue" markerWidth="18" markerHeight="18" refX="15" refY="9" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L18,9 L0,18 Z" fill="#6f98cf"/>
+    </marker>
+    <marker id="arrowOrange" markerWidth="18" markerHeight="18" refX="15" refY="9" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L18,9 L0,18 Z" fill="#df9a00"/>
+    </marker>
+    <marker id="arrowGreen" markerWidth="18" markerHeight="18" refX="15" refY="9" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L18,9 L0,18 Z" fill="#79ad69"/>
+    </marker>
+    <style>
+      .txt{font-family:Arial, Helvetica, sans-serif;fill:#000;text-anchor:middle;dominant-baseline:middle;font-weight:400}
+      .label{font-size:96px}
+      .big{font-size:105px}
+      .celltxt{font-size:94px}
+      .layer{font-size:100px}
+    </style>
+  </defs>
+
+  <rect width="3531" height="3840" fill="#fff"/>
+
+  <!-- top left KV cache -->
+  <rect x="376" y="160" width="236" height="220" rx="27" fill="url(#diagBlue)" stroke="#7ba0d0" stroke-width="6"/>
+  <text class="txt celltxt" x="494" y="270">C1</text>
+  <text class="txt label" x="494" y="487">KV-Cache</text>
+
+  <!-- top middle KV cache -->
+  <rect x="1410" y="160" width="236" height="220" rx="27" fill="url(#diagBlue)" stroke="#7199c9" stroke-width="6" stroke-dasharray="22 20"/>
+  <rect x="1652" y="160" width="236" height="220" rx="27" fill="#fff" stroke="#dd9a00" stroke-width="6"/>
+  <text class="txt celltxt" x="1528" y="270">C1</text>
+  <text class="txt celltxt" x="1770" y="270">C2</text>
+  <line x1="1382" y1="436" x2="1714" y2="104" stroke="#000" stroke-width="6"/>
+  <text class="txt label" x="1649" y="487">KV-Cache</text>
+
+  <!-- top right KV cache -->
+  <rect x="2562" y="160" width="236" height="220" rx="27" fill="url(#diagBlue)" stroke="#7199c9" stroke-width="6" stroke-dasharray="22 20"/>
+  <rect x="2804" y="160" width="236" height="220" rx="27" fill="url(#diagBlue)" stroke="#7aad70" stroke-width="6"/>
+  <text class="txt celltxt" x="2680" y="270">C1</text>
+  <text class="txt celltxt" x="2922" y="270">C3</text>
+  <line x1="2535" y1="436" x2="2867" y2="104" stroke="#000" stroke-width="6"/>
+  <text class="txt label" x="2800" y="487">KV-Cache</text>
+
+  <!-- Host 1 -->
+  <g>
+    <line x1="494" y1="775" x2="494" y2="592" stroke="#000" stroke-width="7" marker-end="url(#arrowBlack)"/>
+    <rect x="158" y="775" width="670" height="1064" rx="88" fill="#f3f3f3" stroke="#777" stroke-width="6"/>
+    <rect x="226" y="842" width="536" height="200" rx="20" fill="#fff" stroke="#000" stroke-width="6"/>
+    <text class="txt layer" x="494" y="942">Layer N</text>
+    <circle cx="494" cy="1062" r="6" fill="#000"/>
+    <circle cx="494" cy="1114" r="6" fill="#000"/>
+    <circle cx="494" cy="1166" r="6" fill="#000"/>
+    <rect x="226" y="1244" width="536" height="200" rx="20" fill="#fff" stroke="#000" stroke-width="6"/>
+    <text class="txt layer" x="494" y="1344">Layer 2</text>
+    <line x1="494" y1="1573" x2="494" y2="1447" stroke="#000" stroke-width="7" marker-end="url(#arrowBlack)"/>
+    <rect x="226" y="1574" width="536" height="200" rx="20" fill="#fff" stroke="#000" stroke-width="6"/>
+    <text class="txt layer" x="494" y="1674">Layer 1</text>
+    <text class="txt label" x="494" y="1947">Host 1</text>
+  </g>
+
+  <!-- Host 2 -->
+  <g>
+    <line x1="1660" y1="775" x2="1660" y2="592" stroke="#000" stroke-width="7" marker-end="url(#arrowBlack)"/>
+    <rect x="1324" y="775" width="670" height="1064" rx="88" fill="#f3f3f3" stroke="#777" stroke-width="6"/>
+    <rect x="1392" y="842" width="536" height="200" rx="20" fill="#fff" stroke="#000" stroke-width="6"/>
+    <text class="txt layer" x="1660" y="942">Layer N</text>
+    <circle cx="1660" cy="1062" r="6" fill="#000"/>
+    <circle cx="1660" cy="1114" r="6" fill="#000"/>
+    <circle cx="1660" cy="1166" r="6" fill="#000"/>
+    <rect x="1392" y="1244" width="536" height="200" rx="20" fill="#fff" stroke="#000" stroke-width="6"/>
+    <text class="txt layer" x="1660" y="1344">Layer 2</text>
+    <line x1="1660" y1="1573" x2="1660" y2="1447" stroke="#000" stroke-width="7" marker-end="url(#arrowBlack)"/>
+    <rect x="1392" y="1574" width="536" height="200" rx="20" fill="#fff" stroke="#000" stroke-width="6"/>
+    <text class="txt layer" x="1660" y="1674">Layer 1</text>
+    <text class="txt label" x="1660" y="1947">Host 2</text>
+  </g>
+
+  <!-- Host 3 -->
+  <g>
+    <line x1="2758" y1="775" x2="2758" y2="592" stroke="#000" stroke-width="7" marker-end="url(#arrowBlack)"/>
+    <rect x="2422" y="775" width="670" height="1064" rx="88" fill="#f3f3f3" stroke="#777" stroke-width="6"/>
+    <rect x="2490" y="842" width="536" height="200" rx="20" fill="#fff" stroke="#000" stroke-width="6"/>
+    <text class="txt layer" x="2758" y="942">Layer N</text>
+    <circle cx="2758" cy="1062" r="6" fill="#000"/>
+    <circle cx="2758" cy="1114" r="6" fill="#000"/>
+    <circle cx="2758" cy="1166" r="6" fill="#000"/>
+    <rect x="2490" y="1244" width="536" height="200" rx="20" fill="#fff" stroke="#000" stroke-width="6"/>
+    <text class="txt layer" x="2758" y="1344">Layer 2</text>
+    <line x1="2758" y1="1573" x2="2758" y2="1447" stroke="#000" stroke-width="7" marker-end="url(#arrowBlack)"/>
+    <rect x="2490" y="1574" width="536" height="200" rx="20" fill="#fff" stroke="#000" stroke-width="6"/>
+    <text class="txt layer" x="2758" y="1674">Layer 1</text>
+    <text class="txt label" x="2758" y="1947">Host 3</text>
+  </g>
+
+  <!-- arrows from chunks to hosts -->
+  <line x1="494" y1="2270" x2="494" y2="2080" stroke="#000" stroke-width="7" marker-end="url(#arrowBlack)"/>
+  <line x1="1660" y1="2270" x2="1660" y2="2080" stroke="#000" stroke-width="7" marker-end="url(#arrowBlack)"/>
+  <line x1="2758" y1="2270" x2="2758" y2="2080" stroke="#000" stroke-width="7" marker-end="url(#arrowBlack)"/>
+
+  <!-- middle row chunks and anchors -->
+  <rect x="300" y="2358" width="385" height="239" rx="26" fill="#d7e6fb" stroke="#7aa0d0" stroke-width="6"/>
+  <text class="txt celltxt" x="493" y="2478">C1</text>
+
+  <rect x="1272" y="2341" width="383" height="239" rx="26" fill="url(#diagBlue)" stroke="#7199c9" stroke-width="6" stroke-dasharray="22 20"/>
+  <rect x="1650" y="2341" width="383" height="239" rx="26" fill="#fde6ca" stroke="#de9a00" stroke-width="6"/>
+  <text class="txt celltxt" x="1464" y="2460">C1</text>
+  <text class="txt celltxt" x="1842" y="2460">C2</text>
+  <text class="txt label" x="1463" y="2691">Anchor</text>
+
+  <rect x="2370" y="2341" width="383" height="239" rx="26" fill="url(#diagBlue)" stroke="#7199c9" stroke-width="6" stroke-dasharray="22 20"/>
+  <rect x="2749" y="2341" width="383" height="239" rx="26" fill="#d7ead4" stroke="#76ad66" stroke-width="6"/>
+  <text class="txt celltxt" x="2562" y="2460">C1</text>
+  <text class="txt celltxt" x="2941" y="2460">C3</text>
+  <text class="txt label" x="2563" y="2691">Anchor</text>
+
+  <!-- arrows from context toward chunks/anchors -->
+  <line x1="1294" y1="3139" x2="633" y2="2748" stroke="#6f98cf" stroke-width="6" marker-end="url(#arrowBlue)"/>
+  <line x1="1338" y1="3138" x2="1425" y2="2796" stroke="#6f98cf" stroke-width="6" stroke-dasharray="18 20" marker-end="url(#arrowBlue)"/>
+  <line x1="1425" y1="3139" x2="2376" y2="2764" stroke="#6f98cf" stroke-width="6" stroke-dasharray="18 20" marker-end="url(#arrowBlue)"/>
+  <line x1="1692" y1="3137" x2="1779" y2="2698" stroke="#df9a00" stroke-width="6" marker-end="url(#arrowOrange)"/>
+  <line x1="2185" y1="3154" x2="2828" y2="2778" stroke="#79ad69" stroke-width="6" marker-end="url(#arrowGreen)"/>
+
+  <!-- braces above context -->
+  <path d="M1158 3267 C1158 3235 1179 3222 1216 3222 L1273 3222 C1312 3222 1326 3190 1326 3190 C1326 3190 1341 3222 1380 3222 L1440 3222 C1477 3222 1498 3235 1498 3267" fill="none" stroke="#9b9b9b" stroke-width="6" stroke-linecap="round"/>
+  <path d="M1543 3267 C1543 3235 1564 3222 1601 3222 L1658 3222 C1697 3222 1712 3190 1712 3190 C1712 3190 1727 3222 1766 3222 L1826 3222 C1863 3222 1884 3235 1884 3267" fill="none" stroke="#9b9b9b" stroke-width="6" stroke-linecap="round"/>
+  <path d="M1928 3267 C1928 3235 1949 3222 1986 3222 L2043 3222 C2082 3222 2097 3190 2097 3190 C2097 3190 2112 3222 2151 3222 L2211 3222 C2248 3222 2269 3235 2269 3267" fill="none" stroke="#9b9b9b" stroke-width="6" stroke-linecap="round"/>
+
+  <!-- context chunks -->
+  <rect x="1146" y="3315" width="385" height="239" rx="26" fill="#d7e6fb" stroke="#7aa0d0" stroke-width="6"/>
+  <rect x="1529" y="3315" width="385" height="239" rx="26" fill="#fde6ca" stroke="#de9a00" stroke-width="6"/>
+  <rect x="1912" y="3315" width="385" height="239" rx="26" fill="#d7ead4" stroke="#76ad66" stroke-width="6"/>
+  <text class="txt celltxt" x="1339" y="3434">C1</text>
+  <text class="txt celltxt" x="1722" y="3434">C2</text>
+  <text class="txt celltxt" x="2105" y="3434">C3</text>
+  <text class="txt label" x="1722" y="3679">Context</text>
+
+  <!-- query dashed box -->
+  <rect x="2958" y="3339" width="399" height="232" rx="28" fill="#fff" stroke="#666" stroke-width="6" stroke-dasharray="17 18"/>
+  <text class="txt label" x="3158" y="3457">Query</text>
+</svg>

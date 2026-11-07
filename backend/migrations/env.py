@@ -14,6 +14,7 @@ from autodraftman_backend.modules.credits import models as credit_models  # noqa
 from autodraftman_backend.modules.drafts import models as draft_models  # noqa: F401
 from autodraftman_backend.modules.feedback import models as feedback_models  # noqa: F401
 from autodraftman_backend.modules.identity import models as identity_models  # noqa: F401
+from autodraftman_backend.modules.internal_access import models as internal_models  # noqa: F401
 
 config = context.config
 

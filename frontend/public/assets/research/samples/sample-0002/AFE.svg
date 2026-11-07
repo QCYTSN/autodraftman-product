@@ -1,0 +1,394 @@
+<svg width="3840" height="1807" viewBox="0 0 3840 1807" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 Z" fill="#000"/>
+    </marker>
+    <marker id="arrowRed" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto">
+      <path d="M0,0 L10,5 L0,10 Z" fill="#ff3333"/>
+    </marker>
+    <marker id="arrowBlue" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto">
+      <path d="M0,0 L10,5 L0,10 Z" fill="#3b77cf"/>
+    </marker>
+    <filter id="shadow" x="-10%" y="-10%" width="130%" height="130%">
+      <feDropShadow dx="8" dy="8" stdDeviation="6" flood-color="#777" flood-opacity=".45"/>
+    </filter>
+    <style>
+      .serif{font-family:"Times New Roman",Times,serif}
+      .sans{font-family:Arial,Helvetica,sans-serif}
+      .math{font-family:"Times New Roman",Times,serif;font-style:italic}
+      .lbl{font-family:Arial,Helvetica,sans-serif;font-weight:700}
+      .blk{fill:#d9e4f6}
+      .stage{fill:#fde6d8}
+      .panelA{fill:#f6fbff;stroke:#b7d9a1;stroke-width:5}
+      .panelB{fill:#edf7e8;stroke:#edf7e8;stroke-width:5}
+      .panelC{fill:#fff4d8;stroke:#fff4d8;stroke-width:5}
+      .line{stroke:#000;stroke-width:7;fill:none;marker-end:url(#arrow)}
+      .thin{stroke:#000;stroke-width:5;fill:none;marker-end:url(#arrow)}
+      .dashred{stroke:#ff3434;stroke-width:6;stroke-dasharray:10 8;fill:none;marker-end:url(#arrowRed);opacity:.85}
+      .bluepts{fill:#2438f4;opacity:.65}
+      .pcbox{fill:#fff;stroke:#000;stroke-width:6}
+      .circleY{fill:#fee89b;stroke:#1f2b35;stroke-width:5}
+      .circleG{fill:#9dcb88;stroke:#1f2b35;stroke-width:5}
+      .circleO{fill:#f3ad7b;stroke:#1f2b35;stroke-width:5}
+      .circleB{fill:#a7c8df;stroke:#1f2b35;stroke-width:5}
+      .diamondY{fill:#ffd85a;stroke:#24476c;stroke-width:5}
+      .diamondG{fill:#9bd087;stroke:#24476c;stroke-width:5}
+      .diamondO{fill:#f2ad7b;stroke:#24476c;stroke-width:5}
+      .diamondB{fill:#94bfe0;stroke:#24476c;stroke-width:5}
+    </style>
+    <clipPath id="clipP1"><rect x="430" y="110" width="380" height="290"/></clipPath>
+    <clipPath id="clipP2"><rect x="2130" y="118" width="380" height="290"/></clipPath>
+  </defs>
+
+  <rect width="3840" height="1807" fill="#fff"/>
+
+  <!-- Top point cloud P_{t-1} -->
+  <text x="288" y="256" class="math" font-size="58">P<tspan baseline-shift="sub" font-size="38">t−1</tspan></text>
+  <rect x="430" y="110" width="380" height="290" class="pcbox"/>
+  <g clip-path="url(#clipP1)">
+    <g class="bluepts">
+      <circle cx="463" cy="132" r="3"/><circle cx="472" cy="121" r="3"/><circle cx="482" cy="138" r="3"/><circle cx="490" cy="153" r="3"/>
+      <circle cx="546" cy="190" r="3"/><circle cx="557" cy="212" r="3"/><circle cx="580" cy="208" r="3"/><circle cx="604" cy="198" r="3"/>
+      <circle cx="618" cy="230" r="3"/><circle cx="638" cy="255" r="3"/><circle cx="660" cy="252" r="3"/><circle cx="680" cy="240" r="3"/>
+      <circle cx="690" cy="201" r="3"/><circle cx="705" cy="220" r="3"/><circle cx="720" cy="248" r="3"/><circle cx="735" cy="265" r="3"/>
+      <circle cx="515" cy="338" r="3"/><circle cx="533" cy="350" r="3"/><circle cx="558" cy="352" r="3"/><circle cx="586" cy="360" r="3"/>
+      <circle cx="610" cy="368" r="3"/><circle cx="645" cy="357" r="3"/><circle cx="672" cy="368" r="3"/><circle cx="710" cy="380" r="3"/>
+      <circle cx="756" cy="364" r="3"/><circle cx="770" cy="376" r="3"/>
+      <circle cx="625" cy="174" r="3"/><circle cx="646" cy="173" r="3"/><circle cx="666" cy="179" r="3"/><circle cx="685" cy="184" r="3"/>
+      <circle cx="662" cy="215" r="3"/><circle cx="674" cy="229" r="3"/><circle cx="691" cy="242" r="3"/><circle cx="702" cy="257" r="3"/>
+      <circle cx="615" cy="286" r="3"/><circle cx="640" cy="292" r="3"/><circle cx="660" cy="297" r="3"/><circle cx="690" cy="300" r="3"/>
+    </g>
+    <path d="M484 120 C470 160 465 185 463 238 M540 130 C545 180 548 230 548 282 M610 128 C613 176 612 236 616 296 M654 125 C660 175 662 235 668 305 M698 124 C701 175 700 236 706 318 M740 126 C744 180 748 240 758 330" stroke="#2438f4" stroke-width="3" stroke-dasharray="9 7" opacity=".55" fill="none"/>
+    <path d="M505 196 C575 190 640 198 715 182 M507 344 C580 370 672 348 780 385" stroke="#2438f4" stroke-width="3" stroke-dasharray="8 8" opacity=".5" fill="none"/>
+  </g>
+
+  <rect x="910" y="168" width="230" height="175" rx="28" fill="#f7f5ed" stroke="#314863" stroke-width="5"/>
+  <text x="1025" y="248" text-anchor="middle" class="serif" font-size="54">Voxel</text>
+  <text x="1025" y="315" text-anchor="middle" class="serif" font-size="54">Net</text>
+  <path d="M810 255 L907 255" class="line"/>
+  <path d="M1140 255 L1211 255" class="line"/>
+
+  <!-- cube F_t-1 -->
+  <text x="1278" y="190" class="math" font-size="58">F<tspan baseline-shift="sub" font-size="38">t−1</tspan></text>
+  <g transform="translate(1206 235)">
+    <polygon points="0,45 180,45 230,0 50,0" fill="#dfeefa" stroke="#2b4058" stroke-width="4"/>
+    <polygon points="180,45 230,0 230,78 180,125" fill="#9fb9cf" stroke="#2b4058" stroke-width="4"/>
+    <polygon points="0,45 180,45 180,125 0,125" fill="#cfe1ee" stroke="#2b4058" stroke-width="4"/>
+    <g stroke="#2b4058" stroke-width="3">
+      <path d="M36 45 L86 0 M72 45 L122 0 M108 45 L158 0 M144 45 L194 0"/>
+      <path d="M0 65 L180 65 M0 85 L180 85 M0 105 L180 105"/>
+      <path d="M36 45 L36 125 M72 45 L72 125 M108 45 L108 125 M144 45 L144 125"/>
+      <path d="M180 65 L230 18 M180 85 L230 38 M180 105 L230 58"/>
+      <path d="M194 34 L194 111 M208 21 L208 97 M222 8 L222 84"/>
+    </g>
+  </g>
+
+  <!-- panel A -->
+  <rect x="177" y="420" width="1732" height="671" rx="50" class="panelA" filter="url(#shadow)"/>
+  <rect x="580" y="455" width="1094" height="545" fill="#fff1c6" stroke="#e7edf8" stroke-width="5"/>
+
+  <!-- coordinate cuboid -->
+  <g transform="translate(250 535)">
+    <polygon points="0,30 35,0 195,0 160,30" fill="#e9edf6" stroke="#24334a" stroke-width="4"/>
+    <polygon points="0,30 160,30 160,130 0,130" fill="#d7dce7" stroke="#24334a" stroke-width="4"/>
+    <polygon points="160,30 195,0 195,100 160,130" fill="#b9c0cf" stroke="#24334a" stroke-width="4"/>
+    <path d="M78 70 L184 70" stroke="#e22" stroke-width="5"/>
+    <path d="M78 70 L78 -50" stroke="#5f8f2b" stroke-width="5"/>
+    <path d="M78 70 L180 -20" stroke="#334dff" stroke-width="5"/>
+    <text x="195" y="125" class="serif" font-size="50">x</text>
+    <text x="195" y="-10" class="serif" font-size="50">y</text>
+    <text x="88" y="-62" class="serif" font-size="50">z</text>
+    <text x="35" y="190" class="math" font-size="58">B<tspan baseline-shift="sub" font-size="36">t−1</tspan></text>
+  </g>
+  <path d="M495 542 L632 542" stroke="#b7d999" stroke-width="12" fill="none" marker-end="url(#arrowBlue)" opacity=".75"/>
+
+  <!-- voxel R cube in A -->
+  <text x="613" y="548" class="math" font-size="56">n<tspan baseline-shift="sub" font-size="36">y</tspan></text>
+  <text x="738" y="510" class="math" font-size="56">n<tspan baseline-shift="sub" font-size="36">x</tspan></text>
+  <text x="862" y="610" class="math" font-size="56">n<tspan baseline-shift="sub" font-size="36">z</tspan></text>
+  <g transform="translate(665 535)">
+    <polygon points="0,40 35,0 160,0 125,40" fill="#ffe374" stroke="#35485c" stroke-width="5"/>
+    <polygon points="0,40 125,40 125,145 0,145" fill="#ffd75c" stroke="#35485c" stroke-width="5"/>
+    <polygon points="125,40 160,0 160,105 125,145" fill="#e6bc42" stroke="#35485c" stroke-width="5"/>
+    <g stroke="#35485c" stroke-width="4">
+      <path d="M42 40 L42 145 M84 40 L84 145 M0 75 L125 75 M0 110 L125 110"/>
+      <path d="M125 75 L160 35 M125 110 L160 70"/>
+    </g>
+    <g fill="#8fb6d0" stroke="#35485c" stroke-width="4">
+      <circle cx="32" cy="70" r="7"/><circle cx="78" cy="70" r="7"/><circle cx="108" cy="70" r="7"/>
+      <circle cx="32" cy="118" r="7"/><circle cx="78" cy="118" r="7"/><circle cx="108" cy="118" r="7"/>
+    </g>
+  </g>
+  <text x="745" y="733" class="math" font-size="58">R<tspan baseline-shift="sub" font-size="36">t−1</tspan></text>
+
+  <!-- A main arrows/circles -->
+  <g>
+    <circle cx="215" cy="797" r="34" class="circleY"/><circle cx="306" cy="797" r="34" class="circleG"/><circle cx="392" cy="797" r="34" class="circleO"/><circle cx="481" cy="797" r="34" class="circleB"/>
+    <text x="305" y="898" text-anchor="middle" class="math" font-size="60">Q<tspan baseline-shift="super" font-size="38">0</tspan></text>
+    <path d="M515 797 L725 797" class="line"/>
+    <circle cx="740" cy="797" r="18" fill="none" stroke="#1d2b38" stroke-width="4"/>
+    <path d="M740 775 L740 820 M716 797 L764 797" stroke="#1d2b38" stroke-width="4"/>
+    <path d="M740 797 L935 797" class="line"/>
+    <path d="M740 680 L740 777" class="thin"/>
+    <path d="M1312 360 L1312 605" class="line"/>
+  </g>
+
+  <!-- layers -->
+  <text x="1360" y="530" class="serif" font-size="58">× <tspan font-style="italic">L</tspan> layers</text>
+  <g>
+    <rect x="937" y="620" width="185" height="350" rx="36" class="blk"/>
+    <text x="1040" y="705" class="serif" font-size="48" transform="rotate(90 1040 705)">Self</text>
+    <text x="985" y="700" class="serif" font-size="48" transform="rotate(90 985 700)">Attention</text>
+    <path d="M1122 797 L1216 797" class="line"/>
+    <rect x="1220" y="620" width="185" height="350" rx="36" class="blk"/>
+    <text x="1323" y="685" class="serif" font-size="48" transform="rotate(90 1323 685)">Cross</text>
+    <text x="1268" y="700" class="serif" font-size="48" transform="rotate(90 1268 700)">Attention</text>
+    <path d="M1405 797 L1482 797" class="line"/>
+    <rect x="1482" y="621" width="150" height="349" rx="28" fill="#f0f0f0"/>
+    <text x="1575" y="748" class="serif" font-size="52" transform="rotate(90 1575 748)">FFN</text>
+    <path d="M1632 797 L1742 797" class="line"/>
+  </g>
+
+  <!-- top right of A output keypoints -->
+  <g>
+    <circle cx="1784" cy="674" r="34" class="circleY"/><circle cx="1784" cy="763" r="34" class="circleG"/><circle cx="1784" cy="852" r="34" class="circleO"/><circle cx="1784" cy="941" r="34" class="circleB"/>
+    <text x="1727" y="1030" class="math" font-size="58">F<tspan baseline-shift="sub" font-size="36">t−1</tspan><tspan baseline-shift="super" font-size="36">kpt</tspan></text>
+    <path d="M1785 624 C1738 515 1660 335 1595 230" class="dashred"/>
+    <path d="M1785 624 C1790 475 1784 330 1747 224" class="dashred"/>
+    <path d="M1785 624 C1850 475 1886 335 1902 225" class="dashred"/>
+    <path d="M1785 624 C1832 520 1888 410 1922 350" class="dashred"/>
+    <g>
+      <path d="M1600 205 C1660 210 1720 195 1780 205 M1660 165 C1690 250 1698 330 1695 388 M1768 158 C1785 245 1810 328 1810 390 M1880 160 C1892 235 1908 315 1902 385" stroke="#2438f4" stroke-width="4" stroke-dasharray="10 8" fill="none" opacity=".65"/>
+      <g class="bluepts">
+        <circle cx="1615" cy="210" r="4"/><circle cx="1640" cy="205" r="4"/><circle cx="1682" cy="194" r="4"/><circle cx="1725" cy="203" r="4"/>
+        <circle cx="1785" cy="198" r="4"/><circle cx="1830" cy="204" r="4"/><circle cx="1882" cy="215" r="4"/>
+        <circle cx="1715" cy="276" r="4"/><circle cx="1748" cy="308" r="4"/><circle cx="1785" cy="344" r="4"/><circle cx="1830" cy="315" r="4"/><circle cx="1888" cy="350" r="4"/>
+        <circle cx="1905" cy="305" r="4"/><circle cx="1917" cy="278" r="4"/><circle cx="1860" cy="260" r="4"/>
+      </g>
+      <rect x="1574" y="204" width="28" height="28" transform="rotate(45 1588 218)" class="diamondY"/>
+      <rect x="1738" y="204" width="28" height="28" transform="rotate(45 1752 218)" class="diamondG"/>
+      <rect x="1903" y="205" width="28" height="28" transform="rotate(45 1917 219)" class="diamondO"/>
+      <rect x="1898" y="331" width="28" height="28" transform="rotate(45 1912 345)" class="diamondB"/>
+    </g>
+    <text x="1725" y="160" class="math" font-size="58">R<tspan baseline-shift="sub" font-size="36">t−1</tspan></text>
+  </g>
+
+  <path d="M1835 850 C1900 850 1928 790 1998 655" stroke="#3d79d6" stroke-width="6" fill="none" marker-end="url(#arrowBlue)"/>
+
+  <text x="235" y="1070" class="lbl" font-size="54">(a) Adaptive Keypoint Extractor</text>
+
+  <!-- Right top point cloud P_t -->
+  <text x="2055" y="290" class="math" font-size="58">P<tspan baseline-shift="sub" font-size="38">t</tspan></text>
+  <rect x="2130" y="118" width="380" height="290" class="pcbox"/>
+  <g clip-path="url(#clipP2)">
+    <g class="bluepts">
+      <circle cx="2372" cy="178" r="3"/><circle cx="2348" cy="188" r="3"/><circle cx="2308" cy="205" r="3"/>
+      <circle cx="2250" cy="220" r="3"/><circle cx="2210" cy="248" r="3"/><circle cx="2184" cy="285" r="3"/>
+      <circle cx="2230" cy="354" r="3"/><circle cx="2260" cy="360" r="3"/><circle cx="2295" cy="368" r="3"/><circle cx="2335" cy="350" r="3"/>
+      <circle cx="2360" cy="315" r="3"/><circle cx="2380" cy="260" r="3"/><circle cx="2405" cy="225" r="3"/><circle cx="2438" cy="200" r="3"/>
+      <circle cx="2455" cy="170" r="3"/><circle cx="2475" cy="150" r="3"/><circle cx="2485" cy="130" r="3"/>
+      <circle cx="2296" cy="224" r="3"/><circle cx="2315" cy="228" r="3"/><circle cx="2334" cy="232" r="3"/><circle cx="2352" cy="240" r="3"/>
+      <circle cx="2310" cy="262" r="3"/><circle cx="2335" cy="270" r="3"/><circle cx="2358" cy="280" r="3"/><circle cx="2375" cy="292" r="3"/>
+    </g>
+    <path d="M2374 132 C2385 180 2392 245 2395 325 M2430 125 C2430 180 2432 240 2442 315 M2478 125 C2474 180 2470 235 2468 285 M2200 350 C2295 375 2380 350 2480 365 M2220 205 C2292 192 2350 205 2405 250" stroke="#2438f4" stroke-width="3" stroke-dasharray="9 7" opacity=".55" fill="none"/>
+  </g>
+  <rect x="2615" y="173" width="230" height="175" rx="28" fill="#f7f5ed" stroke="#314863" stroke-width="5"/>
+  <text x="2730" y="254" text-anchor="middle" class="serif" font-size="54">Voxel</text>
+  <text x="2730" y="321" text-anchor="middle" class="serif" font-size="54">Net</text>
+  <path d="M2510 260 L2611 260" class="line"/>
+  <path d="M2845 260 L2916 260" class="line"/>
+  <text x="3032" y="185" class="math" font-size="58">F<tspan baseline-shift="sub" font-size="38">t</tspan></text>
+  <g transform="translate(2912 240)">
+    <polygon points="0,45 180,45 230,0 50,0" fill="#dfeefa" stroke="#2b4058" stroke-width="4"/>
+    <polygon points="180,45 230,0 230,78 180,125" fill="#9fb9cf" stroke="#2b4058" stroke-width="4"/>
+    <polygon points="0,45 180,45 180,125 0,125" fill="#cfe1ee" stroke="#2b4058" stroke-width="4"/>
+    <g stroke="#2b4058" stroke-width="3">
+      <path d="M36 45 L86 0 M72 45 L122 0 M108 45 L158 0 M144 45 L194 0"/>
+      <path d="M0 65 L180 65 M0 85 L180 85 M0 105 L180 105"/>
+      <path d="M36 45 L36 125 M72 45 L72 125 M108 45 L108 125 M144 45 L144 125"/>
+      <path d="M180 65 L230 18 M180 85 L230 38 M180 105 L230 58"/>
+      <path d="M194 34 L194 111 M208 21 L208 97 M222 8 L222 84"/>
+    </g>
+  </g>
+
+  <!-- Panel B -->
+  <rect x="1995" y="425" width="1665" height="670" rx="50" class="panelB" filter="url(#shadow)"/>
+  <g>
+    <path d="M2985 365 L2788 525 L2788 646" class="line"/>
+    <path d="M2985 365 L2985 646" class="line"/>
+    <path d="M2985 365 L3142 525 L3142 646" class="line"/>
+  </g>
+  <g transform="translate(2082 500)">
+    <circle cx="0" cy="33" r="32" class="circleY"/><path d="M-27 33 H27" stroke="#fff" stroke-width="7"/><path d="M-27 33 H27" stroke="#24334a" stroke-width="3"/>
+    <circle cx="0" cy="123" r="32" class="circleG"/><path d="M-27 113 H27 M-27 123 H27 M-27 133 H27" stroke="#fff" stroke-width="5"/><path d="M-27 113 H27 M-27 123 H27 M-27 133 H27" stroke="#24334a" stroke-width="2"/>
+    <circle cx="0" cy="213" r="32" class="circleO"/><path d="M-27 203 H27 M-27 213 H27 M-27 223 H27" stroke="#fff" stroke-width="5"/><path d="M-27 203 H27 M-27 213 H27 M-27 223 H27" stroke="#24334a" stroke-width="2"/>
+    <circle cx="0" cy="303" r="32" class="circleB"/><path d="M-27 293 H27 M-27 303 H27 M-27 313 H27" stroke="#fff" stroke-width="5"/><path d="M-27 293 H27 M-27 303 H27 M-27 313 H27" stroke="#24334a" stroke-width="2"/>
+  </g>
+  <text x="2052" y="900" class="math" font-size="60">Q<tspan baseline-shift="sub" font-size="36">t</tspan><tspan baseline-shift="super" font-size="38">0</tspan></text>
+
+  <path d="M2156 662 L2348 662" class="line"/>
+  <rect x="2350" y="537" width="205" height="250" rx="36" class="stage"/>
+  <text x="2483" y="590" class="serif" font-size="50" transform="rotate(90 2483 590)">Stage</text>
+  <text x="2398" y="638" class="serif" font-size="50" transform="rotate(90 2398 638)">1</text>
+  <path d="M2555 662 L2690 662" class="line"/>
+  <text x="2573" y="637" class="math" font-size="56">Q<tspan baseline-shift="sub" font-size="34">t</tspan><tspan baseline-shift="super" font-size="36">1</tspan></text>
+  <text x="2740" y="675" class="serif" font-size="86">···</text>
+  <text x="2882" y="637" class="math" font-size="56">Q<tspan baseline-shift="sub" font-size="34">t</tspan><tspan baseline-shift="super" font-size="36">S−1</tspan></text>
+  <path d="M2975 662 L3035 662" class="line"/>
+  <rect x="3037" y="525" width="215" height="262" rx="36" class="stage"/>
+  <text x="3170" y="585" class="serif" font-size="50" transform="rotate(90 3170 585)">Stage</text>
+  <text x="3080" y="646" class="serif" font-size="50" transform="rotate(90 3080 646)">S</text>
+  <path d="M3252 662 L3440 662" class="line"/>
+
+  <!-- residual lower B -->
+  <text x="2150" y="990" class="math" font-size="56">R<tspan baseline-shift="sub" font-size="34">t</tspan><tspan baseline-shift="super" font-size="36">0</tspan></text>
+  <path d="M2260 944 L2575 944" class="thin"/>
+  <circle cx="2595" cy="944" r="33" fill="none" stroke="#000" stroke-width="5"/>
+  <path d="M2595 902 V986 M2552 944 H2638" stroke="#000" stroke-width="5"/>
+  <path d="M2595 787 L2595 909" class="thin"/>
+  <path d="M2595 944 L2725 944" class="line"/>
+  <text x="2652" y="920" class="math" font-size="56">R<tspan baseline-shift="sub" font-size="34">t</tspan><tspan baseline-shift="super" font-size="36">1</tspan></text>
+  <text x="2750" y="950" class="serif" font-size="86">···</text>
+  <text x="2815" y="920" class="math" font-size="56">R<tspan baseline-shift="sub" font-size="34">t</tspan><tspan baseline-shift="super" font-size="36">S−1</tspan></text>
+  <path d="M2945 944 L3260 944" class="thin"/>
+  <path d="M2945 944 L2945 792" class="thin"/>
+  <circle cx="3320" cy="944" r="33" fill="none" stroke="#000" stroke-width="5"/>
+  <path d="M3320 902 V986 M3277 944 H3363" stroke="#000" stroke-width="5"/>
+  <path d="M3320 787 L3320 909" class="thin"/>
+  <path d="M3353 944 L3476 944" class="line"/>
+
+  <!-- B output circles and Rt^S cloud -->
+  <g transform="translate(3520 500)">
+    <circle cx="0" cy="33" r="32" class="circleY"/><path d="M-27 33 H27" stroke="#fff" stroke-width="7"/><path d="M-27 33 H27" stroke="#24334a" stroke-width="3"/>
+    <circle cx="0" cy="123" r="32" class="circleG"/><path d="M-27 113 H27 M-27 123 H27 M-27 133 H27" stroke="#fff" stroke-width="5"/><path d="M-27 113 H27 M-27 123 H27 M-27 133 H27" stroke="#24334a" stroke-width="2"/>
+    <circle cx="0" cy="213" r="32" class="circleO"/><path d="M-27 203 H27 M-27 213 H27 M-27 223 H27" stroke="#fff" stroke-width="5"/><path d="M-27 203 H27 M-27 213 H27 M-27 223 H27" stroke="#24334a" stroke-width="2"/>
+    <circle cx="0" cy="303" r="32" class="circleB"/><path d="M-27 293 H27 M-27 303 H27 M-27 313 H27" stroke="#fff" stroke-width="5"/><path d="M-27 293 H27 M-27 303 H27 M-27 313 H27" stroke="#24334a" stroke-width="2"/>
+  </g>
+  <text x="3487" y="855" class="math" font-size="58">F<tspan baseline-shift="sub" font-size="34">t</tspan><tspan baseline-shift="super" font-size="36">kpt</tspan></text>
+  <text x="3485" y="927" class="math" font-size="58">R<tspan baseline-shift="sub" font-size="34">t</tspan><tspan baseline-shift="super" font-size="36">S</tspan></text>
+
+  <g>
+    <text x="3492" y="178" class="math" font-size="58">R<tspan baseline-shift="sub" font-size="34">t</tspan><tspan baseline-shift="super" font-size="36">S</tspan></text>
+    <path d="M3520 485 C3475 375 3400 285 3330 230" class="dashred"/>
+    <path d="M3520 485 C3520 365 3520 290 3520 232" class="dashred"/>
+    <path d="M3520 485 C3580 365 3615 280 3644 225" class="dashred"/>
+    <path d="M3520 485 C3460 400 3385 344 3348 305" class="dashred"/>
+    <path d="M3355 170 C3425 168 3475 180 3520 190 C3580 210 3625 195 3665 235 M3430 160 C3435 230 3450 310 3462 390 M3530 158 C3530 240 3535 315 3545 385 M3615 160 C3610 220 3605 300 3610 380" stroke="#2438f4" stroke-width="4" stroke-dasharray="10 8" fill="none" opacity=".65"/>
+    <g class="bluepts">
+      <circle cx="3335" cy="225" r="4"/><circle cx="3380" cy="180" r="4"/><circle cx="3420" cy="170" r="4"/><circle cx="3470" cy="183" r="4"/>
+      <circle cx="3520" cy="190" r="4"/><circle cx="3575" cy="205" r="4"/><circle cx="3612" cy="224" r="4"/><circle cx="3655" cy="260" r="4"/>
+      <circle cx="3448" cy="310" r="4"/><circle cx="3492" cy="345" r="4"/><circle cx="3555" cy="320" r="4"/><circle cx="3600" cy="352" r="4"/>
+      <circle cx="3640" cy="330" r="4"/><circle cx="3665" cy="285" r="4"/>
+    </g>
+    <rect x="3330" y="284" width="28" height="28" transform="rotate(45 3344 298)" class="diamondY"/>
+    <rect x="3504" y="226" width="28" height="28" transform="rotate(45 3518 240)" class="diamondG"/>
+    <rect x="3645" y="228" width="28" height="28" transform="rotate(45 3659 242)" class="diamondO"/>
+    <rect x="3608" y="340" width="28" height="28" transform="rotate(45 3622 354)" class="diamondB"/>
+  </g>
+  <path d="M3155 780 C3260 865 3235 1010 3155 1130" stroke="#48608a" stroke-width="6" fill="none" marker-end="url(#arrowBlue)"/>
+  <path d="M3142 780 C3250 860 3220 1010 3138 1118" stroke="#e5c9ab" stroke-width="4" fill="none"/>
+  <text x="2040" y="1072" class="lbl" font-size="54">(b) Progressive Correspondence Aligner</text>
+
+  <!-- Panel C -->
+  <rect x="175" y="1128" width="1734" height="620" rx="45" class="panelC" filter="url(#shadow)"/>
+  <text x="245" y="1728" class="lbl" font-size="54">(c) Confidence-Aware Structural Localization</text>
+  <g>
+    <text x="332" y="1212" class="math" font-size="56">ΔF<tspan baseline-shift="sub" font-size="36">t−1</tspan></text>
+    <text x="365" y="1548" class="math" font-size="56">ΔF<tspan baseline-shift="sub" font-size="36">t</tspan></text>
+    <path d="M218 1252 L380 1252 L545 1372 L543 1252 Z" stroke="#ffc000" stroke-width="8" fill="none"/>
+    <path d="M240 1495 L420 1430 L548 1556 L560 1430 Z" stroke="#18ad5a" stroke-width="8" fill="none"/>
+    <g>
+      <rect x="203" y="1236" width="25" height="25" transform="rotate(45 215.5 1248.5)" class="diamondY"/>
+      <rect x="365" y="1238" width="25" height="25" transform="rotate(45 377.5 1250.5)" class="diamondG"/>
+      <rect x="531" y="1237" width="25" height="25" transform="rotate(45 543.5 1249.5)" class="diamondO"/>
+      <rect x="531" y="1360" width="25" height="25" transform="rotate(45 543.5 1372.5)" class="diamondB"/>
+      <rect x="227" y="1482" width="25" height="25" transform="rotate(45 239.5 1494.5)" class="diamondY"/>
+      <rect x="407" y="1418" width="25" height="25" transform="rotate(45 419.5 1430.5)" class="diamondG"/>
+      <rect x="547" y="1418" width="25" height="25" transform="rotate(45 559.5 1430.5)" class="diamondO"/>
+      <rect x="531" y="1543" width="25" height="25" transform="rotate(45 543.5 1555.5)" class="diamondB"/>
+    </g>
+    <path d="M575 1305 L660 1305" class="line"/>
+    <path d="M575 1500 L660 1500" class="line"/>
+  </g>
+  <rect x="665" y="1210" width="200" height="400" rx="32" class="blk"/>
+  <text x="795" y="1290" class="serif" font-size="44" transform="rotate(90 795 1290)">Confidence</text>
+  <text x="720" y="1328" class="serif" font-size="44" transform="rotate(90 720 1328)">Predictor</text>
+  <path d="M865 1410 L927 1410" class="line"/>
+
+  <g>
+    <rect x="970" y="1235" width="36" height="54" fill="#ffc928" stroke="#111" stroke-width="2"/><text x="990" y="1280" font-size="32" class="serif" transform="rotate(90 990 1280)">0.1</text>
+    <rect x="970" y="1325" width="36" height="54" fill="#10e626" stroke="#111" stroke-width="2"/><text x="990" y="1371" font-size="32" class="serif" transform="rotate(90 990 1371)">0.8</text>
+    <rect x="970" y="1415" width="36" height="54" fill="#ffa06e" stroke="#111" stroke-width="2"/><text x="990" y="1461" font-size="32" class="serif" transform="rotate(90 990 1461)">0.9</text>
+    <rect x="970" y="1505" width="36" height="54" fill="#7fb7e5" stroke="#111" stroke-width="2"/><text x="990" y="1551" font-size="32" class="serif" transform="rotate(90 990 1551)">0.7</text>
+    <text x="1040" y="1300" class="serif" font-size="46">*</text>
+    <text x="1040" y="1390" class="serif" font-size="46">*</text>
+    <text x="1040" y="1480" class="serif" font-size="46">*</text>
+    <text x="1040" y="1570" class="serif" font-size="46">*</text>
+    <text x="972" y="1642" class="serif" font-size="48">S</text>
+  </g>
+
+  <g transform="translate(1167 1230)">
+    <circle cx="0" cy="35" r="33" class="circleY"/><circle cx="85" cy="35" r="33" class="circleY"/><path d="M60 20 H110 M60 35 H110 M60 50 H110" stroke="#fff" stroke-width="5"/><path d="M60 20 H110 M60 35 H110 M60 50 H110" stroke="#24334a" stroke-width="2"/>
+    <circle cx="0" cy="122" r="33" class="circleG"/><circle cx="85" cy="122" r="33" class="circleG"/><path d="M60 107 H110 M60 122 H110 M60 137 H110" stroke="#fff" stroke-width="5"/><path d="M60 107 H110 M60 122 H110 M60 137 H110" stroke="#24334a" stroke-width="2"/>
+    <circle cx="0" cy="209" r="33" class="circleO"/><circle cx="85" cy="209" r="33" class="circleO"/><path d="M60 194 H110 M60 209 H110 M60 224 H110" stroke="#fff" stroke-width="5"/><path d="M60 194 H110 M60 209 H110 M60 224 H110" stroke="#24334a" stroke-width="2"/>
+    <circle cx="0" cy="296" r="33" class="circleB"/><circle cx="85" cy="296" r="33" class="circleB"/><path d="M60 281 H110 M60 296 H110 M60 311 H110" stroke="#fff" stroke-width="5"/><path d="M60 281 H110 M60 296 H110 M60 311 H110" stroke="#24334a" stroke-width="2"/>
+  </g>
+  <text x="1138" y="1640" class="serif" font-size="50">[F<tspan baseline-shift="sub" font-size="32">t−1</tspan><tspan baseline-shift="super" font-size="32">kpt</tspan>, F<tspan baseline-shift="sub" font-size="32">t</tspan><tspan baseline-shift="super" font-size="32">kpt</tspan>]</text>
+  <path d="M1310 1410 L1390 1410" class="line"/>
+  <rect x="1390" y="1274" width="185" height="270" rx="30" class="blk"/>
+  <text x="1510" y="1317" class="serif" font-size="45" transform="rotate(90 1510 1317)">MLP-</text>
+  <text x="1447" y="1355" class="serif" font-size="45" transform="rotate(90 1447 1355)">Mixer</text>
+  <path d="M1575 1410 L1645 1410" class="line"/>
+  <rect x="1645" y="1274" width="100" height="250" rx="22" fill="#f0f0f0"/>
+  <text x="1715" y="1340" class="serif" font-size="45" transform="rotate(90 1715 1340)">Head</text>
+  <path d="M1745 1410 L1812 1410" class="line"/>
+  <text x="1790" y="1488" class="serif" font-size="56" transform="rotate(90 1790 1488)">[Δx, Δy, Δz, Δθ]</text>
+
+  <!-- Panel D dashed -->
+  <rect x="2045" y="1170" width="1535" height="585" fill="#fff" stroke="#0d2a54" stroke-width="6" stroke-dasharray="25 18"/>
+  <text x="2072" y="1734" class="lbl" font-size="54">(d) Structure of Each Refinement Stage</text>
+
+  <text x="2062" y="1378" class="math" font-size="56">Q<tspan baseline-shift="sub" font-size="34">t</tspan><tspan baseline-shift="super" font-size="36">s−1</tspan></text>
+  <path d="M2190 1368 L2330 1368" class="thin"/>
+  <circle cx="2348" cy="1368" r="21" fill="none" stroke="#19334c" stroke-width="4"/>
+  <path d="M2348 1338 V1396 M2318 1368 H2378" stroke="#19334c" stroke-width="4"/>
+  <path d="M2368 1368 L2490 1368" class="line"/>
+  <text x="2072" y="1510" class="math" font-size="56">R<tspan baseline-shift="sub" font-size="34">t</tspan><tspan baseline-shift="super" font-size="36">s−1</tspan></text>
+  <path d="M2190 1485 L2255 1485" class="thin"/>
+  <path d="M2350 1485 L2350 1392" class="thin"/>
+  <rect x="2255" y="1468" width="195" height="130" rx="20" class="blk"/>
+  <text x="2280" y="1538" class="math" font-size="42">MLP<tspan baseline-shift="sub" font-size="28">PE</tspan></text>
+  <path d="M2450 1368 L2490 1368" class="line"/>
+
+  <rect x="2495" y="1218" width="185" height="310" rx="33" class="blk"/>
+  <text x="2620" y="1294" class="serif" font-size="45" transform="rotate(90 2620 1294)">Self</text>
+  <text x="2555" y="1292" class="serif" font-size="45" transform="rotate(90 2555 1292)">Attention</text>
+  <path d="M2680 1368 L2745 1368" class="line"/>
+  <rect x="2745" y="1218" width="185" height="310" rx="33" class="blk"/>
+  <text x="2872" y="1276" class="serif" font-size="45" transform="rotate(90 2872 1276)">Cross</text>
+  <text x="2807" y="1292" class="serif" font-size="45" transform="rotate(90 2807 1292)">Attention</text>
+  <path d="M2930 1368 L3000 1368" class="line"/>
+  <rect x="3000" y="1218" width="185" height="310" rx="33" class="blk"/>
+  <text x="3130" y="1242" class="serif" font-size="45" transform="rotate(90 3130 1242)">Deformable</text>
+  <text x="3065" y="1290" class="serif" font-size="45" transform="rotate(90 3065 1290)">Attention</text>
+  <path d="M3185 1368 L3370 1368" class="line"/>
+  <text x="3397" y="1391" class="math" font-size="56">Q<tspan baseline-shift="sub" font-size="34">t</tspan><tspan baseline-shift="super" font-size="36">s</tspan></text>
+
+  <text x="2810" y="1660" class="math" font-size="56">F<tspan baseline-shift="sub" font-size="34">t</tspan></text>
+  <path d="M2838 1620 L2838 1532" class="thin"/>
+  <text x="3008" y="1660" class="math" font-size="56">F<tspan baseline-shift="sub" font-size="34">t</tspan></text>
+  <path d="M3025 1620 L3025 1532" class="thin"/>
+  <text x="3150" y="1660" class="math" font-size="56">R<tspan baseline-shift="sub" font-size="34">t</tspan><tspan baseline-shift="super" font-size="36">s−1</tspan></text>
+  <path d="M3130 1608 L3130 1530" class="thin"/>
+  <path d="M2950 1530 L2950 1446" class="thin"/>
+  <path d="M3110 1530 L3110 1446" class="thin"/>
+  <path d="M3185 1368 L3280 1368 L3280 1437" stroke="#000" stroke-width="5" fill="none" marker-end="url(#arrow)"/>
+  <rect x="3190" y="1425" width="185" height="120" rx="18" class="blk"/>
+  <text x="3210" y="1498" class="math" font-size="37">MLP<tspan baseline-shift="sub" font-size="25">offset</tspan></text>
+  <path d="M3280 1545 L3280 1630" class="thin"/>
+  <circle cx="3280" cy="1648" r="21" fill="none" stroke="#19334c" stroke-width="4"/>
+  <path d="M3280 1618 V1678 M3250 1648 H3310" stroke="#19334c" stroke-width="4"/>
+  <path d="M3195 1648 L3257 1648" stroke="#000" stroke-width="5" fill="none"/>
+  <path d="M3300 1648 L3425 1648" class="line"/>
+  <text x="3445" y="1670" class="math" font-size="56">R<tspan baseline-shift="sub" font-size="34">t</tspan><tspan baseline-shift="super" font-size="36">s</tspan></text>
+</svg>

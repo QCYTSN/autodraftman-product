@@ -1,0 +1,243 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="3840" height="2190" viewBox="0 0 3840 2190">
+  <defs>
+    <marker id="arrowDark" markerWidth="18" markerHeight="14" refX="16" refY="7" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L18,7 L0,14 Z" fill="#333"/>
+    </marker>
+    <marker id="arrowBlue" markerWidth="16" markerHeight="12" refX="14" refY="6" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L16,6 L0,12 Z" fill="#17285b"/>
+    </marker>
+    <marker id="arrowGray" markerWidth="16" markerHeight="12" refX="14" refY="6" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L16,6 L0,12 Z" fill="#6a6a6a"/>
+    </marker>
+
+    <radialGradient id="gSplat" cx="48%" cy="45%" r="58%">
+      <stop offset="0%" stop-color="#54cf3d" stop-opacity="0.88"/>
+      <stop offset="45%" stop-color="#93dc5b" stop-opacity="0.56"/>
+      <stop offset="82%" stop-color="#f3db7b" stop-opacity="0.36"/>
+      <stop offset="100%" stop-color="#f3bf72" stop-opacity="0.12"/>
+    </radialGradient>
+    <radialGradient id="gSplatFaint" cx="50%" cy="48%" r="60%">
+      <stop offset="0%" stop-color="#59d640" stop-opacity="0.45"/>
+      <stop offset="55%" stop-color="#b9e66d" stop-opacity="0.22"/>
+      <stop offset="100%" stop-color="#efd66e" stop-opacity="0.06"/>
+    </radialGradient>
+    <radialGradient id="gSmall" cx="46%" cy="43%" r="60%">
+      <stop offset="0%" stop-color="#4fc73b" stop-opacity="0.82"/>
+      <stop offset="55%" stop-color="#a3dd63" stop-opacity="0.48"/>
+      <stop offset="100%" stop-color="#eaca6f" stop-opacity="0.18"/>
+    </radialGradient>
+
+    <pattern id="greenDots" width="26" height="26" patternUnits="userSpaceOnUse">
+      <circle cx="4" cy="4" r="1.7" fill="#5f7c4f" opacity=".52"/>
+      <circle cx="15" cy="8" r="1.4" fill="#6b895c" opacity=".50"/>
+      <circle cx="22" cy="19" r="1.6" fill="#789268" opacity=".45"/>
+      <circle cx="9" cy="20" r="1.2" fill="#405d3c" opacity=".45"/>
+      <circle cx="20" cy="3" r="1.1" fill="#2f4c2d" opacity=".35"/>
+    </pattern>
+    <pattern id="beigeDots" width="22" height="22" patternUnits="userSpaceOnUse">
+      <circle cx="4" cy="6" r="1.25" fill="#ccb68e" opacity=".43"/>
+      <circle cx="13" cy="4" r="1.1" fill="#bda57f" opacity=".35"/>
+      <circle cx="19" cy="15" r="1.2" fill="#d5c2a0" opacity=".45"/>
+      <circle cx="8" cy="17" r="1.0" fill="#a58d6b" opacity=".30"/>
+    </pattern>
+    <pattern id="grayDots" width="24" height="24" patternUnits="userSpaceOnUse">
+      <circle cx="6" cy="7" r="1.3" fill="#758071" opacity=".35"/>
+      <circle cx="17" cy="11" r="1.1" fill="#849081" opacity=".28"/>
+      <circle cx="21" cy="21" r="1.0" fill="#687466" opacity=".28"/>
+    </pattern>
+
+    <clipPath id="pcClip">
+      <rect x="110" y="82" width="940" height="530"/>
+    </clipPath>
+
+    <g id="camera">
+      <path d="M-112,74 L-8,-38 L136,-9 L136,99 L-8,70 Z" fill="none" stroke="currentColor" stroke-width="3" opacity=".42"/>
+      <path d="M-112,74 L-8,-38 M-112,74 L136,-9 M-112,74 L136,99 M-112,74 L-8,70" fill="none" stroke="currentColor" stroke-width="2.2" stroke-dasharray="5 4" opacity=".35"/>
+      <path d="M-8,-38 L-8,70 M36,-29 L36,80 M83,-19 L83,89 M136,-9 L136,99" fill="none" stroke="currentColor" stroke-width="1.6" opacity=".25"/>
+      <path d="M-8,-6 L136,23 M-8,28 L136,58" fill="none" stroke="currentColor" stroke-width="1.6" opacity=".22"/>
+      <ellipse cx="58" cy="32" rx="31" ry="39" transform="rotate(-18 58 32)" fill="url(#gSmall)" opacity=".95"/>
+    </g>
+
+    <g id="gaussianRound">
+      <ellipse cx="0" cy="0" rx="54" ry="73" transform="rotate(-18)" fill="url(#gSplat)"/>
+      <ellipse cx="0" cy="0" rx="36" ry="58" transform="rotate(-18)" fill="none" stroke="#d9a659" stroke-width="2" stroke-dasharray="4 4" opacity=".34"/>
+      <path d="M0,-78 L0,78 M-48,-17 L49,18" stroke="#b27955" stroke-width="1.8" stroke-dasharray="5 5" opacity=".28"/>
+    </g>
+
+    <g id="gaussianFlat">
+      <ellipse cx="0" cy="0" rx="90" ry="38" transform="rotate(-15)" fill="url(#gSplat)"/>
+      <ellipse cx="0" cy="0" rx="72" ry="26" transform="rotate(-15)" fill="none" stroke="#d5a650" stroke-width="2" stroke-dasharray="4 4" opacity=".32"/>
+      <path d="M-84,23 L84,-23 M-14,-36 L14,36" stroke="#a78354" stroke-width="1.6" stroke-dasharray="5 5" opacity=".24"/>
+    </g>
+
+    <style>
+      .serif{font-family:"Times New Roman", Times, serif;}
+      .italic{font-style:italic;}
+      .bold{font-weight:700;}
+      .panel{fill:none;stroke:#bdbdbd;stroke-width:3;stroke-dasharray:4 5;}
+      .caption{font-family:"Times New Roman", Times, serif;font-size:42px;fill:#111;}
+      .smallLabel{font-family:"Times New Roman", Times, serif;font-size:32px;fill:#111;}
+      .blueTxt{fill:#17285b;font-weight:700;}
+      .redTxt{fill:#ff1b1b;font-weight:700;font-style:italic;}
+      .greenTxt{fill:#13bd21;font-weight:700;font-style:italic;}
+    </style>
+  </defs>
+
+  <rect width="3840" height="2190" fill="#fff"/>
+
+  <!-- top-left point cloud -->
+  <g clip-path="url(#pcClip)">
+    <rect x="110" y="82" width="940" height="530" fill="#fbfbfb"/>
+    <rect x="110" y="240" width="940" height="372" fill="url(#greenDots)" opacity=".75"/>
+    <path d="M102,92 C175,84 237,92 249,127 C209,152 153,155 101,147 Z" fill="url(#greenDots)" opacity=".72"/>
+    <path d="M350,185 C450,165 665,170 780,215 C827,236 834,286 792,312 C672,377 363,368 294,319 C252,289 269,222 350,185 Z" fill="url(#beigeDots)" opacity=".92"/>
+    <path d="M289,255 C370,220 731,228 843,268 C830,359 753,485 245,485 C238,390 233,303 289,255 Z" fill="url(#beigeDots)" opacity=".42"/>
+    <path d="M115,323 C220,313 336,300 376,348 C401,392 340,446 216,433 C152,427 109,390 115,323 Z" fill="url(#greenDots)" opacity=".58"/>
+    <path d="M764,267 C856,225 974,269 1050,315 L1050,612 L780,612 C759,511 770,397 764,267 Z" fill="url(#greenDots)" opacity=".72"/>
+    <path d="M110,485 C300,473 565,485 753,484 C865,484 971,504 1050,531 L1050,612 L110,612 Z" fill="url(#grayDots)" opacity=".68"/>
+    <path d="M220,550 L396,543 L397,590 L224,596 Z" fill="none" stroke="#526150" stroke-width="4" opacity=".45"/>
+  </g>
+  <rect x="110" y="82" width="940" height="530" fill="none" stroke="#bdbdbd" stroke-width="3"/>
+  <text x="358" y="142" class="serif italic bold" font-size="50">initial Point Cloud</text>
+  <circle cx="199" cy="510" r="18" fill="none" stroke="#ff180e" stroke-width="10"/>
+
+  <!-- left arrows and initialization -->
+  <path d="M199 528 L199 1006 L319 1006" fill="none" stroke="#333" stroke-width="5" marker-end="url(#arrowDark)"/>
+  <text x="386" y="850" class="serif italic" font-size="48">after <tspan class="bold">initialization</tspan></text>
+  <g transform="translate(575 1015) scale(1.05)">
+    <use href="#gaussianRound"/>
+  </g>
+
+  <path d="M842 1005 L1210 1005" fill="none" stroke="#333" stroke-width="5" marker-start="url(#arrowDark)" marker-end="url(#arrowDark)"/>
+  <path d="M1048 1005 L1048 1233 L1205 1233" fill="none" stroke="#333" stroke-width="5" marker-end="url(#arrowDark)"/>
+
+  <!-- ground truth panel -->
+  <rect x="110" y="1314" width="940" height="780" class="panel"/>
+  <text x="226" y="1381" class="serif italic" font-size="50">
+    <tspan class="bold">Ground Truth</tspan><tspan> Gaussian Splat</tspan>
+  </text>
+  <g transform="translate(446 1593) scale(.72)" style="color:#6b8ee7;opacity:.55">
+    <use href="#camera"/>
+  </g>
+  <g transform="translate(288 1880) scale(.75)" style="color:#e4b31d;opacity:.66">
+    <use href="#camera"/>
+  </g>
+  <g transform="translate(844 1775) scale(.77)" style="color:#f28b80;opacity:.55">
+    <use href="#camera"/>
+  </g>
+  <g transform="translate(558 1760) scale(.76)">
+    <use href="#gaussianRound"/>
+  </g>
+
+  <!-- top right panel -->
+  <rect x="1265" y="82" width="2455" height="970" class="panel"/>
+  <text x="1665" y="142" class="serif italic bold" font-size="48">at iteration i</text>
+  <text x="1698" y="207" class="serif redTxt" font-size="48">w/o CVO</text>
+  <text x="2948" y="142" class="serif italic bold" font-size="48">at iteration i + 1</text>
+  <text x="3030" y="207" class="serif redTxt" font-size="48">w/o CVO</text>
+
+  <g transform="translate(1645 340) scale(.72)" style="color:#bcd2f5;opacity:.32">
+    <use href="#camera"/>
+  </g>
+  <text x="1655" y="468" class="serif" font-size="30" fill="#888" opacity=".45">View 3</text>
+  <g transform="translate(1465 735) scale(.82)" style="color:#e2ae19;opacity:.72">
+    <use href="#camera"/>
+  </g>
+  <text x="1446" y="865" class="serif" font-size="32">View 1</text>
+  <g transform="translate(2178 590) scale(.9)" style="color:#f1a099;opacity:.27">
+    <use href="#camera"/>
+  </g>
+  <text x="2210" y="730" class="serif" font-size="31" fill="#999" opacity=".45">View 2</text>
+  <g transform="translate(1835 595) scale(1.05) rotate(68)">
+    <use href="#gaussianFlat"/>
+  </g>
+
+  <path d="M1580 397 C1455 438 1378 564 1425 707" fill="none" stroke="#777" stroke-width="4" marker-end="url(#arrowGray)"/>
+  <text x="1305" y="560" class="serif redTxt" font-size="38">independent</text>
+  <path d="M1620 796 C1790 835 2028 807 2119 691" fill="none" stroke="#777" stroke-width="4" marker-end="url(#arrowGray)"/>
+  <text x="1755" y="852" class="serif redTxt" font-size="38">independent</text>
+
+  <text x="2478" y="350" class="serif smallLabel blueTxt">Rotate?</text>
+  <path d="M2465 379 L2798 379" fill="none" stroke="#333" stroke-width="5" marker-start="url(#arrowDark)" marker-end="url(#arrowDark)"/>
+  <text x="2816" y="392" class="serif" font-size="40">Possible Result (1)</text>
+  <g transform="translate(3248 295) scale(.82) rotate(7)">
+    <use href="#gaussianFlat"/>
+  </g>
+  <g transform="translate(3542 331) scale(.72)" style="color:#f28b80;opacity:.58">
+    <use href="#camera"/>
+  </g>
+  <path d="M3275 360 C3410 371 3448 285 3348 271" fill="none" stroke="#17285b" stroke-width="7" marker-end="url(#arrowBlue)"/>
+
+  <text x="2478" y="604" class="serif smallLabel blueTxt">Scale?</text>
+  <path d="M2465 626 L2798 626" fill="none" stroke="#333" stroke-width="5" marker-start="url(#arrowDark)" marker-end="url(#arrowDark)"/>
+  <text x="2816" y="641" class="serif" font-size="40">Possible Result (2)</text>
+  <g transform="translate(3160 530) scale(1.18)">
+    <use href="#gaussianFlat"/>
+  </g>
+  <g transform="translate(3542 580) scale(.72)" style="color:#f28b80;opacity:.58">
+    <use href="#camera"/>
+  </g>
+  <path d="M3046 466 L3287 466" fill="none" stroke="#17285b" stroke-width="7" marker-start="url(#arrowBlue)" marker-end="url(#arrowBlue)"/>
+  <path d="M3330 597 L3372 508" fill="none" stroke="#17285b" stroke-width="7" marker-start="url(#arrowBlue)" marker-end="url(#arrowBlue)"/>
+
+  <text x="2478" y="842" class="serif smallLabel blueTxt">Rotate + Scale?</text>
+  <path d="M2465 866 L2798 866" fill="none" stroke="#333" stroke-width="5" marker-start="url(#arrowDark)" marker-end="url(#arrowDark)"/>
+  <text x="2816" y="883" class="serif" font-size="40">Possible Result (3)</text>
+  <g transform="translate(3245 790) scale(.78) rotate(12)">
+    <use href="#gaussianFlat"/>
+  </g>
+  <g transform="translate(3542 835) scale(.72)" style="color:#f28b80;opacity:.58">
+    <use href="#camera"/>
+  </g>
+  <path d="M3168 724 C3268 700 3340 727 3368 799" fill="none" stroke="#17285b" stroke-width="7" marker-start="url(#arrowBlue)" marker-end="url(#arrowBlue)"/>
+  <path d="M3376 856 C3316 902 3212 893 3170 835" fill="none" stroke="#17285b" stroke-width="7" marker-start="url(#arrowBlue)" marker-end="url(#arrowBlue)"/>
+
+  <text x="1302" y="1018" class="caption"><tspan class="bold">a) Original 3D-GS:</tspan> Insufficient constraints and random-view-select training strategy brings ambiguous optimization results.</text>
+
+  <!-- bottom right panel -->
+  <rect x="1265" y="1115" width="2455" height="975" class="panel"/>
+  <text x="1665" y="1177" class="serif italic bold" font-size="48">at iteration i</text>
+  <text x="1698" y="1243" class="serif greenTxt" font-size="48">with CVO</text>
+  <text x="2948" y="1177" class="serif italic bold" font-size="48">at iteration i + 1</text>
+  <text x="3030" y="1243" class="serif greenTxt" font-size="48">with CVO</text>
+
+  <g transform="translate(1458 1775) scale(.83)" style="color:#e2ae19;opacity:.72">
+    <use href="#camera"/>
+  </g>
+  <text x="1448" y="1883" class="serif" font-size="32">View 1</text>
+  <g transform="translate(2180 1640) scale(.94)" style="color:#f28b80;opacity:.62">
+    <use href="#camera"/>
+  </g>
+  <text x="2210" y="1740" class="serif" font-size="31">View 2</text>
+  <g transform="translate(1833 1572) scale(.58) rotate(8)">
+    <use href="#gaussianRound"/>
+  </g>
+  <g transform="translate(1566 1724) scale(.74)">
+    <use href="#gaussianRound"/>
+  </g>
+  <path d="M1620 1810 C1805 1852 2034 1800 2121 1680" fill="none" stroke="#777" stroke-width="4" marker-end="url(#arrowGray)"/>
+  <text x="1772" y="1870" class="serif greenTxt" font-size="38">Correlated</text>
+
+  <text x="2478" y="1619" class="serif smallLabel blueTxt">Rotate + Scale</text>
+  <path d="M2465 1645 L2866 1645" fill="none" stroke="#333" stroke-width="5" marker-start="url(#arrowDark)" marker-end="url(#arrowDark)"/>
+  <text x="2478" y="1689" class="serif greenTxt" font-size="40">→ Ground Truth</text>
+
+  <g transform="translate(2948 1440) scale(.77)" style="color:#6b8ee7;opacity:.68">
+    <use href="#camera"/>
+  </g>
+  <text x="2914" y="1545" class="serif" font-size="31">View 3</text>
+  <g transform="translate(3078 1660) scale(.84)">
+    <use href="#gaussianRound"/>
+  </g>
+  <g transform="translate(3436 1700) scale(.78)" style="color:#f28b80;opacity:.66">
+    <use href="#camera"/>
+  </g>
+  <text x="3465" y="1812" class="serif" font-size="31">View 2</text>
+
+  <path d="M3043 1423 C3260 1386 3478 1406 3500 1565 C3512 1636 3480 1663 3470 1676" fill="none" stroke="#777" stroke-width="4" marker-end="url(#arrowGray)"/>
+  <text x="3250" y="1516" class="serif greenTxt" font-size="38">Correlated</text>
+  <path d="M3165 1740 C3087 1760 3034 1730 3027 1679" fill="none" stroke="#17285b" stroke-width="7" marker-end="url(#arrowBlue)"/>
+  <path d="M3159 1710 C3186 1649 3184 1606 3165 1583" fill="none" stroke="#17285b" stroke-width="7" marker-end="url(#arrowBlue)"/>
+
+  <text x="1302" y="2058" class="caption"><tspan class="bold">b) Cross-View Joint Optimization (Ours):</tspan> More constrained and accurate gaussian splat within two iterations.</text>
+</svg>

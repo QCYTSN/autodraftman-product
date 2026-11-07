@@ -51,3 +51,17 @@ def test_retention_periods_must_be_positive() -> None:
             _env_file=None,
             backup_retention_days=0,
         )
+
+
+@pytest.mark.parametrize("origin", [
+    "*", "http://qcytsn.github.io", "https://qcytsn.github.io/figfox",
+    "https://untrusted.invalid", "https://user@qcytsn.github.io",
+])
+def test_bearer_origins_require_trusted_secure_origin(origin):
+    with pytest.raises(ValidationError, match="Bearer origins"):
+        Settings(_env_file=None, environment="production", cookie_secure=True,
+                 cors_origins="https://qcytsn.github.io", bearer_origins=origin)
+
+
+def test_bearer_transport_is_opt_in():
+    assert Settings(_env_file=None).bearer_origin_list == []

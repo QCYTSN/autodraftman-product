@@ -1,0 +1,110 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 977 389" width="977" height="389">
+  <defs>
+    <marker id="arrowBlack" markerWidth="8" markerHeight="6" refX="7.5" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#000000"/>
+    </marker>
+  </defs>
+
+  <rect x="0" y="0" width="977" height="389" fill="#ffffff"/>
+
+  <!-- dashed supervisory / loss connections -->
+  <path d="M48 58 H653" fill="none" stroke="#000000" stroke-width="1.4" stroke-dasharray="8 5" marker-end="url(#arrowBlack)"/>
+  <path d="M48 139 H891 V178" fill="none" stroke="#000000" stroke-width="1.4" stroke-dasharray="8 5" marker-end="url(#arrowBlack)"/>
+  <path d="M34 260 V342 H818" fill="none" stroke="#000000" stroke-width="1.4" stroke-dasharray="8 5" marker-end="url(#arrowBlack)"/>
+
+  <!-- side variable boxes -->
+  <rect x="19" y="18" width="29" height="80" fill="#f6d6c6" stroke="#e87435" stroke-width="1.5"/>
+  <rect x="19" y="115" width="29" height="50" fill="#f6d6c6" stroke="#e87435" stroke-width="1.5"/>
+  <rect x="19" y="181" width="29" height="79" fill="#f6d6c6" stroke="#e87435" stroke-width="1.5"/>
+
+  <!-- main module shapes -->
+  <polygon points="57,171 153,195 153,243 57,267" fill="#ffb4bd" stroke="#ff0000" stroke-width="1.5"/>
+  <circle cx="190" cy="220" r="17" fill="#acdceb" stroke="#7fb8c8" stroke-width="1.2"/>
+  <rect x="207" y="196" width="108" height="48" fill="#d79bd7" stroke="#8c3f91" stroke-width="1.5"/>
+  <rect x="367" y="205" width="35" height="31" fill="#ffd62a" stroke="#f0b000" stroke-width="1.4"/>
+  <circle cx="439" cy="220" r="17" fill="#acdceb" stroke="#7fb8c8" stroke-width="1.2"/>
+  <polygon points="485,195 590,171 590,268 485,245" fill="#b9dca9" stroke="#55ad42" stroke-width="1.5"/>
+  <rect x="611" y="179" width="29" height="80" fill="#f6d6c6" stroke="#e87435" stroke-width="1.5"/>
+  <rect x="674" y="187" width="122" height="66" fill="#ffec14" stroke="#ff9500" stroke-width="1.5"/>
+
+  <polygon points="653,29 786,53 786,103 653,129" fill="#d6c2e5" stroke="#7d36a6" stroke-width="1.5"/>
+
+  <!-- loss boxes -->
+  <rect x="818" y="38" width="142" height="82" fill="#f8e3d8" stroke="#e87435" stroke-width="1.5"/>
+  <rect x="818" y="178" width="142" height="82" fill="#f8e3d8" stroke="#e87435" stroke-width="1.5"/>
+  <rect x="818" y="290" width="142" height="82" fill="#f8e3d8" stroke="#e87435" stroke-width="1.5"/>
+
+  <!-- dither U path -->
+  <path d="M190 237 V279 H291" fill="none" stroke="#000000" stroke-width="1.5"/>
+  <path d="M326 279 H439 V237" fill="none" stroke="#000000" stroke-width="1.5"/>
+  <rect x="291" y="263" width="35" height="31" fill="#d894cf" stroke="#8c3f91" stroke-width="1.5"/>
+
+  <!-- solid data-flow arrows -->
+  <path d="M48 220 H57" fill="none" stroke="#000000" stroke-width="1.5" marker-end="url(#arrowBlack)"/>
+  <path d="M153 220 H173" fill="none" stroke="#000000" stroke-width="1.5" marker-end="url(#arrowBlack)"/>
+  <path d="M315 220 H367" fill="none" stroke="#000000" stroke-width="1.5" marker-end="url(#arrowBlack)"/>
+  <path d="M402 220 H422" fill="none" stroke="#000000" stroke-width="1.5" marker-end="url(#arrowBlack)"/>
+  <path d="M456 220 H485" fill="none" stroke="#000000" stroke-width="1.5" marker-end="url(#arrowBlack)"/>
+  <path d="M590 220 H611" fill="none" stroke="#000000" stroke-width="1.5" marker-end="url(#arrowBlack)"/>
+  <path d="M640 220 H674" fill="none" stroke="#000000" stroke-width="1.5" marker-end="url(#arrowBlack)"/>
+  <path d="M796 220 H818" fill="none" stroke="#000000" stroke-width="1.5" marker-end="url(#arrowBlack)"/>
+
+  <!-- generated-output branches -->
+  <path d="M625.5 179 V78 H653" fill="none" stroke="#000000" stroke-width="1.5" marker-end="url(#arrowBlack)"/>
+  <path d="M786 78 H818" fill="none" stroke="#000000" stroke-width="1.5" marker-end="url(#arrowBlack)"/>
+  <path d="M625.5 259 V315 H818" fill="none" stroke="#000000" stroke-width="1.5" marker-end="url(#arrowBlack)"/>
+
+  <!-- text: side variables -->
+  <text x="33.5" y="64" text-anchor="middle" font-family="serif" font-size="21" font-style="italic" fill="#000000">Y</text>
+  <text x="33.5" y="146" text-anchor="middle" font-family="serif" font-size="21" font-style="italic" fill="#000000">S</text>
+  <text x="33.5" y="226" text-anchor="middle" font-family="serif" font-size="21" font-style="italic" fill="#000000">X</text>
+
+  <!-- text: modules -->
+  <text x="105" y="216" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="19" fill="#000000">
+    <tspan x="105" dy="0">Encoder</tspan>
+    <tspan x="105" dy="1.15em">(</tspan><tspan font-family="serif" font-style="italic">f</tspan><tspan>)</tspan>
+  </text>
+
+  <text x="261" y="226" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="20" fill="#000000">Quantizer</text>
+  <text x="384.5" y="226" text-anchor="middle" font-family="serif" font-size="20" font-style="italic" fill="#000000">Z</text>
+  <text x="308.5" y="286" text-anchor="middle" font-family="serif" font-size="20" font-style="italic" fill="#000000">U</text>
+
+  <text x="538" y="216" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="19" fill="#000000">
+    <tspan x="538" dy="0">Decoder</tspan>
+    <tspan x="538" dy="1.15em">(</tspan><tspan font-family="serif" font-style="italic">g</tspan><tspan>)</tspan>
+  </text>
+
+  <text x="625.5" y="225" text-anchor="middle" font-family="serif" font-size="20" font-style="italic" fill="#000000">Ỹ</text>
+
+  <text x="735" y="216" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="19" fill="#000000">
+    <tspan x="735" dy="0">Classifier</tspan>
+    <tspan x="735" dy="1.15em">(</tspan><tspan font-family="serif" font-style="italic">c</tspan><tspan>)</tspan>
+  </text>
+
+  <text x="807" y="216" text-anchor="middle" font-family="serif" font-size="20" font-style="italic" fill="#000000">Ŝ</text>
+
+  <text x="720" y="76" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="19" fill="#000000">
+    <tspan x="720" dy="0">Discriminator</tspan>
+    <tspan x="720" dy="1.15em">(</tspan><tspan font-family="serif" font-style="italic">d</tspan><tspan>)</tspan>
+  </text>
+
+  <!-- text: operators -->
+  <text x="190" y="227" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="22" fill="#000000">+</text>
+  <text x="439" y="226" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="24" fill="#000000">-</text>
+
+  <!-- text: losses -->
+  <text x="889" y="74" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="21" fill="#000000">
+    <tspan x="889" dy="0">Wasserstein</tspan>
+    <tspan x="889" dy="1.15em">Loss</tspan>
+  </text>
+
+  <text x="889" y="215" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="21" fill="#000000">
+    <tspan x="889" dy="0">Classification</tspan>
+    <tspan x="889" dy="1.15em">Loss</tspan>
+  </text>
+
+  <text x="889" y="327" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="21" fill="#000000">
+    <tspan x="889" dy="0">Distortion</tspan>
+    <tspan x="889" dy="1.15em">Loss</tspan>
+  </text>
+</svg>

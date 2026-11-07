@@ -36,7 +36,7 @@ const preview = spawn(
     "--base",
     "/figfox/",
   ],
-  { cwd: frontendDir, env: process.env, stdio: "ignore" },
+  { cwd: frontendDir, env: process.env, stdio: "ignore", windowsHide: true },
 );
 
 try {
@@ -53,6 +53,18 @@ try {
       else reject(new Error(`Pages verification exited with code ${code ?? "unknown"}.`));
     });
   });
+  for (const script of ["scripts/product-check.mjs", "scripts/workspace-flow-check.mjs", "scripts/document-check.mjs", "scripts/showcase-check.mjs", "scripts/cursor-check.mjs", "scripts/public-release-check.mjs", "scripts/editor-save-check.mjs"]) {
+    await new Promise((resolve, reject) => {
+      const verification = spawn(process.execPath, [script], {
+        cwd: frontendDir,
+        env: { ...process.env, AUDIT_BASE_URL: baseUrl },
+        stdio: "inherit",
+        windowsHide: true,
+      });
+      verification.once("error", reject);
+      verification.once("exit", code => code === 0 ? resolve() : reject(new Error(`${script} exited with code ${code ?? "unknown"}.`)));
+    });
+  }
 } finally {
   preview.kill();
 }

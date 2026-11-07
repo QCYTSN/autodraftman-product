@@ -5,6 +5,7 @@ from typing import Annotated
 from fastapi import Depends, HTTPException, Request, Response, status
 from sqlalchemy.ext.asyncio import AsyncSession
 
+from autodraftman_backend.api.session_transport import session_token
 from autodraftman_backend.core.config import Settings, get_settings
 from autodraftman_backend.core.database import get_session
 from autodraftman_backend.modules.identity.service import (
@@ -74,12 +75,16 @@ async def get_optional_principal(
     session: SessionDependency,
     settings: SettingsDependency,
 ) -> Principal | None:
-    return await resolve_principal(
+    bearer = "authorization" in request.headers
+    principal = await resolve_principal(
         session=session,
-        raw_guest_token=request.cookies.get(settings.guest_cookie_name),
-        raw_session_token=request.cookies.get(settings.session_cookie_name),
+        raw_guest_token=None if bearer else request.cookies.get(settings.guest_cookie_name),
+        raw_session_token=session_token(request, settings),
         settings=settings,
     )
+    if bearer and principal is None:
+        raise HTTPException(401, "An active session is required")
+    return principal
 
 
 OptionalPrincipalDependency = Annotated[Principal | None, Depends(get_optional_principal)]
@@ -115,6 +120,8 @@ async def get_or_create_guest_principal(
     session: SessionDependency,
     settings: SettingsDependency,
 ) -> Principal:
+    if "authorization" in request.headers:
+        return await require_principal(await get_optional_principal(request, session, settings))
     principal, new_token = await resolve_or_create_guest(
         session=session,
         raw_guest_token=request.cookies.get(settings.guest_cookie_name),

@@ -1,0 +1,392 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1088" height="512" viewBox="0 0 1088 512">
+  <title>Adaptive keypoint extractor, progressive correspondence aligner, structural localization and refinement stage architecture</title>
+  <desc>
+    Complete native SVG reconstruction. Base frames: f01 contains adaptive keypoint extractor with origin Q0 keypoints, cuboid axes, image, voxel net, feature lattice, attention stack, repeated layers and red projection rays; f02 contains progressive correspondence aligner with image/voxel feature input, staged correspondence chain, residual/keypoint streams and right-side projected support; f03 contains confidence-aware structural localization with two graph structures, confidence predictor, sampled keypoint-feature channels, MLP regressor and head; f04 contains dashed refinement stage with two inputs, plus node, positional encoding MLP, attention blocks, deformable attention, offset MLP and output flows. Symmetry/equipartition: panels are horizontally aligned in two rows; stage blocks are arranged on horizontal processing streams with vertical residual branches.
+  </desc>
+
+  <defs>
+    <marker id="arrowBlack" markerUnits="userSpaceOnUse" markerWidth="9" markerHeight="7" viewBox="0 0 10 8" refX="10" refY="4" orient="auto">
+      <path d="M0,0 L10,4 L0,8 Z" fill="#000" id="plus_node_0" />
+    </marker>
+    <marker id="arrowBlackStart" markerUnits="userSpaceOnUse" markerWidth="9" markerHeight="7" viewBox="0 0 10 8" refX="0" refY="4" orient="auto-start-reverse">
+      <path d="M10,0 L0,4 L10,8 Z" fill="#000" id="plus_node_1" />
+    </marker>
+    <marker id="arrowBlue" markerUnits="userSpaceOnUse" markerWidth="8" markerHeight="8" viewBox="0 0 10 8" refX="10" refY="4" orient="auto">
+      <path d="M0,0 L10,4 L0,8 Z" fill="#4b7dcc" id="plus_node_2" />
+    </marker>
+    <marker id="arrowGreen" markerUnits="userSpaceOnUse" markerWidth="8" markerHeight="7" viewBox="0 0 10 8" refX="10" refY="4" orient="auto">
+      <path d="M0,0 L10,4 L0,8 Z" fill="#8ed090" id="plus_node_3" />
+    </marker>
+    <marker id="arrowRed" markerUnits="userSpaceOnUse" markerWidth="7" markerHeight="7" viewBox="0 0 10 8" refX="10" refY="4" orient="auto">
+      <path d="M0,0 L10,4 L0,8 Z" fill="#ff3030" id="plus_node_4" />
+    </marker>
+    <marker id="arrowRedStart" markerUnits="userSpaceOnUse" markerWidth="7" markerHeight="7" viewBox="0 0 10 8" refX="0" refY="4" orient="auto-start-reverse">
+      <path d="M10,0 L0,4 L10,8 Z" fill="#ff3030" id="plus_node_5" />
+    </marker>
+    <linearGradient id="panelGreen" x1="0" x2="1">
+      <stop offset="0" stop-color="#f6fbf3" />
+      <stop offset="1" stop-color="#e5f1df" />
+    </linearGradient>
+    <linearGradient id="panelYellow" x1="0" x2="1">
+      <stop offset="0" stop-color="#fff2c9" />
+      <stop offset="1" stop-color="#fff6d9" />
+    </linearGradient>
+    <linearGradient id="blockBlue" x1="0" x2="1">
+      <stop offset="0" stop-color="#dbe8ff" />
+      <stop offset="1" stop-color="#d8e3f8" />
+    </linearGradient>
+    <style>
+      .txt{font-family:Arial, Helvetica, sans-serif; fill:#000}
+      .serif{font-family:"Times New Roman", Times, serif; fill:#000}
+      .small{font-size:14px}
+      .med{font-size:18px}
+      .bold{font-weight:700}
+      .frame-label{font-family:Arial, Helvetica, sans-serif;font-size:16px;font-weight:700}
+      .arrow{stroke:#000;stroke-width:2.4;fill:none;marker-end:url(#arrowBlack)}
+      .thinArrow{stroke:#000;stroke-width:1.8;fill:none;marker-end:url(#arrowBlack)}
+      .dbl{stroke:#000;stroke-width:1.5;fill:none;marker-start:url(#arrowBlackStart);marker-end:url(#arrowBlack)}
+      .redDash{stroke:#ff3030;stroke-width:1.2;stroke-dasharray:4 3;fill:none;marker-end:url(#arrowRed)}
+      .blueDot{stroke:#3048ff;stroke-width:1.1;fill:none}
+      .greenLine{stroke:#16a65a;stroke-width:2;fill:none}
+      .circleStroke{stroke:#000;stroke-width:1.4}
+    </style>
+  </defs>
+
+  <rect id="canvas_bg" x="0" y="0" width="1088" height="512" fill="#fff" />
+
+  
+  <rect id="f01" data-plus-kind="frame" x="50" y="119" width="493" height="189" rx="14" fill="url(#panelGreen)" stroke="#9bd68e" stroke-width="1.2" />
+  <rect id="f02" data-plus-kind="frame" x="566" y="119" width="470" height="188" rx="14" fill="url(#panelGreen)" stroke="#c7d8bf" stroke-width="1.2" />
+  <rect id="f03" data-plus-kind="frame" x="50" y="319" width="491" height="176" rx="14" fill="url(#panelYellow)" stroke="#efe2bc" stroke-width="1.2" />
+  <rect id="f04" data-plus-kind="frame" x="578" y="330" width="435" height="165" fill="none" stroke="#17335d" stroke-width="1.8" stroke-dasharray="8 6" />
+
+  
+  <g id="top_left_input">
+    <text class="serif" x="80" y="73" font-size="20" font-style="italic" id="plus_node_6">P<tspan baseline-shift="sub" font-size="13">t−1</tspan></text>
+    <rect x="122" y="32" width="108" height="81" fill="#fff" stroke="#000" stroke-width="1.7" id="plus_node_7" />
+    <g id="pc_left_top" stroke="#4352ff" stroke-width="1" opacity="0.85">
+      <path d="M132 38 l2 -5 m2 9 l0 18 m8 -9 l5 1 m3 20 l13 2 m-32 18 l9 -2 m44 -48 l1 29 m5 17 l12 3 m-30 -50 l4 6 m-18 33 l2 21 m-24 -40 l9 2 m58 2 l2 31" id="plus_node_8" />
+      <path d="M146 102 l24 -2 m-5 -47 l20 6 m-10 6 l8 28 m15 -50 l1 17 m-38 3 l23 -7 m-28 24 l-9 12 m55 -24 l9 2" id="plus_node_9" />
+      <circle cx="163" cy="60" r="1" id="plus_node_10" /><circle cx="177" cy="76" r="1" id="plus_node_11" /><circle cx="190" cy="62" r="1" id="plus_node_12" /><circle cx="145" cy="78" r="1" id="plus_node_13" /><circle cx="206" cy="90" r="1" id="plus_node_14" />
+    </g>
+    <path class="arrow" d="M230 72 H256" id="plus_node_15" />
+    <rect x="257" y="49" width="65" height="49" rx="8" fill="#e8f4ff" stroke="#0e2a4f" stroke-width="1.5" id="plus_node_16" />
+    <text class="txt small" x="289" y="70" text-anchor="middle" id="plus_node_17">Voxel</text>
+    <text class="txt small" x="289" y="91" text-anchor="middle" id="plus_node_18">Net</text>
+    <path class="arrow" d="M322 72 H352" id="plus_node_19" />
+    <g id="Ft_minus1_tensor">
+      <text class="serif" x="360" y="56" font-size="21" font-style="italic" id="plus_node_20">F<tspan baseline-shift="sub" font-size="13">t−1</tspan></text>
+      <g transform="translate(344 66)" id="plus_node_21">
+        <polygon points="0,13 47,0 68,9 19,24" fill="#cbdff4" stroke="#000" id="plus_node_22" />
+        <polygon points="19,24 68,9 68,26 19,41" fill="#9bb8d5" stroke="#000" id="plus_node_23" />
+        <polygon points="0,13 19,24 19,41 0,29" fill="#b5cce5" stroke="#000" id="plus_node_24" />
+        <g stroke="#000" stroke-width="0.7" id="plus_node_25">
+          <path d="M8 11 L27 22 L27 39M16 9 L35 20 L35 37M24 7 L43 18 L43 35M32 5 L51 16 L51 33M40 3 L59 14 L59 31" id="plus_node_26" />
+          <path d="M10 18 L58 4M15 24 L65 10M20 30 L68 16" id="plus_node_27" />
+        </g>
+      </g>
+    </g>
+  </g>
+
+  
+  <g id="panel_a">
+    <text class="frame-label" x="67" y="302" id="plus_node_28">(a) Adaptive Keypoint Extractor</text>
+    <rect id="f01_yellow_inner" data-plus-kind="frame" x="164" y="131" width="319" height="151" fill="#fff0bb" opacity="0.82" stroke="none" />
+    <text class="serif" x="386" y="150" font-size="22" id="plus_node_29">× L layers</text>
+
+    <g id="origin_a_cuboid">
+      <polygon points="71,160 94,160 117,150 94,150" fill="#e2e9f2" stroke="#34465b" stroke-width="1.3" id="plus_node_30" />
+      <polygon points="71,160 94,160 94,188 71,188" fill="#d9e3ef" stroke="#34465b" stroke-width="1.3" id="plus_node_31" />
+      <polygon points="94,160 117,150 117,178 94,188" fill="#cbd7e5" stroke="#34465b" stroke-width="1.3" id="plus_node_32" />
+      <line x1="94" y1="170" x2="94" y2="139" stroke="#224d94" stroke-width="1.2" id="plus_node_33" />
+      <line x1="94" y1="170" x2="123" y2="166" stroke="#224d94" stroke-width="1.2" id="plus_node_34" />
+      <line x1="94" y1="170" x2="121" y2="146" stroke="#224d94" stroke-width="1.2" id="plus_node_35" />
+      <text class="txt small" x="96" y="144" id="plus_node_36">z</text><text class="txt small" x="125" y="153" id="plus_node_37">y</text><text class="txt small" x="126" y="187" id="plus_node_38">x</text>
+      <line x1="94" y1="170" x2="117" y2="150" stroke="#f35e83" stroke-width="2" id="plus_node_39" />
+      <line x1="94" y1="170" x2="118" y2="170" stroke="#f35e83" stroke-width="2" id="plus_node_40" />
+      <text class="serif" x="80" y="206" font-size="20" font-style="italic" id="plus_node_41">B<tspan baseline-shift="sub" font-size="12">t−1</tspan></text>
+    </g>
+
+    <g id="keypoints_a">
+      <circle class="circleStroke" cx="29" cy="226" r="9" fill="#fff176" id="plus_node_42" />
+      <circle class="circleStroke" cx="56" cy="226" r="10" fill="#fff176" id="plus_node_43" />
+      <circle class="circleStroke" cx="83" cy="226" r="10" fill="#b7d88d" id="plus_node_44" />
+      <circle class="circleStroke" cx="111" cy="226" r="10" fill="#f3a674" id="plus_node_45" />
+      <circle class="circleStroke" cx="136" cy="226" r="10" fill="#a9cde8" id="plus_node_46" />
+      <text class="serif" x="83" y="255" font-size="20" font-style="italic" id="plus_node_47">Q<tspan baseline-shift="super" font-size="12">0</tspan></text>
+      <path class="arrow" d="M147 226 H204" id="plus_node_48" />
+      <circle cx="210" cy="226" r="5.2" fill="#fff" stroke="#000" stroke-width="1.2" id="plus_node_49" />
+      <line x1="210" y1="217" x2="210" y2="234" stroke="#000" id="plus_node_50" />
+      <line x1="201" y1="226" x2="219" y2="226" stroke="#000" id="plus_node_51" />
+      <path d="M129 169 H176" stroke="#91ce91" stroke-width="3" marker-end="url(#arrowGreen)" fill="none" id="plus_node_52" />
+    </g>
+
+    <g id="patch_grid_a">
+      <polygon points="190,155 226,145 239,155 203,166" fill="#f2d25a" stroke="#000" stroke-width="1.3" id="plus_node_53" />
+      <polygon points="203,166 239,155 239,194 203,205" fill="#f1c84c" stroke="#000" stroke-width="1.3" id="plus_node_54" />
+      <polygon points="190,155 203,166 203,205 190,194" fill="#f5d767" stroke="#000" stroke-width="1.3" id="plus_node_55" />
+      <g fill="#133a62" id="plus_node_56">
+        <circle cx="198" cy="169" r="1.9" id="plus_node_57" /><circle cx="213" cy="166" r="1.9" id="plus_node_58" /><circle cx="228" cy="162" r="1.9" id="plus_node_59" />
+        <circle cx="198" cy="184" r="1.9" id="plus_node_60" /><circle cx="213" cy="181" r="1.9" id="plus_node_61" /><circle cx="228" cy="177" r="1.9" id="plus_node_62" />
+        <circle cx="212" cy="198" r="1.9" id="plus_node_63" /><circle cx="229" cy="193" r="1.9" id="plus_node_64" />
+      </g>
+      <text class="serif bold" x="209" y="145" font-size="17" id="plus_node_65">n<tspan baseline-shift="sub" font-size="11">x</tspan></text>
+      <text class="serif bold" x="171" y="156" font-size="17" id="plus_node_66">n<tspan baseline-shift="sub" font-size="11">y</tspan></text>
+      <text class="serif bold" x="243" y="177" font-size="17" id="plus_node_67">n<tspan baseline-shift="sub" font-size="11">z</tspan></text>
+      <path class="arrow" d="M209 205 V225" id="plus_node_68" />
+      <text class="serif" x="217" y="213" font-size="19" font-style="italic" id="plus_node_69">R<tspan baseline-shift="sub" font-size="12">t−1</tspan></text>
+    </g>
+
+    <g id="attention_layers_a">
+      <path class="arrow" d="M215 225 H265" id="plus_node_70" />
+      <rect x="265" y="176" width="54" height="99" rx="12" fill="url(#blockBlue)" id="plus_node_71" />
+      <text class="txt small" transform="translate(286 244) rotate(-90)" text-anchor="middle" id="plus_node_72">Self</text>
+      <text class="txt small" transform="translate(286 219) rotate(-90)" text-anchor="middle" id="plus_node_73">Attention</text>
+
+      <path class="arrow" d="M319 225 H344" id="plus_node_74" />
+      <rect x="344" y="176" width="54" height="99" rx="12" fill="url(#blockBlue)" id="plus_node_75" />
+      <text class="txt small" transform="translate(365 244) rotate(-90)" text-anchor="middle" id="plus_node_76">Cross</text>
+      <text class="txt small" transform="translate(365 218) rotate(-90)" text-anchor="middle" id="plus_node_77">Attention</text>
+
+      <path class="arrow" d="M398 225 H421" id="plus_node_78" />
+      <rect x="419" y="176" width="43" height="99" rx="9" fill="#edf1f6" id="plus_node_79" />
+      <text class="txt small" transform="translate(446 225) rotate(-90)" text-anchor="middle" id="plus_node_80">FFN</text>
+      <path class="arrow" d="M462 225 H493" id="plus_node_81" />
+    </g>
+
+    <path id="Ft_to_attention_a" class="arrow" d="M372 107 V171" />
+    <g id="right_keypoints_a">
+      <circle class="circleStroke" cx="504" cy="191" r="9.5" fill="#fff176" id="plus_node_82" />
+      <circle class="circleStroke" cx="504" cy="216" r="9.5" fill="#b7d88d" id="plus_node_83" />
+      <circle class="circleStroke" cx="504" cy="241" r="9.5" fill="#f3a674" id="plus_node_84" />
+      <circle class="circleStroke" cx="504" cy="266" r="9.5" fill="#a9cde8" id="plus_node_85" />
+      <text class="serif" x="497" y="288" font-size="18" font-style="italic" id="plus_node_86">F<tspan baseline-shift="super" font-size="11">kpt</tspan><tspan baseline-shift="sub" font-size="11">t−1</tspan></text>
+    </g>
+
+    <g id="projection_a">
+      <text class="serif" x="489" y="50" font-size="20" font-style="italic" id="plus_node_87">R<tspan baseline-shift="sub" font-size="12">t−1</tspan></text>
+      <g stroke="#3048ff" stroke-width="1.1" fill="none" id="plus_node_88">
+        <path d="M496 62 l-19 -2 l-3 10 l22 7 m17 -21 l5 29 m22 -18 l-12 39 m-40 9 l20 2 m-30 -37 l7 20 m55 -27 l12 -4 l1 -20" id="plus_node_89" />
+        <path d="M515 97 l18 7 m-76 -18 l12 5 m66 19 l7 16 m-21 -48 l18 -1 m-50 -19 l-4 15" id="plus_node_90" />
+      </g>
+      <polygon points="448,57 454,62 448,67 443,62" fill="#ffe76c" stroke="#000" id="plus_node_91" />
+      <polygon points="496,55 502,61 496,67 490,61" fill="#a6d47b" stroke="#000" id="plus_node_92" />
+      <polygon points="535,61 541,67 535,73 529,67" fill="#f1a06c" stroke="#000" id="plus_node_93" />
+      <path class="redDash" d="M510 171 L448 68" id="plus_node_94" />
+      <path class="redDash" d="M510 171 L496 69" id="plus_node_95" />
+      <path class="redDash" d="M510 171 L535 75" id="plus_node_96" />
+      <path class="redDash" d="M510 171 L466 84" id="plus_node_97" />
+      <path class="redDash" d="M510 171 L522 93" id="plus_node_98" />
+      <path d="M543 215 C558 198 558 190 574 187" stroke="#4b7dcc" stroke-width="2" fill="none" marker-end="url(#arrowBlue)" id="plus_node_99" />
+    </g>
+  </g>
+
+  
+  <g id="top_right_input">
+    <text class="serif" x="582" y="83" font-size="20" font-style="italic" id="plus_node_100">P<tspan baseline-shift="sub" font-size="13">t</tspan></text>
+    <rect x="603" y="35" width="108" height="80" fill="#fff" stroke="#000" stroke-width="1.7" id="plus_node_101" />
+    <g stroke="#4352ff" stroke-width="1" opacity="0.85" fill="none" id="plus_node_102">
+      <path d="M622 63 l17 1 m10 -29 l2 27 m18 3 l20 2 m-8 -30 l-2 17 m-52 40 l34 -2 m-14 -31 l7 30 m-31 -7 l-8 12" id="plus_node_103" />
+      <path d="M683 39 l4 56 m-48 -2 l-12 -10 m31 -41 l13 6 m-45 18 l12 3 m41 37 l18 -8" id="plus_node_104" />
+      <circle cx="643" cy="80" r="1" id="plus_node_105" /><circle cx="660" cy="58" r="1" id="plus_node_106" /><circle cx="690" cy="88" r="1" id="plus_node_107" />
+    </g>
+    <path class="arrow" d="M711 75 H740" id="plus_node_108" />
+    <rect x="741" y="50" width="65" height="49" rx="8" fill="#e8f4ff" stroke="#0e2a4f" stroke-width="1.5" id="plus_node_109" />
+    <text class="txt small" x="773" y="71" text-anchor="middle" id="plus_node_110">Voxel</text>
+    <text class="txt small" x="773" y="92" text-anchor="middle" id="plus_node_111">Net</text>
+    <path class="arrow" d="M806 75 H831" id="plus_node_112" />
+    <text class="serif" x="859" y="55" font-size="21" font-style="italic" id="plus_node_113">F<tspan baseline-shift="sub" font-size="13">t</tspan></text>
+    <g transform="translate(823 66)" id="plus_node_114">
+      <polygon points="0,13 45,0 67,9 19,24" fill="#cbdff4" stroke="#000" id="plus_node_115" />
+      <polygon points="19,24 67,9 67,26 19,41" fill="#9bb8d5" stroke="#000" id="plus_node_116" />
+      <polygon points="0,13 19,24 19,41 0,29" fill="#b5cce5" stroke="#000" id="plus_node_117" />
+      <g stroke="#000" stroke-width="0.7" id="plus_node_118">
+        <path d="M8 11 L27 22 L27 39M16 9 L35 20 L35 37M24 7 L43 18 L43 35M32 5 L51 16 L51 33M40 3 L59 14 L59 31" id="plus_node_119" />
+        <path d="M10 18 L58 4M15 24 L65 10M20 30 L67 16" id="plus_node_120" />
+      </g>
+    </g>
+  </g>
+
+  
+  <g id="panel_b">
+    <text class="frame-label" x="581" y="302" id="plus_node_121">(b) Progressive Correspondence Aligner</text>
+
+    <g id="left_qt0_b">
+      <circle class="circleStroke" cx="590" cy="151" r="9.5" fill="#fff2a0" id="plus_node_122" /><line x1="582" y1="151" x2="598" y2="151" stroke="#4a6ea5" id="plus_node_123" />
+      <circle class="circleStroke" cx="590" cy="176" r="9.5" fill="#c5dfaa" id="plus_node_124" /><line x1="581" y1="172" x2="599" y2="172" stroke="#4a6ea5" id="plus_node_125" /><line x1="581" y1="180" x2="599" y2="180" stroke="#4a6ea5" id="plus_node_126" />
+      <circle class="circleStroke" cx="590" cy="201" r="9.5" fill="#f7a574" id="plus_node_127" /><line x1="581" y1="197" x2="599" y2="197" stroke="#4a6ea5" id="plus_node_128" /><line x1="581" y1="201" x2="599" y2="201" stroke="#4a6ea5" id="plus_node_129" /><line x1="581" y1="205" x2="599" y2="205" stroke="#4a6ea5" id="plus_node_130" />
+      <circle class="circleStroke" cx="590" cy="226" r="9.5" fill="#b2d3ec" id="plus_node_131" /><line x1="581" y1="222" x2="599" y2="222" stroke="#4a6ea5" id="plus_node_132" /><line x1="581" y1="230" x2="599" y2="230" stroke="#4a6ea5" id="plus_node_133" />
+      <text class="serif" x="579" y="254" font-size="20" font-style="italic" id="plus_node_134">Q<tspan baseline-shift="super" font-size="12">0</tspan><tspan baseline-shift="sub" font-size="12">t</tspan></text>
+      <path class="arrow" d="M611 187 H666" id="plus_node_135" />
+    </g>
+
+    <path class="arrow" d="M694 130 V150" id="plus_node_136" />
+    <path class="arrow" d="M789 131 V153" id="plus_node_137" />
+    <path class="thinArrow" d="M852 130 V150" id="plus_node_138" />
+    <path d="M694 131 H890 V149" stroke="#000" stroke-width="2.4" fill="none" marker-end="url(#arrowBlack)" id="plus_node_139" />
+    <path d="M849 107 L789 131" stroke="#000" stroke-width="2.5" fill="none" id="plus_node_140" />
+
+    <g id="stage0_b">
+      <path d="M666 150 h57 a12 12 0 0 1 12 12 v77 a12 12 0 0 1 -12 12 h-57 a12 12 0 0 1 -12 -12 v-77 a12 12 0 0 1 12 -12" fill="#ffe3d4" id="plus_node_141" />
+      <text class="txt small" transform="translate(700 202) rotate(90)" text-anchor="middle" id="plus_node_142">Stage 1</text>
+      <path class="arrow" d="M722 187 H765" id="plus_node_143" />
+      <text class="serif" x="728" y="177" font-size="18" font-style="italic" id="plus_node_144">Q<tspan baseline-shift="super" font-size="12">1</tspan><tspan baseline-shift="sub" font-size="12">t</tspan></text>
+    </g>
+
+    <text class="txt bold" x="777" y="188" font-size="30" id="plus_node_145">…</text>
+
+    <g id="stageS_b">
+      <path d="M856 150 h48 a12 12 0 0 1 12 12 v77 a12 12 0 0 1 -12 12 h-48 a12 12 0 0 1 -12 -12 v-77 a12 12 0 0 1 12 -12" fill="#ffe3d4" id="plus_node_146" />
+      <text class="txt small" transform="translate(889 202) rotate(90)" text-anchor="middle" id="plus_node_147">Stage S</text>
+      <path class="arrow" d="M815 187 H856" id="plus_node_148" />
+      <text class="serif" x="817" y="177" font-size="18" font-style="italic" id="plus_node_149">Q<tspan baseline-shift="super" font-size="S">S−1</tspan><tspan baseline-shift="sub" font-size="12">t</tspan></text>
+    </g>
+
+    <g id="residual_stream_b">
+      <path d="M648 202 V266 H733" stroke="#000" stroke-width="2.4" fill="none" id="plus_node_150" />
+      <circle cx="736" cy="266" r="9.5" fill="#fff" stroke="#000" stroke-width="1.5" id="plus_node_151" />
+      <line x1="736" y1="254" x2="736" y2="278" stroke="#000" id="plus_node_152" /><line x1="724" y1="266" x2="748" y2="266" stroke="#000" id="plus_node_153" />
+      <path class="arrow" d="M736 202 V256" id="plus_node_154" />
+      <path class="arrow" d="M746 266 H801" id="plus_node_155" />
+      <text class="serif" x="769" y="256" font-size="18" font-style="italic" id="plus_node_156">R<tspan baseline-shift="super" font-size="12">1</tspan><tspan baseline-shift="sub" font-size="12">t</tspan></text>
+      <text class="serif" x="608" y="278" font-size="18" font-style="italic" id="plus_node_157">R<tspan baseline-shift="super" font-size="12">0</tspan><tspan baseline-shift="sub" font-size="12">t</tspan></text>
+      <path d="M812 202 V266 H940" stroke="#000" stroke-width="2.4" fill="none" id="plus_node_158" />
+      <text class="serif" x="790" y="259" font-size="18" font-style="italic" id="plus_node_159">R<tspan baseline-shift="super" font-size="12">S−1</tspan><tspan baseline-shift="sub" font-size="12">t</tspan></text>
+      <circle cx="942" cy="266" r="9.5" fill="#fff" stroke="#000" stroke-width="1.5" id="plus_node_160" />
+      <line x1="942" y1="254" x2="942" y2="278" stroke="#000" id="plus_node_161" /><line x1="930" y1="266" x2="954" y2="266" stroke="#000" id="plus_node_162" />
+      <path class="arrow" d="M916 202 H974 V257" id="plus_node_163" />
+      <path class="arrow" d="M952 266 H991" id="plus_node_164" />
+      <path class="arrow" d="M916 187 H974" id="plus_node_165" />
+      <text class="serif" x="991" y="275" font-size="19" font-style="italic" id="plus_node_166">R<tspan baseline-shift="super" font-size="12">S</tspan><tspan baseline-shift="sub" font-size="12">t</tspan></text>
+    </g>
+
+    <g id="right_projection_b">
+      <text class="serif" x="990" y="51" font-size="20" font-style="italic" id="plus_node_167">R<tspan baseline-shift="super" font-size="12">S</tspan><tspan baseline-shift="sub" font-size="12">t</tspan></text>
+      <g stroke="#3048ff" stroke-width="1.1" fill="none" id="plus_node_168">
+        <path d="M952 66 l22 -1 m25 -6 l8 25 m20 -19 l8 31 m-53 -4 l24 -6 m-9 18 l17 9 m-45 -33 l5 30 m50 -13 l-5 26" id="plus_node_169" />
+        <path d="M1015 72 l-20 19 m-38 8 l12 8 m55 -4 l10 -13 m-12 -25 l14 3" id="plus_node_170" />
+      </g>
+      <polygon points="947,80 953,85 947,90 941,85" fill="#ffe76c" stroke="#000" id="plus_node_171" />
+      <polygon points="998,62 1004,68 998,74 992,68" fill="#a6d47b" stroke="#000" id="plus_node_172" />
+      <polygon points="1036,61 1042,67 1036,73 1030,67" fill="#f1a06c" stroke="#000" id="plus_node_173" />
+      <path class="redDash" d="M998 138 L947 92" id="plus_node_174" />
+      <path class="redDash" d="M998 138 L998 75" id="plus_node_175" />
+      <path class="redDash" d="M998 138 L1036 75" id="plus_node_176" />
+      <path class="redDash" d="M998 138 L975 93" id="plus_node_177" />
+      <path class="redDash" d="M998 138 L1017 102" id="plus_node_178" />
+      <circle class="circleStroke" cx="998" cy="150" r="9.5" fill="#fff2a0" id="plus_node_179" /><line x1="990" y1="150" x2="1006" y2="150" stroke="#4a6ea5" id="plus_node_180" />
+      <circle class="circleStroke" cx="998" cy="175" r="9.5" fill="#c5dfaa" id="plus_node_181" /><line x1="989" y1="171" x2="1007" y2="171" stroke="#4a6ea5" id="plus_node_182" /><line x1="989" y1="179" x2="1007" y2="179" stroke="#4a6ea5" id="plus_node_183" />
+      <circle class="circleStroke" cx="998" cy="200" r="9.5" fill="#f7a574" id="plus_node_184" /><line x1="989" y1="196" x2="1007" y2="196" stroke="#4a6ea5" id="plus_node_185" /><line x1="989" y1="200" x2="1007" y2="200" stroke="#4a6ea5" id="plus_node_186" /><line x1="989" y1="204" x2="1007" y2="204" stroke="#4a6ea5" id="plus_node_187" />
+      <circle class="circleStroke" cx="998" cy="225" r="9.5" fill="#b2d3ec" id="plus_node_188" /><line x1="989" y1="221" x2="1007" y2="221" stroke="#4a6ea5" id="plus_node_189" /><line x1="989" y1="229" x2="1007" y2="229" stroke="#4a6ea5" id="plus_node_190" />
+      <text class="serif" x="991" y="247" font-size="18" font-style="italic" id="plus_node_191">F<tspan baseline-shift="super" font-size="11">kpt</tspan><tspan baseline-shift="sub" font-size="11">t</tspan></text>
+    </g>
+    <path id="blue_stage_curve" d="M890 219 C925 240 918 290 890 306" stroke="#5578b7" stroke-width="2.3" fill="none" marker-end="url(#arrowBlue)" />
+  </g>
+
+  
+  <g id="panel_c">
+    <text class="frame-label" x="63" y="491" id="plus_node_192">(c)Confidence-Aware Structural Localization</text>
+    <g id="graphs_c">
+      <text class="serif" x="94" y="345" font-size="19" font-style="italic" id="plus_node_193">ΔF<tspan baseline-shift="sub" font-size="12">t−1</tspan></text>
+      <text class="serif" x="113" y="455" font-size="19" font-style="italic" id="plus_node_194">ΔF<tspan baseline-shift="sub" font-size="12">t</tspan></text>
+      <g fill="none" stroke-width="2" id="plus_node_195">
+        <path d="M62 354 L107 354 L155 354 L155 387 L107 374 L62 354" stroke="#f2aa14" id="plus_node_196" />
+        <path d="M62 354 L155 387" stroke="#f2aa14" id="plus_node_197" />
+        <path d="M68 422 L118 393 L158 406 L128 445 L68 422" stroke="#11a957" id="plus_node_198" />
+        <path d="M118 393 L128 445 L158 406" stroke="#11a957" id="plus_node_199" />
+      </g>
+      <g stroke="#000" stroke-width="1.1" id="plus_node_200">
+        <polygon points="62,348 68,354 62,360 56,354" fill="#ffe76c" id="plus_node_201" />
+        <polygon points="107,348 113,354 107,360 101,354" fill="#a6d47b" id="plus_node_202" />
+        <polygon points="155,348 161,354 155,360 149,354" fill="#ffe76c" id="plus_node_203" />
+        <polygon points="155,381 161,387 155,393 149,387" fill="#87c5ea" id="plus_node_204" />
+        <polygon points="68,416 74,422 68,428 62,422" fill="#ffe76c" id="plus_node_205" />
+        <polygon points="118,387 124,393 118,399 112,393" fill="#a6d47b" id="plus_node_206" />
+        <polygon points="158,400 164,406 158,412 152,406" fill="#f2a36d" id="plus_node_207" />
+        <polygon points="128,439 134,445 128,451 122,445" fill="#87c5ea" id="plus_node_208" />
+      </g>
+      <path class="thinArrow" d="M162 370 H186" id="plus_node_209" />
+      <path class="thinArrow" d="M162 423 H186" id="plus_node_210" />
+    </g>
+
+    <rect x="188" y="342" width="72" height="113" rx="11" fill="url(#blockBlue)" id="plus_node_211" />
+    <text class="txt small" transform="translate(224 406) rotate(90)" text-anchor="middle" id="plus_node_212">Confidence</text>
+    <text class="txt small" transform="translate(203 406) rotate(90)" text-anchor="middle" id="plus_node_213">Predictor</text>
+
+    <g id="confidence_channels_c">
+      <rect x="274" y="349" width="14" height="18" fill="#ffe66c" stroke="#000" id="plus_node_214" />
+      <rect x="274" y="376" width="14" height="18" fill="#1fe667" stroke="#000" id="plus_node_215" />
+      <rect x="274" y="403" width="14" height="18" fill="#66d3ff" stroke="#000" id="plus_node_216" />
+      <text class="txt" x="283" y="362" transform="rotate(-90 283 362)" font-size="10" id="plus_node_217">0.1</text>
+      <text class="txt" x="283" y="389" transform="rotate(-90 283 389)" font-size="10" id="plus_node_218">0.8</text>
+      <text class="txt" x="283" y="416" transform="rotate(-90 283 416)" font-size="10" id="plus_node_219">0.7</text>
+      <text class="txt bold" x="298" y="363" font-size="15" id="plus_node_220">*</text>
+      <text class="txt bold" x="298" y="390" font-size="15" id="plus_node_221">*</text>
+      <text class="txt bold" x="298" y="417" font-size="15" id="plus_node_222">*</text>
+      <g id="plus_node_223">
+        <circle class="circleStroke" cx="330" cy="358" r="9.5" fill="#ffe89a" id="plus_node_224" />
+        <circle class="circleStroke" cx="330" cy="384" r="9.5" fill="#bad996" id="plus_node_225" />
+        <circle class="circleStroke" cx="330" cy="410" r="9.5" fill="#f4a171" id="plus_node_226" />
+        <circle class="circleStroke" cx="330" cy="436" r="9.5" fill="#acd0ea" id="plus_node_227" />
+        <circle class="circleStroke" cx="354" cy="358" r="9.5" fill="#fff2a0" id="plus_node_228" /><line x1="346" y1="354" x2="362" y2="354" stroke="#4a6ea5" id="plus_node_229" /><line x1="346" y1="362" x2="362" y2="362" stroke="#4a6ea5" id="plus_node_230" />
+        <circle class="circleStroke" cx="354" cy="384" r="9.5" fill="#c5dfaa" id="plus_node_231" /><line x1="346" y1="380" x2="362" y2="380" stroke="#4a6ea5" id="plus_node_232" /><line x1="346" y1="388" x2="362" y2="388" stroke="#4a6ea5" id="plus_node_233" />
+        <circle class="circleStroke" cx="354" cy="410" r="9.5" fill="#f7a574" id="plus_node_234" /><line x1="346" y1="406" x2="362" y2="406" stroke="#4a6ea5" id="plus_node_235" /><line x1="346" y1="414" x2="362" y2="414" stroke="#4a6ea5" id="plus_node_236" />
+        <circle class="circleStroke" cx="354" cy="436" r="9.5" fill="#b2d3ec" id="plus_node_237" /><line x1="346" y1="432" x2="362" y2="432" stroke="#4a6ea5" id="plus_node_238" /><line x1="346" y1="440" x2="362" y2="440" stroke="#4a6ea5" id="plus_node_239" />
+      </g>
+      <text class="txt" x="272" y="461" font-size="15" id="plus_node_240">S</text>
+      <text class="serif" x="296" y="462" font-size="19" id="plus_node_241">[F<tspan baseline-shift="super" font-size="11">kpt</tspan><tspan baseline-shift="sub" font-size="11">t−1</tspan>, F<tspan baseline-shift="super" font-size="11">kpt</tspan><tspan baseline-shift="sub" font-size="11">t</tspan>]</text>
+      <path class="arrow" d="M366 397 H394" id="plus_node_242" />
+    </g>
+
+    <rect x="394" y="360" width="57" height="77" rx="10" fill="url(#blockBlue)" id="plus_node_243" />
+    <text class="txt small" transform="translate(431 414) rotate(90)" text-anchor="middle" id="plus_node_244">MLP-</text>
+    <text class="txt small" transform="translate(413 409) rotate(90)" text-anchor="middle" id="plus_node_245">Regressor</text>
+    <path class="arrow" d="M451 397 H471" id="plus_node_246" />
+    <rect x="466" y="362" width="27" height="69" rx="7" fill="#f1f2f1" id="plus_node_247" />
+    <text class="txt small" transform="translate(484 397) rotate(90)" text-anchor="middle" id="plus_node_248">Head</text>
+    <text class="serif" x="506" y="375" font-size="20" id="plus_node_249">[Δx, Δy, Δz, Δθ]</text>
+  </g>
+
+  
+  <g id="panel_d">
+    <text class="frame-label" x="585" y="489" id="plus_node_250">(d) Structure of Each Refinement Stage</text>
+    <text class="serif" x="585" y="391" font-size="18" font-style="italic" id="plus_node_251">Q<tspan baseline-shift="super" font-size="11">S−1</tspan><tspan baseline-shift="sub" font-size="11">t</tspan></text>
+    <text class="serif" x="585" y="432" font-size="18" font-style="italic" id="plus_node_252">R<tspan baseline-shift="super" font-size="11">S−1</tspan><tspan baseline-shift="sub" font-size="11">t</tspan></text>
+    <path class="thinArrow" d="M612 389 H656" id="plus_node_253" />
+    <path d="M610 429 H632 V389 H656" stroke="#000" stroke-width="1.9" fill="none" id="plus_node_254" />
+    <circle cx="665" cy="389" r="7" fill="#fff" stroke="#000" stroke-width="1.2" id="plus_node_255" />
+    <line x1="665" y1="379" x2="665" y2="399" stroke="#000" id="plus_node_256" /><line x1="655" y1="389" x2="675" y2="389" stroke="#000" id="plus_node_257" />
+    <rect x="640" y="415" width="52" height="36" rx="7" fill="#dfe7f7" id="plus_node_258" />
+    <text class="serif" x="666" y="438" font-size="13" font-style="italic" text-anchor="middle" id="plus_node_259">MLP<tspan baseline-shift="sub" font-size="9">PE</tspan></text>
+    <path class="thinArrow" d="M672 389 H707" id="plus_node_260" />
+    <rect x="707" y="343" width="54" height="88" rx="12" fill="url(#blockBlue)" id="plus_node_261" />
+    <text class="txt small" transform="translate(728 403) rotate(-90)" text-anchor="middle" id="plus_node_262">Self</text>
+    <text class="txt small" transform="translate(728 380) rotate(-90)" text-anchor="middle" id="plus_node_263">Attention</text>
+    <path class="thinArrow" d="M761 389 H779" id="plus_node_264" />
+    <rect x="779" y="343" width="54" height="88" rx="12" fill="url(#blockBlue)" id="plus_node_265" />
+    <text class="txt small" transform="translate(800 407) rotate(-90)" text-anchor="middle" id="plus_node_266">Cross</text>
+    <text class="txt small" transform="translate(800 381) rotate(-90)" text-anchor="middle" id="plus_node_267">Attention</text>
+    <path class="thinArrow" d="M833 389 H850" id="plus_node_268" />
+    <rect x="850" y="343" width="55" height="88" rx="12" fill="url(#blockBlue)" id="plus_node_269" />
+    <text class="txt small" transform="translate(872 411) rotate(-90)" text-anchor="middle" id="plus_node_270">Deformable</text>
+    <text class="txt small" transform="translate(872 379) rotate(-90)" text-anchor="middle" id="plus_node_271">Attention</text>
+    <rect x="906" y="407" width="50" height="27" rx="7" fill="#dfe7f7" id="plus_node_272" />
+    <text class="serif" x="931" y="425" font-size="12" font-style="italic" text-anchor="middle" id="plus_node_273">MLP<tspan baseline-shift="sub" font-size="8">offset</tspan></text>
+    <path d="M930 389 V407" stroke="#000" stroke-width="1.9" marker-end="url(#arrowBlack)" fill="none" id="plus_node_274" />
+    <path class="thinArrow" d="M905 389 H978" id="plus_node_275" />
+    <text class="serif" x="985" y="388" font-size="18" font-style="italic" id="plus_node_276">Q<tspan baseline-shift="super" font-size="11">S</tspan><tspan baseline-shift="sub" font-size="11">t</tspan></text>
+    <path d="M806 343 V330" stroke="#000" stroke-width="1.9" fill="none" id="plus_node_277" />
+    <text class="serif" x="797" y="327" font-size="18" font-style="italic" id="plus_node_278">F<tspan baseline-shift="sub" font-size="11">t</tspan></text>
+    <path d="M866 343 V330" stroke="#000" stroke-width="1.9" fill="none" id="plus_node_279" />
+    <text class="serif" x="846" y="327" font-size="18" font-style="italic" id="plus_node_280">F<tspan baseline-shift="sub" font-size="11">t</tspan></text>
+    <text class="serif" x="883" y="327" font-size="18" font-style="italic" id="plus_node_281">R<tspan baseline-shift="super" font-size="11">S−1</tspan><tspan baseline-shift="sub" font-size="11">t</tspan></text>
+    <path d="M904 432 H929" stroke="#000" stroke-width="1.9" fill="none" id="plus_node_282" />
+    <path d="M929 434 V463 H966" stroke="#000" stroke-width="1.9" fill="none" marker-end="url(#arrowBlack)" id="plus_node_283" />
+    <circle cx="960" cy="467" r="7" fill="#fff" stroke="#000" stroke-width="1.2" id="plus_node_284" />
+    <line x1="960" y1="457" x2="960" y2="477" stroke="#000" id="plus_node_285" /><line x1="950" y1="467" x2="970" y2="467" stroke="#000" id="plus_node_286" />
+    <path d="M632 429 H785 V432 H850" stroke="#000" stroke-width="1.9" fill="none" id="plus_node_287" />
+    <path d="M877 431 H950" stroke="#000" stroke-width="1.9" fill="none" id="plus_node_288" />
+    <path class="thinArrow" d="M967 467 H987" id="plus_node_289" />
+    <text class="serif" x="989" y="473" font-size="18" font-style="italic" id="plus_node_290">R<tspan baseline-shift="super" font-size="11">S</tspan><tspan baseline-shift="sub" font-size="11">t</tspan></text>
+  </g>
+</svg>

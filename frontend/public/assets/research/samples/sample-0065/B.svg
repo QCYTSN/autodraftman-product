@@ -1,0 +1,164 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1731" height="471" viewBox="0 0 1731 471">
+  <defs>
+    <marker id="arrowBlack" markerUnits="userSpaceOnUse" markerWidth="10" markerHeight="8" refX="10" refY="4" orient="auto">
+      <path d="M0,0 L10,4 L0,8 Z" fill="#000" id="plus_node_0" />
+    </marker>
+    <marker id="arrowGreen" markerUnits="userSpaceOnUse" markerWidth="10" markerHeight="8" refX="10" refY="4" orient="auto">
+      <path d="M0,0 L10,4 L0,8 Z" fill="#00b050" id="plus_node_1" />
+    </marker>
+  </defs>
+
+  <rect id="canvas_bg" x="0" y="0" width="1731" height="471" fill="#ffffff" />
+
+  <g id="base_frames">
+    <rect id="f01" data-plus-kind="frame" x="0" y="0" width="845" height="471" fill="none" stroke="none" />
+    <rect id="f02" data-plus-kind="frame" x="846" y="0" width="885" height="471" fill="none" stroke="none" />
+  </g>
+
+  <line id="center_separator" x1="845.5" y1="22" x2="845.5" y2="461" stroke="#e5e5e5" stroke-width="3" />
+
+  <g id="left_panel">
+    <title>New Preference Data Generation</title>
+    <desc>Inventory: left panel contains a title for input prompts, a dataset cylinder with {x}, arrows to current LLM, sampled response dashed container with two response stacks, a reference LLM below, a dashed implicit-reward label path, and a rounded preference-judgment block comparing blue preferred and red rejected response stacks. Layout is primarily left-to-right with the reference branch below the current model, and bottom title centered.</desc>
+
+    <text id="left_title_inputs" x="20" y="47" font-family="Arial, Helvetica, sans-serif" font-size="23" fill="#000">New Input Prompts</text>
+    <text id="left_title_sampled" x="531" y="47" font-family="Arial, Helvetica, sans-serif" font-size="23" fill="#000">Sampled Responses</text>
+
+    <g id="left_input_cylinder">
+      <path d="M59,82 C59,63 168,63 168,82 L168,148 C168,166 59,166 59,148 Z" fill="#ffffff" stroke="#000" stroke-width="2.5" id="plus_node_2" />
+      <ellipse cx="113.5" cy="82" rx="54.5" ry="14.5" fill="#ffffff" stroke="#000" stroke-width="2.5" id="plus_node_3" />
+      <text x="113" y="129" text-anchor="middle" font-family="Times New Roman, serif" font-size="32" font-style="italic" fill="#000" id="plus_node_4">{x}</text>
+    </g>
+
+    <line id="arrow_input_to_current" x1="168" y1="114" x2="248" y2="114" stroke="#000" stroke-width="2" marker-end="url(#arrowBlack)" />
+
+    <g id="left_current_llm">
+      <rect x="249" y="72" width="139" height="84" fill="#ffffff" stroke="#000" stroke-width="2.5" id="plus_node_5" />
+      <text x="282" y="105" font-family="Arial, Helvetica, sans-serif" font-size="23" fill="#000" id="plus_node_6">Current</text>
+      <text x="282" y="143" font-family="Arial, Helvetica, sans-serif" font-size="23" fill="#000" id="plus_node_7">LLM <tspan font-family="Times New Roman, serif" font-style="italic">π</tspan><tspan baseline-shift="sub" font-size="16" font-family="Times New Roman, serif" font-style="italic">θ</tspan></text>
+      <image id="src_icon_left_current_flame" x="366" y="64" width="23" height="27" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABcAAAAbCAIAAAAYioOMAAAD6ElEQVR4nIWV3W8UVRTAf/fOzO52d7bb7pZlu1CpxdDQ1AARNEIxEjWSkBB4kBfjm/9HE+OTj/4NookJTwQNRuoDqSQaQ2C1QEuIpLS1pe1+zUx3vu71odtl+xXO08y55/zuOfecc6/QWrOPPL/9y5HvbvBiiUI/1y57n36czuX2tJT7IeIoOlJ3aDTRitU1pqZrf8/Ecfx6ShiGbrXW8jygsfKSxRUct7327N/yozm3WnsNJYqixtzTzO2p1vxCGAStmcc8qNDZPAyZmV2dn9+TYna+/OXlwk+/8mhWpFOO6w7+Ns2LxVeGWrO4aNeaWmshxN6UludlKjPcvUcQ5n6+QyrF41nCcJut4xb9UEWRsKy9KY1aLXW/QqOJ1jyZQ0CsdsYdBDiOfDxXXV/XY6P5Awc6K0JKCSSFvP32mfN9A+hdzluitH7oNn2l+kzjq+dPf1z9b9O0XC6bSilACXy1r/+mSCHGM7ZASPh6eHQlCO7UVjUopcTk5CTgu+6VxbX3llZ5HasdlxDz2cwnU7fmXKdcLovN3g18P3H3d775liDc6aEhBgESuosjjZv5zJUbP5TKZbnheVT+saIoLg4wdJgdVVQgNScdzjToieluXRWfq7mns1m0lo21dW7cbM4+Xe7Ncri8jaIBzbENLq8wUaM/2lK2JR/rS/kSIA82XSqPvHt/ho0mcUz3cCroj3i3xqEWgy2GWpi6m4LWF/PFhMbk5SrVamn6D9aqVGbQXXZCM9ziqIeA3ohxh2c9LCfQnQPSx9P2ybRt4rpozcIiC0vtcBOKhMI1SGoO+fRFKBAw6nA8Td3El51jtg1j0LQkmq0sNBoMxTGP8zWyEUlFPsBSINCCbMTpOmUfsS0viZDkshhbk60hG3Omwbkqox6ZGDt+NfZKMLzBuENGdShOHC9HoWTwIPl8GyE1xZA3PfIh79c55ZCLurYVWIoxh0KIAA1CPHTrMy1Pun05Tp1oF9iAfEBvCDDiMrHOAZ/uZlaCgz4lH0MDLcT3K0s1HctEby8XPqRcQggkpDQmaIGl6QtJqe0NK0gpChGWxjD+yvZcX17QIC3Lao2/xbWrFAdAEsitBhVosR3RVmNqLJMLE9dtsx5HQggJJG3b/eAsX37OyFHWEjSTyH0eBgHaQBW4eGnps8uRndlUm4AQItPftzFx9mWp9EblPvVbFB9gBjvjUEAK8Q4ffVEfOlEsFDbvJrrv3Z50+vD4mDsyvOGcH0g/w39COE/sgkJYGL1YgyTHqv5I+shALpns5pvdP1LKjG1nbDuOh+LUhFKq8+YJIaSUhmH0Z43diZq7VYBhGIaxh/V+8j9SA8lnnytuxAAAAABJRU5ErkJggg==" /></g>
+
+    <line id="arrow_current_to_sampled" x1="388" y1="114" x2="469" y2="114" stroke="#000" stroke-width="2" marker-end="url(#arrowBlack)" />
+
+    <g id="sampled_responses_block">
+      <rect id="sampled_responses_frame" x="470" y="62" width="328" height="102" rx="23" ry="23" fill="none" stroke="#000" stroke-width="1.8" stroke-dasharray="6 4" />
+      <g id="left_response_stack_y1">
+        <path d="M512,83 H609 V130 Q558,140 512,134 Z" fill="#fff" stroke="#000" stroke-width="2.5" id="plus_node_9" />
+        <path d="M504,88 H601 V135 Q552,145 504,140 Z" fill="#fff" stroke="#000" stroke-width="2.5" id="plus_node_10" />
+        <path d="M496,94 H593 V140 Q544,150 496,144 Z" fill="#fff" stroke="#000" stroke-width="2.5" id="plus_node_11" />
+        <text x="544" y="128" text-anchor="middle" font-family="Times New Roman, serif" font-size="32" font-style="italic" fill="#000" id="plus_node_12">{y<tspan baseline-shift="sub" font-size="19">1</tspan>}</text>
+      </g>
+      <g id="left_response_stack_y2">
+        <path d="M675,83 H772 V130 Q722,140 675,134 Z" fill="#fff" stroke="#000" stroke-width="2.5" id="plus_node_13" />
+        <path d="M667,88 H764 V135 Q715,145 667,140 Z" fill="#fff" stroke="#000" stroke-width="2.5" id="plus_node_14" />
+        <path d="M659,94 H756 V140 Q707,150 659,144 Z" fill="#fff" stroke="#000" stroke-width="2.5" id="plus_node_15" />
+        <text x="708" y="128" text-anchor="middle" font-family="Times New Roman, serif" font-size="32" font-style="italic" fill="#000" id="plus_node_16">{y<tspan baseline-shift="sub" font-size="19">2</tspan>}</text>
+      </g>
+    </g>
+
+    <path id="left_implicit_reward_path" d="M319,156 V213 H634" fill="none" stroke="#000" stroke-width="1.7" stroke-dasharray="7 5" marker-end="url(#arrowBlack)" />
+    <rect id="implicit_reward_highlight" x="344" y="172" width="278" height="36" fill="#eaf3f3" opacity="0.95" />
+    <text id="implicit_reward_text" x="352" y="197" font-family="Arial, Helvetica, sans-serif" font-size="23" fill="#000">Label with Implicit Reward</text>
+
+    <g id="left_reference_llm">
+      <rect x="249" y="252" width="139" height="86" fill="#ffffff" stroke="#000" stroke-width="2.5" id="plus_node_17" />
+      <text x="268" y="286" font-family="Arial, Helvetica, sans-serif" font-size="23" fill="#000" id="plus_node_18">Reference</text>
+      <text x="273" y="324" font-family="Arial, Helvetica, sans-serif" font-size="23" fill="#000" id="plus_node_19">LLM <tspan font-family="Times New Roman, serif" font-style="italic">π</tspan><tspan baseline-shift="sub" font-size="16" font-family="Times New Roman, serif" font-style="italic">ref</tspan></text>
+      <image id="src_icon_left_reference_snowflake" x="366" y="246" width="30" height="33" href="data:image/png;base64,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" /></g>
+
+    <line id="arrow_sampled_to_judgment" x1="634" y1="164" x2="634" y2="253" stroke="#000" stroke-width="2" marker-end="url(#arrowBlack)" />
+
+    <g id="preference_judgment_block">
+      <rect x="470" y="254" width="329" height="92" rx="15" ry="15" fill="#ffffff" stroke="#000" stroke-width="2" id="plus_node_21" />
+      <g id="preferred_blue_stack">
+        <path d="M512,274 H609 V319 Q560,329 512,324 Z" fill="#fff" stroke="#0074d9" stroke-width="2.5" id="plus_node_22" />
+        <path d="M504,279 H601 V324 Q552,334 504,329 Z" fill="#fff" stroke="#0074d9" stroke-width="2.5" id="plus_node_23" />
+        <path d="M496,285 H593 V330 Q545,340 496,334 Z" fill="#fff" stroke="#0074d9" stroke-width="2.5" id="plus_node_24" />
+        <text x="545" y="319" text-anchor="middle" font-family="Times New Roman, serif" font-size="32" font-style="italic" fill="#000" id="plus_node_25">{y<tspan baseline-shift="sub" font-size="19">w</tspan>}</text>
+      </g>
+      <text x="618" y="322" font-family="Arial, Helvetica, sans-serif" font-size="62" font-weight="700" fill="#000" id="plus_node_27">&gt;</text>
+      <g id="rejected_red_stack">
+        <path d="M675,274 H772 V319 Q723,329 675,324 Z" fill="#fff" stroke="#e00000" stroke-width="2.5" id="plus_node_28" />
+        <path d="M667,279 H764 V324 Q715,334 667,329 Z" fill="#fff" stroke="#e00000" stroke-width="2.5" id="plus_node_29" />
+        <path d="M659,285 H756 V330 Q708,340 659,334 Z" fill="#fff" stroke="#e00000" stroke-width="2.5" id="plus_node_30" />
+        <text x="708" y="319" text-anchor="middle" font-family="Times New Roman, serif" font-size="32" font-style="italic" fill="#000" id="plus_node_31">{y<tspan baseline-shift="sub" font-size="19">l</tspan>}</text>
+      </g>
+      <text id="preference_judgment_label" x="527" y="373" font-family="Arial, Helvetica, sans-serif" font-size="22" fill="#000">Preference Judgment</text>
+    <image id="src_icon_preference_blue_thumb_up" x="604" y="244" width="24" height="29" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAdCAIAAAA/2DscAAABi0lEQVR4nO3U20oCQRgA4Bkd1izMXQ0NstaCwKCbCPIRogfqBXyB7uoBAm87EN1YWUE3C0mH1c3TsqyKurq6lrUpe+iicDchcGkvhPqv5p/DNzP8zEBd14Ed4bBF+Yf+OoRomrbLsidgLBazB7L01mRZ5uptKs2GAsT6cgjHvYMhNLrSaIpUvnpawS7y2JJf3Ub1aMTldk9YhtiqGC844qkqAOBJkDcWyHCgE577giyUX1HVnqIZriiLnZdBauFEtaaUFX6cb+FENVFi6m+/hW7us9cSoZoqHAlOBnxG1UaCkrfMHtVKllRz5woSglahw1Q5wWuNV8Xc6UE6hmGDFF2mGPPwKhmc8fs+24qiVBoSlWGv+J7QNdZAoEfJacLrNi9EO6lv+2zyma01cpGc73a7d4XyCY/OC85i3wuAUXgIgcfl5FrvkCka0HG6ZYYeCNcUYv0ETjHcbhoe0TVNh0M31XSYyEk6wGdLfQMamsS1e432c75c3y+gg0cBgGFlEGc5yZyO3w85ftAHq3OhkErv+vAAAAAASUVORK5CYII=" /><image id="src_icon_preference_red_thumb_down" x="768" y="244" width="33" height="37" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACEAAAAlCAIAAABDFxcuAAADQUlEQVR4nO2Vz08TQRTHv/vDdrG1YEtNdFFjIZqsKQ2JhUtPctMYLpAQEkg4lRA4GK6c4J8wveDBgydMDKjBBA5caNgABgyLljQpi6hLu6Wl9IdlxsNCU2vBCvRg4jfvMPvmzfvM7rydx1BKUWWx1Qb8Z/xn/MMMfm1trfJos9nsdDrr6uqqtp9jNTU1dXd3BwKBZDJJKxAzNjZWYWpKaTabjUQisixvbGxQSmtra/v7+0dGRhoaGv6w8gyKx+OBQMDtdgOw2WwTExOEkJOCz8gwRAiZmpoSRRFAR0dHKpW6eIYhXdd7enoAtLe3l8VcAINSSggZGhoyMLlcrioMAzMwMABgfHy8ZIqhp/aoXC6X2NnZURQAyd1dks+XBLAcd0OSGJZ1NDZeMpm8Xq+iKIuLix6PpxDDfJifPxqxrFMU60WR53nDk0qlYopy880bvHoFAIqCdLp0F2Yzurpgt28NDt68d295ebm1tdXn883NzRXVbsEEgQ4Pf9vaIoRkMpm9ePzz7Czt7KTFMSdZS8t6MGh8md7eXgCrq6tF51GIYxhqMv148SKp6+Hp6Yzfn/V4KM9XxOA4eWbGyBgMBgH4/f5yDMOeP08vLCT7+qjdTgWhIgBA3e7o6OjW+rqRtLm52el0Fv7KMveukE5bo1HEYshkTrshirW9bX/50vT+fULTAPh8Pk3TVFU9qotKs5yuWAyh0LWlpZSqAvB6vQBkWb5QhqFwOLG9DUCSJAChUKgqjMPNzfTBgcViAZA+LvQLZUQi0sLCwadPHMcBIISUZ0Tfvj0XJhj8Mjtb4itlkGz2XAxRtN6+/QfGeRWLZTStygxVta2s7H//Xk1GIiGqqknXT2NogpBwOGK3bsHh+GuA1Yq7d3VJ+mG1Frv5wogCeUCvr5fc7nBnJ69ptnfvsL9fJtfly3t2e9RiKXGbXC7L48d49Mjya+Hw+eNucZjPfwGsNTUA7jx8GOY4y+EhXr/mCEFJH2triz996nry5KT3+aYoxY/s11DIsGlgHbhSU2NMXG9r0589+zA5iaKOdiRRtLlcJwF+F99wXM6bDANKWfbohARBEASBefAAXV1YWfll0cePmixfvX+/QsZPJjdtaJL6QgcAAAAASUVORK5CYII=" /></g>
+
+    <rect id="left_bottom_title_pill" x="166" y="386" width="477" height="52" rx="17" ry="17" fill="#fbf3ee" />
+    <text id="left_bottom_title" x="176" y="424" font-family="Arial, Helvetica, sans-serif" font-size="31" fill="#000">New Preference Data Generation</text>
+  </g>
+
+  <g id="right_panel">
+    <title>Preference Learning with Self-Refinement</title>
+    <desc>Inventory: right panel contains new preference data cylinder, simulated LLM dashed box, noise identified data rounded block with accepted green and rejected red cylinders, bottom reference/current LLM boxes joined through a plus operator to the simulator, a curved learning arrow from detected noise to current model, and explanatory blue-gray callouts. Symmetry basis is a two-branch refinement loop centered around the plus node.</desc>
+
+    <text id="right_title_pref_data" x="877" y="47" font-family="Arial, Helvetica, sans-serif" font-size="23" fill="#000">New Preference Data</text>
+    <text id="right_title_noise" x="1405" y="47" font-family="Arial, Helvetica, sans-serif" font-size="23" fill="#000">Noise Identified Data</text>
+
+    <g id="right_preference_data_cylinder">
+      <path d="M910,86 C910,66 1060,66 1060,86 L1060,149 C1060,169 910,169 910,149 Z" fill="#ffffff" stroke="#000" stroke-width="2.5" id="plus_node_33" />
+      <ellipse cx="985" cy="86" rx="75" ry="14.5" fill="#ffffff" stroke="#000" stroke-width="2.5" id="plus_node_34" />
+      <text x="985" y="136" text-anchor="middle" font-family="Times New Roman, serif" font-size="26" font-style="italic" fill="#000" id="plus_node_35">{(x, y<tspan baseline-shift="sub" font-size="16">w</tspan>, y<tspan baseline-shift="sub" font-size="16">l</tspan>)}</text>
+    </g>
+
+    <line id="arrow_prefdata_to_simulated" x1="1060" y1="117" x2="1140" y2="117" stroke="#000" stroke-width="2" marker-end="url(#arrowBlack)" />
+
+    <g id="simulated_llm_box">
+      <rect x="1141" y="76" width="139" height="85" fill="#ffffff" stroke="#000" stroke-width="2.5" stroke-dasharray="9 8" id="plus_node_36" />
+      <text x="1167" y="107" font-family="Arial, Helvetica, sans-serif" font-size="20" fill="#000" id="plus_node_37">Simulated</text>
+      <text x="1173" y="144" font-family="Arial, Helvetica, sans-serif" font-size="20" fill="#000" id="plus_node_38">LLM <tspan font-family="Times New Roman, serif" font-style="italic">π</tspan><tspan baseline-shift="sub" font-size="15" font-family="Times New Roman, serif" font-style="italic">θ̃</tspan></text>
+    </g>
+
+    <line id="arrow_simulated_to_noise" x1="1280" y1="118" x2="1362" y2="118" stroke="#000" stroke-width="2" marker-end="url(#arrowBlack)" />
+
+    <g id="noise_identified_block">
+      <rect x="1362" y="65" width="299" height="105" rx="15" ry="15" fill="#ffffff" stroke="#000" stroke-width="2" id="plus_node_39" />
+      <g id="noise_green_cylinder">
+        <path d="M1389,92 C1389,76 1477,76 1477,92 L1477,145 C1477,162 1389,162 1389,145 Z" fill="#ffffff" stroke="#00b050" stroke-width="2.5" id="plus_node_40" />
+        <ellipse cx="1433" cy="92" rx="44" ry="11.5" fill="#ffffff" stroke="#00b050" stroke-width="2.5" id="plus_node_41" />
+      </g>
+      <g id="noise_red_cylinder">
+        <path d="M1528,92 C1528,76 1616,76 1616,92 L1616,145 C1616,162 1528,162 1528,145 Z" fill="#ffffff" stroke="#ff0000" stroke-width="2.5" id="plus_node_44" />
+        <ellipse cx="1572" cy="92" rx="44" ry="11.5" fill="#ffffff" stroke="#ff0000" stroke-width="2.5" id="plus_node_45" />
+      </g>
+      <image id="src_icon_noise_green_circled_check" x="1484" y="73" width="31" height="31" href="data:image/png;base64,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" /><image id="src_icon_noise_red_circled_x" x="1621" y="73" width="33" height="33" href="data:image/png;base64,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" /></g>
+
+    <rect id="simulate_aligned_highlight" x="857" y="187" width="336" height="62" fill="#eaf3f3" />
+    <text id="simulate_aligned_text" x="865" y="213" font-family="Arial, Helvetica, sans-serif" font-size="23" fill="#000">Simulate Strongly Aligned LLM</text>
+    <text x="865" y="239" font-family="Arial, Helvetica, sans-serif" font-size="23" fill="#000" id="plus_node_49">for Noisy Label Detection</text>
+
+    <path id="dashed_plus_to_simulated" d="M1211,199 V162" fill="none" stroke="#000" stroke-width="1.8" stroke-dasharray="6 5" marker-end="url(#arrowBlack)" />
+
+    <g id="plus_operator">
+      <circle cx="1211" cy="216" r="14" fill="#ffffff" stroke="#000" stroke-width="2" id="plus_node_50" />
+      <line x1="1203" y1="216" x2="1219" y2="216" stroke="#000" stroke-width="2.5" id="plus_node_51" />
+      <line x1="1211" y1="208" x2="1211" y2="224" stroke="#000" stroke-width="2.5" id="plus_node_52" />
+    </g>
+
+    <line id="plus_to_reference" x1="1205" y1="229" x2="1167" y2="313" stroke="#000" stroke-width="2" />
+    <line id="plus_to_current" x1="1217" y1="229" x2="1260" y2="314" stroke="#000" stroke-width="2" />
+
+    <g id="right_reference_llm">
+      <rect x="1028" y="271" width="139" height="86" fill="#ffffff" stroke="#000" stroke-width="2.5" id="plus_node_53" />
+      <text x="1047" y="305" font-family="Arial, Helvetica, sans-serif" font-size="23" fill="#000" id="plus_node_54">Reference</text>
+      <text x="1052" y="343" font-family="Arial, Helvetica, sans-serif" font-size="23" fill="#000" id="plus_node_55">LLM <tspan font-family="Times New Roman, serif" font-style="italic">π</tspan><tspan baseline-shift="sub" font-size="16" font-family="Times New Roman, serif" font-style="italic">ref</tspan></text>
+      <image id="src_icon_right_reference_snowflake" x="1144" y="266" width="31" height="33" href="data:image/png;base64,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" /></g>
+
+    <g id="right_current_llm">
+      <rect x="1259" y="271" width="139" height="86" fill="#ffffff" stroke="#000" stroke-width="2.5" id="plus_node_57" />
+      <text x="1292" y="305" font-family="Arial, Helvetica, sans-serif" font-size="23" fill="#000" id="plus_node_58">Current</text>
+      <text x="1292" y="343" font-family="Arial, Helvetica, sans-serif" font-size="23" fill="#000" id="plus_node_59">LLM <tspan font-family="Times New Roman, serif" font-style="italic">π</tspan><tspan baseline-shift="sub" font-size="16" font-family="Times New Roman, serif" font-style="italic">θ</tspan></text>
+      <image id="src_icon_right_current_flame" x="1380" y="266" width="25" height="28" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABkAAAAcCAIAAAAbRoOHAAADMElEQVR4nLWVz2scZRjHP887MzvT7WY3Cd1N0tbWVrNQWyj9ZXsQtSBCFfWiVjx5KYKoB0H04j/gTdCL0JMgHkQP4sEehBYKlphqSxECQaNQm5KkcZPdndmdmffxsGmTnZ2FIPjc5n2e5zPf53mf931FVaN2W4zxgwBgbp53P6QT0bORET79mP0PsQ0znSgKrl7zf/8T6IQh318i7m76W20uX90OCDD+9Rt8dpHrNzph6M/8wo9XsHbTr8rsr3brynBz9eIXst7Uaz8Xxkb1y6+l1eoPUL1zV8JIizsGk0Wk71PPvoC1qWpo05LjgWYS/knix2Yulz3v7yhcT9MH61EU+b7fpwsEcERKjjsIAnYa5+Xq1MlSuWCcC3M3mzYdjHmg60WGu3sWuk4htQZm91TPfffN8lojV5dBhgC22I4kdVRF9eRS46vX3xgWZpAhMIV0oOhu98TC7WPlyhBWbVcOroeoh4ykbJ0H1dGo887kfpPPOlTPYaVCvc2rixwMSfq9al+qTh4vlfNYkxNZVgpjCc8v80iLo+uYbKXjheB8bXcea/4PMmNthVNr1Jt0DYeb7IvI7LPac+O1uN0eYN36DVWABBQUipZTDUSxQiXm6VWcfmmqB4NiYeneAKt1H3+khW9JoBozFZEKgIUTDQ63Ml0LjKHRGGD1FO3u8Noi9TZdw0SHwPbOAyoUE55dodS3oYrgeXksFc402BvxzAojlkqC2VJSKkw3Ob6+oRSApbijteoAS6FkOdIkhkfbvHKX6bBvphAc5fEGnm50zTiXVpfS0exYGCxUYsa6WEGU06scWsvOVCLsC6nGWECWovCT2wuO4wzqEnxwQQUVCpbC/WZtlVZM2RWjkjjy0cLc7Hq28YDBNbQNXdlMG3bcRSj4V+oPf37nr1y/4akz3PNY3ImXc3ltmAOJh7eHD97+ae/EsDh37b23yk88yfK38AN+G5H+uRSswiiF53j/zW6t5t2cGfZHt1ypJGdPd7vHinKBzi0688QraAyCU8QZJziAfzTUqSAICsMuqB4LcF3XdV3VuvrTmSdHRETEGJPzcuSyMmnbyMq3/575/7L+BU1CRePVFosVAAAAAElFTkSuQmCC" /></g>
+
+    <path id="noise_to_current_curve" d="M1513,170 C1512,215 1488,285 1399,314" fill="none" stroke="#000" stroke-width="2" marker-end="url(#arrowBlack)" />
+
+    <rect id="learning_refined_highlight" x="1483" y="273" width="218" height="61" fill="#eaf3f3" />
+    <text id="learning_refined_text_1" x="1490" y="298" font-family="Arial, Helvetica, sans-serif" font-size="23" fill="#000">Learning with</text>
+    <text id="learning_refined_text_2" x="1490" y="324" font-family="Arial, Helvetica, sans-serif" font-size="23" fill="#000">Refined Preference</text>
+
+    <rect id="right_bottom_title_pill" x="969" y="386" width="613" height="53" rx="17" ry="17" fill="#eef7fb" />
+    <text id="right_bottom_title" x="986" y="424" font-family="Arial, Helvetica, sans-serif" font-size="31" fill="#000">Preference Learning with Self- Refinement</text>
+  </g>
+</svg>

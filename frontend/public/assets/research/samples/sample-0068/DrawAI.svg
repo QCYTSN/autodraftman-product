@@ -1,0 +1,62 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="2048" height="732" viewBox="0 0 2048 732">
+  <defs>
+    <marker id="arrowhead" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M 1 1 L 5 3 L 1 5" fill="none" stroke="#0b0b0b" stroke-width="0.75" stroke-linecap="round" stroke-linejoin="round"/>
+    </marker>
+  </defs>
+  <rect id="background-white" data-pb-role="background" data-pb-editable="true" x="0" y="0" width="2048" height="732" fill="#ffffff" stroke="none"/>
+
+  <g id="module-engibench" data-pb-role="panel" data-pb-editable="true">
+    <rect id="panel-engibench-frame" data-pb-role="panel" data-pb-editable="true" x="37" y="40" width="1481" height="644" rx="125" ry="125" fill="#fbfbfb" stroke="#e2e2e2" stroke-width="5"/>
+    <text id="title-engibench" data-pb-role="title" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="horizontal" x="779" y="108" font-family="Arial, Helvetica, sans-serif" font-size="44" font-style="normal" font-weight="700" fill="#000000" text-anchor="middle">EngiBench</text>
+
+    <g id="module-benchmark-stack" data-pb-role="panel" data-pb-editable="true">
+      <rect id="panel-problem-rear" data-pb-role="panel" data-pb-editable="true" x="160" y="147" width="502" height="405" rx="62" ry="62" fill="#e9fbdb" stroke="#d0e2c4" stroke-width="5"/>
+      <text id="label-ellipsis" data-pb-role="label" data-pb-editable="true" data-pb-text-source="visual_inferred" data-pb-orientation="horizontal" x="211" y="190" font-family="Arial, Helvetica, sans-serif" font-size="36" font-style="normal" font-weight="400" fill="#000000" text-anchor="start">...</text>
+
+      <rect id="panel-problem-beams2d" data-pb-role="panel" data-pb-editable="true" x="138" y="202" width="501" height="402" rx="60" ry="60" fill="#e4fad6" stroke="#cae0bf" stroke-width="5"/>
+      <text id="label-beams2d" data-pb-role="label" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="horizontal" x="185" y="243" font-family="Arial, Helvetica, sans-serif" font-size="36" font-style="normal" font-weight="400" fill="#000000" text-anchor="start">Beams2D</text>
+
+      <rect id="panel-problem-heat" data-pb-role="panel" data-pb-editable="true" x="112" y="259" width="501" height="388" rx="61" ry="61" fill="#e2fad3" stroke="#c9dfbd" stroke-width="5"/>
+      <text id="label-heat" data-pb-role="label" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="horizontal" x="158" y="311" font-family="Arial, Helvetica, sans-serif" font-size="36" font-style="normal" font-weight="400" fill="#000000" text-anchor="start">HeatConduction</text>
+
+      <rect id="panel-problem-airfoil" data-pb-role="panel" data-pb-editable="true" x="85" y="326" width="501" height="321" rx="61" ry="61" fill="#dff9d0" stroke="#c5ddb9" stroke-width="5"/>
+      <text id="label-airfoil" data-pb-role="label" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="horizontal" x="134" y="377" font-family="Arial, Helvetica, sans-serif" font-size="36" font-style="normal" font-weight="400" fill="#000000" text-anchor="start">Airfoil</text>
+
+      <rect id="node-simulator" data-pb-role="node" data-pb-editable="true" x="127" y="407" width="418" height="92" rx="18" ry="18" fill="#c9f2a9" stroke="#b9ea98" stroke-width="5"/>
+      <text id="label-simulator" data-pb-role="label" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="horizontal" x="336" y="468" font-family="Arial, Helvetica, sans-serif" font-size="38" font-style="normal" font-weight="400" fill="#000000" text-anchor="middle">Simulator</text>
+
+      <rect id="node-dataset" data-pb-role="node" data-pb-editable="true" x="128" y="522" width="418" height="96" rx="18" ry="18" fill="#c9f2a9" stroke="#b9ea98" stroke-width="5"/>
+      <text id="label-dataset" data-pb-role="label" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="horizontal" x="337" y="584" font-family="Arial, Helvetica, sans-serif" font-size="38" font-style="normal" font-weight="400" fill="#000000" text-anchor="middle">Dataset</text>
+    </g>
+
+    <g id="module-python-api" data-pb-role="panel" data-pb-editable="true">
+      <rect id="panel-python-api" data-pb-role="panel" data-pb-editable="true" x="748" y="240" width="728" height="315" rx="60" ry="60" fill="#fff0af" stroke="#ffe16c" stroke-width="5"/>
+      <text id="title-python-api" data-pb-role="label" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="horizontal" x="819" y="286" font-family="Arial, Helvetica, sans-serif" font-size="38" font-style="normal" font-weight="400" fill="#000000" text-anchor="start">Python API</text>
+      <rect id="panel-api-code" data-pb-role="panel" data-pb-editable="true" x="769" y="310" width="683" height="221" rx="47" ry="47" fill="#fff8e8" stroke="#e3e3df" stroke-width="5"/>
+      <text id="label-api-simulate" data-pb-role="label" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="horizontal" x="782" y="379" font-family="Courier New, Courier, monospace" font-size="34" font-style="normal" font-weight="400" fill="#000000" text-anchor="start">problem.simulate(design, conds)</text>
+      <text id="label-api-optimize" data-pb-role="label" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="horizontal" x="782" y="431" font-family="Courier New, Courier, monospace" font-size="34" font-style="normal" font-weight="400" fill="#000000" text-anchor="start">problem.optimize(design, conds)</text>
+      <text id="label-api-dataset" data-pb-role="label" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="horizontal" x="782" y="482" font-family="Courier New, Courier, monospace" font-size="34" font-style="normal" font-weight="400" fill="#000000" text-anchor="start">problem.dataset</text>
+    </g>
+
+    <g id="connector-api-flows" data-pb-role="connector" data-pb-editable="true" fill="none" stroke="#0b0b0b" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+      <path id="connector-simulator-simulate" data-pb-role="connector" data-pb-editable="true" d="M 548 430 C 611 395, 687 374, 771 365" marker-start="url(#arrowhead)" marker-end="url(#arrowhead)"/>
+      <path id="connector-simulator-optimize" data-pb-role="connector" data-pb-editable="true" d="M 548 460 C 612 438, 688 422, 771 418" marker-start="url(#arrowhead)" marker-end="url(#arrowhead)"/>
+      <path id="connector-dataset-api" data-pb-role="connector" data-pb-editable="true" d="M 548 554 C 611 512, 688 486, 771 471" marker-start="url(#arrowhead)" marker-end="url(#arrowhead)"/>
+    </g>
+  </g>
+
+  <g id="module-engiopt" data-pb-role="panel" data-pb-editable="true">
+    <rect id="panel-engiopt-frame" data-pb-role="panel" data-pb-editable="true" x="1544" y="43" width="452" height="642" rx="83" ry="83" fill="#fbfbfb" stroke="#e2e2e2" stroke-width="5"/>
+    <text id="title-engiopt" data-pb-role="title" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="horizontal" x="1769" y="109" font-family="Arial, Helvetica, sans-serif" font-size="44" font-style="normal" font-weight="700" fill="#000000" text-anchor="middle">EngiOpt</text>
+
+    <rect id="node-optimization" data-pb-role="node" data-pb-editable="true" x="1562" y="188" width="414" height="116" rx="23" ry="23" fill="#c7def7" stroke="#add5fb" stroke-width="5"/>
+    <text id="label-optimization" data-pb-role="label" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="horizontal" x="1769" y="262" font-family="Arial, Helvetica, sans-serif" font-size="36" font-style="normal" font-weight="400" fill="#000000" text-anchor="middle">Optimization</text>
+
+    <rect id="node-surrogate" data-pb-role="node" data-pb-editable="true" x="1562" y="340" width="414" height="115" rx="23" ry="23" fill="#c7def7" stroke="#add5fb" stroke-width="5"/>
+    <text id="label-surrogate" data-pb-role="label" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="horizontal" x="1769" y="414" font-family="Arial, Helvetica, sans-serif" font-size="36" font-style="normal" font-weight="400" fill="#000000" text-anchor="middle">Surrogate Models</text>
+
+    <rect id="node-generative" data-pb-role="node" data-pb-editable="true" x="1562" y="490" width="415" height="116" rx="23" ry="23" fill="#c7def7" stroke="#add5fb" stroke-width="5"/>
+    <text id="label-generative" data-pb-role="label" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="horizontal" x="1769" y="563" font-family="Arial, Helvetica, sans-serif" font-size="36" font-style="normal" font-weight="400" fill="#000000" text-anchor="middle">Generative Models</text>
+  </g>
+</svg>

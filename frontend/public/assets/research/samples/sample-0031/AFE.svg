@@ -1,0 +1,278 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="3840" height="975" viewBox="0 0 3840 975">
+  <defs>
+    <marker id="arrNavy" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 Z" fill="#173653"/>
+    </marker>
+    <marker id="arrRed" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 Z" fill="#ef4d48"/>
+    </marker>
+    <marker id="arrBlue" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 Z" fill="#0b7fc6"/>
+    </marker>
+    <marker id="arrGreen" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 Z" fill="#19752a"/>
+    </marker>
+    <marker id="arrDown" viewBox="0 0 12 12" refX="6" refY="10" markerWidth="9" markerHeight="9" orient="auto">
+      <path d="M1,1 L6,11 L11,1 Z" fill="#116486" stroke="#0d3e52" stroke-width="0.7"/>
+    </marker>
+    <pattern id="noisePat" patternUnits="userSpaceOnUse" width="6" height="6">
+      <rect width="6" height="6" fill="#9b9b9b"/>
+      <circle cx="1" cy="1" r="0.8" fill="#d14aa8"/>
+      <circle cx="4" cy="1.5" r="0.7" fill="#2fb6d4"/>
+      <circle cx="2" cy="4" r="0.8" fill="#6ed15d"/>
+      <circle cx="5" cy="4.5" r="0.6" fill="#e0d34e"/>
+      <rect x="0" y="3" width="1.2" height="1.2" fill="#6a55b7"/>
+      <rect x="3" y="3" width="1" height="1" fill="#e15b5b"/>
+    </pattern>
+    <linearGradient id="redGlow" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#ffffff" stop-opacity="0"/>
+      <stop offset="0.37" stop-color="#ff2424" stop-opacity="0.95"/>
+      <stop offset="0.5" stop-color="#ff1111" stop-opacity="1"/>
+      <stop offset="0.63" stop-color="#ff2424" stop-opacity="0.95"/>
+      <stop offset="1" stop-color="#ffffff" stop-opacity="0"/>
+    </linearGradient>
+    <filter id="softShadow" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="0.4" stdDeviation="0.4" flood-color="#777" flood-opacity="0.35"/>
+    </filter>
+  </defs>
+
+  <g transform="scale(1.875)">
+    <rect x="0" y="0" width="2048" height="520" fill="#ffffff"/>
+
+    <!-- Left erase / preserve area -->
+    <rect x="22" y="38" width="76" height="200" rx="13" fill="none" stroke="#ef4d48" stroke-width="1.7" stroke-dasharray="5 3"/>
+    <rect x="101" y="38" width="75" height="200" rx="13" fill="none" stroke="#3b6894" stroke-width="1.7" stroke-dasharray="5 3"/>
+    <text x="58" y="34" font-family="Arial, sans-serif" font-size="12" font-weight="700" fill="#ef4d48" text-anchor="middle">Erase</text>
+    <text x="138" y="34" font-family="Arial, sans-serif" font-size="12" font-weight="700" fill="#0b7fc6" text-anchor="middle">Preserve</text>
+    <text x="29" y="54" font-family="Times New Roman, serif" font-size="14" font-style="italic" font-weight="700" fill="#ef4d48">
+      W<tspan baseline-shift="-25%" font-size="10">proj</tspan>f<tspan baseline-shift="-25%" font-size="10">map</tspan>
+    </text>
+    <text x="108" y="54" font-family="Times New Roman, serif" font-size="14" font-style="italic" font-weight="700" fill="#0b7fc6">
+      W<tspan baseline-shift="-25%" font-size="10">proj</tspan>f<tspan baseline-shift="-25%" font-size="10">anc</tspan>
+    </text>
+
+    <rect x="36" y="76" width="124" height="45" rx="5" fill="#f3f3f3" stroke="#8a8a8a" stroke-width="1.2"/>
+    <text x="98" y="94" font-family="Arial, sans-serif" font-size="16" font-weight="700" fill="#000" text-anchor="middle">Text emb.</text>
+    <text x="98" y="113" font-family="Arial, sans-serif" font-size="16" font-weight="700" fill="#000" text-anchor="middle">Projector</text>
+
+    <rect x="36" y="137" width="124" height="58" rx="8" fill="#dbeafa" stroke="#2c7797" stroke-width="1.6"/>
+    <text x="98" y="173" font-family="Arial, sans-serif" font-size="19" font-weight="800" fill="#000" text-anchor="middle">MoEraser</text>
+
+    <path d="M70 221 L70 196" stroke="#ef4d48" stroke-width="2.0" fill="none" marker-end="url(#arrRed)"/>
+    <path d="M70 137 L70 121" stroke="#ef4d48" stroke-width="2.0" fill="none" marker-end="url(#arrRed)"/>
+    <path d="M70 76 L70 61" stroke="#ef4d48" stroke-width="2.0" fill="none" marker-end="url(#arrRed)"/>
+    <path d="M27 203 L70 203" stroke="#ef4d48" stroke-width="2.0" fill="none"/>
+    <path d="M27 203 L27 126 L70 126" stroke="#ef4d48" stroke-width="2.0" fill="none"/>
+    <path d="M128 221 L128 196" stroke="#0b7fc6" stroke-width="2.0" fill="none" marker-end="url(#arrBlue)"/>
+    <path d="M128 137 L128 122" stroke="#0b7fc6" stroke-width="2.0" fill="none" marker-end="url(#arrBlue)"/>
+    <path d="M128 76 L128 61" stroke="#0b7fc6" stroke-width="2.0" fill="none" marker-end="url(#arrBlue)"/>
+    <path d="M128 203 L170 203 L170 131 L128 131" stroke="#0b7fc6" stroke-width="2.0" fill="none" marker-end="url(#arrBlue)"/>
+    <path d="M128 131 L170 131" stroke="#0b7fc6" stroke-width="2.0" fill="none"/>
+    <text x="57" y="228" font-family="Times New Roman, serif" font-size="20" font-style="italic" font-weight="700" fill="#ef4d48">f<tspan baseline-shift="-25%" font-size="13">tar</tspan></text>
+    <text x="112" y="228" font-family="Times New Roman, serif" font-size="20" font-style="italic" font-weight="700" fill="#0b7fc6">f<tspan baseline-shift="-25%" font-size="13">anc</tspan></text>
+
+    <!-- flame icon -->
+    <g transform="translate(25,118)">
+      <path d="M16 35 C-2 28 4 9 14 1 C12 12 21 12 21 0 C31 10 26 19 35 20 C45 30 35 45 19 46 C10 46 4 42 1 35 Z" fill="#ff3d10"/>
+      <path d="M20 43 C9 38 14 25 21 17 C22 24 28 22 28 14 C37 25 32 39 20 43 Z" fill="#ff8c00"/>
+      <path d="M18 43 C14 36 18 29 24 25 C24 31 29 32 28 38 C26 43 22 45 18 43 Z" fill="#ffd11a"/>
+    </g>
+
+    <!-- Magnified architecture background -->
+    <polygon points="160,136 190,60 190,208" fill="#b8d7ed" opacity="0.9"/>
+    <rect x="190" y="4" width="410" height="235" rx="31" fill="#dcecf9" stroke="#2c7797" stroke-width="1.2"/>
+
+    <!-- MoE inner paths -->
+    <path d="M198 26 L263 26" stroke="#173653" stroke-width="2.0" fill="none" marker-end="url(#arrNavy)"/>
+    <path d="M198 26 L198 167 L266 167" stroke="#173653" stroke-width="2.0" fill="none" marker-end="url(#arrNavy)"/>
+    <path d="M198 58 L305 58" stroke="#173653" stroke-width="2.0" fill="none" marker-end="url(#arrNavy)"/>
+    <path d="M323 49 L323 39" stroke="#173653" stroke-width="2.0" fill="none" marker-end="url(#arrNavy)"/>
+    <path d="M323 76 L323 66" stroke="#173653" stroke-width="2.0" fill="none" marker-end="url(#arrNavy)"/>
+    <path d="M323 4 L323 16" stroke="#173653" stroke-width="2.0" fill="none" marker-end="url(#arrNavy)"/>
+    <path d="M323 75 L323 88 L343 88 L343 75" stroke="#173653" stroke-width="2.0" fill="none"/>
+    <path d="M334 58 L391 58 L391 166 L373 166" stroke="#173653" stroke-width="2.0" fill="none" marker-end="url(#arrNavy)"/>
+    <path d="M241 123 L241 112" stroke="#173653" stroke-width="2.0" fill="none" marker-end="url(#arrNavy)"/>
+    <path d="M391 124 L391 112" stroke="#173653" stroke-width="2.0" fill="none" marker-end="url(#arrNavy)"/>
+    <path d="M241 123 L285 123 L285 158" stroke="#173653" stroke-width="2.0" fill="none"/>
+    <path d="M391 124 L348 124 L348 158" stroke="#173653" stroke-width="2.0" fill="none"/>
+    <path d="M234 217 L234 227" stroke="#173653" stroke-width="2.0" fill="none" marker-end="url(#arrNavy)"/>
+    <path d="M321 217 L321 237" stroke="#173653" stroke-width="2.0" fill="none" marker-end="url(#arrNavy)"/>
+    <path d="M323 181 L323 175" stroke="#173653" stroke-width="2.0" fill="none"/>
+    <text x="228" y="22" font-family="Times New Roman, serif" font-size="13" font-style="italic" font-weight="700" fill="#173653">α</text>
+    <text x="241" y="183" font-family="Times New Roman, serif" font-size="13" font-style="italic" font-weight="700" fill="#173653">β, γ</text>
+
+    <rect x="263" y="17" width="103" height="17" rx="2.5" fill="#f7f7f7" stroke="#111" stroke-width="1.6" filter="url(#softShadow)"/>
+    <text x="314.5" y="30" font-family="Times New Roman, serif" font-size="13.5" fill="#000" text-anchor="middle">Scale</text>
+    <circle cx="314" cy="58" r="9" fill="none" stroke="#173653" stroke-width="1.2"/>
+    <path d="M314 47 L314 69 M303 58 L325 58" stroke="#173653" stroke-width="1.2"/>
+
+    <rect x="210" y="86" width="61" height="24" rx="4" fill="#daf3c6" stroke="#173653" stroke-width="1.4"/>
+    <rect x="274" y="86" width="61" height="24" rx="4" fill="#daf3c6" stroke="#173653" stroke-width="1.4"/>
+    <rect x="356" y="86" width="67" height="24" rx="4" fill="#daf3c6" stroke="#173653" stroke-width="1.4"/>
+    <text x="240.5" y="102" font-family="Times New Roman, serif" font-size="13" fill="#000" text-anchor="middle">Expert 1</text>
+    <text x="304.5" y="102" font-family="Times New Roman, serif" font-size="13" fill="#000" text-anchor="middle">Expert 2</text>
+    <text x="389.5" y="102" font-family="Times New Roman, serif" font-size="13" fill="#000" text-anchor="middle">Expert <tspan font-style="italic">N</tspan></text>
+    <text x="342" y="102" font-family="Arial, sans-serif" font-size="16" font-weight="700" fill="#000">···</text>
+
+    <rect x="268" y="158" width="103" height="16" rx="2.5" fill="#f6d5f3" stroke="#9c228f" stroke-width="1.3"/>
+    <text x="319.5" y="171" font-family="Times New Roman, serif" font-size="13.5" fill="#000" text-anchor="middle">Router</text>
+    <rect x="279" y="141" width="12" height="17" fill="#d755c8"/>
+    <rect x="312" y="146" width="12" height="12" fill="#d755c8" opacity="0.55"/>
+    <rect x="342" y="133" width="12" height="25" fill="#7b287f"/>
+    <path d="M276 153 L364 153" stroke="#b656b0" stroke-width="1.6"/>
+    <text x="328" y="147" font-family="Arial, sans-serif" font-size="12" fill="#000">···</text>
+    <text x="358" y="149" font-family="Times New Roman, serif" font-size="14" font-style="italic" fill="#173653">k = 2</text>
+
+    <rect x="269" y="181" width="102" height="14" rx="2" fill="#f7f7f7" stroke="#111" stroke-width="1.3"/>
+    <text x="320" y="192.5" font-family="Times New Roman, serif" font-size="12.5" fill="#000" text-anchor="middle">Scale</text>
+    <rect x="206" y="199" width="57" height="18" rx="2.5" fill="#f7f7f7" stroke="#111" stroke-width="1.3"/>
+    <text x="234.5" y="213" font-family="Times New Roman, serif" font-size="13.5" fill="#000" text-anchor="middle">MLP</text>
+    <rect x="268" y="199" width="102" height="18" rx="2.5" fill="#f7f7f7" stroke="#111" stroke-width="1.3"/>
+    <text x="319" y="213" font-family="Times New Roman, serif" font-size="13.5" fill="#000" text-anchor="middle">LayerNorm</text>
+
+    <!-- GLU block -->
+    <rect x="435" y="46" width="155" height="171" rx="18" fill="#dff4df" stroke="#38a735" stroke-width="1.5" stroke-dasharray="5 3"/>
+    <text x="490" y="63" font-family="Arial, sans-serif" font-size="10.5" font-weight="700" fill="#000">Gated Linear Unit</text>
+    <path d="M442 96 L461 69 L494 69 L511 96 Z" fill="#a8df9b" stroke="#19752a" stroke-width="1.2"/>
+    <text x="477" y="88" font-family="Times New Roman, serif" font-size="15" font-style="italic" fill="#000" text-anchor="middle">W<tspan baseline-shift="-25%" font-size="10">in</tspan></text>
+    <path d="M442 162 L461 190 L494 190 L511 162 Z" fill="#a8df9b" stroke="#19752a" stroke-width="1.2"/>
+    <text x="477" y="183" font-family="Times New Roman, serif" font-size="15" font-style="italic" fill="#000" text-anchor="middle">W<tspan baseline-shift="-25%" font-size="10">out</tspan></text>
+    <path d="M517 162 L535 190 L573 190 L587 162 Z" fill="#a8df9b" stroke="#19752a" stroke-width="1.2"/>
+    <text x="552" y="183" font-family="Times New Roman, serif" font-size="16" font-style="italic" fill="#000" text-anchor="middle">V</text>
+    <circle cx="477" cy="116" r="9" fill="#dff4df" stroke="#222" stroke-width="1.3"/>
+    <circle cx="477" cy="116" r="2.3" fill="#111"/>
+    <circle cx="477" cy="145" r="9" fill="#dff4df" stroke="#222" stroke-width="1.3"/>
+    <text x="477" y="149" font-family="Times New Roman, serif" font-size="12" font-style="italic" fill="#000" text-anchor="middle">σ</text>
+    <path d="M477 107 L477 97" stroke="#19752a" stroke-width="2" fill="none" marker-end="url(#arrGreen)"/>
+    <path d="M477 135 L477 125" stroke="#19752a" stroke-width="2" fill="none" marker-end="url(#arrGreen)"/>
+    <path d="M477 162 L477 154" stroke="#19752a" stroke-width="2" fill="none" marker-end="url(#arrGreen)"/>
+    <path d="M477 70 L477 58" stroke="#19752a" stroke-width="2" fill="none" marker-end="url(#arrGreen)"/>
+    <path d="M485 116 L552 116 L552 162" stroke="#19752a" stroke-width="2" fill="none"/>
+    <path d="M477 191 L477 211 L552 211 L552 191" stroke="#19752a" stroke-width="2" fill="none" marker-end="url(#arrGreen)"/>
+    <path d="M477 211 L477 198" stroke="#19752a" stroke-width="2" fill="none" marker-end="url(#arrGreen)"/>
+
+    <!-- Center NIR construction -->
+    <rect x="620" y="42" width="116" height="43" rx="5" fill="#f4f4f4" stroke="#8d8d8d" stroke-width="1.2"/>
+    <text x="678" y="61" font-family="Arial, sans-serif" font-size="15" font-weight="700" fill="#000" text-anchor="middle">Text emb.</text>
+    <text x="678" y="78" font-family="Arial, sans-serif" font-size="15" font-weight="700" fill="#000" text-anchor="middle">Projector</text>
+
+    <text x="678" y="109" font-family="Arial, sans-serif" font-size="32" font-weight="900" fill="#0e7fa8" stroke="#0d3e52" stroke-width="1" text-anchor="middle">+</text>
+    <polygon points="620,100 675,112 675,131 620,143" fill="#e8e8e8" stroke="#111" stroke-width="1.1"/>
+    <text x="646" y="125" font-family="Times New Roman, serif" font-size="15" font-style="italic" fill="#000" text-anchor="middle">p<tspan baseline-shift="-25%" font-size="10">tar</tspan></text>
+    <polygon points="682,112 736,100 736,143 682,131" fill="url(#noisePat)" stroke="#111" stroke-width="1.1"/>
+    <rect x="620" y="148" width="116" height="17" rx="2" fill="#f5f5f5"/>
+    <text x="678" y="161" font-family="Arial, sans-serif" font-size="13.5" font-weight="700" fill="#000" text-anchor="middle">Structured noise</text>
+    <path d="M678 168 L678 187" stroke="#116486" stroke-width="7" fill="none" marker-end="url(#arrDown)"/>
+
+    <g transform="translate(604,62)" stroke="#000" stroke-width="1" fill="none" opacity="0.95">
+      <circle cx="19" cy="15" r="9"/>
+      <path d="M19 1 L19 30 M5 15 L34 15 M8 5 L30 26 M30 5 L8 26"/>
+      <path d="M19 1 L12 8 L5 15 L12 22 L19 30 L27 22 L34 15 L27 8 Z"/>
+      <path d="M19 5 L15 10 L10 15 L15 20 L19 25 L24 20 L29 15 L24 10 Z"/>
+    </g>
+
+    <g transform="translate(604,178)" stroke="#000" stroke-width="1" fill="none" opacity="0.95">
+      <circle cx="19" cy="15" r="9"/>
+      <path d="M19 1 L19 30 M5 15 L34 15 M8 5 L30 26 M30 5 L8 26"/>
+      <path d="M19 1 L12 8 L5 15 L12 22 L19 30 L27 22 L34 15 L27 8 Z"/>
+      <path d="M19 5 L15 10 L10 15 L15 20 L19 25 L24 20 L29 15 L24 10 Z"/>
+    </g>
+
+    <rect x="620" y="187" width="116" height="43" rx="5" fill="#d7d7d7" stroke="#111" stroke-width="1.2"/>
+    <text x="678" y="206" font-family="Arial, sans-serif" font-size="15" font-weight="700" fill="#000" text-anchor="middle">Corrupted</text>
+    <text x="678" y="223" font-family="Arial, sans-serif" font-size="15" font-weight="700" fill="#000" text-anchor="middle">Projector</text>
+
+    <line x1="748" y1="38" x2="748" y2="239" stroke="#000" stroke-width="1.6" stroke-dasharray="6 4"/>
+
+    <!-- Right NIR tuning pipelines -->
+    <rect x="792" y="45" width="67" height="12" fill="#b1eaa9" stroke="#19752a" stroke-width="1.2"/>
+    <g stroke="#19752a" stroke-width="1">
+      <line x1="803" y1="45" x2="803" y2="57"/><line x1="815" y1="45" x2="815" y2="57"/>
+      <line x1="826" y1="45" x2="826" y2="57"/><line x1="837" y1="45" x2="837" y2="57"/>
+      <line x1="848" y1="45" x2="848" y2="57"/>
+    </g>
+    <rect x="935" y="45" width="68" height="12" fill="#b1eaa9" stroke="#19752a" stroke-width="1.2"/>
+    <g stroke="#19752a" stroke-width="1">
+      <line x1="946" y1="45" x2="946" y2="57"/><line x1="957" y1="45" x2="957" y2="57"/>
+      <line x1="968" y1="45" x2="968" y2="57"/><line x1="979" y1="45" x2="979" y2="57"/>
+      <line x1="990" y1="45" x2="990" y2="57"/>
+    </g>
+
+    <rect x="768" y="70" width="116" height="43" rx="5" fill="#d2d2d2" stroke="#111" stroke-width="1.2"/>
+    <text x="826" y="89" font-family="Arial, sans-serif" font-size="15" font-weight="700" fill="#000" text-anchor="middle">Corrupted</text>
+    <text x="826" y="106" font-family="Arial, sans-serif" font-size="15" font-weight="700" fill="#000" text-anchor="middle">Projector</text>
+    <rect x="912" y="72" width="116" height="42" rx="5" fill="#f3f3f3" stroke="#8d8d8d" stroke-width="1.2"/>
+    <text x="970" y="91" font-family="Arial, sans-serif" font-size="15" font-weight="700" fill="#000" text-anchor="middle">Text emb.</text>
+    <text x="970" y="108" font-family="Arial, sans-serif" font-size="15" font-weight="700" fill="#000" text-anchor="middle">Projector</text>
+
+    <path d="M826 70 L826 58" stroke="#173653" stroke-width="2" fill="none" marker-end="url(#arrNavy)"/>
+    <path d="M970 72 L970 58" stroke="#173653" stroke-width="2" fill="none" marker-end="url(#arrNavy)"/>
+
+    <rect x="768" y="129" width="116" height="53" rx="6" fill="#dbeafa" stroke="#2c7797" stroke-width="1.4"/>
+    <text x="826" y="163" font-family="Arial, sans-serif" font-size="18" font-weight="800" fill="#000" text-anchor="middle">MoEraser</text>
+    <rect x="912" y="129" width="116" height="53" rx="6" fill="#dbeafa" stroke="#2c7797" stroke-width="1.4"/>
+    <text x="970" y="163" font-family="Arial, sans-serif" font-size="18" font-weight="800" fill="#000" text-anchor="middle">MoEraser*</text>
+
+    <path d="M826 129 L826 114" stroke="#173653" stroke-width="2" fill="none" marker-end="url(#arrNavy)"/>
+    <path d="M970 129 L970 115" stroke="#173653" stroke-width="2" fill="none" marker-end="url(#arrNavy)"/>
+    <path d="M760 193 L760 124 L826 124" stroke="#173653" stroke-width="2" fill="none" marker-end="url(#arrNavy)"/>
+    <path d="M902 193 L902 124 L970 124" stroke="#173653" stroke-width="2" fill="none" marker-end="url(#arrNavy)"/>
+    <path d="M826 195 L826 183" stroke="#173653" stroke-width="2" fill="none" marker-end="url(#arrNavy)"/>
+    <path d="M970 195 L970 183" stroke="#173653" stroke-width="2" fill="none" marker-end="url(#arrNavy)"/>
+
+    <g transform="translate(760,118) scale(0.85)">
+      <path d="M16 35 C-2 28 4 9 14 1 C12 12 21 12 21 0 C31 10 26 19 35 20 C45 30 35 45 19 46 C10 46 4 42 1 35 Z" fill="#ff3d10"/>
+      <path d="M20 43 C9 38 14 25 21 17 C22 24 28 22 28 14 C37 25 32 39 20 43 Z" fill="#ff8c00"/>
+      <path d="M18 43 C14 36 18 29 24 25 C24 31 29 32 28 38 C26 43 22 45 18 43 Z" fill="#ffd11a"/>
+    </g>
+
+    <g transform="translate(902,119)" stroke="#30a7df" stroke-width="2" fill="none" opacity="0.95">
+      <line x1="17" y1="0" x2="17" y2="43"/>
+      <line x1="0" y1="10" x2="34" y2="33"/>
+      <line x1="34" y1="10" x2="0" y2="33"/>
+      <line x1="17" y1="0" x2="12" y2="7"/><line x1="17" y1="0" x2="22" y2="7"/>
+      <line x1="17" y1="43" x2="12" y2="36"/><line x1="17" y1="43" x2="22" y2="36"/>
+      <line x1="0" y1="10" x2="8" y2="10"/><line x1="0" y1="10" x2="4" y2="17"/>
+      <line x1="34" y1="10" x2="26" y2="10"/><line x1="34" y1="10" x2="30" y2="17"/>
+      <line x1="0" y1="33" x2="8" y2="33"/><line x1="0" y1="33" x2="4" y2="26"/>
+      <line x1="34" y1="33" x2="26" y2="33"/><line x1="34" y1="33" x2="30" y2="26"/>
+    </g>
+
+    <g transform="translate(748,62)" stroke="#000" stroke-width="1" fill="none" opacity="0.95">
+      <circle cx="22" cy="16" r="10"/>
+      <path d="M22 0 L22 33 M5 16 L40 16 M9 4 L35 29 M35 4 L9 29"/>
+      <path d="M22 0 L14 8 L5 16 L14 25 L22 33 L31 25 L40 16 L31 8 Z"/>
+      <path d="M22 5 L17 11 L11 16 L17 22 L22 28 L28 22 L34 16 L28 11 Z"/>
+    </g>
+
+    <rect x="768" y="195" width="256" height="43" rx="5" fill="#edf9ea"/>
+    <g>
+      <rect x="777" y="201" width="67" height="12" fill="#ffd8c7" stroke="#ff6e3c" stroke-width="1.2"/>
+      <line x1="788" y1="201" x2="788" y2="213" stroke="#ff6e3c"/><line x1="799" y1="201" x2="799" y2="213" stroke="#ff6e3c"/>
+      <line x1="810" y1="201" x2="810" y2="213" stroke="#ff6e3c"/><line x1="821" y1="201" x2="821" y2="213" stroke="#ff6e3c"/>
+      <line x1="832" y1="201" x2="832" y2="213" stroke="#ff6e3c"/>
+      <rect x="864" y="201" width="67" height="12" fill="#ccecff" stroke="#2c7ca6" stroke-width="1.2"/>
+      <line x1="875" y1="201" x2="875" y2="213" stroke="#2c7ca6"/><line x1="886" y1="201" x2="886" y2="213" stroke="#2c7ca6"/>
+      <line x1="897" y1="201" x2="897" y2="213" stroke="#2c7ca6"/><line x1="908" y1="201" x2="908" y2="213" stroke="#2c7ca6"/>
+      <line x1="919" y1="201" x2="919" y2="213" stroke="#2c7ca6"/>
+      <rect x="948" y="201" width="67" height="12" fill="#9e9e9e" stroke="#111" stroke-width="1.2"/>
+      <line x1="959" y1="201" x2="959" y2="213" stroke="#111"/><line x1="970" y1="201" x2="970" y2="213" stroke="#111"/>
+      <line x1="981" y1="201" x2="981" y2="213" stroke="#111"/><line x1="992" y1="201" x2="992" y2="213" stroke="#111"/>
+      <line x1="1003" y1="201" x2="1003" y2="213" stroke="#111"/>
+    </g>
+    <text x="792" y="232" font-family="Times New Roman, serif" font-size="20" font-style="italic" font-weight="700" fill="#ef4d48">f<tspan baseline-shift="-25%" font-size="13">tar</tspan></text>
+    <text x="878" y="232" font-family="Times New Roman, serif" font-size="20" font-style="italic" font-weight="700" fill="#2b9dda">f<tspan baseline-shift="-25%" font-size="13">anc</tspan></text>
+    <text x="965" y="232" font-family="Arial, sans-serif" font-size="14" font-weight="700" fill="#000">Noise</text>
+
+    <rect x="860" y="41" width="70" height="20" fill="url(#redGlow)" opacity="0.9"/>
+    <path d="M880 37 L895 50 L910 37 L910 46 L899 55 L910 64 L910 73 L895 60 L880 73 L880 64 L891 55 L880 46 Z" fill="#ff1111"/>
+
+    <!-- Captions -->
+    <text x="318" y="262" font-family="Times New Roman, serif" font-size="16" fill="#000" text-anchor="middle">
+      (a) Illustration of our MoEraser architecture.
+    </text>
+    <text x="825" y="262" font-family="Times New Roman, serif" font-size="16" fill="#000" text-anchor="middle">
+      (b) Illustration of noise injection-restore (NIR) tuning.
+    </text>
+  </g>
+</svg>

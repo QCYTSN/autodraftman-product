@@ -1,0 +1,211 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1659" height="759" viewBox="0 0 1659 759">
+  <title>Flow diagram of VIA feature mappings, shared samples, prediction loss and SHAP loss</title>
+  <desc>
+    The figure contains one full flow chart frame with an input x vector on the left, three phi-via branches, vertical sample/feature stacks, linear aggregation boxes, circular output nodes, and two loss boxes on the right. The upper and lower branches curve from the input vector and toward the loss expressions; the middle branch runs horizontally through missing-sample columns, phi-via, phi, colored stacks, aggregation, VIA-SHAP node and the SHAP loss formula. A green annotation states “Apply the same set of samples” with two diagonal arrows indicating the common black/white sample stacks. The overall arrangement is horizontally symmetric around the middle branch, with top prediction path and bottom subset path feeding the two loss equations.
+  </desc>
+
+  <defs>
+    <marker id="arrowBlack" markerUnits="userSpaceOnUse" markerWidth="18" markerHeight="14" viewBox="0 0 18 14" refX="17" refY="7" orient="auto">
+      <path d="M0,0 L18,7 L0,14 Z" fill="#000" id="plus_node_0" />
+    </marker>
+    <marker id="arrowGreen" markerUnits="userSpaceOnUse" markerWidth="16" markerHeight="13" viewBox="0 0 16 13" refX="15" refY="6.5" orient="auto">
+      <path d="M0,0 L16,6.5 L0,13 Z" fill="#65aa9f" id="plus_node_1" />
+    </marker>
+    <style>
+      .math{font-family:"Times New Roman", Times, serif; fill:#000;}
+      .italic{font-style:italic;}
+      .thin{stroke:#000;stroke-width:1.2;fill:none;}
+      .arrow{stroke:#000;stroke-width:2.4;fill:none;marker-end:url(#arrowBlack);}
+      .arrowHeavy{stroke:#000;stroke-width:4.2;fill:none;marker-end:url(#arrowBlack);}
+      .box{fill:#fff;stroke:#000;stroke-width:1.1;}
+      .circle{fill:#fff;stroke:#000;stroke-width:1.1;}
+      .stackCell{stroke:#000;stroke-width:1;}
+    </style>
+  </defs>
+
+  <rect id="f01" data-plus-kind="frame" x="0" y="0" width="1659" height="759" fill="#fff" stroke="none" />
+
+  
+  <g id="input_x_group">
+    <desc>Origin object: bold x label at left followed immediately by a small vertical colored input vector; all three major branches originate from this vector.</desc>
+    <text id="input_x_label" class="math" x="20" y="319" font-size="42" font-weight="700">x</text>
+    <g id="input_colored_vector" transform="translate(62,253)">
+      <rect class="stackCell" x="0" y="0" width="16" height="17" fill="#dfeee0" id="plus_node_2" />
+      <rect class="stackCell" x="0" y="17" width="16" height="17" fill="#efd3e5" id="plus_node_3" />
+      <rect class="stackCell" x="0" y="34" width="16" height="17" fill="#fb695e" id="plus_node_4" />
+      <rect class="stackCell" x="0" y="51" width="16" height="17" fill="#f8d36b" id="plus_node_5" />
+      <rect class="stackCell" x="0" y="68" width="16" height="17" fill="#66b3a5" id="plus_node_6" />
+      <rect class="stackCell" x="0" y="85" width="16" height="17" fill="#b69ac9" id="plus_node_7" />
+      <rect class="stackCell" x="0" y="102" width="16" height="17" fill="#82a9dd" id="plus_node_8" />
+    </g>
+  </g>
+
+  
+  <path id="top_curved_branch" class="arrow" d="M90,314 C112,163 212,79 376,72" />
+  <path id="middle_input_arrow" class="arrowHeavy" d="M91,315 L214,315" />
+  <path id="bottom_curved_branch" class="arrow" d="M90,317 C113,516 219,618 384,611" />
+
+  
+  <g id="top_branch">
+    <desc>Top branch inventory: rounded phi-via block, phi symbol, colored vertical feature vector, one-transpose-phi linear block, circular y-hat output, and a curved arrow to prediction loss.</desc>
+    <rect id="f02" data-plus-kind="frame" class="box" x="388" y="34" width="93" height="98" rx="13" ry="13" />
+    <text id="top_phi_via_text" class="math italic" font-size="45"><tspan x="397" y="101">ϕ</tspan><tspan x="421" y="86" font-size="31">𝒱ia</tspan></text><path id="top_phi_via_to_phi" class="arrow" d="M481,83 L537,83" />
+    <text id="top_phi_symbol" class="math italic" x="544" y="92" font-size="45">ϕ</text>
+
+    <g id="top_colored_stack" transform="translate(584,25)">
+      <rect class="stackCell" x="0" y="0" width="16" height="17" fill="#f5c2c4" id="plus_node_9" />
+      <rect class="stackCell" x="0" y="17" width="16" height="17" fill="#d6e4f5" id="plus_node_10" />
+      <rect class="stackCell" x="0" y="34" width="16" height="17" fill="#126bb6" id="plus_node_11" />
+      <rect class="stackCell" x="0" y="51" width="16" height="17" fill="#b8d0ec" id="plus_node_12" />
+      <rect class="stackCell" x="0" y="68" width="16" height="17" fill="#ff6565" id="plus_node_13" />
+      <rect class="stackCell" x="0" y="85" width="16" height="17" fill="#d60000" id="plus_node_14" />
+      <rect class="stackCell" x="0" y="102" width="16" height="17" fill="#dbe6f4" id="plus_node_15" />
+    </g>
+    <path id="top_stack_to_linear" class="arrow" d="M602,83 L692,83" />
+    <rect id="f03" data-plus-kind="frame" class="box" x="692" y="35" width="93" height="98" rx="13" ry="13" />
+    <text id="top_one_transpose_phi" class="math" x="699" y="101" font-size="45">1<tspan baseline-shift="super" font-size="31">⊤</tspan><tspan class="italic"> ϕ</tspan></text>
+    <path id="top_linear_to_yhat" class="arrow" d="M785,83 L880,83" />
+    <circle id="f04" data-plus-kind="frame" class="circle" cx="909" cy="84" r="29" />
+    <text id="yhat_text" class="math italic" x="896" y="101" font-size="43">ŷ</text>
+    <path id="top_yhat_to_pred_loss" class="arrow" d="M938,83 C1123,84 1368,95 1394,196" />
+  </g>
+
+  
+  <g id="middle_left_sample_stacks">
+    <desc>Middle branch between input arrow and phi-via contains two black/white vertical sample masks positioned before the middle phi-via block.</desc>
+    <g id="middle_sample_col_1" transform="translate(246,188)">
+      <rect class="stackCell" x="0" y="0" width="16" height="17" fill="#000" id="plus_node_16" />
+      <rect class="stackCell" x="0" y="17" width="16" height="17" fill="#fff" id="plus_node_17" />
+      <rect class="stackCell" x="0" y="34" width="16" height="17" fill="#fff" id="plus_node_18" />
+      <rect class="stackCell" x="0" y="51" width="16" height="17" fill="#000" id="plus_node_19" />
+      <rect class="stackCell" x="0" y="68" width="16" height="17" fill="#fff" id="plus_node_20" />
+      <rect class="stackCell" x="0" y="85" width="16" height="17" fill="#fff" id="plus_node_21" />
+      <rect class="stackCell" x="0" y="102" width="16" height="17" fill="#fff" id="plus_node_22" />
+    </g>
+    <g id="middle_sample_col_2" transform="translate(282,258)">
+      <rect class="stackCell" x="0" y="0" width="16" height="17" fill="#fff" id="plus_node_23" />
+      <rect class="stackCell" x="0" y="17" width="16" height="17" fill="#fff" id="plus_node_24" />
+      <rect class="stackCell" x="0" y="34" width="16" height="17" fill="#000" id="plus_node_25" />
+      <rect class="stackCell" x="0" y="51" width="16" height="17" fill="#000" id="plus_node_26" />
+      <rect class="stackCell" x="0" y="68" width="16" height="17" fill="#fff" id="plus_node_27" />
+      <rect class="stackCell" x="0" y="85" width="16" height="17" fill="#fff" id="plus_node_28" />
+      <rect class="stackCell" x="0" y="102" width="16" height="17" fill="#000" id="plus_node_29" />
+    </g>
+    <g id="middle_sample_col_3" transform="translate(246,349)">
+      <rect class="stackCell" x="0" y="0" width="16" height="17" fill="#fff" id="plus_node_30" />
+      <rect class="stackCell" x="0" y="17" width="16" height="17" fill="#000" id="plus_node_31" />
+      <rect class="stackCell" x="0" y="34" width="16" height="17" fill="#fff" id="plus_node_32" />
+      <rect class="stackCell" x="0" y="51" width="16" height="17" fill="#fff" id="plus_node_33" />
+      <rect class="stackCell" x="0" y="68" width="16" height="17" fill="#000" id="plus_node_34" />
+      <rect class="stackCell" x="0" y="85" width="16" height="17" fill="#fff" id="plus_node_35" />
+      <rect class="stackCell" x="0" y="102" width="16" height="17" fill="#000" id="plus_node_36" />
+    </g>
+  </g>
+
+  <path id="middle_samples_to_phi_via" class="arrowHeavy" d="M318,318 L390,318" />
+
+  
+  <g id="middle_branch">
+    <desc>Middle branch inventory: phi-via block, phi, two colored stacks showing transformed samples, arrow to one-transpose-phi box, circular VIA-SHAP node, and horizontal arrow into SHAP loss formula.</desc>
+    <rect id="f05" data-plus-kind="frame" class="box" x="391" y="270" width="93" height="98" rx="13" ry="13" />
+    <text id="middle_phi_via_text" class="math italic" font-size="45"><tspan x="401" y="337">ϕ</tspan><tspan x="425" y="322" font-size="31">𝒱ia</tspan></text><path id="middle_phi_via_to_phi" class="arrow" d="M484,320 L567,320" />
+    <text id="middle_phi_symbol" class="math italic" x="574" y="329" font-size="45">ϕ</text>
+
+    <g id="middle_colored_stack_back" transform="translate(608,166)">
+      <rect class="stackCell" x="0" y="0" width="16" height="17" fill="#000" id="plus_node_37" />
+      <rect class="stackCell" x="0" y="17" width="16" height="17" fill="#d6e4f5" id="plus_node_38" />
+      <rect class="stackCell" x="0" y="34" width="16" height="17" fill="#000" id="plus_node_39" />
+      <rect class="stackCell" x="0" y="51" width="16" height="17" fill="#126bb6" id="plus_node_40" />
+      <rect class="stackCell" x="0" y="68" width="16" height="17" fill="#ff6666" id="plus_node_41" />
+      <rect class="stackCell" x="0" y="85" width="16" height="17" fill="#000" id="plus_node_42" />
+      <rect class="stackCell" x="0" y="102" width="16" height="17" fill="#dbe6f4" id="plus_node_43" />
+    </g>
+    <g id="middle_colored_stack_front" transform="translate(656,256)">
+      <rect class="stackCell" x="0" y="0" width="16" height="17" fill="#f5c2c4" id="plus_node_44" />
+      <rect class="stackCell" x="0" y="17" width="16" height="17" fill="#d6e4f5" id="plus_node_45" />
+      <rect class="stackCell" x="0" y="34" width="16" height="17" fill="#126bb6" id="plus_node_46" />
+      <rect class="stackCell" x="0" y="51" width="16" height="17" fill="#166fc0" id="plus_node_47" />
+      <rect class="stackCell" x="0" y="68" width="16" height="17" fill="#ff6565" id="plus_node_48" />
+      <rect class="stackCell" x="0" y="85" width="16" height="17" fill="#d60000" id="plus_node_49" />
+      <rect class="stackCell" x="0" y="102" width="16" height="17" fill="#dbe6f4" id="plus_node_50" />
+    </g>
+
+    <path id="middle_stack_to_linear" class="arrowHeavy" d="M696,320 L781,320" />
+    <rect id="f06" data-plus-kind="frame" class="box" x="781" y="272" width="93" height="96" rx="13" ry="13" />
+    <text id="middle_one_transpose_phi" class="math" x="788" y="336" font-size="45">1<tspan baseline-shift="super" font-size="31">⊤</tspan><tspan class="italic"> ϕ</tspan></text>
+    <path id="middle_linear_to_viashap" class="arrow" d="M874,320 L958,320" />
+    <circle id="f07" data-plus-kind="frame" class="circle" cx="1016" cy="320" r="56" />
+    <g id="via_shap_text" class="math"><text x="963" y="324" font-size="21" font-style="italic">𝒱ia</text><text x="997" y="312" font-size="13" font-style="italic">SHAP</text><text x="1028" y="324" font-size="21" font-style="normal">(x</text><text x="1049" y="331" font-size="14" font-style="italic">S</text><text x="1059" y="324" font-size="21" font-style="normal">)</text></g><path id="middle_viashap_to_loss" class="arrow" d="M1072,320 L1143,320" />
+  </g>
+
+  
+  <g id="shared_samples_annotation">
+    <desc>Central green annotation links the black/white sample stacks, stating the same set of samples is applied in the compared branches.</desc>
+    <g id="hatched_label_background" opacity="0.45"><defs><pattern id="shared_samples_dense_hatch_pattern" patternUnits="userSpaceOnUse" x="0" y="0" width="6" height="6" patternTransform="rotate(14)"><path d="M0,0 L0,6" stroke="#d7eee0" stroke-width="2" fill="none" /></pattern></defs><rect id="shared_samples_dense_hatch_fill" x="374" y="443" width="191" height="50" fill="url(#shared_samples_dense_hatch_pattern)" stroke="none" /></g><text id="shared_samples_text" class="math" x="393" y="462" font-size="25" font-weight="600">Apply the same</text>
+    <text id="shared_samples_text_2" class="math" x="401" y="491" font-size="25" font-weight="600">set of samples</text>
+    <path id="green_arrow_to_upper_samples" d="M382,444 L324,403" stroke="#65aa9f" stroke-width="3" fill="none" marker-end="url(#arrowGreen)" />
+    <path id="green_arrow_to_lower_samples" d="M566,490 L633,536" stroke="#65aa9f" stroke-width="3" fill="none" marker-end="url(#arrowGreen)" />
+  </g>
+
+  
+  <g id="bottom_branch">
+    <desc>Bottom branch inventory: phi-via block, phi, colored feature stack, black/white subset sample columns, S-transpose-phi box, circular subset score node, and curved arrow up to SHAP loss.</desc>
+    <rect id="f08" data-plus-kind="frame" class="box" x="385" y="563" width="93" height="98" rx="13" ry="13" />
+    <text id="bottom_phi_via_text" class="math italic" font-size="45"><tspan x="396" y="630">ϕ</tspan><tspan x="420" y="615" font-size="31">𝒱ia</tspan></text><path id="bottom_phi_via_to_phi" class="arrow" d="M478,612 L536,612" />
+    <text id="bottom_phi_symbol" class="math italic" x="544" y="621" font-size="45">ϕ</text>
+
+    <g id="bottom_colored_stack" transform="translate(583,553)">
+      <rect class="stackCell" x="0" y="0" width="16" height="17" fill="#f5c2c4" id="plus_node_66" />
+      <rect class="stackCell" x="0" y="17" width="16" height="17" fill="#d6e4f5" id="plus_node_67" />
+      <rect class="stackCell" x="0" y="34" width="16" height="17" fill="#126bb6" id="plus_node_68" />
+      <rect class="stackCell" x="0" y="51" width="16" height="17" fill="#b8d0ec" id="plus_node_69" />
+      <rect class="stackCell" x="0" y="68" width="16" height="17" fill="#ff6565" id="plus_node_70" />
+      <rect class="stackCell" x="0" y="85" width="16" height="17" fill="#d60000" id="plus_node_71" />
+      <rect class="stackCell" x="0" y="102" width="16" height="17" fill="#dbe6f4" id="plus_node_72" />
+    </g>
+    <path id="bottom_stack_to_samples" class="arrowHeavy" d="M601,612 L675,612" />
+
+    <g id="bottom_sample_col_1" transform="translate(696,450)">
+      <rect class="stackCell" x="0" y="0" width="16" height="17" fill="#000" id="plus_node_73" />
+      <rect class="stackCell" x="0" y="17" width="16" height="17" fill="#fff" id="plus_node_74" />
+      <rect class="stackCell" x="0" y="34" width="16" height="17" fill="#000" id="plus_node_75" />
+      <rect class="stackCell" x="0" y="51" width="16" height="17" fill="#fff" id="plus_node_76" />
+      <rect class="stackCell" x="0" y="68" width="16" height="17" fill="#fff" id="plus_node_77" />
+      <rect class="stackCell" x="0" y="85" width="16" height="17" fill="#000" id="plus_node_78" />
+      <rect class="stackCell" x="0" y="102" width="16" height="17" fill="#fff" id="plus_node_79" />
+    </g>
+    <g id="bottom_sample_col_2" transform="translate(737,524)">
+      <rect class="stackCell" x="0" y="0" width="16" height="17" fill="#fff" id="plus_node_80" />
+      <rect class="stackCell" x="0" y="17" width="16" height="17" fill="#fff" id="plus_node_81" />
+      <rect class="stackCell" x="0" y="34" width="16" height="17" fill="#fff" id="plus_node_82" />
+      <rect class="stackCell" x="0" y="51" width="16" height="17" fill="#000" id="plus_node_83" />
+      <rect class="stackCell" x="0" y="68" width="16" height="17" fill="#fff" id="plus_node_84" />
+      <rect class="stackCell" x="0" y="85" width="16" height="17" fill="#fff" id="plus_node_85" />
+      <rect class="stackCell" x="0" y="102" width="16" height="17" fill="#000" id="plus_node_86" />
+    </g>
+    <g id="bottom_sample_col_3" transform="translate(696,614)">
+      <rect class="stackCell" x="0" y="0" width="16" height="17" fill="#fff" id="plus_node_87" />
+      <rect class="stackCell" x="0" y="17" width="16" height="17" fill="#000" id="plus_node_88" />
+      <rect class="stackCell" x="0" y="34" width="16" height="17" fill="#fff" id="plus_node_89" />
+      <rect class="stackCell" x="0" y="51" width="16" height="17" fill="#fff" id="plus_node_90" />
+      <rect class="stackCell" x="0" y="68" width="16" height="17" fill="#000" id="plus_node_91" />
+      <rect class="stackCell" x="0" y="85" width="16" height="17" fill="#fff" id="plus_node_92" />
+    <rect id="plus_node_93" class="stackCell" x="0" y="102" width="16" height="17" fill="#000" /></g>
+
+    <path id="bottom_samples_to_stphi" class="arrowHeavy" d="M753,612 L848,612" />
+    <rect id="f09" data-plus-kind="frame" class="box" x="848" y="565" width="94" height="97" rx="13" ry="13" />
+    <text id="bottom_s_transpose_phi" class="math italic" x="856" y="628" font-size="45">S<tspan baseline-shift="super" font-size="31" font-style="normal">⊤</tspan><tspan> ϕ</tspan></text>
+    <path id="bottom_stphi_to_score" class="arrow" d="M942,613 L1017,613" />
+    <circle id="f10" data-plus-kind="frame" class="circle" cx="1082" cy="614" r="64" />
+    <g id="bottom_score_text" class="math"><text x="1029" y="619" font-size="20" font-style="italic">S</text><text x="1051" y="607" font-size="13" font-style="normal">⊤</text><text x="1073" y="619" font-size="20" font-style="italic">ϕ</text><text x="1091" y="607" font-size="13" font-style="italic">𝒱ia</text><text x="1119" y="619" font-size="20" font-style="normal">(x;θ)</text></g><path id="bottom_score_to_shap_loss" class="arrow" d="M1145,614 C1285,623 1377,570 1396,352" />
+  </g>
+
+  
+  <g id="loss_section">
+    <desc>Right section inventory: prediction loss rectangle above, large plus sign between losses, and a long rectangular SHAP loss expression receiving the middle and bottom branches.</desc>
+    <rect id="f11" data-plus-kind="frame" class="box" x="1247" y="203" width="288" height="51" />
+    <text id="pred_loss_text" class="math italic" font-size="29"><tspan x="1254" y="236">𝓛</tspan><tspan x="1279" y="241" font-size="19">pred</tspan><tspan x="1318" y="236" font-style="normal">(θ) = (ŷ, y ∈ Y)</tspan></text><text id="loss_plus_sign" class="math" x="1370" y="287" font-size="53" font-weight="700">+</text>
+
+    <rect id="f12" data-plus-kind="frame" class="box" x="1144" y="296" width="388" height="47" />
+    <text id="shap_loss_left" class="math italic" font-size="19"><tspan x="1151" y="329">𝓛</tspan><tspan x="1166" y="335" font-size="13">ϕ</tspan><tspan x="1176" y="329" font-style="normal">(θ) =</tspan></text><text id="expectation_symbol" class="math" x="1220" y="328" font-size="22">𝔼</text><text id="expectation_sub" class="math italic" x="1222" y="340" font-size="12">p(S)</text><g id="shap_loss_body" class="math" transform="translate(1252 0) scale(0.78 1) translate(-1252 0)"><text x="1252" y="329" font-size="18" font-style="normal">[(</text><text x="1270" y="329" font-size="18" font-style="italic">𝒱ia</text><text x="1302" y="336" font-size="12" font-style="italic">j</text><text x="1310" y="320" font-size="12" font-style="italic">SHAP</text><text x="1346" y="329" font-size="18" font-style="normal">(x</text><text x="1365" y="320" font-size="12" font-style="italic">S</text><text x="1376" y="329" font-size="18" font-style="normal">) − </text><text x="1410" y="329" font-size="18" font-style="italic">𝒱ia</text><text x="1442" y="336" font-size="12" font-style="italic">j</text><text x="1450" y="320" font-size="12" font-style="italic">SHAP</text><text x="1486" y="329" font-size="18" font-style="normal">(0) − </text><text x="1538" y="329" font-size="18" font-style="normal">1</text><text x="1550" y="336" font-size="12" font-style="italic">S</text><text x="1562" y="320" font-size="12" font-style="normal">⊤</text><text x="1576" y="329" font-size="18" font-style="italic">ϕ</text><text x="1591" y="336" font-size="12" font-style="italic">j</text><text x="1600" y="320" font-size="12" font-style="italic">𝒱ia</text><text x="1630" y="329" font-size="18" font-style="normal">(x;θ))</text><text x="1692" y="320" font-size="12" font-style="normal">2</text><text x="1702" y="329" font-size="18" font-style="normal">]</text></g></g>
+</svg>

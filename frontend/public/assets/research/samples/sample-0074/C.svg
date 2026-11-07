@@ -1,0 +1,302 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1746" height="468" viewBox="0 0 1746 468">
+  <title>Pipeline diagram for KV compression, token selection, and sparse attention with fused recover kernel</title>
+  <desc>
+    Inventory and construction order: the full figure contains a left pre-rope Query/Key block, Stage 1 offline calibration and KV compression with a covariance/EVD sub-flow, a central latent key cache and token selection path with selected dimensions and approximate attention score, a Top-k index and transpose connection, a fused recover kernel rounded dashed frame with reconstructed RoPE and multiplication, then post-rope Query/Key stacks and an FA block. The composition is horizontally staged with dotted stage arrows along the bottom and a top rope route from the input query to the post-rope query. Symmetry/equipartition basis: repeated tensor stacks use equal-width/equal-height grid partitions; the three stages are laid out left-to-right along a common baseline, and the fused kernel groups vertical columns and horizontal rows around a central multiplication operation.
+    SAM mappings used after construction: Original multiplication/circled-cross in fused kernel - constructed element draft_mult_kernel - asset_sam_region_000053; Original multiplication/circled-cross near central query-key product - constructed element draft_mult_left - asset_sam_region_000054.
+  </desc>
+
+  <defs>
+    <marker id="arrowBlack" markerUnits="userSpaceOnUse" markerWidth="10" markerHeight="8" refX="9" refY="4" orient="auto">
+      <path d="M0,0 L10,4 L0,8 Z" fill="#000" id="plus_node_0" />
+    </marker>
+    <marker id="arrowBlackStart" markerUnits="userSpaceOnUse" markerWidth="10" markerHeight="8" refX="1" refY="4" orient="auto-start-reverse">
+      <path d="M0,0 L10,4 L0,8 Z" fill="#000" id="plus_node_1" />
+    </marker>
+    <marker id="arrowSmall" markerUnits="userSpaceOnUse" markerWidth="8" markerHeight="7" refX="7" refY="3.5" orient="auto">
+      <path d="M0,0 L8,3.5 L0,7 Z" fill="#000" id="plus_node_2" />
+    </marker>
+    <marker id="arrowTinyStart" markerUnits="userSpaceOnUse" markerWidth="8" markerHeight="7" refX="1" refY="3.5" orient="auto-start-reverse">
+      <path d="M0,0 L8,3.5 L0,7 Z" fill="#000" id="plus_node_3" />
+    </marker>
+    <style>
+      .txt{font-family:"Times New Roman", Times, serif; fill:#000;}
+      .label{font-size:26px;}
+      .small{font-size:20px;}
+      .med{font-size:23px;}
+      .big{font-size:30px;}
+      .stroke{stroke:#000; stroke-width:2.6; fill:none;}
+      .thin{stroke:#000; stroke-width:1.7; fill:none;}
+      .dashbrown{stroke:#6b2e12; stroke-width:2.4; stroke-dasharray:8 4; fill:#fff4e8;}
+      .dot{stroke:#000; stroke-width:2.1; stroke-dasharray:2 3; fill:none;}
+      .gridline{stroke:#000; stroke-width:1.6;}
+    </style>
+  </defs>
+
+  <rect id="f01" data-plus-kind="frame" x="0" y="0" width="1746" height="468" fill="none" stroke="none" />
+  <rect id="f02_offline_calibration" data-plus-kind="frame" x="30" y="244" width="427" height="171" rx="25" ry="25" class="dashbrown" />
+  <rect id="f03_fused_recover_kernel" data-plus-kind="frame" x="1052" y="95" width="368" height="323" rx="18" ry="18" class="dashbrown" />
+  <rect id="f04_fa" data-plus-kind="frame" x="1616" y="23" width="81" height="391" rx="13" ry="13" fill="#ffb15f" stroke="#000" stroke-width="1.4" />
+  <rect id="f05_approx_attention_score" data-plus-kind="frame" x="747" y="52" width="172" height="69" fill="#fff" stroke="#000" stroke-width="1.8" />
+  <rect id="f06_topk_index" data-plus-kind="frame" x="850" y="224" width="185" height="41" fill="#fff" stroke="#000" stroke-width="2.2" />
+
+  
+  <g id="pre_rope_inputs">
+    <g id="pre_rope_query_stack" transform="translate(64,56)">
+      <rect x="28" y="0" width="101" height="29" fill="#ffe090" stroke="#000" stroke-width="2" id="plus_node_4" />
+      <rect x="20" y="8" width="101" height="29" fill="#ffe090" stroke="#000" stroke-width="2" id="plus_node_5" />
+      <rect x="10" y="16" width="101" height="29" fill="#ffe090" stroke="#000" stroke-width="2" id="plus_node_6" />
+      <rect x="0" y="16" width="28" height="29" fill="#ffe090" stroke="#000" stroke-width="1.8" id="plus_node_7" />
+      <rect x="28" y="16" width="28" height="29" fill="#ffe090" stroke="#000" stroke-width="1.8" id="plus_node_8" />
+      <rect x="56" y="16" width="28" height="29" fill="#ffe090" stroke="#000" stroke-width="1.8" id="plus_node_9" />
+      <rect x="84" y="16" width="28" height="29" fill="#ffe090" stroke="#000" stroke-width="1.8" id="plus_node_10" />
+      <rect x="112" y="16" width="12" height="29" fill="#ffe090" stroke="#000" stroke-width="1.8" id="plus_node_11" />
+    </g>
+    <text id="txt_pre_rope_query" class="txt label" x="30" y="130">Pre-rope Query</text>
+
+    <g id="pre_rope_key_stack" transform="translate(64,141)">
+      <rect x="28" y="0" width="101" height="29" fill="#d8edf2" stroke="#000" stroke-width="2" id="plus_node_12" />
+      <rect x="20" y="8" width="101" height="29" fill="#d8edf2" stroke="#000" stroke-width="2" id="plus_node_13" />
+      <rect x="0" y="16" width="28" height="29" fill="#d8edf2" stroke="#000" stroke-width="1.8" id="plus_node_14" />
+      <rect x="28" y="16" width="28" height="29" fill="#d8edf2" stroke="#000" stroke-width="1.8" id="plus_node_15" />
+      <rect x="56" y="16" width="28" height="29" fill="#d8edf2" stroke="#000" stroke-width="1.8" id="plus_node_16" />
+      <rect x="84" y="16" width="28" height="29" fill="#d8edf2" stroke="#000" stroke-width="1.8" id="plus_node_17" />
+      <rect x="112" y="16" width="12" height="29" fill="#d8edf2" stroke="#000" stroke-width="1.8" id="plus_node_18" />
+    </g>
+    <text id="txt_pre_rope_key" class="txt label" x="43" y="216">Pre-rope Key</text>
+  </g>
+
+  
+  <g id="head_dim_sequences">
+    <g id="query_head_dim" transform="translate(254,64)">
+      <rect x="0" y="0" width="176" height="29" fill="#ffe090" stroke="#000" stroke-width="1.8" id="plus_node_19" />
+      <line x1="29" y1="0" x2="29" y2="29" class="gridline" id="plus_node_20" />
+      <line x1="57" y1="0" x2="57" y2="29" class="gridline" id="plus_node_21" />
+      <line x1="86" y1="0" x2="86" y2="29" class="gridline" id="plus_node_22" />
+      <line x1="114" y1="0" x2="114" y2="29" class="gridline" id="plus_node_23" />
+      <text class="txt small" x="135" y="18" id="plus_node_24">⋯</text>
+    </g>
+    <g id="key_head_dim" transform="translate(254,149)">
+      <rect x="0" y="0" width="176" height="29" fill="#d8edf2" stroke="#000" stroke-width="1.8" id="plus_node_25" />
+      <line x1="29" y1="0" x2="29" y2="29" class="gridline" id="plus_node_26" />
+      <line x1="57" y1="0" x2="57" y2="29" class="gridline" id="plus_node_27" />
+      <line x1="86" y1="0" x2="86" y2="29" class="gridline" id="plus_node_28" />
+      <line x1="114" y1="0" x2="114" y2="29" class="gridline" id="plus_node_29" />
+      <text class="txt small" x="135" y="18" id="plus_node_30">⋯</text>
+    </g>
+    <text id="txt_head_dim" class="txt small" x="228" y="129">
+      1 × <tspan font-style="italic">(head_num × head_dim)</tspan>
+    </text>
+  </g>
+
+  
+  <path id="arrow_pre_query_to_head" d="M201,79 H249" class="stroke" marker-end="url(#arrowBlack)" />
+  <path id="arrow_pre_key_to_head" d="M201,164 H249" class="stroke" marker-end="url(#arrowBlack)" />
+  <path id="arrow_qseq_to_mult" d="M439,78 H519 V108" class="stroke" marker-end="url(#arrowBlack)" />
+  <path id="arrow_kseq_to_mult" d="M439,164 H466 V128 H501" class="stroke" marker-end="url(#arrowBlack)" />
+  <path id="arrow_cache_to_mult" d="M519,207 V144" class="stroke" marker-end="url(#arrowBlack)" />
+  <path id="arrow_mult_to_split" d="M528,129 H588" class="stroke" />
+
+  <path id="arrow_rope_top_route" d="M120,56 V30 H1519 V55" class="stroke" marker-end="url(#arrowBlack)" />
+  <text id="txt_rope_top" class="txt med" x="1224" y="60">Rope</text>
+
+  
+  <g id="offline_calibration_content">
+    <text id="txt_offline_title" class="txt big" x="124" y="276">Offline Calibration</text>
+    <g id="offline_pre_rope_keys_matrix" transform="translate(74,293)">
+      <rect x="0" y="0" width="76" height="76" fill="#d8edf2" stroke="#000" stroke-width="1.8" id="plus_node_34" />
+      <line x1="19" y1="0" x2="19" y2="76" class="gridline" id="plus_node_35" />
+      <line x1="38" y1="0" x2="38" y2="76" class="gridline" id="plus_node_36" />
+      <line x1="57" y1="0" x2="57" y2="76" class="gridline" id="plus_node_37" />
+      <line x1="0" y1="19" x2="76" y2="19" class="gridline" id="plus_node_38" />
+      <line x1="0" y1="38" x2="76" y2="38" class="gridline" id="plus_node_39" />
+      <line x1="0" y1="57" x2="76" y2="57" class="gridline" id="plus_node_40" />
+    </g>
+    <text class="txt small" x="58" y="395" id="plus_node_41">Pre-rope Keys</text>
+    <text class="txt small" x="166" y="326" id="plus_node_42">Cov. Calc.</text>
+    <path id="arrow_cov_calc" d="M168,330 H258" class="stroke" marker-end="url(#arrowBlack)" />
+    <g id="offline_cov_matrix" transform="translate(270,292)">
+      <rect x="0" y="0" width="76" height="76" fill="#d6f0cd" stroke="#000" stroke-width="1.8" id="plus_node_43" />
+      <line x1="19" y1="0" x2="19" y2="76" class="gridline" id="plus_node_44" />
+      <line x1="38" y1="0" x2="38" y2="76" class="gridline" id="plus_node_45" />
+      <line x1="57" y1="0" x2="57" y2="76" class="gridline" id="plus_node_46" />
+      <line x1="0" y1="19" x2="76" y2="19" class="gridline" id="plus_node_47" />
+      <line x1="0" y1="38" x2="76" y2="38" class="gridline" id="plus_node_48" />
+      <line x1="0" y1="57" x2="76" y2="57" class="gridline" id="plus_node_49" />
+    </g>
+    <text class="txt small" x="220" y="394" id="plus_node_50">Key covariance matrix</text>
+    <text class="txt small" x="368" y="326" id="plus_node_51">EVD</text>
+    <path id="arrow_evd_to_stage1" d="M367,330 H424 V290 H482" class="stroke" marker-end="url(#arrowBlack)" />
+  </g>
+
+  
+  <g id="stage1_kv_compression">
+    <g id="green_vertical_cache" transform="translate(490,219)">
+      <rect x="0" y="0" width="58" height="177" fill="#8bdd72" stroke="#000" stroke-width="1.8" id="plus_node_52" />
+      <line x1="29" y1="0" x2="29" y2="177" class="gridline" id="plus_node_53" />
+      <line x1="0" y1="29" x2="58" y2="29" class="gridline" id="plus_node_54" />
+      <line x1="0" y1="58" x2="58" y2="58" class="gridline" id="plus_node_55" />
+      <line x1="0" y1="87" x2="58" y2="87" class="gridline" id="plus_node_56" />
+      <line x1="0" y1="116" x2="58" y2="116" class="gridline" id="plus_node_57" />
+      <text class="txt med" x="3" y="152" id="plus_node_58">⋯</text>
+    </g>
+    <path id="arrow_green_to_latent_bottom" d="M519,396 V425 H681" class="stroke" marker-end="url(#arrowBlack)" />
+  </g>
+
+  
+  <g id="central_selection_area">
+    <path id="arrow_split_up" d="M588,129 V88 H631" class="stroke" marker-end="url(#arrowBlack)" />
+    <path id="arrow_split_down" d="M588,129 V164 H631" class="stroke" marker-end="url(#arrowBlack)" />
+
+    <g id="small_orange_selected" transform="translate(663,72)">
+      <rect x="-7" y="-7" width="42" height="35" rx="2" fill="none" stroke="red" stroke-width="2" stroke-dasharray="3 3" id="plus_node_59" />
+      <rect x="0" y="0" width="56" height="29" fill="#ffa34e" stroke="#000" stroke-width="1.8" id="plus_node_60" />
+      <line x1="28" y1="0" x2="28" y2="29" class="gridline" id="plus_node_61" />
+    </g>
+    <path id="arrow_orange_to_attention" d="M720,87 H743" class="stroke" marker-end="url(#arrowBlack)" />
+
+    <text id="txt_approx_attn" class="txt med" text-anchor="middle" x="833" y="80">Approx.</text>
+    <text class="txt med" text-anchor="middle" x="833" y="106" id="plus_node_62">Attention Score</text>
+
+    <g id="small_blue_selected" transform="translate(663,149)">
+      <rect x="0" y="0" width="58" height="29" fill="#4bb8df" stroke="#000" stroke-width="1.8" id="plus_node_63" />
+      <line x1="29" y1="0" x2="29" y2="29" class="gridline" id="plus_node_64" />
+    </g>
+    <path id="arrow_small_blue_to_cache" d="M692,179 V211" class="stroke" marker-end="url(#arrowBlack)" />
+
+    <text id="txt_latent_key_cache" class="txt label" x="588" y="291">Latent</text>
+    <text class="txt label" x="600" y="323" id="plus_node_65">Key</text>
+    <text class="txt label" x="585" y="355" id="plus_node_66">Cache</text>
+    <g id="latent_key_cache_column" transform="translate(663,214)">
+      <rect x="0" y="0" width="58" height="201" fill="#a8d7e4" stroke="#000" stroke-width="1.8" id="plus_node_67" />
+      <line x1="29" y1="0" x2="29" y2="201" class="gridline" id="plus_node_68" />
+      <line x1="0" y1="29" x2="58" y2="29" class="gridline" id="plus_node_69" />
+      <line x1="0" y1="58" x2="58" y2="58" class="gridline" id="plus_node_70" />
+      <line x1="0" y1="87" x2="58" y2="87" class="gridline" id="plus_node_71" />
+      <line x1="0" y1="116" x2="58" y2="116" class="gridline" id="plus_node_72" />
+      <line x1="0" y1="145" x2="58" y2="145" class="gridline" id="plus_node_73" />
+      <line x1="0" y1="174" x2="58" y2="174" class="gridline" id="plus_node_74" />
+    </g>
+    <path id="arrow_latent_to_selected_dim" d="M730,319 H765" class="stroke" marker-end="url(#arrowBlack)" />
+
+    <path id="arrow_attention_down_to_selected" d="M792,183 V128" class="stroke" marker-end="url(#arrowBlack)" />
+    <text id="txt_selected_dim" class="txt med" x="809" y="150">Selected</text>
+    <text class="txt med" x="809" y="176" id="plus_node_75">Dim.</text>
+    <g id="selected_dim_column" transform="translate(776,184)">
+      <rect x="-7" y="0" width="43" height="232" rx="2" fill="none" stroke="red" stroke-width="2" stroke-dasharray="3 3" id="plus_node_76" />
+      <rect x="0" y="0" width="58" height="231" fill="#68c9e2" stroke="#000" stroke-width="1.8" id="plus_node_77" />
+      <line x1="29" y1="0" x2="29" y2="231" class="gridline" id="plus_node_78" />
+      <line x1="0" y1="29" x2="58" y2="29" class="gridline" id="plus_node_79" />
+      <line x1="0" y1="58" x2="58" y2="58" class="gridline" id="plus_node_80" />
+      <line x1="0" y1="87" x2="58" y2="87" class="gridline" id="plus_node_81" />
+      <line x1="0" y1="116" x2="58" y2="116" class="gridline" id="plus_node_82" />
+      <line x1="0" y1="145" x2="58" y2="145" class="gridline" id="plus_node_83" />
+      <line x1="0" y1="174" x2="58" y2="174" class="gridline" id="plus_node_84" />
+      <line x1="0" y1="203" x2="58" y2="203" class="gridline" id="plus_node_85" />
+    </g>
+
+    <path id="arrow_attention_to_topk" d="M919,86 H947 V205" class="stroke" marker-end="url(#arrowBlack)" />
+    <text id="txt_topk" class="txt med" x="862" y="254">Top-k Index [2,7]</text>
+    <path id="arrow_topk_to_kernel" d="M1035,245 H1068 V201 H1102" class="stroke" marker-end="url(#arrowBlack)" />
+    <path id="arrow_topk_to_transpose" d="M852,300 H977 V374 H1103" class="stroke" marker-end="url(#arrowBlack)" />
+    <text id="txt_transpose" class="txt label" x="855" y="408">Transpose</text>
+  </g>
+
+  
+  <g id="fused_kernel_content">
+    <text id="txt_fused_title" class="txt big" x="1101" y="126">Fused Recover Kernel</text>
+    <text id="txt_reconstruct_rope" class="txt med" x="1203" y="175">Reconstruct &amp; Rope</text>
+
+    <path id="kernel_left_split" d="M1069,200 H1103 M1069,200 V344 H1103" class="stroke" marker-end="url(#arrowBlack)" />
+    <g id="kernel_recovered_column" transform="translate(1112,186)">
+      <rect x="0" y="0" width="58" height="228" fill="#a8d7e4" stroke="#000" stroke-width="1.8" id="plus_node_86" />
+      <rect x="0" y="0" width="58" height="29" fill="#4d95d7" stroke="#000" stroke-width="1.8" id="plus_node_87" />
+      <rect x="0" y="143" width="58" height="29" fill="#4d95d7" stroke="#000" stroke-width="1.8" id="plus_node_88" />
+      <line x1="29" y1="0" x2="29" y2="228" class="gridline" id="plus_node_89" />
+      <line x1="0" y1="29" x2="58" y2="29" class="gridline" id="plus_node_90" />
+      <line x1="0" y1="58" x2="58" y2="58" class="gridline" id="plus_node_91" />
+      <line x1="0" y1="87" x2="58" y2="87" class="gridline" id="plus_node_92" />
+      <line x1="0" y1="116" x2="58" y2="116" class="gridline" id="plus_node_93" />
+      <line x1="0" y1="143" x2="58" y2="143" class="gridline" id="plus_node_94" />
+      <line x1="0" y1="172" x2="58" y2="172" class="gridline" id="plus_node_95" />
+      <line x1="0" y1="199" x2="58" y2="199" class="gridline" id="plus_node_96" />
+    </g>
+
+    <path id="kernel_dotted_to_mult" d="M1181,201 H1294" class="dot" marker-end="url(#arrowSmall)" />
+    <path id="kernel_dotted_vertical_up" d="M1317,268 V229" class="dot" marker-end="url(#arrowSmall)" />
+    <path id="kernel_dotted_column_down" d="M1204,202 V344 H1181" class="dot" />
+    <path id="kernel_dotted_right_bridge" d="M1338,201 H1393 V289 H1422" class="dot" marker-end="url(#arrowSmall)" />
+    <g id="kernel_green_horizontal" transform="translate(1228,309)">
+      <rect x="0" y="0" width="177" height="58" fill="#8bdd72" stroke="#000" stroke-width="1.8" id="plus_node_100" />
+      <line x1="29" y1="0" x2="29" y2="58" class="gridline" id="plus_node_101" />
+      <line x1="58" y1="0" x2="58" y2="58" class="gridline" id="plus_node_102" />
+      <line x1="87" y1="0" x2="87" y2="58" class="gridline" id="plus_node_103" />
+      <line x1="116" y1="0" x2="116" y2="58" class="gridline" id="plus_node_104" />
+      <line x1="145" y1="0" x2="145" y2="58" class="gridline" id="plus_node_105" />
+      <line x1="0" y1="29" x2="177" y2="29" class="gridline" id="plus_node_106" />
+      <text class="txt med" x="132" y="21" id="plus_node_107">⋯</text>
+      <text class="txt med" x="132" y="50" id="plus_node_108">⋯</text>
+    </g>
+    <path id="kernel_green_up_to_mult" d="M1317,309 V228" class="dot" marker-end="url(#arrowSmall)" />
+    <path id="kernel_green_bottom_stage" d="M1316,367 V425 H1114" class="stroke" marker-end="url(#arrowBlackStart)" />
+  </g>
+
+  
+  <g id="post_rope_outputs">
+    <g id="post_rope_query_stack" transform="translate(1454,56)">
+      <rect x="27" y="0" width="101" height="29" fill="#ffa34e" stroke="#000" stroke-width="2" id="plus_node_109" />
+      <rect x="18" y="8" width="101" height="29" fill="#ffa34e" stroke="#000" stroke-width="2" id="plus_node_110" />
+      <rect x="0" y="16" width="101" height="29" fill="#ffa34e" stroke="#000" stroke-width="2" id="plus_node_111" />
+      <line x1="29" y1="16" x2="29" y2="45" class="gridline" id="plus_node_112" />
+      <line x1="58" y1="16" x2="58" y2="45" class="gridline" id="plus_node_113" />
+      <line x1="87" y1="16" x2="87" y2="45" class="gridline" id="plus_node_114" />
+      <line x1="0" y1="31" x2="101" y2="31" class="gridline" id="plus_node_115" />
+    </g>
+    <path id="arrow_post_query_to_fa" d="M1579,78 H1607" class="dot" marker-end="url(#arrowSmall)" />
+    <text id="txt_post_rope_query" class="txt label" x="1433" y="143">Post-rope Query</text>
+
+    <g id="critical_post_rope_key_stack" transform="translate(1455,254)">
+      <rect x="27" y="0" width="101" height="58" fill="#3d98df" stroke="#000" stroke-width="2" id="plus_node_116" />
+      <rect x="18" y="8" width="101" height="58" fill="#3d98df" stroke="#000" stroke-width="2" id="plus_node_117" />
+      <rect x="0" y="16" width="101" height="58" fill="#3d98df" stroke="#000" stroke-width="2" id="plus_node_118" />
+      <line x1="25" y1="16" x2="25" y2="74" class="gridline" id="plus_node_119" />
+      <line x1="50" y1="16" x2="50" y2="74" class="gridline" id="plus_node_120" />
+      <line x1="75" y1="16" x2="75" y2="74" class="gridline" id="plus_node_121" />
+      <line x1="100" y1="16" x2="100" y2="74" class="gridline" id="plus_node_122" />
+      <line x1="0" y1="45" x2="101" y2="45" class="gridline" id="plus_node_123" />
+    </g>
+    <path id="arrow_post_key_to_fa" d="M1556,291 H1608" class="dot" marker-end="url(#arrowSmall)" />
+    <text id="txt_critical_key_1" class="txt label" x="1424" y="362">Critical Post-rope</text>
+    <text id="txt_critical_key_2" class="txt label" x="1496" y="394">Key</text>
+    <text id="txt_fa" class="txt big" fill="#fff" x="1641" y="229">FA</text>
+  </g>
+
+  
+  <g id="stage_timeline">
+    <path id="stage1_arrow" d="M35,442 H253" class="dot" marker-start="url(#arrowTinyStart)" />
+    <path id="stage1_arrow_right" d="M475,442 H691" class="dot" marker-end="url(#arrowSmall)" />
+    <text id="txt_stage1" class="txt small" x="272" y="450">Stage 1: KV compression</text>
+
+    <path id="stage2_arrow_left" d="M696,442 H792" class="dot" marker-start="url(#arrowTinyStart)" />
+    <path id="stage2_arrow_right" d="M1014,442 H1103" class="dot" marker-end="url(#arrowSmall)" />
+    <text id="txt_stage2" class="txt small" x="813" y="450">Stage 2: Token selection</text>
+
+    <path id="stage3_arrow_left" d="M1113,442 H1335" class="dot" marker-start="url(#arrowTinyStart)" />
+    <path id="stage3_arrow_right" d="M1557,442 H1672" class="dot" marker-end="url(#arrowSmall)" />
+    <text id="txt_stage3" class="txt small" x="1357" y="450">Stage 3: Sparse attention</text>
+  </g>
+
+  
+  <path id="arrow_selected_dim_to_bottom_stage" d="M805,415 V442" class="thin" />
+  <path id="arrow_kernel_from_stage2_bottom" d="M1103,442 V425" class="thin" />
+  <path id="arrow_selected_to_topk_context" d="M834,319 H846" class="thin" />
+  <path id="arrow_attention_box_edge" d="M919,86 H947" class="thin" />
+  <path id="arrow_rope_down_to_post_query" d="M1519,55 V72" class="stroke" marker-end="url(#arrowBlack)" />
+
+  
+  <g id="sam_replace_mult_kernel" data-plus-keeps="f03_fused_recover_kernel txt_reconstruct_rope kernel_dotted_to_mult kernel_dotted_vertical_up kernel_dotted_right_bridge" transform="translate(0 0)">
+    <image href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABkAAAAZCAYAAADE6YVjAAAE80lEQVR4nJWWe0xTZxjGn3Na2qblIqhUhmNCvQAavESjxmWzcXOauKE19QJjom5xKruZmWX84WUjc8kCbtk0cTo3lUmHTnQRFTFsujjFy6ZOVFSqKNhD5CKrINPaZznntFpoQfcl7x/9vvO9v3Pe73mfr4LXLSF4eNF6qQJFO0vxy6FK/nWxFg3tDx+tCtoIxA1MxpjxVrxms8H+wgAhXAyR5lE6t9Qp2s9uwarpKYzRgoAa2nAzB6UO59ixozk6bQgT+xio8a0BYYwdaeOaklO81yWXPwJ+XMeFjRkcHikqm8XIJE55axWLDp2k+45Erzsw6th8djcLV2dxUqKRggzTRHP0oo282tQtxInTa6w0a+Q3MzHF/gl/u1LXJbEUOppOs3z1VA40yHu1jJ/2Bc83BkHqcXOrnYm+8ojPTGfR5fqnA7j9oKNc93KM+kXQccjCQkqtARBP9Xra4wQCeprjoikCNA2bzz1PC2o5zsI5idTJ+xItjA+TS5fABY7z9PghZQsTlMSGER/wmPMA8yfFqqDUbO5+EqjlOLfPTaJeeX4+91y5zIqlgxgmiyU5h3/4yoZpUSDEeC7YcVnd6DrA/JdiFfX0CGqp5PYMFWBMzuKuavU5T8062voIhNCXGduq5TnABFCTnMNjTQEJXGXMn9wDqKWSRZkqwDAkgzurAtedLFvQnyIExtg2sEXtQ5GWt0tkjXdO5Crn2snmYFBLJR2ZFgWgHzibRX8Hq/CuYzbNAij2f4MHGyVZUEamf+srVdeQyvnlK37QPJZUVdLxugrQWWay8GxomXuq8zhRFkDYBK69eIuAmMAlpbXdH650iF9NUUGGiHDlUMMSp3PLmRvd77n9PTN7C4RmMJdX3JBLp4fRIHTvO6ZhWLopH9nPiuhw38UDbRKWrC9AlkXXg1npYZCX+S/udRAi2IG2e3LZuhmeWhR/tAKFN73QaLXQeJzY9GEe9koPezDEdrTLOQUdDHoBIrzNqK/v6BbwU85czP/RCe+AdGz8fS/WTjWjo2ozMmauxL4Gb2hGswuudtmue6OfWSNPibQsDqGuABXpLDZu9Z+Bq1zpI7lhI0Ys4v6aW0Fn4nbMUtQlxGVw322J0Pv65Hhgn3SSqZ3bu6jIc2sfP3+xjwKKHJXDg85AkJP7s+OVtahXv2Fjq0RYjf6Ov+oDnHgkU8PguXSE6AOvDKrby0+fl01RYNSY91hxXQV5nOt9HR/Nmd9dUPwLxbNiFfc0jcvluYYTdGSpAGNyJn++0LN3eW7s4crxUQqo17hlPFxbw6PLUlTvsrzJigafdz34M4+TeskubOKg1ATV7IbOY4nPi54Unuu7mDsmUgUNTaNFD0Lox1mbzzx2Ya+7DlUFVvYV1PtEk2Dnjv95n3icxXw/zei7jrV8bs4G3rzz+D4RAS1SFq4TCt9JQwSAh3Vl+CyvCCebQ8szaHgbcbJkJ8qvyZoVETsxFzu+TBfiNYHP+K/J1os4strK/rLnyDXtnUr78nwePHWJD0K8/f3aI9z/9bu0DYumVvkCI5PnFPCcFHzHC53/EnnRdGIbP84twNbKBtxX5rSIjLcgNSkOMZE6sK0Nja4aXKqR4PbI6wLCk6xYvHIVVtgGC6bgb+0K8Y82XDu8mz8Ul6L011M4V/cPPJ2cR4QuJgEjJ1iRPsOO7BmjhH7aEGl84z/66lF+7fYVuQAAAABJRU5ErkJggg==" x="1306" y="191" width="25" height="25" id="plus_node_124" preserveAspectRatio="none" />
+  </g>
+  <g id="sam_replace_mult_left" data-plus-keeps="arrow_qseq_to_mult arrow_kseq_to_mult arrow_cache_to_mult" transform="translate(0 0)">
+    <image href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABUAAAAVCAYAAACpF6WWAAAD6klEQVR4nIWVb0zVZRTHz/O797k/YKhc46r8Twwb/v+fqTndNFMQApGUsGYtmpsvbPWmOSvSTZc404Q5dWZQErHllqYt60WbbkYFcgWBKTaXMLdEFO7tXnbvr0+7F00uXuq7nXfnfLbnnO85jwIkqv76Q34+d5pzF36T9hvd0uMNio5PlKSJT8ucJS9I3uqFKi0ueqmEoBHhuy6nd21gjkujRDDMsWRkz2b+M/OZnZ3BE6YNEYVOnEVx+Sk6vMPqIRI60FnPlrkJ2JRJ8uLN7K67xC0fkfJ10/D1XsqWpxOrFKOnv051my86NHizTjZlapQtmTX7G7hr8d+yemk6lE+KTdDp6znRGSASGuyQgyucGDaNttlJWrOfxv7/gXrcfJKXgnbEEqMNRi/9iCsD/0ItuV2zDpehmbz1DJcOF5Cm7SSv+XhksNdNZQhoZlF6spnz26bgMMaSd7wLKwwNtsmeRTEoZy7HboXe7KP1SCHpYfABGj0jAB2T2Fh9jYFQJ25XU5Bo4Ji/k5ZAqJfX9rLYVDiLTg7p4xBw7gGaHoK9bqryU3E4nqT40/YwcFB91Je4MBwL2d0eRPrrXiJBaZbtv0kwcsy0Hg2BNcm5B2m646bqxVS0TqPwyFUiTWHRfWgFpkpgfW0/8vu+pWgjkU2nhnvnAfjYOjK0JsHlROtUCg63EDXzzGskGZrnKm5g+P0DImKKw4y2GjEyZcO78upsu9z/s1fUtFJ5p2SqxETJVKZDtBIZ8PvFGDMmXhT9cv+eFWVVr0hVSb7sbnLJytJVMr6lQoo2HJAm7+OpVu996ftbyagxCSL+78tIs2lmbP+VQLQp63QKj7biw0tLVT4pWpOythK3d2hygOb35qBtqbzxnR+xer5gnVOhF+yiNTBkynmpaEcmxcfb8D9yPJcP5pBs16QWHKblYXOD7ex51kQlFFBzx0KweqS+ZAKGPYutP3oe2cacxMbPhtrmofr5Zd/zjLdp0guPcNUH3p+2MVkbTCipp8d6sKaBxnLmxRnEztzMW2tDwCxerhk0dlRZfVzasxyX3cHEou1sWTAKI24e5Y2D+//goHjk4o65xCtBbGkUVV+P7G9UcC8XP1iC0xBExTN3x0U8j52+QKd8vimLGGXHtWgrJxp7hi1DBJF7V2p5e1kSWsUy+ZVaOoMj3FOCtzhfnsPEOIVoJ1NXlfF+5ZecvdBAs7uZhgtn+arqQ7bkzcSlFSouk5ydP9A1BPg4NByW9LV/Q0XZaqaNM8PXP/RBPAqFOW46q9+s4NuO/vBVGs5QI/5RYUd7pLvtMu7rXXLXY4ktfqxKeWqGzMpOlnjbyGX/AFNQHycYYWgMAAAAAElFTkSuQmCC" x="509" y="119" width="21" height="21" id="plus_node_125" preserveAspectRatio="none" />
+  </g>
+</svg>

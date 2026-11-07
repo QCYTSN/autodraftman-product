@@ -1,0 +1,248 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1746" height="468" viewBox="0 0 1746 468">
+  <title>KV compression and sparse attention pipeline with rope, offline calibration, token selection, fused recover kernel, and FA</title>
+  <desc>
+    The figure is a left-to-right pipeline. Inventory: stacked pre-rope query/key blocks at left feed flattened row vectors, which combine through a multiply node with a compressed green key covariance/cache result from an offline calibration frame. The flow continues to selected orange/blue blocks, a latent key cache, an approximate attention score box, a selected-dimension cache, a top-k index box, transpose path, then a fused recover kernel frame with reconstruction/rope paths and a multiply node. Rope is also shown as a long top bypass line to post-rope query. Post-rope query and critical post-rope key stacks feed an orange FA block. Bottom dotted stage arrows divide Stage 1 KV compression, Stage 2 Token selection, and Stage 3 Sparse attention. Symmetry/equipartition basis: matrix cells use repeated equal columns/rows; stacked query/key icons are offset parallel copies; the three bottom stages are horizontally partitioned by process boundaries, not equal-width symmetry.
+  </desc>
+
+  <defs>
+    <marker id="arrow" markerUnits="userSpaceOnUse" markerWidth="12" markerHeight="8" refX="10" refY="4" orient="auto">
+      <path d="M0,0 L10,4 L0,8 Z" fill="#000" id="plus_node_0" />
+    </marker>
+    <marker id="arrowStart" markerUnits="userSpaceOnUse" markerWidth="12" markerHeight="8" refX="0" refY="4" orient="auto-start-reverse">
+      <path d="M10,0 L0,4 L10,8 Z" fill="#000" id="plus_node_1" />
+    </marker>
+    <marker id="smallArrow" markerUnits="userSpaceOnUse" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <path d="M0,0 L9,3.5 L0,7 Z" fill="#000" id="plus_node_2" />
+    </marker>
+    <style>
+      .serif{font-family:"Times New Roman",Times,serif}
+      .sans{font-family:Arial,Helvetica,sans-serif}
+      .label{font-family:"Times New Roman",Times,serif;font-size:26px;fill:#000}
+      .small{font-family:"Times New Roman",Times,serif;font-size:20px;fill:#000}
+      .tiny{font-family:"Times New Roman",Times,serif;font-size:18px;fill:#000}
+      .math{font-family:"Times New Roman",Times,serif;font-size:20px;font-style:italic;fill:#000}
+      .line{stroke:#000;stroke-width:2.7;fill:none}
+      .thin{stroke:#000;stroke-width:1.8;fill:none}
+      .dashFrame{stroke:#6d321c;stroke-width:2.5;stroke-dasharray:8 4;fill:#fff6ed}
+      .grid{stroke:#000;stroke-width:1.6}
+      .dot{stroke:#000;stroke-width:1.7;stroke-dasharray:1.5 3;fill:none}
+    </style>
+  </defs>
+
+  <rect x="0" y="0" width="1746" height="468" fill="#ffffff" id="plus_node_3" />
+
+  
+  <rect id="f01" data-plus-kind="frame" x="30" y="244" width="427" height="171" rx="28" ry="28" class="dashFrame" />
+  <rect id="f02" data-plus-kind="frame" x="1052" y="94" width="367" height="324" rx="16" ry="16" class="dashFrame" />
+  <rect id="f03" data-plus-kind="frame" x="1616" y="23" width="81" height="391" rx="15" ry="15" fill="#ffb260" stroke="#000" stroke-width="1.4" />
+
+  
+  <path id="rope-bypass" d="M121 64 V30 H1519 V63" class="line" marker-end="url(#arrow)" />
+  <text x="1224" y="59" class="label" id="plus_node_4">Rope</text>
+
+  
+  <g id="pre-rope-query">
+    <rect x="79" y="56" width="113" height="28" fill="#ffe38d" stroke="#000" stroke-width="1.8" id="plus_node_5" />
+    <rect x="72" y="64" width="113" height="28" fill="#ffe38d" stroke="#000" stroke-width="1.8" id="plus_node_6" />
+    <rect x="64" y="72" width="113" height="28" fill="#ffe38d" stroke="#000" stroke-width="1.8" id="plus_node_7" />
+    <path d="M92 56 V100 M121 56 V100 M150 56 V100 M177 72 V100" class="thin" id="plus_node_8" />
+    <text x="30" y="130" class="label" id="plus_node_9">Pre-rope Query</text>
+  </g>
+  <path d="M202 79 H248" class="line" marker-end="url(#arrow)" id="plus_node_10" />
+
+  
+  <g id="query-vector">
+    <rect x="254" y="64" width="176" height="29" fill="#ffe38d" stroke="#000" stroke-width="1.7" id="plus_node_11" />
+    <path d="M283 64 V93 M311 64 V93 M339 64 V93 M367 64 V93" class="thin" id="plus_node_12" />
+    <text x="388" y="79" class="small" id="plus_node_13">···</text>
+  </g>
+  <path d="M439 78 H519 V109" class="line" marker-end="url(#arrow)" id="plus_node_14" />
+
+  <text x="228" y="129" class="small" id="plus_node_15">1 × (</text>
+  <text x="274" y="129" class="math" id="plus_node_16">head_num</text>
+  <text x="365" y="129" class="small" id="plus_node_17">×</text>
+  <text x="385" y="129" class="math" id="plus_node_18">head_dim</text>
+  <text x="458" y="129" class="small" id="plus_node_19">)</text>
+
+  
+  <g id="pre-rope-key">
+    <rect x="79" y="141" width="113" height="28" fill="#dceff2" stroke="#000" stroke-width="1.8" id="plus_node_20" />
+    <rect x="72" y="149" width="113" height="28" fill="#dceff2" stroke="#000" stroke-width="1.8" id="plus_node_21" />
+    <rect x="64" y="157" width="113" height="29" fill="#dceff2" stroke="#000" stroke-width="1.8" id="plus_node_22" />
+    <path d="M92 141 V186 M120 141 V186 M149 141 V186 M177 157 V186" class="thin" id="plus_node_23" />
+    <text x="42" y="216" class="label" id="plus_node_24">Pre-rope Key</text>
+  </g>
+  <path d="M201 165 H248" class="line" marker-end="url(#arrow)" id="plus_node_25" />
+
+  
+  <g id="key-vector">
+    <rect x="254" y="150" width="176" height="29" fill="#dceff2" stroke="#000" stroke-width="1.7" id="plus_node_26" />
+    <path d="M282 150 V179 M310 150 V179 M338 150 V179 M367 150 V179" class="thin" id="plus_node_27" />
+    <text x="388" y="165" class="small" id="plus_node_28">···</text>
+  </g>
+  <path d="M438 165 H466 V129 H506" class="line" marker-end="url(#arrow)" id="plus_node_29" />
+
+  
+  <g id="mult-node-1">
+    <circle cx="519" cy="129" r="9.5" fill="#fff" stroke="#000" stroke-width="2" id="plus_node_30" />
+    <path d="M512 122 L526 136 M526 122 L512 136" stroke="#000" stroke-width="2" id="plus_node_31" />
+  </g>
+
+  
+  <g id="offline-calibration">
+    <text x="124" y="276" class="sans" font-size="28" id="plus_node_32">Offline Calibration</text>
+
+    <g id="offline-pre-rope-keys-matrix">
+      <rect x="74" y="293" width="76" height="77" fill="#dff2f5" stroke="#000" stroke-width="1.8" id="plus_node_33" />
+      <path d="M93 293 V370 M112 293 V370 M131 293 V370 M74 312 H150 M74 331 H150 M74 350 H150" class="thin" id="plus_node_34" />
+      <text x="58" y="395" class="small" id="plus_node_35">Pre-rope Keys</text>
+    </g>
+
+    <path d="M168 322 H257" class="line" marker-end="url(#arrow)" id="plus_node_36" />
+    <text x="167" y="323" class="small" id="plus_node_37">Cov. Calc.</text>
+
+    <g id="key-covariance-matrix">
+      <rect x="271" y="292" width="76" height="77" fill="#d8f6cf" stroke="#000" stroke-width="1.8" id="plus_node_38" />
+      <path d="M290 292 V369 M309 292 V369 M328 292 V369 M271 311 H347 M271 330 H347 M271 349 H347" class="thin" id="plus_node_39" />
+      <text x="219" y="395" class="small" id="plus_node_40">Key covariance matrix</text>
+    </g>
+
+    <text x="368" y="323" class="small" id="plus_node_41">EVD</text>
+    <path d="M367 330 H424 V291 H482" class="line" marker-end="url(#arrow)" id="plus_node_42" />
+  </g>
+
+  
+  <g id="compressed-cache">
+    <rect x="491" y="219" width="58" height="177" fill="#91df73" stroke="#000" stroke-width="1.8" id="plus_node_43" />
+    <path d="M520 219 V396 M491 248 H549 M491 277 H549 M491 306 H549 M491 335 H549" class="thin" id="plus_node_44" />
+    <text x="494" y="368" class="small" id="plus_node_45">·····</text>
+  </g>
+  <path d="M520 219 V142" class="line" marker-end="url(#arrow)" id="plus_node_46" />
+
+  
+  <path d="M529 129 H588 V88 H657" class="line" marker-end="url(#arrow)" id="plus_node_47" />
+  <path d="M588 129 V164 H657" class="line" marker-end="url(#arrow)" id="plus_node_48" />
+
+  
+  <g id="small-orange-selected">
+    <rect x="663" y="72" width="57" height="29" fill="#ffad59" stroke="#000" stroke-width="1.7" id="plus_node_49" />
+    <path d="M692 72 V101" class="thin" id="plus_node_50" />
+    <rect x="656" y="66" width="42" height="42" fill="none" stroke="#ff2020" stroke-width="2.2" stroke-dasharray="3 3" id="plus_node_51" />
+  </g>
+  <path d="M720 87 H745" class="line" marker-end="url(#arrow)" id="plus_node_52" />
+
+  
+  <g id="small-blue-selected">
+    <rect x="663" y="149" width="57" height="29" fill="#4ab7e4" stroke="#000" stroke-width="1.7" id="plus_node_53" />
+    <path d="M692 149 V178" class="thin" id="plus_node_54" />
+  </g>
+  <path d="M692 178 V208" class="line" marker-end="url(#arrow)" id="plus_node_55" />
+
+  
+  <g id="latent-key-cache">
+    <text x="587" y="291" class="label" id="plus_node_56">Latent</text>
+    <text x="600" y="323" class="label" id="plus_node_57">Key</text>
+    <text x="588" y="355" class="label" id="plus_node_58">Cache</text>
+    <rect x="663" y="215" width="58" height="201" fill="#a8d9e5" stroke="#000" stroke-width="1.8" id="plus_node_59" />
+    <path d="M692 215 V416 M663 244 H721 M663 273 H721 M663 302 H721 M663 331 H721 M663 360 H721 M663 389 H721" class="thin" id="plus_node_60" />
+  </g>
+  <path d="M722 319 H764" class="line" marker-end="url(#arrow)" id="plus_node_61" />
+
+  
+  <g id="approx-attn">
+    <rect x="747" y="52" width="172" height="69" fill="#fff" stroke="#000" stroke-width="1.7" id="plus_node_62" />
+    <text x="795" y="80" class="label" font-size="24" id="plus_node_63">Approx.</text>
+    <text x="761" y="106" class="label" font-size="24" id="plus_node_64">Attention Score</text>
+  </g>
+  <path d="M792 184 V127" class="line" marker-end="url(#arrow)" id="plus_node_65" />
+  <text x="809" y="149" class="label" font-size="24" id="plus_node_66">Selected</text>
+  <text x="809" y="177" class="label" font-size="24" id="plus_node_67">Dim.</text>
+
+  
+  <g id="selected-dim-cache">
+    <rect x="776" y="184" width="58" height="232" fill="#a8d9e5" stroke="#000" stroke-width="1.8" id="plus_node_68" />
+    <rect x="776" y="184" width="58" height="31" fill="#4ab7e4" stroke="#000" stroke-width="1.8" id="plus_node_69" />
+    <path d="M805 184 V416 M776 215 H834 M776 244 H834 M776 273 H834 M776 302 H834 M776 331 H834 M776 360 H834 M776 389 H834" class="thin" id="plus_node_70" />
+    <rect x="771" y="182" width="41" height="236" fill="none" stroke="#ff2020" stroke-width="2.2" stroke-dasharray="3 3" id="plus_node_71" />
+  </g>
+
+  <path d="M919 86 H947 V225" class="line" marker-end="url(#arrow)" id="plus_node_72" />
+  <g id="top-k-box">
+    <rect x="851" y="225" width="184" height="40" fill="#fff" stroke="#000" stroke-width="2" id="plus_node_73" />
+    <text x="856" y="254" class="label" font-size="24" id="plus_node_74">Top-k Index [2,7]</text>
+  </g>
+  <path d="M1035 245 H1052" class="line" id="plus_node_75" />
+  <path d="M852 299 H978 V374 H1102" class="line" marker-end="url(#arrow)" id="plus_node_76" />
+  <text x="856" y="407" class="label" id="plus_node_77">Transpose</text>
+
+  
+  <g id="fused-recover-kernel">
+    <text x="1101" y="126" class="sans" font-size="28" id="plus_node_78">Fused Recover Kernel</text>
+    <text x="1203" y="176" class="label" font-size="23" id="plus_node_79">Reconstruct &amp; Rope</text>
+
+    <path d="M1052 245 H1069 V201 H1106" class="line" marker-end="url(#arrow)" id="plus_node_80" />
+    <path d="M1069 201 V343 H1105" class="line" marker-end="url(#arrow)" id="plus_node_81" />
+
+    <g id="recover-vertical-cache">
+      <rect x="1113" y="185" width="58" height="228" fill="#a8d9e5" stroke="#000" stroke-width="1.8" id="plus_node_82" />
+      <rect x="1113" y="185" width="58" height="29" fill="#4e95d3" stroke="#000" stroke-width="1.8" id="plus_node_83" />
+      <rect x="1113" y="329" width="58" height="29" fill="#4e95d3" stroke="#000" stroke-width="1.8" id="plus_node_84" />
+      <path d="M1142 185 V413 M1113 214 H1171 M1113 243 H1171 M1113 272 H1171 M1113 301 H1171 M1113 329 H1171 M1113 358 H1171 M1113 387 H1171" class="thin" id="plus_node_85" />
+    </g>
+
+    <path d="M1181 201 H1289" class="dot" marker-end="url(#smallArrow)" id="plus_node_86" />
+    <path d="M1171 343 H1204 V202" class="dot" id="plus_node_87" />
+    <path d="M1204 202 H1288" class="dot" id="plus_node_88" />
+
+    <g id="recover-mult-node">
+      <circle cx="1318" cy="202" r="11" fill="#fff" stroke="#000" stroke-width="2" id="plus_node_89" />
+      <path d="M1310 194 L1326 210 M1326 194 L1310 210" stroke="#000" stroke-width="2" id="plus_node_90" />
+    </g>
+
+    <path d="M1318 294 V226" class="dot" marker-end="url(#smallArrow)" id="plus_node_91" />
+    <path d="M1339 202 H1394 V289 H1418" class="dot" marker-end="url(#smallArrow)" id="plus_node_92" />
+
+    <g id="recover-green-wide">
+      <rect x="1228" y="309" width="176" height="58" fill="#91df73" stroke="#000" stroke-width="1.8" id="plus_node_93" />
+      <path d="M1257 309 V367 M1286 309 V367 M1315 309 V367 M1344 309 V367 M1373 309 V367 M1228 338 H1404" class="thin" id="plus_node_94" />
+      <text x="1360" y="326" class="small" id="plus_node_95">···</text>
+      <text x="1360" y="354" class="small" id="plus_node_96">···</text>
+    </g>
+    <path d="M1316 424 V374" class="line" marker-end="url(#arrow)" id="plus_node_97" />
+  </g>
+
+  
+  <g id="post-rope-query">
+    <rect x="1470" y="56" width="113" height="28" fill="#ffa858" stroke="#000" stroke-width="1.8" id="plus_node_98" />
+    <rect x="1463" y="64" width="113" height="28" fill="#ffa858" stroke="#000" stroke-width="1.8" id="plus_node_99" />
+    <rect x="1455" y="72" width="113" height="29" fill="#ffa858" stroke="#000" stroke-width="1.8" id="plus_node_100" />
+    <path d="M1483 56 V101 M1512 56 V101 M1540 56 V101 M1568 72 V101" class="thin" id="plus_node_101" />
+    <text x="1431" y="142" class="label" id="plus_node_102">Post-rope Query</text>
+  </g>
+  <path d="M1570 78 H1609" class="dot" marker-end="url(#smallArrow)" id="plus_node_103" />
+
+  
+  <g id="critical-post-rope-key">
+    <rect x="1470" y="255" width="113" height="58" fill="#4b9bdb" stroke="#000" stroke-width="1.8" id="plus_node_104" />
+    <rect x="1463" y="262" width="113" height="58" fill="#4b9bdb" stroke="#000" stroke-width="1.8" id="plus_node_105" />
+    <rect x="1455" y="269" width="113" height="58" fill="#4b9bdb" stroke="#000" stroke-width="1.8" id="plus_node_106" />
+    <path d="M1483 255 V327 M1512 255 V327 M1540 255 V327 M1568 269 V327 M1455 298 H1568" class="thin" id="plus_node_107" />
+    <text x="1426" y="362" class="label" id="plus_node_108">Critical Post-rope</text>
+    <text x="1499" y="394" class="label" id="plus_node_109">Key</text>
+  </g>
+  <path d="M1418 289 H1450" class="line" marker-end="url(#arrow)" id="plus_node_110" />
+  <path d="M1571 291 H1610" class="dot" marker-end="url(#smallArrow)" id="plus_node_111" />
+
+  
+  <text x="1641" y="229" font-family="Arial,Helvetica,sans-serif" font-size="28" fill="#fff" id="plus_node_112">FA</text>
+
+  
+  <g id="stage-arrows">
+    <path d="M35 442 H257 M476 442 H692" class="dot" marker-start="url(#arrowStart)" marker-end="url(#smallArrow)" id="plus_node_113" />
+    <path d="M697 442 H795 M1015 442 H1104" class="dot" marker-start="url(#arrowStart)" marker-end="url(#smallArrow)" id="plus_node_114" />
+    <path d="M1109 442 H1337 M1556 442 H1674" class="dot" marker-start="url(#arrowStart)" marker-end="url(#smallArrow)" id="plus_node_115" />
+    <text x="272" y="450" class="small" id="plus_node_116">Stage 1: KV compression</text>
+    <text x="812" y="450" class="small" id="plus_node_117">Stage 2: Token selection</text>
+    <text x="1357" y="450" class="small" id="plus_node_118">Stage 3: Sparse attention</text>
+  </g>
+</svg>

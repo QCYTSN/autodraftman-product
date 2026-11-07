@@ -1,0 +1,195 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="2048" height="638" viewBox="0 0 2048 638">
+  <defs>
+    <marker id="arrow-black" markerWidth="14" markerHeight="12" refX="12" refY="6" orient="auto" markerUnits="userSpaceOnUse">
+      <path d="M 0 0 L 12 6 L 0 12 Z" fill="#000000"/>
+    </marker>
+  </defs>
+  <rect id="background" data-pb-role="background" data-pb-editable="true" x="0" y="0" width="2048" height="638" fill="#ffffff"/>
+
+  <g id="panel-phase-1" data-pb-role="panel" data-pb-editable="true">
+    <rect id="panel-phase-1-boundary" x="228" y="117" width="1327" height="351" rx="62" ry="62" fill="none" stroke="#7a7a7a" stroke-width="4" stroke-dasharray="4 7"/>
+    <path id="brace-phase-1" d="M 244 108 L 244 96 Q 244 90 250 90 L 879 90 Q 884 90 884 83 L 884 72 M 884 72 L 884 83 Q 884 90 889 90 L 1514 90 Q 1520 90 1520 96 L 1521 108" fill="none" stroke="#000000" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+    <text id="label-phase-1" x="882" y="57" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="26" font-style="normal" font-weight="400" fill="#000000" data-pb-role="label" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="horizontal">Phase 1 training</text>
+  </g>
+
+  <g id="panel-phase-2" data-pb-role="panel" data-pb-editable="true">
+    <rect id="panel-phase-2-boundary" x="1583" y="117" width="316" height="351" rx="62" ry="62" fill="none" stroke="#7a7a7a" stroke-width="4" stroke-dasharray="4 7"/>
+    <path id="brace-phase-2" d="M 1580 108 L 1580 96 Q 1580 90 1586 90 L 1734 90 Q 1739 90 1739 83 L 1739 72 M 1739 72 L 1739 83 Q 1739 90 1744 90 L 1893 90 Q 1899 90 1899 96 L 1899 108" fill="none" stroke="#000000" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+    <text id="label-phase-2" x="1738" y="60" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="26" font-style="normal" font-weight="400" fill="#000000" data-pb-role="label" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="horizontal">Phase 2 training</text>
+  </g>
+
+  <g id="connector-main-flow" data-pb-role="connector" data-pb-editable="true" stroke="#000000" stroke-width="4" fill="none" stroke-linecap="square" stroke-linejoin="miter">
+    <line id="arrow-input-to-conv1" x1="190" y1="268" x2="252" y2="268" marker-end="url(#arrow-black)"/>
+    <line id="arrow-conv1-to-conv2" x1="580" y1="268" x2="721" y2="268" marker-end="url(#arrow-black)"/>
+    <line id="arrow-conv2-to-conv3" x1="1000" y1="268" x2="1140" y2="268" marker-end="url(#arrow-black)"/>
+    <line id="arrow-conv3-to-classifier" x1="1420" y1="268" x2="1627" y2="268" marker-end="url(#arrow-black)"/>
+    <line id="arrow-classifier-to-output" x1="1848" y1="268" x2="1918" y2="268" marker-end="url(#arrow-black)"/>
+  </g>
+
+  <g id="module-conv1" data-pb-role="node" data-pb-editable="true">
+    <text id="label-conv1" x="419" y="151" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="26" font-style="normal" font-weight="400" fill="#000000" data-pb-role="label" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="horizontal">Conv1</text>
+    <rect id="module-conv1-frame" x="258" y="165" width="322" height="210" fill="#ffffff" stroke="#666666" stroke-width="4"/>
+    <g id="module-conv1-layers">
+      <rect x="276" y="188" width="48" height="163" fill="none" stroke="#5bc5cc" stroke-width="4"/>
+      <text x="304" y="270" text-anchor="middle" transform="rotate(-90 304 270)" font-family="Arial, Helvetica, sans-serif" font-size="23" font-style="normal" font-weight="700" fill="#5bc5cc" data-pb-role="label" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="vertical-rl">BatchNorm</text>
+      <rect x="336" y="188" width="47" height="163" fill="none" stroke="#d7b94a" stroke-width="4" stroke-dasharray="16 8"/>
+      <text x="363" y="270" text-anchor="middle" transform="rotate(-90 363 270)" font-family="Arial, Helvetica, sans-serif" font-size="23" font-style="normal" font-weight="700" fill="#c7a93b" data-pb-role="label" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="vertical-rl">Dropout</text>
+      <rect x="395" y="188" width="48" height="163" fill="none" stroke="#ff946c" stroke-width="4"/>
+      <text x="423" y="270" text-anchor="middle" transform="rotate(-90 423 270)" font-family="Arial, Helvetica, sans-serif" font-size="23" font-style="normal" font-weight="700" fill="#ff946c" data-pb-role="label" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="vertical-rl">Conv</text>
+      <rect x="455" y="188" width="48" height="163" fill="none" stroke="#d79af0" stroke-width="4"/>
+      <text x="483" y="270" text-anchor="middle" transform="rotate(-90 483 270)" font-family="Arial, Helvetica, sans-serif" font-size="23" font-style="normal" font-weight="700" fill="#d79af0" data-pb-role="label" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="vertical-rl">ReLU</text>
+      <rect x="516" y="188" width="47" height="163" fill="none" stroke="#6ebb4b" stroke-width="4"/>
+      <text x="543" y="270" text-anchor="middle" transform="rotate(-90 543 270)" font-family="Arial, Helvetica, sans-serif" font-size="23" font-style="normal" font-weight="700" fill="#6ebb4b" data-pb-role="label" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="vertical-rl">MaxPooling</text>
+      <line x1="324" y1="268" x2="336" y2="268" stroke="#000000" stroke-width="3"/>
+      <line x1="383" y1="268" x2="395" y2="268" stroke="#000000" stroke-width="3"/>
+      <line x1="443" y1="268" x2="455" y2="268" stroke="#000000" stroke-width="3"/>
+      <line x1="503" y1="268" x2="516" y2="268" stroke="#000000" stroke-width="3"/>
+    </g>
+  </g>
+
+  <g id="module-conv2" data-pb-role="node" data-pb-editable="true">
+    <text id="label-conv2" x="873" y="151" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="26" font-style="normal" font-weight="400" fill="#000000" data-pb-role="label" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="horizontal">Conv2</text>
+    <rect id="module-conv2-frame" x="723" y="165" width="277" height="210" fill="#ffffff" stroke="#666666" stroke-width="4"/>
+    <rect x="748" y="188" width="48" height="163" fill="none" stroke="#5bc5cc" stroke-width="4"/>
+    <text x="776" y="270" text-anchor="middle" transform="rotate(-90 776 270)" font-family="Arial, Helvetica, sans-serif" font-size="23" font-style="normal" font-weight="700" fill="#5bc5cc" data-pb-role="label" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="vertical-rl">BatchNorm</text>
+    <rect x="808" y="188" width="48" height="163" fill="none" stroke="#ff946c" stroke-width="4"/>
+    <text x="836" y="270" text-anchor="middle" transform="rotate(-90 836 270)" font-family="Arial, Helvetica, sans-serif" font-size="23" font-style="normal" font-weight="700" fill="#ff946c" data-pb-role="label" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="vertical-rl">Conv</text>
+    <rect x="868" y="188" width="48" height="163" fill="none" stroke="#d79af0" stroke-width="4"/>
+    <text x="896" y="270" text-anchor="middle" transform="rotate(-90 896 270)" font-family="Arial, Helvetica, sans-serif" font-size="23" font-style="normal" font-weight="700" fill="#d79af0" data-pb-role="label" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="vertical-rl">ReLU</text>
+    <rect x="928" y="188" width="48" height="163" fill="none" stroke="#6ebb4b" stroke-width="4"/>
+    <text x="956" y="270" text-anchor="middle" transform="rotate(-90 956 270)" font-family="Arial, Helvetica, sans-serif" font-size="23" font-style="normal" font-weight="700" fill="#6ebb4b" data-pb-role="label" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="vertical-rl">MaxPooling</text>
+    <line x1="796" y1="268" x2="808" y2="268" stroke="#000000" stroke-width="3"/>
+    <line x1="856" y1="268" x2="868" y2="268" stroke="#000000" stroke-width="3"/>
+    <line x1="916" y1="268" x2="928" y2="268" stroke="#000000" stroke-width="3"/>
+  </g>
+
+  <g id="module-conv3" data-pb-role="node" data-pb-editable="true">
+    <text id="label-conv3" x="1286" y="151" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="26" font-style="normal" font-weight="400" fill="#000000" data-pb-role="label" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="horizontal">Conv3</text>
+    <rect id="module-conv3-frame" x="1143" y="165" width="277" height="210" fill="#ffffff" stroke="#666666" stroke-width="4"/>
+    <rect x="1168" y="188" width="48" height="163" fill="none" stroke="#5bc5cc" stroke-width="4"/>
+    <text x="1196" y="270" text-anchor="middle" transform="rotate(-90 1196 270)" font-family="Arial, Helvetica, sans-serif" font-size="23" font-style="normal" font-weight="700" fill="#5bc5cc" data-pb-role="label" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="vertical-rl">BatchNorm</text>
+    <rect x="1228" y="188" width="48" height="163" fill="none" stroke="#ff946c" stroke-width="4"/>
+    <text x="1256" y="270" text-anchor="middle" transform="rotate(-90 1256 270)" font-family="Arial, Helvetica, sans-serif" font-size="23" font-style="normal" font-weight="700" fill="#ff946c" data-pb-role="label" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="vertical-rl">Conv</text>
+    <rect x="1288" y="188" width="48" height="163" fill="none" stroke="#d79af0" stroke-width="4"/>
+    <text x="1316" y="270" text-anchor="middle" transform="rotate(-90 1316 270)" font-family="Arial, Helvetica, sans-serif" font-size="23" font-style="normal" font-weight="700" fill="#d79af0" data-pb-role="label" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="vertical-rl">ReLU</text>
+    <rect x="1348" y="188" width="48" height="163" fill="none" stroke="#6ebb4b" stroke-width="4"/>
+    <text x="1376" y="270" text-anchor="middle" transform="rotate(-90 1376 270)" font-family="Arial, Helvetica, sans-serif" font-size="23" font-style="normal" font-weight="700" fill="#6ebb4b" data-pb-role="label" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="vertical-rl">AvgPooling</text>
+    <line x1="1216" y1="268" x2="1228" y2="268" stroke="#000000" stroke-width="3"/>
+    <line x1="1276" y1="268" x2="1288" y2="268" stroke="#000000" stroke-width="3"/>
+    <line x1="1336" y1="268" x2="1348" y2="268" stroke="#000000" stroke-width="3"/>
+  </g>
+
+  <g id="module-classifier" data-pb-role="node" data-pb-editable="true">
+    <text id="label-classifier" x="1739" y="151" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="26" font-style="normal" font-weight="400" fill="#000000" data-pb-role="label" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="horizontal">Linear Classifier</text>
+    <rect id="module-classifier-frame" x="1627" y="165" width="221" height="210" fill="#ffffff" stroke="#666666" stroke-width="4"/>
+    <rect x="1655" y="188" width="48" height="163" fill="none" stroke="#9bb7f0" stroke-width="4"/>
+    <text x="1683" y="270" text-anchor="middle" transform="rotate(-90 1683 270)" font-family="Arial, Helvetica, sans-serif" font-size="23" font-style="normal" font-weight="700" fill="#9bb7f0" data-pb-role="label" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="vertical-rl">Flatten</text>
+    <rect x="1715" y="188" width="48" height="163" fill="none" stroke="#d6aa38" stroke-width="4"/>
+    <text x="1743" y="270" text-anchor="middle" transform="rotate(-90 1743 270)" font-family="Arial, Helvetica, sans-serif" font-size="23" font-style="normal" font-weight="700" fill="#c7a02d" data-pb-role="label" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="vertical-rl">Dropout</text>
+    <rect x="1775" y="188" width="48" height="163" fill="none" stroke="#f276a2" stroke-width="4"/>
+    <text x="1803" y="270" text-anchor="middle" transform="rotate(-90 1803 270)" font-family="Arial, Helvetica, sans-serif" font-size="23" font-style="normal" font-weight="700" fill="#f276a2" data-pb-role="label" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="vertical-rl">FC</text>
+    <line x1="1703" y1="268" x2="1715" y2="268" stroke="#000000" stroke-width="3"/>
+    <line x1="1763" y1="268" x2="1775" y2="268" stroke="#000000" stroke-width="3"/>
+  </g>
+
+  <g id="flow-auxiliary-arrows" data-pb-role="connector" data-pb-editable="true" stroke="#000000" stroke-width="4" fill="none" stroke-linecap="square" stroke-linejoin="miter">
+    <circle cx="649" cy="268" r="8" fill="#ffffff" stroke="#333333" stroke-width="4"/>
+    <line x1="649" y1="276" x2="649" y2="343" marker-end="url(#arrow-black)"/>
+    <circle cx="1071" cy="268" r="8" fill="#ffffff" stroke="#333333" stroke-width="4"/>
+    <line x1="1071" y1="276" x2="1071" y2="343" marker-end="url(#arrow-black)"/>
+    <circle cx="1496" cy="268" r="8" fill="#ffffff" stroke="#333333" stroke-width="4"/>
+    <line x1="1496" y1="276" x2="1496" y2="342" marker-end="url(#arrow-black)"/>
+    <line x1="359" y1="351" x2="359" y2="496" marker-end="url(#arrow-black)"/>
+    <line x1="1740" y1="351" x2="1740" y2="489" marker-end="url(#arrow-black)"/>
+    <path d="M 491 428 L 418 428 L 418 380" marker-end="url(#arrow-black)"/>
+    <path d="M 901 428 L 860 428 L 860 380" marker-end="url(#arrow-black)"/>
+    <path d="M 1317 428 L 1279 428 L 1279 380" marker-end="url(#arrow-black)"/>
+    <path d="M 648 399 L 648 428 L 581 428" marker-end="url(#arrow-black)"/>
+    <path d="M 1072 399 L 1072 428 L 1005 428" marker-end="url(#arrow-black)"/>
+    <path d="M 1496 396 L 1496 428 L 1423 428" marker-end="url(#arrow-black)"/>
+    <line x1="953" y1="458" x2="953" y2="501" marker-end="url(#arrow-black)"/>
+  </g>
+
+  <g id="module-fop-losses" data-pb-role="node" data-pb-editable="true">
+    <rect id="box-fop-1" x="604" y="346" width="88" height="50" fill="#ffffff" stroke="#78d99c" stroke-width="4"/>
+    <text x="648" y="382" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="25" font-style="normal" font-weight="700" fill="#78d99c" data-pb-role="label" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="horizontal">FOP</text>
+    <rect id="box-fop-2" x="1028" y="346" width="88" height="50" fill="#ffffff" stroke="#78d99c" stroke-width="4"/>
+    <text x="1072" y="382" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="25" font-style="normal" font-weight="700" fill="#78d99c" data-pb-role="label" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="horizontal">FOP</text>
+    <rect id="box-fop-3" x="1452" y="345" width="88" height="50" fill="#ffffff" stroke="#78d99c" stroke-width="4"/>
+    <text x="1496" y="381" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="25" font-style="normal" font-weight="700" fill="#78d99c" data-pb-role="label" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="horizontal">FOP</text>
+    <g id="formula-ldc-1" data-pb-role="formula" data-pb-editable="true" data-pb-formula-bbox="491 405 88 50" data-pb-formula-latex-b64="TF97ZGN9">
+      <rect x="491" y="405" width="88" height="50" fill="#ffffff" stroke="#7130a8" stroke-width="4"/>
+      <text x="535" y="439" text-anchor="middle" font-family="Times New Roman, Times, serif" font-size="29" font-style="italic" font-weight="700" fill="#7130a8" data-pb-role="formula" data-pb-editable="true" data-pb-text-source="visual_inferred" data-pb-orientation="horizontal">L<tspan baseline-shift="sub" font-size="18">dc</tspan></text>
+      <desc>LaTeX: L_{dc}</desc>
+    </g>
+    <g id="formula-ldc-2" data-pb-role="formula" data-pb-editable="true" data-pb-formula-bbox="902 405 102 50" data-pb-formula-latex-b64="TF97ZGN9">
+      <rect x="902" y="405" width="102" height="50" fill="#ffffff" stroke="#7130a8" stroke-width="4"/>
+      <text x="953" y="439" text-anchor="middle" font-family="Times New Roman, Times, serif" font-size="29" font-style="italic" font-weight="700" fill="#7130a8" data-pb-role="formula" data-pb-editable="true" data-pb-text-source="visual_inferred" data-pb-orientation="horizontal">L<tspan baseline-shift="sub" font-size="18">dc</tspan></text>
+      <desc>LaTeX: L_{dc}</desc>
+    </g>
+    <g id="formula-ldc-3" data-pb-role="formula" data-pb-editable="true" data-pb-formula-bbox="1317 405 105 50" data-pb-formula-latex-b64="TF97ZGN9">
+      <rect x="1317" y="405" width="105" height="50" fill="#ffffff" stroke="#7130a8" stroke-width="4"/>
+      <text x="1369" y="439" text-anchor="middle" font-family="Times New Roman, Times, serif" font-size="29" font-style="italic" font-weight="700" fill="#7130a8" data-pb-role="formula" data-pb-editable="true" data-pb-text-source="visual_inferred" data-pb-orientation="horizontal">L<tspan baseline-shift="sub" font-size="18">dc</tspan></text>
+      <desc>LaTeX: L_{dc}</desc>
+    </g>
+  </g>
+
+  <g id="label-input-block" data-pb-role="label" data-pb-editable="true">
+    <text x="101" y="252" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="26" font-style="normal" font-weight="700" fill="#000000" data-pb-role="label" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="horizontal">Input</text>
+    <g id="formula-input-x" data-pb-role="formula" data-pb-editable="true" data-pb-formula-bbox="42 265 120 26" data-pb-formula-latex-b64="WCcgXGluIFxtYXRoYmJ7Un1ee0JcdGltZXMgRn0=">
+      <text x="43" y="283" font-family="Times New Roman, Times, serif" font-size="25" font-style="italic" font-weight="400" fill="#000000" data-pb-role="formula" data-pb-editable="true" data-pb-text-source="visual_inferred" data-pb-orientation="horizontal">X<tspan baseline-shift="super" font-size="16">&#8242;</tspan> &#8712; &#8477;<tspan baseline-shift="super" font-size="16">B&#215;F</tspan></text>
+      <desc>LaTeX: X' \in \mathbb{R}^{B\times F}</desc>
+    </g>
+    <g id="formula-input-f" data-pb-role="formula" data-pb-editable="true" data-pb-formula-bbox="20 291 150 30" data-pb-formula-latex-b64="RiA9IGMgXHRpbWVzIGggXHRpbWVzIHc=">
+      <text x="20" y="313" font-family="Times New Roman, Times, serif" font-size="25" font-style="italic" font-weight="400" fill="#000000" data-pb-role="formula" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="horizontal">F = c &#215; h &#215; w</text>
+      <desc>LaTeX: F = c \times h \times w</desc>
+    </g>
+  </g>
+
+  <g id="label-output-block" data-pb-role="label" data-pb-editable="true">
+    <text x="1983" y="260" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="26" font-style="normal" font-weight="700" fill="#000000" data-pb-role="label" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="horizontal">Output</text>
+    <g id="formula-output" data-pb-role="formula" data-pb-editable="true" data-pb-formula-bbox="1944 270 74 28" data-pb-formula-latex-b64="XG1hdGhiYntFfVtZXjJd">
+      <text x="1948" y="291" font-family="Times New Roman, Times, serif" font-size="24" font-style="normal" font-weight="700" fill="#000000" data-pb-role="formula" data-pb-editable="true" data-pb-text-source="visual_inferred" data-pb-orientation="horizontal">&#120124;[Y<tspan baseline-shift="super" font-size="15">2</tspan>]</text>
+      <desc>LaTeX: \mathbb{E}[Y^2]</desc>
+    </g>
+  </g>
+
+  <g id="annotation-noisy-samples" data-pb-role="label" data-pb-editable="true">
+    <text x="359" y="532" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="26" font-style="normal" font-weight="400" fill="#000000" data-pb-role="label" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="horizontal">Creating noisy samples</text>
+    <g id="formula-noisy-1" data-pb-role="formula" data-pb-editable="true" data-pb-formula-bbox="170 542 363 32" data-pb-formula-latex-b64="WF97aSxqfSA9IERyb3BvdXQoWCdfaSksIGogPSAxLDIsIC4uLiwgbiw=">
+      <text x="170" y="565" font-family="Times New Roman, Times, serif" font-size="25" font-style="italic" font-weight="400" fill="#000000" data-pb-role="formula" data-pb-editable="true" data-pb-text-source="visual_inferred" data-pb-orientation="horizontal">X<tspan baseline-shift="sub" font-size="16">i,j</tspan> = <tspan font-style="normal">Dropout</tspan>(X<tspan baseline-shift="super" font-size="16">&#8242;</tspan><tspan baseline-shift="sub" font-size="16">i</tspan>), j = 1,2, ... , n,</text>
+      <desc>LaTeX: X_{i,j} = Dropout(X'_i), j = 1,2, ..., n,</desc>
+    </g>
+    <g id="formula-noisy-2" data-pb-role="formula" data-pb-editable="true" data-pb-formula-bbox="289 573 158 31" data-pb-formula-latex-b64="WCBcaW4gXG1hdGhiYntSfV57QiBcdGltZXMgTiBcdGltZXMgRn0=">
+      <text x="289" y="596" font-family="Times New Roman, Times, serif" font-size="25" font-style="italic" font-weight="400" fill="#000000" data-pb-role="formula" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="horizontal">X &#8712; &#8477;<tspan baseline-shift="super" font-size="16">B&#215;N&#215;F</tspan></text>
+      <desc>LaTeX: X \in \mathbb{R}^{B \times N \times F}</desc>
+    </g>
+  </g>
+
+  <g id="formula-loss" data-pb-role="formula" data-pb-editable="true" data-pb-formula-bbox="653 537 276 34" data-pb-formula-latex-b64="TCA9IFxhbHBoYUVEX2MgLSAoMS1cYWxwaGEpRURfZA==">
+    <text x="653" y="561" font-family="Times New Roman, Times, serif" font-size="26" font-style="italic" font-weight="400" fill="#000000" data-pb-role="formula" data-pb-editable="true" data-pb-text-source="visual_inferred" data-pb-orientation="horizontal">L = &#945;ED<tspan baseline-shift="sub" font-size="17">c</tspan> &#8722; (1 &#8722; &#945;)ED<tspan baseline-shift="sub" font-size="17">d</tspan></text>
+    <desc>LaTeX: L = \alpha ED_c - (1-\alpha)ED_d</desc>
+  </g>
+
+  <g id="formula-ed-system" data-pb-role="formula" data-pb-editable="true">
+    <path id="brace-ed-system" d="M 963 507 C 953 507 953 515 953 524 L 953 549 C 953 555 948 555 945 555 C 948 555 953 556 953 562 L 953 589 C 953 599 954 602 964 602" fill="none" stroke="#000000" stroke-width="2.5"/>
+    <g id="formula-edc" data-pb-role="formula" data-pb-editable="true" data-pb-formula-bbox="976 496 230 34" data-pb-formula-latex-b64="RURfYyA9IFxmcmFjezF9e0J9XHN1bV9pRURcleftKFhfaV57KGwpfVxyaWdodCk=">
+      <text x="976" y="519" font-family="Times New Roman, Times, serif" font-size="25" font-style="normal" font-weight="400" fill="#000000" data-pb-role="formula" data-pb-editable="true" data-pb-text-source="visual_inferred" data-pb-orientation="horizontal">ED<tspan baseline-shift="sub" font-size="16">c</tspan> = <tspan font-size="17" baseline-shift="super">1</tspan>/<tspan font-size="17" baseline-shift="sub">B</tspan>&#931;<tspan baseline-shift="sub" font-size="16">i</tspan> ED ( X<tspan baseline-shift="sub" font-size="16">i</tspan><tspan baseline-shift="super" font-size="16">(l)</tspan> )</text>
+      <desc>LaTeX: ED_c = \frac{1}{B}\sum_i ED\left(X_i^{(l)}\right)</desc>
+    </g>
+    <g id="formula-edd" data-pb-role="formula" data-pb-editable="true" data-pb-formula-bbox="977 585 245 32" data-pb-formula-latex-b64="RURfZCA9IEVEKFxFIFtYXnsobCl9XSk=">
+      <text x="977" y="608" font-family="Times New Roman, Times, serif" font-size="25" font-style="normal" font-weight="400" fill="#000000" data-pb-role="formula" data-pb-editable="true" data-pb-text-source="visual_inferred" data-pb-orientation="horizontal">ED<tspan baseline-shift="sub" font-size="16">d</tspan> = ED (&#120124;[X<tspan baseline-shift="super" font-size="16">(l)</tspan>])</text>
+      <desc>LaTeX: ED_d = ED(\mathbb{E}[X^{(l)}])</desc>
+    </g>
+  </g>
+
+  <g id="formula-edx" data-pb-role="formula" data-pb-editable="true" data-pb-formula-bbox="1231 531 224 49" data-pb-formula-latex-b64="RUQoWCkgPSBcZnJhY3tcdHJhY2UoRVtYWF5UXSleMn17XHxFW1hYXlRdXHxff0ZeMn0=">
+    <text x="1231" y="562" font-family="Times New Roman, Times, serif" font-size="25" font-style="normal" font-weight="400" fill="#000000" data-pb-role="formula" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="horizontal">ED(X) = </text>
+    <line x1="1347" y1="544" x2="1450" y2="544" stroke="#000000" stroke-width="2"/>
+    <text x="1349" y="537" font-family="Times New Roman, Times, serif" font-size="22" font-style="normal" font-weight="400" fill="#000000" data-pb-role="formula" data-pb-editable="true" data-pb-text-source="visual_inferred" data-pb-orientation="horizontal">tr(E[XX<tspan baseline-shift="super" font-size="14">T</tspan>])<tspan baseline-shift="super" font-size="14">2</tspan></text>
+    <text x="1347" y="573" font-family="Times New Roman, Times, serif" font-size="22" font-style="normal" font-weight="400" fill="#000000" data-pb-role="formula" data-pb-editable="true" data-pb-text-source="visual_inferred" data-pb-orientation="horizontal">||E[XX<tspan baseline-shift="super" font-size="14">T</tspan>]||<tspan baseline-shift="sub" font-size="14">F</tspan><tspan baseline-shift="super" font-size="14">2</tspan></text>
+    <desc>LaTeX: ED(X) = \frac{\mathrm{tr}(E[XX^T])^2}{\|E[XX^T]\|_F^2}</desc>
+  </g>
+
+  <text id="label-regularization" x="1740" y="536" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="26" font-style="normal" font-weight="400" fill="#000000" data-pb-role="label" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="horizontal">Regularization</text>
+</svg>

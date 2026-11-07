@@ -1,0 +1,244 @@
+<svg viewBox="0 0 1875 1017" width="1875" height="1017" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <marker id="arrBlue" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto" markerUnits="strokeWidth"><path d="M0,0 L8,3 L0,6 Z" fill="#188bc2"/></marker>
+    <marker id="arrMag" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto" markerUnits="strokeWidth"><path d="M0,0 L8,3 L0,6 Z" fill="#e91e73"/></marker>
+    <marker id="arrRed" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto" markerUnits="strokeWidth"><path d="M0,0 L8,3 L0,6 Z" fill="#e21b16"/></marker>
+    <marker id="arrGreen" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto" markerUnits="strokeWidth"><path d="M0,0 L8,3 L0,6 Z" fill="#5f8c3d"/></marker>
+    <marker id="arrPurple" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto" markerUnits="strokeWidth"><path d="M0,0 L8,3 L0,6 Z" fill="#7b3f98"/></marker>
+    <marker id="arrBrown" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto" markerUnits="strokeWidth"><path d="M0,0 L8,3 L0,6 Z" fill="#8b4a44"/></marker>
+    <marker id="arrBrownStart" markerWidth="8" markerHeight="6" refX="1" refY="3" orient="auto" markerUnits="strokeWidth"><path d="M8,0 L0,3 L8,6 Z" fill="#8b4a44"/></marker>
+    <marker id="arrOrange" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto" markerUnits="strokeWidth"><path d="M0,0 L8,3 L0,6 Z" fill="#d87823"/></marker>
+    <marker id="arrOlive" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto" markerUnits="strokeWidth"><path d="M0,0 L8,3 L0,6 Z" fill="#a7a51d"/></marker>
+    <marker id="arrGray" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto" markerUnits="strokeWidth"><path d="M0,0 L8,3 L0,6 Z" fill="#777"/></marker>
+    <marker id="arrBlueStart" markerWidth="8" markerHeight="6" refX="1" refY="3" orient="auto" markerUnits="strokeWidth"><path d="M8,0 L0,3 L8,6 Z" fill="#188bc2"/></marker>
+    <marker id="arrMagStart" markerWidth="8" markerHeight="6" refX="1" refY="3" orient="auto" markerUnits="strokeWidth"><path d="M8,0 L0,3 L8,6 Z" fill="#e91e73"/></marker>
+    <marker id="arrOliveStart" markerWidth="8" markerHeight="6" refX="1" refY="3" orient="auto" markerUnits="strokeWidth"><path d="M8,0 L0,3 L8,6 Z" fill="#a7a51d"/></marker>
+    <clipPath id="photoClip"><rect x="1306" y="99" width="89" height="101"/></clipPath>
+    <style>
+      .panel{fill:none;stroke:#8b8b8b;stroke-width:2;stroke-dasharray:10 7}
+      .title{font-family:serif;font-size:30px;fill:#000}
+      .lab{font-family:serif;font-size:28px;fill:#000}
+      .small{font-family:serif;font-size:24px;fill:#000}
+      .nodeText{font-family:serif;font-size:22px;fill:#1a1a1a;text-anchor:middle;dominant-baseline:middle}
+      .ellipsis{font-family:serif;font-size:25px;fill:#000;text-anchor:middle;dominant-baseline:middle}
+      .flowBlue{fill:none;stroke:#188bc2;stroke-width:3;marker-end:url(#arrBlue)}
+      .flowMag{fill:none;stroke:#e91e73;stroke-width:2.7;marker-end:url(#arrMag)}
+      .flowMagBoth{fill:none;stroke:#e91e73;stroke-width:2.7;marker-start:url(#arrMagStart);marker-end:url(#arrMag)}
+      .flowRed{fill:none;stroke:#e21b16;stroke-width:2.7;marker-end:url(#arrRed)}
+      .flowGreen{fill:none;stroke:#5f8c3d;stroke-width:2.2;marker-end:url(#arrGreen)}
+      .flowPurple{fill:none;stroke:#7b3f98;stroke-width:2.2;marker-end:url(#arrPurple)}
+      .flowBrown{fill:none;stroke:#8b4a44;stroke-width:2;marker-end:url(#arrBrown)}
+      .flowBrownBoth{fill:none;stroke:#8b4a44;stroke-width:2;marker-start:url(#arrBrownStart);marker-end:url(#arrBrown)}
+      .flowOrange{fill:none;stroke:#d87823;stroke-width:2.4;marker-end:url(#arrOrange)}
+      .interact{fill:none;stroke:#a7a51d;stroke-width:2;marker-start:url(#arrOliveStart);marker-end:url(#arrOlive)}
+      .grayNode{fill:#bfbfbf}.purpleNode{fill:#d8a3f0}.greenNode{fill:#c9e7b1}.blueNode{fill:#727bd5}.orangeNode{fill:#ef7d20}
+    </style>
+  </defs>
+
+  <rect x="0" y="0" width="1875" height="1017" fill="#ffffff"/>
+
+  <rect class="panel" x="42" y="38" width="590" height="419" rx="14"/>
+  <rect class="panel" x="42" y="475" width="590" height="438" rx="14"/>
+  <rect class="panel" x="655" y="38" width="590" height="419" rx="14"/>
+  <rect class="panel" x="655" y="475" width="590" height="438" rx="14"/>
+  <rect class="panel" x="1260" y="38" width="600" height="875" rx="14"/>
+
+  <text class="title" x="315" y="79" text-anchor="middle">(a) DDIM</text>
+  <text class="title" x="315" y="516" text-anchor="middle">(b) NTI、 NPI</text>
+  <text class="title" x="950" y="79" text-anchor="middle">(c) DirectINV</text>
+  <text class="title" x="950" y="505" text-anchor="middle">(d) SPDINV</text>
+  <text class="title" x="1560" y="70" text-anchor="middle">(e) DCI</text>
+
+  <path class="flowBlue" d="M139 114 L238 114"/><path class="flowBlue" d="M290 114 L376 114"/><path class="flowBlue" d="M428 114 L514 114"/>
+  <text class="ellipsis" x="337" y="111">...</text>
+  <circle class="grayNode" cx="122" cy="114" r="23"/><text class="nodeText" x="122" y="114">Zₜ</text>
+  <circle class="grayNode" cx="265" cy="114" r="23"/><text class="nodeText" x="265" y="114">Zₜ₋₁</text>
+  <circle class="grayNode" cx="405" cy="114" r="23"/><text class="nodeText" x="405" y="114">Z₁</text>
+  <circle class="grayNode" cx="543" cy="114" r="23"/><text class="nodeText" x="543" y="114">Z₀</text>
+  <path class="flowMagBoth" d="M101 132 C45 205 50 285 101 328"/>
+  <text class="lab" x="79" y="244">Dₙₒᵢ</text>
+  <path class="flowRed" d="M543 137 C575 202 577 278 549 321"/>
+  <text class="lab" x="522" y="244">D<tspan baseline-shift="sub" font-size="65%">rec</tspan></text>
+  <path class="flowPurple" d="M531 136 C536 175 518 207 500 229"/><path class="flowPurple" d="M472 255 C428 280 369 301 326 309"/><path class="flowPurple" d="M287 318 C230 323 172 333 140 340"/>
+  <circle class="purpleNode" cx="489" cy="243" r="23"/><text class="nodeText" x="489" y="243">Z₁</text>
+  <circle class="purpleNode" cx="302" cy="313" r="23"/><text class="nodeText" x="302" y="313">Zₜ₋₁</text>
+  <circle class="purpleNode" cx="117" cy="343" r="23"/><text class="nodeText" x="117" y="343">Zₜ</text>
+  <path class="flowGreen" d="M137 352 C158 367 182 382 203 392"/><path class="flowGreen" d="M245 397 C287 397 341 397 377 397"/><path class="flowGreen" d="M426 392 C461 382 504 362 527 346"/>
+  <text class="ellipsis" x="336" y="394">...</text>
+  <circle class="greenNode" cx="220" cy="397" r="23"/><text class="nodeText" x="220" y="397">Zₜ₋₁</text>
+  <circle class="greenNode" cx="406" cy="397" r="23"/><text class="nodeText" x="406" y="397">Z₁</text>
+  <circle class="greenNode" cx="544" cy="343" r="23"/><text class="nodeText" x="544" y="343">Z₀</text>
+
+  <path class="flowBlue" d="M139 552 L238 552"/><path class="flowBlue" d="M290 552 L376 552"/><path class="flowBlue" d="M428 552 L514 552"/>
+  <text class="ellipsis" x="337" y="549">...</text>
+  <circle class="grayNode" cx="122" cy="552" r="23"/><text class="nodeText" x="122" y="552">Zₜ</text>
+  <circle class="grayNode" cx="265" cy="552" r="23"/><text class="nodeText" x="265" y="552">Zₜ₋₁</text>
+  <circle class="grayNode" cx="405" cy="552" r="23"/><text class="nodeText" x="405" y="552">Z₁</text>
+  <circle class="grayNode" cx="543" cy="552" r="23"/><text class="nodeText" x="543" y="552">Z₀</text>
+  <path class="flowMagBoth" d="M101 570 C45 644 50 723 101 767"/>
+  <text class="lab" x="79" y="682">Dₙₒᵢ</text>
+  <path class="flowRed" d="M543 575 C576 640 577 716 549 759"/>
+  <text class="lab" x="520" y="682">D<tspan baseline-shift="sub" font-size="65%">rec</tspan></text>
+  <path class="flowPurple" d="M531 574 C536 614 518 645 500 667"/><path class="flowPurple" d="M472 693 C428 718 369 739 326 747"/><path class="flowPurple" d="M287 756 C230 762 172 772 140 778"/>
+  <circle class="purpleNode" cx="489" cy="681" r="23"/><text class="nodeText" x="489" y="681">Z₁</text>
+  <circle class="purpleNode" cx="302" cy="751" r="23"/><text class="nodeText" x="302" y="751">Zₜ₋₁</text>
+  <circle class="purpleNode" cx="117" cy="781" r="23"/><text class="nodeText" x="117" y="781">Zₜ</text>
+  <path class="flowGreen" d="M137 790 C158 805 182 817 203 824"/><path class="flowGreen" d="M245 824 C287 824 341 824 377 824"/><path class="flowGreen" d="M426 820 C461 810 504 792 527 784"/>
+  <text class="ellipsis" x="336" y="821">...</text>
+  <circle class="greenNode" cx="220" cy="824" r="23"/><text class="nodeText" x="220" y="824">Zₜ₋₁</text>
+  <circle class="greenNode" cx="406" cy="824" r="23"/><text class="nodeText" x="406" y="824">Z₁</text>
+  <circle class="greenNode" cx="544" cy="781" r="23"/><text class="nodeText" x="544" y="781">Z₀</text>
+  <path class="flowBlue" d="M137 805 C158 826 176 842 199 849"/><path class="flowBlue" d="M244 850 C287 850 340 850 377 850"/><path class="flowBlue" d="M427 850 C467 841 508 818 528 799"/>
+  <circle class="blueNode" cx="220" cy="850" r="23"/><text class="nodeText" x="220" y="850">Zₜ₋₁</text>
+  <circle class="blueNode" cx="406" cy="850" r="23"/><text class="nodeText" x="406" y="850">Z₁</text>
+  <circle class="blueNode" cx="544" cy="797" r="23"/><text class="nodeText" x="544" y="797">Z₀</text>
+  <path class="interact" d="M220 800 L220 827"/><path class="interact" d="M406 800 L406 827"/><path class="interact" d="M544 758 L544 775"/>
+
+  <path class="flowBlue" d="M752 114 L852 114"/><path class="flowBlue" d="M904 114 L990 114"/><path class="flowBlue" d="M1042 114 L1128 114"/>
+  <text class="ellipsis" x="951" y="111">...</text>
+  <circle class="grayNode" cx="735" cy="114" r="23"/><text class="nodeText" x="735" y="114">Zₜ</text>
+  <circle class="grayNode" cx="878" cy="114" r="23"/><text class="nodeText" x="878" y="114">Zₜ₋₁</text>
+  <circle class="grayNode" cx="1018" cy="114" r="23"/><text class="nodeText" x="1018" y="114">Z₁</text>
+  <circle class="grayNode" cx="1156" cy="114" r="23"/><text class="nodeText" x="1156" y="114">Z₀</text>
+  <path class="flowMagBoth" d="M714 132 C658 205 663 285 714 328"/>
+  <text class="lab" x="692" y="244">Dₙₒᵢ</text>
+  <path class="flowPurple" d="M1146 136 C1146 174 1125 207 1112 229"/><path class="flowPurple" d="M1085 256 C1042 281 983 301 940 309"/><path class="flowPurple" d="M900 318 C843 323 785 333 753 340"/>
+  <circle class="purpleNode" cx="1102" cy="243" r="23"/><text class="nodeText" x="1102" y="243">Z₁</text>
+  <circle class="purpleNode" cx="915" cy="313" r="23"/><text class="nodeText" x="915" y="313">Zₜ₋₁</text>
+  <circle class="purpleNode" cx="730" cy="343" r="23"/><text class="nodeText" x="730" y="343">Zₜ</text>
+  <path class="flowGreen" d="M750 352 C771 367 795 382 816 392"/><path class="flowGreen" d="M858 397 C900 397 954 397 990 397"/><path class="flowGreen" d="M1039 392 C1074 382 1117 362 1140 346"/>
+  <text class="ellipsis" x="949" y="394">...</text>
+  <circle class="greenNode" cx="833" cy="397" r="23"/><text class="nodeText" x="833" y="397">Zₜ₋₁</text>
+  <circle class="greenNode" cx="1019" cy="397" r="23"/><text class="nodeText" x="1019" y="397">Z₁</text>
+  <circle class="greenNode" cx="1157" cy="343" r="23"/><text class="nodeText" x="1157" y="343">Z₀</text>
+  <path class="flowBrownBoth" d="M1157 320 L1157 139"/><path class="flowBrownBoth" d="M1102 266 L1102 374"/><path class="flowBrownBoth" d="M915 336 L915 374"/><path class="flowBrownBoth" d="M833 374 L833 124"/>
+  <text class="lab" x="1180" y="135">D<tspan baseline-shift="sub" font-size="65%">rec</tspan></text>
+
+  <path class="flowBlue" d="M752 552 L852 552"/><path class="flowBlue" d="M904 552 L990 552"/><path class="flowBlue" d="M1042 552 L1128 552"/>
+  <text class="ellipsis" x="951" y="549">...</text>
+  <circle class="grayNode" cx="735" cy="552" r="23"/><text class="nodeText" x="735" y="552">Zₜ</text>
+  <circle class="grayNode" cx="878" cy="552" r="23"/><text class="nodeText" x="878" y="552">Zₜ₋₁</text>
+  <circle class="grayNode" cx="1018" cy="552" r="23"/><text class="nodeText" x="1018" y="552">Z₁</text>
+  <circle class="grayNode" cx="1156" cy="552" r="23"/><text class="nodeText" x="1156" y="552">Z₀</text>
+  <polygon points="741,497 831,530 741,563" fill="#f4d9c9"/>
+  <text class="small" x="757" y="530">U-Net</text>
+  <image id="icon_RAS_02" x="792" y="481" width="33" height="36" href="data:image/png;base64,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" preserveAspectRatio="xMidYMid meet"/>
+  <path class="flowMagBoth" d="M714 570 C658 644 663 723 714 767"/>
+  <text class="lab" x="692" y="682">Dₙₒᵢ</text>
+  <path class="flowRed" d="M1156 575 C1189 640 1190 716 1162 759"/>
+  <text class="lab" x="1130" y="682">D<tspan baseline-shift="sub" font-size="65%">req</tspan></text>
+  <path class="flowPurple" d="M1144 574 C1149 614 1131 645 1113 667"/><path class="flowPurple" d="M1085 693 C1041 718 982 739 939 747"/><path class="flowPurple" d="M900 756 C843 762 785 772 753 778"/>
+  <circle class="purpleNode" cx="1102" cy="681" r="23"/><text class="nodeText" x="1102" y="681">Z₁</text>
+  <circle class="purpleNode" cx="915" cy="751" r="23"/><text class="nodeText" x="915" y="751">Zₜ₋₁</text>
+  <circle class="purpleNode" cx="730" cy="781" r="23"/><text class="nodeText" x="730" y="781">Zₜ</text>
+  <path class="flowGreen" d="M750 790 C771 805 795 820 816 830"/><path class="flowGreen" d="M858 835 C900 835 954 835 990 835"/><path class="flowGreen" d="M1039 830 C1074 820 1117 800 1140 784"/>
+  <text class="ellipsis" x="949" y="832">...</text>
+  <circle class="greenNode" cx="833" cy="835" r="23"/><text class="nodeText" x="833" y="835">Zₜ₋₁</text>
+  <circle class="greenNode" cx="1019" cy="835" r="23"/><text class="nodeText" x="1019" y="835">Z₁</text>
+  <circle class="greenNode" cx="1157" cy="781" r="23"/><text class="nodeText" x="1157" y="781">Z₀</text>
+  <path class="flowBrown" d="M786 530 L786 595 C786 630 755 649 739 683"/><path class="flowBrown" d="M805 530 L805 620 C805 650 820 690 875 714"/><path class="flowBrown" d="M824 530 L824 552 L1064 552 L1064 636"/><path class="flowBrown" d="M824 530 L824 512 L900 512 L900 718"/>
+  <path class="flowBrown" d="M824 512 L1128 512 L1128 636"/>
+  <path class="flowBrown" d="M878 530 L878 574 C878 612 900 664 913 721"/>
+  <path class="flowBrown" d="M943 752 C943 730 920 721 906 737 C892 754 912 772 929 761"/><path class="flowBrown" d="M1129 681 C1129 659 1106 650 1092 666 C1078 683 1098 701 1115 690"/><path class="flowBrown" d="M758 781 C758 759 735 750 721 766 C707 783 727 801 744 790"/>
+  <path class="interact" d="M1090 703 C1112 728 1132 752 1148 771"/>
+
+  <rect x="1287" y="88" width="548" height="256" rx="8" fill="none" stroke="#a9c39c" stroke-width="1.5" stroke-dasharray="7 5"/>
+  <rect x="1298" y="95" width="106" height="112" fill="none" stroke="#d6b416" stroke-width="4"/>
+  <g id="RAS_05" clip-path="url(#photoClip)">
+    <rect x="1306" y="99" width="89" height="101" fill="#9b815d"/>
+    <rect x="1306" y="99" width="89" height="42" fill="#746b4e"/>
+    <rect x="1306" y="139" width="89" height="61" fill="#c5a477"/>
+    <circle cx="1323" cy="121" r="5" fill="#865d39"/>
+    <circle cx="1380" cy="115" r="6" fill="#4d695f"/>
+    <path d="M1310 200 C1318 176 1336 156 1361 143 C1378 153 1391 174 1397 200 Z" fill="#efd9bd"/>
+    <path d="M1320 197 C1333 181 1345 169 1358 160 C1376 175 1387 188 1394 200 Z" fill="#f3e4cf"/>
+    <path d="M1343 136 C1346 121 1361 113 1375 121 C1382 135 1375 151 1360 153 C1349 153 1341 146 1343 136 Z" fill="#e8b78f"/>
+    <path d="M1339 135 C1342 115 1364 106 1381 120 C1370 119 1357 127 1352 139 C1348 149 1342 149 1339 135 Z" fill="#20221e"/>
+    <path d="M1374 121 C1389 129 1390 151 1374 163 C1381 145 1378 133 1368 127 Z" fill="#332a23"/>
+    <path d="M1348 151 C1361 166 1374 184 1389 200 L1364 200 C1352 183 1344 165 1341 154 Z" fill="#d7bfa4"/>
+    <path d="M1314 183 C1332 174 1352 169 1369 175" fill="none" stroke="#fff2df" stroke-width="6"/>
+    <path d="M1325 198 C1344 185 1363 177 1383 173" fill="none" stroke="#fff2df" stroke-width="5"/>
+    <path d="M1309 160 C1322 151 1333 148 1344 150" fill="none" stroke="#7d5e3c" stroke-width="2" opacity="0.75"/>
+  </g>
+  <path d="M1352 211 L1352 226 L1327 226 L1327 238" fill="none" stroke="#000" stroke-width="2" marker-end="url(#arrGray)"/>
+
+  <text class="small" x="1548" y="145" text-anchor="middle"><tspan x="1548" dy="0">Fixed-point</tspan><tspan x="1548" dy="31">optimization</tspan></text>
+  <path d="M1615 154 L1593 154 M1593 154 L1605 145 M1593 154 L1605 163" fill="none" stroke="#e27b3d" stroke-width="2.2"/>
+  <polygon points="1646,105 1751,145 1646,187" fill="#f6ded1"/>
+  <text class="title" x="1691" y="152" text-anchor="middle">U-Net</text>
+  <image id="icon_RAS_03" x="1743" y="103" width="33" height="36" href="data:image/png;base64,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" preserveAspectRatio="xMidYMid meet"/>
+
+  <g transform="translate(1287 220)" stroke="#189ed0" stroke-width="2" fill="none">
+    <path d="M18 0 L18 36 M0 18 L36 18 M5 5 L31 31 M31 5 L5 31"/>
+    <path d="M18 0 L12 7 M18 0 L24 7 M18 36 L12 29 M18 36 L24 29"/>
+    <path d="M0 18 L7 12 M0 18 L7 24 M36 18 L29 12 M36 18 L29 24"/>
+  </g>
+  <polygon points="1333,225 1380,246 1333,268" fill="#c6d9ec"/>
+  <text class="small" x="1348" y="253">ENC</text>
+  <path d="M1384 246 L1422 246" fill="none" stroke="#9cb9d3" stroke-width="2.2" marker-end="url(#arrGray)"/>
+  <circle cx="1457" cy="246" r="30" fill="#f58ab1"/>
+  <path d="M1492 246 L1535 246" fill="none" stroke="#f58ab1" stroke-width="2" stroke-dasharray="8 5" marker-end="url(#arrMag)"/>
+  <circle cx="1574" cy="246" r="30" fill="#f58ab1"/>
+  <path d="M1608 246 L1657 246" fill="none" stroke="#d98fc4" stroke-width="2.2" marker-start="url(#arrMagStart)" marker-end="url(#arrMag)"/>
+  <circle cx="1695" cy="246" r="30" fill="#d8a3f0"/>
+  <text class="small" x="1510" y="303" text-anchor="middle">Image reference</text>
+  <text class="small" x="1585" y="283" text-anchor="middle" font-style="italic">loss</text>
+  <path d="M1574 216 L1574 181" fill="none" stroke="#e8add2" stroke-width="2.2" marker-end="url(#arrMag)"/>
+  <path d="M1695 216 L1695 188" fill="none" stroke="#e8add2" stroke-width="2.2" stroke-dasharray="7 5"/>
+  <path d="M1695 276 L1695 452" fill="none" stroke="#b480c9" stroke-width="2" stroke-dasharray="7 5" marker-end="url(#arrPurple)"/>
+
+  <path class="flowBlue" d="M1393 389 L1491 389"/><path class="flowBlue" d="M1543 389 L1629 389"/><path class="flowBlue" d="M1681 389 L1766 389"/>
+  <text class="ellipsis" x="1590" y="386">...</text>
+  <circle class="grayNode" cx="1376" cy="389" r="23"/><text class="nodeText" x="1376" y="389">Zₜ</text>
+  <circle class="grayNode" cx="1517" cy="389" r="23"/><text class="nodeText" x="1517" y="389">Zₜ₋₁</text>
+  <circle class="grayNode" cx="1657" cy="389" r="23"/><text class="nodeText" x="1657" y="389">Z₁</text>
+  <circle class="grayNode" cx="1793" cy="389" r="23"/><text class="nodeText" x="1793" y="389">Z₀</text>
+
+  <path class="flowMagBoth" d="M1355 407 C1301 474 1310 542 1354 573"/>
+  <text class="lab" x="1310" y="532">Dₙₒᵢ</text>
+  <path class="flowRed" d="M1793 412 C1828 468 1822 517 1799 534"/>
+  <text class="lab" x="1805" y="510" font-size="25">D<tspan baseline-shift="sub" font-size="65%">rec</tspan></text>
+
+  <path class="flowPurple" d="M1782 412 C1787 444 1770 461 1751 468"/>
+  <path class="flowPurple" d="M1723 493 C1681 519 1620 542 1578 548"/>
+  <path class="flowPurple" d="M1537 556 C1480 563 1422 574 1391 581"/>
+  <circle class="purpleNode" cx="1739" cy="477" r="23"/><text class="nodeText" x="1739" y="477">Z₁</text>
+  <circle class="purpleNode" cx="1554" cy="552" r="23"/><text class="nodeText" x="1554" y="552">Zₜ₋₁</text>
+  <circle class="purpleNode" cx="1367" cy="584" r="23"/><text class="nodeText" x="1367" y="584">Zₜ</text>
+
+  <path class="flowGreen" d="M1388 594 C1410 604 1432 591 1454 589"/>
+  <path class="flowGreen" d="M1497 589 C1539 589 1592 589 1628 589"/>
+  <path class="flowGreen" d="M1677 584 C1712 574 1745 548 1765 528"/>
+  <text class="ellipsis" x="1588" y="586">...</text>
+  <circle class="greenNode" cx="1471" cy="589" r="23"/><text class="nodeText" x="1471" y="589">Zₜ₋₁</text>
+  <circle class="greenNode" cx="1656" cy="589" r="23"/><text class="nodeText" x="1656" y="589">Z₁</text>
+  <circle class="greenNode" cx="1780" cy="538" r="23"/><text class="nodeText" x="1780" y="538">Z₀</text>
+
+  <path class="flowBrown" d="M1367 562 C1367 540 1344 532 1330 548 C1316 565 1336 583 1353 572"/>
+  <path class="flowBrown" d="M1554 530 C1554 508 1531 500 1517 516 C1503 533 1523 551 1540 540"/>
+  <path class="flowBrown" d="M1739 455 C1739 433 1716 425 1702 441 C1688 458 1708 476 1725 465"/>
+  <path class="flowBrown" d="M1803 532 C1825 532 1832 509 1816 496 C1800 483 1782 502 1793 519"/>
+  <path class="flowBrownBoth" d="M1790 414 C1799 455 1792 498 1782 516"/>
+  <path class="interact" d="M1747 496 C1758 510 1768 524 1772 532"/>
+
+  <line x1="1267" y1="621" x2="1852" y2="621" stroke="#222" stroke-width="2" stroke-dasharray="9 8"/>
+  <text class="title" x="1560" y="681" text-anchor="middle">Editing path</text>
+  <text class="title" x="1575" y="782" text-anchor="middle">High Edit Fidelity</text>
+
+  <path class="flowOrange" d="M1367 607 C1340 648 1305 682 1306 725"/>
+  <path class="flowOrange" d="M1336 726 C1390 734 1423 765 1445 800"/>
+  <path class="flowOrange" d="M1492 817 C1530 824 1577 821 1609 819"/>
+  <text class="ellipsis" x="1524" y="817">...</text>
+  <circle class="orangeNode" cx="1311" cy="725" r="23"/>
+  <circle class="orangeNode" cx="1471" cy="815" r="23"/>
+  <circle class="orangeNode" cx="1645" cy="817" r="23"/>
+
+  <circle class="greenNode" cx="169" cy="960" r="24"/><path class="flowGreen" d="M194 960 L254 960"/><text class="lab" x="70" y="1002">Reconstruction path</text>
+  <circle class="orangeNode" cx="471" cy="960" r="24"/><path class="flowOrange" d="M496 960 L556 960"/><text class="lab" x="410" y="1002">Editing path</text>
+  <circle class="purpleNode" cx="781" cy="960" r="24"/><path class="flowPurple" d="M806 960 L866 960"/><text class="lab" x="716" y="1002">Inversion path</text>
+  <circle class="blueNode" cx="1113" cy="960" r="24"/><path d="M1138 960 L1198 960" fill="none" stroke="#69a0c8" stroke-width="2.2" marker-end="url(#arrBlue)"/><text class="lab" x="1035" y="1002">Reference path</text>
+  <path class="interact" d="M1393 960 L1449 960"/><text class="lab" x="1358" y="1002">Interaction</text>
+  <path class="flowBrown" d="M1605 958 C1605 934 1630 930 1641 947 C1651 962 1634 977 1619 966"/>
+  <path d="M1662 960 L1718 960" fill="none" stroke="#8b4a44" stroke-width="2" marker-start="url(#arrBrownStart)" marker-end="url(#arrBrown)"/>
+  <text class="lab" x="1564" y="1002">optimization</text>
+</svg>

@@ -1,0 +1,215 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1395" height="696" viewBox="0 0 1395 696">
+  <defs>
+    <marker id="arrow-gray" markerUnits="userSpaceOnUse" markerWidth="12" markerHeight="10" viewBox="0 0 12 10" refX="11" refY="5" orient="auto">
+      <path d="M0,0 L12,5 L0,10 Z" fill="#5a6470" id="plus_node_0" />
+    </marker>
+    <marker id="arrow-green" markerUnits="userSpaceOnUse" markerWidth="12" markerHeight="10" viewBox="0 0 12 10" refX="11" refY="5" orient="auto">
+      <path d="M1,1 L11,5 L1,9 Z" fill="#ffffff" id="plus_node_1" stroke="#47c766" stroke-width="1.8" stroke-linejoin="miter" />
+    </marker>
+    <marker id="arrow-blue" markerUnits="userSpaceOnUse" markerWidth="13" markerHeight="10" viewBox="0 0 13 10" refX="12" refY="5" orient="auto">
+      <path d="M0,0 L13,5 L0,10 Z" fill="#1777e8" id="plus_node_2" />
+    </marker>
+    <marker id="arrow-blue-open" markerUnits="userSpaceOnUse" markerWidth="13" markerHeight="10" viewBox="0 0 13 10" refX="12" refY="5" orient="auto">
+      <path d="M1,1 L12,5 L1,9 Z" fill="#ffffff" stroke="#66a8ff" stroke-width="1.8" id="plus_node_3" />
+    </marker>
+    <marker id="arrow-magenta-open" markerUnits="userSpaceOnUse" markerWidth="13" markerHeight="10" viewBox="0 0 13 10" refX="12" refY="5" orient="auto">
+      <path d="M1,1 L12,5 L1,9 Z" fill="#ffffff" stroke="#ff00b8" stroke-width="1.8" id="plus_node_4" />
+    </marker>
+    <marker id="arrow-magenta-open-start" markerUnits="userSpaceOnUse" markerWidth="13" markerHeight="10" viewBox="0 0 13 10" refX="1" refY="5" orient="auto-start-reverse">
+      <path d="M12,1 L1,5 L12,9 Z" fill="#ffffff" stroke="#ff00b8" stroke-width="1.8" id="plus_node_5" />
+    </marker>
+    <marker id="arrow-orange-open" markerUnits="userSpaceOnUse" markerWidth="13" markerHeight="12" viewBox="0 0 13 12" refX="6.5" refY="1.3" orient="0">
+      <path d="M1.5,10.5 L6.5,1.5 L11.5,10.5 Z" fill="#ffffff" stroke="#ff8420" stroke-width="1.7" id="plus_node_6" />
+    </marker>
+    <marker id="arrow-gray-open" markerUnits="userSpaceOnUse" markerWidth="13" markerHeight="12" viewBox="0 0 13 12" refX="6.5" refY="1.3" orient="0">
+      <path d="M1.5,10.5 L6.5,1.5 L11.5,10.5 Z" fill="#ffffff" stroke="#5a6470" stroke-width="1.7" id="plus_node_7" />
+    </marker>
+    <style>
+      .sans{font-family:Arial, Helvetica, sans-serif}
+      .serif{font-family:"Times New Roman", Times, serif}
+      .italic{font-style:italic}
+      .math{font-family:"Times New Roman", Times, serif;font-style:italic}
+      .small{font-size:14px}
+      .grayText{fill:#8a94a3}
+      .blackStroke{stroke:#000;stroke-width:2}
+      .greenLine{stroke:#47c766;stroke-width:1.8;fill:none}
+      .grayLine{stroke:#5a6470;stroke-width:2;fill:none}
+      .orangeDash{stroke:#ff8420;stroke-width:1.8;stroke-dasharray:5 4;fill:none}
+      .magentaDash{stroke:#ff00b8;stroke-width:1.7;stroke-dasharray:5 4;fill:none}
+      .blueDash{stroke:#66a8ff;stroke-width:1.7;stroke-dasharray:5 4;fill:none}
+    </style>
+  </defs>
+
+  <rect id="background" x="0" y="0" width="1395" height="696" fill="#ffffff" />
+
+  <text id="title-main" class="sans grayText" x="697.5" y="41" font-size="30" text-anchor="middle">Q-RAG Agent</text>
+
+  <rect id="f01" data-plus-kind="frame" x="297" y="61" width="864" height="270" rx="4" ry="4" fill="none" stroke="#bfe7af" stroke-width="5">
+    <desc>Agent frame containing state embedder at top, action embedder below, contextual action embeddings, Q-value panel, policy symbol, and arrows moving from state/action embeddings toward action selection.</desc>
+  </rect>
+  <rect id="f02" data-plus-kind="frame" x="297" y="473" width="864" height="175" rx="4" ry="4" fill="none" stroke="#d5eaff" stroke-width="5">
+    <desc>Environment frame containing critic/reward function box, question and answer document boxes, and next-state construction with q, c3, and c4, connected by magenta and blue arrows.</desc>
+  </rect>
+
+  
+  <path id="arrow-left-state-to-agent" class="grayLine" d="M76 559 L40 559 L40 108 L320 108" marker-end="url(#arrow-gray)" />
+  <path id="arrow-policy-to-action-doc" class="grayLine" d="M1162 183 L1346 183 L1346 559 L1132 559" marker-end="url(#arrow-gray)" />
+  <path id="arrow-reward-back-to-next" class="grayLine" d="M322 559 L106 559" marker-end="url(#arrow-gray)" />
+  <path id="left-return-bracket" class="grayLine" d="M76 546 L76 571" />
+  <text id="label-next-timestep" class="sans grayText" x="67" y="506" font-size="22">Next</text>
+  <text id="label-next-timestep2" class="sans grayText" x="67" y="531" font-size="22">timestep</text>
+
+  
+  <g id="current-state-expression">
+    <desc>Current state is composed of query q and selected context c4; this is the origin feeding the agent.</desc>
+    <text class="math" x="58" y="155" font-size="38" id="plus_node_8">s<tspan baseline-shift="sub" font-size="22">t</tspan> =</text>
+    <path id="cur-q-frame" data-plus-kind="frame" d="M133 122 H166 L178 134 V166 H133 Z" fill="#ffd8f3" stroke="#ff00b8" stroke-width="2" />
+    <path id="cur-q-frame-fold" d="M166 122 V134 H178" fill="none" stroke="#ff00b8" stroke-width="1.4" />
+    <text class="math" x="147" y="155" font-size="38" id="plus_node_9">q</text>
+    <text class="serif" x="189" y="158" font-size="47" fill="#333" id="plus_node_10">{</text>
+    <path id="cur-c4-frame" data-plus-kind="frame" d="M206 121 H238 L250 133 V165 H206 Z" fill="#d7e0e8" stroke="#5a6470" stroke-width="2" />
+    <path id="cur-c4-frame-fold" d="M238 121 V133 H250" fill="none" stroke="#5a6470" stroke-width="1.4" />
+    <text class="math" x="215" y="155" font-size="36" id="plus_node_11">c<tspan baseline-shift="super" font-size="22">4</tspan></text>
+    <text class="serif" x="253" y="158" font-size="47" fill="#333" id="plus_node_12">}</text>
+  </g><rect id="f03-state-embedder" data-plus-kind="frame" x="322" y="82" width="461" height="53" rx="3" ry="3" fill="#c9ebb2" stroke="#000000" stroke-width="2" />
+  <text id="text-state-embedder" class="sans" x="552.5" y="114" font-size="22" text-anchor="middle">State Embedder</text>
+
+  <rect id="f04-action-embedder" data-plus-kind="frame" x="316" y="268" width="461" height="48" rx="3" ry="3" fill="#c9ebb2" stroke="#000000" stroke-width="2" />
+  <text id="text-action-embedder" class="sans" x="546.5" y="296" font-size="22" text-anchor="middle">Action Embedder</text>
+
+  <rect id="f05-q-values" data-plus-kind="frame" x="810" y="107" width="153" height="162" rx="4" ry="4" fill="#e3f9e5" stroke="none" />
+  <text id="label-q-values" class="sans grayText" x="838" y="95" font-size="22">Q values</text>
+  <text id="q-values-text" class="math" x="816" y="139" font-size="33">Q<tspan baseline-shift="sub" font-size="19">θ</tspan>(s<tspan baseline-shift="sub" font-size="19">t</tspan>, c<tspan baseline-shift="super" font-size="20">0</tspan>)</text>
+  <text class="serif" x="884" y="172" font-size="34" id="plus_node_13">:</text>
+  <text class="serif" x="884" y="193" font-size="34" id="plus_node_14">:</text>
+  <text class="serif" x="884" y="214" font-size="34" id="plus_node_15">:</text>
+  <text class="math" x="819" y="255" font-size="33" id="plus_node_16">Q<tspan baseline-shift="sub" font-size="19">θ</tspan>(s<tspan baseline-shift="sub" font-size="19">t</tspan>, c<tspan baseline-shift="super" font-size="20">5</tspan>)</text>
+
+  <path id="green-state-to-q" class="greenLine" d="M554 135 L554 184 Q554 187 558 187 L809 187" marker-end="url(#arrow-green)" />
+  <text id="emb-st-label" class="math" x="628" y="181" font-size="34">e<tspan baseline-shift="sub" font-size="21">s<tspan baseline-shift="sub" font-size="15">t</tspan></tspan></text>
+  <path id="green-actions-to-q" class="greenLine" d="M354 268 L354 208 Q354 204 360 204 L809 204" marker-end="url(#arrow-green)" />
+  <path id="green-action-bus" class="greenLine" d="M428 268 L428 208 Q428 204 434 204 L809 204" marker-end="url(#arrow-green)" />
+  <path id="green-action-bus2" class="greenLine" d="M511 268 L511 208 Q511 204 517 204 L809 204" marker-end="url(#arrow-green)" />
+  <path id="green-action-bus3" class="greenLine" d="M589 268 L589 208 Q589 204 595 204 L809 204" marker-end="url(#arrow-green)" />
+  <path id="green-action-bus5" class="greenLine" d="M746 268 L746 208 Q746 204 752 204 L809 204" marker-end="url(#arrow-green)" />
+  <path id="green-q-to-policy" class="greenLine" d="M963 188 L1023 188" marker-end="url(#arrow-green)" />
+
+  <text id="emb-c0" class="math" x="333" y="238" font-size="34">e<tspan baseline-shift="sub" font-size="21">c<tspan baseline-shift="sub" font-size="15">0</tspan></tspan></text><text id="emb-c1" class="math" x="405" y="238" font-size="34">e<tspan baseline-shift="sub" font-size="21">c<tspan baseline-shift="sub" font-size="15">1</tspan></tspan></text><text id="emb-c2" class="math" x="489" y="238" font-size="34">e<tspan baseline-shift="sub" font-size="21">c<tspan baseline-shift="sub" font-size="15">2</tspan></tspan></text><text id="emb-c3" class="math" x="565" y="238" font-size="34">e<tspan baseline-shift="sub" font-size="21">c<tspan baseline-shift="sub" font-size="15">3</tspan></tspan></text><text id="emb-c4-x" class="serif" x="662" y="242" font-size="32">×</text>
+  <path id="black-c4-stem" d="M670 249 L670 268" stroke="#000" stroke-width="2" />
+  <text id="emb-c5" class="math" x="723" y="238" font-size="34">e<tspan baseline-shift="sub" font-size="21">c<tspan baseline-shift="sub" font-size="15">5</tspan></tspan></text><text id="policy-text" class="math" x="1028" y="195" font-size="39">π(·|s<tspan baseline-shift="sub" font-size="22">t</tspan>)</text>
+
+  
+  <g id="long-context-document">
+    <desc>Six context cards arranged horizontally as the long-context document. c4 is gray/selected and rejected by an x above; c3 is the chosen document corresponding to the output action.</desc>
+
+    <text id="label-c0" class="math" x="164" y="384" font-size="34">c<tspan baseline-shift="super" font-size="20">0</tspan></text>
+    <path id="f06-card-c0" data-plus-kind="frame" d="M161 391 H275 L289 405 V459 H161 Z" fill="#fffccb" stroke="#ff8420" stroke-width="2" />
+    <path d="M275 391 V405 H289" fill="none" stroke="#ff8420" stroke-width="1.4" id="plus_node_17" />
+    <text class="sans" x="225" y="421" font-size="14" text-anchor="middle" id="plus_node_18">...John stayed</text>
+    <text class="sans" x="225" y="437" font-size="14" text-anchor="middle" id="plus_node_19">late at the office...</text>
+
+    <text id="label-c1" class="math" x="305" y="384" font-size="34">c<tspan baseline-shift="super" font-size="20">1</tspan></text>
+    <path id="f07-card-c1" data-plus-kind="frame" d="M305 391 H419 L433 405 V459 H305 Z" fill="#fffccb" stroke="#ff8420" stroke-width="2" />
+    <path d="M419 391 V405 H433" fill="none" stroke="#ff8420" stroke-width="1.4" id="plus_node_20" />
+    <text class="sans" x="369" y="412" font-size="14" text-anchor="middle" id="plus_node_21">...He briefly</text>
+    <text class="sans" x="369" y="428" font-size="14" text-anchor="middle" id="plus_node_22">stopped by</text>
+    <text class="sans" x="369" y="444" font-size="14" text-anchor="middle" id="plus_node_23">home...</text>
+
+    <text id="label-c2" class="math" x="451" y="384" font-size="34">c<tspan baseline-shift="super" font-size="20">2</tspan></text>
+    <path id="f08-card-c2" data-plus-kind="frame" d="M444 391 H558 L572 405 V459 H444 Z" fill="#fffccb" stroke="#ff8420" stroke-width="2" />
+    <path d="M558 391 V405 H572" fill="none" stroke="#ff8420" stroke-width="1.4" id="plus_node_24" />
+    <text class="sans" x="508" y="413" font-size="14" text-anchor="middle" id="plus_node_25">hebought</text>
+    <text class="sans" x="508" y="429" font-size="14" text-anchor="middle" id="plus_node_26">something at the</text>
+    <text class="sans" x="508" y="445" font-size="14" text-anchor="middle" id="plus_node_27">pharmacy...</text>
+
+    <text id="label-c3" class="math" x="582" y="384" font-size="34">c<tspan baseline-shift="super" font-size="20">3</tspan></text>
+    <path id="f09-card-c3" data-plus-kind="frame" d="M582 391 H696 L710 405 V459 H582 Z" fill="#fffccb" stroke="#ff8420" stroke-width="2" />
+    <path d="M696 391 V405 H710" fill="none" stroke="#ff8420" stroke-width="1.4" id="plus_node_28" />
+    <text class="sans" x="646" y="413" font-size="14" text-anchor="middle" id="plus_node_29">...that, he spent</text>
+    <text class="sans" x="646" y="429" font-size="14" text-anchor="middle" id="plus_node_30">twenty minutes at</text>
+    <text class="sans" x="646" y="445" font-size="14" text-anchor="middle" id="plus_node_31">a café...</text>
+
+    <text id="label-c4" class="math" x="727" y="384" font-size="34">c<tspan baseline-shift="super" font-size="20">4</tspan></text>
+    <path id="f10-card-c4-selected" data-plus-kind="frame" d="M727 391 H841 L855 405 V459 H727 Z" fill="#d6dfe8" stroke="#5a6470" stroke-width="2" />
+    <path d="M841 391 V405 H855" fill="none" stroke="#5a6470" stroke-width="1.4" id="plus_node_32" />
+    <text class="sans" x="791" y="407" font-size="14" text-anchor="middle" id="plus_node_33">Outside his</text>
+    <text class="sans" x="791" y="424" font-size="14" text-anchor="middle" id="plus_node_34">place, he realized</text>
+    <text class="sans" x="791" y="441" font-size="14" text-anchor="middle" id="plus_node_35">his keys were</text>
+
+    <text id="label-c5" class="math" x="871" y="384" font-size="34">c<tspan baseline-shift="super" font-size="20">5</tspan></text>
+    <path id="f11-card-c5" data-plus-kind="frame" d="M870 391 H984 L998 405 V459 H870 Z" fill="#fffccb" stroke="#ff8420" stroke-width="2" />
+    <path d="M984 391 V405 H998" fill="none" stroke="#ff8420" stroke-width="1.4" id="plus_node_36" />
+    <text class="sans" x="934" y="413" font-size="14" text-anchor="middle" id="plus_node_37">...He stayed</text>
+    <text class="sans" x="934" y="429" font-size="14" text-anchor="middle" id="plus_node_38">overnight at his</text>
+    <text class="sans" x="934" y="445" font-size="14" text-anchor="middle" id="plus_node_39">neighbor’s place...</text>
+
+    <text id="left-curly-brace-context" class="serif grayText" x="131" y="449" font-size="72">{</text>
+    <text id="right-curly-brace-context" class="serif grayText" x="1000" y="449" font-size="72">}</text>
+    <text id="long-context-label1" class="sans grayText" x="1035" y="416" font-size="22">Long-Context</text>
+    <text id="long-context-label2" class="sans grayText" x="1035" y="442" font-size="22">Document</text>
+  </g>
+
+  <path id="dash-c0-to-action" class="orangeDash" d="M225 391 L225 354 L352 354 L352 320" marker-end="url(#arrow-orange-open)" />
+  <path id="dash-c1-to-action" class="orangeDash" d="M369 391 L369 354 L430 354 L430 320" marker-end="url(#arrow-orange-open)" />
+  <path id="dash-c2-to-action" class="orangeDash" d="M508 391 L508 354 L511 354 L511 320" marker-end="url(#arrow-orange-open)" />
+  <path id="dash-c3-to-action" class="orangeDash" d="M646 391 L646 354 L590 354 L590 320" marker-end="url(#arrow-orange-open)" />
+  <path id="dash-c4-to-action" d="M791 391 L791 354 L670 354 L670 320" fill="none" stroke="#5a6470" stroke-width="1.8" stroke-dasharray="5 4" marker-end="url(#arrow-gray-open)" />
+  <path id="dash-c5-to-action" class="orangeDash" d="M934 391 L934 354 L750 354 L750 320" marker-end="url(#arrow-orange-open)" />
+
+  
+  <g id="action-output">
+    <desc>The policy chooses action a_t equal to c3, displayed as a yellow document card to the right of the agent.</desc>
+    <text id="action-equation" class="math" x="1202" y="160" font-size="39">a<tspan baseline-shift="sub" font-size="22">t</tspan> = c<tspan baseline-shift="super" font-size="23">3</tspan></text>
+    <path id="f12-action-card-c3" data-plus-kind="frame" d="M1193 189 H1315 L1329 203 V268 H1193 Z" fill="#fffccb" stroke="#ff8420" stroke-width="2" />
+    <path d="M1315 189 V203 H1329" fill="none" stroke="#ff8420" stroke-width="1.4" id="plus_node_40" />
+    <text class="sans" x="1261" y="215" font-size="14" text-anchor="middle" id="plus_node_41">...that, he spent</text>
+    <text class="sans" x="1261" y="231" font-size="14" text-anchor="middle" id="plus_node_42">twenty minutes at a</text>
+    <text class="sans" x="1261" y="247" font-size="14" text-anchor="middle" id="plus_node_43">café...</text>
+  </g>
+
+  
+  <text id="environment-title" class="sans grayText" x="724" y="679" font-size="30" text-anchor="middle">Environment</text>
+
+  <rect id="f13-critic" data-plus-kind="frame" x="322" y="488" width="122" height="142" rx="3" ry="3" fill="#66a9ef" stroke="#000000" stroke-width="2" />
+  <text class="sans" x="383" y="537" font-size="21" text-anchor="middle" id="plus_node_44">reward</text>
+  <text class="sans" x="383" y="562" font-size="21" text-anchor="middle" id="plus_node_45">function /</text>
+  <text class="sans" x="383" y="588" font-size="21" text-anchor="middle" id="plus_node_46">critic</text>
+
+  <g id="question-answer-block">
+    <desc>The critic compares the question and answer; the question box is above the answer box and both point to the next state relation through color-coded arrows.</desc>
+    <path id="f14-question" data-plus-kind="frame" d="M538 488 H684 L697 501 V551 H538 Z" fill="#ffd4ef" stroke="#ff00b8" stroke-width="2" />
+    <path d="M684 488 V501 H697" fill="none" stroke="#ff00b8" stroke-width="1.4" id="plus_node_47" />
+    <text class="sans" x="618" y="506" font-size="14" text-anchor="middle" id="plus_node_48">Question: Where</text>
+    <text class="sans" x="618" y="524" font-size="14" text-anchor="middle" id="plus_node_49">could John have</text>
+    <text class="sans" x="618" y="542" font-size="14" text-anchor="middle" id="plus_node_50">forgotten his keys?</text>
+    <text id="label-q-arrow" class="math" x="512" y="515" font-size="32">q</text>
+
+    <path id="f15-answer" data-plus-kind="frame" d="M538 568 H684 L697 581 V631 H538 Z" fill="#cfe5fc" stroke="#1777e8" stroke-width="2" />
+    <path d="M684 568 V581 H697" fill="none" stroke="#1777e8" stroke-width="1.4" id="plus_node_51" />
+    <text class="sans" x="618" y="593" font-size="14" text-anchor="middle" id="plus_node_52">Answer: cafe,</text>
+    <text class="sans" x="618" y="610" font-size="14" text-anchor="middle" id="plus_node_53">pharmacy</text>
+    <text id="label-y-arrow" class="math" x="512" y="586" font-size="32">y</text>
+  </g>
+
+  <rect id="f16-next-state-panel" data-plus-kind="frame" x="793" y="490" width="338" height="140" rx="3" ry="3" fill="#cfe5fc" stroke="none" />
+  <g id="next-state-expression">
+    <desc>Next state consists of q, chosen c3, and previous c4, shown in a light-blue panel and receiving the environment/action feedback arrow.</desc>
+    <text class="math" x="804" y="566" font-size="39" id="plus_node_54">s<tspan baseline-shift="sub" font-size="22">t+1</tspan> =</text>
+    <path id="f17-next-q" data-plus-kind="frame" d="M918 531 H951 L963 543 V575 H918 Z" fill="#ffd8f3" stroke="#ff00b8" stroke-width="2" />
+    <path id="plus_node_55" d="M951 531 V543 H963" fill="none" stroke="#ff00b8" stroke-width="1.4" />
+    <text class="math" x="932" y="564" font-size="38" id="plus_node_56">q</text>
+    <text class="serif" x="974" y="566" font-size="47" fill="#8a94a3" id="plus_node_57">{</text>
+    <path id="f18-next-c3" data-plus-kind="frame" d="M993 531 H1025 L1037 543 V575 H993 Z" fill="#fffccb" stroke="#ff8420" stroke-width="2" />
+    <path id="next-c3-fold" d="M1025 531 V543 H1037" fill="none" stroke="#ff8420" stroke-width="1.4" />
+    <text class="math" x="1002" y="564" font-size="36" id="plus_node_58">c<tspan baseline-shift="super" font-size="22">3</tspan></text>
+    <path id="f19-next-c4" data-plus-kind="frame" d="M1054 531 H1086 L1098 543 V575 H1054 Z" fill="#d7e0e8" stroke="#5a6470" stroke-width="2" />
+    <path id="next-c4-fold" d="M1086 531 V543 H1098" fill="none" stroke="#5a6470" stroke-width="1.4" />
+    <text class="math" x="1063" y="564" font-size="36" id="plus_node_59">c<tspan baseline-shift="super" font-size="22">4</tspan></text>
+    <text class="serif" x="1100" y="566" font-size="47" fill="#8a94a3" id="plus_node_60">}</text>
+  </g><path id="magenta-critic-question" class="magentaDash" d="M538 519 L445 519" marker-start="none" marker-end="url(#arrow-magenta-open)" />
+  <path id="magenta-question-to-state" class="magentaDash" d="M697 520 L792 520" marker-end="url(#arrow-magenta-open)" />
+  <path id="blue-state-to-critic" d="M793 559 L445 559" stroke="#1777e8" stroke-width="2.2" fill="none" marker-end="url(#arrow-blue)" />
+  <path id="blue-answer-to-critic" class="blueDash" d="M538 600 L445 600" marker-start="none" marker-end="url(#arrow-blue-open)" />
+
+  <text id="future-reward-label" class="math" x="120" y="596" font-size="38">r<tspan baseline-shift="sub" font-size="22">t+1</tspan>, s<tspan baseline-shift="sub" font-size="22">t+1</tspan></text>
+</svg>

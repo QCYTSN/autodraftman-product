@@ -1,0 +1,186 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="2560" height="3840" viewBox="0 0 2560 3840">
+  <defs>
+    <marker id="arrow" markerWidth="18" markerHeight="18" refX="15" refY="9" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L18,9 L0,18 Z" fill="#000"/>
+    </marker>
+    <style>
+      .txt{font-family:"Times New Roman", Times, serif; fill:#000;}
+      .whiteTxt{font-family:"Times New Roman", Times, serif; fill:#fff;}
+      .boxTxt{font-size:58px;}
+      .label{font-size:58px;}
+      .circleTxt{font-size:58px;}
+      .small{font-size:50px;}
+      .italic{font-style:italic;}
+    </style>
+  </defs>
+
+  <rect x="0" y="0" width="2560" height="3840" fill="#fff"/>
+
+  <!-- Top input data -->
+  <circle cx="1138" cy="235" r="178" fill="#fff" stroke="#000" stroke-width="6"/>
+  <text class="txt circleTxt" text-anchor="middle">
+    <tspan x="1138" y="171">issue</tspan>
+    <tspan x="1138" y="256">description</tspan>
+    <tspan x="1138" y="341" font-style="italic">d<tspan font-size="34" baseline-shift="-30%" font-style="normal">issue</tspan></tspan>
+  </text>
+
+  <circle cx="2032" cy="240" r="178" fill="#fff" stroke="#000" stroke-width="6"/>
+  <text class="txt circleTxt" text-anchor="middle">
+    <tspan x="2032" y="172">old</tspan>
+    <tspan x="2032" y="257">code</tspan>
+    <tspan x="2032" y="342" font-style="italic">c<tspan font-size="34" baseline-shift="-30%" font-style="normal">old</tspan></tspan>
+  </text>
+
+  <text class="txt circleTxt" x="1478" y="257">input <tspan font-style="italic">x</tspan></text>
+  <line x1="1274" y1="350" x2="1553" y2="452" stroke="#000" stroke-width="7" marker-end="url(#arrow)"/>
+  <line x1="1900" y1="354" x2="1616" y2="452" stroke="#000" stroke-width="7" marker-end="url(#arrow)"/>
+
+  <!-- Main Otter container -->
+  <rect x="105" y="455" width="2350" height="2910" rx="125" ry="125" fill="#c8eff9" stroke="#236d8b" stroke-width="8"/>
+  <text class="txt label" x="166" y="580">Otter</text>
+
+  <!-- Localizer section -->
+  <rect x="380" y="508" width="2050" height="555" rx="108" ry="108" fill="#c9f7d0" stroke="#227731" stroke-width="9"/>
+  <text class="txt label" x="437" y="819">Localizer</text>
+
+  <rect x="907" y="555" width="674" height="198" rx="94" ry="94" fill="#43d659" stroke="#000" stroke-width="6"/>
+  <text class="txt boxTxt" text-anchor="middle">
+    <tspan x="1244" y="636">Localize</tspan>
+    <tspan x="1244" y="719">test files</tspan>
+  </text>
+
+  <rect x="907" y="812" width="674" height="198" rx="94" ry="94" fill="#43d659" stroke="#000" stroke-width="6"/>
+  <text class="txt boxTxt" text-anchor="middle">
+    <tspan x="1244" y="893">Localize</tspan>
+    <tspan x="1244" y="976">test functions</tspan>
+  </text>
+
+  <rect x="1703" y="555" width="674" height="198" rx="94" ry="94" fill="#43d659" stroke="#000" stroke-width="6"/>
+  <text class="txt boxTxt" text-anchor="middle">
+    <tspan x="2040" y="636">Localize</tspan>
+    <tspan x="2040" y="719">focal files</tspan>
+  </text>
+
+  <rect x="1703" y="812" width="674" height="198" rx="94" ry="94" fill="#43d659" stroke="#000" stroke-width="6"/>
+  <text class="txt boxTxt" text-anchor="middle">
+    <tspan x="2040" y="893">Localize</tspan>
+    <tspan x="2040" y="976">focal functions</tspan>
+  </text>
+
+  <line x1="1244" y1="753" x2="1244" y2="800" stroke="#000" stroke-width="7" marker-end="url(#arrow)"/>
+  <line x1="2040" y1="753" x2="2040" y2="800" stroke="#000" stroke-width="7" marker-end="url(#arrow)"/>
+
+  <circle cx="1244" cy="1297" r="178" fill="#fff" stroke="#000" stroke-width="6"/>
+  <text class="txt circleTxt" text-anchor="middle">
+    <tspan x="1244" y="1210">test</tspan>
+    <tspan x="1244" y="1295">files and</tspan>
+    <tspan x="1244" y="1380">functions</tspan>
+  </text>
+
+  <circle cx="2040" cy="1297" r="178" fill="#fff" stroke="#000" stroke-width="6"/>
+  <text class="txt circleTxt" text-anchor="middle">
+    <tspan x="2040" y="1210">focal</tspan>
+    <tspan x="2040" y="1295">files and</tspan>
+    <tspan x="2040" y="1380">functions</tspan>
+  </text>
+
+  <line x1="1244" y1="1010" x2="1244" y2="1106" stroke="#000" stroke-width="7" marker-end="url(#arrow)"/>
+  <line x1="2040" y1="1010" x2="2040" y2="1106" stroke="#000" stroke-width="7" marker-end="url(#arrow)"/>
+
+  <!-- Self-reflective action planner section -->
+  <rect x="380" y="1523" width="2050" height="565" rx="108" ry="108" fill="#c9f7d0" stroke="#227731" stroke-width="9"/>
+  <text class="txt label">
+    <tspan x="437" y="1788">Self-reflective</tspan>
+    <tspan x="437" y="1872">action planner</tspan>
+  </text>
+
+  <line x1="1244" y1="1475" x2="1244" y2="1575" stroke="#000" stroke-width="7" marker-end="url(#arrow)"/>
+  <line x1="1893" y1="1396" x2="1298" y2="1583" stroke="#000" stroke-width="7" marker-end="url(#arrow)"/>
+
+  <rect x="960" y="1587" width="568" height="201" fill="#000"/>
+  <text class="whiteTxt boxTxt" text-anchor="middle">
+    <tspan x="1244" y="1670">Execute</tspan>
+    <tspan x="1244" y="1753">read actions</tspan>
+  </text>
+
+  <rect x="907" y="1848" width="674" height="198" rx="94" ry="94" fill="#43d659" stroke="#000" stroke-width="6"/>
+  <text class="txt boxTxt" text-anchor="middle">
+    <tspan x="1244" y="1929">Make</tspan>
+    <tspan x="1244" y="2012">initial plan</tspan>
+  </text>
+
+  <rect x="1760" y="1587" width="568" height="201" fill="#000"/>
+  <text class="whiteTxt boxTxt" text-anchor="middle">
+    <tspan x="2044" y="1670">Validate</tspan>
+    <tspan x="2044" y="1753">planned actions</tspan>
+  </text>
+
+  <rect x="1703" y="1848" width="674" height="198" rx="94" ry="94" fill="#43d659" stroke="#000" stroke-width="6"/>
+  <text class="txt boxTxt" text-anchor="middle">
+    <tspan x="2040" y="1929">Reflect and</tspan>
+    <tspan x="2040" y="2012">improve plan</tspan>
+  </text>
+
+  <line x1="1244" y1="1788" x2="1244" y2="1836" stroke="#000" stroke-width="7" marker-end="url(#arrow)"/>
+  <line x1="1572" y1="1942" x2="1750" y2="1704" stroke="#000" stroke-width="7" marker-end="url(#arrow)"/>
+  <line x1="2044" y1="1788" x2="2044" y2="1836" stroke="#000" stroke-width="7" marker-end="url(#arrow)"/>
+  <line x1="2200" y1="1848" x2="2200" y2="1800" stroke="#000" stroke-width="7" marker-end="url(#arrow)"/>
+
+  <circle cx="1592" cy="2300" r="178" fill="#fff" stroke="#000" stroke-width="6"/>
+  <text class="txt circleTxt" text-anchor="middle">
+    <tspan x="1592" y="2260">planned</tspan>
+    <tspan x="1592" y="2345">actions</tspan>
+  </text>
+
+  <line x1="2040" y1="2046" x2="1716" y2="2170" stroke="#000" stroke-width="7" marker-end="url(#arrow)"/>
+
+  <!-- Test generator section -->
+  <rect x="380" y="2530" width="2050" height="805" rx="130" ry="130" fill="#c9f7d0" stroke="#227731" stroke-width="9"/>
+  <text class="txt label" x="450" y="2954">Test generator</text>
+
+  <line x1="1592" y1="2478" x2="1592" y2="2570" stroke="#000" stroke-width="7" marker-end="url(#arrow)"/>
+
+  <rect x="1310" y="2582" width="568" height="201" fill="#000"/>
+  <text class="whiteTxt boxTxt" text-anchor="middle">
+    <tspan x="1594" y="2665">Execute</tspan>
+    <tspan x="1594" y="2748">read actions</tspan>
+  </text>
+
+  <rect x="1256" y="2838" width="674" height="198" rx="94" ry="94" fill="#43d659" stroke="#000" stroke-width="6"/>
+  <text class="txt boxTxt" text-anchor="middle">
+    <tspan x="1593" y="2919">Flesh out write</tspan>
+    <tspan x="1593" y="3002">or modify action</tspan>
+  </text>
+
+  <rect x="1310" y="3088" width="568" height="201" fill="#000"/>
+  <text class="whiteTxt boxTxt" text-anchor="middle">
+    <tspan x="1594" y="3171">Repair</tspan>
+    <tspan x="1594" y="3254">generated tests</tspan>
+  </text>
+
+  <line x1="1592" y1="2783" x2="1592" y2="2826" stroke="#000" stroke-width="7" marker-end="url(#arrow)"/>
+  <line x1="1592" y1="3036" x2="1592" y2="3076" stroke="#000" stroke-width="7" marker-end="url(#arrow)"/>
+
+  <circle cx="1592" cy="3548" r="178" fill="#fff" stroke="#000" stroke-width="6"/>
+  <text class="txt circleTxt" text-anchor="middle">
+    <tspan x="1592" y="3507">generated</tspan>
+    <tspan x="1592" y="3592">tests</tspan>
+    <tspan x="1592" y="3677" font-style="italic">y</tspan>
+  </text>
+  <line x1="1592" y1="3289" x2="1592" y2="3358" stroke="#000" stroke-width="7" marker-end="url(#arrow)"/>
+
+  <text class="txt circleTxt" x="1827" y="3618">output <tspan font-style="italic">y</tspan></text>
+
+  <!-- Legend -->
+  <rect x="130" y="3427" width="1092" height="337" fill="#fde5d8"/>
+  <text class="txt label" x="155" y="3505" text-decoration="underline">Legend:</text>
+
+  <circle cx="232" cy="3664" r="74" fill="#fff" stroke="#000" stroke-width="6"/>
+  <text class="txt small" text-anchor="middle" x="232" y="3682">data</text>
+
+  <rect x="356" y="3588" width="407" height="149" rx="72" ry="72" fill="#43d659" stroke="#000" stroke-width="6"/>
+  <text class="txt label" text-anchor="middle" x="560" y="3681">LLM call</text>
+
+  <rect x="793" y="3588" width="410" height="149" fill="#000"/>
+  <text class="whiteTxt label" text-anchor="middle" x="998" y="3681">Rule-based</text>
+</svg>

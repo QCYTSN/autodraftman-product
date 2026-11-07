@@ -1,0 +1,416 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1153" height="552" viewBox="0 0 1153 552">
+  <title>MLLM Architecture, Multi-Head Attention Block, and Overall Gain from Our Method</title>
+  <desc>Editable reconstruction of the original figure. Base frames: left MLLM architecture, central multi-head attention block with nested standard MHA, visual attention ratio, reasoning and perception layers, and right-side gain comparison grids plus legend. Directional conduction is top-to-bottom in the left stack, left-to-right and top-to-bottom through the attention block, then top-to-bottom on the right gain comparison. SAM mappings are retained for confirmed small icon/photo crops as overlay replacements while preserving native SVG construction, frames, labels, borders, arrows and uncovered content.</desc>
+  <defs>
+    <marker id="arrowBlack" markerUnits="userSpaceOnUse" markerWidth="9" markerHeight="8" viewBox="0 0 10 8" refX="9" refY="4" orient="auto">
+      <path d="M0,0 L10,4 L0,8 Z" fill="#000" id="plus_node_0" />
+    </marker>
+    <marker id="arrowBlackStart" markerUnits="userSpaceOnUse" markerWidth="9" markerHeight="8" viewBox="0 0 10 8" refX="1" refY="4" orient="auto-start-reverse">
+      <path d="M0,0 L10,4 L0,8 Z" fill="#000" id="plus_node_1" />
+    </marker>
+    <marker id="arrowGreen" markerUnits="userSpaceOnUse" markerWidth="9" markerHeight="8" viewBox="0 0 10 8" refX="9" refY="4" orient="auto">
+      <path d="M0,0 L10,4 L0,8 Z" fill="#2f6040" id="plus_node_2" />
+    </marker>
+    <marker id="arrowRed" markerUnits="userSpaceOnUse" markerWidth="9" markerHeight="8" viewBox="0 0 10 8" refX="9" refY="4" orient="auto">
+      <path d="M0,0 L10,4 L0,8 Z" fill="#8b1e39" id="plus_node_3" />
+    </marker>
+    <marker id="arrowWhite" markerUnits="userSpaceOnUse" markerWidth="10" markerHeight="8" viewBox="0 0 10 8" refX="9" refY="4" orient="auto">
+      <path d="M0,0 L10,4 L0,8 Z" fill="#fff" stroke="#222" stroke-width=".9" id="plus_node_4" />
+    </marker>
+    <symbol id="sym-plus" viewBox="0 0 18 18">
+      <circle cx="9" cy="9" r="8.3" fill="#fff" stroke="#000" stroke-width="1.2" id="plus_node_5" />
+      <path d="M9 4.2v9.6M4.2 9h9.6" stroke="#000" stroke-width="1.3" id="plus_node_6" />
+    </symbol>
+    <symbol id="sym-times" viewBox="0 0 18 18">
+      <circle cx="9" cy="9" r="8.2" fill="#fff" stroke="#000" stroke-width="1.2" id="plus_node_7" />
+      <path d="M4.5 4.5l9 9M13.5 4.5l-9 9" stroke="#000" stroke-width="1.3" id="plus_node_8" />
+    </symbol>
+    <symbol id="sym-eye" viewBox="0 0 22 14">
+      <path d="M1 7C4.1 2.6 7.6 1.2 11 1.2S17.9 2.6 21 7c-3.1 4.4-6.6 5.8-10 5.8S4.1 11.4 1 7Z" fill="none" stroke="#111" stroke-width="1.2" id="plus_node_9" />
+      <circle cx="11" cy="7" r="2.6" fill="none" stroke="#111" stroke-width="1.1" id="plus_node_10" />
+    </symbol>
+    <symbol id="sym-cloud" viewBox="0 0 24 17">
+      <path d="M7.1 14.8H18c2.3 0 4.1-1.6 4.1-3.7 0-1.9-1.5-3.4-3.4-3.6C18.1 4.5 15.4 2.3 12.2 2.7 9.7 3 7.8 4.5 6.9 6.7 3.6 6.7 1.4 8.5 1.4 11c0 2.1 2 3.8 5.7 3.8Z" fill="#fff" stroke="#111" stroke-width="1.15" id="plus_node_11" />
+      <path d="M8.7 14.6c.2-1 .9-1.7 1.8-2M15.9 14.6c-.2-1.1-.9-1.9-2-2.4" fill="none" stroke="#111" stroke-width=".8" id="plus_node_12" />
+    </symbol>
+    <symbol id="sym-checkbox" viewBox="0 0 12 12">
+      <rect x="1" y="1" width="10" height="10" rx="1.2" fill="#3f785d" stroke="#224b38" stroke-width=".6" id="plus_node_13" />
+      <path d="M3 6.2l2 2.1L9 3.8" fill="none" stroke="#fff" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" id="plus_node_14" />
+    </symbol>
+    <symbol id="sym-xbox" viewBox="0 0 12 12">
+      <rect x="1" y="1" width="10" height="10" rx="1.2" fill="#9b0037" stroke="#650020" stroke-width=".6" id="plus_node_15" />
+      <path d="M3.6 3.6l4.8 4.8M8.4 3.6L3.6 8.4" stroke="#fff" stroke-width="1.55" stroke-linecap="round" id="plus_node_16" />
+    </symbol>
+    <symbol id="sym-image-token" viewBox="0 0 18 16">
+      <rect x="1" y="1" width="16" height="14" rx="1.5" fill="#fff" stroke="#111" stroke-width="1.2" id="plus_node_17" />
+      <circle cx="5" cy="5.1" r="1.5" fill="none" stroke="#111" stroke-width=".9" id="plus_node_18" />
+      <path d="M2.7 13.4l4.4-4.2 3.1 2.5 2.2-2 3 3.7" fill="none" stroke="#111" stroke-width="1.1" id="plus_node_19" />
+    </symbol>
+    <symbol id="sym-text-token" viewBox="0 0 16 16">
+      <path d="M2.2 1.5h10.4l1.8 1.9v11.1H2.2Z" fill="#fff" stroke="#111" stroke-width="1" id="plus_node_20" />
+      <path d="M5 5h6M5 8h7M5 11h5" stroke="#777" stroke-width="1" id="plus_node_21" />
+    </symbol>
+    <style>
+      .title{font-family:Arial,Helvetica,sans-serif;font-weight:700;font-size:20px;fill:#000}
+      .label{font-family:Arial,Helvetica,sans-serif;font-size:12px;fill:#000}
+      .small{font-family:Arial,Helvetica,sans-serif;font-size:10px;fill:#000}
+      .tiny{font-family:Arial,Helvetica,sans-serif;font-size:8.5px;fill:#000}
+      .italic{font-family:Arial,Helvetica,sans-serif;font-size:12px;font-style:italic;fill:#000}
+      .bold{font-family:Arial,Helvetica,sans-serif;font-weight:700;fill:#000}
+      .box{fill:#fff;stroke:#111;stroke-width:1.2}
+      .soft{fill:#cfe1dc;stroke:#111;stroke-width:1.2}
+      .mathbox{fill:#f7f7f7;stroke:#111;stroke-width:1.15}
+      .pink{fill:#e9c9ce;stroke:#7d3d4a;stroke-width:1}
+      .violet{fill:#dbd7e8;stroke:#44445d;stroke-width:1}
+      .bluecell{fill:#78aabd}
+      .pinkcell{fill:#c79a9b}
+      .dash-teal{fill:none;stroke:#435d62;stroke-width:2;stroke-dasharray:6 5}
+      .dash-red{fill:none;stroke:#8d5660;stroke-width:2;stroke-dasharray:7 6}
+      .dash-green{fill:none;stroke:#5e7c35;stroke-width:2;stroke-dasharray:7 6}
+      .dash-yellow{fill:none;stroke:#bd9827;stroke-width:2;stroke-dasharray:7 6}
+      .dash-gray{fill:none;stroke:#777;stroke-width:1.3;stroke-dasharray:4 4}
+      .arrow{fill:none;stroke:#000;stroke-width:1.2;marker-end:url(#arrowBlack)}
+      .line{fill:none;stroke:#000;stroke-width:1.2}
+    </style>
+  </defs>
+
+  <rect id="background" x="0" y="0" width="1153" height="552" fill="#fff" />
+
+  
+  <g id="left_architecture">
+    <text id="left_title" class="title" x="45" y="38">MLLM Architecture</text>
+    <path id="f01" data-plus-kind="frame" class="dash-teal" d="M79 103H187Q201 103 204 118L204 383Q201 398 187 398H79Q65 398 64 383V118Q65 103 79 103Z" />
+    <text id="left_layers_label" class="label bold" x="48" y="279" transform="rotate(-90 48 279)" fill="#47636a">N× Layers</text>
+
+    <rect id="left_text_response_box" class="box" x="70" y="64" width="120" height="18" rx="3" />
+    <text id="left_text_response" class="label bold" x="86" y="77">Text Response</text>
+
+    <rect id="left_norm_top" class="soft" x="80" y="113" width="101" height="19" rx="5" />
+    <text class="label bold" x="116" y="127" id="plus_node_22">Norm</text>
+    <rect id="left_ffn" class="soft" x="80" y="180" width="101" height="42" rx="5" />
+    <text class="label bold" x="97" y="197" id="plus_node_23">Feed-Forward</text>
+    <text class="label bold" x="111" y="211" id="plus_node_24">Network</text>
+    <rect id="left_norm_mid" class="soft" x="80" y="254" width="101" height="24" rx="5" />
+    <text class="label bold" x="116" y="270" id="plus_node_25">Norm</text>
+    <rect id="left_mha" class="soft" x="80" y="337" width="101" height="53" rx="5" />
+    <text class="label bold" x="99" y="361" id="plus_node_26">Multi-Head</text>
+    <text class="label bold" x="106" y="374" id="plus_node_27">Attention</text>
+    <path id="left_sine_pos" d="M84 438c5-8 14-8 19 0s14 8 19 0" fill="none" stroke="#000" stroke-width="1.2" />
+    <text id="left_positional" class="label bold" x="22" y="437">Positional</text>
+    <text class="label bold" x="23" y="451" id="plus_node_28">Encoding</text>
+
+    <path class="arrow" d="M131 82V113" id="plus_node_29" />
+    <path class="arrow" d="M131 132V145" id="plus_node_30" />
+    <path class="arrow" d="M131 164V180" id="plus_node_31" />
+    <path class="arrow" d="M131 222V254" id="plus_node_32" />
+    <path class="arrow" d="M131 278V294" id="plus_node_33" />
+    <path class="arrow" d="M131 312V337" id="plus_node_34" />
+    <path class="arrow" d="M131 390V430" id="plus_node_35" />
+    <path class="arrow" d="M131 448V475" id="plus_node_36" />
+    <path class="line" d="M140 304h35v-31h-35" id="plus_node_37" />
+    <path class="arrow" d="M174 273v31" id="plus_node_38" />
+    <path class="line" d="M140 156h51v82H131" id="plus_node_39" />
+    <path class="arrow" d="M131 238v16" id="plus_node_40" />
+
+    <g id="left_input_tokens">
+      <path d="M22 475H241l5 27H22Z" fill="#fff" stroke="#111" stroke-width="1.1" id="plus_node_41" />
+      <path d="M23 503H246" stroke="#111" stroke-width="1" id="plus_node_42" />
+      <path d="M22 497V513M246 497V513M151 498V512" stroke="#111" stroke-width="1" id="plus_node_43" />
+      <rect x="23" y="486" width="11" height="11" fill="#d0dfdc" stroke="#8aa09d" id="plus_node_44" />
+      <rect x="41" y="486" width="11" height="11" fill="#d0dfdc" stroke="#8aa09d" id="plus_node_45" />
+      <rect x="59" y="486" width="11" height="11" fill="#d0dfdc" stroke="#8aa09d" id="plus_node_46" />
+      <rect x="77" y="486" width="11" height="11" fill="#d0dfdc" stroke="#8aa09d" id="plus_node_47" />
+      <rect x="95" y="486" width="11" height="11" fill="#d0dfdc" stroke="#8aa09d" id="plus_node_48" />
+      <text class="label" x="113" y="496" id="plus_node_49">...</text>
+      <rect x="133" y="486" width="11" height="11" fill="#d0dfdc" stroke="#8aa09d" id="plus_node_50" />
+      <rect x="156" y="486" width="11" height="11" fill="#e8c5c8" stroke="#aa8688" id="plus_node_51" />
+      <rect x="174" y="486" width="11" height="11" fill="#e8c5c8" stroke="#aa8688" id="plus_node_52" />
+      <rect x="192" y="486" width="11" height="11" fill="#e8c5c8" stroke="#aa8688" id="plus_node_53" />
+      <text class="label" x="211" y="496" id="plus_node_54">...</text>
+      <text class="label" x="59" y="524" id="plus_node_55">Image Token</text>
+      <text class="label" x="180" y="524" id="plus_node_56">Text Token</text>
+    </g>
+    <path id="left_to_middle_dashed_link" class="dash-teal" d="M192 103L254 18M190 398L254 534" />
+  </g>
+
+  
+  <g id="attention_block">
+    <path id="f02" data-plus-kind="frame" class="dash-teal" d="M254 18H713Q727 18 727 33V519Q727 534 713 534H254Q240 534 240 519V33Q240 18 254 18Z" />
+    <text id="center_title" class="title" x="367" y="36">Multi-Head Attention Block</text>
+
+    <rect id="f03" data-plus-kind="frame" class="dash-red" x="280" y="46" width="270" height="153" rx="12" />
+    <text class="label bold" x="421" y="199" fill="#9a5a61" id="plus_node_57">Standard MHA</text>
+    <text class="italic" x="252" y="143" id="plus_node_58">X<tspan dy="-4" font-size="8">(ℓ)</tspan></text>
+
+    <g id="standard_mha">
+      <rect class="mathbox" x="295" y="57" width="62" height="39" id="plus_node_59" />
+      <text class="italic" x="301" y="81" id="plus_node_60">X<tspan dy="-5" font-size="8">(ℓ)</tspan>W<tspan dy="5" font-size="11">k</tspan><tspan dy="-5" font-size="8">(ℓ)</tspan></text>
+      <rect class="mathbox" x="295" y="161" width="62" height="39" id="plus_node_61" />
+      <text class="italic" x="301" y="185" id="plus_node_62">X<tspan dy="-5" font-size="8">(ℓ)</tspan>W<tspan dy="5" font-size="11">q</tspan><tspan dy="-5" font-size="8">(ℓ)</tspan></text>
+      <path class="arrow" d="M326 96v25" id="plus_node_63" />
+      <path class="arrow" d="M326 138v23" id="plus_node_64" />
+      <rect class="box" x="337" y="124" width="43" height="14" id="plus_node_65" />
+      <text class="tiny" x="342" y="120" id="plus_node_66">Scaling</text>
+      <text class="tiny" x="352" y="134" id="plus_node_67">1/√n<tspan dy="2" font-size="6">k</tspan></text>
+      <path class="arrow" d="M357 131h23" id="plus_node_68" />
+      <rect class="mathbox" x="379" y="56" width="49" height="144" id="plus_node_69" />
+      <line x1="379" y1="91" x2="428" y2="91" stroke="#111" id="plus_node_70" />
+      <line x1="379" y1="145" x2="428" y2="145" stroke="#111" id="plus_node_71" />
+      <text class="italic tiny" x="395" y="79" id="plus_node_72">A<tspan dy="-4" font-size="6">(0,0)</tspan></text>
+      <text class="italic tiny" x="395" y="107" id="plus_node_73">A<tspan dy="-4" font-size="6">(1,1)</tspan></text>
+      <text class="label bold" x="400" y="136" id="plus_node_74">⋮</text>
+      <text class="italic tiny" x="392" y="169" id="plus_node_75">A<tspan dy="-4" font-size="6">(27,ℓ)</tspan></text>
+      <rect class="mathbox" x="437" y="82" width="58" height="75" id="plus_node_76" />
+      <text class="italic" x="443" y="104" id="plus_node_77">X<tspan dy="-5" font-size="8">(ℓ)</tspan>W<tspan dy="5" font-size="11">v</tspan><tspan dy="-5" font-size="8">(ℓ)</tspan></text>
+      <path class="arrow" d="M466 47v35" id="plus_node_78" />
+      <path class="arrow" d="M466 119v29" id="plus_node_79" />
+      <path class="arrow" d="M428 156h31" id="plus_node_80" />
+      <path class="arrow" d="M478 157h25" id="plus_node_81" />
+      <rect class="pink" x="508" y="55" width="31" height="145" id="plus_node_82" />
+      <line x1="508" y1="93" x2="539" y2="93" stroke="#8d5660" id="plus_node_83" />
+      <line x1="508" y1="145" x2="539" y2="145" stroke="#8d5660" id="plus_node_84" />
+      <text class="italic tiny" x="514" y="76" id="plus_node_85">O<tspan dy="-4" font-size="6">(0,0)</tspan></text>
+      <text class="italic tiny" x="514" y="107" id="plus_node_86">O<tspan dy="-4" font-size="6">(1,1)</tspan></text>
+      <text class="label bold" x="520" y="136" id="plus_node_87">⋮</text>
+      <text class="italic tiny" x="512" y="169" id="plus_node_88">O<tspan dy="-4" font-size="6">(27,ℓ)</tspan></text>
+      <path class="arrow" d="M539 130h29" id="plus_node_89" />
+      <text class="label" x="550" y="120" id="plus_node_90">Scaling</text>
+    </g>
+
+    <rect id="f07" data-plus-kind="frame" x="671" y="45" width="39" height="158" rx="6" fill="none" stroke="#d6a7ac" stroke-width="1.3" stroke-dasharray="4 4" />
+    <text class="label bold" x="688" y="129" transform="rotate(-90 688 129)" id="plus_node_91">Flowing Standard</text>
+    <text class="label bold" x="704" y="136" transform="rotate(-90 704 136)" id="plus_node_92">Procedure</text>
+    <rect class="mathbox" x="574" y="90" width="36" height="87" id="plus_node_93" />
+    <rect class="violet" x="611" y="56" width="38" height="144" id="plus_node_94" />
+    <line x1="611" y1="91" x2="649" y2="91" stroke="#44445d" id="plus_node_95" />
+    <line x1="611" y1="145" x2="649" y2="145" stroke="#44445d" id="plus_node_96" />
+    <path class="arrow" d="M588 134h23" id="plus_node_97" />
+    <path d="M600 105l6-8l6 8" fill="#8b8ca2" id="plus_node_98" />
+    <path d="M600 163l6-8l6 8" fill="#8b8ca2" id="plus_node_99" />
+    <text class="italic tiny" x="615" y="76" id="plus_node_100">O′<tspan dy="-4" font-size="6">(0,0)</tspan></text>
+    <text class="italic tiny" x="615" y="107" id="plus_node_101">O′<tspan dy="-4" font-size="6">(1,1)</tspan></text>
+    <text class="label bold" x="624" y="136" id="plus_node_102">⋮</text>
+    <text class="italic tiny" x="615" y="169" id="plus_node_103">O′<tspan dy="-4" font-size="6">(27,ℓ)</tspan></text>
+    <path class="arrow" d="M549 133h20" id="plus_node_104" />
+    <path class="arrow" d="M649 132h22" id="plus_node_105" />
+
+    <path id="mha_down_left" class="line" d="M314 201v22h94v-23" />
+    <path class="arrow" d="M314 201v65" id="plus_node_106" />
+    <path class="arrow" d="M408 200v35" id="plus_node_107" />
+
+    <rect id="f04" data-plus-kind="frame" class="dash-gray" x="285" y="265" width="60" height="241" rx="6" />
+    <text class="label bold" x="298" y="401" transform="rotate(-90 298 401)" id="plus_node_108">Visual Attention Ratio</text>
+    <text class="italic" x="306" y="366" transform="rotate(-90 306 366)" id="plus_node_109">S<tspan dy="-4" font-size="8">(ℓ)</tspan><tspan dy="5">m</tspan>(h)=</text>
+    <text class="label" x="319" y="384" transform="rotate(-90 319 384)" id="plus_node_110">∑</text>
+    <text class="tiny" x="327" y="380" transform="rotate(-90 327 380)" id="plus_node_111">A<tspan dy="-3" font-size="6">(ℓ)</tspan><tspan dy="3">ij</tspan></text>
+    <text class="tiny" x="337" y="410" transform="rotate(-90 337 410)" id="plus_node_112">|T<tspan dy="2" font-size="6">q</tspan>|·|T<tspan dy="2" font-size="6">k</tspan>|</text>
+
+    <rect id="f05" data-plus-kind="frame" class="dash-green" x="369" y="220" width="282" height="145" rx="15" />
+    <text class="label bold" x="449" y="365" fill="#5e7c35" id="plus_node_113">Reasoning Layer</text>
+    <text class="small" x="394" y="229" id="plus_node_114">T<tspan dy="2" font-size="7">reas</tspan></text>
+    <rect class="mathbox" x="388" y="234" width="47" height="126" id="plus_node_115" />
+    <line x1="388" y1="268" x2="435" y2="268" stroke="#111" id="plus_node_116" />
+    <line x1="388" y1="302" x2="435" y2="302" stroke="#111" id="plus_node_117" />
+    <text class="italic small" x="396" y="258" id="plus_node_118">S<tspan dy="-4" font-size="7">(ℓ)</tspan><tspan dy="4">h</tspan>(0)</text>
+    <text class="italic small" x="396" y="291" id="plus_node_119">S<tspan dy="-4" font-size="7">(ℓ)</tspan><tspan dy="4">h</tspan>(1)</text>
+    <text class="label bold" x="405" y="326" id="plus_node_120">⋮</text>
+    <text class="italic small" x="394" y="350" id="plus_node_121">S<tspan dy="-4" font-size="7">(ℓ)</tspan><tspan dy="4">h</tspan>(27)</text>
+    <path class="arrow" d="M345 296h43" id="plus_node_122" />
+    <g id="reas_rules">
+      <text class="tiny bold" x="492" y="245" id="plus_node_123">NO</text>
+      <path d="M457 249h66l19 12l-19 12h-66Z" fill="#fff" stroke="#111" stroke-width="1.1" id="plus_node_124" />
+      <text class="tiny bold" x="492" y="275" id="plus_node_125">YES</text>
+      <path d="M457 298h70l15 13l-15 13h-70Z" fill="#e4edda" stroke="#5e7c35" stroke-width="1.5" stroke-dasharray="5 4" id="plus_node_126" />
+      <text class="italic small" x="466" y="316" id="plus_node_127">S<tspan dy="-4" font-size="7">(ℓ)</tspan><tspan dy="4">h</tspan> ≤ τ<tspan dy="2" font-size="7">reas</tspan>?</text>
+      <text class="tiny bold" x="493" y="338" id="plus_node_128">YES</text>
+      <path d="M457 344h66l19 12l-19 12h-66Z" fill="#fff" stroke="#111" stroke-width="1.1" id="plus_node_129" />
+      <rect class="mathbox" x="562" y="234" width="68" height="126" id="plus_node_130" />
+      <line x1="562" y1="266" x2="630" y2="266" stroke="#111" id="plus_node_131" />
+      <line x1="562" y1="303" x2="630" y2="303" stroke="#111" id="plus_node_132" />
+      <line x1="562" y1="331" x2="630" y2="331" stroke="#111" id="plus_node_133" />
+      <text class="italic tiny" x="579" y="256" id="plus_node_134">g<tspan dy="-4" font-size="6">(0,ℓ)</tspan>=1</text>
+      <text class="italic tiny" x="579" y="292" id="plus_node_135">g<tspan dy="-4" font-size="6">(1,ℓ)</tspan>=g<tspan dy="3" font-size="6">reas</tspan></text>
+      <text class="label bold" x="592" y="322" id="plus_node_136">⋮</text>
+      <text class="italic tiny" x="576" y="351" id="plus_node_137">g<tspan dy="-4" font-size="6">(27,ℓ)</tspan>=g<tspan dy="3" font-size="6">reas</tspan></text>
+      <path class="arrow" d="M542 314h20" id="plus_node_138" />
+    </g>
+
+    <rect id="f06" data-plus-kind="frame" class="dash-yellow" x="369" y="377" width="282" height="145" rx="15" />
+    <text class="label bold" x="449" y="524" fill="#bd9827" id="plus_node_139">Perception Layer</text>
+    <text class="small" x="394" y="386" id="plus_node_140">T<tspan dy="2" font-size="7">perc</tspan></text>
+    <rect class="mathbox" x="388" y="391" width="47" height="126" id="plus_node_141" />
+    <line x1="388" y1="425" x2="435" y2="425" stroke="#111" id="plus_node_142" />
+    <line x1="388" y1="459" x2="435" y2="459" stroke="#111" id="plus_node_143" />
+    <text class="italic small" x="396" y="416" id="plus_node_144">S<tspan dy="-4" font-size="7">(ℓ)</tspan><tspan dy="4">h</tspan>(0)</text>
+    <text class="italic small" x="396" y="449" id="plus_node_145">S<tspan dy="-4" font-size="7">(ℓ)</tspan><tspan dy="4">h</tspan>(1)</text>
+    <text class="label bold" x="405" y="484" id="plus_node_146">⋮</text>
+    <text class="italic small" x="394" y="508" id="plus_node_147">S<tspan dy="-4" font-size="7">(ℓ)</tspan><tspan dy="4">h</tspan>(27)</text>
+    <path class="arrow" d="M345 452h43" id="plus_node_148" />
+    <g id="perc_rules">
+      <text class="tiny bold" x="492" y="399" id="plus_node_149">YES</text>
+      <path d="M457 407h66l19 12l-19 12h-66Z" fill="#fff" stroke="#111" stroke-width="1.1" id="plus_node_150" />
+      <text class="tiny bold" x="492" y="431" id="plus_node_151">YES</text>
+      <path d="M457 454h70l15 13l-15 13h-70Z" fill="#fff2cb" stroke="#bd9827" stroke-width="1.5" stroke-dasharray="5 4" id="plus_node_152" />
+      <text class="italic small" x="466" y="472" id="plus_node_153">S<tspan dy="-4" font-size="7">(ℓ)</tspan><tspan dy="4">h</tspan> ≥ τ<tspan dy="2" font-size="7">perc</tspan>?</text>
+      <text class="tiny bold" x="492" y="495" id="plus_node_154">NO</text>
+      <path d="M457 500h66l19 12l-19 12h-66Z" fill="#fff" stroke="#111" stroke-width="1.1" id="plus_node_155" />
+      <rect class="mathbox" x="562" y="390" width="68" height="126" id="plus_node_156" />
+      <line x1="562" y1="422" x2="630" y2="422" stroke="#111" id="plus_node_157" />
+      <line x1="562" y1="459" x2="630" y2="459" stroke="#111" id="plus_node_158" />
+      <line x1="562" y1="488" x2="630" y2="488" stroke="#111" id="plus_node_159" />
+      <text class="italic tiny" x="579" y="413" id="plus_node_160">g<tspan dy="-4" font-size="6">(0,ℓ)</tspan>=g<tspan dy="3" font-size="6">perc</tspan></text>
+      <text class="italic tiny" x="579" y="449" id="plus_node_161">g<tspan dy="-4" font-size="6">(1,ℓ)</tspan>=g<tspan dy="3" font-size="6">perc</tspan></text>
+      <text class="label bold" x="592" y="479" id="plus_node_162">⋮</text>
+      <text class="italic tiny" x="576" y="508" id="plus_node_163">g<tspan dy="-4" font-size="6">(27,ℓ)</tspan>=1</text>
+    </g>
+
+    <path class="line" d="M630 296h33V176h-14" id="plus_node_164" />
+    <path class="line" d="M630 452h33V176" id="plus_node_165" />
+    <path class="arrow" d="M663 176h8" id="plus_node_166" />
+    <path class="line" d="M642 296h22v64h-14" id="plus_node_167" />
+    <path class="line" d="M642 452h22v-31h-14" id="plus_node_168" />
+  </g>
+
+  
+  <g id="overall_gain">
+    <text id="right_title" class="title" x="804" y="36">Overall Gain from Our Method</text>
+    <text class="italic" x="834" y="58" id="plus_node_169">Head</text>
+    <text class="italic" x="738" y="163" transform="rotate(-90 738 163)" id="plus_node_170">Layer</text>
+
+    <g id="top_grid_group">
+      <rect id="f08" data-plus-kind="frame" class="dash-gray" x="751" y="63" width="203" height="202" />
+      <rect x="753" y="67" width="198" height="194" fill="#dcdcdc" id="plus_node_171" />
+      <g stroke="#fff" stroke-width="3" id="plus_node_172">
+        <path d="M773 67v194M795 67v194M817 67v194M839 67v194M861 67v194M883 67v194M905 67v194M927 67v194" id="plus_node_173" />
+        <path d="M753 88h198M753 110h198M753 132h198M753 154h198M753 176h198M753 198h198M753 220h198M753 242h198" id="plus_node_174" />
+      </g>
+      <rect class="pinkcell" x="754" y="68" width="19" height="41" id="plus_node_175" />
+      <rect class="bluecell" x="886" y="91" width="19" height="19" id="plus_node_176" />
+      <rect class="bluecell" x="909" y="132" width="20" height="21" id="plus_node_177" />
+      <rect class="pinkcell" x="818" y="154" width="20" height="20" id="plus_node_178" />
+      <rect class="pinkcell" x="886" y="176" width="20" height="23" id="plus_node_179" />
+      <rect class="pinkcell" x="753" y="198" width="22" height="22" id="plus_node_180" />
+      <rect class="pinkcell" x="907" y="220" width="23" height="21" id="plus_node_181" />
+      <use id="top_cloud1" href="#sym-cloud" x="779" y="158" width="16" height="13" />
+      <text class="label bold" x="756" y="95" fill="#555" id="plus_node_182">Perception</text>
+      <text class="label bold" x="771" y="110" fill="#555" id="plus_node_183">Layers</text>
+      <line x1="751" y1="110" x2="954" y2="110" stroke="#111" stroke-width="1.3" stroke-dasharray="6 5" id="plus_node_184" />
+      <text class="label bold" x="758" y="243" fill="#555" id="plus_node_185">Reasoning</text>
+      <text class="label bold" x="770" y="258" fill="#555" id="plus_node_186">Layers</text>
+    </g>
+
+    <path class="arrow" d="M852 270v28" id="plus_node_187" />
+    <text class="label" x="858" y="286" id="plus_node_188">Improved</text>
+    <text class="italic" x="863" y="316" id="plus_node_189">Head</text>
+
+    <text class="italic" x="738" y="423" transform="rotate(-90 738 423)" id="plus_node_190">Layer</text>
+    <g id="bottom_grid_group">
+      <rect id="f09" data-plus-kind="frame" class="dash-gray" x="751" y="322" width="203" height="202" />
+      <rect x="753" y="326" width="198" height="194" fill="#dcdcdc" id="plus_node_191" />
+      <g stroke="#fff" stroke-width="3" id="plus_node_192">
+        <path d="M773 326v194M795 326v194M817 326v194M839 326v194M861 326v194M883 326v194M905 326v194M927 326v194" id="plus_node_193" />
+        <path d="M753 347h198M753 369h198M753 391h198M753 413h198M753 435h198M753 457h198M753 479h198M753 501h198" id="plus_node_194" />
+      </g>
+      <rect class="bluecell" x="797" y="325" width="22" height="23" id="plus_node_195" />
+      <rect class="bluecell" x="886" y="347" width="22" height="22" id="plus_node_196" />
+      <rect class="bluecell" x="908" y="391" width="22" height="22" id="plus_node_197" />
+      <rect class="bluecell" x="775" y="413" width="23" height="22" id="plus_node_198" />
+      <rect class="bluecell" x="841" y="456" width="23" height="23" id="plus_node_199" />
+      <rect class="bluecell" x="929" y="479" width="22" height="22" id="plus_node_200" />
+      <rect class="pinkcell" x="886" y="435" width="20" height="22" id="plus_node_201" />
+      <text class="label bold" x="821" y="342" fill="#555" id="plus_node_202">Perception</text>
+      <text class="label bold" x="835" y="360" fill="#555" id="plus_node_203">Layers</text>
+      <line x1="751" y1="370" x2="954" y2="370" stroke="#111" stroke-width="1.3" stroke-dasharray="6 5" id="plus_node_204" />
+      <text class="label bold" x="820" y="498" fill="#555" id="plus_node_205">Reasoning</text>
+      <text class="label bold" x="835" y="515" fill="#555" id="plus_node_206">Layers</text>
+    </g>
+
+    <g id="f10" data-plus-kind="frame">
+      <rect x="965" y="50" width="168" height="154" fill="none" stroke="#aaa" stroke-width="1.2" stroke-dasharray="5 5" id="plus_node_207" />
+      <text class="label" x="1000" y="70" id="plus_node_208">Better</text>
+      <text class="label" x="1000" y="86" id="plus_node_209">Reasoning Heads</text>
+      <text class="label" x="1000" y="107" id="plus_node_210">Better</text>
+      <text class="label" x="1000" y="123" id="plus_node_211">Perception Heads</text>
+      <rect class="pinkcell" x="973" y="132" width="22" height="23" id="plus_node_212" />
+      <text class="label" x="1000" y="141" id="plus_node_213">Misallocated</text>
+      <text class="label" x="1000" y="157" id="plus_node_214">Dominating AttnHeads</text>
+      <rect class="bluecell" x="973" y="167" width="22" height="24" id="plus_node_215" />
+      <text class="label" x="1000" y="177" id="plus_node_216">Well-allocated</text>
+      <text class="label" x="1000" y="193" id="plus_node_217">Dominating AttnHeads</text>
+    </g>
+
+    <g id="right_bad_conclusion">
+      <path class="arrow" d="M991 240h46" id="plus_node_218" />
+      <text class="italic bold" x="1023" y="225" id="plus_node_219">Most Dominating</text>
+      <text class="italic bold" x="1023" y="241" text-decoration="underline" id="plus_node_220">AttnHeads</text>
+      <text class="italic bold" x="1023" y="258" text-decoration="underline" id="plus_node_221">Misallocated</text>
+      <path class="arrow" d="M1059 264v23" id="plus_node_222" />
+      <text class="italic bold" x="1022" y="303" font-size="17" text-decoration="underline" id="plus_node_223">Hallucinated</text>
+      <text class="italic bold" x="1022" y="322" font-size="17" text-decoration="underline" id="plus_node_224">Final Answer</text>
+    </g>
+    <g id="right_good_conclusion">
+      <path class="arrow" d="M993 413h44" id="plus_node_225" />
+      <text class="italic bold" x="1023" y="400" id="plus_node_226">Most Dominating</text>
+      <text class="italic bold" x="1023" y="416" text-decoration="underline" id="plus_node_227">AttnHeads</text>
+      <text class="italic bold" x="1023" y="433" text-decoration="underline" id="plus_node_228">Well allocated</text>
+      <path class="arrow" d="M1059 443v24" id="plus_node_229" />
+      <text class="italic bold" x="1022" y="489" font-size="17" text-decoration="underline" id="plus_node_230">Correct</text>
+      <text class="italic bold" x="1022" y="508" font-size="17" text-decoration="underline" id="plus_node_231">Final Answer</text>
+    </g>
+  </g>
+
+  
+  <g id="additional_draft_sam_icons">
+    <use id="draft-p030b" href="#sym-times" x="459" y="148" width="19" height="18" />
+    </g>
+
+  
+  <g id="sam_picture_replacements" transform="translate(0 0)" data-plus-keeps="f01 f02 f03 f04 f05 f06 f07 f08 f09 f10 left_title center_title right_title">
+    <image href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAATCAYAAACKsM07AAAC3UlEQVR4nK1UTUhiURS+DlYUCBlKaSEFErQIWgUaIUJFIdFO+nFlWRCCqyKwTQatimgTpEE/ELTIRRlBi4hWEW1qUSJkBAVCkYU/hNnzG+6ZxnLe05loPjjv8t4793znnvudIwPA8iEajWJhYYH5fD728PDA5HI5MxgMrL+/nyUSCRYOh5nJZGIWi0VWWloqHYQT/GGE9fV1VFRUYGRkBOFwGG9vb0gkElhcXIRKpUJ1dTVaWlrQ3t4OpVJJ/hKxPgheX1+xubkJu92OwcFBaDQaXFxc4DMuLy9hMBiI8DO4X11dHVZWVkQk9OCZmc1mmEwmLC0tYW5uDkdHRzlBBEFAY2MjQqEQpHB+fk4ne3p6yiGhx+TkJKxWKwWRwsvLC/r6+tDQ0IBC6OzsxPj4OFKpVJaEas6Pd3Z2ljez5uZmzM7OYmZmpiDB6ekpuru76W6SySSyBJWVlbi+vpbcJAgC0uk0/hVcDG1tbRgbG/sg4LU9PDzE/8LNzQ0lnclkIGeMySKRCPR6PfsOPB4PS6VSbGhoiOl0OnZ/f88EQfh1ybxmfr//S1mm02nwxN5VQ+v+/j5aW1vh9Xqh1WrpOxFsb2+jvLycHLiiCiEQCMDpdFI/9Pb2oqurC8FgMPv/+fmZGm9qauqDgNvq6ir9UKvVBQl6enrQ0dEB3pj5YDQaYbPZcgm4xeNxFBcXY2NjQ3JjPB6nEfEuwbxwOBxwuVxiAm5c7yUlJdjZ2cnZFI1Gae7s7e3Re76mvLu7Q1VVFY6Pjym+iCCTybDp6WkUFRWRo9Fo5ApDbW0t1tbWcHBwgOHhYVHTcUnu7u6iqakJo6Oj2eSlpinZ4+Mjm5+fp+HndruppnzWlJWV0bq1tUVNxXF1dYWBgQHU19eD3yVP8q8E+cY43pXEpc2VV1NTQyedmJhALBYTlf0rBCJCHtDn8+Hk5OQ3t8jvxzeaV6ZQKGS3t7dseXmZ3qW8fgJ3PfJYTwKVzwAAAABJRU5ErkJggg==" x="970" y="61" width="24" height="19" id="plus_node_232" preserveAspectRatio="none" />
+    <image href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABIAAAAQCAYAAAAbBi9cAAACDUlEQVR4nJ1UO2tqQRicc7ioIAqKRBARIljYipUaQTmNpBCC2CSFINpop6VgLf4ASWEnBJKQRhFBROyjYCwEHxDBF2jhGxXMXnYLk1T3eAdOsfuxszPzfXs4Qgg6nQ4eHx/Jer3GJZBIJLi9vYXH4+G4breLm5sbotPpoNfrLyLa7Xao1Wp4enoCUqkUMRqN5HQ6kf9BKBQigiAQnrKq1WrwPI/T6YRMJoNYLIZ2uy1KlUajYcr4n5vpdBrxeBzlchlOpxObzUa0zV9E9Xodbrcb2WwW8/kcg8FANNGfn4tAIACv14tCoQC73Q6z2XyuzWYz5PN5Zvnr6wsmk4ldekYymSRWq/UcXr/fJ5VKhRwOB7ZeLpckGAwSnueJUqkktMMOh4MYDAYCgKjVamKz2cgvRRRGo5F9FOPxmI4GjscjXl5e2MxIpVJWo/NXrVYRDoe/M1osFnh9fUWpVMJ2u2UFetjn80GpVOLj4wN3d3dnEgqO45g1v9//nVGv18P9/T07LJfL8fDwgOvra7RaLTSbTahUKnFhWywWvL+/gz6Rt7c3JBIJjEYjRKPRs81/gVmjw0ilUhu0c41GgymMRCKiSJgihUKByWSC/X4PmUzGNq+urpDL5UQRfH5+MgHcZDIhLpcLy+USWq1WtAIK+jSGwyGKxSI42sbpdIrn52eyWq0uIqK/EUEQaMbcX5eRIzQ6ciWqAAAAAElFTkSuQmCC" x="37" y="512" width="18" height="16" id="plus_node_233" preserveAspectRatio="none" />
+    <image href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABYAAAAPCAYAAADgbT9oAAACd0lEQVR4nI1UvUt6YRR+rwh2sw8HbQkEg6ihhhIKQSexUOgPsKCxpQappv6FcpCWPgQHCxdFJ6WlCHIQBCGHWiKIIorUSCS0233inB/XX6ZhDxzu5bzn6z3nOa8EQHQD2by/v0OSJCHLMqmkPzl1kufnZ3F4eAifzwdZlik7S29vL+vi8Tjq9Tp+829TXF9fs6Ner4fL5UIoFMLV1RXK5TJKpRL/7+zsYHx8HGazGZubm3h9fW1L0Pyp1WrY2triijY2NvD4+AgN1IaTkxOk02lUq1XWqaqKi4sLzM3NwWq14uzsTDP/H/jh4QGjo6NwOp24vLzEdySTSa7MZrNhbGwMg4ODCIfDzXNKsL+/j/7+fqyvr+Pj44ODi0qlIiYnJ7G4uIjPz8+WoPl8Hn19fUgkEhyAcHp6CpPJhEwm02J7c3PDiVdXV9lWBAIBzM/Pa4NowfLyMrflJ4LBIDweT5v+/v4eIyMjfC6Gh4dxfn6OTpidneXp/0Q2m+W+dkIul4PRaIRuYmJCRKNRoapqGxVtNpsoFAptetLR2U8oiiL29vbE9PS0EC8vL6AeLy0todFotGSnqQ8MDHyfOAqFAiwWS9tN3t7e4PV6MTMzg0ql8o8aT09PmJqa4gR0ze+IRCJ8NbvdDofDgZ6eHmxvb7fYpFIpbg3NSuN0k8eNRoOJT7RZWVnB7e1t05EqiMViiEajoCI0FItFLCwsYGhoCMfHx8SG3zfv7u4Ofr8fBoOBN+/g4ICXRVEUFuL87u4u34CKWFtb443sutKa0ArTIrjdbnp8WHQ6HX+JakdHR6Bt/c1f+svrVq/XRalUIubQ4CSDwdDV5wugoTMNijhwrgAAAABJRU5ErkJggg==" x="971" y="100" width="22" height="15" id="plus_node_234" preserveAspectRatio="none" />
+    <image href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA4AAAAOCAYAAAAfSC3RAAABCUlEQVR4nJWRvc5EQBSGz/jptHsFrkAhCoWGTkPCBWiFRqdwC0q1Rid7IwqJZDdxDRpCBoX5QrEhu/azJ5nJec+8T+acGZQkCcEYwy8hCAJClmWRIAguQ1VVwTzPwCCEQJKkyyDGGB6PBzD7IiEElmX5CNA0fdAHsCgKiOP4DWJZFtI0PQdFUYQsyy61zOxF0zTwfD7fTBRFgSzL52DbtlCW5cf55G8gz/Pged7vrdZ1Dff7/WBwHAdut9uWD8Owneu6jg7galBV9QByHPeCwjAERVFA0zQA27bJf9H3PfF9n+R5vsrtv5l1m6bpdJZxHCGKou0m0zRfdeS6LnRdR749hGEY60L74h/P9IhPDGENEAAAAABJRU5ErkJggg==" x="163" y="512" width="14" height="14" id="plus_node_235" preserveAspectRatio="none" />
+    <image href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABEAAAALCAYAAACZIGYHAAAB20lEQVR4nG1SPcj5URR+fqS8YlEWpXwMGEzKIoNSlHyNSErZbQYDZVEiZsqkZFNIihhNWEhhQonI5CN1/937xv/19p66wz3Pc57Oec7h1us1fsd+vyfdbheTyQT3+x1SqRQ2mw1msxl8Pp9SuJ987qfIZDIh2WyWEe12O4xGI76+vnA4HNButzEajeB2uxGJRCAQCLgPkdvtRtLpNLbbLZLJJFQqFY7HIyqVCihOO/D7/Xg+nyiXyxgOh8hkMlCr1d9Cy+WSOJ1OkkwmyWq1Iuv1msxmM6LT6UgulyP9fp+EQiESDAYZRl+r1WJ4s9mkf/Dq9ToUCgXC4TA47lu41+vB4XDA5/NBqVQilUphsVjgcrkwXK/Xo1QqIZFI4Hw+E95ut4NGo/kw9nq9QiwW/zeO4yAUCvF4PN45uVwOiUSCzWYDXjQaBe2m0+m8CTabDdVqFfP5HIQQ1Go1aiRkMhnDT6cTYrEYLBYLDAYDmHF0Kw6Hg3g8HjIajd5zW61WNnsgECCUQz0rFotEo9GQfD7/8uhjxWQwGKBQKECr1cLr9cJkMrF1Uy+azSYajQbbXDweZ7fzupePO6FCtP3pdMoKxuMxG0ckEjGjXS7XR/Gfx/YryB+5j+JX/AM/fP4aKeLIiQAAAABJRU5ErkJggg==" x="799" y="73" width="17" height="11" id="plus_node_236" preserveAspectRatio="none" />
+    <image href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAMCAYAAABr5z2BAAAByklEQVR4nG1SveuxYRg9j/ArD1nIxyZhYCIr/4IMDAaTiSySKCllsVDCYvCx+wNksTBZLKJQSgYZfISn8Lxd9xvxe98zPD3d9znnPp3r4pbLJT4hiqI4Go3Q6/UgkUjg8XjwfD6h0WjgcDg4OvsE9zIQBEHc7/colUpEhN/vx+FwQDabhVqthslkwmazQS6XA8/z3JfBZDIR6/U6zGYzvF4v3G43JUEymUQ+n4dCoWDk2WyGdruNQqHAtPSRErFSqaBarUIulzPibrdDp9OBSqV6iwk2mw1KpRKtVgvhcFgkE8nj8RCJ+BITeJ5HNBpFJpPBb6TTaZzPZ1BPBAkl+F0Mvfrz8wOZTPZ1Pp/P0e/3EQgEMBgMWOdSIp1OJ6xWK+h0uq/IhMVigel0ygoNBoOMWywW4XK5/iYAwCUSCaRSKXS73S8xRaXIdrsdPp8PUqmUCa/XK4xG49sAVquVq9VqaDQa2G63r31As9lkBjRC6uUFvV4Pg8HAJvHeAwKNk5LQS/f7HU6nE8fjEfF4HBaLBZfLhU2MzGKx2L8Gn9t4u90wHA6xXq8xHo9ZN4IgIBKJsEV77cF/DT69Xj/lchmhUAharfYtpos/+1bHC9yhu30AAAAASUVORK5CYII=" x="822" y="439" width="16" height="12" id="plus_node_237" preserveAspectRatio="none" />
+    <image href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAMCAYAAABWdVznAAAA/0lEQVR4nGP89PTF/wUOUQzvbj9gwAd4pcUZEg4sY2C6unobQcUg8PnpS4aLi9YzMP37/YeBWPD39x8GJmQBDkE+htDVUxg4hPgZWLk5GYKW9jPwyUmhaGJB5vz48Inh9/cfDHF7FjP8+vINzP/y/BVuDQz/GRi25TQw5N87wMDKycEwUdmBAd3JKE5iYmVhiNo8m+HxsXMM19buYIjeNo+BlYcLtw3M7GwMDw6eZDjUPIXh358/DLbV2WCbfn/5hl0DSOJA3QQ4/3DLVIyQYmLh5MAQxAVYOdkZGH9+/sKwNqrg/9NTF/EqFtVWYwhbPYWB8f///8jiKBw0wAgiAforXgYwghYdAAAAAElFTkSuQmCC" x="976" y="225" width="12" height="12" id="plus_node_238" preserveAspectRatio="none" />
+    <image href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA8AAAAMCAYAAAC9QufkAAABt0lEQVR4nHWSvcu5URjHvwdRyGbwMgixKYO/gMFmtVmYlJeUwSALg7ysTBYvZZP8AbJI3SULGZQUw21g8RbO0zlP9x1Pv981ndN1fa7re67vIZvNBp/xfD7pYDDAdDrld6/Xi9PpBJvNBr/fTzQajVyrkA6Hw4EKgkATiQT0ej3K5TJSqRQmkwkejwculwsymQwVRZFKDGGTx+MxHY1G8Hg88Pl8cLvdTAHS6TTq9TpUKpU0ANVqFZVKhbMqSintdrtoNBoghPCi3W6HXq8Hh8MhgyxMJhOcTidvwFSQ9XpNs9ksarWaXPR6vaBQKORmf6PT6cBoNP6+WalUfiXZ/V/gcrnkYCAQgCAITJUK1+sV8/kcdrsdBoPhC5jNZlitVrjf74hGozxfKBQQDAb5ZJLL5fh22+32F3g8HvnCQqEQYrEYV2OxWKDVankTLttsNpNms4l+v4/FYsFBZk+r1UKpVOLWfYZOp+OL41ZJsd/vaTKZxO124zArOJ/PyOfzcLlcEEWR28Q+TjgcJl/wR9D3+43tdguWHw6H3DK1Wo14PM6ls+f+D5abSIdisYhIJAKr1Srb8APqn73zoZBIiwAAAABJRU5ErkJggg==" x="822" y="180" width="15" height="12" id="plus_node_239" preserveAspectRatio="none" />
+    <image href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAALCAYAAABLcGxfAAAA00lEQVR4nGP8//8/w8Hmyf8P1E1gIAQUXawYGf////9/spozw7vbDxiIAUwg4t/fv0QphmtABub5CQxeUxvBbL3YAIaQVZNR5FnQNVxetokhft8Shrh9SxgkDLQYlnkn47fh2+t3DOfmrGJQdLRkeHDgBMOT4+fxa9AIcmewr89jWO6fxiCsqsDgMbEWv5M+3H/MsMglluHFuatg02WtjFDkQcHKMFHZ4f+He4/R9WIFYCdxCgkQpZiRmQliw+vrd/7vKGhm+P31O26TWVkYzLJjGQBmskwW7gk8FAAAAABJRU5ErkJggg==" x="476" y="236" width="12" height="11" id="plus_node_240" preserveAspectRatio="none" />
+    <image href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA8AAAAMCAYAAAC9QufkAAABzUlEQVR4nG1Svcu5URi+ngdJFAsGWQyUhUKSlE0ZZTBYyGRUVjEwGRgMFps/gJEyUJQSMhjwUIp8pYR8lPP2nOLnfftddU7n3Oe+7o/r3AzHcfgC4bfpdIrxeAy5XA6HwwGhUAiGYfgnur0h/CZer1ekUimo1WrYbDbM53NkMhlIpVKoVCpEIhFisVg+QSi52+2ScrkMnhyPx6HX63G/31Gr1VCpVCAWi/F8PpFMJkEIgdVq5Stk0Gg04Pf7yWQyIRzH0dXr9YjP5yP5fP5j41e/3ydOp5O0223+DqZYLBI+qtfr/dQ/GAwgk8mg0WggkUi+28R6vUY6nUYul+O1EOJ8Pv9yMJvN+B9WqxUUCgXsdjuGwyFYPsN2u6U9/sXr9aL20WhEfXa7HQqFAhaLBa2M5VXdbDYIhULU+RutVosKeDgcaFaTyYRYLIZmswmDwQCWVy2RSECn0yGbzf77N0JQrVapwm63+9OKQCCAVqulZ+Y9JI/Hg0SjUZxOJyrU5XKBx+PBfr9HOByGSCSitlKpBKVSiUAgwHzI74Sz2QzL5ZL+eb1ex/F4hNPppOROp4NgMAiXy0UT/yX/CvQunw94u91gNBrBsuxnRH8A0HfraUYxIGMAAAAASUVORK5CYII=" x="844" y="202" width="15" height="12" id="plus_node_241" preserveAspectRatio="none" />
+    <image href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA8AAAAMCAYAAAC9QufkAAABtklEQVR4nI2Sv+t5URjH3+d2demKDLLJcBWTAWVRFoPB5A9gslhEXZTJiJGw2AyKLLKJMlD+AIMfd5AymvwonG/nfCM+fb71fdWpc07P+znP+3kO2e12+IAej0e0222cTic8Hg84HA5omoZgMIhoNApRFMkrmDAxpRSLxYIeDgdMp1Ooqgq73Y7xeIzJZIJwOIzr9YrRaIRSqQSz2cy1ZLvdolqtUqvVCpvNhlAoBIPBAJa02WyiXC6/y1qv1+j3+8jn81wsbDYbKooiEokEIpEIFy6XS3S7XcRisU9LcDqdEAQBrVaLWxTv9zskSfoK8vv9fP2GqqqoVCpYrVYQb7cbZFnG/zCbzcD64vP5wOwKiqKwZvFG/YQl7vV6qNVqGAwGvONerxeNRgMejwei0Wgk2WyWplIp6PV6BAKBt3g4HPLyisUiCPk7oZdvi8UCgV0oikJY9kKhwIMZ+/2e7zOZDJ/3i/P5zEclyzLhc36haRrN5XK4XC78bDKZ+Iv1ep3vmedOp4N0Og232/0t/oCyj8M8z+dzXj5L4nK5EI/HodPpuId/ib94Pp80mUzyCiRJen/PP0y7v2UdDx4xAAAAAElFTkSuQmCC" x="932" y="224" width="15" height="12" id="plus_node_242" preserveAspectRatio="none" />
+    <image href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAANCAYAAACgu+4kAAAB5klEQVR4nH1SPcixURi+ntejkFCKRIrJYiHZZWAi5WdUMkhJnjIYjfIzKYtFxGK2mJRFiSxkkMHPQkpCiufrnO99fXzv23vXGe5z7us6133dN7NYLPBTHI9HfrfbQalUQi6Xvz4xrwn7H46/XC4olUo4nU7Q6/VYLpeYTCaUxGQygeM4XiqVPonYL+R4POZbrRbW6zXS6TTMZjMIWaFQQLPZpAREbSqVQi6Xg0Kh4AkJQy6n0ylfq9WQzWbBMAxYlsXtdkMymUQkEoHVan1K7Pf7GAwGSCQSEAgE+CCXvV4P4XAYQqGQgkl0Oh34fD5YLJa3Hu12O7RaLcrlMs0/SN8EdD6f3wo9Hg+cTidV9GYayyIQCGCz2VCf2E8z+Mfjgd+CfCCRSEB8ItMh8gmGIR6QkXEcB4PBgEwm8wZst9uYz+dQq9XUWJvNhtVqhWg0SttkSZFMJkM+n0coFKJOG43GvzPleXS7XRSLRYjF4iepTqejhHSWi3+LxM9mM8TjcbjdbmoUyb1eLw6HAxwOBy263++o1+sQiUQIBoNvBDSu1ytfrVax3+9p8XA4hEajQSwWo6Y1Gg1qrt/vpwK+EXypeU222y1GoxHdRJVKhc9NpAR0D34IMpnnIQpcLhcqlQoBv77hD7BYyoAi6so0AAAAAElFTkSuQmCC" x="777" y="158" width="16" height="13" id="plus_node_243" preserveAspectRatio="none" />
+    <image href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAMCAYAAABWdVznAAAA/klEQVR4nGP8//8/w5MT5/9fW7uD4f/fvwy4AIcAH6NVSSoDy5cXrxkWucQy/P76nYEA+P/u7iMGpk9PX/wnQjEYvL15j4GJAQ2IaCrD2TySogwcgnwo8hgafGe1MfjN7WAQUlNgSD29gUHFwx6/hhWBGQzSZnoMmZe2MZydtYLhyvLN+DVwCvIzcAjyM/x4/4lBQEGagYERVR5DQ/DyCQxnpi9lmKbrySBlrMtgkBiCIs+CrmGhUwzDr09fwOzZ5oEM//6gxg2GBphiEPj74xe6NAOToKIsA7eECIYENiBrbczACEoa7+89+n9312GGf3//4VTMIcDHoBPhwwgAlmFU+3KQNgIAAAAASUVORK5CYII=" x="477" y="486" width="12" height="12" id="plus_node_244" preserveAspectRatio="none" />
+    <image href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAALCAYAAABLcGxfAAAAyklEQVR4nGM8c/3i/5yuKoafv38x4AOqsoqMs6q6GZg2HNhOUDEI3H58///ZG5cYmP78/ctALPj7999/JnwKpEUlGBY1TGLg4eKGizHhUzyrqofh+OUzDF++fcXUoCanzOBu4YCieMuRXQzT1y5CMYgFxvj37y9DRXwOg5yENEOAvSdWxSg23HnygCGrs5Ihyj0Qp2IUG0Dg+oPbDB55UXiDmYmLgxNFAJ9iLg4OBpaM4DjGxy+f/X/57jVOhYyMjAzWeqYMlromjAD7eVGETb60dQAAAABJRU5ErkJggg==" x="478" y="390" width="12" height="11" id="plus_node_245" preserveAspectRatio="none" />
+    <image href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA0AAAAMCAYAAAC5tzfZAAABAUlEQVR4nGP8//8/w82Hdximr130/+fvXwy4ACszC0O8TxiDsYYeIyNIk09R3P9nr18wEALcHFwMB2euY2RiYGD4//7TBwZiwNcf3xh+//nDANKEFwjw8jO4mNmhiOHVJMgnwDC7qpvBUE0bWfg/E7qpTGAXQzTMquxiuHj7GkP3kukohrEgc4qi0hk42NgZupdMY5hW1g7W0DJvAoYLUGzqWDiZQUxIhGFjzwKcGmA2MYLcCeJ8+/GdIauzgsHN3J5hw8EdOP0KtgnmD5hGvBqYGCGa3CzscSpCBg7GVgysLKwM4BTx999fhmv3bjH8+v0b7Eys/mBhYdBSVGUEaQIAtvlXzDknFoYAAAAASUVORK5CYII=" x="979" y="396" width="13" height="12" id="plus_node_246" preserveAspectRatio="none" />
+    <image href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAMCAYAAABr5z2BAAACB0lEQVR4nG1STU8TURQ9bzqd6cw47ZSqtFQwEBNjDSrEENm0MSxoSIiGxI2xuCbwD/gJ/AFjYtINIalfCyMkYOLCEjCBCmpjU1IggGJrJa3lo58z5r2mtRXu4uW9++45995zLwlMBdFgBj1KxQI2V8I4PEhD0VrgutqNfC4Lu6sdgiTTEFIDcI1gCkwmYliceQrNeQnX7w6hUi5hKfQM22vLWH4ZxP5GtJ6IGs9ehmFE3oZQLuZhMgvwPhoDZ+KxH4/SP/jHJ1mwruv4+CII2WqHrbWNkhBKYGyuLqKlrQOdvf31cr7HPiMWXoAvMF73cRyHa75BROaeo+9+gLZnsBaOMgewuzsatWD9ekcnwIuWJr/W6sadkceIzIZYdVy1ewOE1HVhJtvsMAsi/rfd6CcGFOVzKBXyVQ2sF5xIbW+AF0QomqMJcJLLolIqYu/bOlxXPHC0dyK+9B65dJLFc1SIyzf7cJhO4cP0k1MZ1+ZfYefLKrp6+2FRbZCtGm4MDOP4T4ZpwrGhEkJ6hh5AUjWsz7/+l50F8fD4/BAkBaKsMD8dt+Z0sztpXCRd1w26A5mfezDxPARZgXreCVFScMs/wmJ+7STw9d0b3L73EKrjYjNBbaHovPVKGdnkD/ze3UJqK876pUslqTZ0DwzDbJGqxZ9B0ERWuxSOj5BYCcPjHay52Nj+AlKpui19AKjCAAAAAElFTkSuQmCC" x="909" y="395" width="16" height="12" id="plus_node_247" preserveAspectRatio="none" />
+    <image href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA0AAAAMCAYAAAC5tzfZAAAA5ElEQVR4nGP8//8/w+8/f/7vPX2Y4fvPHwy4ADMTE4OVnimjiIAQAwsDA8P/1vkTGDYd2sVACMhJSP9f3T6LkQnEOXfjMgMx4NGLpwxvP77/D9b0//9/vIr5eXjhbJBSsCZ8IC0whmFmZTeKGAshDYEOngyprSUo4ig2JftFMkS5B2JoePLqOW6b9p05yjCrqpvBWt+UQUlaHqsGmE2MMM79Z48Y0tpKGZiZmHFqwOonkMaMjnJ8XoX4SVZcGq8iGODh5GIQ4OFlZATF0YfPnxgWbFn5H28yYmZm8LV1ZdRUUGUAABrmU+tS805uAAAAAElFTkSuQmCC" x="476" y="329" width="13" height="12" id="plus_node_248" preserveAspectRatio="none" />
+    <image href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAALCAYAAABLcGxfAAAAxElEQVR4nGPcfmzf/6pp7QyEgBCfAMPiximMTIfOn2AgBrz79IHh6r2b/5n+//+PVyEzExOcDVKL4GEBhmo6DHumrmLg4eKGizHhUzyhuJmhY+EUhi/fvmJqMNM2ZMgKSUBR3DZ/IsPOEwdQDGKBMe49echQlZDHIC8hw2Cha4xVMYoNbz6+Y0htLWaQEpXAqRjFBhB4/eEdQ2x9Dr5wYGASFRTGqwAZiAgIMbCAPPrn71+G1+/f4FHKyGClZ8JgqK7DCADiDEQukpMonQAAAABJRU5ErkJggg==" x="478" y="422" width="12" height="11" id="plus_node_249" preserveAspectRatio="none" />
+    <image href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAMCAYAAABWdVznAAAA7klEQVR4nGP88/cPQ9v8Sf+PXDjJ8P8/A04gJiTM0JVby8hy6ur5/+sPbGcgBN58fMcwfd2i/0w/fv5kIBb8+PmTgYmQohAnbwYjdV04H6+GOK9QhrTAWLBzsGow0zJAURzjGcyQ3l7K8OjFU7g4C4zBwcbO0JBWwrDx4E6G7z9/wBXff/YYxVa4hh+/fjKktpYwzK7uYWBhZsGqGEUDCDx9/YIhviGPgYWFleH5m5dY/cXCwoKih+H1B4QHMRQzMzMwGanrMuqpaOJUBAOc7BwMEa7+DIz///9nAOFPXz/DkgbWBMLNycnIysLKAABHNlb/b4SvmQAAAABJRU5ErkJggg==" x="477" y="266" width="12" height="12" id="plus_node_250" preserveAspectRatio="none" />
+    <image href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABMAAAASCAYAAAC5DOVpAAACi0lEQVR4nJ2UPUi6URTGj5JBlkGFUkMEQR9aDqHklBlIH0ttDYEQDbUIGg4uubi0CA2NKi3hEgk1iAhSW2oEQYhEH4RSNBRmfmCl7/Pn3sjE6J/1wOXlfS/n9557znMuAaDadXZ2huXlZXR2dkIkEqGlpQUNDQ38OTs7i0AgAEEQvsSJqUovLy9YXV2FTqcjsVhMOzs7lM/nKZvNUrFYpEgkQlqtlpaWlmh6ehq3t7eojq9QC4UCjEYjRkdHcXFxgf/p+fkZi4uL6O7uxuXlJT4YHzCYTCaMjY0hl8uhHgmCAJvNhoGBARbzCQsGg2hvb8f9/T1+o1KpxBOw2+08O57V+Pg4XC4X/qKTkxPemEwmA7q7u+Odenx85KnH43EcHBwglUrVDRwZGYHP5wPt7e1BpVJhZWUFCoUCzc3N6O3thUQiwczMDI6Ojn6EWSwWWK1WiJPJJF1fX9PDwwMDUzqdpqurK5YxaTQampycZDbgtvhOgiBQIBAgcrvd0Ov13/6VHd/hcKC1tRXMW5FIpLLHyrK1tYXGxkYMDw+DwuEwP9ZPYtC1tTXIZDJeo/n5eSiVSj4lU1NTfE/EDCiXy9kIUV9fH/2kTCZDoVCIbm5uqL+/nwwGA6nVavJ4PO8+W1hYgNlsxl+0u7vLJ+Ht7e0dlkgkIJVKEYvFfgVKp9Po6emB1+tlr5+zubGxga6uLpyfn9cFymaz3Oxzc3OVG6QCYx9Y19ra2rC9vY1yufwtKBqNYmhoiBee3Sq1g15ZzMSsBoODg3A6nWBze3x8jMPDQ2xubmJiYoKXZH19ndepOlbEiTV6fX0lv9+P/f19Oj09paenJ2pqaiKlUklGo5FMJpOoo6PjS6v/AbyYqBod6H0eAAAAAElFTkSuQmCC" x="83" y="430" width="19" height="18" id="plus_node_251" preserveAspectRatio="none" />
+    <image href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAOCAYAAAAmL5yKAAACH0lEQVR4nH1TTWsTURQ9bzqJTZNGJ181GqNEW9RRqDEqUhWsiNhSoaKLLKILF27c+Dv8Be5EUCkUtNAqIpKFUcS01qo1kZqikn5Za5qYab5m5sl7cdLYtN7VzJ1zDveec4dEbt3BBkXrnslGIHEtiVKKmeQEZpMfIIgifPs6USkWqNXhhuT1gRBC1hOgaqWM4u8sxh8PYmv7fhw6fwnK8i/Eh+7BYt8Cm+TE1OsoQhfCtEk01aYSGXk+lcDnl8/R6vRAPt0Dx/ad0HUdH6PD6L52E38JWPyewviTQYT6wqsTaKqKZOwZTkVuQBAE3sxnfvIeEzTIrNz+3ZgejeFL/AX2HDnJPCKCWiqixS7VyKzMFitf4eCZvgbTjl28ityPOSylv/LVRUp1kDoyF2i2rOs4I5WUPAKhLqQ/vYPTtwuCqbkFSmYJucV56JraQFpemMX02CukRmNGCpiMjsDuauPfhSZRhNzdi9iD20gn3v9DXslm8ObhXXgCHfAfOMzA8HbIWMllYfd4qwIACDOnK3wdb0cGUFTyxkFwI4/2X4FNcsFUt5ZVcoJNzrOMrF4inZuaRHzoPneeUg1ufztKhTyCPZdhc7hRLiiYePoIrS4P9p442yBQE6K6jkq5hIVUour4zDeIJjN0TePJbG7bZmDJ2lPmTZYKS2KHHKSQq+uMDQ+g81w/RPOmGs7w4H/FQOz8SSB4HIVclr/X/1x/ABhgxYsiCtwWAAAAAElFTkSuQmCC" x="844" y="460" width="16" height="14" id="plus_node_252" preserveAspectRatio="none" />
+    <image href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABMAAAAMCAYAAACA0IaCAAACKElEQVR4nH2S3UtTcRjHP2dnm3NuNa25VsukZaaZKS6pVhCsjIKioBe66Crywvsu/Ce6yougCOpCWAVBWUIgKMHA0slaK99GmzlzLTPNM7fpTpyDm7q0793v9zx8nrev0NrhJSlJbCK54C3wH2k3A8wlppkIDvB97DPppITOYMDmrJGdTW6MW0s3BGsLITOTET687ESnN1BR7+LYtVsUGU1kFiViwx9513kfvcGI6+IN2VRmXQfNwWQ5m2Wgy8uvWJTmyzex2HaRXkwSePuCeHgEi93B4ZZL7G1yE/86Su/jDqrdHpyuE7IgCCpQk+toqPs5GlHkdOsdFaSo78k9zNvKOdvWTsWhJnoe3GV5KUN5ZRUtbe1MjX4i1Nudm0pWYCSiYX7/mKLx3BVWijCfiKPVF1F93IOo0+OoacBxsFEFKNLpi3Bfv00iOk5sJKj+qbCldApR1K3fpkZAltcfU1mFIGhWU0SREksZ0uzMKmzHvhrMVhs+70OWMmk1YC6zIi9nCfW+ISUtEAm8Z3I4gL2qVo0rF/Y9ewSCgPPISfUQworPZKWLEV8PY/19NJ6/ys79dWTSKYI9r4iHhym176bOcwHjFgsTIT/+10854D5D1dFTudXkYflJpLlZBru8zP+cZk99M47aBgwlJlJJiW8hP5GhfszbbWpBBbzWGoWwvN/SyQWiwUFiXwKkFv6gKzaq3VY2NKMvLtnQtBvB/gGvzd8sUfn/C/SQ2XSl+Bm3AAAAAElFTkSuQmCC" x="798" y="330" width="19" height="12" id="plus_node_253" preserveAspectRatio="none" />
+    <image href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABMAAAASCAYAAAC5DOVpAAACWElEQVR4nJ1Uv0uyURQ+r7wtaRYiNKg1iUjU0CBhvpqDSw0J0SBoIrTnrIvgJC1R/gFODoqI1hCCuiklQUJLQYo0hAgZhpVgPh/3jd4vP6svfODeyz0/Hu4595xDAOjfVa1WaXd3F7OzsyAicBwHnuehUCiwubmJ09NTDAaDET8ZfcLr6yvt7e3BbDZjYmKCUqkUvby8EHNkZ7lcpuXlZfJ6vbS+vo77+/vP7iSxdrtdstvtWFlZwe3tLX7C4+MjPB4P5ufnUa/X8cEhkblcLthsNnS7XfwGg8EAfr8fRqOR+fwlOzk5gVqtRrPZ/NKRBZDJZEbk/X4fq6urCAQC72ZsY4KDg4NvX8HIksnkl7qzszNMTU3h6emJ6O7uTvypdrs9FhnD4uIiEokEZJVKhZaWlmhmZobGhdVqpfPzc5JFo1HSarVDymw2SxzHSYthe3tbuvt8viH7ubk5YmXCb2xsUKFQGFLqdDoyGAzS/fr6Wjw/ZBaLZci+3+8Tz/NEuVwOer0eP+F/OdvZ2UEoFILMZDJRo9GgWq02Vr7e3t4on8+TIAgkm56e5pxOJx0dHY1FlkqlxBBtNhsn1tnV1RVNTk7i4uLi2zBLpdKI/OHhAVqtFrFYDEPttL+/TxqNBjc3N/gNOp0OBEHA1taWNEEkMiYIBoOkUqkQj8fF3vsO5XJZ7Ek2OZ6fnyWOkZmUTqfFFzLjcDgszq5KpYJisYjDw0Osra1BLpcjEomIJfHZl3tPyTB6vR5LLI6Pj+ny8pJarRYplUpaWFggh8NBbrebU6lUI7/xByCm5T34mIn2AAAAAElFTkSuQmCC" x="122" y="430" width="19" height="18" id="plus_node_254" preserveAspectRatio="none" />
+    <image href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABEAAAAPCAYAAAACsSQRAAACJUlEQVR4nH1STWsTURQ9M5mZJpOOSdM0alLTolSLiVat2C60BiELvygUEYQW3UnrD/AnuHDvQl0IbooogmBFLJqF1iJIrTUajUL6kZRpaNoxadIm7Tx5TzLJ1MEDb/Huuffcd+953NDtB7AAsQoC4KyCglUx0XUspZKorJfg2hWA4mmxEuesRFhCdvYn4rEX8O8Pw96oYGrsMTQ1DdntgdLsw7HzlyGIUjWfq4oQQghmxp+hkMvSC/oGh8HbBKQTn+E/EGZ3ilx6FhOj93BqcAQcV5uMvST+5jma/EEcjvYbxEpmHvHYGKLXbxoxT6CNneRkDB29ESrEXsNTclVNY0/oaG0uXUd+WUXPwFVTR4pQ5Bw2K2WkpiaNGBOhI9BCY2M8j+Ch43D5dpsEdF3H+loenSejWEhMm8ex2QSUS0WIDhk8z/9TSPQtaGoGincnFr5+wsZawdSUVdBdvBu9iw9PH25zHHj/6D4Sb8dR1FaY5R09pyG7m+pTCBNp9LSgb+gG1F/fUMxrBlsq/AbH2xCKnEXrwSOQXX+Lm1v3QnI4TePQzRFBakDvpWt4decWvG37oG9tQrTLaO86gbkvHxEMd7OC/PISpl8+QffFK8YKubpvzz5bpbyBxe8zlEI2lUQuMwd5hxuBzi7mYklbRfjMBShen6WISawe1BFqNS+IEKWGeor5b7aiRlQPg92pMJEfE6+35xg7+R+qiURyODm6YCv8AWA1v52yxTmXAAAAAElFTkSuQmCC" x="909" y="135" width="17" height="15" id="plus_node_255" preserveAspectRatio="none" />
+    <image href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAMCAYAAABr5z2BAAACDklEQVR4nG2SzW8SURTFz+NjgKEyFBWhU0StTQu0mDZqoiFpo5hYY6prk8atG/0PXLqqWxdGE01cuPCj27bRLqxKNGlSo0mVNlhLRKXgAC1QYOY9815DhepZvEnm3fO7d+4cMjH5ELvE+KH9SCO3loLV7oDaHwUhBGarxJ+ktdiy26g36ng/9QhOtwf+3gg2tRym79yCVbLBvkdBz/EYC0SGeClpBbDs6jI+z8+CUopofBweNQjDMJBaeIOx6zdhsUpgjOHDzHOAMQQGhnlDwgGsUtSQTMwhduUaTGazIG5tlrA4M4VONSjMoiUhGIxfwsv7t+Hy+qF4/czELzbyWXgP9+2YuaobRURGL+DI8Om2BZktFoxevYHF6Wdo1Gvbn0BMJlC90VbY6Q/gf+LN+GKD0RP4tbIEPgGxOZwoF/Jo1Lb+MTBKxfvs1yRK6z9BDR3Jt3PIpVOQZKcAQDnQBZvcgRf3JqHX2yH576t4/fguqGEIkOLtwmB8HJkvH7HvYM82gE8xcOYiusNDSDz5mwu+9eV3r3Dy8gR8R0PY231oZ5kdnv3iP5LWIDFKWeLpA2iZNGTFDarrUEPHUK9WEBo5L7LAp1ian4Vkd6A/dq4d0ORUSgWUC7+h16pY+7SAarEAxacK0/q3FfSdOgtfb1hM0prEpojsckN2uUUyeRq5yloexWwG4ZExYWzW/gELpsKNyG5UfAAAAABJRU5ErkJggg==" x="777" y="417" width="16" height="12" id="plus_node_256" preserveAspectRatio="none" />
+    <image href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABEAAAANCAYAAABPeYUaAAACCklEQVR4nH2S70tTURjHv/fu3t3JlJBmTEmLVf5I3aRIiYQ03EoG5fJFb1L6f3of+K4XRQiKRMUkCUlWSbXuSFFBsB9zk4Xb7uTu991OnBO7u5eNHjiHe8/znM/5fp9zuLnHT9EkSEUrA+BgEQTjOtes2FhB6JSK/8buxiosgpUtZpUkCuoJ2hxODE5Mk9NnzzcAGYQQQvY315FJHKGYVzE68xDWFjtie9+hJv/gwuhNcByHLy+fI5tOomf4qn4ohfH0JxJcgmRvg+f2DMZmHzFAVklhL7SGvhtTEESR2Rq7P4+fkU2UCnmTdZ4QgmwmjXPua2yzaJWgpo8R3Q5jYNxn8k7VXJ6YxocXCygbQDxNVCuaqbi13YH+cS+6+ocbmujodsHjC2A3tFaHUCUU9L8g5J99JRGDvLqMaqWCYk41K6Gdl4PLSMejDYDw60VsvXuF7fU3ONXRiRFfAHJwCc6LA3UIter23oMoSYi8XTEBlEScneieuouhST84nmfjjKsP1bJmgoDneQxO+qGVCth49gSp2C8cfPuIg68hjNyZxclxQt+glYpQjqJwXqor4Qwvlhnf//we0a0wBMmGUj6HXCaFK/4HcPS4cLgTweGODI83gPaubp1hhJh6WfugV/lD/gTBaoNkb0Vn7xBTXgPodpoETbIh2lq43uu3UC4WwFssFKDnatV/AXsSvpMuWEjsAAAAAElFTkSuQmCC" x="932" y="482" width="17" height="13" id="plus_node_257" preserveAspectRatio="none" />
+    <image href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABMAAAAMCAYAAACA0IaCAAACNUlEQVR4nH2T309SYRjHv+85ICRIyo90oDkZS7KlM6WGa7nazC6aOLe2Mm/srrtu+xPa2rrqos2r7Ne4weVqLVdbbUUpklRq06kIiGiShMSPw+GcxoscqbDn7n3e5/08v74vGb7zADzPo4yJ2N9IOadsPwiX+oXQvA9bq0vguQwUKjVM1jbUmptBGEYsB/0bJv7cXIf3uROZxA7qj7Wjqd0OWYUC6UQcft8kPOOPYT7RBevpHjAs+wdUggm5nOibGMPG0jd09l2BvsEMLp3Cgvs1YpE1WtHJ/iHkcjzm37zAxL1bsF+6Bo2hrtgNYYoVTY8/ofjz129SkCAIeDVyGywrQ0v3BWyHA/joug95hQKtPQ7YHFfxdvQuoiG/1FYeJga+TIPPZtDWOwCGKfAji3MUevRML7TGw7D1DyER/Y5UPEbvtaZGnB2+gUnXaNEn0pfxrQh09U0gZG+e2XQSSlXV3voIgaJShWwmLflUNTqoa/SIbaxJlZEj9nNYmfmA1c9TUqCx+TiWvW5sh4P0HPzqRTIeQ5W+tpCMy2Bq7CEqq7Wos7QUEu7qTORSSbx3jkCuUKLj4mUo1Rr8CAfgfeZEaieGg4eMsPUN4oCmGusLs/A8fQTLqW661d2OSBEm6Ss0NwPfSxd0DWaYO7pgaLTQYD7LITjrxbLnHViZHJ2OQdpiqTRKYZLWREHApn8RK5/ciAYL22JYFiZrK02g1hpK46VBl/sBhDBMXldiXlv/sX++1G+kRddOFVEoyQAAAABJRU5ErkJggg==" x="886" y="94" width="19" height="12" id="plus_node_258" preserveAspectRatio="none" />
+    <image href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABEAAAAMCAYAAACEJVa/AAACGUlEQVR4nHWSS09TURSFv3vb2hb6ALEI0SrVgAaqIDdGUEN8kEC0hBhDxKgDnTj0LzjWkQ6dlDhREwwDTSQ4kAgRlVShsRRDeRcrNqClhba25Zp7y0Ow7tk++5wva6+zhBv3O9hWMrlL+M852u2PE8tRgr7PhMZ8JFdi6PRGbGXlHJBOyoZ8c07YOkSOLobxvHhKcjmK3SlxtLEVvclMKhEnNDZCb8dD8qyFSK4rcn5B0RaYApF9va+Y8Q4itbRT7Kggk07jf9tNKDCC1VaK85yLirozzI+P8sb9gMqGZhy19bIgCCpION56TV4ITlHfdhNRkxXW/+QRpsIiDp1qJDwdYKj7ORfu3EWr26EqG+h0s3PPfpxnL6oMceaLh/q2WxuARGyJlcgiNc2XMZqt7HNKlFWfIDgypM51BiOnr95mYXaSuVGvaoWozzMhiOKmu6uriBrNFuNErRY5k9nsNRpVyc/QbLa3FpfyvtNNJp1SD4yWArQ6Pf6+HlYzGeYnvjI+2Mfeyhp1rtxT1ov8+EZlQ5O6jnD9nlse7X/N5KcBxXl2HzxM6ncSb08X3wN+LLtKqG66hMVWQngqwIeux9irajlyvkVRlDV2LWzy8q8FPC+fEY9GcNTUYa86hsFkIZWME/QPM+F5p64hudpR1P/9xeuQDUvisSWmhz8y5x9Wg6fTGygtr1LCxlo+/gncdsiW9OaonNH/A1fxxG3OCuj7AAAAAElFTkSuQmCC" x="888" y="352" width="17" height="12" id="plus_node_259" preserveAspectRatio="none" />
+    <image href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABMAAAATCAYAAAByUDbMAAACcklEQVR4nJ1Uz0tqURCea4+UCA2jiCxwYYgESmCLaGHQQkQU0424aBmE/4C4atdWwYUJ7jSiRYtEKFuIEAgKLRJBS3AVpFAUmEj++B5zo8iu70V9MOfOnTvznTlzZ44AgL6CbcViEblcjmKxGBkMBlpeXiaz2UxWq1WYnJykUZB9NZyensJoNMJms1GhUCCv10urq6v09PREe3t7ND8/j0AggFarRSOzYOl2u9jZ2cH09DQODg7Q6XQwCsViERsbG9DpdKhWqx/x4gl5GQwG2N7eFjO6u7vDd+j3+wgGg5ibm0O9Xh8mi8fjWFhYQKPRkASenZ1hd3dXYh8MBvD7/VhfX2fyN7J2u42ZmRmkUqmRWdjtdv5DI7+1221otVocHR3xK1EikRCPxzv9lIwRDodhsVhYJVkmkyG3202CINBv4PF46PLykl5eXvCnXC7T1tbWkMP19TXd39+LejqdFp+86Ts2NzdpbGxM1DUaDU1NTdHV1RVxQ+Li4gKfwcf6nzw8PAz5Ly4uiqWSqVQqenx8HNl7LHa7XWJTq9VDvtzQiUSCZCaTiUeHfovb21tueNLr9YLM4XAIx8fH1Ov1fkWWTCZ5Xml8fJxEkqWlJUSjUfy0NZrNJtRqNbLZ7FupeclkMlAqlSiVSpKAarWKk5MTif319ZUvA3i9XpHog4xlf38fs7OzyOfz+A7Pz89wuVxYWVkBF19CxhKJRDAxMSHOXK1Wk5C0Wi3wHHMrWK1WcBdIbo3PUqlUyOfzQS6Xg2vpdDrhdruxtrYGhUIBk8mEZDLJ4yeJlRjehdM/Pz+nUCgEs9mMw8NDurm5+ac/k/0FExMgI6OD6AYAAAAASUVORK5CYII=" x="121" y="294" width="19" height="19" id="plus_node_260" preserveAspectRatio="none" />
+    <image href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABMAAAASCAYAAAC5DOVpAAACYklEQVR4nIWUP0g6YRjHH7U863CyQWiQJJKgpXTQRYXAMcuxP+heCIEStLgISY4NIjgU5dCWbg0i6iQuYZsH0REk2hZBZXTfH+/7437c2fnrA8c97937fu7hfe95TABonKenJ1xdXVGz2aSHhwdSFIXm5+cpEAjQzs6OaWVlhQxhMvV6e3tDMpmEIAiIRqMoFAqo1Wqo1+s4Pz9HPB7H7OwsYrEY+v2+bi1PSg0GgwGWl5cRCoXQ6/UwieFwiN3dXczNzeH+/h4/ZB8fH1hbW8PMzAxyuRx+o1qtwmq1cuHz87Nelslk4PP50Ol04HA4kM/n/ysSRRE3NzfY29vD1taW+oro9fUVdrsd7XabP7m7u5so1IoYLy8vfNztdtmQ6PLyEl6vF1qMhJVKRSdSSSQSODo64jHt7+8jlUphHK1QFbH7OBcXFwgGgzymzc1NnJ2dwQgmZFswPT1tKGI0Gg243W4em81mM/8pjZBlmb6+vshms1Gv1zOc8/39TczBmFpYWDCcWK1WaXt7m66vr8nlctH6+jo/+XQ6rZvH1rrd7r8Dlv7i4iIURYGK0R6pe3h6egot7NfIZrM8ps/PT3I6nfzYJ4kmCSVJ4qUnyzJ38dSLxSJcLhfK5fJE0bjw5OQE4XAYBwcHXPRPxg6AFTb7ChP+RqfT4aXn8XjAmsOPQn9/f+dCliHLTLuHWlilsNJbXV0Faw7aQjdp+xmLS6USMpkMiaJIkUiElpaWyGKx0OPjI9XrdZIkiQ4PD+n4+NgkCILuZHUyldFoRLe3t2i1Wrrm6Pf7aWNjw2S32w2b4x92rEvldOthFwAAAABJRU5ErkJggg==" x="459" y="148" width="19" height="18" id="plus_node_261" preserveAspectRatio="none" />
+    <image href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABIAAAARCAYAAADQWvz5AAACUklEQVR4nH2TzUtyQRTGpxcFsTQ0jPJjU7skDatVkG1SciNuLi4S3PgXRAkiblxq/gOCi1wURMtqoSCBLWpbkgtRN4oXFwqFH334xJnQ1zev7wNzuTN35nfnnPOcGQBsXIPBgOVyOWQyGfby8sL6/T7TarVsc3OTeTyemZWVFSalP+OT29tbrK2twefzsVarxRwOBxMEgVksFnZ3d8fomyAIqNVq//6dRDeiWxwdHWF+fh7JZBLv7++QUr1eh9/vh0ajQT6fpyV+nkdFj2g0CoVCgUAggMFggP9JFEUsLy9DqVTi6elpBGOPj4+YnZ3Fzc0NTCYTTk5OpsJEUYTZbKbQEQ6HsbGxgY+PDw5jBwcHiEQifGOpVILRaEQwGJyAiWOQz89P9Pt9rK6u4uLi4gckl8vRaDRGB6Rg4i/IUKenp3A6nfydyjoRAsGGYTYaDUkI6fn5GXNzc/j6+gLzer2S+SCYXq/HwsICDg8PJyCkXq9HNkCz2QTb29ub2NDpdLC/v4/d3V1ks1mo1Wpui9+qVquQyWQ8X4wqRgelIG9vb3zt/v5eEpZOp7G1tfWTo/X1daRSqamQoX7DqBB2ux3xeJymjJ2fn8NgMHDbT4NIwS4vL6HT6dBut+nTT5O63W4sLi5iZ2dnKgRjMEoHjaurKw4Ztcjr6yuz2WwgKxSLxakQCufs7IxDYrHYcPkviAaV8vj4mPccdTg5tlAooFKp4OHhAYlEAlarlZv1+vp6BJgADUe5XEYoFML29jZUKhXI+UtLS3C5XLwo3W53AkKgb51VWTDeNQT/AAAAAElFTkSuQmCC" x="318" y="121" width="18" height="17" id="plus_node_262" preserveAspectRatio="none" />
+    <image href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABUAAAAUCAYAAABiS3YzAAACn0lEQVR4nKWUPUhyURzG/9csQeyDXEKnyCQQQZwEG0yUNqvJwcmllkbDXRxtDEEaaklbnNQpSBwiMNAg+gQVxKEgaEjz4+oT5/jqmx833rceONzDPfx/9/zvec4jAKBx+vj4oEQiQZlMBufn5ySKIul0OjIYDORwOAS73U4TExNja4VhaLPZpP39fYRCIVpYWKD19XUOUiqV9Pb2Rvl8npLJJE1NTVEgECCPxyMIgjBIBdAf5XKZzGYzTCYT0uk0Op0OxkkURUSjUWi1WmxtbaFarQ5wqDepVCq0uLiInZ0dNBoN/IteX19ht9ths9nAftcAVBRFWl1dhdfrldydlKrVKiwWC3Z3dzEAPTw8hE6nQ61Ww09UKBSgUqmQzWY5mDqdDun1epycnEgW3d3dYWVl5Vvw3t4e3G53F3p1dYW5uTnU63XJAnYo3TOV1v39PRQKBeuWZJeXl2S1WkmhUNBvpNfraX5+nnK5HMmLxSI39bCYvR4eHvg8lUrx59nZWX/dYrGQSqX6a3hBoOXlZSoWi5Czk2dGHpbL5eJG/yqn09mfx2IxcrvdA+uTk5PcSTK1Wk3Pz88jUNZGzyLRaJS/+2rwYSDTy8sLsYsgM5lMQjabpd/q/f2dbm9vaWNjg2Q2m41KpRLd3Nz8ChqPx3lGaLXabkvb29vweDySdqlUKvD7/ZLrrVYLRqMR4XC469M/9x6zs7NIJBL4iYLBIAwGA8sMGgiU09NTzMzM4OLi4r+Ax8fHmJ6eBnPKSEoBoEgkwu/wwcEB2u32tzAWJD6fj28knU6Pj77eYDm6tLTE22Hwp6en/geazSaur68RCASg0WhgtVrx+Pg4whh5wUa9XqejoyNaW1vj95kNlg9yuZzvbHNzEyz92+322PpPFfCnF5+FOtsAAAAASUVORK5CYII=" x="121" y="145" width="21" height="20" id="plus_node_263" preserveAspectRatio="none" />
+    <image href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABMAAAARCAYAAAA/mJfHAAACrElEQVR4nH1UP0h6URQ+7yWpKZJGLRU4RBDZZqJWkCBYilBLEATR0CJujtHgEkSjQU3i4hQkZkMtuQgNDvaPxlwsiobSsjTS78e5P3w/H9nvg/veu/ee9533zvfdIwGgdvD8/PycMpkMrq+vqVwuk9FoJJvNRvPz8zQ7O0uyLEvUAVI7WT6fp1AohLu7O1pcXCS73U5ms5kqlQoVCgVKpVJksVhod3eXPB7PT0Im47G/v089PT3Y2trCx8cHOqFeryMWi8FoNCIajbaWFQ5xOTg4IK1Wi7GxMby8vOB/qFarcDqd0Ov12NvbUxHS9vY2TU1NodlsCiKHw4FgMIharaYi+f7+xurqqkj48PAg1hYWFhCJRBRCGh0dxeHhofLS6+uryOz3+/H5+akQraysYHx8HI+Pj0psLpdDX1+f2C8Wi2Bl8P7+rvqKcrkMt9uNubk5vL29YXl5GRMTE3h6elLFNRoNmEwmXF5eIpvNQh4cHCSDwaASxWQy0cnJiVBxZGSEbm5u6OzsjAYGBlRxsiyL/WKx2JrLnSxDOp2O+vv7qVqtUm9vLyvdMa6rq4uazeZfsvv7e6rX66qAr68vWlpaolKpRLe3t6TRaCgQCAjidnDR2ZPDw8M8lWhoaAinp6dKHVhFVnNyclKxCdvB6/ViZmZG1LCFQqEgPMf+45LQxsYGAoGA2GT1+JnVZFXbwUb2+XxgG1UqFbG2traG9fX1f9Z4fn4mljeZTAr1WEVWsxM4md/vh8vlwvHxsfgqtoTqBKTTaXR3d8NmsylZf0OtVsP09DT4xMTjcYVIIeORSCTAZ3Nzc/NXQv7VnZ0dEcf3diIeqq5xdXWFcDhMFxcXFAwGf3SNo6Mjslqtomu4XK4fXUNF1gKrlMlkmFwQtfczp9MpSVLHdkZ/AF8ewNeNfjN2AAAAAElFTkSuQmCC" x="569" y="126" width="19" height="17" id="plus_node_264" preserveAspectRatio="none" />
+    <image href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAMCAYAAABWdVznAAAA1UlEQVR4nGN0iAj6L87LzxCga8DAyMjIgAv8+PGT4ScfHyOLtog4Q4CjI4OZqjpeDV+/fWPYfPHSfxY1IVEGczUNBmIBE9EqqaLh/ssXDJce3CdOw+8/fxhqli1imLR1E8Ofv38Ja2BlYWEIsrBmePnhPcPui+eJc5K3iSmDIA8Pw4rDBxl+/v5NWAMHKxtDuLUdw7svnxkOXLmEVQMLiLj94AE80pSFRBjibBwYFAWEGO48fAhX+O37d4b///8zMG7evPk/SDG+WAaBf//+MTAxMTEAAHeYQzDgPNqnAAAAAElFTkSuQmCC" x="231" y="486" width="12" height="12" id="plus_node_265" preserveAspectRatio="none" />
+    <image href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABcAAAAWCAYAAAArdgcFAAACdElEQVR4nLWU3UtTcRjHv2fb2dmLurdcbnOtMlvTuVAqSASHeZESVjddBNFFEBHUfxB001VddOOFFBR00UWlNwUq5UWrpEIwEiy1ZUpWc2tvzr2dl/j9AnVO25buC4dz+PGcz+/h+T7Pw1zu6wcACdus3ounGQUBCzyPVCq1LVCO46BgWfpN4FSiKG4LXJJWiyBDGaUoFBD+MY/gnB+sSg3bAQ8YhoGcVdL3f8P5bAbvBh5AqzfCUt+IpXAQg703wCo5qCp1qDvUBntjc2nwwOw0PvmGqQeezh4YbQ4IggD/2Gt0XbkGBaukdf0w1E8KDLu7pTj4cjSMqdERtJ29BJlcTs9SSzGMDw3AYHNQMBEpSVPnSby4ewtVZgt0Zst6LpNnaDwUgHmPcwVMlIxH0ejtxt6W1py/5QoFvOevYnzwCbKZ9IaZ58AZmQwin80JMFjsqDRVg+VUWJ+IKApweA7j18xkYTin1iIRCSGbzh8oSRTpeeDrFGKLPyEKPKbejCA474dSo80Lz4PrdlrBaSrw/M5N8JncC0LfZ/HqYR9EQaCX6MxWNHX2YOHzR+zYVVc4cyJ3xwnUNjRj9NH91TQkCdNvX+LIqXOo2eeCqXb3irEVxuq/7hXb525vN0Yf38Oz29eh0ekh8jxsroP48t4HV/tx2usk+0nfMKz73dSrouGMTIbWMxewHIsgEfkNPp3E3MQYktEIJkaeQqlSY/HbDJxHj6GmvmGTvCH9c/w1VXr6EJEpJUqEQ4gGFtDQ3lVwBZS8uLQGE+KhRfCb9HZJi2sjOVs7UIzKv3IZskbXjDy2oLU+UDjZJRpt3pRtWWUtyx9dz8/z22jmTwAAAABJRU5ErkJggg==" x="775" y="413" width="23" height="22" id="plus_node_266" preserveAspectRatio="none" />
+    <image href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABcAAAAWCAYAAAArdgcFAAAChklEQVR4nOWU7UtTcRTHv/feuWctN82nWbgk5yJNzWySmYXZi1ATgqL1HIEFPdCr/oSgXvpCGARJT75ISYxAlIpMU7fUcpbinDp1PuGay213dzPuzxqNVCrci+jA73J+38P9nN859/wudbn66RLCYFWXjlIC3vGxLPyBwLpAxWLxD3eJwDmOI2ud4aARRqP/WbhgrSDr/gpbfw9mR4bAsV6IZHIkaTIRp04DRdN/B/8yPQnT81p4XQtQbc9CSpYOAqEIHpcT1p4OdDU8gjo7H5q9xaAZ5vfgAb8fPU31mBr6hF2lJxCTrAbrcWOgrQUO+zg58e5yPfx+Dv2vXqCp+jZ0x84jKjZ+RXhIbcaGx6AAHKq8RcCBQADNhjtgGAG0hYcxPzGKd3X3ESEUIaO4DLllJ/G6pgpzNuva8NEPRnA+LzJLKkB/76d90EySpO8rgSJxM3LL9XDNzcDtdJC4ImkLis5dR0ddTVBbEe6ctUOpSgFF8WdfNp9nEWJZZHDPx0RSGXxeT1CTRSshj46BY2p8dfg23QEMd7djpLczGExM2wGLqQ3zE2NkP/bRhEWnA5ExccvJWS866x9AulGB+FTt6h9UKJag6Ow1vK01wGZ+j5wjxyGWR6FAXwlj4xO4FxzYsCkRhaeukAomB/rQ9ewhUvMKydT8XPEvcJJAIsX+M1dhM3ej2XAXymQ11Dn5OHjxJnmZ87EY6zPB0tUKRhCBogs3SEv+aM5V2p1I0mRg2joIi7GVlE56yDBEz6s4DbkidlXomnDe+BvIzzW//r8fFx1OuIB/SCSS8MDf1N4jztbsPUhITQ8Jfm5/iZnR4RBNW1AMRYIqROttaYRzdjpEs5fqqG/Q3dZrpMYeHwAAAABJRU5ErkJggg==" x="885" y="89" width="23" height="22" id="plus_node_267" preserveAspectRatio="none" />
+    <image href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABYAAAAYCAYAAAD+vg1LAAAAP0lEQVR4nGPMmrnuPwN1AePUtEAGJgbqg/8gghYGg8GowTDwf8i5mGHUYDgYNRgORg2Gg1GD4WDUYDiglcGMAIMqBiyfKd3dAAAAAElFTkSuQmCC" x="974" y="167" width="22" height="24" id="plus_node_268" preserveAspectRatio="none" />
+    <image href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABYAAAAXCAYAAAAP6L+eAAACaElEQVR4nN2V3UtTYRyAn+PZOR43V9PSZa2SpplmpvhBtYTAMgqKgj7ooquoi9134T/RVV0IRVAXgpUEZQmBoASC5QdrrfxIcubMtcw0N3f2ceIstDRbCPOiHnjfmxee3wfv730FZ2MLgEZqEQy6NB6LoapqSoySJCEaDJouJq5pRCKRlIhFUUQE0lgj0v45sSHZ4UxgkjF3Dx+H36CGgkiKgtVejL3SgXF91urFU+OjvHzUhCQrbCurYv+5S6QbM4nMB/ENvOJ5UyOyYqTq5AUys3P+LtbicXpam/ni81Jz+iIW6xbU+RCuZw/xjwxiybOxt/4UOyod+N8P0XHnBkWOOuxVBxEE4c897m97QJoocvjK1YRUp/PudcwbcjnqbGDbnkrab14jFo2Qm19IvbOBiaHXeDrafst4URzwjvD10wQVx84sRp8N+DHI6RQdqEOUZGzF5dh2VyRkOpKcjuP8ZQLed/gG3SuLo2oYUZSWhRXQtKXTrrdLEH4WqldosmQTnJ5aWbypoBhzjpWu5ltEIz/G25ydgxaL4+l4Sjg4x6jrBeMDLvIKSxLn+k3pun8bBAF7de0SseBsbNGi0SihYDCR3WBXO8PdnVQcP8vmnaVE1DDu9sf4RwbIyttKad0JjOssjHn66Htyj12OIxTuO7TYPkVRkGR5qXiB4Mw0va3NzH6eZHtZDbaSchRTJuFQkA+ePkb7uzFvtCaC60F+Jal4ATU0h9fdi++ti/DcN6QMY6KK/PIa5AwTK7EgTjp5coaJguraxPr/H6G0tRIbEpsoYjabUy/WL3iqEZaP7Cp+7KTZfAdg3OUfGXYv4AAAAABJRU5ErkJggg==" x="797" y="325" width="22" height="23" id="plus_node_269" preserveAspectRatio="none" />
+    <image href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABYAAAAWCAYAAADEtGw7AAACl0lEQVR4nNWUXUhTYRjH/2fn7MtNt5KZkqZWE5mm1i7yIyRLmMQiLCyLbgxRsptu67Kgm7op8SKi7NI+iYo0lZIUi2Q4pX2UzkpX00TTfc9zthPnFdTl+qIJ9YcX3vM8D7/3PM/7PC/VdPU+jzirpaGaYjiWBcuycQFKZTKIRCJhyzMRngfHcfEB88vJE/xa6P8DMz9yBH0eOC2DcI1YEPJ7IZbKocnSYrO+FDJF4p+DPbPTMD1qQ8jnQUa+HgWVByBVJoINBuAasaLn5hUkqNZBbzwChTr598CWnnaMDw9Av78WKdk5CHMcbC864Bq1QqVJQ/4eI3KKd2PKYcfz1svQlVche0cJKIr6nkst1dje14W5SScMp84SqKCXd26AWwhh19FGpGp16L52ERy7gA1bcmE4eQZOmxmWnicx/5iA3dOTGH9jQknNCYjoxSSCXjf887MoqjoEeaIKm/L1yCrcCafVTPximZwcODPxHp/sw7HBwuVIE5SgFqeGiI9EIKLp6GCGAR8OL3/TNNZvzMRX10RssCZzK1QpaXh1txVhbnG85UlqMGIpbL2diITDmBp7C8dAL9J1RcQvxJk77mH+y2foyg2xwYIKDQehTk3H05YL5HIElR1rJOVobz6Hd/3PUFF3mpRg+sMo2pvPgxLRKD1cv1S+FeKp+uY2PhQMLll8czMwPb6FgGce2UXFyMjbDpkyCWwoAKdtCGOmflICvbGWZLlSCoWC+Foaqlf3sUKdjPLjTQh43fg49Br9t6+TYRFLZUjT5qGkpu6n/fvLyZMrk5BbVknWv/RWUGv7CFGrR/JvxTMSiQTCirMoZrDzQZSlYK8R9Iq+FCbQ3P0wKoYRS7CtYl+ULeT3wdrXRfaX3A58AySG6Nyun3OmAAAAAElFTkSuQmCC" x="886" y="347" width="22" height="22" id="plus_node_270" preserveAspectRatio="none" />
+    <image href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABYAAAAWCAYAAADEtGw7AAACkElEQVR4nLVUS0hUURj+zpkzd+be28zcUdPxWQ6RZPTQQjJSkRYjQmRCi0xrEWJi6za1at/C2kQQzKYCM1tID6xokaKBmlZDovhAM9FMNB/pjHNPzIHU62NmjPzgLM7/f+f7//Pxn0OyPOfw7Ws3xxrkXaiEy52xNoS33jtkanTYEPNUXYc9Lt4Qa6y9hXjZBHKl9hEP+P2GJKEUhBBDTA8GsR7UZDLsrbJMwDnuVpaAhQQM7QLguo5oEFxfjHMeKsYYA8UOgW2VCPiXMNDejLmpSahaDBIzDmFxdgbOxFRIshJRmG4mON7fg5bH96G5UnCwsBjB5QBa6x5gqKsNbU+9GOvzRd8x5xydz+uw7F+EySwhv7wa1MQw1usTuaKaG4Kn6zo+1Huh2J1wJCRFFh7oaEFMUhrSs3NXkqM9n9DT/BoFFTWrV6QUBwo86Hz5BDklFcKmsFbMT0/BmZxmSIb8zL90DcxiNcS1hGScKL2Mzhd14jZhhcH5htlVHE6YJcuGQyO+j0LQouxCYGkxvBX23S5MDPWBSRaoWqyB9Ht2BsGAP/RCkbgvE7Gp6ehtfYfZyXHBD9vxniM5mJucwPuH9zaQupoaMPy5A+7sXFhtDih2DYdPn8HCr2nheVhhQgiyis9Dtmnobnq22q04zJBZUARJVmFR1JWx1FzJm4oarPiLvPJqMcONt2/CxBgkRYUtzoWuVw04WlQqOD+G+/HlTSOOny1D1MKUUuRdvCrmVQ8uY2b8O36ODGJisBdt9V7xWGSbA6fKqmC2ytELry1AqYTYlL1i7c8txNLCPPrbm5GZ70EkbOsTsigqrKotKu62fzf3sZM7IxwtGAjZchbx7yBMkiSE1v/GTlghPpw/L+fSQWcFagEAAAAASUVORK5CYII=" x="908" y="391" width="22" height="22" id="plus_node_271" preserveAspectRatio="none" />
+    <image href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABcAAAAXCAYAAADgKtSgAAACcElEQVR4nM2V72sScRzH33eeptO00+lmOQvLQV3BMmvEKGg9iBYbOOqBD1oPgoLoSdC/EP0FEXsaRIxGLdgWNcIHWUT71dYPjXKMsLW11qbpPPW8b9zJxEOZWga94Y773vdzr++Pz/v7OYoQghpFNumjFI0r/Q9qplejW5d8FCM9CNkseJ5HPaTV6cAwMpbk74TIV71F4x+K2ayTEIKv4RkshN+CZhg49rYhy6egN1vB2h2gKKp2uJDNgP8Vw/ToIJrd+3Dw9Fkk135i/NFd6IzbYGAt+PQqAG+PHypGXT18MRLCxxfPsNViA3eiC+YdOyGKIt4FhtF58VoBtvwlgunHg/B2+6uD5wQB4eAYjp+/CprOpyOx+kN+Jw1WPEurczfmJoL4PP4cew4fK8emFAkV0jwajGwBLEmj08vbcuBkd8nX7b0XEP/+DSvR+XLwvBULLSKCKgLLcK2u7JIlYDqZgMvbgeiHN7A4dpXEKEhqbQOSqyuILy9CzAklwWtLC5ibfInIRLDglveBERgbm8pOQAFXMQy4zjMI3utHNDSrCFyPreL1wzuwuVrh3H8ItIqBvZXDejwGo81eGb6RqA7/ZUyNDIBPJgp+l5J6xNcHA9sIddFW6VmLvOKqfW6yNqO9tw9Pb9+UHUJIDlanG7NjQ/B0nYPBbEUmlcTMkyGY7S3Qm9jq4ZLsbg4912+AiCKymTSWIiHZGVOj98GoNRBzOdlBpqbt+KPjL0lyj+SYFs4DcPktmhweQNspHxjNFtS1cFEUBZfnKFLxWMXYijMvJ6kk/B8ll6bpjb/HX4suKsMyUTo8ujrBFQPVnVik31YrytzJB6rOAAAAAElFTkSuQmCC" x="841" y="456" width="23" height="23" id="plus_node_272" preserveAspectRatio="none" />
+    <image href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABcAAAAXCAYAAADgKtSgAAACcElEQVR4nM2V72tSURjHv/d6Ne807ep0s9wKy0HdgmXWiFHQehEtNnDUC1+0XgQF0ZugfyH6CyL2NogYjVqwLWqEL7KI9qutHxrlGGFray2n6bzq9Z64VyaakmYGfeFeLuee8znPOc/3PIcihKAGkTJtVEnDpYF7NdEr6cYFD8XIH2ImA0EQUA9pWRYMo2BJ7k2I8tRbNP6hmN/9JITgc3AWi8HXoBkG9t3tyAhJ6EwWcDY7KIr6c7iYSUP4EcXM2BCanXuw/+RpJNa+Y+LBbbCGLdBzZnx44YO71wsVo64evhQK4P2zJ9hstoI/1g3Ttu2QJAlvfCPoOn8lD1v5FMLMwyG4e7zVwbOiiKB/HEfPXgZN59IRj3xT2uTJCqO0tO7E/KQfHyeeYtfBI+XYVFFCxZSABgOXB8vSsDplW/Yd7ykZ3dF3DrGvX7AaXqgcOSESqAKwAteyZQfKwFQiDoe7E+F3r2C27/i1CykiqbUNSERWEVtZgpQVS4Bry4uYn3qO0KQ/75a3vlEYGpvKBlAEVzEM+K5T8N8ZQDgwV9RxPRrBy/u3YHW0oXXvAdAqBrY2HuuxKAxWW2X4RqI6vRcxPToIIRHPrY8QJamHPP3Qc41QF2yVjjMrK67a50ZLMzr6+vH45nXFIYRkYWl1Ym58GK7uM9CbLEgnE5h9NAyTrQU6I1c9XJbNyaP36jUQSUImncJyKKA4Y3rsLhi1BlI2qzjI2LQVNR1/WbJ7ZMe08C6Az23R1Mgg2k94wGg2oa6Fi6IoOFyHkYxFK/atGHk5ySXh/yi5NE1v3B5/LbqgDCtE+fCwdYIXTVR3YoF+AvWBytwPyjDhAAAAAElFTkSuQmCC" x="841" y="456" width="23" height="23" id="plus_node_273" preserveAspectRatio="none" />
+    <image href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABYAAAAWCAYAAADEtGw7AAACWklEQVR4nLWU+0tTYRjHv++57Ew2CWnFlLRYeUvdpEiLhGa4lQzS5Q/9EtHP/kHBfi8iUCMqJklIskqqtZGigmCXucnC3WS3c3Z54xzbaJ5NF8wvvO/hPDzPh+c873u+ZNo1R0EpGiSyvxNw8lMURUiS1Agw1en1YAghTCNoVUTrAhfyORTyefyPlFHUUjT0C+tL82A5jfKeikeQTe6h2WBEn3UcJ8+cqx9MKcXm8iIS4R2ImSSGJu9D06RDcOMbkpHfOD90A4QQfH7xBKlYBB0Dl6uCVaPwu2cg6JphuTWJ4amHCjQVj2LDs4Du62PgeB4sx2H47gP88C9DymaOBlNKkUrEcNZ8RQHyGgHJ2C4Cq170jtgrCuWuL1rH8f6pC7kqcOZgcrFQeUj6FgN6Rmxo6xlQFRvaTbDYnVj3LBzdMSH7d7yW5BxZ8XAQvvlZFAsFiOlkVXCZRAhRTtznnkUsFFAle189w8rbl1hdfI0Tp1oxaHfC556B8UJvzY5JKWC2TYAXBPjfPK9IjIdDSmfmsTvoH3WAMIyyTpu6UczlDx0FUQIMg75RB/JSFkuPHyEa/Imtrx+w9cWDwdtT2NsNlwvykoj4TgDGTnXHZNo1BzGblb1C5USbn94hsOIFJ2ghZdJIJ6K45LgHQ4cJ22t+bK/5YLE50dLWXq5RvEL+mr9gWo8Jydfqu+8jOI0Wgk6P1q5+BfKvSmA5Wrdn8tomdF27iZyYBcOyKmjdXlFLnVetoAfue0PAjNwpozk8B8ckTt5YlgXP8w0Bln4IBSw7lrwaqeMaBfkDuCLW59KyvkYAAAAASUVORK5CYII=" x="929" y="479" width="22" height="22" id="plus_node_274" preserveAspectRatio="none" />
+    <image href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAWCAYAAADafVyIAAACjUlEQVR4nL2VS0wTQRjH//to6YO1pdCiBQtBUQKoIEY4KNZDD2CMj6iJEaInjfXkybMnr140wUc8eCFEMTERYiBaE0RiYhBrFUQTwBZTGh5rS4vtsmtmCKVNtbSx+Etmd+ebme8/+803M4yzoxuRoIi++zcVJCAUmnG43Zlowtz0FAa6HiTZisu3o/H4udUqQx7eMTci7oEVg7OjW4lFo5BlGbkgT6Oh71sXT0AURYYnFUmSaPlXGIaJCxDC4bDCYoPh0zUqsoyZiXHEliIwbC6BYDLnTiAw+RUeVy+sO2qhyRcw3PMIot8HndEEodCCvUfOgFepsxNQFAXu/qcIzQXod3PbZbAcD9/oB1h31tI6Yc43icHOuzjY5qRxz1jA8/IZCqw27HYci9vmp7/D4+qB49K1uM1UUkbL+JALlU32tCJJi7zg92FrTf3aH8kygrN+NJ48n+Kkxt4KKRbFxPBQuh9gkgRIWIjTtVYWtl37YLBsSRpF9szSYhBVBxzwjo5kHiKO4xGNhKHS6sCybIpTRV6G6J+GUFQM76f3+LUYSprQn0jyQmL/uvMO3j55mNLxTdc9jA70IyzO07StbDwEnbEgrfMUgXyTGc3tV+D/9hnhoBi3R0I/wbAcauwtKK2ug86w4riwtAJqrT67fcCr89B06gL6bt9AUdk2yMsSVBodyvfsx9THd7DVNtB+wdkZjDx/jIajZ7MTIBRXVKH16nX8GHOTAwaBiXF4XvVCt8kIWZJotkXEBdS3nIbeaPqbbybtTlap82gGEVZnTTKHpGtJdR1tXwclJU3XQ6MXqMCXwRcZj8n6NFVr9XSxN0wgC+ga/J/7QJNwC+USi8WyIkDOnBxDw8NxHH4DBcLdVFn2sn0AAAAASUVORK5CYII=" x="907" y="132" width="24" height="22" id="plus_node_275" preserveAspectRatio="none" />
+    <image href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABYAAAAXCAYAAAAP6L+eAAAARklEQVR4nGP8//8/A5EAXSEjPsUsh6ZOItpkNIBTn112HiMTA23Af1oZzDBqMByMGgwHowbDwajBcDBqMByMGgwHtDKYEQAIcgosEqR10QAAAABJRU5ErkJggg==" x="974" y="131" width="22" height="23" id="plus_node_276" preserveAspectRatio="none" />
+    <image href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAAvElEQVR4nHXNMQuCQBwF8HcRmWsNfodmoaXNyc/pR2gUdPAgdVCwILQp0CF3Nc248PBSsR78l7vH74ExhvGl6YNRGrI+3/cFhrDuLMuH4wRomtfoC5MisixHktxRFBV8//K/2GkivdqtTItCEynLJzzvPBdte9BEKA1R1w1XeTHLchbHg/ZL5cWxJkkrKMpmpi6FRgiBqu6gaXvI8hpBcIVpnrjquhGIYRxZ276h6wcoynYyXVU1X4uiG/kAoDCEfr3isG0AAAAASUVORK5CYII=" x="596" y="98" width="10" height="10" id="plus_node_277" preserveAspectRatio="none" />
+  </g>
+</svg>

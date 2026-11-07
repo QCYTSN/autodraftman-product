@@ -1,0 +1,16 @@
+[Unit]
+Description=FigFox private web entry for SSH tunnel
+After=network.target figfox-gateway.service
+
+[Service]
+Type=simple
+ExecStartPre=/usr/sbin/nginx -t -c /etc/figfox/nginx.conf
+ExecStart=/usr/sbin/nginx -c /etc/figfox/nginx.conf -g "daemon off;"
+ExecReload=/bin/kill -HUP $MAINPID
+KillSignal=SIGQUIT
+TimeoutStopSec=30
+Restart=on-failure
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target

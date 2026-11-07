@@ -1,0 +1,245 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1593" height="485" viewBox="0 0 1593 485">
+  <title>Graph neural network representation and post-readout diagram</title>
+  <desc>
+    Complete native SVG reconstruction. Inventory: left frame contains three small attributed training graphs, black nodes, black edges, beige and mauve node-attribute rectangles, and a two-line caption. Central frame contains curved arrows from graphs to a sequence of message-passing 3D layers, alternating cream and gray slabs, a double-headed training span arrow and label. Representation frame contains a dashed rounded light-gray region titled Graph Representations with trained representation matrices, sampled augmented representation matrices, fit/sample arrows, and a mixture-model formula. Right frame contains an arrow to a rounded pink post-readout block and caption. Legend frame contains symbols for nodes, edges, node attributes, aggregate, combine, readout, and output of readout. Basis: left graphs are vertically partitioned samples; message-passing slabs follow left-to-right sequence symmetry; representation matrices are paired left/right around the dashed region center; legend is vertically aligned symbol-label pairs.
+  </desc>
+
+  <defs>
+    <marker id="arrowEnd" markerUnits="userSpaceOnUse" markerWidth="12" markerHeight="10" refX="10" refY="5" orient="auto">
+      <path d="M0,1 L10,5 L0,9 Z" fill="#000" id="plus_node_0" />
+    </marker>
+    <marker id="arrowStart" markerUnits="userSpaceOnUse" markerWidth="12" markerHeight="10" refX="2" refY="5" orient="auto-start-reverse">
+      <path d="M10,1 L0,5 L10,9 Z" fill="#000" id="plus_node_1" />
+    </marker>
+    <style>
+      .label{font-family:Arial, Helvetica, sans-serif;font-weight:700;fill:#000}
+      .smallLabel{font-family:Arial, Helvetica, sans-serif;font-weight:700;font-size:20px;fill:#000}
+      .legendText{font-family:Arial, Helvetica, sans-serif;font-weight:700;font-size:19px;fill:#000}
+      .math{font-family:"Times New Roman", Times, serif;fill:#000}
+      .edge{stroke:#000;stroke-width:3;fill:none;stroke-linecap:round;stroke-linejoin:round}
+      .thinEdge{stroke:#000;stroke-width:2;fill:none;stroke-linecap:round;stroke-linejoin:round}
+      .node{fill:#000;stroke:#000;stroke-width:1}
+      .attrCream{fill:#f4d9a7;stroke:#000;stroke-width:1.2}
+      .attrMauve{fill:#bea2a3;stroke:#000;stroke-width:1.2}
+    </style>
+  </defs>
+
+  <rect id="f00_canvas" data-plus-kind="frame" x="0" y="0" width="1593" height="485" fill="#fff" />
+
+  
+  <rect id="f01_train_graphs" data-plus-kind="frame" x="18" y="56" width="180" height="365" fill="none" stroke="none" />
+  <rect id="f02_message_passing" data-plus-kind="frame" x="200" y="55" width="500" height="344" fill="none" stroke="none" />
+  <path id="f03_representations" data-plus-kind="frame" d="M748,191 C748,135 750,93 773,79 C807,61 897,59 958,60 C1031,61 1117,66 1146,91 C1166,110 1168,154 1167,205 C1166,255 1153,291 1122,306 C1081,327 979,331 880,333 C811,334 779,329 764,306 C750,284 747,241 748,191 Z" fill="#eeeeee" stroke="#000" stroke-width="1.2" stroke-dasharray="7 7" /><rect id="f04_post_readout" data-plus-kind="frame" x="1171" y="147" width="195" height="146" fill="none" stroke="none" />
+  <rect id="f05_legend" data-plus-kind="frame" x="1416" y="28" width="158" height="224" fill="none" stroke="none" />
+
+  
+  <g id="train_graphs_group">
+    
+    <g id="graph_top">
+      <path class="edge" d="M73,86 L59,122 L146,71 L150,96" id="plus_node_2" />
+      <path class="edge" d="M59,122 L110,109" id="plus_node_3" />
+      <path class="edge" d="M73,86 L146,71" id="plus_node_4" />
+      <circle class="node" cx="73" cy="86" r="9" id="plus_node_5" />
+      <circle class="node" cx="59" cy="122" r="9" id="plus_node_6" />
+      <circle class="node" cx="146" cy="71" r="9" id="plus_node_7" />
+      <circle class="node" cx="150" cy="96" r="9" id="plus_node_8" />
+      <circle class="node" cx="110" cy="109" r="9" id="plus_node_9" />
+      <rect class="attrCream" x="72" y="64" width="24" height="8" id="plus_node_10" />
+      <rect class="attrCream" x="160" y="59" width="23" height="8" id="plus_node_11" />
+      <rect class="attrMauve" x="168" y="96" width="23" height="8" id="plus_node_12" />
+      <rect class="attrCream" x="102" y="122" width="24" height="8" id="plus_node_13" />
+      <rect class="attrMauve" x="30" y="137" width="23" height="8" id="plus_node_14" />
+    </g>
+
+    
+    <g id="graph_middle">
+      <path class="edge" d="M58,253 L116,173 L120,202 L115,252 L58,253" id="plus_node_15" />
+      <path class="edge" d="M115,252 L151,228" id="plus_node_16" />
+      <circle class="node" cx="58" cy="253" r="9" id="plus_node_17" />
+      <circle class="node" cx="115" cy="252" r="9" id="plus_node_18" />
+      <circle class="node" cx="151" cy="228" r="9" id="plus_node_19" />
+      <circle class="node" cx="120" cy="202" r="9" id="plus_node_20" />
+      <circle class="node" cx="116" cy="173" r="9" id="plus_node_21" />
+      <rect class="attrMauve" x="119" y="157" width="24" height="8" id="plus_node_22" />
+      <rect class="attrCream" x="136" y="195" width="23" height="8" id="plus_node_23" />
+      <rect class="attrMauve" x="165" y="222" width="23" height="8" id="plus_node_24" />
+      <rect class="attrMauve" x="50" y="270" width="24" height="8" id="plus_node_25" />
+    </g>
+
+    
+    <g id="graph_bottom">
+      <path class="edge" d="M58,341 L79,364 L126,360" id="plus_node_26" />
+      <path class="edge" d="M58,341 L90,326 L138,329" id="plus_node_27" />
+      <path class="edge" d="M79,364 L138,329" id="plus_node_28" />
+      <circle class="node" cx="58" cy="341" r="9" id="plus_node_29" />
+      <circle class="node" cx="79" cy="364" r="9" id="plus_node_30" />
+      <circle class="node" cx="90" cy="326" r="9" id="plus_node_31" />
+      <circle class="node" cx="138" cy="329" r="9" id="plus_node_32" />
+      <circle class="node" cx="126" cy="360" r="9" id="plus_node_33" />
+      <rect class="attrCream" x="26" y="319" width="24" height="8" id="plus_node_34" />
+      <rect class="attrCream" x="82" y="304" width="24" height="8" id="plus_node_35" />
+      <rect class="attrMauve" x="153" y="322" width="23" height="8" id="plus_node_36" />
+      <rect class="attrCream" x="143" y="362" width="24" height="8" id="plus_node_37" />
+      <rect class="attrMauve" x="62" y="382" width="24" height="8" id="plus_node_38" />
+    </g>
+
+    <text id="train_graphs_caption_1" class="label" x="26" y="425" font-size="22">Set of train graphs</text>
+    <text id="train_graphs_caption_2" class="label" x="20" y="454" font-size="22">from the same class</text>
+  </g>
+
+  
+  <g id="input_to_layers_arrows" fill="none" stroke="#000" stroke-width="2.5" stroke-linecap="round">
+    <path id="arrow_top_to_layers" d="M218,105 C232,137 252,163 277,176" marker-end="url(#arrowEnd)" />
+    <path id="arrow_mid_to_layers" d="M207,219 C230,229 256,231 281,226" marker-end="url(#arrowEnd)" />
+    <path id="arrow_bottom_to_layers" d="M201,329 C232,305 257,276 281,258" marker-end="url(#arrowEnd)" />
+  </g>
+
+  
+  <g id="message_passing_layers">
+    <g id="layer_cream_1">
+      <polygon points="298,137 323,126 325,328 300,336" fill="#fff8ea" stroke="#000" stroke-width="1.4" id="plus_node_39" />
+      <polygon points="323,126 377,58 381,253 325,328" fill="#fff3df" stroke="#000" stroke-width="1.4" id="plus_node_40" />
+      <polygon points="298,137 377,58 323,126" fill="#fff9ef" stroke="#000" stroke-width="1.2" id="plus_node_41" />
+    </g>
+    <g id="layer_gray_1">
+      <polygon points="403,140 418,133 420,292 405,292" fill="#efefef" stroke="#000" stroke-width="1.3" id="plus_node_42" />
+      <polygon points="418,133 447,101 450,253 420,292" fill="#dedede" stroke="#000" stroke-width="1.3" id="plus_node_43" />
+      <polygon points="403,140 433,104 447,101 418,133" fill="#f5f5f5" stroke="#000" stroke-width="1.1" id="plus_node_44" />
+    </g>
+    <g id="layer_cream_2">
+      <polygon points="468,136 493,127 496,329 471,337" fill="#fff8ea" stroke="#000" stroke-width="1.4" id="plus_node_45" />
+      <polygon points="493,127 550,60 552,254 496,329" fill="#fff3df" stroke="#000" stroke-width="1.4" id="plus_node_46" />
+      <polygon points="468,136 525,66 550,60 493,127" fill="#fff9ef" stroke="#000" stroke-width="1.2" id="plus_node_47" />
+    </g>
+    <g id="layer_gray_2">
+      <polygon points="575,141 590,134 591,293 577,292" fill="#efefef" stroke="#000" stroke-width="1.3" id="plus_node_48" />
+      <polygon points="590,134 619,103 622,254 591,293" fill="#dedede" stroke="#000" stroke-width="1.3" id="plus_node_49" />
+      <polygon points="575,141 605,106 619,103 590,134" fill="#f5f5f5" stroke="#000" stroke-width="1.1" id="plus_node_50" />
+    </g>
+    <g id="layer_cream_small">
+      <polygon points="649,190 659,186 660,270 650,271" fill="#fff8ea" stroke="#000" stroke-width="1.3" id="plus_node_51" />
+      <polygon points="659,186 676,166 678,246 660,270" fill="#fff3df" stroke="#000" stroke-width="1.3" id="plus_node_52" />
+      <polygon points="649,190 666,170 676,166 659,186" fill="#fff9ef" stroke="#000" stroke-width="1.1" id="plus_node_53" />
+    </g>
+  </g>
+
+  <line id="training_span_arrow" x1="294" y1="363" x2="688" y2="363" stroke="#000" stroke-width="3" marker-start="url(#arrowStart)" marker-end="url(#arrowEnd)" />
+  <text id="training_label" class="label" x="305" y="396" font-size="23">Training of Message Passing Layers</text>
+
+  <path id="layers_to_reps_arrow" d="M693,216 C715,216 737,214 756,213" fill="none" stroke="#000" stroke-width="2.4" marker-end="url(#arrowEnd)" />
+
+  
+  <g id="representation_content">
+    <text id="graph_rep_title" class="label" x="958" y="49" font-size="22" text-anchor="middle">Graph Representations</text>
+
+    <text id="trained_heading_1" class="label" x="849" y="112" font-size="20" text-anchor="middle">Trained</text>
+    <text id="trained_heading_2" class="label" x="849" y="141" font-size="20" text-anchor="middle">Representations</text>
+
+    <text id="sampled_heading_1" class="label" x="1031" y="106" font-size="19" text-anchor="middle">Sampled Augmented</text>
+    <text id="sampled_heading_2" class="label" x="1031" y="137" font-size="19" text-anchor="middle">Representations</text>
+
+    <g id="trained_matrices" stroke="#000" stroke-width="1.3">
+      <g id="trained_matrix_row_1">
+        <rect x="797" y="160" width="24" height="25" fill="#8ea575" id="plus_node_54" />
+        <rect x="821" y="160" width="24" height="25" fill="#8ea575" id="plus_node_55" />
+        <rect x="845" y="160" width="24" height="25" fill="#8ea575" id="plus_node_56" />
+      </g>
+      <g id="trained_matrix_row_2">
+        <rect x="797" y="205" width="24" height="25" fill="#8ea575" id="plus_node_57" />
+        <rect x="821" y="205" width="24" height="25" fill="#8ea575" id="plus_node_58" />
+        <rect x="845" y="205" width="24" height="25" fill="#8ea575" id="plus_node_59" />
+      </g>
+      <g id="trained_matrix_row_3">
+        <rect x="797" y="246" width="24" height="25" fill="#8ea575" id="plus_node_60" />
+        <rect x="821" y="246" width="24" height="25" fill="#8ea575" id="plus_node_61" />
+        <rect x="845" y="246" width="24" height="25" fill="#8ea575" id="plus_node_62" />
+      </g>
+    </g>
+
+    <g id="sampled_matrices" stroke="#000" stroke-width="1.3">
+      <g id="sampled_matrix_row_1">
+        <rect x="995" y="158" width="23" height="25" fill="#79d914" id="plus_node_63" />
+        <rect x="1018" y="158" width="24" height="25" fill="#79d914" id="plus_node_64" />
+        <rect x="1042" y="158" width="24" height="25" fill="#79d914" id="plus_node_65" />
+      </g>
+      <g id="sampled_matrix_row_2">
+        <rect x="995" y="202" width="23" height="25" fill="#79d914" id="plus_node_66" />
+        <rect x="1018" y="202" width="24" height="25" fill="#79d914" id="plus_node_67" />
+        <rect x="1042" y="202" width="24" height="25" fill="#79d914" id="plus_node_68" />
+      </g>
+      <g id="sampled_matrix_row_3">
+        <rect x="995" y="244" width="23" height="25" fill="#79d914" id="plus_node_69" />
+        <rect x="1018" y="244" width="24" height="25" fill="#79d914" id="plus_node_70" />
+        <rect x="1042" y="244" width="24" height="25" fill="#79d914" id="plus_node_71" />
+      </g>
+    </g>
+
+    <path id="fit_arrow" d="M851,295 C854,325 869,348 886,358" fill="none" stroke="#000" stroke-width="2.5" marker-end="url(#arrowEnd)" />
+    <text id="fit_label" class="label" x="824" y="359" font-size="21">Fit</text>
+
+    <path id="sample_arrow" d="M1017,349 C1022,329 1028,306 1035,290" fill="none" stroke="#000" stroke-width="2.5" marker-end="url(#arrowEnd)" />
+    <text id="sample_label" class="label" x="1040" y="342" font-size="23">Sample</text>
+
+    
+    <g id="mixture_formula">
+      <text class="math" x="820" y="406" font-size="31" font-style="italic" id="plus_node_72">p(h) =</text>
+      <text class="math" x="910" y="407" font-size="54" id="plus_node_73">∑</text>
+      <text class="math" x="922" y="363" font-size="18" font-style="italic" id="plus_node_74">K</text>
+      <text class="math" x="909" y="437" font-size="18" font-style="italic" id="plus_node_75">k=1</text>
+      <text class="math" x="951" y="406" font-size="27" id="plus_node_76">
+        <tspan font-style="italic">π</tspan><tspan dy="6" font-size="17">k</tspan><tspan dy="-6">N(</tspan><tspan font-style="italic">h</tspan>
+        <tspan> | </tspan><tspan font-style="italic">μ</tspan><tspan dy="6" font-size="17">k</tspan><tspan dy="-6">,</tspan>
+        <tspan font-style="italic">Σ</tspan><tspan dy="6" font-size="17">k</tspan><tspan dy="-6">)</tspan>
+      </text>
+    </g>
+  </g>
+
+  
+  <g id="post_readout_group">
+    <path id="reps_to_post_arrow" d="M1175,191 C1191,197 1207,198 1222,193" fill="none" stroke="#000" stroke-width="2.4" marker-end="url(#arrowEnd)" />
+    <rect id="post_readout_block" x="1233" y="157" width="125" height="72" rx="14" ry="14" fill="#f4d7dd" stroke="#000" stroke-width="1.3" />
+    <text id="post_readout_label" class="label" x="1200" y="279" font-size="22">Post-Readout</text>
+    <text id="post_readout_psi" class="math" x="1348" y="279" font-size="28" font-style="italic">Ψ</text>
+  </g>
+
+  
+  <g id="legend_group">
+    <circle id="legend_node_symbol" cx="1436" cy="42" r="10" fill="#000" />
+    <text id="legend_node_text" class="legendText" x="1463" y="49">Nodes</text>
+
+    <line id="legend_edge_symbol" x1="1424" y1="67" x2="1451" y2="67" stroke="#000" stroke-width="2.4" />
+    <text id="legend_edge_text" class="legendText" x="1463" y="74">Edges</text>
+
+    <rect id="legend_attr_symbol" x="1426" y="90" width="25" height="8" fill="#f7f7f7" stroke="#000" stroke-width="1.1" />
+    <text id="legend_attr_text" class="legendText" x="1463" y="105">Node Attr.</text>
+
+    <g id="legend_aggregate_symbol">
+      <polygon points="1430,121 1437,116 1437,134 1430,140" fill="#f0f0f0" stroke="#000" stroke-width="1" id="plus_node_77" />
+      <polygon points="1437,116 1445,113 1445,130 1437,134" fill="#dcdcdc" stroke="#000" stroke-width="1" id="plus_node_78" />
+      <polygon points="1430,121 1438,116 1445,113 1437,116" fill="#fafafa" stroke="#000" stroke-width="1" id="plus_node_79" />
+    </g>
+    <text id="legend_aggregate_text" class="legendText" x="1463" y="134">AGGREGATE</text>
+
+    <g id="legend_combine_symbol">
+      <polygon points="1430,150 1438,145 1438,162 1430,168" fill="#fff8ea" stroke="#000" stroke-width="1" id="plus_node_80" />
+      <polygon points="1438,145 1446,141 1446,158 1438,162" fill="#fff0d9" stroke="#000" stroke-width="1" id="plus_node_81" />
+      <polygon points="1430,150 1438,145 1446,141 1438,145" fill="#fffaf0" stroke="#000" stroke-width="1" id="plus_node_82" />
+    </g>
+    <text id="legend_combine_text" class="legendText" x="1463" y="163">COMBINE</text>
+
+    <g id="legend_readout_symbol">
+      <polygon points="1430,181 1438,176 1438,193 1430,200" fill="#fff8ea" stroke="#000" stroke-width="1" id="plus_node_83" />
+      <polygon points="1438,176 1446,172 1446,188 1438,193" fill="#fff3df" stroke="#000" stroke-width="1" id="plus_node_84" />
+      <polygon points="1430,181 1438,176 1446,172 1438,176" fill="#fffdf5" stroke="#000" stroke-width="1" id="plus_node_85" />
+    </g>
+    <text id="legend_readout_text" class="legendText" x="1463" y="194">READOUT</text>
+
+    <g id="legend_output_symbol" stroke="#000" stroke-width="1.1">
+      <rect x="1420" y="221" width="12" height="12" fill="#fff" id="plus_node_86" />
+      <rect x="1432" y="221" width="12" height="12" fill="#fff" id="plus_node_87" />
+      <rect x="1444" y="221" width="12" height="12" fill="#fff" id="plus_node_88" />
+    </g>
+    <text id="legend_output_text_1" class="legendText" x="1463" y="223">Output of</text>
+    <text id="legend_output_text_2" class="legendText" x="1463" y="248">REDOUT</text>
+  </g>
+</svg>

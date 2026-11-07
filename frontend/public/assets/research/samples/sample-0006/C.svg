@@ -1,0 +1,231 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1195" height="270" viewBox="0 0 1195 270">
+  <title>Pipeline diagram: input meshes to converted 3D-GS, 4D representation, temporal smoothness regularization, rendered video, VAE encoder, noise selection, and video model</title>
+  <desc>
+    Base frames and content inventory: left input rounded rectangle feeds a dashed 3D cube with a person/table scene; this feeds a blue dashed 4D cube with the same scene. Curved operation/gradient arrows connect the 4D representation to a pink spatial-temporal regularization block and the rendered video frames. The rendered video is a stack of slanted image frames feeding a yellow VAE encoder. At right, a small graph and legend explain operation and gradient; selected noise and add-noise arrows feed a rounded yellow video-model icon. A long dashed gradient return line runs along the bottom. SAM mapping: Original Figure Object video model icon - Constructed Element ID draft_video_model - SAM Asset ID asset_sam_region_000019; the image crop covers only the icon, not the “Video Model” label or adjacent arrows.
+  </desc>
+
+  <defs>
+    <marker id="arrowStd" markerUnits="userSpaceOnUse" markerWidth="10" markerHeight="8" refX="9" refY="4" orient="auto">
+      <path d="M0,0 L10,4 L0,8 Z" fill="#111" id="plus_node_0" />
+    </marker>
+    <marker id="arrowSmall" markerUnits="userSpaceOnUse" markerWidth="7" markerHeight="6" refX="6.5" refY="3" orient="auto">
+      <path d="M0,0 L10,4 L0,8 Z" fill="#111" transform="scale(.7 .75)" id="plus_node_1" />
+    </marker>
+    <marker id="arrowStartSmall" markerUnits="userSpaceOnUse" markerWidth="7" markerHeight="6" refX="1" refY="3" orient="auto-start-reverse">
+      <path d="M0,0 L10,4 L0,8 Z" fill="#111" transform="scale(.7 .75)" id="plus_node_2" />
+    </marker>
+    <marker id="arrowDbl16" markerUnits="userSpaceOnUse" markerWidth="16" markerHeight="12" refX="15" refY="6" orient="auto">
+      <path d="M0,0 L10,4 L0,8 Z" fill="#111" transform="scale(1.6 1.5)" id="plus_node_3" />
+    </marker>
+    <marker id="arrowDbl16Start" markerUnits="userSpaceOnUse" markerWidth="16" markerHeight="12" refX="1" refY="6" orient="auto-start-reverse">
+      <path d="M0,0 L10,4 L0,8 Z" fill="#111" transform="scale(1.6 1.5)" id="plus_node_4" />
+    </marker>
+    <marker id="arrowRedTiny" markerUnits="userSpaceOnUse" markerWidth="7" markerHeight="6" refX="6.5" refY="3" orient="auto">
+      <path d="M0,0 L10,4 L0,8 Z" fill="#cc5147" transform="scale(.7 .75)" id="plus_node_5" />
+    </marker>
+
+    <linearGradient id="vaeGrad" x1="0" x2="1" y1="0" y2="0">
+      <stop offset="0" stop-color="#ffe6a9" />
+      <stop offset="1" stop-color="#fff8de" />
+    </linearGradient>
+    <linearGradient id="cubeFade" x1="0" x2="0" y1="0" y2="1">
+      <stop offset="0" stop-color="#ffffff" stop-opacity=".0" />
+      <stop offset=".45" stop-color="#ffffff" stop-opacity=".15" />
+      <stop offset="1" stop-color="#ffffff" stop-opacity=".55" />
+    </linearGradient>
+
+    <clipPath id="clipCubeLeft">
+      <polygon points="167,69 246,43 324,70 324,173 246,203 167,173" id="plus_node_6" />
+    </clipPath>
+    <clipPath id="clipCubeMid">
+      <polygon points="365,69 443,43 521,70 521,173 443,203 365,173" id="plus_node_7" />
+    </clipPath>
+    <clipPath id="clipSmallFrameA">
+      <polygon points="586,101 655,122 655,218 586,195" id="plus_node_8" />
+    </clipPath>
+    <clipPath id="clipSmallFrameB">
+      <polygon points="651,101 721,122 721,218 651,195" id="plus_node_9" />
+    </clipPath>
+    <clipPath id="clipSmallFrameC">
+      <polygon points="717,101 785,122 785,218 717,195" id="plus_node_10" />
+    </clipPath>
+
+    <pattern id="checker" width="18" height="18" patternUnits="userSpaceOnUse">
+      <rect width="18" height="18" fill="#eeeeee" id="plus_node_11" />
+      <rect width="9" height="9" fill="#9f9f9f" id="plus_node_12" />
+      <rect x="9" y="9" width="9" height="9" fill="#9f9f9f" id="plus_node_13" />
+    </pattern>
+
+    <symbol id="symScene" viewBox="0 0 160 160">
+      <desc>Reusable constructed scene: dark-suited standing person, checker floor, brown table, and green mesh/interaction line.</desc>
+      <g id="scene_floor">
+        <polygon points="12,91 142,91 160,145 0,145" fill="url(#checker)" opacity=".95" id="plus_node_14" />
+        <g stroke="#d0d0d0" stroke-width="1" id="plus_node_15">
+          <path d="M15,103 H150" id="plus_node_16" />
+          <path d="M8,118 H157" id="plus_node_17" />
+          <path d="M1,134 H160" id="plus_node_18" />
+          <path d="M36,92 L14,145" id="plus_node_19" />
+          <path d="M66,92 L54,145" id="plus_node_20" />
+          <path d="M94,92 L105,145" id="plus_node_21" />
+          <path d="M123,92 L151,145" id="plus_node_22" />
+        </g>
+      </g>
+      <g id="scene_person">
+        <ellipse cx="62" cy="31" rx="9" ry="11" fill="#f0c5a4" id="plus_node_23" />
+        <path d="M55,31 C53,21 61,17 70,21 C69,29 65,33 58,34 Z" fill="#202020" id="plus_node_24" />
+        <path d="M55,42 C47,55 47,77 55,90 L73,88 C78,70 77,54 68,41 Z" fill="#1e2527" id="plus_node_25" />
+        <path d="M56,46 L45,68 L51,73 L62,51 Z" fill="#262b2c" id="plus_node_26" />
+        <path d="M70,48 L91,63 L87,70 L68,58 Z" fill="#262b2c" id="plus_node_27" />
+        <path d="M48,68 L43,81" stroke="#e0b795" stroke-width="5" stroke-linecap="round" id="plus_node_28" />
+        <path d="M88,67 L103,75" stroke="#e0b795" stroke-width="5" stroke-linecap="round" id="plus_node_29" />
+        <path d="M58,87 L52,130" stroke="#202020" stroke-width="8" stroke-linecap="round" id="plus_node_30" />
+        <path d="M69,87 L84,130" stroke="#202020" stroke-width="8" stroke-linecap="round" id="plus_node_31" />
+        <path d="M49,132 L65,132" stroke="#111" stroke-width="5" stroke-linecap="round" id="plus_node_32" />
+        <path d="M80,132 L96,135" stroke="#111" stroke-width="5" stroke-linecap="round" id="plus_node_33" />
+        <path d="M59,42 L64,57 L68,42" fill="#eeeeee" opacity=".7" id="plus_node_34" />
+      </g>
+      <g id="scene_table">
+        <ellipse cx="111" cy="85" rx="45" ry="7" fill="#6a2b0b" id="plus_node_35" />
+        <path d="M68,82 C89,76 133,77 154,84 C139,92 91,92 68,82 Z" fill="#5a260b" id="plus_node_36" />
+        <path d="M105,89 C104,109 100,123 91,137 L125,137 C116,122 115,107 115,89 Z" fill="#4b210c" id="plus_node_37" />
+        <ellipse cx="108" cy="137" rx="25" ry="5" fill="#3b1908" id="plus_node_38" />
+      </g>
+      <g id="scene_mesh" fill="none">
+        <path d="M102,70 L126,49 L146,62 L128,89 Z" stroke="#aaaaaa" stroke-width="2" id="plus_node_39" />
+        <path d="M102,70 L128,89 M126,49 L128,89 M146,62 L102,70" stroke="#bcbcbc" stroke-width="1" id="plus_node_40" />
+        <circle cx="102" cy="70" r="2.4" fill="#7f7f7f" id="plus_node_41" />
+        <circle cx="126" cy="49" r="2.4" fill="#7f7f7f" id="plus_node_42" />
+        <circle cx="146" cy="62" r="2.4" fill="#7f7f7f" id="plus_node_43" />
+        <circle cx="128" cy="89" r="2.4" fill="#7f7f7f" id="plus_node_44" />
+        <path d="M91,63 C102,70 111,78 118,88" stroke="#1b7c5a" stroke-width="4" id="plus_node_45" />
+        <path d="M82,60 L103,72" stroke="#111" stroke-width="3" id="plus_node_46" />
+      </g>
+    </symbol>
+
+    <symbol id="symTinyScene" viewBox="0 0 80 110">
+      <use href="#symScene" x="-17" y="-2" width="115" height="115" id="plus_node_47" />
+    </symbol>
+  </defs>
+
+  <rect id="background" x="0" y="0" width="1195" height="270" fill="#ffffff" />
+
+  
+  <g id="f01" data-plus-kind="frame">
+    <rect x="58" y="99" width="77" height="60" rx="9" ry="9" fill="#fff0dc" stroke="none" id="plus_node_48" />
+  </g>
+  <text id="txt_input_meshes" x="96.5" y="124.5" text-anchor="middle" font-family="Times New Roman, serif" font-size="16" fill="#000">Input</text>
+  <text id="txt_input_meshes_2" x="96.5" y="144" text-anchor="middle" font-family="Times New Roman, serif" font-size="16" fill="#000">Meshes</text>
+
+  <path id="arrow_input_to_3dgs" d="M141,130 L162,130" fill="none" stroke="#111" stroke-width="1.35" marker-end="url(#arrowSmall)" />
+
+  
+  <g id="f02" data-plus-kind="frame">
+    <polygon points="167,69 246,43 324,70 324,173 246,203 167,173" fill="none" stroke="#bcbcbc" stroke-width="1.1" stroke-dasharray="4 4" id="plus_node_49" />
+    <path d="M167,69 L246,99 L324,70 M246,43 L246,99 L246,203 M167,173 L246,99 L324,173" fill="none" stroke="#bcbcbc" stroke-width="1" stroke-dasharray="4 4" id="plus_node_50" />
+  </g>
+  <g id="converted_3dgs_scene" clip-path="url(#clipCubeLeft)">
+    <use href="#symScene" x="167" y="51" width="160" height="160" id="plus_node_51" />
+    <rect x="167" y="43" width="158" height="160" fill="url(#cubeFade)" id="plus_node_52" />
+  </g>
+  <text id="txt_converted" x="246" y="232" text-anchor="middle" font-family="Times New Roman, serif" font-size="16" fill="#000">Converted 3D-GS</text>
+
+  <path id="arrow_3dgs_to_4d" d="M333,130 L355,130" fill="none" stroke="#111" stroke-width="1.35" marker-end="url(#arrowSmall)" />
+
+  
+  <g id="f03" data-plus-kind="frame">
+    <polygon points="365,69 443,43 521,70 521,173 443,203 365,173" fill="none" stroke="#add9ff" stroke-width="1.1" stroke-dasharray="4 4" id="plus_node_53" />
+    <path d="M365,69 L443,99 L521,70 M443,43 L443,99 L443,203 M365,173 L443,99 L521,173" fill="none" stroke="#add9ff" stroke-width="1" stroke-dasharray="4 4" id="plus_node_54" />
+  </g>
+  <g id="four_d_scene" clip-path="url(#clipCubeMid)">
+    <use href="#symScene" x="365" y="51" width="160" height="160" id="plus_node_55" />
+    <rect x="365" y="43" width="158" height="160" fill="#ffffff" opacity=".13" id="plus_node_56" />
+  </g>
+  <text id="txt_4d_rep" x="443" y="232" text-anchor="middle" font-family="Times New Roman, serif" font-size="16" fill="#000">4D Representation</text>
+  <text id="txt_4d_sec" x="443" y="252" text-anchor="middle" font-family="Times New Roman, serif" font-size="16" fill="#000">(Sec 3.3)</text>
+
+  
+  <g id="f04" data-plus-kind="frame">
+    <rect x="582" y="25" width="201" height="68" rx="11" ry="11" fill="#ffc5bc" stroke="none" id="plus_node_57" />
+  </g>
+  <text id="txt_regularization_1" x="682.5" y="45" text-anchor="middle" font-family="Times New Roman, serif" font-size="16" fill="#000">Spatial + Temporal</text>
+  <text id="txt_regularization_2" x="682.5" y="64" text-anchor="middle" font-family="Times New Roman, serif" font-size="16" fill="#000">Smoothness Regularization</text>
+  <text id="txt_regularization_3" x="682.5" y="83" text-anchor="middle" font-family="Times New Roman, serif" font-size="16" fill="#000">(Sec 3.4)</text>
+
+  
+  <path id="arrow_4d_to_reg_solid" d="M531,77 C544,63 557,58 572,56" fill="none" stroke="#111" stroke-width="1.4" marker-end="url(#arrowSmall)" />
+  <path id="arrow_reg_to_4d_dashed" d="M572,70 C555,69 543,74 532,88" fill="none" stroke="#111" stroke-width="1.4" stroke-dasharray="9 6" marker-end="url(#arrowSmall)" />
+  <path id="arrow_4d_to_video_solid" d="M530,92 C548,120 561,137 583,146" fill="none" stroke="#111" stroke-width="1.4" marker-end="url(#arrowSmall)" />
+  <path id="arrow_video_to_4d_dashed" d="M584,194 C555,188 537,174 526,156" fill="none" stroke="#111" stroke-width="1.4" stroke-dasharray="9 6" marker-end="url(#arrowSmall)" />
+  <text id="txt_render" x="555" y="180" text-anchor="middle" font-family="Times New Roman, serif" font-size="16" fill="#000">Render</text>
+
+  
+  <g id="f05" data-plus-kind="frame">
+    <polygon points="586,101 655,122 655,218 586,195" fill="#f7f7f7" stroke="#111" stroke-width="1.1" id="plus_node_58" />
+    <polygon points="651,101 721,122 721,218 651,195" fill="#f7f7f7" stroke="#111" stroke-width="1.1" id="plus_node_59" />
+    <polygon points="717,101 785,122 785,218 717,195" fill="#f7f7f7" stroke="#111" stroke-width="1.1" id="plus_node_60" />
+  </g>
+  <g id="rendered_video_frame_a" clip-path="url(#clipSmallFrameA)">
+    <use href="#symTinyScene" x="581" y="103" width="80" height="110" id="plus_node_61" />
+  </g>
+  <g id="rendered_video_frame_b" clip-path="url(#clipSmallFrameB)">
+    <use href="#symTinyScene" x="646" y="103" width="80" height="110" id="plus_node_62" />
+  </g>
+  <g id="rendered_video_frame_c" clip-path="url(#clipSmallFrameC)">
+    <use href="#symTinyScene" x="712" y="103" width="80" height="110" id="plus_node_63" />
+  </g>
+  <text id="txt_rendered_video" x="683" y="241" text-anchor="middle" font-family="Times New Roman, serif" font-size="16" fill="#000">Rendered Video</text>
+
+  <path id="arrow_video_to_vae" d="M788,171 L810,171" fill="none" stroke="#111" stroke-width="1.35" marker-end="url(#arrowSmall)" />
+
+  
+  <g id="f06" data-plus-kind="frame">
+    <path d="M820,109 L853,130 L853,216 L820,236 Z" fill="url(#vaeGrad)" stroke="none" id="plus_node_64" />
+  </g>
+  <text id="txt_vae" x="837" y="172" text-anchor="middle" font-family="Times New Roman, serif" font-size="14" fill="#000" transform="rotate(90 837 172)">VAE Encoder</text>
+
+  
+  <g id="f07" data-plus-kind="frame">
+    <rect x="878" y="30" width="83" height="71" fill="none" stroke="none" id="plus_node_65" />
+  </g>
+  <g id="noise_schedule_graph">
+    <path id="graph_y_axis" d="M880,100 L880,33" fill="none" stroke="#111" stroke-width="1.2" marker-end="url(#arrowSmall)" />
+    <path id="graph_x_axis" d="M880,100 L959,100" fill="none" stroke="#111" stroke-width="1.2" marker-end="url(#arrowSmall)" />
+    <path id="graph_curve" d="M891,91 C908,84 922,68 936,50 C943,41 950,42 954,57 C958,69 958,80 960,89" fill="none" stroke="#cf574c" stroke-width="1.25" />
+    <text id="txt_w_tau" x="864" y="43" text-anchor="middle" font-family="Times New Roman, serif" font-size="17" font-style="italic" fill="#000">w(τ)</text>
+    <text id="txt_tau" x="980" y="108" text-anchor="middle" font-family="Times New Roman, serif" font-size="17" font-style="italic" fill="#000">τ</text>
+  </g>
+
+  
+  <g id="f08" data-plus-kind="frame">
+    <rect x="978" y="46" width="164" height="44" fill="#f7fbff" stroke="#46647a" stroke-width="1.1" id="plus_node_66" />
+  </g>
+  <path id="legend_operation_arrow" d="M1040,58 L999,58" fill="none" stroke="#111" stroke-width="1.3" marker-end="url(#arrowSmall)" />
+  <text id="txt_legend_operation" x="1054" y="63" font-family="Times New Roman, serif" font-size="16" fill="#000">Operation</text>
+  <path id="legend_gradient_arrow" d="M1040,78 L999,78" fill="none" stroke="#111" stroke-width="1.3" stroke-dasharray="10 6" marker-end="url(#arrowSmall)" />
+  <text id="txt_legend_gradient" x="1054" y="83" font-family="Times New Roman, serif" font-size="16" fill="#000">Gradient</text>
+
+  <text id="txt_select_noise_1" x="924" y="125" text-anchor="middle" font-family="Times New Roman, serif" font-size="16" fill="#000">Select noise level</text>
+  <text id="txt_select_noise_2" x="923" y="145" text-anchor="middle" font-family="Times New Roman, serif" font-size="16" fill="#000">based on <tspan font-style="italic">w(τ)</tspan></text>
+  <text id="txt_select_noise_3" x="923" y="165" text-anchor="middle" font-family="Times New Roman, serif" font-size="16" fill="#000">(Sec 3.2)</text>
+
+  <path id="arrow_select_noise_to_video_model" d="M858,171 L997,171" fill="none" stroke="#111" stroke-width="1.35" marker-end="url(#arrowSmall)" />
+  <text id="txt_add_noise" x="928" y="193" text-anchor="middle" font-family="Times New Roman, serif" font-size="16" fill="#000">Add Noise</text>
+
+  
+  <g id="replacement_video_model_asset" data-plus-keeps="txt_video_model arrow_select_noise_to_video_model txt_add_noise arrow_smoothness_up arrow_smoothness_down">
+    <image id="img_video_model_sam_p001" href="data:image/png;base64,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" x="1001" y="124" width="106" height="98" preserveAspectRatio="none" />
+  </g>
+  <text id="txt_video_model" x="1054" y="241" text-anchor="middle" font-family="Times New Roman, serif" font-size="16" fill="#000">Video Model</text>
+
+  
+  <path id="arrow_smoothness_down" d="M1118,170 L1124,184" fill="none" stroke="#111" stroke-width="1.15" stroke-dasharray="5 5" marker-end="url(#arrowSmall)" />
+  <path id="arrow_smoothness_up" d="M1124,216 L1118,204" fill="none" stroke="#111" stroke-width="1.15" marker-end="url(#arrowSmall)" />
+  <text id="txt_smoothness" x="1129" y="194" font-family="Times New Roman, serif" font-size="14" font-style="italic" fill="#000" transform="rotate(90 1129 194)">v<tspan baseline-shift="sub" font-size="10">smooth</tspan></text>
+
+  
+  <path id="arrow_bottom_gradient_return" d="M1114,251 L612,251 C575,251 543,231 525,199" fill="none" stroke="#111" stroke-width="1.55" stroke-dasharray="12 7" marker-end="url(#arrowSmall)" />
+
+  
+  <path id="arrow_graph_to_noise_cue" d="M972,101 C976,110 981,120 991,127" fill="none" stroke="#111" stroke-width="1.1" stroke-dasharray="5 5" marker-end="url(#arrowSmall)" />
+
+</svg>

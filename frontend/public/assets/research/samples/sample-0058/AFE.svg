@@ -1,0 +1,214 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="3840" height="1370" viewBox="0 0 3840 1370">
+  <defs>
+    <marker id="arrow" viewBox="0 0 24 24" refX="21" refY="12" markerWidth="15" markerHeight="15" orient="auto" markerUnits="strokeWidth">
+      <path d="M 0 0 L 24 12 L 0 24 z" fill="#000"/>
+    </marker>
+  </defs>
+
+  <rect x="0" y="0" width="3840" height="1370" fill="#fff"/>
+
+  <!-- left labels -->
+  <g font-family="Arial, Helvetica, sans-serif" fill="#000" font-size="58">
+    <text x="166" y="185">Better</text>
+    <text x="177" y="296">_text</text>
+    <text x="206" y="416">_to</text>
+    <text x="133" y="527">_speech</text>
+
+    <text x="76" y="688" font-style="italic">Silence</text>
+    <text x="315" y="644">s1</text>
+    <text x="315" y="746">s2</text>
+
+    <text x="78" y="922" font-style="italic">spoken</text>
+    <text x="88" y="994" font-style="italic">word 1</text>
+    <text x="315" y="849">s3</text>
+    <text x="315" y="951">s4</text>
+    <text x="315" y="1079">s5</text>
+
+    <text x="189" y="1167" fill="#8d8d8d">HuBERT</text>
+    <text x="209" y="1242" fill="#8d8d8d">Tokens</text>
+  </g>
+
+  <!-- left dashed token box -->
+  <rect x="432" y="88" width="165" height="1116" fill="none" stroke="#000" stroke-width="4" stroke-dasharray="15 15"/>
+  <line x1="24" y1="795" x2="628" y2="795" stroke="#000" stroke-width="4" stroke-dasharray="15 15"/>
+
+  <!-- left token column -->
+  <g stroke="#000" stroke-width="4" fill="#dcefdc">
+    <rect x="464" y="138" width="101" height="51" rx="7"/>
+    <rect x="464" y="259" width="101" height="51" rx="7"/>
+    <rect x="464" y="375" width="101" height="51" rx="7"/>
+    <rect x="464" y="497" width="101" height="51" rx="7"/>
+  </g>
+  <g stroke="#000" stroke-width="4" fill="#fde8cf">
+    <rect x="464" y="602" width="101" height="51" rx="7"/>
+    <rect x="464" y="711" width="101" height="51" rx="7"/>
+    <rect x="464" y="820" width="101" height="51" rx="7"/>
+    <rect x="464" y="930" width="101" height="51" rx="7"/>
+    <rect x="464" y="1039" width="101" height="51" rx="7"/>
+  </g>
+
+  <!-- dashed text-token alignments -->
+  <g stroke="#000" stroke-width="4" stroke-dasharray="38 42" fill="none">
+    <line x1="636" y1="164" x2="1484" y2="164"/>
+    <line x1="636" y1="285" x2="1484" y2="285"/>
+    <line x1="636" y1="401" x2="1484" y2="401"/>
+  </g>
+
+  <!-- Patch Encoder -->
+  <rect x="665" y="583" width="272" height="529" fill="#d8e8fb" stroke="#000" stroke-width="4"/>
+  <g font-family="Arial, Helvetica, sans-serif" fill="#000" font-size="60" text-anchor="middle">
+    <text x="801" y="829">Patch</text>
+    <text x="801" y="902">Encoder</text>
+  </g>
+
+  <!-- left latent grouped patches -->
+  <g fill="#fff" stroke="#000" stroke-width="5">
+    <rect x="1018" y="580" width="145" height="194" rx="18"/>
+    <rect x="1018" y="790" width="145" height="321" rx="18"/>
+  </g>
+  <g stroke="#000" stroke-width="4" fill="#fff3d0">
+    <rect x="1039" y="605" width="101" height="51" rx="7"/>
+    <rect x="1039" y="701" width="101" height="51" rx="7"/>
+    <rect x="1039" y="822" width="101" height="51" rx="7"/>
+    <rect x="1039" y="933" width="101" height="51" rx="7"/>
+    <rect x="1039" y="1041" width="101" height="51" rx="7"/>
+  </g>
+
+  <!-- latent representation tokens on encoder side -->
+  <g stroke="#000" stroke-width="4">
+    <rect x="1483" y="138" width="101" height="51" rx="7" fill="#dcefdc"/>
+    <rect x="1483" y="259" width="101" height="51" rx="7" fill="#dcefdc"/>
+    <rect x="1483" y="375" width="101" height="51" rx="7" fill="#dcefdc"/>
+    <rect x="1483" y="496" width="101" height="51" rx="7" fill="#dcefdc"/>
+    <rect x="1480" y="612" width="102" height="50" rx="6" fill="#dceafb"/>
+    <rect x="1487" y="734" width="102" height="50" rx="6" fill="#dceafb"/>
+  </g>
+
+  <g stroke="#000" stroke-width="4" fill="none">
+    <line x1="1163" y1="676" x2="1480" y2="630"/>
+    <line x1="1163" y1="967" x2="1487" y2="752"/>
+  </g>
+
+  <g font-family="Arial, Helvetica, sans-serif" fill="#8d8d8d" font-size="58" text-anchor="middle">
+    <text x="1536" y="948">Latent</text>
+    <text x="1509" y="1020">Representation</text>
+  </g>
+
+  <!-- central transformer -->
+  <rect x="1720" y="52" width="427" height="806" rx="62" fill="#dceeee" stroke="#000" stroke-width="8"/>
+  <g font-family="Arial, Helvetica, sans-serif" fill="#000" font-size="58" text-anchor="middle">
+    <text x="1934" y="407">Latent</text>
+    <text x="1934" y="479">Speech-Text</text>
+    <text x="1934" y="551">Transformer</text>
+  </g>
+
+  <!-- transformer output small tokens -->
+  <g stroke="#000" stroke-width="4">
+    <rect x="2229" y="131" width="101" height="51" rx="7" fill="#dcefdc"/>
+    <rect x="2229" y="251" width="101" height="51" rx="7" fill="#dcefdc"/>
+    <rect x="2228" y="369" width="101" height="51" rx="7" fill="#dcefdc"/>
+    <rect x="2229" y="489" width="101" height="51" rx="7" fill="#dceafb"/>
+    <rect x="2229" y="610" width="101" height="51" rx="7" fill="#dceafb"/>
+    <rect x="2228" y="724" width="101" height="51" rx="7" fill="#dceafb"/>
+  </g>
+
+  <!-- right dashed input token box -->
+  <rect x="2486" y="106" width="164" height="1111" fill="none" stroke="#000" stroke-width="4" stroke-dasharray="15 15"/>
+
+  <!-- right input token column -->
+  <g stroke="#000" stroke-width="4">
+    <rect x="2525" y="131" width="101" height="51" rx="7" fill="#dcefdc"/>
+    <rect x="2525" y="251" width="101" height="51" rx="7" fill="#dcefdc"/>
+    <rect x="2525" y="369" width="101" height="51" rx="7" fill="#dcefdc"/>
+    <rect x="2525" y="489" width="101" height="51" rx="7" fill="#dcefdc"/>
+
+    <rect x="2524" y="594" width="101" height="51" rx="7" fill="#fde8cf"/>
+    <rect x="2524" y="714" width="101" height="51" rx="7" fill="#fde8cf"/>
+    <rect x="2524" y="819" width="101" height="51" rx="7" fill="#fde8cf"/>
+    <rect x="2524" y="934" width="101" height="51" rx="7" fill="#fde8cf"/>
+    <rect x="2524" y="1049" width="101" height="51" rx="7" fill="#fde8cf"/>
+    <rect x="2524" y="1154" width="101" height="51" rx="7" fill="#fde8cf"/>
+  </g>
+
+  <!-- arrows into transformer-output tokens -->
+  <g stroke="#000" stroke-width="4" fill="none" marker-end="url(#arrow)">
+    <line x1="2525" y1="156" x2="2330" y2="156"/>
+    <line x1="2525" y1="276" x2="2330" y2="276"/>
+    <line x1="2525" y1="394" x2="2330" y2="394"/>
+    <line x1="2525" y1="515" x2="2330" y2="515"/>
+    <line x1="2525" y1="620" x2="2330" y2="515"/>
+    <line x1="2525" y1="739" x2="2328" y2="636"/>
+    <line x1="2525" y1="844" x2="2328" y2="636"/>
+    <line x1="2525" y1="959" x2="2328" y2="750"/>
+    <line x1="2525" y1="1075" x2="2328" y2="750"/>
+    <line x1="2525" y1="1180" x2="2328" y2="750"/>
+  </g>
+
+  <!-- right input labels -->
+  <g font-family="Arial, Helvetica, sans-serif" fill="#000" font-size="58">
+    <text x="2668" y="175">Better</text>
+    <text x="2685" y="295">_text</text>
+    <text x="2685" y="414">_to</text>
+    <text x="2685" y="534">_speech</text>
+    <text x="2679" y="640">s1</text>
+    <text x="2679" y="760">s2</text>
+    <text x="2679" y="866">s3</text>
+    <text x="2679" y="980">s4</text>
+    <text x="2679" y="1094">s5</text>
+    <text x="2679" y="1201">s6</text>
+  </g>
+
+  <!-- bottom feedback line -->
+  <path d="M 514 1204 L 514 1315 L 2566 1315 L 2566 1218" fill="none" stroke="#000" stroke-width="4" marker-end="url(#arrow)"/>
+
+  <!-- Patch Decoder -->
+  <rect x="2884" y="106" width="270" height="1148" fill="#d8e8fb" stroke="#000" stroke-width="4"/>
+  <g font-family="Arial, Helvetica, sans-serif" fill="#000" font-size="58" text-anchor="middle">
+    <text x="3019" y="667">Patch</text>
+    <text x="3019" y="737">Decoder</text>
+  </g>
+
+  <!-- decoder output tokens -->
+  <g stroke="#000" stroke-width="4">
+    <rect x="3180" y="131" width="101" height="51" rx="7" fill="#dcefdc"/>
+    <rect x="3180" y="252" width="101" height="51" rx="7" fill="#dcefdc"/>
+    <rect x="3180" y="375" width="101" height="51" rx="7" fill="#dcefdc"/>
+
+    <rect x="3180" y="496" width="101" height="51" rx="7" fill="#fde8cf"/>
+    <rect x="3180" y="593" width="101" height="51" rx="7" fill="#fde8cf"/>
+    <rect x="3180" y="713" width="101" height="51" rx="7" fill="#fde8cf"/>
+    <rect x="3180" y="825" width="101" height="51" rx="7" fill="#fde8cf"/>
+    <rect x="3180" y="936" width="101" height="51" rx="7" fill="#fde8cf"/>
+    <rect x="3180" y="1050" width="101" height="51" rx="7" fill="#fde8cf"/>
+    <rect x="3180" y="1156" width="101" height="51" rx="7" fill="#fde8cf"/>
+  </g>
+
+  <!-- decoder output separators -->
+  <g stroke="#000" stroke-width="4" stroke-dasharray="15 15" fill="none">
+    <line x1="3174" y1="687" x2="3761" y2="687"/>
+    <line x1="3174" y1="1018" x2="3761" y2="1018"/>
+  </g>
+
+  <!-- decoder labels -->
+  <g font-family="Arial, Helvetica, sans-serif" fill="#000" font-size="58">
+    <text x="3351" y="175">_text</text>
+    <text x="3351" y="294">_to</text>
+    <text x="3291" y="412">_speech</text>
+
+    <text x="3352" y="536">s1</text>
+    <text x="3352" y="633">s2</text>
+    <text x="3352" y="754">s3</text>
+    <text x="3352" y="866">s4</text>
+    <text x="3352" y="978">s5</text>
+    <text x="3352" y="1092">s6</text>
+    <text x="3352" y="1198">s7</text>
+
+    <text x="3487" y="588" font-style="italic">Silence</text>
+
+    <text x="3475" y="807" font-style="italic">spoken</text>
+    <text x="3486" y="881" font-style="italic">word 1</text>
+
+    <text x="3491" y="1097" font-style="italic">spoken</text>
+    <text x="3499" y="1170" font-style="italic">word 2</text>
+  </g>
+</svg>

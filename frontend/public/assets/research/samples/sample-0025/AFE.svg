@@ -1,0 +1,291 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="3840" height="2045" viewBox="0 0 3840 2045">
+  <defs>
+    <marker id="arrowGray" markerWidth="18" markerHeight="18" refX="9" refY="9" orient="auto" markerUnits="strokeWidth">
+      <path d="M2,2 L16,9 L2,16 Z" fill="#b8b8b8"/>
+    </marker>
+    <marker id="arrowRed" markerWidth="16" markerHeight="16" refX="8" refY="8" orient="auto" markerUnits="strokeWidth">
+      <path d="M2,2 L14,8 L2,14 Z" fill="#f12a18"/>
+    </marker>
+    <filter id="softBlur">
+      <feGaussianBlur stdDeviation="1.1"/>
+    </filter>
+    <filter id="textSoft">
+      <feDropShadow dx="2.3" dy="2.3" stdDeviation="0.4" flood-color="#f0a24a" flood-opacity=".65"/>
+    </filter>
+    <clipPath id="gridClip">
+      <rect x="2345" y="210" width="830" height="830"/>
+    </clipPath>
+    <linearGradient id="skin" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#f2c27f"/>
+      <stop offset=".55" stop-color="#c9884b"/>
+      <stop offset="1" stop-color="#1b0d10"/>
+    </linearGradient>
+    <linearGradient id="thumbBg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#050509"/>
+      <stop offset=".48" stop-color="#2b100b"/>
+      <stop offset=".72" stop-color="#bd7944"/>
+      <stop offset="1" stop-color="#060504"/>
+    </linearGradient>
+    <symbol id="thumb" viewBox="0 0 135 135">
+      <rect width="135" height="135" fill="url(#thumbBg)"/>
+      <path d="M42 28 C56 15 83 19 99 39 C115 61 105 95 82 114 C58 134 25 120 19 91 C14 67 22 45 42 28Z" fill="#e6b572" opacity=".78"/>
+      <path d="M34 24 C48 11 75 12 95 29 L87 42 C70 35 54 34 42 47 C31 59 28 82 36 104 L23 105 C7 74 13 43 34 24Z" fill="#10070a" opacity=".78"/>
+      <path d="M58 30 L89 87 L45 99 Z" fill="#f3d08e" opacity=".7"/>
+      <path d="M20 22 L54 8 L70 25 L29 47Z" fill="#3b0c0b" opacity=".8"/>
+      <path d="M88 13 L124 45 L111 71 L84 35Z" fill="#802010" opacity=".72"/>
+      <path d="M57 51 C63 45 73 45 79 53" stroke="#4b2619" stroke-width="5" fill="none"/>
+      <circle cx="65" cy="67" r="5" fill="#352016"/>
+      <path d="M46 101 C68 89 91 93 111 109 L103 130 L42 129Z" fill="#1b0b0b" opacity=".75"/>
+    </symbol>
+  </defs>
+
+  <rect width="3840" height="2045" fill="white"/>
+
+  <!-- left main vertical signal lines -->
+  <g stroke="#b9b9b9" stroke-width="7" opacity=".88">
+    <line x1="136" y1="348" x2="136" y2="1798"/>
+    <line x1="279" y1="1160" x2="279" y2="1798"/>
+    <line x1="429" y1="1160" x2="429" y2="1798"/>
+    <line x1="579" y1="348" x2="579" y2="1798"/>
+    <line x1="728" y1="1160" x2="728" y2="1798"/>
+    <line x1="875" y1="348" x2="875" y2="1798"/>
+    <line x1="1024" y1="1160" x2="1024" y2="1798"/>
+    <line x1="1169" y1="1160" x2="1169" y2="1798"/>
+    <line x1="1315" y1="348" x2="1315" y2="1798"/>
+    <line x1="1466" y1="1160" x2="1466" y2="1798"/>
+    <line x1="1615" y1="1160" x2="1615" y2="1798"/>
+    <line x1="1758" y1="348" x2="1758" y2="1798"/>
+    <line x1="1907" y1="1160" x2="1907" y2="1798"/>
+  </g>
+
+  <!-- blue rounded modules -->
+  <rect x="62" y="73" width="1917" height="222" rx="34" fill="#bfe6f5" stroke="#d7eef7" stroke-width="3"/>
+  <text x="1020" y="230" text-anchor="middle" font-family="Times New Roman, serif" font-size="82" fill="#aaa">LLM</text>
+
+  <rect x="67" y="451" width="1918" height="201" rx="25" fill="#bfe6f5" stroke="#d7eef7" stroke-width="3"/>
+  <text x="1020" y="594" text-anchor="middle" font-family="Arial, sans-serif" font-size="76" font-style="italic" fill="#050505" filter="url(#textSoft)">Spatial Dynamic Compression</text>
+
+  <rect x="62" y="1244" width="1917" height="225" rx="28" fill="#bfe6f5" stroke="#d7eef7" stroke-width="3"/>
+  <text x="1020" y="1395" text-anchor="middle" font-family="Times New Roman, serif" font-size="78" fill="#aaa">MLP</text>
+
+  <rect x="62" y="1521" width="1917" height="224" rx="28" fill="#bfe6f5" stroke="#d7eef7" stroke-width="3"/>
+  <text x="1020" y="1674" text-anchor="middle" font-family="Times New Roman, serif" font-size="78" fill="#aaa">VIT</text>
+
+  <!-- arrows from compact tokens to compression -->
+  <g stroke="#b8b8b8" stroke-width="7" marker-end="url(#arrowGray)">
+    <line x1="136" y1="451" x2="136" y2="400"/>
+    <line x1="579" y1="451" x2="579" y2="400"/>
+    <line x1="875" y1="451" x2="875" y2="400"/>
+    <line x1="1315" y1="451" x2="1315" y2="400"/>
+    <line x1="1758" y1="451" x2="1758" y2="400"/>
+  </g>
+
+  <!-- small token rows -->
+  <g opacity=".67">
+    <g fill="#ffd8c8">
+      <rect x="85" y="344" width="44" height="48" rx="7"/><rect x="141" y="344" width="44" height="48" rx="7"/><rect x="197" y="344" width="44" height="48" rx="7"/><rect x="253" y="344" width="44" height="48" rx="7"/>
+    </g>
+    <g fill="#cef4ca">
+      <rect x="324" y="344" width="44" height="48" rx="7"/><rect x="380" y="344" width="44" height="48" rx="7"/><rect x="436" y="344" width="44" height="48" rx="7"/><rect x="492" y="344" width="44" height="48" rx="7"/><rect x="548" y="344" width="44" height="48" rx="7"/><rect x="604" y="344" width="44" height="48" rx="7"/><rect x="660" y="344" width="44" height="48" rx="7"/><rect x="716" y="344" width="44" height="48" rx="7"/><rect x="772" y="344" width="44" height="48" rx="7"/>
+    </g>
+    <g fill="#d7e9f8">
+      <rect x="860" y="344" width="44" height="48" rx="7"/><rect x="916" y="344" width="44" height="48" rx="7"/><rect x="972" y="344" width="44" height="48" rx="7"/><rect x="1028" y="344" width="44" height="48" rx="7"/><rect x="1084" y="344" width="44" height="48" rx="7"/>
+    </g>
+    <g fill="#f2c7ec">
+      <rect x="1095" y="344" width="44" height="48" rx="7"/><rect x="1151" y="344" width="44" height="48" rx="7"/><rect x="1207" y="344" width="44" height="48" rx="7"/><rect x="1263" y="344" width="44" height="48" rx="7"/><rect x="1319" y="344" width="44" height="48" rx="7"/><rect x="1375" y="344" width="44" height="48" rx="7"/><rect x="1431" y="344" width="44" height="48" rx="7"/><rect x="1487" y="344" width="44" height="48" rx="7"/><rect x="1543" y="344" width="44" height="48" rx="7"/><rect x="1599" y="344" width="44" height="48" rx="7"/>
+    </g>
+    <g fill="#ffff54">
+      <rect x="1682" y="344" width="44" height="48" rx="7"/><rect x="1738" y="344" width="44" height="48" rx="7"/><rect x="1794" y="344" width="44" height="48" rx="7"/><rect x="1850" y="344" width="44" height="48" rx="7"/><rect x="1906" y="344" width="44" height="48" rx="7"/>
+    </g>
+  </g>
+
+  <!-- token allocation colored band -->
+  <rect x="79" y="704" width="239" height="110" fill="#ffd9c8" opacity=".7"/>
+  <rect x="322" y="704" width="497" height="110" fill="#d8f4cc" opacity=".78"/>
+  <rect x="819" y="704" width="268" height="110" fill="#d6edf9" opacity=".85"/>
+  <rect x="1087" y="704" width="567" height="110" fill="#f3caec" opacity=".75"/>
+  <rect x="1654" y="704" width="319" height="110" fill="#ffff5a" opacity=".72"/>
+  <path d="M81 844 C145 790 184 739 243 752 C295 764 294 802 355 786 C445 763 494 691 607 708 C707 724 757 786 851 781 C953 775 1000 738 1105 724 C1234 705 1290 754 1400 690 C1458 655 1518 696 1588 739 C1664 787 1722 755 1784 736 C1842 717 1895 760 1968 789" fill="none" stroke="#0e6d96" stroke-width="7"/>
+  <text x="955" y="794" text-anchor="middle" font-family="Arial, sans-serif" font-size="72" font-style="italic" fill="#050505" filter="url(#textSoft)">Token Allocation</text>
+
+  <!-- frame group fusion structures -->
+  <g>
+    <rect x="79" y="870" width="113" height="113" rx="15" fill="#f8c3a5"/>
+    <rect x="79" y="1039" width="113" height="113" rx="13" fill="#f8c3a5"/>
+    <rect x="225" y="1039" width="113" height="113" rx="13" fill="#f7ddcf"/>
+    <rect x="372" y="1039" width="113" height="113" rx="13" fill="#f7ddcf"/>
+    <path d="M131 981 L131 1039 M131 981 L280 1039 M131 981 L429 1039" stroke="#000" stroke-width="7" fill="none"/>
+
+    <rect x="521" y="870" width="113" height="113" rx="15" fill="#86d86e"/>
+    <rect x="521" y="1039" width="113" height="113" rx="13" fill="#86d86e"/>
+    <rect x="666" y="1039" width="113" height="113" rx="13" fill="#d7f4cd"/>
+    <rect x="812" y="1039" width="113" height="113" rx="13" fill="#d7f4cd"/>
+    <path d="M579 981 L579 1039 M579 981 L728 1039 M579 981 L874 1039" stroke="#000" stroke-width="7" fill="none"/>
+
+    <rect x="816" y="870" width="113" height="113" rx="15" fill="#5ec3e7"/>
+    <rect x="816" y="1039" width="113" height="113" rx="13" fill="#5ec3e7"/>
+    <rect x="963" y="1039" width="113" height="113" rx="13" fill="#caecfb"/>
+    <rect x="1111" y="1039" width="113" height="113" rx="13" fill="#caecfb"/>
+    <path d="M874 981 L874 1039 M874 981 L1024 1039 M874 981 L1170 1039" stroke="#000" stroke-width="7" fill="none"/>
+
+    <rect x="1260" y="870" width="113" height="113" rx="15" fill="#df8ad8"/>
+    <rect x="1260" y="1039" width="113" height="113" rx="13" fill="#df8ad8"/>
+    <rect x="1406" y="1039" width="113" height="113" rx="13" fill="#f0c5ea"/>
+    <rect x="1553" y="1039" width="113" height="113" rx="13" fill="#f0c5ea"/>
+    <path d="M1315 981 L1315 1039 M1315 981 L1466 1039 M1315 981 L1615 1039" stroke="#000" stroke-width="7" fill="none"/>
+
+    <rect x="1701" y="870" width="113" height="113" rx="15" fill="#ffd555"/>
+    <rect x="1701" y="1039" width="113" height="113" rx="13" fill="#ffd555"/>
+    <rect x="1848" y="1039" width="113" height="113" rx="13" fill="#f6fb62"/>
+    <path d="M1759 981 L1759 1039 M1759 981 L1908 1039" stroke="#000" stroke-width="7" fill="none"/>
+  </g>
+
+  <g stroke="#b8b8b8" stroke-width="7" marker-end="url(#arrowGray)">
+    <line x1="279" y1="1244" x2="279" y2="1161"/>
+    <line x1="429" y1="1244" x2="429" y2="1161"/>
+    <line x1="728" y1="1244" x2="728" y2="1161"/>
+    <line x1="1024" y1="1244" x2="1024" y2="1161"/>
+    <line x1="1169" y1="1244" x2="1169" y2="1161"/>
+    <line x1="1466" y1="1244" x2="1466" y2="1161"/>
+    <line x1="1615" y1="1244" x2="1615" y2="1161"/>
+    <line x1="1907" y1="1244" x2="1907" y2="1161"/>
+  </g>
+  <text x="956" y="1132" text-anchor="middle" font-family="Arial, sans-serif" font-size="76" font-style="italic" fill="#050505" filter="url(#textSoft)">Frame Group Fusion</text>
+
+  <!-- bottom thumbnails -->
+  <g>
+    <use href="#thumb" x="62" y="1798" width="135" height="135"/>
+    <use href="#thumb" x="210" y="1798" width="135" height="135"/>
+    <use href="#thumb" x="358" y="1798" width="135" height="135"/>
+    <use href="#thumb" x="506" y="1798" width="135" height="135"/>
+    <use href="#thumb" x="654" y="1798" width="135" height="135"/>
+    <use href="#thumb" x="802" y="1798" width="135" height="135"/>
+    <use href="#thumb" x="950" y="1798" width="135" height="135"/>
+    <use href="#thumb" x="1098" y="1798" width="135" height="135"/>
+    <use href="#thumb" x="1246" y="1798" width="135" height="135"/>
+    <use href="#thumb" x="1394" y="1798" width="135" height="135"/>
+    <use href="#thumb" x="1542" y="1798" width="135" height="135"/>
+    <use href="#thumb" x="1690" y="1798" width="135" height="135"/>
+    <use href="#thumb" x="1838" y="1798" width="135" height="135"/>
+    <g stroke="#f3a77e" stroke-width="7">
+      <line x1="500" y1="1769" x2="500" y2="1971"/>
+      <line x1="795" y1="1769" x2="795" y2="1971"/>
+      <line x1="1242" y1="1769" x2="1242" y2="1971"/>
+      <line x1="1687" y1="1769" x2="1687" y2="1971"/>
+    </g>
+  </g>
+
+  <!-- right enlarged rounded area and connector -->
+  <path d="M1979 92 C2083 92 2206 92 2310 92 C2375 92 2414 91 2463 91 L3525 91 C3655 91 3782 219 3782 346 L3782 1671 C3782 1801 3655 1931 3524 1931 L2510 1931 C2384 1931 2308 1845 2283 1758 L1976 652" fill="none" stroke="#bfe6f5" stroke-width="7" opacity=".8"/>
+  <path d="M1979 451 C2104 330 2233 208 2348 103" fill="none" stroke="#bfe6f5" stroke-width="7" opacity=".8"/>
+  <path d="M1979 652 L2283 1758" fill="none" stroke="#bfe6f5" stroke-width="7" opacity=".8"/>
+
+  <!-- enlarged frame grid -->
+  <g clip-path="url(#gridClip)">
+    <rect x="2345" y="210" width="830" height="830" fill="#17080a"/>
+    <rect x="2345" y="210" width="92" height="830" fill="#0c0509"/>
+    <rect x="2437" y="210" width="92" height="830" fill="#4b160c" opacity=".75"/>
+    <rect x="2529" y="210" width="92" height="830" fill="#60210f" opacity=".9"/>
+    <rect x="2621" y="210" width="92" height="830" fill="#bd8247"/>
+    <rect x="2713" y="210" width="92" height="830" fill="#1d080a"/>
+    <rect x="2805" y="210" width="92" height="830" fill="#255424" opacity=".95"/>
+    <rect x="2897" y="210" width="92" height="830" fill="#73341a" opacity=".8"/>
+    <rect x="2989" y="210" width="92" height="830" fill="#868200" opacity=".88"/>
+    <rect x="3081" y="210" width="94" height="830" fill="#6a6700" opacity=".9"/>
+
+    <path d="M2578 457 C2658 383 2798 298 2862 341 C2932 388 2915 493 2999 586 C3084 681 3104 887 2952 984 C2774 1098 2578 1043 2510 885 C2434 708 2469 557 2578 457Z" fill="url(#skin)" opacity=".98"/>
+    <path d="M2605 393 C2678 292 2825 262 2904 326 C2831 333 2788 368 2790 450 C2792 566 2729 608 2650 594 C2566 579 2522 487 2605 393Z" fill="#080408" opacity=".86"/>
+    <path d="M2808 424 L2922 332 L3010 453 L2932 551 L2845 523Z" fill="#e3b177"/>
+    <path d="M2766 485 C2861 501 2933 591 2917 714 C2903 821 2836 889 2747 909 C2785 773 2794 628 2766 485Z" fill="#96a0a6" opacity=".65"/>
+    <path d="M2865 617 C2910 642 2935 699 2920 752" stroke="#44261a" stroke-width="9" fill="none"/>
+    <path d="M2623 588 C2670 553 2724 557 2760 596" stroke="#714322" stroke-width="8" fill="none"/>
+    <path d="M2606 733 C2672 706 2757 719 2808 779" stroke="#8a4b28" stroke-width="7" fill="none"/>
+    <path d="M2518 924 C2648 891 2744 910 2835 1027 L2610 1042Z" fill="#16080a" opacity=".7"/>
+    <path d="M2978 253 C3023 158 2998 134 3032 72" stroke="#c78c16" stroke-width="14" opacity=".65" fill="none"/>
+    <path d="M2965 829 L3095 1037 L3008 1042 C2948 986 2916 923 2965 829Z" fill="#1a0a0b" opacity=".8"/>
+  </g>
+
+  <g stroke="white" stroke-width="7" opacity=".94">
+    <line x1="2345" y1="210" x2="2345" y2="1040"/><line x1="2437" y1="210" x2="2437" y2="1040"/><line x1="2529" y1="210" x2="2529" y2="1040"/><line x1="2621" y1="210" x2="2621" y2="1040"/><line x1="2713" y1="210" x2="2713" y2="1040"/><line x1="2805" y1="210" x2="2805" y2="1040"/><line x1="2897" y1="210" x2="2897" y2="1040"/><line x1="2989" y1="210" x2="2989" y2="1040"/><line x1="3081" y1="210" x2="3081" y2="1040"/><line x1="3175" y1="210" x2="3175" y2="1040"/>
+    <line x1="2345" y1="210" x2="3175" y2="210"/><line x1="2345" y1="302" x2="3175" y2="302"/><line x1="2345" y1="394" x2="3175" y2="394"/><line x1="2345" y1="486" x2="3175" y2="486"/><line x1="2345" y1="578" x2="3175" y2="578"/><line x1="2345" y1="670" x2="3175" y2="670"/><line x1="2345" y1="762" x2="3175" y2="762"/><line x1="2345" y1="854" x2="3175" y2="854"/><line x1="2345" y1="946" x2="3175" y2="946"/><line x1="2345" y1="1040" x2="3175" y2="1040"/>
+  </g>
+
+  <!-- red outlines and red mask paths -->
+  <path d="M2654 239 C2627 296 2624 350 2657 394 C2623 457 2615 518 2644 576" stroke="#f11d12" stroke-width="7" fill="none"/>
+  <path d="M2886 490 C2943 540 2948 596 2917 655 C2957 691 2952 745 2906 788 C2935 822 2927 860 2894 887" stroke="#f11d12" stroke-width="7" fill="none" marker-end="url(#arrowRed)"/>
+  <g fill="none" stroke="#e22a2a" stroke-width="6">
+    <rect x="2805" y="302" width="92" height="92"/>
+    <rect x="3081" y="302" width="94" height="92"/>
+    <rect x="2805" y="578" width="92" height="92"/>
+    <rect x="2805" y="762" width="92" height="92"/>
+  </g>
+
+  <!-- grid numbers -->
+  <g font-family="Times New Roman, serif" font-size="42" font-weight="700" text-anchor="middle" dominant-baseline="middle" filter="url(#textSoft)">
+    <text x="2391" y="256" fill="#2f7fc4">15</text>
+    <text x="2602" y="371" fill="#e6b47f">12</text>
+    <text x="2851" y="348" fill="#c8f1a1">2</text>
+    <text x="3128" y="348" fill="#ddd35b">13</text>
+    <text x="2717" y="477" fill="#2c86ca">8</text>
+    <text x="2927" y="477" fill="#0d276a">18</text>
+    <text x="2850" y="624" fill="#d7dde1">1</text>
+    <text x="2917" y="570" fill="#f1c089">3</text>
+    <text x="2602" y="678" fill="#f7c484">14</text>
+    <text x="2715" y="678" fill="#2b120f">5</text>
+    <text x="2392" y="781" fill="#2b85ca">7</text>
+    <text x="2605" y="781" fill="#f2d2a3">9</text>
+    <text x="2849" y="781" fill="#70a7ce">4</text>
+    <text x="2914" y="782" fill="#f2d2a3">16</text>
+    <text x="3020" y="782" fill="#f2d2a3">11</text>
+    <text x="2714" y="887" fill="#2f84be">6</text>
+    <text x="3022" y="891" fill="#153975">17</text>
+  </g>
+
+  <!-- selected token list -->
+  <g font-family="Arial, sans-serif" font-size="42" font-weight="700" text-anchor="middle" dominant-baseline="middle">
+    <g fill="#cdefff">
+      <rect x="3195" y="210" width="90" height="90"/><text x="3240" y="255">15</text>
+      <rect x="3195" y="310" width="90" height="90"/><text x="3240" y="355">12</text>
+      <rect x="3195" y="410" width="90" height="90"/><text x="3240" y="455">10</text>
+      <rect x="3195" y="510" width="90" height="90" fill="#60b6e9"/><text x="3240" y="555">1</text>
+      <rect x="3195" y="610" width="90" height="90"/><text x="3240" y="655">14</text>
+      <rect x="3195" y="710" width="90" height="90"/><text x="3240" y="755">7</text>
+      <rect x="3195" y="810" width="90" height="90"/><text x="3240" y="855">6</text>
+
+      <rect x="3295" y="310" width="90" height="90" fill="#54dc60"/><text x="3340" y="355">2</text>
+      <rect x="3295" y="410" width="90" height="90"/><text x="3340" y="455">8</text>
+      <rect x="3295" y="510" width="90" height="90"/><text x="3340" y="555">3</text>
+      <rect x="3295" y="610" width="90" height="90"/><text x="3340" y="655">5</text>
+      <rect x="3295" y="710" width="90" height="90"/><text x="3340" y="755">9</text>
+      <rect x="3295" y="810" width="90" height="90"/><text x="3340" y="855">17</text>
+
+      <rect x="3395" y="310" width="90" height="90" fill="#fbf52b"/><text x="3440" y="355">13</text>
+      <rect x="3395" y="410" width="90" height="90"/><text x="3440" y="455">18</text>
+
+      <rect x="3408" y="710" width="90" height="90" fill="#d85fc6"/><text x="3453" y="755">4</text>
+      <rect x="3508" y="710" width="90" height="90"/><text x="3553" y="755">16</text>
+      <rect x="3608" y="710" width="90" height="90"/><text x="3653" y="755">11</text>
+    </g>
+  </g>
+  <text x="3485" y="1010" text-anchor="middle" font-family="Times New Roman, serif" font-size="66" fill="#050505" filter="url(#textSoft)">selected tokens</text>
+
+  <!-- right flow lines -->
+  <g stroke="#b8b8b8" stroke-width="7" fill="none">
+    <path d="M2646 1040 L2646 1488 L2847 1488"/>
+    <path d="M3478 1488 L3478 1100" marker-end="url(#arrowGray)"/>
+    <path d="M3478 1488 L3385 1488"/>
+    <path d="M2749 1852 L3385 1852 L3385 1488"/>
+    <path d="M2749 1852 L2749 1488" marker-end="url(#arrowGray)"/>
+  </g>
+
+  <!-- vertical operation boxes -->
+  <g>
+    <rect x="2847" y="1143" width="113" height="664" rx="14" fill="#bfe6f5"/>
+    <rect x="3021" y="1143" width="113" height="664" rx="14" fill="#bfe6f5"/>
+    <rect x="3194" y="1143" width="113" height="664" rx="14" fill="#bfe6f5"/>
+
+    <text transform="translate(2904 1476) rotate(90)" text-anchor="middle" font-family="Arial, sans-serif" font-size="56" font-style="italic" fill="#050505" filter="url(#textSoft)">Unique Select</text>
+    <text transform="translate(3078 1476) rotate(90)" text-anchor="middle" font-family="Arial, sans-serif" font-size="56" font-style="italic" fill="#050505" filter="url(#textSoft)">Neighbor Fuse</text>
+    <text transform="translate(3251 1476) rotate(90)" text-anchor="middle" font-family="Arial, sans-serif" font-size="56" font-style="italic" fill="#050505" filter="url(#textSoft)">Drop</text>
+  </g>
+</svg>

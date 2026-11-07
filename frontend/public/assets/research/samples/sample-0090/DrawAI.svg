@@ -1,0 +1,132 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="2048" height="725" viewBox="0 0 2048 725">
+  <defs>
+    <marker id="arrow-black" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto" markerUnits="userSpaceOnUse">
+      <polygon points="0,0 12,6 0,12" fill="#000000" stroke="none"/>
+    </marker>
+    <marker id="arrow-teal" markerWidth="13" markerHeight="13" refX="11" refY="6.5" orient="auto" markerUnits="userSpaceOnUse">
+      <polygon points="0,0 13,6.5 0,13" fill="#0d6683" stroke="none"/>
+    </marker>
+  </defs>
+  <rect id="background-white" data-pb-role="background" data-pb-editable="true" x="0" y="0" width="2048" height="725" fill="#ffffff" stroke="none"/>
+
+  <g id="module-environment-label" data-pb-role="label" data-pb-editable="true">
+    <text id="label-environment" x="191" y="230" font-family="Arial, Helvetica, sans-serif" font-size="39" font-style="normal" font-weight="400" fill="#000000" text-anchor="start" data-pb-role="label" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="horizontal">Environment</text>
+  </g>
+
+  <g id="module-robot-icon" data-pb-role="node" data-pb-editable="true" fill="#000000" stroke="#000000" stroke-linejoin="round">
+    <rect id="robot-base-plate" x="36" y="488" width="143" height="27" rx="9" ry="9" fill="#000000" stroke="none"/>
+    <path id="robot-pedestal" d="M50 405 C50 371 78 345 111 345 L142 345 C157 345 166 357 166 372 L166 473 L50 473 Z" fill="#000000" stroke="none"/>
+    <path id="robot-shoulder-white-gap" d="M84 373 C75 394 83 410 101 416 C119 422 132 411 144 392 L178 333" fill="none" stroke="#ffffff" stroke-width="9" stroke-linecap="round"/>
+    <path id="robot-upper-arm" d="M107 382 L174 303 L201 326 L136 407 Z" fill="#000000" stroke="none"/>
+    <circle id="robot-joint-left" cx="109" cy="378" r="26" fill="#000000" stroke="#000000" stroke-width="3"/>
+    <circle id="robot-joint-left-dot" cx="109" cy="378" r="7" fill="#ffffff" stroke="none"/>
+    <circle id="robot-joint-top" cx="197" cy="305" r="21" fill="#000000" stroke="#000000" stroke-width="3"/>
+    <circle id="robot-joint-top-dot" cx="197" cy="305" r="6" fill="#ffffff" stroke="none"/>
+    <path id="robot-forearm" d="M216 315 L283 379 L263 400 L193 332 Z" fill="#000000" stroke="none"/>
+    <path id="robot-wrist" d="M255 393 L286 348 L330 356 L333 399" fill="none" stroke="#000000" stroke-width="14" stroke-linecap="round" stroke-linejoin="round"/>
+    <path id="robot-gripper-lower" d="M254 393 L259 424 L302 428" fill="none" stroke="#000000" stroke-width="13" stroke-linecap="round" stroke-linejoin="round"/>
+  </g>
+
+  <g id="module-table-cube-icon" data-pb-role="node" data-pb-editable="true" fill="#000000" stroke="#000000" stroke-linejoin="round">
+    <rect id="table-top" x="374" y="407" width="180" height="31" fill="#000000" stroke="none"/>
+    <rect id="table-crossbar" x="324" y="465" width="281" height="20" fill="#000000" stroke="none"/>
+    <path id="table-left-leg" d="M426 435 L461 435 L393 585 L359 585 Z" fill="#000000" stroke="none"/>
+    <path id="table-right-leg" d="M468 435 L501 435 L568 585 L534 585 Z" fill="#000000" stroke="none"/>
+    <polygon id="cube-front" points="409,330 464,365 464,407 409,375" fill="#000000" stroke="#ffffff" stroke-width="5"/>
+    <polygon id="cube-side" points="464,365 518,333 518,374 464,407" fill="#000000" stroke="#ffffff" stroke-width="5"/>
+    <polygon id="cube-top" points="409,330 462,302 518,333 464,365" fill="#000000" stroke="#ffffff" stroke-width="5"/>
+    <polyline id="cube-top-ridge" points="437,316 491,348" fill="none" stroke="#ffffff" stroke-width="5"/>
+    <rect id="cube-small-mark" x="474" y="350" width="12" height="15" fill="#ffffff" stroke="none"/>
+  </g>
+
+  <polygon id="flow-environment-arrow" data-pb-role="connector" data-pb-editable="true" points="615,403 762,403 762,383 800,421 762,459 762,439 615,439" fill="#ef6c2a" stroke="none"/>
+
+  <g id="module-central-space" data-pb-role="panel" data-pb-editable="true">
+    <polygon id="panel-all-solutions-plane" points="779,190 1173,99 1287,588 890,680" fill="#d9d9d9" fill-opacity="0.86" stroke="#071927" stroke-width="4" stroke-dasharray="2 5"/>
+    <line id="axis-vertical" x1="984" y1="515" x2="984" y2="31" stroke="#000000" stroke-width="4" data-pb-role="connector" data-pb-editable="true"/>
+    <polygon id="axis-vertical-head" points="984,17 976,31 992,31" fill="#000000" stroke="none" data-pb-role="connector" data-pb-editable="true"/>
+    <line id="axis-lower-left" x1="984" y1="515" x2="755" y2="660" stroke="#000000" stroke-width="4" data-pb-role="connector" data-pb-editable="true"/>
+    <polygon id="axis-lower-left-head" points="743,668 759,654 766,666" fill="#000000" stroke="none" data-pb-role="connector" data-pb-editable="true"/>
+    <line id="axis-lower-right" x1="1140" y1="497" x2="1403" y2="592" stroke="#000000" stroke-width="4" data-pb-role="connector" data-pb-editable="true"/>
+    <polygon id="axis-lower-right-head" points="1418,598 1398,599 1405,581" fill="#000000" stroke="none" data-pb-role="connector" data-pb-editable="true"/>
+  </g>
+
+  <g id="annotation-plane-top-formula" data-pb-role="formula" data-pb-editable="true" data-pb-formula-bbox="1011 70 135 47" data-pb-formula-latex-b64="XFBoaSB3ICsgYg==">
+    <text id="label-plane-top-formula" x="1018" y="114" transform="rotate(-11 1018 114)" font-family="Times New Roman, Georgia, serif" font-size="37" font-style="italic" font-weight="700" fill="#c84f00" text-anchor="start" data-pb-role="formula" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="horizontal">&#934;w + b</text>
+    <desc>LaTeX: \Phi w + b</desc>
+  </g>
+  <g id="annotation-plane-side-formula" data-pb-role="formula" data-pb-editable="true" data-pb-formula-bbox="873 275 56 202" data-pb-formula-latex-b64="XFBoaSB3ICsgYiBcZ2UgMA==">
+    <text id="label-plane-side-formula" x="896" y="473" transform="rotate(-74 896 473)" font-family="Times New Roman, Georgia, serif" font-size="36" font-style="italic" font-weight="400" fill="#c84f00" text-anchor="start" data-pb-role="formula" data-pb-editable="true" data-pb-text-source="visual_inferred" data-pb-orientation="vertical-rl">&#934;w + b &#8805; 0</text>
+    <desc>LaTeX: \Phi w + b \ge 0</desc>
+  </g>
+  <text id="label-all-solutions" x="1088" y="176" font-family="Arial, Helvetica, sans-serif" font-size="37" font-style="normal" font-weight="400" fill="#000000" text-anchor="middle" data-pb-role="label" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="horizontal">All</text>
+  <text id="label-all-solutions-2" x="1088" y="224" font-family="Arial, Helvetica, sans-serif" font-size="37" font-style="normal" font-weight="400" fill="#000000" text-anchor="middle" data-pb-role="label" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="horizontal">Solutions</text>
+
+  <g id="flow-projection-guides" data-pb-role="connector" data-pb-editable="true">
+    <line id="guide-upper" x1="1118" y1="262" x2="1592" y2="183" stroke="#7d7d7d" stroke-width="3" stroke-dasharray="13 11"/>
+    <line id="guide-middle" x1="1139" y1="499" x2="1419" y2="508" stroke="#7d7d7d" stroke-width="3" stroke-dasharray="13 11"/>
+    <line id="guide-lower" x1="1005" y1="551" x2="1418" y2="562" stroke="#7d7d7d" stroke-width="3" stroke-dasharray="13 11"/>
+  </g>
+
+  <g id="module-valid-solutions" data-pb-role="node" data-pb-editable="true">
+    <polygon id="polygon-valid-solutions" points="891,511 931,322 1003,275 1110,293 1159,369 1139,494 1010,552" fill="#49add7" stroke="#000000" stroke-width="7" stroke-linejoin="round"/>
+    <text id="label-valid-solutions-1" x="1028" y="395" font-family="Arial, Helvetica, sans-serif" font-size="33" font-style="normal" font-weight="700" fill="#ffffff" text-anchor="middle" data-pb-role="label" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="horizontal">Valid</text>
+    <text id="label-valid-solutions-2" x="1027" y="437" font-family="Arial, Helvetica, sans-serif" font-size="33" font-style="normal" font-weight="700" fill="#ffffff" text-anchor="middle" data-pb-role="label" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="horizontal">Solutions</text>
+  </g>
+  <line id="guide-central-dashed-reward" x1="997" y1="514" x2="1142" y2="511" stroke="#777777" stroke-width="3" stroke-dasharray="12 10" data-pb-role="connector" data-pb-editable="true"/>
+  <circle id="point-central-solution" cx="997" cy="514" r="10" fill="#0d6683" stroke="#07394b" stroke-width="3" data-pb-role="node" data-pb-editable="true"/>
+  <line id="flow-task-reward-dashed" x1="465" y1="611" x2="970" y2="518" stroke="#ff0000" stroke-width="3" stroke-dasharray="13 11" data-pb-role="connector" data-pb-editable="true"/>
+  <polygon id="flow-task-reward-red-head" points="966,506 992,517 970,533" fill="#ff0000" stroke="none" data-pb-role="connector" data-pb-editable="true"/>
+
+  <g id="label-task-reward" data-pb-role="label" data-pb-editable="true">
+    <text id="label-task-reward-text" x="211" y="653" font-family="Arial, Helvetica, sans-serif" font-size="42" font-style="normal" font-weight="700" fill="#000000" text-anchor="start" data-pb-role="label" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="horizontal">Task Reward:</text>
+    <g id="label-task-reward-r-formula" data-pb-role="formula" data-pb-editable="true" data-pb-formula-bbox="478 622 28 32" data-pb-formula-latex-b64="cg==">
+      <text id="label-task-reward-r" x="490" y="653" font-family="Times New Roman, Georgia, serif" font-size="42" font-style="italic" font-weight="700" fill="#000000" text-anchor="start" data-pb-role="formula" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="horizontal">r</text>
+      <desc>LaTeX: r</desc>
+    </g>
+  </g>
+
+  <g id="module-solutions-polytope" data-pb-role="node" data-pb-editable="true">
+    <polygon id="polygon-solutions-polytope" points="1417,511 1476,249 1587,183 1754,206 1824,313 1802,487 1597,568" fill="#bfe6f4" stroke="#0d6683" stroke-width="8" stroke-linejoin="round"/>
+  </g>
+
+  <g id="module-policy-output-box" data-pb-role="panel" data-pb-editable="true">
+    <rect id="policy-output-rect" x="1869" y="265" width="134" height="287" fill="#ffffff" stroke="#071927" stroke-width="3"/>
+  </g>
+  <g id="flow-policy-arrows" data-pb-role="connector" data-pb-editable="true">
+    <line id="arrow-w1-pi1" x1="1521" y1="352" x2="1897" y2="353" stroke="#0d6683" stroke-width="4" stroke-dasharray="12 11"/>
+    <polygon id="arrow-w1-pi1-head" points="1910,353 1896,346 1896,360" fill="#0d6683" stroke="none"/>
+    <line id="arrow-w2-pi2" x1="1601" y1="433" x2="1897" y2="434" stroke="#0d6683" stroke-width="4" stroke-dasharray="12 11"/>
+    <polygon id="arrow-w2-pi2-head" points="1910,434 1896,427 1896,441" fill="#0d6683" stroke="none"/>
+    <line id="arrow-wstar-pistar" x1="1585" y1="504" x2="1897" y2="505" stroke="#0d6683" stroke-width="4" stroke-dasharray="12 11"/>
+    <polygon id="arrow-wstar-pistar-head" points="1910,505 1896,498 1896,512" fill="#0d6683" stroke="none"/>
+  </g>
+  <g id="module-policy-points" data-pb-role="node" data-pb-editable="true">
+    <circle id="point-w1" cx="1522" cy="352" r="9" fill="#0d6683" stroke="#07394b" stroke-width="3"/>
+    <circle id="point-w2" cx="1601" cy="433" r="9" fill="#0d6683" stroke="#07394b" stroke-width="3"/>
+    <circle id="point-wstar" cx="1585" cy="504" r="9" fill="#0d6683" stroke="#07394b" stroke-width="3"/>
+  </g>
+
+  <g id="label-w1-formula" data-pb-role="formula" data-pb-editable="true" data-pb-formula-bbox="1520 314 48 24" data-pb-formula-latex-b64="d18x">
+    <text id="label-w1" x="1526" y="334" font-family="Times New Roman, Georgia, serif" font-size="36" font-style="italic" font-weight="700" fill="#000000" text-anchor="start" data-pb-role="formula" data-pb-editable="true" data-pb-text-source="visual_inferred" data-pb-orientation="horizontal">w<tspan baseline-shift="sub" font-size="23">1</tspan></text>
+    <desc>LaTeX: w_1</desc>
+  </g>
+  <g id="label-w2-formula" data-pb-role="formula" data-pb-editable="true" data-pb-formula-bbox="1606 400 49 26" data-pb-formula-latex-b64="d18y">
+    <text id="label-w2" x="1608" y="421" font-family="Times New Roman, Georgia, serif" font-size="36" font-style="italic" font-weight="700" fill="#000000" text-anchor="start" data-pb-role="formula" data-pb-editable="true" data-pb-text-source="visual_inferred" data-pb-orientation="horizontal">w<tspan baseline-shift="sub" font-size="23">2</tspan></text>
+    <desc>LaTeX: w_2</desc>
+  </g>
+  <g id="label-pi1-formula" data-pb-role="formula" data-pb-editable="true" data-pb-formula-bbox="1916 343 51 31" data-pb-formula-latex-b64="XHBpXzE=">
+    <text id="label-pi1" x="1916" y="367" font-family="Times New Roman, Georgia, serif" font-size="36" font-style="italic" font-weight="700" fill="#000000" text-anchor="start" data-pb-role="formula" data-pb-editable="true" data-pb-text-source="visual_inferred" data-pb-orientation="horizontal">&#960;<tspan baseline-shift="sub" font-size="23">1</tspan></text>
+    <desc>LaTeX: \pi_1</desc>
+  </g>
+  <g id="label-pi2-formula" data-pb-role="formula" data-pb-editable="true" data-pb-formula-bbox="1916 421 52 30" data-pb-formula-latex-b64="XHBpXzI=">
+    <text id="label-pi2" x="1916" y="445" font-family="Times New Roman, Georgia, serif" font-size="36" font-style="italic" font-weight="700" fill="#000000" text-anchor="start" data-pb-role="formula" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="horizontal">&#960;<tspan baseline-shift="sub" font-size="23">2</tspan></text>
+    <desc>LaTeX: \pi_2</desc>
+  </g>
+  <g id="label-pistar-formula" data-pb-role="formula" data-pb-editable="true" data-pb-formula-bbox="1916 494 56 30" data-pb-formula-latex-b64="XHBpXio=">
+    <text id="label-pistar" x="1916" y="517" font-family="Times New Roman, Georgia, serif" font-size="36" font-style="italic" font-weight="700" fill="#000000" text-anchor="start" data-pb-role="formula" data-pb-editable="true" data-pb-text-source="visual_inferred" data-pb-orientation="horizontal">&#960;<tspan baseline-shift="super" font-size="23">*</tspan></text>
+    <desc>LaTeX: \pi^*</desc>
+  </g>
+
+  <text id="label-solutions-polytope" x="1434" y="672" font-family="Arial, Helvetica, sans-serif" font-size="43" font-style="normal" font-weight="700" fill="#000000" text-anchor="start" data-pb-role="label" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="horizontal">Solutions Polytope</text>
+</svg>

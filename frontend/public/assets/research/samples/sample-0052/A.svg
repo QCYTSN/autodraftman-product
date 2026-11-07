@@ -1,0 +1,244 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1395" height="696" viewBox="0 0 1395 696">
+  <title>Q-RAG Agent diagram</title>
+  <desc>
+    Inventory and construction: the figure contains a Q-RAG Agent frame with state and action embedder blocks, green embedding connections, a Q-value block, a policy symbol, context document cards c0-c5 with dashed upward pointers, a current state expression on the left, an action/document result on the right, and an Environment frame with critic, question/answer boxes, next-state expression, and feedback arrows. Confirmed SAM picture assets cover only the five small q/c icon tiles: P002 left q, P005 left c4, P001 lower next-state q, P004 lower next-state c3, and P003 lower next-state c4; all are constructed first and then independently referenced for replacement at original source_crop positions. Symmetry basis: the main agent and environment are horizontally organized flow sections; document cards are near-equipartitioned left-to-right under the agent; feedback arrows close the loop around the figure.
+  </desc>
+
+  <defs>
+    <marker id="arrowGray" markerUnits="userSpaceOnUse" markerWidth="12" markerHeight="10" refX="10" refY="5" orient="auto">
+      <path d="M0,0 L10,5 L0,10 Z" fill="#4f5862" id="plus_node_0" />
+    </marker>
+    <marker id="arrowGrayStart" markerUnits="userSpaceOnUse" markerWidth="12" markerHeight="10" refX="10" refY="5" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 Z" fill="#4f5862" id="plus_node_1" />
+    </marker>
+    <marker id="arrowGreen" markerUnits="userSpaceOnUse" markerWidth="12" markerHeight="10" refX="10" refY="5" orient="auto">
+      <path d="M0,0 L10,5 L0,10 Z" fill="#ffffff" stroke="#35c34a" stroke-width="1.4" id="plus_node_2" />
+    </marker>
+    <marker id="arrowGreenFilled" markerUnits="userSpaceOnUse" markerWidth="12" markerHeight="10" refX="10" refY="5" orient="auto">
+      <path d="M0,0 L10,5 L0,10 Z" fill="#35c34a" id="plus_node_3" />
+    </marker>
+    <marker id="arrowOrange" markerUnits="userSpaceOnUse" markerWidth="13" markerHeight="15" refX="10" refY="7.5" orient="auto">
+      <path d="M0,0 L10,7.5 L0,15 Z" fill="#ffffff" stroke="#ff8c28" stroke-width="1.8" id="plus_node_4" />
+    </marker>
+    <marker id="arrowMagenta" markerUnits="userSpaceOnUse" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto">
+      <path d="M0,0 L10,6 L0,12 Z" fill="#ffffff" stroke="#e92bbf" stroke-width="1.6" id="plus_node_5" />
+    </marker>
+    <marker id="arrowBlue" markerUnits="userSpaceOnUse" markerWidth="13" markerHeight="12" refX="10" refY="6" orient="auto">
+      <path d="M0,0 L10,6 L0,12 Z" fill="#1976e8" id="plus_node_6" />
+    </marker>
+    <marker id="arrowLightBlue" markerUnits="userSpaceOnUse" markerWidth="13" markerHeight="12" refX="10" refY="6" orient="auto">
+      <path d="M0,0 L10,6 L0,12 Z" fill="#ffffff" stroke="#66aaff" stroke-width="1.6" id="plus_node_7" />
+    </marker>
+    <marker id="arrowDarkOpen" markerUnits="userSpaceOnUse" markerWidth="13" markerHeight="14" refX="10" refY="7" orient="auto">
+      <path d="M0,0 L10,7 L0,14 Z" fill="#ffffff" stroke="#4f5862" stroke-width="1.7" id="plus_node_8" />
+    </marker>
+    <style>
+      .math { font-family: "Times New Roman", Times, serif; font-style: italic; fill:#000; }
+      .roman { font-family: Arial, Helvetica, sans-serif; fill:#000; }
+      .graytext { font-family: Arial, Helvetica, sans-serif; fill:#8d97a6; }
+      .small { font-size:14px; }
+      .med { font-size:22px; }
+      .large { font-size:34px; }
+      .dashOrange { stroke:#ff8c28; stroke-width:1.8; stroke-dasharray:5 4; fill:none; }
+      .dashMagenta { stroke:#e92bbf; stroke-width:1.8; stroke-dasharray:5 4; fill:none; }
+      .dashBlue { stroke:#66aaff; stroke-width:1.8; stroke-dasharray:5 4; fill:none; }
+      .dashGray { stroke:#4f5862; stroke-width:1.8; stroke-dasharray:5 4; fill:none; }
+    </style>
+  </defs>
+
+  <rect id="f00_canvas" data-plus-kind="frame" x="0" y="0" width="1395" height="696" fill="#ffffff" stroke="none" />
+
+  <text id="title_qrag" x="727" y="40" text-anchor="middle" class="graytext" font-size="28">Q-RAG Agent</text>
+
+  
+  <g id="current_state_block">
+    <path id="loop_left_current_to_agent" d="M321,108 L42,108 Q40,108 40,112 L40,555 Q40,559 44,559 L76,559" fill="none" stroke="#4f5862" stroke-width="2" marker-end="url(#arrowGray)" />
+    <text x="58" y="155" class="math large" id="plus_node_9">S</text>
+    <text x="78" y="162" class="math" font-size="22" id="plus_node_10">t</text>
+    <text x="96" y="155" class="roman" font-size="34" id="plus_node_11">=</text>
+
+    <text x="192" y="155" class="roman" font-size="36" id="plus_node_16">{</text>
+    <text x="253" y="155" class="roman" font-size="36" id="plus_node_22">}</text>
+  </g>
+
+  
+  <rect id="f01_qrag_agent_frame" data-plus-kind="frame" x="297" y="62" width="864" height="269" rx="4" ry="4" fill="#ffffff" stroke="#bfe5ad" stroke-width="5" />
+
+  <g id="agent_internals">
+    <rect id="f03_state_embedder" data-plus-kind="frame" x="322" y="82" width="461" height="53" rx="4" fill="#c9eab4" stroke="#000" stroke-width="2" />
+    <text x="552" y="113" text-anchor="middle" class="roman" font-size="22" id="plus_node_23">State Embedder</text>
+
+    <rect id="f04_action_embedder" data-plus-kind="frame" x="316" y="269" width="461" height="48" rx="3" fill="#c9eab4" stroke="#000" stroke-width="2" />
+    <text x="546" y="296" text-anchor="middle" class="roman" font-size="22" id="plus_node_24">Action Embedder</text>
+
+    <path id="state_embed_to_es" d="M553,135 V182 Q553,187 558,187 H626" fill="none" stroke="#35c34a" stroke-width="1.7" />
+    <text x="648" y="184" class="math" font-size="34" id="plus_node_25">e</text>
+    <text x="667" y="191" class="math" font-size="22" id="plus_node_26">s</text>
+    <text x="682" y="191" class="math" font-size="18" id="plus_node_27">t</text>
+    <path id="es_to_qvalues" d="M688,187 H808" fill="none" stroke="#35c34a" stroke-width="1.7" marker-end="url(#arrowGreen)" />
+
+    <path id="context_embedding_bus" d="M354,268 V209 Q354,204 359,204 H809" fill="none" stroke="#35c34a" stroke-width="1.8" marker-end="url(#arrowGreen)" />
+    <path d="M428,268 V209 Q428,204 433,204" fill="none" stroke="#35c34a" stroke-width="1.8" id="plus_node_28" />
+    <path d="M511,268 V209 Q511,204 516,204" fill="none" stroke="#35c34a" stroke-width="1.8" id="plus_node_29" />
+    <path d="M589,268 V209 Q589,204 594,204" fill="none" stroke="#35c34a" stroke-width="1.8" id="plus_node_30" />
+    <path d="M670,268 V247" fill="none" stroke="#222" stroke-width="1.6" id="plus_node_31" />
+    <path d="M746,268 V209 Q746,204 751,204" fill="none" stroke="#35c34a" stroke-width="1.8" id="plus_node_32" />
+
+    <text x="334" y="238" class="math large" id="plus_node_33">e</text><text x="354" y="248" class="math" font-size="22" id="plus_node_34">c0</text>
+    <text x="405" y="238" class="math large" id="plus_node_35">e</text><text x="425" y="248" class="math" font-size="22" id="plus_node_36">c1</text>
+    <text x="490" y="238" class="math large" id="plus_node_37">e</text><text x="510" y="248" class="math" font-size="22" id="plus_node_38">c2</text>
+    <text x="574" y="238" class="math large" id="plus_node_39">e</text><text x="594" y="248" class="math" font-size="22" id="plus_node_40">c3</text>
+    <text x="661" y="244" class="roman" font-size="27" id="plus_node_41">×</text>
+    <text x="723" y="238" class="math large" id="plus_node_42">e</text><text x="743" y="248" class="math" font-size="22" id="plus_node_43">c5</text>
+
+    <rect id="f05_qvalues" data-plus-kind="frame" x="810" y="107" width="153" height="162" rx="4" fill="#e0f9e1" stroke="none" />
+    <text x="838" y="95" class="graytext" font-size="22" id="plus_node_44">Q values</text>
+    <text x="816" y="139" class="math" font-size="32" id="plus_node_45">Q</text><text x="840" y="147" class="math" font-size="18" id="plus_node_46">θ</text>
+    <text x="858" y="139" class="roman" font-size="28" id="plus_node_47">(</text><text x="870" y="139" class="math" font-size="28" id="plus_node_48">s</text><text x="882" y="147" class="math" font-size="16" id="plus_node_49">t</text><text x="900" y="139" class="roman" font-size="28" id="plus_node_50">,</text><text x="912" y="139" class="math" font-size="28" id="plus_node_51">c</text><text x="928" y="126" class="roman" font-size="18" id="plus_node_52">0</text><text x="940" y="139" class="roman" font-size="28" id="plus_node_53">)</text>
+    <text x="881" y="172" class="roman" font-size="34" id="plus_node_54">·</text>
+    <text x="881" y="192" class="roman" font-size="34" id="plus_node_55">·</text>
+    <text x="881" y="212" class="roman" font-size="34" id="plus_node_56">·</text>
+    <text x="820" y="254" class="math" font-size="32" id="plus_node_57">Q</text><text x="844" y="262" class="math" font-size="18" id="plus_node_58">θ</text>
+    <text x="862" y="254" class="roman" font-size="28" id="plus_node_59">(</text><text x="874" y="254" class="math" font-size="28" id="plus_node_60">s</text><text x="886" y="262" class="math" font-size="16" id="plus_node_61">t</text><text x="904" y="254" class="roman" font-size="28" id="plus_node_62">,</text><text x="916" y="254" class="math" font-size="28" id="plus_node_63">c</text><text x="932" y="241" class="roman" font-size="18" id="plus_node_64">5</text><text x="944" y="254" class="roman" font-size="28" id="plus_node_65">)</text>
+
+    <path id="qvalues_to_policy" d="M963,187 H1023" fill="none" stroke="#35c34a" stroke-width="1.8" marker-end="url(#arrowGreen)" />
+    <text id="policy_text" x="1027" y="196" class="math" font-size="38">π(·|s</text>
+    <text x="1110" y="204" class="math" font-size="21" id="plus_node_66">t</text>
+    <text x="1129" y="196" class="math" font-size="38" id="plus_node_67">)</text>
+  </g>
+
+  
+  <g id="long_context_docs">
+    <text x="165" y="387" class="math large" id="plus_node_68">c</text><text x="183" y="372" class="roman" font-size="22" id="plus_node_69">0</text>
+    <path id="doc0_card" data-plus-kind="frame" d="M162,391 H275 L289,405 V459 H162 Z" fill="#fffbd1" stroke="#ff8c28" stroke-width="2" />
+    <path d="M275,391 V405 H289" fill="none" stroke="#ff8c28" stroke-width="1.5" id="plus_node_70" />
+    <text x="225" y="421" text-anchor="middle" class="roman small" id="plus_node_71">...John stayed</text>
+    <text x="225" y="437" text-anchor="middle" class="roman small" id="plus_node_72">late at the office...</text>
+
+    <text x="306" y="387" class="math large" id="plus_node_73">c</text><text x="324" y="372" class="roman" font-size="22" id="plus_node_74">1</text>
+    <path id="doc1_card" data-plus-kind="frame" d="M305,391 H420 L434,405 V459 H305 Z" fill="#fffbd1" stroke="#ff8c28" stroke-width="2" />
+    <path d="M420,391 V405 H434" fill="none" stroke="#ff8c28" stroke-width="1.5" id="plus_node_75" />
+    <text x="369" y="412" text-anchor="middle" class="roman small" id="plus_node_76">...He briefly</text>
+    <text x="369" y="428" text-anchor="middle" class="roman small" id="plus_node_77">stopped by</text>
+    <text x="369" y="444" text-anchor="middle" class="roman small" id="plus_node_78">home...</text>
+
+    <text x="451" y="387" class="math large" id="plus_node_79">c</text><text x="469" y="372" class="roman" font-size="22" id="plus_node_80">2</text>
+    <path id="doc2_card" data-plus-kind="frame" d="M444,391 H558 L572,405 V459 H444 Z" fill="#fffbd1" stroke="#ff8c28" stroke-width="2" />
+    <path d="M558,391 V405 H572" fill="none" stroke="#ff8c28" stroke-width="1.5" id="plus_node_81" />
+    <text x="508" y="412" text-anchor="middle" class="roman small" id="plus_node_82">hebought</text>
+    <text x="508" y="428" text-anchor="middle" class="roman small" id="plus_node_83">something at the</text>
+    <text x="508" y="444" text-anchor="middle" class="roman small" id="plus_node_84">pharmacy...</text>
+
+    <text x="584" y="387" class="math large" id="plus_node_85">c</text><text x="602" y="372" class="roman" font-size="22" id="plus_node_86">3</text>
+    <path id="doc3_card" data-plus-kind="frame" d="M582,391 H697 L711,405 V459 H582 Z" fill="#fffbd1" stroke="#ff8c28" stroke-width="2" />
+    <path d="M697,391 V405 H711" fill="none" stroke="#ff8c28" stroke-width="1.5" id="plus_node_87" />
+    <text x="646" y="412" text-anchor="middle" class="roman small" id="plus_node_88">...that, he spent</text>
+    <text x="646" y="428" text-anchor="middle" class="roman small" id="plus_node_89">twenty minutes at</text>
+    <text x="646" y="444" text-anchor="middle" class="roman small" id="plus_node_90">a café...</text>
+
+    <text x="727" y="387" class="math large" id="plus_node_91">c</text><text x="745" y="372" class="roman" font-size="22" id="plus_node_92">4</text>
+    <path id="doc4_card" data-plus-kind="frame" d="M726,391 H841 L855,405 V459 H726 Z" fill="#d4dce5" stroke="#4c5965" stroke-width="2" />
+    <path d="M841,391 V405 H855" fill="none" stroke="#4c5965" stroke-width="1.5" id="plus_node_93" />
+    <text x="790" y="409" text-anchor="middle" class="roman small" id="plus_node_94">Outside his</text>
+    <text x="790" y="425" text-anchor="middle" class="roman small" id="plus_node_95">place, he realized</text>
+    <text x="790" y="441" text-anchor="middle" class="roman small" id="plus_node_96">his keys were</text>
+
+    <text x="871" y="387" class="math large" id="plus_node_97">c</text><text x="889" y="372" class="roman" font-size="22" id="plus_node_98">5</text>
+    <path id="doc5_card" data-plus-kind="frame" d="M870,391 H984 L998,405 V459 H870 Z" fill="#fffbd1" stroke="#ff8c28" stroke-width="2" />
+    <path d="M984,391 V405 H998" fill="none" stroke="#ff8c28" stroke-width="1.5" id="plus_node_99" />
+    <text x="934" y="412" text-anchor="middle" class="roman small" id="plus_node_100">...He stayed</text>
+    <text x="934" y="428" text-anchor="middle" class="roman small" id="plus_node_101">overnight at his</text>
+    <text x="934" y="444" text-anchor="middle" class="roman small" id="plus_node_102">neighbor’s place...</text>
+
+    <text x="134" y="434" class="graytext" font-size="54" id="plus_node_103">{</text>
+    <text x="1004" y="434" class="graytext" font-size="54" id="plus_node_104">}</text>
+    <text x="1034" y="416" class="graytext" font-size="21" id="plus_node_105">Long-Context</text>
+    <text x="1034" y="442" class="graytext" font-size="21" id="plus_node_106">Document</text>
+  </g>
+
+  
+  <g id="doc_to_action_arrows">
+    <path d="M225,391 V354 H352 V318" class="dashOrange" marker-end="url(#arrowOrange)" id="plus_node_107" />
+    <path d="M369,391 V354 H430 V318" class="dashOrange" marker-end="url(#arrowOrange)" id="plus_node_108" />
+    <path d="M508,391 V354 H511 V318" class="dashOrange" marker-end="url(#arrowOrange)" id="plus_node_109" />
+    <path d="M646,391 V354 H590 V318" class="dashOrange" marker-end="url(#arrowOrange)" id="plus_node_110" />
+    <path d="M790,391 V354 H670 V318" class="dashGray" marker-end="url(#arrowDarkOpen)" id="plus_node_111" />
+    <path d="M934,391 V354 H750 V318" class="dashOrange" marker-end="url(#arrowOrange)" id="plus_node_112" />
+  </g>
+
+  
+  <g id="action_result_block">
+    <text x="1204" y="158" class="math" font-size="38" id="plus_node_113">a</text><text x="1227" y="166" class="math" font-size="22" id="plus_node_114">t</text>
+    <text x="1252" y="158" class="roman" font-size="38" id="plus_node_115">=</text>
+    <text x="1298" y="158" class="math" font-size="38" id="plus_node_116">c</text><text x="1317" y="142" class="roman" font-size="22" id="plus_node_117">3</text>
+
+    <path id="action_doc_card" data-plus-kind="frame" d="M1193,189 H1315 L1329,203 V268 H1193 Z" fill="#fffbd1" stroke="#ff8c28" stroke-width="2" />
+    <path d="M1315,189 V203 H1329" fill="none" stroke="#ff8c28" stroke-width="1.5" id="plus_node_118" />
+    <text x="1261" y="215" text-anchor="middle" class="roman small" id="plus_node_119">...that, he spent</text>
+    <text x="1261" y="231" text-anchor="middle" class="roman small" id="plus_node_120">twenty minutes at a</text>
+    <text x="1261" y="247" text-anchor="middle" class="roman small" id="plus_node_121">café...</text>
+
+    <path id="right_feedback_loop" d="M1161,183 H1342 Q1346,183 1346,187 V555 Q1346,559 1342,559 H1134" fill="none" stroke="#4f5862" stroke-width="2" marker-end="url(#arrowGray)" />
+  </g>
+
+  
+  <rect id="f02_environment_frame" data-plus-kind="frame" x="297" y="473" width="864" height="175" rx="5" fill="none" stroke="#d5eaff" stroke-width="5" />
+  <text id="environment_label" x="727" y="679" text-anchor="middle" class="graytext" font-size="30">Environment</text>
+
+  <g id="environment_contents">
+    <rect id="f06_reward_critic" data-plus-kind="frame" x="322" y="488" width="122" height="141" rx="4" fill="#66a9ee" stroke="#000" stroke-width="2" />
+    <text x="383" y="536" text-anchor="middle" class="roman" font-size="22" id="plus_node_122">reward</text>
+    <text x="383" y="562" text-anchor="middle" class="roman" font-size="22" id="plus_node_123">function /</text>
+    <text x="383" y="588" text-anchor="middle" class="roman" font-size="22" id="plus_node_124">critic</text>
+
+    <text x="511" y="512" class="math" font-size="34" id="plus_node_125">q</text>
+    <rect id="f07_question_box" data-plus-kind="frame" x="538" y="488" width="158" height="63" fill="#ffd9f7" stroke="#e92bbf" stroke-width="2" />
+    <path d="M684,488 L696,500 L696,551" fill="none" stroke="#e92bbf" stroke-width="1.4" id="plus_node_126" />
+    <path d="M684,488 V500 H696" fill="none" stroke="#e92bbf" stroke-width="1.4" id="plus_node_127" />
+    <text x="617" y="506" text-anchor="middle" class="roman small" id="plus_node_128">Question: Where</text>
+    <text x="617" y="523" text-anchor="middle" class="roman small" id="plus_node_129">could John have</text>
+    <text x="617" y="540" text-anchor="middle" class="roman small" id="plus_node_130">forgotten his keys?</text>
+
+    <text x="511" y="586" class="math" font-size="34" id="plus_node_131">y</text>
+    <rect id="f08_answer_box" data-plus-kind="frame" x="538" y="568" width="158" height="63" fill="#cfe4ff" stroke="#1976e8" stroke-width="2" />
+    <path d="M684,568 L696,580 L696,631" fill="none" stroke="#1976e8" stroke-width="1.4" id="plus_node_132" />
+    <path d="M684,568 V580 H696" fill="none" stroke="#1976e8" stroke-width="1.4" id="plus_node_133" />
+    <text x="617" y="593" text-anchor="middle" class="roman small" id="plus_node_134">Answer: cafe,</text>
+    <text x="617" y="610" text-anchor="middle" class="roman small" id="plus_node_135">pharmacy</text>
+
+    <path id="question_flow_magenta" d="M538,519 H446" fill="none" stroke="#e92bbf" stroke-width="1.8" stroke-dasharray="5 4" marker-end="url(#arrowMagenta)" />
+    <path id="question_to_state_magenta" d="M696,520 H792" fill="none" stroke="#e92bbf" stroke-width="1.8" stroke-dasharray="5 4" marker-end="url(#arrowMagenta)" />
+
+    <path id="state_to_critic_blue" d="M793,559 H446" fill="none" stroke="#1976e8" stroke-width="2.2" marker-end="url(#arrowBlue)" />
+    <path id="answer_to_critic_lightblue" d="M538,599 H446" fill="none" stroke="#66aaff" stroke-width="1.8" stroke-dasharray="5 4" marker-end="url(#arrowLightBlue)" />
+
+    <rect id="f09_next_state_panel" data-plus-kind="frame" x="793" y="490" width="338" height="140" rx="4" fill="#cfe4ff" stroke="none" />
+    <text x="805" y="564" class="math" font-size="38" id="plus_node_136">S</text>
+    <text x="826" y="574" class="math" font-size="24" id="plus_node_137">t+1</text>
+    <text x="875" y="564" class="roman" font-size="38" id="plus_node_138">=</text>
+
+    <text x="975" y="564" class="roman" font-size="36" id="plus_node_143">{</text>
+    <text x="1104" y="564" class="roman" font-size="36" id="plus_node_154">}</text>
+
+    <path id="critic_to_return" d="M322,559 H105" fill="none" stroke="#4f5862" stroke-width="2" marker-end="url(#arrowGray)" />
+    <path id="return_corner" d="M76,546 V572" fill="none" stroke="#4f5862" stroke-width="2" />
+    <text x="67" y="506" class="graytext" font-size="22" id="plus_node_155">Next</text>
+    <text x="67" y="531" class="graytext" font-size="22" id="plus_node_156">timestep</text>
+    <text x="120" y="596" class="math" font-size="34" id="plus_node_157">r</text>
+    <text x="137" y="604" class="math" font-size="23" id="plus_node_158">t+1</text>
+    <text x="185" y="596" class="roman" font-size="34" id="plus_node_159">,</text>
+    <text x="210" y="596" class="math" font-size="34" id="plus_node_160">S</text>
+    <text x="229" y="604" class="math" font-size="23" id="plus_node_161">t+1</text>
+  </g>
+
+  
+  <g id="sam_replacement_left_icons" data-plus-keeps="current_state_block" transform="translate(0 0)">
+    <image id="sam_P002_left_q" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAC8AAAAuCAYAAAC4e0AJAAAEUElEQVR4nNWZe0xbVRzHv/f2OrYyeVhg7QYIONjG3ARU2HAD6wxmcbouM8oy2TIfZD4yNctwxqiJWZwhzDkxbOrcNAbFLfrHZK+4CJTX4ipsKzZCg4IrM6KU0tIyKeWae2pvbbj0j3GAez/JaX7n9tfe7+/c8/idcxnb1gbcuDLIg4FsYDiW0X6YB3V+Qlg/1mcf5X39N8AwjCwKfMBYn4e3FTfwntb+sOI5fwhAWs2DkAODJ7rxV5UFXPQc9BUb+UU1BVCvTpDsFyxkStzOTNyiUwsBwNPazytKPMOxSP5o7f8DUI54AXaOKhjAFuOEMSBr8SEBaCcGIHvx4QKQrfh/up0hxXvNjQWv3gXVbREITKP+qVKG2D/vIkUSjiFPYNrFe71eNLW1wOEawt2Z2UhemBTWP2JxNKI3poT1GbEMYtQ6NH0t7/a4Uf7pQRz5+igGHAPISElHT18v9r30FrxjXpw4+y3xe+whA14r3SP+Tp0TR0o4bLtbMSqusJRpt1zGE7u3wdrbDcO6DThQ9i7SklLxm60HWZtWQRevRWePlfi+sv3Fm74P9QFr6mhDwbYiIvzlkhfwzaGviHCB1MQUlDy6RRQuoM8rlIf4rh4r1pcaMOxxo+Ce+1BRth8sG3qLJF2iaKfffgcWLVg4++IdTgeKnnkEfzsGMF8dic/e+RgqlUpyAAfQ5958q1MV/3bVfvRev0bsN3buJV1ECiG4APq8Asy6+F9+7URl9WFiC61e+vhTk/q2tF8U7cJ718y++LKK1zHm8xH76c3bERMVI+nncrvQZrlM7KWpGdDF62ZXvN1hxxnjebEuiJ+MRlMzfOPjxJ5ql6Ei/lzT96KguBgN7kxfPqlvZfURaoOVivja+rOifX/uWv8+dJKFSwiUVn+nIv5Hs0m0czKzJH14nseblfvE+vLFy5CgCX8yMCPih1xO0Y6aHyXp88EXVahtCD4hfe7U+zsV8UKrBuj78/qE7xsuNaK6tgZRkbdSSQmoil+RERygh2s+gbmrg9jOYSfKj76HrXt24ODecjjdLnKdodTfQSOr3FxkQP2lRmILOftKQx4i56nhHvEgWZeIC8dOw9z1s+i/cskKaGI0kEXLP1f8LDYUrg+5JuTrOzaVoOXLOixNWwKjqSlkRqLFlFteSL5OVZ3EDxfr0WG1YG7EXGx84GFo47WiT+NPLVTn9wBUNiPC3L5utZ4UqWzzaqfZ7weQVJkW03560NzeisB8lL0sC7HRsdT+e9rFG03Nok1rlpkR8cIacL7pglgPbAcVIf7A8UO48l9/F/j9D/9mhRYc7Zb+ru4Mhj3DOFV3GifP+Y83AlQce5+sAWty8iUH96yK9/l8iIvVkLLryedJkSJynprK/aiK5zgO+dmrMFOwUDAsFAwLBcNCwbBQMCwUDEc+xwHP1eAxnNwZMdtF8UKmytt2BXNupcAMHrcK7/oDdck3zTKEHA79CytniKSVuTjyAAAAAElFTkSuQmCC" x="132" y="121" width="47" height="46" preserveAspectRatio="none" />
+    <image id="sam_P005_left_c4" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAuCAYAAABu3ppsAAAEvElEQVR4nNWaDUyUdRzHv/fwwA7kjuPSqVBgKFpR8qJErbVmSHOsNY3NrTXHKDQaWKAQEkLqSASDwiESCMo7VNdaGpKrtTYrI4SOt3inROAoJVMODsh72v/v7uLy4Dmg5+Husz27/8vv//J9/m+/57+TlJTXoKevH/+BgwhwHIcr9ZchVyiwfsPDxnSGkUh2R+yCu9tq3jrYJnUz6huaaH0QmZGhAfR2tmDFKncMDP0xM4tTt7QjNztdwieCNRRITUmGg4MDxOLawFXsiXiZhgP8/ZGY/A4Nq5ubcf58LW7e/Asx+5K43Ox0MhKSuQTQN69QKEQTMD09jcyjRyCTu0Cn09F2SfsEe9YeExMTCHtxBy7UfUlEkJHgZhPBYAk4/WEeHnrEB75+AbPaODo64mByEsbGtFTE0LCGswoB6p+b8NXFOsTFH+C1lcvlRhHRcQfMihBVgFY7hkMHE3Hk3Qz6hi3BjIilE3A8PQ2hz78An8c2zquc3FQEN1OEaALItOnv60VEZNSCysvvFcHN3EYF5fcRDbIzjyK/uAwsa1mT5RWV+ET1qdnDb3T0Tzqdqs7mc4IL0Ov1SE1ORGRUNDw8PHntnZyc4LZ67sNLz+mh0YxgQjcp/AhUlZfAUSrFjrCdFtn7+fnSZy4KTxdRAQRBBXR3daK8tBgVNZ9BIpn1MF0UggrIyc6ETCbHB1kZZvPbWtT0t6mxAalvv0XDAZs2Y7uFoyW4gInxcfR0d9GHzy+6NnCVhu3s7KxHQFLKYWi12lnzT57IQkP9j3jq6WcQ+Vo0TVMqlfNq438RcPvWLegmdXB1VZpsk+u8189ZTqG421ml8j74+vkvqO0FCyCHUlVFKS5/f8k4/M7OzggO2YbY+ES4uNz1LoWGXci8fv+9Y1B9XA1XpRK7wl9FyLZQuliLC0+hpLgQ3V0dKK1SgWEY6xIwohlGbEwUOjvaseZBL+TmF8HN/X5jvsFBa29rRUuzesHTQhABY2O3ERUZjt9+7ccDHp4oLquGQuFqzFc3NaLgVK4xfufO37x1Hk47hpRDaWDt7SGoAOIOpCQl0M4T3ohLMOm8YS8ndgQy/729N/DW6+jkhMVikYCSM4X49puvadjn0Y14dutz99iE7XyJLujR0RvYGxsPmVwOMWD5DMj36dmiAmN8b1y8WbdAJpMhv6gUYsPwGVz44nO6zxOWL1+BwMefgDXB8BnUVJYZw4FBTwrmlAki4Mb169SjNBAYZF1vn1fAL+2tJnGygG1KgEYzbBJ3lslgbTDzMZ6emoJNCVi5cpVJvPHKT7wVXqyrpfc/ViFgc2AQWPbfY171UTW91zTH+LgWJ7KPo672HKRSyy6tBBdAjvotwVuN8bbWZsTG7EFXZwe93iAMDQ2iurIM20NDMDg4gIysHPpVJRasJV9V5D6T3O0QfvjuEn2WLXOmcTJdSIfDX9mN12NiRe28RYuYOG15BWewJTjEJJ10nHicJL1adQ4xb+4XvfMWO3Nea9chKycPfb3d6O3pwdTUJHUrfP03QSqVYilh52PstdabPtYEAxuHgY3DwMZhYOMwsHEY2DgMbBzWENi3PwE2iIT1WuMp0ekmDQmi/19iEUhY1g7/AIfQvvlav0rLAAAAAElFTkSuQmCC" x="204" y="119" width="48" height="46" preserveAspectRatio="none" />
+  </g>
+  <g id="sam_replacement_next_state_icons" data-plus-keeps="f09_next_state_panel" transform="translate(0 0)">
+    <image id="sam_P001_next_q" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAuCAYAAABu3ppsAAAEVElEQVR4nNWZe0wUVxTGvzvsi2V5I6VBq9ZYJWpAESi1CMSkWFKUmvSRUnBNrG2xVKmpSdM/sNsofcWkTSVI1aI2IdZYDVSKprXg+qAFoqakLcZQFnmzq9WKFHCZ5t51pxBnoYW7MPMlM3vuzJk589vce+65M6SxSwT5zgYMDENGIgCCyYve57+KsL1JC3FVJEDGDq+hO58PLoHcHBA5BOch0W04zQvIcH70mBAMAKLILnpoezSUoP4rDvQ19AKlTey5hvOjiScIFwAh0M7yQ2D6I1CC/m66Bad9AAEZs3G7tIkeEj1BuAAUquDMOdCE6HFjDAhFA1CFbVjAfj1BKB5gPAhVAFCFmh+ThVANACFEFkLRAB076qGfFzD6oAjoZpswSCEEIioaYOh6H9tkRQDhW9vUdKFLv17GgW8OofbKzzAZTVifmQXzs9k4ff57OJ1O5pMYk4CggCBmh72yEKE588e8py3Xinuilwex/aYduZatOHrqOGZFRCIv63WEBoVgV8nHaGlvxXtFu5gfzSeOi23SdT4mLauFxhsT8CbAL1cb8fSmTLT3dOL51evw5c69MPoa2bmoeQuRsj5N8l0aFYPgwOAJxRHgBf3R1oK0jWvZw69JTUfZJwelh3d3F9qV3EpNWImJijtAt70bT23MQKe9C+EhM/CFZQ8E4cEweq1eslPik5QDsKngDVxrbWZ28Y7PEB4aLuvX1+/KLgIhSIpdoQwAmlXKf6xk9rKoGGSuypD1a+/uwO2+v5gdu2gpAv0Dpx9gaGgIWwu3S+23zHmuTCEja8N5yU5NSJ5UXG4AJ36owG/NbIrHw2EReC5tnUffs/XnJDs1fuIDmCtARbWr61ClJ6dBp9PJ+g0ODqL8zElm+wgCVixLnH4AOptW1pyS2ilxnrPKVxVlLL1SxS2Ohb+f//QD1DU2wHHrhtReufxJj6Af7tvNrf9zA6BZZaRmRkTK+n20fzeu2q5xmcC4ArhzOrshIbLZ50xtNSxFhVJbq9HgiZjHlQFACzS3hkURlWerRp0/13ABm9/Px7YNW6Rj8UuWw8/oN+nYXIo5+k+SEW+kzO+8iryXX4PRYMTFyz+hus6K8j1HUVRWwrX/cwOgleSb2bn49HARa9v/dKDg853MpmV09cEqLJ6/CC9uy+GW/0cCcHl1WJhvQXBAEIqP7Medu3fw6My52JKdi5eeeQEGvQEt7Ta03R/sOq2WVaQ8xG094GvwRcHmd9k23uybGJ3A/HnIK+sBOVnrL0h2CqfuM6UAo+ofDvl/SgE6ejpHTWA0haoKoOTrA/8GJAQ6rXyhN1EAHl9gPK4RSo8fhuX+2wf3RFd8ZB+3GBp4QTV1VpysqUJr53X0OHofGLTHTp/A781NyFmbhbglscoDSI5LYttUSIDKJUDlEqByCVC5BKhcAlQuASqXhu1FkX0JaXu7FmrRva5+YIZB+lLPVoR363qn+7n+nwgh/wArUWW3pNCFOQAAAABJRU5ErkJggg==" x="916" y="528" width="48" height="46" preserveAspectRatio="none" />
+    <image id="sam_P004_next_c3" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAuCAYAAABu3ppsAAAFd0lEQVR4nOWYe0wURxzHv7u34EnAA1FpabGoQTFHTtAWYwwV1FJB6F8N2gMLpkmrSXn4SkER/qlYlVpjES0oJTVUY+SRKjZiIAYVebVSpFgsiMjDg9JTj6fy2GZGbr2TOzgfC3fpJ9nszM7s5Pfdmfn9fjtMXUMLpjWdxwg8RObe/U7U3W2jZcX8d+DkKDPUjel38EDPm8vHHY+z6mnDzNo00Q3/834fvjzdjCsN3XrP/Rfa4ccNrnCaZqX7mOcZFm3ee5guF/8xx+WEktNc4L1giEHp7/UIjEvGiqXuOLJRgSnWHC6X/oWf80pQcKsLvukdqC5IgpXViDmlOUCvBs7lu/g2YEwRzwS8vfDp9ZoZGBhE1Nd7kXIkFkplgPA8AsCa0xcRFrYbfze2I7dChZCQD542dqvBSG3BT3fWikCXiz9jaHwWInPyZD4iI9fpGa9l3Tp/zJ79Bi3X1DSMamcCI4G3FhARsGsuwKQIkMvnISws0GAbwzBwcppOy9q7vnWsrgjekAjRBSxd6kENNcTg4CCam9sxZ44zNm78yPAAo0XwzwsQ3QMZ49ChU1CrNUhP3w0bG6nxjvoi9JaT6DNgjOvXq7FnTwbOnfsOvr5Lxn/ByHJ65oUmiKam+9i//yekpeWA53kEBcUgMfFzxMYSvzQCWRMP24Gcb0a9TxYjP9WOimiVSJkJFXD2bCEyM39BV1cv9flPngxQNxsfnwqp1BoxMcqnHSUSssOBznsGx2FsHQF+GDb/VIK5U13Ozy7eBCxZK1ogM0R3dy+dhYSEH9Df/5juAZWqYOy9oKXjLp0dtVso3QOGXYTI2NraYOvWMBw/Hk/rvb39yM+/8sLjTNom1g1mrq7OtFxf32J5AhiGgbe3nJY5TvLC709qHNCiNdzTcwEsbgYIVVW34egog5+fCfHgdQno6+vHiRN5CAn5Ci4ugXBw8INCsR4JCcfohtRCfH1PT5/RcSora1FbewfbtoWB4zjxBRCDsrJ+hbv7x9i0aS8kEglSU+Nw8WIKVq/2RlJSBlau/AJDQ0O0/5YtByGTrUBAQCRaWtr1xuroUEOp3IXQ0AAq4GV4Ickk6ERHJ1P/LZVOQW5uMoKCfIT29nY1Dh8+jcrKW7hwoQTBwT7U3xMuXSqDXB6C9es/hKfnfDQ2tqKkpJpGYaVyjdGEzxQBNDqb8uXDwxNx5swlanxh4VGaaWpRqTqxeXOSUH/0qIveU1Nj4ePjiatX/6BLiwbYzofYsGEt9u2LemnDdQWYxMGDWdR4QkzMJ3rGE4qKKqBS/SvUFQo3ere2tkJ4eDC9xIA1pRMxLjb2e1p2cJiGHTs+HdUnIGA55PK5YFkW8fGfCQLEhjOl086dKXQJEeLiIiCT2Y7qQ4RVVZ2im/dlvIloM1BWVkM3JYGsV6N/TiPtE2m8SQJSUs4I5cWL3emXNifYsRqHh4f1MkQ/v3dhbrBjNTY0tECj6RHqy5YpYHECdCH5ikUJGBoaHrNu9gJmzdI/bKqqqht3QHLCptHoH+BOmgAvr/mwt7cT6pmZ54Qk7XlInDh//goiIhLx+PEAzEIAx3EIDn5fqN+8WU+zR7X6kfCMCCotvYnAwChs334I2dkHMHOmg7hW6zBu1DlwIJqmEq2tHbSenV2E3NzLWLTIjeY5t2/fw4MHGvj4eKG4OH3Uspv0QDZjhj3y8r4V/lu18eHGjToape3sbJCRkYCiomMTbjzBpLjv5bUA165loLCwAuXlNTQtJsJWrfKGh8e8V06JXwWTExdiJPnjIpc5wcLCYWHhsLBwWFg4rDmczOH/PgMMLBhOKP2WDzRUwiJ4+OyEj+NZDoPW9gxD8kmdM01zhrGW0Y07zE1l/gPlS/bP6zxzRgAAAABJRU5ErkJggg==" x="992" y="529" width="48" height="46" preserveAspectRatio="none" />
+    <image id="sam_P003_next_c4" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAuCAYAAABu3ppsAAAE8ElEQVR4nNWZC0xTVxjH/70UOl4NJYKUh5U3MgHdIgjojFncpnNjGmOmQ53LtjA3lRgCTnSEKcZZg0OFMIaAysNgmPIeKnFTAmxzG89CBWFAYPLYzCqP0tF2uSfhjgbprWhr+0vanu+c79z7/e85957v3HJK7rShtfFX6Ak1m4NU0gg+3w5CV9F0FYf+CnwpGCIPb9YTcLs7pSgtymc9kT4YGRzAPUkDhK6L4e7tP11NYrlZcQ3Rh45x3L18tR6DO10IDwvD8uXLYCj+GhlG3IHPSDkoMBA7P/iYlOVyOUpKyzA6Ooqvjx9Ws4lgBPj6+cDPT7vaZ4VKpULUyaPgcMhsgcBewJxbJpNhaGgIgYEBGBj4k1UEhedA7oUsODo6ISBo7hGnKAqfH4yFtbUVEdHdKVUbhQBpuwRFVy4jLj6B1ZfH480Uge7799TPVQA9vw8fjMEXiUmwtbXVqY+GiKT4WSIMKuDMaTHCV6/ByytCnqgfb7YIwwuorbmD3+7+gj17o+fVn6cpQj0tgnkK6ZOHD/9G0pdHkJKaAQsLnk59GhoaIT6VPKveysoS4+PjRERsopijdwFqtRpHE+KxLXInvLx9dOpDURTp19fX99h2oVCI/v5+9HR16H8Eir+7gvGxMWyPfF8nfz6fjzMpp7X61NXVIy+/gJT1KqC35w+kp53FhbxCclX1ARd65KvjiVgkEqGirPix7f19veS3taUJ2ZnppOy/NBAhK8OMQ8DI8DA67klx9+eftPo1NfxOPjTv7dhtPAKiPt0PmeyfOdsv5ZxH1/1OBK8Mw/o33yJ1nl7sKfQM1HoVsPbVdVrbqyrLiQA66IhNW+Z1Du7TPNvLiq+irrYG7W0S/KtQwN3Dk1zJrdsiYWZmBkPAfdIOU1NTuJidiezMb6BUTmHj25uwa/eHsLSyInXiE8cgkbTg6HExjE7AI5kMcTH7UV9bgwULHHAu/Tx8/JYw7UsDgvDjrWqUl1xD1J59cHF1g9EIkMvl+OSjXZC0tsDJSYjMiwVwdnZh2un6b9PPMfbo6CPWY8bExRM/+mLME91SCXpZp3MZOkiafQdiNYKnuVlVCYVCQco2NjZwdmG/+h6eXvMLe0ZoOi2PhZfzyLSg8fXzx2tvbJjlE7F5C+wE9njB0hKxhxJ0zvefFtYRmJiYQNrZ/3OTvdExj00LRIvdUX27nux3DfUEomEdgaqKUnLz0ix0ckJo+Ko5felNuiGDZxVAz/2C/EuMHRwSxrxJMBYobY2DDx6gQ9rO2CtCQmFsUNoaJa3NGnbQsuUwKQF9vT0atp2dACYlQKVWadhKlRImJUAgsNewpW0S1gM2NzVAqVQah4CQ0HAN+2pR4Zy+dNCFBblITUmGSmUkAoRCZyzxf5Gxr39fgTPJYrK4TaNQTKLm9g/YvvUd3LheiVMpqTA3t4Ch4LL9CZGYdBI73t2MyclJYudkZSA/N4ekFPQ90dXZQRK9DRsjcCQxibyAMiQUmwP9Ludk8lm4uS1i6uikjZ7rkpZmuIkWIy0jG8dOnDJ48DQ6ZaOr16xFaPhq3Kq+ge6uTrKpcXBwRNiqVwyS8z+T/QCXy8W619fD2KBg4lAwcSiYOBRMHAomDgUTh4Jpw2HWgaysHJQvrIApMDg4xJS5FhY8jo0tX03vf8fG5c81MF2xtrGl9+YcLtcc/wHaesahwk8CvQAAAABJRU5ErkJggg==" x="1052" y="529" width="48" height="46" preserveAspectRatio="none" />
+  </g>
+</svg>

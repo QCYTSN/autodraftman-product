@@ -1,0 +1,28 @@
+{
+  "base": "http://127.0.0.1:4176/figfox",
+  "checks": [
+    "Three original plan names and icons; monthly and annual prices",
+    "Plan availability and working FAQ disclosures",
+    "Static sign-in does not create an identity or a credit balance",
+    "Draft is retained when navigating before the autosave delay",
+    "Creating and switching drafts preserves recent content",
+    "Draft deletion offers a keyboard-accessible cancel action",
+    "Reference image previews locally without an upload or authentication request",
+    "Deleting the last draft creates a blank draft without restoring deleted records",
+    "Guide section links and scroll tracking work in both directions",
+    "A real blank SVG canvas opens without a file or account",
+    "Existing SVG engine edits an object and supports undo and redo",
+    "An invalid SVG import preserves the current document",
+    "Export contains the actual edits and the original text",
+    "Edited SVG survives route changes and a full page refresh",
+    "Starting a new document protects the current document with a choice",
+    "Switching the editor language retains the SVG document",
+    "Mobile menu navigates and closes, without horizontal overflow",
+    "Mobile draft drawer contains keyboard focus and closes on Escape",
+    "Mobile SVG canvas and inspector stay within the viewport",
+    "Local documents over the upload limit restore through the same SVG sanitizer",
+    "Unavailable draft storage reports failure without crashing or claiming a save"
+  ],
+  "errors": [],
+  "apiRequests": []
+}

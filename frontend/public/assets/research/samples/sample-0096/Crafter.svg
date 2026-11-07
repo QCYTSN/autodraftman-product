@@ -1,0 +1,220 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1659 759" width="1659" height="759">
+  <defs>
+    <marker id="arrowBlack" markerWidth="8" markerHeight="6" refX="7.5" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#000"/>
+    </marker>
+    <marker id="arrowGreen" markerWidth="8" markerHeight="6" refX="7.5" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#75ad98"/>
+    </marker>
+  </defs>
+
+  <rect x="0" y="0" width="1659" height="759" fill="#ffffff"/>
+
+  <!-- Curved input branches -->
+  <path d="M78 314 C110 130 216 78 405 79" fill="none" stroke="#000" stroke-width="2.2" marker-end="url(#arrowBlack)"/>
+  <path d="M78 314 C112 545 225 598 406 598" fill="none" stroke="#000" stroke-width="2.2" marker-end="url(#arrowBlack)"/>
+
+  <!-- Main horizontal input arrow -->
+  <path d="M80 314 L229 314" fill="none" stroke="#000" stroke-width="3.2" marker-end="url(#arrowBlack)"/>
+
+  <!-- Left x label -->
+  <text x="22" y="323" font-family="serif" font-size="42" font-weight="700" fill="#000">x</text>
+
+  <!-- Upper sample masks: shortened and aligned to match the original columns -->
+  <g stroke="#222" stroke-width="1">
+    <rect x="247" y="170" width="17" height="16" fill="#000"/>
+    <rect x="247" y="186" width="17" height="16" fill="#fff"/>
+    <rect x="247" y="202" width="17" height="16" fill="#000"/>
+    <rect x="247" y="218" width="17" height="16" fill="#fff"/>
+    <rect x="247" y="234" width="17" height="16" fill="#fff"/>
+    <rect x="247" y="250" width="17" height="16" fill="#000"/>
+    <rect x="247" y="266" width="17" height="16" fill="#000"/>
+
+    <rect x="286" y="236" width="17" height="13" fill="#fff"/>
+    <rect x="286" y="249" width="17" height="13" fill="#fff"/>
+    <rect x="286" y="262" width="17" height="13" fill="#fff"/>
+    <rect x="286" y="275" width="17" height="13" fill="#000"/>
+    <rect x="286" y="288" width="17" height="13" fill="#fff"/>
+    <rect x="286" y="301" width="17" height="13" fill="#000"/>
+    <rect x="286" y="314" width="17" height="13" fill="#fff"/>
+    <rect x="286" y="327" width="17" height="13" fill="#fff"/>
+  </g>
+
+  <!-- Lower left binary masks: raised to the original vertical placement -->
+  <g stroke="#222" stroke-width="1">
+    <rect x="247" y="370" width="17" height="18" fill="#000"/>
+    <rect x="247" y="388" width="17" height="18" fill="#fff"/>
+    <rect x="247" y="406" width="17" height="18" fill="#000"/>
+    <rect x="247" y="424" width="17" height="18" fill="#fff"/>
+    <rect x="247" y="442" width="17" height="18" fill="#fff"/>
+    <rect x="247" y="460" width="17" height="18" fill="#000"/>
+    <rect x="247" y="478" width="17" height="18" fill="#000"/>
+    <rect x="247" y="496" width="17" height="18" fill="#fff"/>
+
+    <rect x="286" y="421" width="17" height="15" fill="#fff"/>
+    <rect x="286" y="436" width="17" height="15" fill="#fff"/>
+    <rect x="286" y="451" width="17" height="15" fill="#000"/>
+    <rect x="286" y="466" width="17" height="15" fill="#fff"/>
+    <rect x="286" y="481" width="17" height="15" fill="#000"/>
+    <rect x="286" y="496" width="17" height="15" fill="#fff"/>
+  </g>
+
+  <!-- Arrows into middle phi via block -->
+  <path d="M305 314 L417 314" fill="none" stroke="#000" stroke-width="2.5" marker-end="url(#arrowBlack)"/>
+
+  <!-- Green annotation arrows -->
+  <path d="M394 414 L345 390" fill="none" stroke="#75ad98" stroke-width="2.4" marker-end="url(#arrowGreen)"/>
+  <path d="M430 440 L490 486" fill="none" stroke="#75ad98" stroke-width="2.4" marker-end="url(#arrowGreen)"/>
+  <text x="383" y="428" font-family="serif" font-size="22" font-style="italic" fill="#000">
+    <tspan x="383" dy="0">Apply the same</tspan>
+    <tspan x="386" dy="24">set of samples</tspan>
+  </text>
+
+  <!-- Rounded phi-via boxes -->
+  <g fill="#fff" stroke="#222" stroke-width="1.5">
+    <rect x="418" y="36" width="99" height="70" rx="13" ry="13"/>
+    <rect x="421" y="266" width="101" height="71" rx="13" ry="13"/>
+    <rect x="419" y="563" width="101" height="71" rx="13" ry="13"/>
+  </g>
+  <g font-family="serif" fill="#000">
+    <text x="467" y="73" text-anchor="middle" dominant-baseline="middle" font-size="35">
+      <tspan font-style="italic">φ</tspan><tspan baseline-shift="super" font-size="21" font-style="italic">via</tspan>
+    </text>
+    <text x="471" y="303" text-anchor="middle" dominant-baseline="middle" font-size="35">
+      <tspan font-style="italic">φ</tspan><tspan baseline-shift="super" font-size="21" font-style="italic">via</tspan>
+    </text>
+    <text x="469" y="600" text-anchor="middle" dominant-baseline="middle" font-size="35">
+      <tspan font-style="italic">φ</tspan><tspan baseline-shift="super" font-size="21" font-style="italic">via</tspan>
+    </text>
+  </g>
+
+  <!-- Arrows from phi via boxes to colored features -->
+  <path d="M518 72 L625 72" fill="none" stroke="#000" stroke-width="2.5" marker-end="url(#arrowBlack)"/>
+  <path d="M522 302 L606 302" fill="none" stroke="#000" stroke-width="2.5" marker-end="url(#arrowBlack)"/>
+  <path d="M520 599 L625 599" fill="none" stroke="#000" stroke-width="2.5" marker-end="url(#arrowBlack)"/>
+
+  <!-- Phi labels near features -->
+  <text x="544" y="89" font-family="serif" font-size="34" font-style="italic" fill="#000">φ</text>
+  <text x="548" y="319" font-family="serif" font-size="34" font-style="italic" fill="#000">φ</text>
+  <text x="548" y="615" font-family="serif" font-size="34" font-style="italic" fill="#000">φ</text>
+
+  <!-- Upper colored feature strip -->
+  <g stroke="#222" stroke-width="1">
+    <rect x="628" y="27" width="17" height="18" fill="#f2c9cb"/>
+    <rect x="628" y="45" width="17" height="18" fill="#f2f2f2"/>
+    <rect x="628" y="63" width="17" height="18" fill="#aac4e8"/>
+    <rect x="628" y="81" width="17" height="18" fill="#153f77"/>
+    <rect x="628" y="99" width="17" height="18" fill="#a9c4e9"/>
+    <rect x="628" y="117" width="17" height="18" fill="#d71920"/>
+    <rect x="628" y="135" width="17" height="18" fill="#e8eef6"/>
+  </g>
+
+  <!-- Middle/right vertical strips -->
+  <g stroke="#222" stroke-width="1">
+    <rect x="654" y="118" width="17" height="17" fill="#000"/>
+    <rect x="654" y="135" width="17" height="17" fill="#a9c5e9"/>
+    <rect x="654" y="152" width="17" height="17" fill="#fff"/>
+    <rect x="654" y="169" width="17" height="17" fill="#0e3971"/>
+    <rect x="654" y="186" width="17" height="17" fill="#f4c6c8"/>
+    <rect x="654" y="203" width="17" height="17" fill="#d71920"/>
+    <rect x="654" y="220" width="17" height="17" fill="#000"/>
+    <rect x="654" y="237" width="17" height="17" fill="#fff"/>
+
+    <rect x="655" y="286" width="17" height="17" fill="#b1caec"/>
+    <rect x="655" y="303" width="17" height="17" fill="#083871"/>
+    <rect x="655" y="320" width="17" height="17" fill="#f5c4c7"/>
+    <rect x="655" y="337" width="17" height="17" fill="#d71920"/>
+    <rect x="655" y="354" width="17" height="17" fill="#000"/>
+    <rect x="655" y="371" width="17" height="17" fill="#000"/>
+
+    <rect x="628" y="538" width="17" height="18" fill="#f3c8ca"/>
+    <rect x="628" y="556" width="17" height="18" fill="#a9c5e9"/>
+    <rect x="628" y="574" width="17" height="18" fill="#154078"/>
+    <rect x="628" y="592" width="17" height="18" fill="#a9c5e9"/>
+    <rect x="628" y="610" width="17" height="18" fill="#d71920"/>
+    <rect x="628" y="628" width="17" height="18" fill="#e8eef6"/>
+  </g>
+
+  <!-- Bottom sample masks after feature vector -->
+  <g stroke="#222" stroke-width="1">
+    <rect x="700" y="500" width="17" height="18" fill="#fff"/>
+    <rect x="700" y="518" width="17" height="18" fill="#000"/>
+    <rect x="700" y="536" width="17" height="18" fill="#fff"/>
+    <rect x="700" y="554" width="17" height="18" fill="#fff"/>
+    <rect x="700" y="572" width="17" height="18" fill="#000"/>
+    <rect x="700" y="590" width="17" height="18" fill="#fff"/>
+    <rect x="700" y="608" width="17" height="18" fill="#000"/>
+    <rect x="700" y="626" width="17" height="18" fill="#fff"/>
+
+    <rect x="766" y="414" width="17" height="18" fill="#fff"/>
+    <rect x="766" y="432" width="17" height="18" fill="#fff"/>
+    <rect x="766" y="450" width="17" height="18" fill="#000"/>
+    <rect x="766" y="468" width="17" height="18" fill="#fff"/>
+    <rect x="766" y="486" width="17" height="18" fill="#fff"/>
+    <rect x="766" y="504" width="17" height="18" fill="#000"/>
+    <rect x="766" y="522" width="17" height="18" fill="#fff"/>
+    <rect x="766" y="540" width="17" height="18" fill="#fff"/>
+  </g>
+
+  <!-- Arrows from features to aggregation boxes -->
+  <path d="M646 72 L743 72" fill="none" stroke="#000" stroke-width="2.5" marker-end="url(#arrowBlack)"/>
+  <path d="M672 303 L838 303" fill="none" stroke="#000" stroke-width="3.5" marker-end="url(#arrowBlack)"/>
+  <path d="M646 599 L910 599" fill="none" stroke="#000" stroke-width="3.5" marker-end="url(#arrowBlack)"/>
+
+  <!-- Aggregation boxes -->
+  <g fill="#fff" stroke="#222" stroke-width="1.5">
+    <rect x="746" y="36" width="99" height="70" rx="13" ry="13"/>
+    <rect x="840" y="266" width="99" height="70" rx="13" ry="13"/>
+    <rect x="913" y="564" width="102" height="71" rx="13" ry="13"/>
+  </g>
+
+  <text x="795" y="84" text-anchor="middle" dominant-baseline="middle" font-family="serif" font-size="41" fill="#000">1ᵀ<tspan font-style="italic">φ</tspan></text>
+  <text x="890" y="314" text-anchor="middle" dominant-baseline="middle" font-family="serif" font-size="41" fill="#000">1ᵀ<tspan font-style="italic">φ</tspan></text>
+  <text x="964" y="612" text-anchor="middle" dominant-baseline="middle" font-family="serif" font-size="41" fill="#000"><tspan font-style="italic">S</tspan>ᵀ<tspan font-style="italic">φ</tspan></text>
+
+  <!-- Arrows to output circles -->
+  <path d="M845 72 L940 72" fill="none" stroke="#000" stroke-width="2.3" marker-end="url(#arrowBlack)"/>
+  <path d="M939 303 L1012 303" fill="none" stroke="#000" stroke-width="2.3" marker-end="url(#arrowBlack)"/>
+  <path d="M1015 599 L1060 599" fill="none" stroke="#000" stroke-width="2.3" marker-end="url(#arrowBlack)"/>
+
+  <!-- Output circles -->
+  <circle cx="974" cy="72" r="28" fill="#fff" stroke="#222" stroke-width="1.4"/>
+  <text x="974" y="78" text-anchor="middle" font-family="serif" font-size="36" font-style="italic" fill="#000">ŷ</text>
+
+  <circle cx="1077" cy="303" r="64" fill="#fff" stroke="#222" stroke-width="1.4"/>
+  <text x="1077" y="302" text-anchor="middle" dominant-baseline="middle" font-family="serif" font-size="22" fill="#000">
+    <tspan font-style="italic">via</tspan><tspan baseline-shift="super" font-size="12" font-style="italic">SHAP</tspan><tspan font-style="italic">(x</tspan><tspan baseline-shift="sub" font-size="13" font-style="italic">S</tspan><tspan font-style="italic">)</tspan>
+  </text>
+
+  <circle cx="1124" cy="599" r="62" fill="#fff" stroke="#222" stroke-width="1.4"/>
+  <text x="1124" y="604" text-anchor="middle" dominant-baseline="middle" font-family="serif" font-size="22" fill="#000">
+    <tspan font-style="italic">S</tspan>ᵀ <tspan font-style="italic">φ</tspan><tspan baseline-shift="super" font-size="13" font-style="italic">via</tspan><tspan font-style="italic">(x;θ)</tspan>
+  </text>
+
+  <!-- Right-side loss boxes and connecting arrows: compacted to match the original spacing -->
+  <path d="M1002 74 C1165 75 1340 84 1396 160 L1396 168" fill="none" stroke="#000" stroke-width="2.2" marker-end="url(#arrowBlack)"/>
+
+  <rect x="1248" y="168" width="286" height="54" fill="#fff" stroke="#444" stroke-width="1.4"/>
+  <text x="1268" y="203" font-family="serif" font-size="25" font-style="italic" fill="#000">
+    ℒ<tspan baseline-shift="sub" font-size="15">pred</tspan><tspan>(θ) = (ŷ, y ∈ Y)</tspan>
+  </text>
+
+  <text x="1388" y="281" font-family="serif" font-size="52" font-weight="700" fill="#000">+</text>
+
+  <rect x="1140" y="300" width="493" height="48" fill="#fff" stroke="#444" stroke-width="1.2"/>
+  <text x="1151" y="330" font-family="serif" font-size="17" fill="#000">
+    <tspan font-style="italic">ℒ</tspan><tspan baseline-shift="sub" font-size="12" font-style="italic">φ</tspan><tspan font-style="italic">(θ)</tspan>
+    <tspan> = 𝔼</tspan><tspan baseline-shift="sub" font-size="11">p(S)</tspan>
+    <tspan>[ (</tspan><tspan font-style="italic">via</tspan><tspan baseline-shift="sub" font-size="11" font-style="italic">j</tspan><tspan baseline-shift="super" font-size="10" font-style="italic">SHAP</tspan><tspan font-style="italic">(x</tspan><tspan baseline-shift="sub" font-size="11" font-style="italic">S</tspan><tspan font-style="italic">)</tspan>
+    <tspan> − </tspan><tspan font-style="italic">via</tspan><tspan baseline-shift="sub" font-size="11" font-style="italic">j</tspan><tspan baseline-shift="super" font-size="10" font-style="italic">SHAP</tspan><tspan font-style="italic">(0)</tspan>
+    <tspan> − 1</tspan><tspan baseline-shift="sub" font-size="11">S</tspan><tspan>ᵀ</tspan><tspan font-style="italic">φ</tspan><tspan baseline-shift="sub" font-size="11" font-style="italic">j</tspan><tspan baseline-shift="super" font-size="10" font-style="italic">via</tspan><tspan font-style="italic">(x;θ)</tspan><tspan>)²]</tspan>
+  </text>
+
+  <path d="M1180 599 C1320 590 1392 505 1394 349" fill="none" stroke="#000" stroke-width="2.2" marker-end="url(#arrowBlack)"/>
+
+  <!-- Raster placeholders -->
+  <image id="icon_RAS_01" x="61" y="251" width="17" height="120" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAPCAYAAADtc08vAAABxUlEQVR4nE1TQZLUQAyTbM8Ow4VvcIFf7A3+sMVTOOyPKA48a4qdSSexKbknQKo63UnasqRW+PLtpX79+Imvz1+wLSuWsYJBGA1hAZiBRoAFp4EatcHd4OcTIseOzx8/4fvrK/j7juV65dPlAkIgKgTgVlrq0rvKbAB+eI94d7nAIsCxom4Lt7HC3dUQOw4AUt31sJPIPZvVObwic8O2DWy3wbyvGLe1UOLc++fUMgAU4SAyU8pA22lVhhJhGsy8KVodtTXvVagsUDMSUDElkgg/GdTPWMjWLISugvZOkDl2yMRCFZtV7oUwD1CahegEfNI+CKinrizx3OeaD1bVAAa6tdPmRmu91gyI7MKcGEgUJLiZmQTMU2lDrIVLggB76k0mPe2pPGAr0xANnVSIxrSD/8nwyUB6PWFau85ftA2ctrfx0QDtqD78Pbl2Wk/qOj1VsKa5VQk3g3sgjsR1N4mTpGb4CNEDtvEkrQ30jnW4VbS3W2EsK2sbWLcxjWnjjiT9Wx+flG3lIjpGlTD3wpPzvBqezqeWJS7Nusk0h5nATAQDJ/1Msvu+vOG6vTEycR+jdhrzYVL/NJofxtkOKP6l/ETgD29+0/7L4eKwAAAAAElFTkSuQmCC" preserveAspectRatio="xMidYMid meet"/>
+  <image id="icon_RAS_02" x="655" y="340" width="16" height="17" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABEAAAARCAYAAAA7bUf6AAACJElEQVR4nE2Uu24WQQyFP89lc4MoBTQg8Q68Ah0FPTUvREcJXV4mPQJSREJCQiISCBI2+Xd3DrJnN2R+jXYu9vGxz/i3dx9O9e3iAmrl9yymtiAamEgsGAutzWhpoMYiYIHBYL654cGwj714+UpHZ2c8t8aljCmJyWAxYxbMydhJ7ufQTDkzmTgY9rkh8XkcKV++nvPm8ru9TqZLCcNopogoRdCYWkH8uwOOh8qnDG9vZ8pwfMKJmQ5q5QDIycLbf6lB9u8KbohsCWviUR2oGZ7kgbJMEz8l+zNN+uVhbDNvZAMDkoh1x1fUx1rmmsw4zZSCGIC6zkbCvKhKVLW+NmcIZQUdV8A9FGySH3uuJt8k5FadUIwUKXbnmM4mViATTUbx3HMYbzmrO3sdUi/ufVC3d8stQGsKhrEJ/KDbTRwg2N1j4XZyql6XtkK2LkCks8ajmUVKdwxWWTeJ13B97+8IPJ1+2Q20JuVA8W7vaDtoiEd3DJ8m5qVRzHmvl5uDj7U0d+dbsHRfdgc0UfwkLsPAOsiaixs62Fajjta5+tNwApPk78SFhZKMat5uHbEXsCcUdfH+C3k9eoq+2clCxbJfMnsRtRfL1XC36GVnqf8FXZqxJOOvGRnjVv7goBzWylFBzw4rx4vYZY8gZrUAcAnntnWxq5d4KOOp55ASZTdSpquR90qcj7NdSbpeu3ST1Ycz8b+FxVy3FrV6PM/8qIWPOfMPayoiUyarnAAAAAAASUVORK5CYII=" preserveAspectRatio="xMidYMid meet"/>
+  <image id="icon_RAS_05" x="60" y="251" width="18" height="120" href="data:image/png;base64,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" preserveAspectRatio="xMidYMid meet"/>
+  <image id="icon_RAS_07" x="609" y="303" width="17" height="118" href="data:image/png;base64,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" preserveAspectRatio="xMidYMid meet"/>
+</svg>

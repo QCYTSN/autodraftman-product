@@ -1,0 +1,243 @@
+<svg width="3840" height="1029" viewBox="0 0 3840 1029" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <marker id="arrow" markerWidth="12" markerHeight="10" refX="10" refY="5" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L10,5 L0,10 Z" fill="#000"/>
+    </marker>
+    <marker id="arrowSmall" markerWidth="9" markerHeight="8" refX="8" refY="4" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L8,4 L0,8 Z" fill="#000"/>
+    </marker>
+  </defs>
+
+  <g transform="scale(1.875 1.87431694)">
+    <rect x="0" y="0" width="2048" height="549" fill="white"/>
+
+    <style>
+      .txt{font-family:"Times New Roman",serif;fill:#000}
+      .sans{font-family:Arial,Helvetica,sans-serif;fill:#000}
+      .stroke{stroke:#000;stroke-width:1.6;fill:none}
+      .arrow{stroke:#000;stroke-width:1.8;fill:none;marker-end:url(#arrow)}
+      .thinArrow{stroke:#000;stroke-width:1.35;fill:none;marker-end:url(#arrowSmall)}
+      .dotArrow{stroke:#000;stroke-width:1.6;stroke-dasharray:1.5 3;fill:none;marker-end:url(#arrowSmall)}
+      .dashBrown{stroke:#6b2c12;stroke-width:1.5;stroke-dasharray:5 3;fill:#fff6ed}
+      .redDash{stroke:red;stroke-width:1.6;stroke-dasharray:2 3;fill:none}
+    </style>
+
+    <!-- top rope route -->
+    <path class="arrow" d="M142 69 L142 35 L1783 35 L1783 72"/>
+    <text class="txt" x="1436" y="70" font-size="26">Rope</text>
+
+    <!-- left stacked pre-rope query -->
+    <g>
+      <rect x="95" y="65" width="132" height="34" fill="#fee28b" stroke="#000" stroke-width="1.3"/>
+      <path d="M128 65v34 M161 65v34 M194 65v34" stroke="#000" stroke-width="1.3"/>
+      <rect x="85" y="72" width="132" height="34" fill="#fee28b" stroke="#000" stroke-width="1.3"/>
+      <path d="M118 72v34 M151 72v34 M184 72v34" stroke="#000" stroke-width="1.3"/>
+      <rect x="75" y="80" width="132" height="34" fill="#fee28b" stroke="#000" stroke-width="1.3"/>
+      <path d="M108 80v34 M141 80v34 M174 80v34" stroke="#000" stroke-width="1.3"/>
+      <text class="txt" x="35" y="153" font-size="30">Pre-rope Query</text>
+    </g>
+
+    <!-- left stacked pre-rope key -->
+    <g>
+      <rect x="95" y="164" width="132" height="34" fill="#d9f1f5" stroke="#000" stroke-width="1.3"/>
+      <path d="M128 164v34 M161 164v34 M194 164v34" stroke="#000" stroke-width="1.3"/>
+      <rect x="85" y="172" width="132" height="34" fill="#d9f1f5" stroke="#000" stroke-width="1.3"/>
+      <path d="M118 172v34 M151 172v34 M184 172v34" stroke="#000" stroke-width="1.3"/>
+      <rect x="75" y="185" width="132" height="34" fill="#d9f1f5" stroke="#000" stroke-width="1.3"/>
+      <path d="M108 185v34 M141 185v34 M174 185v34" stroke="#000" stroke-width="1.3"/>
+      <text class="txt" x="50" y="253" font-size="30">Pre-rope Key</text>
+    </g>
+
+    <path class="arrow" d="M236 92 L292 92"/>
+    <path class="arrow" d="M236 193 L292 193"/>
+
+    <!-- flattened query / key vectors -->
+    <g>
+      <rect x="298" y="74" width="207" height="35" fill="#fee28b" stroke="#000" stroke-width="1.4"/>
+      <path d="M332 74v35 M365 74v35 M398 74v35 M431 74v35" stroke="#000" stroke-width="1.2"/>
+      <text class="txt" x="456" y="96" font-size="24">...</text>
+      <text class="txt" x="268" y="152" font-size="24">1 × (</text>
+      <text class="txt" x="306" y="152" font-size="23" font-style="italic">head_num × head_dim</text>
+      <text class="txt" x="505" y="152" font-size="24">)</text>
+
+      <rect x="298" y="175" width="207" height="35" fill="#d9f1f5" stroke="#000" stroke-width="1.4"/>
+      <path d="M332 175v35 M365 175v35 M398 175v35 M431 175v35" stroke="#000" stroke-width="1.2"/>
+      <text class="txt" x="456" y="197" font-size="24">...</text>
+    </g>
+
+    <!-- join to multiply -->
+    <path class="stroke" d="M515 91 L609 91 L609 126"/>
+    <path class="stroke" d="M515 193 L609 193 L609 170"/>
+    <path class="arrow" d="M609 126 L609 147"/>
+    <path class="arrow" d="M609 170 L609 155"/>
+    <circle cx="609" cy="152" r="12" fill="white" stroke="#000" stroke-width="1.7"/>
+    <path d="M601 144 L617 160 M617 144 L601 160" stroke="#000" stroke-width="1.8"/>
+
+    <!-- offline calibration box -->
+    <rect x="35" y="285" width="505" height="202" rx="27" ry="27" class="dashBrown"/>
+    <text class="sans" x="145" y="324" font-size="32">Offline Calibration</text>
+
+    <g>
+      <rect x="86" y="344" width="90" height="90" fill="#d9f1f5" stroke="#000" stroke-width="1.3"/>
+      <path d="M108.5 344v90 M131 344v90 M153.5 344v90 M86 366.5h90 M86 389h90 M86 411.5h90" stroke="#000" stroke-width="1.1"/>
+      <text class="txt" x="70" y="462" font-size="22">Pre-rope Keys</text>
+    </g>
+    <path class="thinArrow" d="M196 388 L303 388"/>
+    <text class="txt" x="196" y="379" font-size="23">Cov. Calc.</text>
+    <g>
+      <rect x="317" y="343" width="90" height="90" fill="#d9f5d2" stroke="#000" stroke-width="1.3"/>
+      <path d="M339.5 343v90 M362 343v90 M384.5 343v90 M317 365.5h90 M317 388h90 M317 410.5h90" stroke="#000" stroke-width="1.1"/>
+      <text class="txt" x="258" y="462" font-size="22">Key covariance matrix</text>
+    </g>
+    <path class="thinArrow" d="M430 388 L499 388 L499 342 L563 342"/>
+    <text class="txt" x="434" y="380" font-size="23">EVD</text>
+
+    <!-- green compression matrix -->
+    <path class="thinArrow" d="M540 342 L568 342"/>
+    <g>
+      <rect x="576" y="258" width="68" height="208" fill="#91df7b" stroke="#000" stroke-width="1.5"/>
+      <path d="M610 258v208 M576 291h68 M576 324h68 M576 357h68 M576 390h68 M576 423h68" stroke="#000" stroke-width="1.2"/>
+      <text class="txt" x="580" y="431" font-size="26">......</text>
+    </g>
+    <path class="arrow" d="M610 242 L610 166"/>
+
+    <!-- multiply output split -->
+    <path class="stroke" d="M622 152 L690 152"/>
+    <path class="arrow" d="M690 152 L690 103 L741 103"/>
+    <path class="arrow" d="M690 152 L690 193 L741 193"/>
+
+    <!-- small orange selected dims -->
+    <g>
+      <rect x="778" y="86" width="67" height="34" fill="#ffa84e" stroke="#000" stroke-width="1.4"/>
+      <path d="M812 86v34" stroke="#000" stroke-width="1.2"/>
+      <rect x="769" y="76" width="48" height="50" rx="5" class="redDash"/>
+    </g>
+    <path class="arrow" d="M845 103 L873 103"/>
+
+    <!-- approx attention score -->
+    <rect x="876" y="61" width="202" height="81" fill="white" stroke="#000" stroke-width="1.5"/>
+    <text class="txt" x="933" y="94" font-size="26">Approx.</text>
+    <text class="txt" x="892" y="127" font-size="26">Attention Score</text>
+    <path class="arrow" d="M1079 101 L1110 101 L1110 237"/>
+    <path class="arrow" d="M928 218 L928 147"/>
+    <text class="txt" x="950" y="175" font-size="26">Selected</text>
+    <text class="txt" x="950" y="207" font-size="26">Dim.</text>
+
+    <!-- small cyan to cache -->
+    <g>
+      <rect x="778" y="175" width="67" height="35" fill="#4fc0e7" stroke="#000" stroke-width="1.4"/>
+      <path d="M812 175v35" stroke="#000" stroke-width="1.2"/>
+    </g>
+    <path class="arrow" d="M812 210 L812 249"/>
+
+    <!-- latent key cache -->
+    <text class="txt" x="689" y="343" font-size="30">Latent</text>
+    <text class="txt" x="702" y="380" font-size="30">Key</text>
+    <text class="txt" x="689" y="416" font-size="30">Cache</text>
+    <g>
+      <rect x="778" y="253" width="67" height="234" fill="#a9ddeb" stroke="#000" stroke-width="1.5"/>
+      <path d="M812 253v234 M778 286.5h67 M778 320h67 M778 353.5h67 M778 387h67 M778 420.5h67 M778 454h67" stroke="#000" stroke-width="1.15"/>
+    </g>
+    <path class="arrow" d="M846 374 L900 374"/>
+
+    <!-- selected dim tall matrix -->
+    <g>
+      <rect x="911" y="219" width="67" height="268" fill="#a9ddeb" stroke="#000" stroke-width="1.5"/>
+      <path d="M945 219v268 M911 252.5h67 M911 286h67 M911 319.5h67 M911 353h67 M911 386.5h67 M911 420h67 M911 453.5h67" stroke="#000" stroke-width="1.15"/>
+      <rect x="904" y="215" width="51" height="275" rx="5" class="redDash"/>
+      <path d="M953 219 L953 487" stroke="red" stroke-width="1.2" stroke-dasharray="2 3"/>
+    </g>
+
+    <!-- top-k index -->
+    <rect x="998" y="264" width="216" height="48" fill="white" stroke="#000" stroke-width="1.6"/>
+    <text class="txt" x="1011" y="296" font-size="25">Top-k Index [2,7]</text>
+    <path class="arrow" d="M978 353 L999 353"/>
+    <path class="stroke" d="M1214 288 L1253 288"/>
+    <path class="arrow" d="M1253 288 L1253 235 L1294 235"/>
+
+    <!-- transpose and long routing -->
+    <text class="txt" x="1002" y="480" font-size="30">Transpose</text>
+    <path class="arrow" d="M1000 352 L1147 352 L1147 439 L1294 439"/>
+    <path class="stroke" d="M610 466 L610 500 L1545 500 L1545 452"/>
+    <path class="arrow" d="M1545 500 L1545 452"/>
+
+    <!-- Fused recover kernel -->
+    <rect x="1234" y="111" width="432" height="379" rx="20" ry="20" class="dashBrown"/>
+    <text class="sans" x="1291" y="147" font-size="31">Fused Recover Kernel</text>
+    <text class="txt" x="1411" y="205" font-size="25">Reconstruct &amp; Rope</text>
+
+    <path class="arrow" d="M1254 235 L1294 235"/>
+    <path class="stroke" d="M1254 235 L1254 402 L1294 402"/>
+    <path class="arrow" d="M1254 402 L1294 402"/>
+
+    <g>
+      <rect x="1306" y="218" width="67" height="268" fill="#a9ddeb" stroke="#000" stroke-width="1.5"/>
+      <path d="M1340 218v268 M1306 252h67 M1306 285.5h67 M1306 319h67 M1306 352.5h67 M1306 386h67 M1306 419.5h67 M1306 453h67" stroke="#000" stroke-width="1.15"/>
+      <rect x="1306" y="218" width="67" height="34" fill="#4b99d8" stroke="#000" stroke-width="1.2"/>
+      <path d="M1340 218v34" stroke="#000" stroke-width="1.1"/>
+      <rect x="1306" y="386" width="67" height="34" fill="#4b99d8" stroke="#000" stroke-width="1.2"/>
+      <path d="M1340 386v34" stroke="#000" stroke-width="1.1"/>
+    </g>
+
+    <path class="dotArrow" d="M1386 235 L1517 235"/>
+    <circle cx="1545" cy="239" r="13" fill="white" stroke="#000" stroke-width="1.7"/>
+    <path d="M1536 230 L1554 248 M1554 230 L1536 248" stroke="#000" stroke-width="1.8"/>
+    <path class="dotArrow" d="M1545 345 L1545 268"/>
+    <path class="dotArrow" d="M1573 239 L1635 239 L1635 337 L1687 337"/>
+
+    <path class="dotArrow" d="M1386 402 L1413 402 L1413 235"/>
+    <path class="dotArrow" d="M1413 235 L1516 235"/>
+    <path class="dotArrow" d="M1376 402 L1413 402"/>
+    <path class="dotArrow" d="M1375 402 L1438 402"/>
+
+    <g>
+      <rect x="1441" y="363" width="207" height="68" fill="#91df7b" stroke="#000" stroke-width="1.5"/>
+      <path d="M1475.5 363v68 M1510 363v68 M1544.5 363v68 M1579 363v68 M1613.5 363v68 M1441 397h207" stroke="#000" stroke-width="1.15"/>
+      <text class="txt" x="1597" y="385" font-size="25">...</text>
+      <text class="txt" x="1597" y="418" font-size="25">...</text>
+    </g>
+    <path class="arrow" d="M1545 452 L1545 431"/>
+
+    <!-- post-rope query stack -->
+    <g>
+      <rect x="1727" y="65" width="132" height="34" fill="#ffad59" stroke="#000" stroke-width="1.3"/>
+      <path d="M1760 65v34 M1793 65v34 M1826 65v34" stroke="#000" stroke-width="1.3"/>
+      <rect x="1716" y="72" width="132" height="34" fill="#ffad59" stroke="#000" stroke-width="1.3"/>
+      <path d="M1749 72v34 M1782 72v34 M1815 72v34" stroke="#000" stroke-width="1.3"/>
+      <rect x="1706" y="84" width="132" height="34" fill="#ffad59" stroke="#000" stroke-width="1.3"/>
+      <path d="M1739 84v34 M1772 84v34 M1805 84v34" stroke="#000" stroke-width="1.3"/>
+      <text class="txt" x="1678" y="166" font-size="30">Post-rope Query</text>
+    </g>
+    <path class="dotArrow" d="M1858 92 L1887 92"/>
+
+    <!-- output critical post-rope key stack -->
+    <g>
+      <rect x="1727" y="298" width="132" height="68" fill="#4b99d8" stroke="#000" stroke-width="1.3"/>
+      <path d="M1760 298v68 M1793 298v68 M1826 298v68 M1727 332h132" stroke="#000" stroke-width="1.2"/>
+      <rect x="1717" y="306" width="132" height="68" fill="#4b99d8" stroke="#000" stroke-width="1.3"/>
+      <path d="M1750 306v68 M1783 306v68 M1816 306v68 M1717 340h132" stroke="#000" stroke-width="1.2"/>
+      <rect x="1707" y="316" width="132" height="68" fill="#4b99d8" stroke="#000" stroke-width="1.3"/>
+      <path d="M1740 316v68 M1773 316v68 M1806 316v68 M1707 350h132" stroke="#000" stroke-width="1.2"/>
+      <text class="txt" x="1670" y="424" font-size="30">Critical Post-rope</text>
+      <text class="txt" x="1758" y="461" font-size="30">Key</text>
+    </g>
+    <path class="dotArrow" d="M1839 343 L1887 343"/>
+
+    <!-- FA block -->
+    <rect x="1895" y="27" width="96" height="459" rx="17" ry="17" fill="#ffaf5b" stroke="#000" stroke-width="1.4"/>
+    <text class="sans" x="1924" y="269" font-size="32" fill="#fff">FA</text>
+
+    <!-- bottom stage dotted arrows and labels -->
+    <path class="dotArrow" d="M299 518 L39 518"/>
+    <path class="dotArrow" d="M558 518 L806 518"/>
+    <text class="txt" x="317" y="529" font-size="20">Stage 1: KV compression</text>
+
+    <path class="dotArrow" d="M930 518 L815 518"/>
+    <path class="dotArrow" d="M1188 518 L1293 518"/>
+    <text class="txt" x="954" y="529" font-size="20">Stage 2: Token selection</text>
+
+    <path class="dotArrow" d="M1566 518 L1298 518"/>
+    <path class="dotArrow" d="M1826 518 L1964 518"/>
+    <text class="txt" x="1590" y="529" font-size="20">Stage 3: Sparse attention</text>
+  </g>
+</svg>

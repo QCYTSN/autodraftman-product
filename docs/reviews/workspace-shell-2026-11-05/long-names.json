@@ -1,0 +1,107 @@
+{
+  "checks": "Long task title, imported SVG filename and source image filename remain contained; full Continue name is accessible",
+  "measurements": [
+    {
+      "width": 1366,
+      "root": 1366,
+      "title": {
+        "x": 256,
+        "right": 616,
+        "width": 360
+      },
+      "actions": {
+        "x": 884.71875,
+        "right": 1342,
+        "width": 457.28125
+      },
+      "file": {
+        "x": 1038.8125,
+        "right": 1198.8125,
+        "width": 160
+      },
+      "open": {
+        "x": 1214.8125,
+        "right": 1342,
+        "width": 127.1875
+      },
+      "frame": {
+        "x": 289,
+        "right": 886.59375,
+        "width": 597.59375
+      },
+      "toolbar": {
+        "x": 290,
+        "right": 885.59375,
+        "width": 595.59375
+      }
+    },
+    {
+      "width": 1440,
+      "root": 1440,
+      "title": {
+        "x": 256,
+        "right": 616,
+        "width": 360
+      },
+      "actions": {
+        "x": 958.71875,
+        "right": 1416,
+        "width": 457.28125
+      },
+      "file": {
+        "x": 1112.8125,
+        "right": 1272.8125,
+        "width": 160
+      },
+      "open": {
+        "x": 1288.8125,
+        "right": 1416,
+        "width": 127.1875
+      },
+      "frame": {
+        "x": 321,
+        "right": 924.59375,
+        "width": 603.59375
+      },
+      "toolbar": {
+        "x": 322,
+        "right": 923.59375,
+        "width": 601.59375
+      }
+    },
+    {
+      "width": 390,
+      "root": 390,
+      "title": {
+        "x": 20,
+        "right": 176,
+        "width": 156
+      },
+      "actions": {
+        "x": 202.8125,
+        "right": 370,
+        "width": 167.1875
+      },
+      "file": {
+        "x": 0,
+        "right": 0,
+        "width": 0
+      },
+      "open": {
+        "x": 242.8125,
+        "right": 370,
+        "width": 127.1875
+      },
+      "frame": {
+        "x": 41,
+        "right": 349,
+        "width": 308
+      },
+      "toolbar": {
+        "x": 42,
+        "right": 348,
+        "width": 306
+      }
+    }
+  ]
+}

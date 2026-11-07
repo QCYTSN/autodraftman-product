@@ -1,0 +1,160 @@
+<svg width="3840" height="772" viewBox="0 0 3840 772" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <marker id="arrowMaroon" markerWidth="14" markerHeight="14" refX="12" refY="7" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L14,7 L0,14 Z" fill="#8a176f"/>
+    </marker>
+    <marker id="arrowBlue" markerWidth="14" markerHeight="14" refX="12" refY="7" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L14,7 L0,14 Z" fill="#11119a"/>
+    </marker>
+    <marker id="arrowRed" markerWidth="14" markerHeight="14" refX="12" refY="7" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L14,7 L0,14 Z" fill="#c7261c"/>
+    </marker>
+
+    <linearGradient id="specGrad" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#130b42"/>
+      <stop offset="0.22" stop-color="#49156b"/>
+      <stop offset="0.47" stop-color="#9f2449"/>
+      <stop offset="0.7" stop-color="#e05d18"/>
+      <stop offset="1" stop-color="#ffb000"/>
+    </linearGradient>
+    <filter id="spectNoise" x="-10%" y="-10%" width="120%" height="120%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.04 0.18" numOctaves="4" seed="8" result="n"/>
+      <feColorMatrix in="n" type="matrix" values="1.3 0 0 0 0.2  0 0.55 0 0 0.05  0 0 0.1 0 0  0 0 0 0.55 0" result="c"/>
+      <feBlend in="SourceGraphic" in2="c" mode="screen"/>
+    </filter>
+
+    <symbol id="waveform" viewBox="0 0 480 150" preserveAspectRatio="none">
+      <path fill="#050505" d="M0,76 L5,47 L10,98 L15,41 L20,104 L25,63 L30,88 L35,28 L40,119 L45,52 L50,96 L55,37 L60,108 L65,57 L70,91 L75,21 L80,134 L85,61 L90,88 L95,48 L100,102 L105,56 L110,95 L115,33 L120,112 L125,54 L130,97 L135,44 L140,104 L145,39 L150,114 L155,59 L160,93 L165,51 L170,99 L175,34 L180,118 L185,62 L190,90 L195,53 L200,97 L205,25 L210,128 L215,58 L220,93 L225,44 L230,106 L235,50 L240,99 L245,31 L250,119 L255,60 L260,92 L265,46 L270,103 L275,55 L280,94 L285,38 L290,111 L295,57 L300,96 L305,42 L310,105 L315,49 L320,101 L325,28 L330,124 L335,64 L340,87 L345,50 L350,101 L355,37 L360,113 L365,56 L370,96 L375,45 L380,104 L385,52 L390,98 L395,29 L400,120 L405,60 L410,90 L415,49 L420,102 L425,54 L430,97 L435,41 L440,107 L445,58 L450,94 L455,35 L460,115 L465,59 L470,93 L475,45 L480,75 L480,75 L475,105 L470,57 L465,91 L460,35 L455,115 L450,56 L445,92 L440,43 L435,109 L430,53 L425,96 L420,48 L415,101 L410,60 L405,90 L400,30 L395,121 L390,52 L385,98 L380,46 L375,105 L370,54 L365,94 L360,37 L355,113 L350,49 L345,100 L340,63 L335,86 L330,26 L325,122 L320,50 L315,101 L310,45 L305,108 L300,54 L295,93 L290,38 L285,112 L280,56 L275,94 L270,47 L265,104 L260,58 L255,92 L250,31 L245,119 L240,51 L235,100 L230,44 L225,107 L220,55 L215,93 L210,22 L205,130 L200,51 L195,96 L190,60 L185,89 L180,32 L175,118 L170,50 L165,99 L160,58 L155,92 L150,35 L145,115 L140,48 L135,103 L130,53 L125,97 L120,38 L115,112 L110,55 L105,96 L100,48 L95,103 L90,60 L85,88 L80,17 L75,136 L70,59 L65,92 L60,42 L55,109 L50,54 L45,97 L40,27 L35,121 L30,62 L25,88 L20,42 L15,105 L10,51 L5,99 L0,76 Z"/>
+      <g stroke="#050505" stroke-width="2" opacity="0.95">
+        <line x1="28" y1="19" x2="28" y2="131"/>
+        <line x1="122" y1="10" x2="122" y2="142"/>
+        <line x1="205" y1="25" x2="205" y2="130"/>
+        <line x1="326" y1="30" x2="326" y2="124"/>
+        <line x1="420" y1="22" x2="420" y2="129"/>
+      </g>
+    </symbol>
+
+    <symbol id="spectrogram" viewBox="0 0 514 268" preserveAspectRatio="none">
+      <rect width="514" height="268" fill="url(#specGrad)" filter="url(#spectNoise)"/>
+      <g opacity="0.4">
+        <rect x="0" y="0" width="18" height="268" fill="#2a104f"/>
+        <rect x="55" y="0" width="13" height="268" fill="#f36c19"/>
+        <rect x="95" y="0" width="30" height="268" fill="#32105d"/>
+        <rect x="147" y="0" width="28" height="268" fill="#260d4e"/>
+        <rect x="230" y="0" width="22" height="268" fill="#661860"/>
+        <rect x="286" y="0" width="42" height="268" fill="#ef6b16"/>
+        <rect x="380" y="0" width="15" height="268" fill="#732060"/>
+        <rect x="446" y="0" width="13" height="268" fill="#f07614"/>
+      </g>
+      <g stroke-linecap="round" fill="none">
+        <path d="M0 242 C65 238 94 245 152 235 S249 247 307 226 S426 236 514 228" stroke="#ffcc22" stroke-width="5" opacity=".65"/>
+        <path d="M0 221 C74 212 120 222 179 206 S285 214 361 203 S462 208 514 196" stroke="#ffaa1a" stroke-width="4" opacity=".55"/>
+        <path d="M0 198 C44 195 74 190 126 191 S219 184 281 181 S374 187 514 173" stroke="#ffb01c" stroke-width="4" opacity=".48"/>
+        <path d="M0 176 C77 169 131 174 190 159 S287 169 345 153 S444 156 514 147" stroke="#f59b16" stroke-width="3" opacity=".48"/>
+        <path d="M0 151 C60 143 122 149 183 136 S278 142 343 132 S430 134 514 124" stroke="#e98218" stroke-width="3" opacity=".38"/>
+        <path d="M0 130 C48 126 91 122 148 119 S249 113 318 110 S433 107 514 99" stroke="#cf6b1d" stroke-width="3" opacity=".32"/>
+      </g>
+      <g stroke="#ff9a17" stroke-width="2" opacity=".36">
+        <line x1="35" y1="72" x2="35" y2="268"/>
+        <line x1="76" y1="28" x2="76" y2="268"/>
+        <line x1="116" y1="0" x2="116" y2="268"/>
+        <line x1="156" y1="47" x2="156" y2="268"/>
+        <line x1="202" y1="15" x2="202" y2="268"/>
+        <line x1="248" y1="30" x2="248" y2="268"/>
+        <line x1="290" y1="0" x2="290" y2="268"/>
+        <line x1="334" y1="54" x2="334" y2="268"/>
+        <line x1="376" y1="8" x2="376" y2="268"/>
+        <line x1="422" y1="42" x2="422" y2="268"/>
+        <line x1="466" y1="20" x2="466" y2="268"/>
+      </g>
+    </symbol>
+  </defs>
+
+  <rect width="3840" height="772" fill="#ffffff"/>
+
+  <rect x="44" y="79" width="581" height="650" rx="40" fill="#dcecf8"/>
+  <rect x="3198" y="79" width="580" height="650" rx="40" fill="#dcecf8"/>
+
+  <text x="334" y="157" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-weight="700" font-size="74" fill="#000">Input</text>
+  <use href="#waveform" x="104" y="194" width="462" height="151"/>
+  <text x="334" y="407" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-weight="700" font-size="56" fill="#000">OR</text>
+  <use href="#spectrogram" x="78" y="436" width="514" height="268"/>
+
+  <text x="3488" y="157" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-weight="700" font-size="74" fill="#000">Variation</text>
+  <use href="#waveform" x="3257" y="194" width="462" height="151"/>
+  <text x="3488" y="407" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-weight="700" font-size="56" fill="#000">OR</text>
+  <use href="#spectrogram" x="3232" y="436" width="514" height="268"/>
+
+  <path d="M625 326 L704 326" stroke="#8a176f" stroke-width="8" fill="none" marker-end="url(#arrowMaroon)"/>
+  <polygon points="704,132 890,198 934,198 1116,132 1116,523 909,452 704,523" fill="#f1c9ec"/>
+  <text x="910" y="356" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-weight="700" font-size="75" fill="#000">Encoder</text>
+
+  <path d="M1116 326 L1160 326" stroke="#8a176f" stroke-width="8" fill="none" marker-end="url(#arrowMaroon)"/>
+  <rect x="1162" y="248" width="211" height="160" rx="23" fill="#d8f1d0"/>
+  <text x="1268" y="350" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-weight="700" font-size="57" fill="#000">DFT</text>
+
+  <path d="M1373 326 L1413 326" stroke="#8a176f" stroke-width="8" fill="none" marker-end="url(#arrowMaroon)"/>
+  <rect x="1415" y="146" width="386" height="366" rx="25" fill="#fff" stroke="#111" stroke-width="5"/>
+  <g clip-path="url(#clipLatent)">
+    <rect x="1455" y="181" width="306" height="214" fill="#fff"/>
+  </g>
+  <clipPath id="clipLatent">
+    <rect x="1455" y="178" width="310" height="220"/>
+  </clipPath>
+  <g clip-path="url(#clipLatent)" fill="none" stroke-linecap="round" opacity=".85">
+    <path d="M1455 182 C1480 260 1530 254 1578 260 S1670 275 1765 298" stroke="#696969" stroke-width="4" opacity=".48"/>
+    <path d="M1455 188 C1490 249 1528 259 1588 264 S1692 283 1765 305" stroke="#e36f45" stroke-width="3" opacity=".30"/>
+    <path d="M1458 177 C1488 242 1540 250 1596 255 S1687 276 1765 291" stroke="#62b39d" stroke-width="3" opacity=".30"/>
+    <path d="M1455 198 C1485 262 1538 268 1600 272 S1693 290 1764 316" stroke="#6fb3ca" stroke-width="3" opacity=".22"/>
+    <path d="M1454 166 C1488 236 1522 246 1584 251 S1678 270 1765 286" stroke="#c9b05f" stroke-width="3" opacity=".25"/>
+    <g stroke-width="2">
+      <path d="M1465 197 L1465 332 M1485 218 L1485 356 M1510 232 L1510 318 M1537 240 L1537 345 M1572 249 L1572 377 M1617 258 L1617 344 M1666 270 L1666 397 M1718 282 L1718 361 M1746 291 L1746 382" stroke="#73c4bd" opacity=".22"/>
+      <path d="M1473 209 L1473 294 M1502 224 L1502 332 M1549 238 L1549 327 M1594 254 L1594 341 M1641 264 L1641 370 M1688 276 L1688 349 M1732 286 L1732 372" stroke="#c95b49" opacity=".22"/>
+      <path d="M1480 186 L1480 270 M1525 229 L1525 307 M1564 245 L1564 316 M1625 259 L1625 335 M1678 271 L1678 345 M1755 295 L1755 361" stroke="#9d9d9d" opacity=".28"/>
+    </g>
+  </g>
+  <text x="1608" y="480" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-weight="700" font-size="45" fill="#000">Latent Spec.</text>
+
+  <text x="1915" y="179" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-weight="700" font-size="44" fill="#11119a">User</text>
+  <text x="1915" y="239" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-weight="700" font-size="44" fill="#11119a">Mask</text>
+  <path d="M1817 273 L2018 273" stroke="#11119a" stroke-width="5" stroke-dasharray="4 8" fill="none" marker-end="url(#arrowBlue)"/>
+
+  <text x="1917" y="427" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-weight="700" font-size="44" fill="#c7261c">Rand.</text>
+  <text x="1917" y="489" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-weight="700" font-size="44" fill="#c7261c">Mask</text>
+  <path d="M1817 365 L2018 365" stroke="#c7261c" stroke-width="5" stroke-dasharray="14 8" fill="none" marker-end="url(#arrowRed)"/>
+
+  <rect x="2023" y="146" width="386" height="366" rx="25" fill="#fff" stroke="#111" stroke-width="5"/>
+  <clipPath id="clipMasked">
+    <rect x="2061" y="181" width="309" height="230"/>
+  </clipPath>
+  <g clip-path="url(#clipMasked)" fill="none" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M2062 407 L2103 407 L2103 252 L2179 252 L2179 407 L2260 407 L2260 267 L2345 267 L2345 407 L2372 407" stroke="#6c6251" stroke-width="5" opacity=".92"/>
+    <path d="M2062 405 L2104 405 L2104 247 L2177 247 L2177 406 L2259 406 L2259 264 L2344 264 L2344 405 L2372 405" stroke="#e37c55" stroke-width="3" opacity=".35"/>
+    <path d="M2062 408 L2101 408 L2101 258 L2181 258 L2181 407 L2261 407 L2261 271 L2347 271 L2347 407 L2372 407" stroke="#56b7a6" stroke-width="3" opacity=".30"/>
+    <path d="M2062 410 L2105 410 L2105 250 L2178 250 L2178 409 L2257 409 L2257 269 L2342 269 L2342 409 L2372 409" stroke="#8da2cc" stroke-width="3" opacity=".30"/>
+    <g stroke-width="2" opacity=".25">
+      <path d="M2114 247 L2114 307 M2129 248 L2129 331 M2150 249 L2150 323 M2168 251 L2168 310" stroke="#99cfc3"/>
+      <path d="M2272 263 L2272 341 M2294 265 L2294 354 M2318 266 L2318 335 M2337 267 L2337 348" stroke="#d48a62"/>
+    </g>
+  </g>
+  <text x="2216" y="480" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-weight="700" font-size="45" fill="#000">Masked Spec.</text>
+
+  <path d="M2409 326 L2450 326" stroke="#8a176f" stroke-width="8" fill="none" marker-end="url(#arrowMaroon)"/>
+  <rect x="2452" y="248" width="213" height="160" rx="23" fill="#d8f1d0"/>
+  <text x="2555" y="351" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-weight="700" font-size="57" fill="#000">
+    <tspan>DFT</tspan><tspan baseline-shift="super" font-size="34">-1</tspan>
+  </text>
+
+  <path d="M2665 326 L2703 326" stroke="#8a176f" stroke-width="8" fill="none" marker-end="url(#arrowMaroon)"/>
+  <polygon points="2706,132 2914,203 3120,132 3120,523 2915,452 2706,523" fill="#f1c9ec"/>
+  <text x="2913" y="356" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-weight="700" font-size="75" fill="#000">Decoder</text>
+
+  <path d="M3085 125 C3100 78 3151 88 3137 138 C3158 126 3179 137 3196 158" stroke="#11119a" stroke-width="5" stroke-dasharray="4 8" fill="none" marker-end="url(#arrowBlue)"/>
+
+  <path d="M625 590 L2665 590 L2665 481 L2703 481" stroke="#c7261c" stroke-width="5" stroke-dasharray="14 8" fill="none" marker-end="url(#arrowRed)"/>
+  <text x="1470" y="646" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-weight="700" font-size="51" fill="#c7261c">Add Noise</text>
+
+  <path d="M3167 512 L3122 512" stroke="#c7261c" stroke-width="5" stroke-dasharray="14 8" fill="none" marker-end="url(#arrowRed)"/>
+  <path d="M3167 512 L3167 668 L625 668" stroke="#c7261c" stroke-width="5" stroke-dasharray="14 8" fill="none" marker-end="url(#arrowRed)"/>
+  <text x="1910" y="724" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-weight="700" font-size="51" fill="#c7261c">Reconstruction Loss</text>
+</svg>

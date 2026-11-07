@@ -1,0 +1,178 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1176" height="528" viewBox="0 0 1176 528">
+  <title>Lottery ticket sparse training comparison diagram</title>
+  <desc>
+    Inventory: left block contains initialization w_A at t=0, train arrow to w_A at t=T, prune arrow to masked w_A, and an activation-matching dashed path to w_B approximately pi(w_A). Center/top contains w_B at t=0 with train arrows to dense w_B at t=T, masked w_B with m_A, and permuted-mask w_B with pi(m_A). Right dotted Sparse Training frame contains three top sparse-training sources and three bottom outcomes, with red naive LTH problem and green permuted/LTH solutions. Symmetry/equipartition basis: the three sparse columns inside the blue frame are horizontally equipartitioned with vertical arrows from top to bottom; the two initial networks along the top are aligned on a common baseline; left pruning stack is vertically aligned.
+  </desc>
+
+  <defs>
+    <marker id="arrow-gray" markerUnits="userSpaceOnUse" markerWidth="14" markerHeight="10" refX="10" refY="5" orient="auto">
+      <path d="M0,0 L10,5 L0,10 Z" fill="#969696" id="plus_node_0" />
+    </marker>
+    <marker id="arrow-green" markerUnits="userSpaceOnUse" markerWidth="14" markerHeight="10" refX="10" refY="5" orient="auto">
+      <path d="M0,0 L10,5 L0,10 Z" fill="#8cc276" id="plus_node_1" />
+    </marker>
+    <marker id="arrow-red" markerUnits="userSpaceOnUse" markerWidth="14" markerHeight="10" refX="10" refY="5" orient="auto">
+      <path d="M0,0 L10,5 L0,10 Z" fill="#e7666d" id="plus_node_2" />
+    </marker>
+    <style>
+      .label{font-family:Arial, Helvetica, sans-serif; fill:#4b4b4b;}
+      .math{font-family:"Times New Roman", Times, serif; fill:#5a5a5a;}
+      .mathw{font-family:"Times New Roman", Times, serif; font-weight:700; fill:#555;}
+      .subsup{font-family:"Times New Roman", Times, serif; font-style:italic; fill:#686868;}
+    </style>
+  </defs>
+
+  <rect x="0" y="0" width="1176" height="528" fill="#ffffff" id="plus_node_3" />
+
+  
+  <path id="mask-from-left-init" d="M123 51 V35 H1049 V217" fill="none" stroke="#969696" stroke-width="4" stroke-linecap="square" stroke-linejoin="miter" marker-end="url(#arrow-gray)" />
+  <path id="left-train-arrow" d="M123 125 V214" fill="none" stroke="#969696" stroke-width="4" marker-end="url(#arrow-gray)" />
+  <path id="left-prune-arrow" d="M123 290 V371" fill="none" stroke="#969696" stroke-width="4" stroke-dasharray="18 14" marker-end="url(#arrow-gray)" />
+  <path id="activation-match-path" d="M217 253 H246 V411 H294" fill="none" stroke="#969696" stroke-width="4" stroke-dasharray="18 14" marker-end="url(#arrow-gray)" />
+
+  <path id="train-b-to-dense-b" d="M536 88 L369 217" fill="none" stroke="#969696" stroke-width="4" marker-end="url(#arrow-gray)" />
+  <path id="train-b-to-masked-b" d="M628 125 V217" fill="none" stroke="#969696" stroke-width="4" marker-end="url(#arrow-gray)" />
+  <path id="train-b-to-permuted-b" d="M720 88 L837 217" fill="none" stroke="#969696" stroke-width="4" marker-end="url(#arrow-gray)" />
+
+  <rect id="f10" data-plus-kind="frame" x="518" y="166" width="632" height="330" fill="none" stroke="#3d7cff" stroke-width="4" stroke-dasharray="4 13" />
+
+  <path id="naive-down-arrow" d="M628 292 V371" fill="none" stroke="#e7666d" stroke-width="4" marker-end="url(#arrow-red)" />
+  <path id="permuted-down-arrow" d="M838 292 V371" fill="none" stroke="#8cc276" stroke-width="4" marker-end="url(#arrow-green)" />
+  <path id="lth-down-arrow" d="M1050 292 V371" fill="none" stroke="#8cc276" stroke-width="4" marker-end="url(#arrow-green)" />
+
+  
+  <rect id="f01" data-plus-kind="frame" x="30" y="51" width="185" height="74" rx="1" ry="1" fill="#ffffff" stroke="#969696" stroke-width="4" />
+  <rect id="f02" data-plus-kind="frame" x="29" y="215" width="188" height="75" rx="1" ry="1" fill="#ffffff" stroke="#8cc276" stroke-width="7" />
+  <rect id="f03" data-plus-kind="frame" x="29" y="373" width="188" height="75" rx="1" ry="1" fill="#ffffff" stroke="#8cc276" stroke-width="7" />
+  <rect id="f04" data-plus-kind="frame" x="274" y="217" width="186" height="75" rx="1" ry="1" fill="#ffffff" stroke="#969696" stroke-width="4" />
+  <rect id="f05" data-plus-kind="frame" x="536" y="51" width="185" height="74" rx="1" ry="1" fill="#ffffff" stroke="#969696" stroke-width="4" />
+  <rect id="f06" data-plus-kind="frame" x="536" y="217" width="185" height="75" rx="1" ry="1" fill="#ffffff" stroke="#969696" stroke-width="4" />
+  <rect id="f07" data-plus-kind="frame" x="745" y="217" width="187" height="75" rx="1" ry="1" fill="#ffffff" stroke="#969696" stroke-width="4" />
+  <rect id="f08" data-plus-kind="frame" x="957" y="217" width="187" height="75" rx="1" ry="1" fill="#ffffff" stroke="#969696" stroke-width="4" />
+  <rect id="f11" data-plus-kind="frame" x="535" y="373" width="187" height="75" rx="1" ry="1" fill="#ffffff" stroke="#e7666d" stroke-width="7" />
+  <rect id="f12" data-plus-kind="frame" x="745" y="373" width="187" height="75" rx="1" ry="1" fill="#ffffff" stroke="#8cc276" stroke-width="7" />
+  <rect id="f13" data-plus-kind="frame" x="957" y="373" width="187" height="75" rx="1" ry="1" fill="#ffffff" stroke="#8cc276" stroke-width="7" />
+
+  
+  <text class="label" x="178" y="184" font-size="31" id="plus_node_4">train</text>
+  <text class="label" x="144" y="344" font-size="31" id="plus_node_5">prune</text>
+  <text class="label" x="390" y="136" font-size="31" id="plus_node_6">train</text>
+  <text class="label" x="1058" y="199" font-size="29" id="plus_node_7">mask</text>
+  <text class="label" x="1066" y="344" font-size="31" id="plus_node_8">train</text>
+  <text class="label" x="291" y="466" font-size="24" id="plus_node_9">activation matching</text>
+  <text class="label" x="870" y="60" font-size="24" id="plus_node_10">train</text>
+  <line x1="932" y1="53" x2="1037" y2="53" stroke="#969696" stroke-width="4" id="plus_node_11" />
+  <text class="label" x="859" y="96" font-size="24" id="plus_node_12">mask</text>
+  <line x1="932" y1="92" x2="1037" y2="92" stroke="#969696" stroke-width="4" stroke-dasharray="17 14" id="plus_node_13" />
+  <text class="label" x="850" y="135" font-size="24" id="plus_node_14">match</text>
+  <line x1="932" y1="128" x2="1037" y2="128" stroke="#969696" stroke-width="4" stroke-dasharray="17 11 4 11 4 11" id="plus_node_15" />
+  <text class="label" x="0" y="0" font-size="28" fill="#3d7cff" transform="translate(506 358) rotate(-90)" id="plus_node_16" style="fill:#3d7cff">Sparse Training</text>
+
+  
+  <g id="formula-wA-init">
+    <text class="mathw" x="40" y="99" font-size="34" id="plus_node_17">w</text>
+    <text class="subsup" x="71" y="110" font-size="24" id="plus_node_18">A</text>
+    <text class="subsup" x="70" y="79" font-size="25" id="plus_node_19">t=0</text>
+    <text class="math" x="129" y="99" font-size="36" id="plus_node_20">∼</text>
+    <path d="M171 98 C176 101 181 83 183 72 C187 83 190 99 195 99 C199 99 202 69 207 70" fill="none" stroke="#555" stroke-width="2.6" stroke-linecap="round" id="plus_node_21" />
+  </g>
+
+  <g id="formula-wA-T">
+    <text class="mathw" x="82" y="264" font-size="34" id="plus_node_22">w</text>
+    <text class="subsup" x="113" y="276" font-size="24" id="plus_node_23">A</text>
+    <text class="subsup" x="111" y="246" font-size="25" id="plus_node_24">t=T</text>
+  </g>
+
+  <g id="formula-wA-mask">
+    <text class="mathw" x="43" y="423" font-size="34" id="plus_node_25">w</text>
+    <text class="subsup" x="74" y="435" font-size="24" id="plus_node_26">A</text>
+    <text class="subsup" x="72" y="405" font-size="25" id="plus_node_27">t=T</text>
+    <text class="math" x="121" y="423" font-size="31" id="plus_node_28">⊙</text>
+    <text class="math" x="157" y="423" font-size="34" id="plus_node_29">m</text>
+    <text class="subsup" x="185" y="435" font-size="24" id="plus_node_30">A</text>
+  </g>
+
+  <g id="formula-activation-target">
+    <text class="mathw" x="297" y="421" font-size="28" id="plus_node_31">w</text>
+    <text class="subsup" x="322" y="431" font-size="19" id="plus_node_32">B</text>
+    <text class="subsup" x="321" y="402" font-size="21" id="plus_node_33">t=T</text>
+    <text class="math" x="368" y="421" font-size="30" id="plus_node_34">≈ π(</text>
+    <text class="mathw" x="420" y="421" font-size="28" id="plus_node_35">w</text>
+    <text class="subsup" x="445" y="431" font-size="19" id="plus_node_36">A</text>
+    <text class="subsup" x="444" y="402" font-size="21" id="plus_node_37">t=T</text>
+    <text class="math" x="491" y="421" font-size="30" id="plus_node_38">)</text>
+  </g>
+
+  <g id="formula-wB-init">
+    <text class="mathw" x="546" y="99" font-size="34" id="plus_node_39">w</text>
+    <text class="subsup" x="577" y="110" font-size="24" id="plus_node_40">B</text>
+    <text class="subsup" x="576" y="79" font-size="25" id="plus_node_41">t=0</text>
+    <text class="math" x="635" y="99" font-size="36" id="plus_node_42">∼</text>
+    <path d="M676 98 C681 101 686 83 688 72 C692 83 695 99 700 99 C704 99 707 69 712 70" fill="none" stroke="#555" stroke-width="2.6" stroke-linecap="round" id="plus_node_43" />
+  </g>
+
+  <g id="formula-wB-T">
+    <text class="mathw" x="328" y="266" font-size="34" id="plus_node_44">w</text>
+    <text class="subsup" x="359" y="278" font-size="24" id="plus_node_45">B</text>
+    <text class="subsup" x="357" y="248" font-size="25" id="plus_node_46">t=T</text>
+  </g>
+
+  <g id="formula-wB-k-maskA">
+    <text class="mathw" x="553" y="264" font-size="30" id="plus_node_47">w</text>
+    <text class="subsup" x="581" y="274" font-size="21" id="plus_node_48">B</text>
+    <text class="subsup" x="580" y="247" font-size="21" id="plus_node_49">t=k</text>
+    <text class="math" x="625" y="264" font-size="29" id="plus_node_50">⊙</text>
+    <text class="math" x="659" y="264" font-size="30" id="plus_node_51">m</text>
+    <text class="subsup" x="685" y="275" font-size="21" id="plus_node_52">A</text>
+  </g>
+
+  <g id="formula-wB-k-pimaskA">
+    <text class="mathw" x="757" y="264" font-size="29" id="plus_node_53">w</text>
+    <text class="subsup" x="784" y="274" font-size="20" id="plus_node_54">B</text>
+    <text class="subsup" x="783" y="247" font-size="20" id="plus_node_55">t=k</text>
+    <text class="math" x="823" y="264" font-size="28" id="plus_node_56">⊙ π(m</text>
+    <text class="subsup" x="901" y="275" font-size="20" id="plus_node_57">A</text>
+    <text class="math" x="918" y="264" font-size="28" id="plus_node_58">)</text>
+  </g>
+
+  <g id="formula-wA-k-maskA">
+    <text class="mathw" x="976" y="264" font-size="30" id="plus_node_59">w</text>
+    <text class="subsup" x="1004" y="274" font-size="21" id="plus_node_60">A</text>
+    <text class="subsup" x="1003" y="247" font-size="21" id="plus_node_61">t=k</text>
+    <text class="math" x="1048" y="264" font-size="29" id="plus_node_62">⊙</text>
+    <text class="math" x="1082" y="264" font-size="30" id="plus_node_63">m</text>
+    <text class="subsup" x="1108" y="275" font-size="21" id="plus_node_64">A</text>
+  </g>
+
+  <g id="formula-wB-T-maskA-naive">
+    <text class="mathw" x="551" y="421" font-size="31" id="plus_node_65">w</text>
+    <text class="subsup" x="580" y="432" font-size="21" id="plus_node_66">B</text>
+    <text class="subsup" x="579" y="404" font-size="22" id="plus_node_67">t=T</text>
+    <text class="math" x="627" y="421" font-size="29" id="plus_node_68">⊙</text>
+    <text class="math" x="661" y="421" font-size="31" id="plus_node_69">m</text>
+    <text class="subsup" x="688" y="432" font-size="21" id="plus_node_70">A</text>
+  </g>
+
+  <g id="formula-wB-T-pimaskA">
+    <text class="mathw" x="758" y="421" font-size="30" id="plus_node_71">w</text>
+    <text class="subsup" x="786" y="432" font-size="20" id="plus_node_72">B</text>
+    <text class="subsup" x="785" y="404" font-size="21" id="plus_node_73">t=T</text>
+    <text class="math" x="829" y="421" font-size="28" id="plus_node_74">⊙ π(m</text>
+    <text class="subsup" x="907" y="432" font-size="20" id="plus_node_75">A</text>
+    <text class="math" x="923" y="421" font-size="28" id="plus_node_76">)</text>
+  </g>
+
+  <g id="formula-wA-T-maskA-lth">
+    <text class="mathw" x="976" y="421" font-size="31" id="plus_node_77">w</text>
+    <text class="subsup" x="1005" y="432" font-size="21" id="plus_node_78">A</text>
+    <text class="subsup" x="1004" y="404" font-size="22" id="plus_node_79">t=T</text>
+    <text class="math" x="1052" y="421" font-size="29" id="plus_node_80">⊙</text>
+    <text class="math" x="1086" y="421" font-size="31" id="plus_node_81">m</text>
+    <text class="subsup" x="1113" y="432" font-size="21" id="plus_node_82">A</text>
+  </g>
+
+  
+  <text id="caption-naive" x="535" y="479" font-family="Arial, Helvetica, sans-serif" font-size="20" fill="#ff0000">LTH Problem (Naive)</text>
+  <text id="caption-permuted" x="730" y="479" font-family="Arial, Helvetica, sans-serif" font-size="20" fill="#8cc276">Our Solution (Permuted)</text>
+  <text id="caption-lth" x="992" y="479" font-family="Arial, Helvetica, sans-serif" font-size="20" fill="#8cc276">LTH Solution</text>
+</svg>

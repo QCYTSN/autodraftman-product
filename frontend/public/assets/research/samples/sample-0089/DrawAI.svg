@@ -1,0 +1,119 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="2048" height="847" viewBox="0 0 2048 847">
+  <defs>
+    <marker id="arrow-black" markerWidth="30" markerHeight="30" refX="28" refY="15" orient="auto" markerUnits="userSpaceOnUse">
+      <polygon points="0,0 30,15 0,30" fill="#000000" data-pb-role="decorative" data-pb-editable="true"/>
+    </marker>
+    <marker id="arrow-green" markerWidth="30" markerHeight="30" refX="28" refY="15" orient="auto" markerUnits="userSpaceOnUse">
+      <polygon points="0,0 30,15 0,30" fill="#50682b" data-pb-role="decorative" data-pb-editable="true"/>
+    </marker>
+  </defs>
+  <rect id="background" x="0" y="0" width="2048" height="847" fill="#ffffff" data-pb-role="background" data-pb-editable="true"/>
+
+  <g id="panel-layer-2" data-pb-role="panel" data-pb-editable="true">
+    <rect id="panel-layer-2-band" x="74" y="134" width="1878" height="166" fill="#c7daf0" stroke="none" data-pb-role="panel" data-pb-editable="true"/>
+    <text id="label-layer-2-title" x="110" y="239" font-family="Arial, Helvetica, sans-serif" font-size="60" font-weight="400" font-style="normal" fill="#000000" data-pb-role="title" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="horizontal">Layer 2: Copy value using context similarity based attention</text>
+  </g>
+
+  <g id="panel-layer-1" data-pb-role="panel" data-pb-editable="true">
+    <rect id="panel-layer-1-band" x="74" y="532" width="1865" height="125" fill="#c7daf0" stroke="none" data-pb-role="panel" data-pb-editable="true"/>
+    <text id="label-layer-1-title" x="110" y="616" font-family="Arial, Helvetica, sans-serif" font-size="55" font-weight="400" font-style="normal" fill="#000000" data-pb-role="title" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="horizontal">Layer 1: Context formed with previous token using position based attention</text>
+  </g>
+
+  <g id="connectors-attention" data-pb-role="connector" data-pb-editable="true">
+    <path id="connector-layer-2-dashed" d="M 1780 337 L 1780 265 L 558 265 L 558 333" fill="none" stroke="#50682b" stroke-width="7" stroke-linecap="butt" stroke-linejoin="miter" stroke-dasharray="22 10" marker-end="url(#arrow-green)" data-pb-role="connector" data-pb-editable="true"/>
+    <path id="connector-layer-1-left" d="M 568 699 L 568 633 L 216 633 L 216 698" fill="none" stroke="#50682b" stroke-width="7" stroke-linecap="butt" stroke-linejoin="miter" stroke-dasharray="22 10" marker-end="url(#arrow-green)" data-pb-role="connector" data-pb-editable="true"/>
+    <path id="connector-layer-1-middle" d="M 964 700 L 964 633 L 612 633 L 612 698" fill="none" stroke="#50682b" stroke-width="7" stroke-linecap="butt" stroke-linejoin="miter" stroke-dasharray="22 10" marker-end="url(#arrow-green)" data-pb-role="connector" data-pb-editable="true"/>
+    <path id="connector-layer-1-right" d="M 1386 705 L 1386 641 L 1034 641 L 1034 700" fill="none" stroke="#50682b" stroke-width="7" stroke-linecap="butt" stroke-linejoin="miter" stroke-dasharray="22 10" marker-end="url(#arrow-green)" data-pb-role="connector" data-pb-editable="true"/>
+    <path id="connector-copy-curved" d="M 744 419 C 756 315 773 226 858 198 C 936 174 1065 185 1195 185 C 1345 181 1514 190 1660 176 C 1758 167 1781 109 1800 32" fill="none" stroke="#000000" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrow-black)" data-pb-role="connector" data-pb-editable="true"/>
+    <circle id="connector-copy-source-dot" cx="744" cy="419" r="15" fill="#000000" stroke="none" data-pb-role="node" data-pb-editable="true"/>
+  </g>
+
+  <g id="label-output-value" data-pb-role="label" data-pb-editable="true">
+    <text id="label-output-value-text" x="1817" y="62" font-family="Arial, Helvetica, sans-serif" font-size="54" font-weight="400" font-style="normal" fill="#000000" data-pb-role="label" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="horizontal">11</text>
+  </g>
+
+  <g id="module-top-start" data-pb-role="node" data-pb-editable="true">
+    <path id="frame-top-start-left" d="M 134 337 L 110 337 L 110 506 L 134 506" fill="none" stroke="#000000" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" data-pb-role="node" data-pb-editable="true"/>
+    <path id="frame-top-start-right" d="M 349 337 L 374 337 L 374 506 L 349 506" fill="none" stroke="#000000" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" data-pb-role="node" data-pb-editable="true"/>
+    <text id="label-top-start-k" x="143" y="405" font-family="Arial, Helvetica, sans-serif" font-size="55" font-weight="400" font-style="normal" fill="#000000" data-pb-role="label" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="horizontal">K: &lt;start&gt;</text>
+    <text id="label-top-start-v" x="143" y="470" font-family="Arial, Helvetica, sans-serif" font-size="55" font-weight="400" font-style="normal" fill="#000000" data-pb-role="label" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="horizontal">V: Hello</text>
+  </g>
+
+  <g id="module-top-hello" data-pb-role="node" data-pb-editable="true">
+    <path id="frame-top-hello-left" d="M 439 345 L 415 345 L 415 514 L 439 514" fill="none" stroke="#000000" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" data-pb-role="node" data-pb-editable="true"/>
+    <path id="frame-top-hello-right" d="M 756 345 L 781 345 L 781 514 L 756 514" fill="none" stroke="#000000" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" data-pb-role="node" data-pb-editable="true"/>
+    <text id="label-top-hello-k" x="454" y="405" font-family="Arial, Helvetica, sans-serif" font-size="55" font-weight="400" font-style="normal" fill="#000000" data-pb-role="label" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="horizontal">K: Hello</text>
+    <text id="label-top-hello-v" x="454" y="470" font-family="Arial, Helvetica, sans-serif" font-size="55" font-weight="400" font-style="normal" fill="#000000" data-pb-role="label" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="horizontal">V: 11</text>
+  </g>
+
+  <g id="module-top-11" data-pb-role="node" data-pb-editable="true">
+    <path id="frame-top-11-left" d="M 846 337 L 822 337 L 822 509 L 846 509" fill="none" stroke="#000000" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" data-pb-role="node" data-pb-editable="true"/>
+    <path id="frame-top-11-right" d="M 1165 337 L 1190 337 L 1190 509 L 1165 509" fill="none" stroke="#000000" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" data-pb-role="node" data-pb-editable="true"/>
+    <text id="label-top-11-k" x="858" y="405" font-family="Arial, Helvetica, sans-serif" font-size="55" font-weight="400" font-style="normal" fill="#000000" data-pb-role="label" data-pb-editable="true" data-pb-text-source="visual_inferred" data-pb-orientation="horizontal">K: 11</text>
+    <text id="label-top-11-v" x="858" y="470" font-family="Arial, Helvetica, sans-serif" font-size="55" font-weight="400" font-style="normal" fill="#000000" data-pb-role="label" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="horizontal">V: Goodbye</text>
+  </g>
+
+  <g id="module-top-goodbye" data-pb-role="node" data-pb-editable="true">
+    <path id="frame-top-goodbye-left" d="M 1257 337 L 1233 337 L 1233 509 L 1257 509" fill="none" stroke="#000000" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" data-pb-role="node" data-pb-editable="true"/>
+    <path id="frame-top-goodbye-right" d="M 1578 337 L 1603 337 L 1603 509 L 1578 509" fill="none" stroke="#000000" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" data-pb-role="node" data-pb-editable="true"/>
+    <text id="label-top-goodbye-k" x="1270" y="405" font-family="Arial, Helvetica, sans-serif" font-size="55" font-weight="400" font-style="normal" fill="#000000" data-pb-role="label" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="horizontal">K: Goodbye</text>
+    <text id="label-top-goodbye-v" x="1270" y="470" font-family="Arial, Helvetica, sans-serif" font-size="55" font-weight="400" font-style="normal" fill="#000000" data-pb-role="label" data-pb-editable="true" data-pb-text-source="visual_inferred" data-pb-orientation="horizontal">V: 77</text>
+  </g>
+
+  <g id="module-top-query" data-pb-role="node" data-pb-editable="true">
+    <path id="frame-top-query-left" d="M 1661 337 L 1637 337 L 1637 508 L 1661 508" fill="none" stroke="#000000" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" data-pb-role="node" data-pb-editable="true"/>
+    <path id="frame-top-query-right" d="M 1878 337 L 1902 337 L 1902 508 L 1878 508" fill="none" stroke="#000000" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" data-pb-role="node" data-pb-editable="true"/>
+    <text id="label-top-query-q" x="1680" y="470" font-family="Arial, Helvetica, sans-serif" font-size="55" font-weight="400" font-style="normal" fill="#000000" data-pb-role="label" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="horizontal">Q: Hello</text>
+  </g>
+
+  <g id="module-bottom-x1" data-pb-role="node" data-pb-editable="true">
+    <path id="frame-bottom-x1-left" d="M 135 669 C 122 669 113 670 110 672 L 110 765 C 113 768 122 770 135 770 L 161 770" fill="none" stroke="#000000" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" data-pb-role="node" data-pb-editable="true"/>
+    <path id="frame-bottom-x1-right" d="M 310 669 L 337 669 C 350 669 359 670 362 672 L 362 765 C 359 768 350 770 337 770 L 311 770" fill="none" stroke="#000000" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" data-pb-role="node" data-pb-editable="true"/>
+    <text id="label-bottom-x1-token" x="163" y="735" font-family="Arial, Helvetica, sans-serif" font-size="55" font-weight="400" font-style="normal" fill="#000000" data-pb-role="label" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="horizontal">Hello</text>
+    <g id="formula-x1" data-pb-role="formula" data-pb-editable="true" data-pb-formula-bbox="199 744 68 58" data-pb-formula-latex-b64="eF4x">
+      <text id="formula-x1-fallback" x="199" y="800" font-family="Times New Roman, Times, serif" font-size="54" font-weight="700" font-style="italic" fill="#000000" data-pb-role="formula" data-pb-editable="true" data-pb-text-source="visual_inferred" data-pb-orientation="horizontal">x<tspan baseline-shift="super" font-size="32" font-style="normal">1</tspan></text>
+      <desc>LaTeX: x^1</desc>
+    </g>
+  </g>
+
+  <g id="module-bottom-y1" data-pb-role="node" data-pb-editable="true">
+    <path id="frame-bottom-y1-left" d="M 439 669 C 425 669 416 670 412 672 L 412 765 C 416 768 425 770 439 770 L 465 770" fill="none" stroke="#000000" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" data-pb-role="node" data-pb-editable="true"/>
+    <path id="frame-bottom-y1-right" d="M 731 669 L 758 669 C 771 669 780 670 784 672 L 784 765 C 780 768 771 770 758 770 L 731 770" fill="none" stroke="#000000" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" data-pb-role="node" data-pb-editable="true"/>
+    <text id="label-bottom-y1-token" x="558" y="745" font-family="Arial, Helvetica, sans-serif" font-size="55" font-weight="400" font-style="normal" fill="#000000" data-pb-role="label" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="horizontal">11</text>
+    <ellipse id="symbol-small-separator" cx="938" cy="655" rx="3" ry="9" fill="#000000" stroke="none" data-pb-role="decorative" data-pb-editable="true"/>
+    <g id="formula-y1" data-pb-role="formula" data-pb-editable="true" data-pb-formula-bbox="573 744 61 58" data-pb-formula-latex-b64="eV4x">
+      <text id="formula-y1-fallback" x="573" y="800" font-family="Times New Roman, Times, serif" font-size="54" font-weight="700" font-style="italic" fill="#000000" data-pb-role="formula" data-pb-editable="true" data-pb-text-source="visual_inferred" data-pb-orientation="horizontal">y<tspan baseline-shift="super" font-size="32" font-style="normal">1</tspan></text>
+      <desc>LaTeX: y^1</desc>
+    </g>
+  </g>
+
+  <g id="module-bottom-x2" data-pb-role="node" data-pb-editable="true">
+    <path id="frame-bottom-x2-left" d="M 846 669 C 831 669 822 670 818 672 L 818 765 C 822 768 831 770 846 770 L 872 770" fill="none" stroke="#000000" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" data-pb-role="node" data-pb-editable="true"/>
+    <path id="frame-bottom-x2-right" d="M 1139 669 L 1167 669 C 1180 669 1188 670 1192 672 L 1192 765 C 1188 768 1180 770 1167 770 L 1139 770" fill="none" stroke="#000000" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" data-pb-role="node" data-pb-editable="true"/>
+    <text id="label-bottom-x2-token" x="881" y="735" font-family="Arial, Helvetica, sans-serif" font-size="55" font-weight="400" font-style="normal" fill="#000000" data-pb-role="label" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="horizontal">Goodbye</text>
+    <g id="formula-x2" data-pb-role="formula" data-pb-editable="true" data-pb-formula-bbox="974 744 67 58" data-pb-formula-latex-b64="eF4y">
+      <text id="formula-x2-fallback" x="974" y="800" font-family="Times New Roman, Times, serif" font-size="54" font-weight="700" font-style="italic" fill="#000000" data-pb-role="formula" data-pb-editable="true" data-pb-text-source="visual_inferred" data-pb-orientation="horizontal">x<tspan baseline-shift="super" font-size="32" font-style="normal">2</tspan></text>
+      <desc>LaTeX: x^2</desc>
+    </g>
+  </g>
+
+  <g id="module-bottom-y2" data-pb-role="node" data-pb-editable="true">
+    <path id="frame-bottom-y2-left" d="M 1244 669 C 1230 669 1221 670 1217 672 L 1217 765 C 1221 768 1230 770 1244 770 L 1271 770" fill="none" stroke="#000000" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" data-pb-role="node" data-pb-editable="true"/>
+    <path id="frame-bottom-y2-right" d="M 1543 669 L 1570 669 C 1583 669 1592 670 1595 672 L 1595 765 C 1592 768 1583 770 1570 770 L 1543 770" fill="none" stroke="#000000" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" data-pb-role="node" data-pb-editable="true"/>
+    <text id="label-bottom-y2-token" x="1329" y="735" font-family="Arial, Helvetica, sans-serif" font-size="55" font-weight="400" font-style="normal" fill="#000000" data-pb-role="label" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="horizontal">77</text>
+    <g id="formula-y2" data-pb-role="formula" data-pb-editable="true" data-pb-formula-bbox="1352 744 62 58" data-pb-formula-latex-b64="eV4y">
+      <text id="formula-y2-fallback" x="1352" y="800" font-family="Times New Roman, Times, serif" font-size="54" font-weight="700" font-style="italic" fill="#000000" data-pb-role="formula" data-pb-editable="true" data-pb-text-source="visual_inferred" data-pb-orientation="horizontal">y<tspan baseline-shift="super" font-size="32" font-style="normal">2</tspan></text>
+      <desc>LaTeX: y^2</desc>
+    </g>
+  </g>
+
+  <g id="module-bottom-xstar" data-pb-role="node" data-pb-editable="true">
+    <path id="frame-bottom-xstar-left" d="M 1661 669 C 1648 669 1640 670 1637 672 L 1637 765 C 1640 768 1648 770 1661 770 L 1688 770" fill="none" stroke="#000000" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" data-pb-role="node" data-pb-editable="true"/>
+    <path id="frame-bottom-xstar-right" d="M 1875 669 L 1902 669 C 1914 669 1920 670 1923 672 L 1923 765 C 1920 768 1914 770 1902 770 L 1875 770" fill="none" stroke="#000000" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" data-pb-role="node" data-pb-editable="true"/>
+    <text id="label-bottom-xstar-token" x="1709" y="735" font-family="Arial, Helvetica, sans-serif" font-size="55" font-weight="400" font-style="normal" fill="#000000" data-pb-role="label" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="horizontal">Hello</text>
+    <g id="formula-xstar" data-pb-role="formula" data-pb-editable="true" data-pb-formula-bbox="1753 744 61 58" data-pb-formula-latex-b64="eF4q">
+      <text id="formula-xstar-fallback" x="1753" y="800" font-family="Times New Roman, Times, serif" font-size="54" font-weight="700" font-style="italic" fill="#000000" data-pb-role="formula" data-pb-editable="true" data-pb-text-source="visual_inferred" data-pb-orientation="horizontal">x<tspan baseline-shift="super" font-size="32" font-style="normal">*</tspan></text>
+      <desc>LaTeX: x^*</desc>
+    </g>
+  </g>
+</svg>

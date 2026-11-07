@@ -1,0 +1,201 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1587" height="576" viewBox="0 0 1587 576">
+  <title>Expansion and Backup diagram for tree search values</title>
+  <desc>
+    The figure is organized into five base frames: a left explanatory tree and formulas, a middle expanded tree with policy legend,
+    a right backup tree with red value-propagation arrows and equations, and two rounded explanatory text panels at the bottom.
+    Construction proceeds from each tree root downward to child nodes, then to formulas and legends. The top trees share bilateral
+    symmetry about their root nodes with colored circular states connected by gray edges. The bottom boxes are horizontally aligned.
+  </desc>
+
+  <defs>
+    <marker id="arrowGray" markerUnits="userSpaceOnUse" markerWidth="13" markerHeight="10" viewBox="0 0 13 10" refX="12" refY="5" orient="auto">
+      <path d="M0,0 L13,5 L0,10 Z" fill="#f5f5f5" stroke="#666" stroke-width="1" id="plus_node_0" />
+    </marker>
+    <marker id="arrowRed" markerUnits="userSpaceOnUse" markerWidth="10" markerHeight="8" viewBox="0 0 10 8" refX="9" refY="4" orient="auto">
+      <path d="M0,0 L10,4 L0,8 Z" fill="#ff0000" id="plus_node_1" />
+    </marker>
+    <style>
+      .label { font-family: Arial, Helvetica, sans-serif; fill:#000; }
+      .math { font-family: "Times New Roman", Times, serif; fill:#000; font-style: italic; }
+      .edge { stroke:#606060; stroke-width:1.6; fill:none; }
+      .node { stroke-width:3.5; }
+      .panel { fill:#fff; stroke:#111; stroke-width:2.5; }
+      .redArrow { fill:none; stroke:#ff0000; stroke-width:1.4; marker-end:url(#arrowRed); }
+      .thinRedArrow { fill:none; stroke:#ff0000; stroke-width:1.1; marker-end:url(#arrowRed); }
+    </style>
+  </defs>
+
+  
+  <g id="f01" data-plus-kind="frame"><rect id="canvas_bg_white" x="0" y="0" width="1587" height="576" fill="#ffffff" stroke="none" /><rect id="f01_extent" data-plus-kind="frame" x="40" y="42" width="350" height="350" fill="none" stroke="none" /></g><rect id="f02" data-plus-kind="frame" x="610" y="44" width="330" height="350" fill="none" stroke="none" />
+  <rect id="f03" data-plus-kind="frame" x="1125" y="44" width="430" height="350" fill="none" stroke="none" />
+  <rect id="f04" data-plus-kind="frame" class="panel" x="44" y="411" width="528" height="141" rx="23" ry="23" />
+  <rect id="f05" data-plus-kind="frame" class="panel" x="999" y="411" width="552" height="141" rx="23" ry="23" />
+
+  
+  <g id="left_tree_block">
+    <desc>
+      Inventory: gray root, purple and orange children, blue and green leaves, gray edges, action labels a1/a2,
+      value formula with colored circular state glyphs, reward brace annotation, and leaf-value annotation.
+      The root is the origin; construction descends to left/right children and then downward leaves.
+    </desc>
+    <path id="left_edge_root_purple" class="edge" d="M235 99 L190 137" />
+    <path id="left_edge_root_orange" class="edge" d="M272 99 L316 137" />
+    <path id="left_edge_purple_blue" class="edge" d="M158 181 L128 215" />
+    <path id="left_edge_purple_green" class="edge" d="M184 181 L211 215" />
+
+    <circle id="left_node_root" class="node" cx="254" cy="81" r="27" fill="#eeeeee" stroke="#5a5a5a" />
+    <circle id="left_node_purple" class="node" cx="170" cy="157" r="27" fill="#f5cde6" stroke="#9a00ff" />
+    <circle id="left_node_orange" class="node" cx="337" cy="157" r="27" fill="#fff3c7" stroke="#ff9900" />
+    <circle id="left_node_blue" class="node" cx="116" cy="238" r="27" fill="#cfe5f7" stroke="#0000ff" />
+    <circle id="left_node_green" class="node" cx="224" cy="238" r="27" fill="#d3e4dc" stroke="#5a9b4d" />
+
+    <text id="left_label_root_left" class="math" x="181" y="114" font-size="29">a<tspan baseline-shift="sub" font-size="19">1</tspan></text>
+    <text id="left_label_root_right" class="math" x="294" y="114" font-size="29">a<tspan baseline-shift="sub" font-size="19">2</tspan></text>
+    <text id="left_label_leaf_left" class="math" x="110" y="198" font-size="29">a<tspan baseline-shift="sub" font-size="19">1</tspan></text>
+    <text id="left_label_leaf_right" class="math" x="198" y="198" font-size="29">a<tspan baseline-shift="sub" font-size="19">2</tspan></text>
+
+    <text id="left_leaf_caption" class="label" x="315" y="282" font-size="21">Value of leaf state</text>
+    <circle id="left_leaf_caption_circle" cx="493" cy="276" r="10" fill="#cfe5f7" stroke="#0000ff" stroke-width="3.5" />
+
+    <text id="left_formula_vbar" class="math" x="32" y="329" font-size="25">V̄(</text>
+    <circle id="left_formula_blue_1" cx="70" cy="320" r="12" fill="#cfe5f7" stroke="#0000ff" stroke-width="3.5" />
+    <text class="math" x="86" y="329" font-size="25" id="plus_node_2">)=R<tspan baseline-shift="sub" font-size="17">θ</tspan>(</text>
+    <circle id="left_formula_gray" cx="165" cy="320" r="12" fill="#eeeeee" stroke="#5a5a5a" stroke-width="3.5" />
+    <text class="math" x="183" y="329" font-size="25" id="plus_node_3">, a<tspan baseline-shift="sub" font-size="17">1</tspan>) +R<tspan baseline-shift="sub" font-size="17">θ</tspan>(</text>
+    <circle id="left_formula_purple" cx="291" cy="320" r="12" fill="#f5cde6" stroke="#9a00ff" stroke-width="3.5" />
+    <text class="math" x="309" y="329" font-size="25" id="plus_node_4">, a<tspan baseline-shift="sub" font-size="17">1</tspan>) +v<tspan baseline-shift="sub" font-size="17">θ</tspan>(</text><circle id="left_formula_blue_2" cx="408" cy="320" r="12" fill="#cfe5f7" stroke="#0000ff" stroke-width="3.5" />
+    <text class="math" x="422" y="329" font-size="25" id="plus_node_5">)</text>
+
+    <path id="left_reward_brace" d="M56 339 C56 346 62 348 68 348 L258 348 C264 348 270 346 270 339" fill="none" stroke="#000" stroke-width="2" />
+    <path id="left_leaf_brace" d="M371 297 C371 291 377 294 381 291 C384 288 384 288 389 291 C393 294 399 291 399 297 L417 297 C417 291 411 294 407 291 C404 288 404 288 399 291 C395 294 389 291 389 297" fill="none" stroke="#000" stroke-width="2" />
+    <text id="left_reward_caption" class="label" x="107" y="377" font-size="22">Sum of rewards to</text>
+    <circle id="left_reward_caption_circle" cx="294" cy="369" r="12" fill="#cfe5f7" stroke="#0000ff" stroke-width="3.5" />
+  </g>
+
+  
+  <g id="expansion_arrow_block">
+    <text id="expansion_arrow_label" class="label" x="456" y="160" font-size="29">Expansion</text>
+    <path id="expansion_arrow" d="M454 186 H579 V179 L592 193 L579 206 V199 H454 Z" fill="#f4f4f4" stroke="#666" stroke-width="1.2" />
+  </g>
+
+  
+  <g id="middle_tree_block">
+    <desc>
+      Inventory: expanded tree rooted at gray state, purple and orange children, a blue node expanded into red and gray leaves,
+      green sibling, action labels, and two policy legend rows. The section has approximate left-right branching symmetry about
+      the gray root with the blue branch expanded downward.
+    </desc>
+    <path id="mid_edge_root_purple" class="edge" d="M798 90 L763 118" />
+    <path id="mid_edge_root_orange" class="edge" d="M846 90 L881 118" />
+    <path id="mid_edge_purple_blue" class="edge" d="M726 157 L699 172" />
+    <path id="mid_edge_purple_green" class="edge" d="M752 158 L778 174" />
+    <path id="mid_edge_blue_red" class="edge" d="M675 219 L658 242" />
+    <path id="mid_edge_blue_gray" class="edge" d="M700 218 L715 242" />
+
+    <circle id="mid_node_root" class="node" cx="822" cy="75" r="27" fill="#eeeeee" stroke="#5a5a5a" />
+    <circle id="mid_node_purple" class="node" cx="739" cy="133" r="27" fill="#f5cde6" stroke="#9a00ff" />
+    <circle id="mid_node_orange" class="node" cx="904" cy="133" r="27" fill="#fff3c7" stroke="#ff9900" />
+    <circle id="mid_node_blue" class="node" cx="685" cy="195" r="27" fill="#cfe5f7" stroke="#0000ff" />
+    <circle id="mid_node_green" class="node" cx="792" cy="195" r="27" fill="#d3e4dc" stroke="#5a9b4d" />
+    <circle id="mid_node_redleaf" class="node" cx="648" cy="266" r="27" fill="#f5caca" stroke="#ff0000" />
+    <circle id="mid_node_grayleaf" class="node" cx="727" cy="266" r="27" fill="#eeeeee" stroke="#999999" />
+
+    <text id="mid_label_a1" class="math" x="627" y="227" font-size="27">a<tspan baseline-shift="sub" font-size="18">1</tspan></text>
+    <text id="mid_label_a2" class="math" x="717" y="227" font-size="27">a<tspan baseline-shift="sub" font-size="18">2</tspan></text>
+
+    <circle id="mid_legend_red" cx="682" cy="326" r="12" fill="#f5caca" stroke="#ff0000" stroke-width="3.5" />
+    <text class="math" x="707" y="333" font-size="25" id="plus_node_6">=T<tspan baseline-shift="sub" font-size="17">θ</tspan>(</text><circle id="mid_legend_blue1" cx="764" cy="326" r="10" fill="#cfe5f7" stroke="#0000ff" stroke-width="3.2" />
+    <text class="math" x="778" y="333" font-size="25" id="plus_node_7">, a<tspan baseline-shift="sub" font-size="17">1</tspan>)</text>
+
+    <circle id="mid_legend_gray" cx="682" cy="371" r="12" fill="#eeeeee" stroke="#999999" stroke-width="3.5" />
+    <text class="math" x="707" y="378" font-size="25" id="plus_node_8">=T<tspan baseline-shift="sub" font-size="17">θ</tspan>(</text><circle id="mid_legend_blue2" cx="764" cy="371" r="10" fill="#cfe5f7" stroke="#0000ff" stroke-width="3.2" />
+    <text class="math" x="778" y="378" font-size="25" id="plus_node_9">, a<tspan baseline-shift="sub" font-size="17">2</tspan>)</text>
+  </g>
+
+  
+  <g id="backup_arrow_block">
+    <text id="backup_arrow_label" class="label" x="989" y="160" font-size="29">Backup</text>
+    <path id="backup_arrow" d="M977 186 H1102 V179 L1115 193 L1102 206 V199 H977 Z" fill="#f4f4f4" stroke="#666" stroke-width="1.2" />
+  </g>
+
+  
+  <g id="right_tree_block">
+    <desc>
+      Inventory: tree with same node colors as expanded tree, red curved backup arrows propagating child information upward,
+      and right-side equations for leaf value and backup Q/V relationships. The section is approximately symmetric around the
+      root while red arrows emphasize directed backup from lower nodes to ancestors.
+    </desc>
+    <path id="right_edge_root_purple" class="edge" d="M1314 91 L1280 118" />
+    <path id="right_edge_root_orange" class="edge" d="M1362 91 L1397 119" />
+    <path id="right_edge_purple_blue" class="edge" d="M1242 159 L1216 173" />
+    <path id="right_edge_purple_green" class="edge" d="M1268 159 L1295 174" />
+    <path id="right_edge_blue_red" class="edge" d="M1191 219 L1174 243" />
+    <path id="right_edge_blue_gray" class="edge" d="M1215 219 L1234 243" />
+
+    <circle id="right_node_root" class="node" cx="1338" cy="76" r="27" fill="#eeeeee" stroke="#5a5a5a" />
+    <circle id="right_node_purple" class="node" cx="1255" cy="135" r="27" fill="#f5cde6" stroke="#9a00ff" />
+    <circle id="right_node_orange" class="node" cx="1422" cy="135" r="27" fill="#fff3c7" stroke="#ff9900" />
+    <circle id="right_node_blue" class="node" cx="1202" cy="195" r="27" fill="#cfe5f7" stroke="#0000ff" />
+    <circle id="right_node_green" class="node" cx="1309" cy="195" r="27" fill="#d3e4dc" stroke="#5a9b4d" />
+    <circle id="right_node_redleaf" class="node" cx="1165" cy="267" r="27" fill="#f5caca" stroke="#ff0000" />
+    <circle id="right_node_grayleaf" class="node" cx="1245" cy="267" r="27" fill="#eeeeee" stroke="#999999" />
+
+    
+    <path id="red_backup_root_left" class="thinRedArrow" d="M1275 110 C1289 83 1305 81 1312 83" />
+    <path id="red_backup_root_right" class="thinRedArrow" d="M1366 81 C1383 77 1400 83 1411 107" />
+    <path id="red_backup_purple_blue" class="thinRedArrow" d="M1207 168 C1206 141 1225 136 1231 137" />
+    <path id="red_backup_purple_green" class="thinRedArrow" d="M1306 168 C1306 144 1290 137 1282 137" />
+    <path id="red_backup_blue_red" class="thinRedArrow" d="M1152 242 C1151 216 1169 209 1179 211" />
+    <path id="red_backup_blue_gray" class="thinRedArrow" d="M1256 243 C1258 218 1240 209 1228 211" />
+
+    <text id="right_formula_leaf_v1" class="math" x="1372" y="207" font-size="27">V(</text>
+    <circle id="right_formula_orange1" cx="1412" cy="198" r="11" fill="#fff3c7" stroke="#ff9900" stroke-width="3.2" />
+    <text class="math" x="1427" y="207" font-size="27" id="plus_node_10">)=v<tspan baseline-shift="sub" font-size="18">θ</tspan>(</text>
+    <circle id="right_formula_orange2" cx="1490" cy="198" r="11" fill="#fff3c7" stroke="#ff9900" stroke-width="3.2" />
+    <text class="math" x="1505" y="207" font-size="27" id="plus_node_11">)</text>
+
+    <text id="right_formula_q" class="math" x="1131" y="335" font-size="27">Q(</text>
+    <circle id="right_formula_gray" cx="1172" cy="326" r="11" fill="#eeeeee" stroke="#5a5a5a" stroke-width="3.2" />
+    <text class="math" x="1188" y="335" font-size="27" id="plus_node_12">,a<tspan baseline-shift="sub" font-size="18">1</tspan>)=R<tspan baseline-shift="sub" font-size="18">θ</tspan>(</text>
+    <circle id="right_formula_gray2" cx="1308" cy="326" r="11" fill="#eeeeee" stroke="#5a5a5a" stroke-width="3.2" />
+    <text class="math" x="1324" y="335" font-size="27" id="plus_node_13">, a)+ V(</text>
+    <circle id="right_formula_purple1" cx="1428" cy="326" r="11" fill="#f5cde6" stroke="#9a00ff" stroke-width="3.2" />
+    <text class="math" x="1443" y="335" font-size="27" id="plus_node_14">)</text>
+
+    <text id="right_formula_v" class="math" x="1130" y="383" font-size="27">V(</text>
+    <circle id="right_formula_purple2" cx="1169" cy="374" r="11" fill="#f5cde6" stroke="#9a00ff" stroke-width="3.2" />
+    <text class="math" x="1184" y="383" font-size="27" id="plus_node_15">)= max<tspan baseline-shift="sub" font-size="18">a</tspan> Q(</text>
+    <circle id="right_formula_purple3" cx="1325" cy="374" r="11" fill="#f5cde6" stroke="#9a00ff" stroke-width="3.2" />
+    <text class="math" x="1340" y="383" font-size="27" id="plus_node_16">, a)</text>
+  </g>
+
+  
+  <g id="bottom_left_panel_content">
+    <desc>
+      Rounded expansion panel containing a title and a two-line statement. Colored circles in the sentence identify candidate
+      leaf nodes to sample from the softmax distribution.
+    </desc>
+    <text id="bottom_left_title" class="label" x="58" y="445" font-size="30">Expansion</text>
+    <text id="bottom_left_line1" class="label" x="56" y="498" font-size="29">Sample a leaf node from</text>
+    <text id="bottom_left_line2a" class="label" x="56" y="530" font-size="29">softmax(</text>
+    <text id="bottom_left_vbar1" class="math" x="169" y="530" font-size="29">V̄ (</text>
+    <circle id="bottom_left_blue" cx="216" cy="526" r="13" fill="#cfe5f7" stroke="#0000ff" stroke-width="3.5" />
+    <text id="bottom_left_between1" class="label" x="233" y="530" font-size="29">), </text>
+    <text id="bottom_left_vbar2" class="math" x="267" y="530" font-size="29">V̄ (</text>
+    <circle id="bottom_left_green" cx="296" cy="526" r="13" fill="#d3e4dc" stroke="#5a9b4d" stroke-width="3.5" />
+    <text id="bottom_left_between2" class="label" x="313" y="530" font-size="29">), </text>
+    <text id="bottom_left_vbar3" class="math" x="347" y="530" font-size="29">V̄ (</text>
+    <circle id="bottom_left_orange" cx="376" cy="526" r="13" fill="#fff3c7" stroke="#ff9900" stroke-width="3.5" />
+    <text id="bottom_left_end" class="label" x="393" y="530" font-size="29">)) to expand</text>
+  </g>
+
+  <g id="bottom_right_panel_content">
+    <desc>
+      Rounded backup panel containing a title and two-line explanation: node values are updated as the maximum Q value among
+      children. Text is left-aligned and contained within the frame.
+    </desc>
+    <text id="bottom_right_title" class="label" x="1018" y="445" font-size="30">Backup</text>
+    <text id="bottom_right_line1" class="label" x="1015" y="498" font-size="28">Value of nodes are updated as maximum</text>
+    <text id="bottom_right_line2" class="label" x="1015" y="532" font-size="28">Q value of children nodes</text>
+  </g>
+</svg>

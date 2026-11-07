@@ -1,0 +1,163 @@
+<svg width="3840" height="1562" viewBox="0 0 3840 1562" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <marker id="arrow" markerWidth="18" markerHeight="18" refX="14" refY="9" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L18,9 L0,18 Z" fill="#505962"/>
+    </marker>
+    <marker id="arrowPurple" markerWidth="18" markerHeight="18" refX="14" refY="9" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L18,9 L0,18 Z" fill="#a099ef"/>
+    </marker>
+    <style>
+      .txt{font-family:"Times New Roman", Times, serif; fill:#505962;}
+      .bold{font-weight:700;}
+      .dash{stroke:#505962; stroke-width:8; stroke-dasharray:18 18; fill:none; stroke-linecap:butt; stroke-linejoin:round;}
+      .arrow{stroke:#505962; stroke-width:8; fill:none; marker-end:url(#arrow);}
+      .thinArrow{stroke:#505962; stroke-width:7; fill:none; marker-end:url(#arrow);}
+      .purpleArrow{stroke:#a099ef; stroke-width:8; fill:none; marker-end:url(#arrowPurple);}
+      .boxBlue{fill:#c8d5e4;}
+      .boxGreen{fill:#c7ddcf;}
+    </style>
+  </defs>
+
+  <rect width="3840" height="1562" fill="#ffffff"/>
+
+  <!-- outer panels -->
+  <rect x="98" y="80" width="1350" height="1435" rx="172" ry="172" class="dash"/>
+  <rect x="1778" y="80" width="1982" height="1435" rx="172" ry="172" class="dash"/>
+
+  <!-- left training phase -->
+  <text x="1150" y="132" class="txt bold" font-size="74" text-anchor="middle">training phase</text>
+  <text x="1150" y="238" class="txt bold" font-size="74" text-anchor="middle">(only regressor)</text>
+
+  <rect x="123" y="282" width="1280" height="484" rx="126" ry="126" fill="#fbeeee"/>
+
+  <!-- cylinder -->
+  <ellipse cx="442" cy="337" rx="215" ry="38" fill="#fbeeee" stroke="#505962" stroke-width="8"/>
+  <path d="M227 337 L227 578" stroke="#505962" stroke-width="8" fill="none"/>
+  <path d="M657 337 L657 578" stroke="#505962" stroke-width="8" fill="none"/>
+  <path d="M227 578 C227 626 657 626 657 578" stroke="#505962" stroke-width="8" fill="none"/>
+  <text x="442" y="447" class="txt" font-size="72" text-anchor="middle">general</text>
+  <text x="442" y="557" class="txt" font-size="72" text-anchor="middle">dataset</text>
+
+  <text x="705" y="425" class="txt" font-size="76">pretrain</text>
+  <path d="M735 499 L915 499" class="arrow"/>
+
+  <rect x="1030" y="421" width="374" height="145" rx="28" ry="28" class="boxBlue"/>
+  <text x="1217" y="523" class="txt" font-size="72" text-anchor="middle">regressor</text>
+
+  <text x="642" y="689" class="txt bold" font-size="72">(optional)</text>
+  <path d="M1217 670 L1217 1085" class="thinArrow" stroke-dasharray="17 17"/>
+
+  <!-- domain specific set -->
+  <text x="462" y="929" class="txt" font-size="74" text-anchor="middle">domain-specific</text>
+  <text x="492" y="1032" class="txt" font-size="74" text-anchor="middle">training set</text>
+
+  <!-- scatter axes -->
+  <path d="M168 1434 L704 1434" class="arrow"/>
+  <path d="M205 1469 L205 988" class="arrow"/>
+  <path d="M240 1408 L585 1135" stroke="#000000" stroke-width="8" stroke-dasharray="18 18" fill="none"/>
+
+  <circle cx="265" cy="1344" r="25" fill="#f6d68d"/>
+  <circle cx="354" cy="1360" r="25" fill="#efd4d7"/>
+  <circle cx="385" cy="1243" r="25" fill="#c5dccc"/>
+  <circle cx="454" cy="1160" r="25" fill="#b88ab4"/>
+  <circle cx="490" cy="1265" r="25" fill="#78919b"/>
+  <circle cx="538" cy="1123" r="25" fill="#ef8700"/>
+
+  <text x="792" y="1154" class="txt" font-size="76">train</text>
+  <path d="M782 1226 L970 1226" class="arrow"/>
+  <rect x="1030" y="1154" width="374" height="145" rx="28" ry="28" class="boxBlue"/>
+  <text x="1217" y="1256" class="txt" font-size="72" text-anchor="middle">regressor</text>
+
+  <!-- dashed connection to inference regressor -->
+  <path d="M1405 1230 L1656 1230 L1656 927 L1804 927" class="thinArrow" stroke-dasharray="17 17"/>
+
+  <!-- right inference -->
+  <text x="3436" y="138" class="txt bold" font-size="74" text-anchor="middle">inference</text>
+
+  <text x="1978" y="308" class="txt" font-size="72" text-anchor="middle">query</text>
+  <text x="2418" y="308" class="txt" font-size="72" text-anchor="middle">reference</text>
+
+  <path d="M1958 345 L2498 345 Q2512 345 2512 359 L2512 428 Q2512 443 2498 443 L1958 443 Q1944 443 1944 428 L1944 359 Q1944 345 1958 345 Z" class="dash"/>
+  <circle cx="2045" cy="397" r="25" fill="#9b93ee"/>
+  <circle cx="2244" cy="397" r="25" fill="#c5dccc"/>
+  <circle cx="2332" cy="397" r="25" fill="#ef8700"/>
+  <circle cx="2422" cy="397" r="25" fill="#efd4d7"/>
+
+  <path d="M2580 397 L2715 397" class="arrow"/>
+
+  <text x="2885" y="192" class="txt" font-size="72" text-anchor="middle">external</text>
+  <text x="2885" y="300" class="txt" font-size="72" text-anchor="middle">ranker</text>
+
+  <!-- brain icon approximation -->
+  <g transform="translate(2800 354)" fill="#505962" stroke="#505962" stroke-width="4">
+    <path d="M52 7
+             C22 4 2 23 5 50
+             C-19 62 -20 101 7 113
+             C8 143 44 153 66 133
+             C86 158 128 151 134 119
+             C166 120 188 95 178 68
+             C193 43 170 14 140 20
+             C124 -3 88 -7 70 15
+             C64 11 58 8 52 7 Z"/>
+    <path d="M29 50 C45 42 61 47 68 62" fill="none" stroke="#ffffff" stroke-width="4"/>
+    <path d="M82 30 C101 25 118 34 122 51" fill="none" stroke="#ffffff" stroke-width="4"/>
+    <path d="M25 91 C47 86 62 97 72 113" fill="none" stroke="#ffffff" stroke-width="4"/>
+    <path d="M83 80 C103 75 119 86 126 105" fill="none" stroke="#ffffff" stroke-width="4"/>
+    <path d="M135 54 C151 54 162 66 164 80" fill="none" stroke="#ffffff" stroke-width="4"/>
+    <path d="M58 20 C52 37 58 47 75 52" fill="none" stroke="#ffffff" stroke-width="4"/>
+    <path d="M12 72 C28 72 38 80 43 94" fill="none" stroke="#ffffff" stroke-width="4"/>
+  </g>
+
+  <path d="M3037 397 L3177 397" class="arrow"/>
+
+  <text x="3482" y="308" class="txt" font-size="72" text-anchor="middle">rankings</text>
+  <rect x="3295" y="342" width="340" height="313" rx="18" ry="18" class="dash"/>
+  <circle cx="3380" cy="414" r="25" fill="#9b93ee"/>
+  <circle cx="3541" cy="414" r="25" fill="#c5dccc"/>
+  <circle cx="3380" cy="500" r="25" fill="#9b93ee"/>
+  <circle cx="3541" cy="500" r="25" fill="#ef8700"/>
+  <circle cx="3380" cy="585" r="25" fill="#9b93ee"/>
+  <circle cx="3541" cy="585" r="25" fill="#efd4d7"/>
+  <text x="3460" y="438" class="txt" font-size="58" text-anchor="middle">&gt;</text>
+  <text x="3460" y="524" class="txt" font-size="58" text-anchor="middle">&lt;</text>
+  <text x="3460" y="609" class="txt" font-size="58" text-anchor="middle">&gt;</text>
+
+  <path d="M3475 675 L3475 785" class="arrow"/>
+
+  <rect x="3275" y="808" width="405" height="226" rx="28" ry="28" class="boxGreen"/>
+  <text x="3478" y="902" class="txt" font-size="72" text-anchor="middle">rank-based</text>
+  <text x="3478" y="999" class="txt" font-size="72" text-anchor="middle">estimator</text>
+
+  <!-- query down to regressor -->
+  <path d="M2045 464 L2045 767" class="purpleArrow"/>
+
+  <rect x="1842" y="850" width="375" height="145" rx="28" ry="28" class="boxBlue"/>
+  <text x="2029" y="952" class="txt" font-size="72" text-anchor="middle">regressor</text>
+
+  <path d="M2225 920 L2340 920" class="arrow"/>
+
+  <!-- uncertainties -->
+  <rect x="2356" y="710" width="132" height="310" rx="14" ry="14" class="dash"/>
+  <rect x="2390" y="752" width="62" height="63" fill="#c8d5e4"/>
+  <rect x="2390" y="886" width="62" height="63" fill="#0879c4"/>
+  <text x="2518" y="785" class="txt" font-size="72">uncertainties</text>
+
+  <path d="M2422 1023 L2422 1100" class="arrow"/>
+
+  <!-- predictions -->
+  <rect x="2977" y="710" width="132" height="310" rx="14" ry="14" class="dash"/>
+  <rect x="3011" y="752" width="62" height="63" fill="#c5dccc"/>
+  <rect x="3011" y="886" width="62" height="63" fill="#098e45"/>
+  <text x="2548" y="939" class="txt" font-size="72">predictions</text>
+
+  <path d="M3246 920 L3125 920" class="arrow"/>
+  <path d="M3043 1024 L3043 1101" class="arrow"/>
+
+  <!-- inverse variance weighting -->
+  <rect x="2222" y="1135" width="1030" height="145" rx="24" ry="24" fill="#f6bf55"/>
+  <text x="2737" y="1237" class="txt" font-size="72" text-anchor="middle">inverse variance weighting</text>
+
+  <path d="M2737 1297 L2737 1395" class="arrow"/>
+  <rect x="2704" y="1418" width="66" height="66" fill="#33a1ad"/>
+  <text x="2820" y="1481" class="txt" font-size="72">refined prediction</text>
+</svg>

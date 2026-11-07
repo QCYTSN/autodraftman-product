@@ -1,0 +1,234 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1659" height="759" viewBox="0 0 1659 759">
+  <title>SHAP-style via feature attribution flow diagram</title>
+  <desc>
+    Complete native SVG reconstruction. Overall origin is the left input x and its colored feature vector. Conduction proceeds rightward through three aligned branches: top prediction branch, middle SHAP-loss branch, and bottom sampled-subset branch. The branches share repeated φ^via blocks, feature/sample columns, linear aggregation blocks, circular outputs, and long feedback arrows to the loss formulas at right. Symmetry/equipartition basis: three horizontal lanes distributed vertically around the center lane, with repeated boxes and arrows aligned by common x anchors; sample columns are vertically stacked regular cells.
+  </desc>
+
+  <defs>
+    <marker id="arrowBlack" markerUnits="userSpaceOnUse" markerWidth="14" markerHeight="12" viewBox="0 0 10 8" refX="10" refY="4" orient="auto">
+      <path d="M0,0 L10,4 L0,8 Z" fill="#000" id="plus_node_0" />
+    </marker>
+    <marker id="arrowBlackSmall" markerUnits="userSpaceOnUse" markerWidth="11" markerHeight="9" viewBox="0 0 10 8" refX="10" refY="4" orient="auto">
+      <path d="M0,0 L10,4 L0,8 Z" fill="#000" id="plus_node_1" />
+    </marker>
+    <marker id="arrowTeal" markerUnits="userSpaceOnUse" markerWidth="14" markerHeight="12" viewBox="0 0 10 8" refX="10" refY="4" orient="auto">
+      <path d="M0,0 L10,4 L0,8 Z" fill="#62a89a" id="plus_node_2" />
+    </marker>
+    <pattern id="paleHatch" width="6" height="6" patternUnits="userSpaceOnUse" patternTransform="rotate(35)">
+      <rect width="6" height="6" fill="#f4f6e9" id="plus_node_3" />
+      <line x1="0" y1="0" x2="0" y2="6" stroke="#dce8cf" stroke-width="1" id="plus_node_4" />
+    </pattern>
+    <style>
+      .frame { fill:#fff; stroke:#000; stroke-width:1.15; }
+      .thin { stroke:#000; stroke-width:1; }
+      .arrow { fill:none; stroke:#000; stroke-width:3.8; stroke-linecap:square; stroke-linejoin:miter; marker-end:url(#arrowBlack); }
+      .curveArrow { fill:none; stroke:#000; stroke-width:2.25; stroke-linecap:round; stroke-linejoin:round; marker-end:url(#arrowBlackSmall); }
+      .tealArrow { fill:none; stroke:#62a89a; stroke-width:3; stroke-linecap:square; marker-end:url(#arrowTeal); }
+      .math { font-family:"Times New Roman", Times, serif; font-style:italic; fill:#000; }
+      .roman { font-family:"Times New Roman", Times, serif; font-style:normal; fill:#000; }
+      .bold { font-family:"Times New Roman", Times, serif; font-weight:700; fill:#000; }
+      .cell { stroke:#000; stroke-width:1; }
+    </style>
+  </defs>
+
+  <rect id="background" x="0" y="0" width="1659" height="759" fill="#ffffff" />
+  <rect id="f01" data-plus-kind="frame" x="0" y="0" width="1659" height="759" fill="none" stroke="none" />
+
+  
+  <g id="flow-arrows">
+    <desc>Arrows originate at the left input vector. The upper and lower large curves split to the top and bottom φ^via boxes; horizontal arrows connect each processing stage; two right-hand curves feed prediction and subset terms into the losses.</desc>
+    <path id="arr-input-top-split" class="curveArrow" d="M91,316 C96,174 188,77 376,73" />
+    <path id="arr-input-mid" class="arrow" d="M91,316 L213,316" />
+    <path id="arr-input-bottom-split" class="curveArrow" d="M91,316 C95,502 205,611 383,611" />
+
+    <path id="arr-top-box-to-phi" class="arrow" d="M480,83 L535,83" />
+    <path id="arr-top-phi-to-vector" class="arrow" d="M567,83 L585,83" />
+    <path id="arr-top-vector-to-linear" class="arrow" d="M599,84 L691,84" />
+    <path id="arr-top-linear-to-yhat" class="arrow" d="M784,84 L879,84" />
+    <path id="arr-yhat-to-lpred" class="curveArrow" d="M939,84 C1118,83 1361,95 1394,195" />
+
+    <path id="arr-mask-to-mid-box" class="arrow" d="M318,319 L389,319" />
+    <path id="arr-mid-box-to-phi" class="arrow" d="M483,320 L564,320" />
+    <path id="arr-mid-phi-to-vector" class="arrow" d="M597,320 L608,320" />
+    <path id="arr-mid-vector-to-linear" class="arrow" d="M696,320 L780,320" />
+    <path id="arr-mid-linear-to-circle" class="arrow" d="M873,320 L958,320" />
+    <path id="arr-mid-circle-to-loss" class="arrow" d="M1072,321 L1142,321" />
+
+    <path id="arr-bottom-box-to-phi" class="arrow" d="M478,612 L535,612" />
+    <path id="arr-bottom-phi-to-vector" class="arrow" d="M566,612 L584,612" />
+    <path id="arr-bottom-vector-to-masks" class="arrow" d="M600,612 L674,612" />
+    <path id="arr-bottom-masks-to-linear" class="arrow" d="M754,612 L847,612" />
+    <path id="arr-bottom-linear-to-circle" class="arrow" d="M942,612 L1019,612" />
+    <path id="arr-bottom-circle-to-loss" class="curveArrow" d="M1147,617 C1277,612 1382,573 1395,351" />
+
+    <path id="arr-apply-to-left-samples" class="tealArrow" d="M382,444 L325,403" />
+    <path id="arr-apply-to-bottom-samples" class="tealArrow" d="M566,489 L633,535" />
+  </g>
+
+  
+  <g id="base-frames">
+    <desc>Visible frames are rounded operator boxes, circular output/operator nodes, and rectangular formula boxes. They preserve the original three-lane alignment.</desc>
+    <rect id="f02" data-plus-kind="frame" class="frame" x="388" y="34" width="93" height="98" rx="12" ry="12" />
+    <rect id="f03" data-plus-kind="frame" class="frame" x="692" y="36" width="93" height="98" rx="12" ry="12" />
+    <circle id="f04" data-plus-kind="frame" class="frame" cx="909" cy="84" r="29" />
+    <rect id="f05" data-plus-kind="frame" class="frame" x="391" y="270" width="92" height="98" rx="12" ry="12" />
+    <rect id="f06" data-plus-kind="frame" class="frame" x="781" y="272" width="93" height="96" rx="12" ry="12" />
+    <circle id="f07" data-plus-kind="frame" class="frame" cx="1016" cy="320" r="56" />
+    <rect id="f08" data-plus-kind="frame" class="frame" x="1246" y="203" width="288" height="51" />
+    <rect id="f09" data-plus-kind="frame" class="frame" x="1142" y="297" width="398" height="47" />
+    <rect id="f10" data-plus-kind="frame" class="frame" x="385" y="563" width="93" height="98" rx="12" ry="12" />
+    <rect id="f11" data-plus-kind="frame" class="frame" x="847" y="565" width="95" height="98" rx="12" ry="12" />
+    <circle id="f12" data-plus-kind="frame" class="frame" cx="1082" cy="614" r="64" />
+  </g>
+
+  
+  <g id="input-origin">
+    <desc>Origin: bold x label and a vertical colored feature vector immediately to its right; all three branches are positioned relative to this input.</desc>
+    <text id="txt-x" class="bold" x="20" y="319" font-size="46">x</text>
+    <g id="vec-input" transform="translate(61,253)">
+      <rect class="cell" x="0" y="0" width="16" height="17" fill="#dce9d7" id="plus_node_5" />
+      <rect class="cell" x="0" y="17" width="16" height="17" fill="#efd5e7" id="plus_node_6" />
+      <rect class="cell" x="0" y="34" width="16" height="17" fill="#f06e55" id="plus_node_7" />
+      <rect class="cell" x="0" y="51" width="16" height="17" fill="#f5d64f" id="plus_node_8" />
+      <rect class="cell" x="0" y="68" width="16" height="17" fill="#68b2a9" id="plus_node_9" />
+      <rect class="cell" x="0" y="85" width="16" height="17" fill="#bfa1b7" id="plus_node_10" />
+      <rect class="cell" x="0" y="102" width="16" height="17" fill="#78a6dc" id="plus_node_11" />
+    </g>
+  </g>
+
+  
+  <g id="top-branch">
+    <desc>Top prediction lane: φ^via rounded box, φ label, colored feature vector, 1ᵀφ aggregation box, ŷ circle, then the prediction loss formula. The lane is horizontally symmetric around y≈84.</desc>
+    <text id="txt-top-phivia" class="math" x="397" y="99" font-size="48">φ<tspan dy="-20" font-size="31">via</tspan></text>
+    <text id="txt-top-phi" class="math" x="543" y="92" font-size="48">φ</text>
+    <g id="vec-top-colored" transform="translate(583,26)">
+      <rect class="cell" x="0" y="0" width="16" height="17" fill="#f1b7b9" id="plus_node_12" />
+      <rect class="cell" x="0" y="17" width="16" height="17" fill="#9db9d8" id="plus_node_13" />
+      <rect class="cell" x="0" y="34" width="16" height="17" fill="#0060b7" id="plus_node_14" />
+      <rect class="cell" x="0" y="51" width="16" height="17" fill="#9db9d8" id="plus_node_15" />
+      <rect class="cell" x="0" y="68" width="16" height="17" fill="#ff5a58" id="plus_node_16" />
+      <rect class="cell" x="0" y="85" width="16" height="17" fill="#d90000" id="plus_node_17" />
+      <rect class="cell" x="0" y="102" width="16" height="17" fill="#c9d8eb" id="plus_node_18" />
+    </g>
+    <text id="txt-top-linear" class="roman" x="699" y="101" font-size="59">1<tspan dy="-28" font-size="42">⊤</tspan><tspan dy="28" class="math" font-size="48">φ</tspan></text>
+    <text id="txt-yhat" class="math" x="894" y="101" font-size="48">ŷ</text>
+    <text id="txt-lpred" class="math" x="1250" y="236" font-size="32">ℒ<tspan dy="7" font-size="20">pred</tspan><tspan dy="-7" font-size="30">(θ) = (ŷ, y ∈ Y)</tspan></text>
+  </g>
+
+  
+  <g id="sample-masks">
+    <desc>Black and white vertical sample masks are repeated near the input and again in the bottom lane. Their cells are equal-sized rectangles with black cells denoting selected samples and white cells denoting unselected samples.</desc>
+    <g id="mask-left-upper" transform="translate(246,188)">
+      <rect class="cell" x="0" y="0" width="16" height="17" fill="#000" id="plus_node_19" />
+      <rect class="cell" x="0" y="17" width="16" height="17" fill="#fff" id="plus_node_20" />
+      <rect class="cell" x="0" y="34" width="16" height="17" fill="#000" id="plus_node_21" />
+      <rect class="cell" x="0" y="51" width="16" height="17" fill="#fff" id="plus_node_22" />
+      <rect class="cell" x="0" y="68" width="16" height="17" fill="#fff" id="plus_node_23" />
+      <rect class="cell" x="0" y="85" width="16" height="17" fill="#fff" id="plus_node_24" />
+      <rect class="cell" x="0" y="102" width="16" height="17" fill="#fff" id="plus_node_25" />
+    </g>
+    <g id="mask-left-lower" transform="translate(246,348)">
+      <rect class="cell" x="0" y="0" width="16" height="17" fill="#000" id="plus_node_26" />
+      <rect class="cell" x="0" y="17" width="16" height="17" fill="#fff" id="plus_node_27" />
+      <rect class="cell" x="0" y="34" width="16" height="17" fill="#fff" id="plus_node_28" />
+      <rect class="cell" x="0" y="51" width="16" height="17" fill="#fff" id="plus_node_29" />
+      <rect class="cell" x="0" y="68" width="16" height="17" fill="#000" id="plus_node_30" />
+      <rect class="cell" x="0" y="85" width="16" height="17" fill="#fff" id="plus_node_31" />
+      <rect class="cell" x="0" y="102" width="16" height="17" fill="#000" id="plus_node_32" />
+    </g>
+    <g id="mask-left-small" transform="translate(282,260)">
+      <rect class="cell" x="0" y="0" width="16" height="17" fill="#fff" id="plus_node_33" />
+      <rect class="cell" x="0" y="17" width="16" height="17" fill="#fff" id="plus_node_34" />
+      <rect class="cell" x="0" y="34" width="16" height="17" fill="#000" id="plus_node_35" />
+      <rect class="cell" x="0" y="51" width="16" height="17" fill="#fff" id="plus_node_36" />
+      <rect class="cell" x="0" y="68" width="16" height="17" fill="#fff" id="plus_node_37" />
+      <rect class="cell" x="0" y="85" width="16" height="17" fill="#000" id="plus_node_38" />
+    </g>
+  </g>
+
+  
+  <g id="middle-branch">
+    <desc>Middle SHAP lane: masked samples flow into φ^via, φ, colored vector, 1ᵀφ, a circular via_SHAP(x_S) node, and the squared expectation loss. It is the central horizontal reference for the figure.</desc>
+    <text id="txt-mid-phivia" class="math" x="400" y="334" font-size="48">φ<tspan dy="-20" font-size="31">via</tspan></text>
+    <text id="txt-mid-phi" class="math" x="570" y="329" font-size="48">φ</text>
+
+    <g id="vec-mid-left-colored" transform="translate(608,166)">
+      <rect class="cell" x="0" y="0" width="16" height="17" fill="#000" id="plus_node_39" />
+      <rect class="cell" x="0" y="17" width="16" height="17" fill="#c8d8ea" id="plus_node_40" />
+      <rect class="cell" x="0" y="34" width="16" height="17" fill="#000" id="plus_node_41" />
+      <rect class="cell" x="0" y="51" width="16" height="17" fill="#2b78c3" id="plus_node_42" />
+      <rect class="cell" x="0" y="68" width="16" height="17" fill="#ff6666" id="plus_node_43" />
+      <rect class="cell" x="0" y="85" width="16" height="17" fill="#000" id="plus_node_44" />
+      <rect class="cell" x="0" y="102" width="16" height="17" fill="#c8d8ea" id="plus_node_45" />
+    </g>
+    <g id="vec-mid-colored" transform="translate(656,256)">
+      <rect class="cell" x="0" y="0" width="16" height="17" fill="#f1b7b9" id="plus_node_46" />
+      <rect class="cell" x="0" y="17" width="16" height="17" fill="#a4bddc" id="plus_node_47" />
+      <rect class="cell" x="0" y="34" width="16" height="17" fill="#0068be" id="plus_node_48" />
+      <rect class="cell" x="0" y="51" width="16" height="17" fill="#0b2e5b" id="plus_node_49" />
+      <rect class="cell" x="0" y="68" width="16" height="17" fill="#ff5a58" id="plus_node_50" />
+      <rect class="cell" x="0" y="85" width="16" height="17" fill="#d90000" id="plus_node_51" />
+      <rect class="cell" x="0" y="102" width="16" height="17" fill="#000" id="plus_node_52" />
+    </g>
+    <text id="txt-mid-linear" class="roman" x="788" y="335" font-size="59">1<tspan dy="-28" font-size="42">⊤</tspan><tspan dy="28" class="math" font-size="48">φ</tspan></text>
+
+    <text id="txt-via-shap-circle" class="math" x="965" y="296" font-size="24">via<tspan dy="-10" font-size="13">SHAP</tspan><tspan dy="10" font-size="21">(x</tspan><tspan dy="6" font-size="14">S</tspan><tspan dy="-6" font-size="21">)</tspan></text>
+
+    <text id="txt-lphi" class="math" x="1151" y="327" font-size="18">
+      ℒ<tspan dy="5" font-size="12">φ</tspan><tspan dy="-5" font-size="17">(θ) = </tspan>
+      <tspan font-size="16">𝔼</tspan><tspan dy="8" font-size="11">p(S)</tspan><tspan dy="-8" font-size="17"> [ ( via</tspan><tspan dy="5" font-size="11">j</tspan><tspan dy="-12" font-size="11">SHAP</tspan><tspan dy="7" font-size="17">(x</tspan><tspan dy="5" font-size="11">S</tspan><tspan dy="-5" font-size="17">) − via</tspan><tspan dy="5" font-size="11">j</tspan><tspan dy="-12" font-size="11">SHAP</tspan><tspan dy="7" font-size="17">(0) − 1</tspan><tspan dy="5" font-size="11">S</tspan><tspan dy="-15" font-size="15">⊤</tspan><tspan dy="10" font-size="17">φ</tspan><tspan dy="5" font-size="11">j</tspan><tspan dy="-12" font-size="11">via</tspan><tspan dy="7" font-size="17">(x;θ) )</tspan><tspan dy="-13" font-size="12">2</tspan><tspan dy="13" font-size="17"> ]</tspan>
+    </text>
+
+    <text id="txt-plus" class="roman" x="1369" y="287" font-size="45" font-weight="700">+</text>
+  </g>
+
+  
+  <g id="apply-same-samples">
+    <desc>The teal diagonal arrows and hatched label indicate that the same set of samples is applied from the middle sample masks down to the bottom branch.</desc>
+    <rect id="apply-label-bg" x="382" y="443" width="184" height="43" fill="url(#paleHatch)" stroke="none" />
+    <text id="txt-apply1" class="roman" x="393" y="462" font-size="27">Apply the same</text>
+    <text id="txt-apply2" class="roman" x="400" y="491" font-size="27">set of samples</text>
+  </g>
+
+  
+  <g id="bottom-branch">
+    <desc>Bottom subset lane: φ^via and φ feed a colored vector, sample masks, Sᵀφ, and the circular Sᵀφ^via(x;θ) term. This term curves upward to the central loss formula.</desc>
+    <text id="txt-bottom-phivia" class="math" x="395" y="628" font-size="48">φ<tspan dy="-20" font-size="31">via</tspan></text>
+    <text id="txt-bottom-phi" class="math" x="543" y="622" font-size="48">φ</text>
+    <g id="vec-bottom-colored" transform="translate(583,553)">
+      <rect class="cell" x="0" y="0" width="16" height="17" fill="#f1b7b9" id="plus_node_53" />
+      <rect class="cell" x="0" y="17" width="16" height="17" fill="#a4bddc" id="plus_node_54" />
+      <rect class="cell" x="0" y="34" width="16" height="17" fill="#0068be" id="plus_node_55" />
+      <rect class="cell" x="0" y="51" width="16" height="17" fill="#5c93d0" id="plus_node_56" />
+      <rect class="cell" x="0" y="68" width="16" height="17" fill="#ff5a58" id="plus_node_57" />
+      <rect class="cell" x="0" y="85" width="16" height="17" fill="#d90000" id="plus_node_58" />
+      <rect class="cell" x="0" y="102" width="16" height="17" fill="#c8d8ea" id="plus_node_59" />
+    </g>
+
+    <g id="mask-bottom-tall" transform="translate(696,450)">
+      <rect class="cell" x="0" y="0" width="16" height="17" fill="#000" id="plus_node_60" />
+      <rect class="cell" x="0" y="17" width="16" height="17" fill="#fff" id="plus_node_61" />
+      <rect class="cell" x="0" y="34" width="16" height="17" fill="#000" id="plus_node_62" />
+      <rect class="cell" x="0" y="51" width="16" height="17" fill="#fff" id="plus_node_63" />
+      <rect class="cell" x="0" y="68" width="16" height="17" fill="#fff" id="plus_node_64" />
+      <rect class="cell" x="0" y="85" width="16" height="17" fill="#000" id="plus_node_65" />
+      <rect class="cell" x="0" y="102" width="16" height="17" fill="#fff" id="plus_node_66" />
+      <rect class="cell" x="0" y="180" width="16" height="17" fill="#fff" id="plus_node_67" />
+      <rect class="cell" x="0" y="197" width="16" height="17" fill="#000" id="plus_node_68" />
+      <rect class="cell" x="0" y="214" width="16" height="17" fill="#fff" id="plus_node_69" />
+      <rect class="cell" x="0" y="231" width="16" height="17" fill="#000" id="plus_node_70" />
+      <rect class="cell" x="0" y="248" width="16" height="17" fill="#fff" id="plus_node_71" />
+    </g>
+    <g id="mask-bottom-small" transform="translate(737,525)">
+      <rect class="cell" x="0" y="0" width="16" height="17" fill="#fff" id="plus_node_72" />
+      <rect class="cell" x="0" y="17" width="16" height="17" fill="#fff" id="plus_node_73" />
+      <rect class="cell" x="0" y="34" width="16" height="17" fill="#fff" id="plus_node_74" />
+      <rect class="cell" x="0" y="51" width="16" height="17" fill="#000" id="plus_node_75" />
+      <rect class="cell" x="0" y="68" width="16" height="17" fill="#fff" id="plus_node_76" />
+      <rect class="cell" x="0" y="85" width="16" height="17" fill="#fff" id="plus_node_77" />
+    </g>
+
+    <text id="txt-bottom-linear" class="math" x="855" y="626" font-size="47">S<tspan dy="-25" font-size="38">⊤</tspan><tspan dy="25" font-size="45">φ</tspan></text>
+    <text id="txt-bottom-circle" class="math" x="1036" y="619" font-size="22">S<tspan dy="-12" font-size="15">⊤</tspan><tspan dy="12" font-size="22">φ</tspan><tspan dy="-12" font-size="13">via</tspan><tspan dy="12" font-size="20">(x;θ)</tspan></text>
+  </g>
+</svg>

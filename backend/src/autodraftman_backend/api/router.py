@@ -7,6 +7,10 @@ from autodraftman_backend.modules.feedback.router import router as feedback_rout
 from autodraftman_backend.modules.health.router import router as health_router
 from autodraftman_backend.modules.identity.auth_router import router as auth_router
 from autodraftman_backend.modules.identity.router import router as identity_router
+from autodraftman_backend.modules.internal_access.auth import router as internal_auth_router
+from autodraftman_backend.modules.internal_access.reconstruction import (
+    router as reconstruction_router,
+)
 
 api_router = APIRouter()
 api_router.include_router(health_router)
@@ -16,3 +20,5 @@ api_router.include_router(credit_router, prefix="/api/v1")
 api_router.include_router(asset_router, prefix="/api/v1")
 api_router.include_router(draft_router, prefix="/api/v1")
 api_router.include_router(feedback_router, prefix="/api/v1")
+api_router.include_router(internal_auth_router, prefix="/api/v1")
+api_router.include_router(reconstruction_router, prefix="/api/v1")

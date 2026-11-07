@@ -1,0 +1,20 @@
+{
+  "status": "changed_unverified",
+  "geometryStatus": "measured_converged",
+  "visualAcceptance": "pending",
+  "visualPassed": false,
+  "checks": [
+    {
+      "predicate": "contain",
+      "status": "satisfied"
+    },
+    {
+      "predicate": "contain",
+      "status": "satisfied"
+    },
+    {
+      "predicate": "separate",
+      "status": "satisfied"
+    }
+  ]
+}

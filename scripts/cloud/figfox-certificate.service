@@ -1,0 +1,7 @@
+[Unit]
+Description=Renew FigFox HTTPS certificate
+After=network-online.target figfox-web.service
+
+[Service]
+Type=oneshot
+ExecStart=/opt/figfox/runtime/certbot/bin/certbot renew --quiet --deploy-hook "/bin/systemctl reload figfox-web.service"

@@ -1,0 +1,186 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 708 1062" width="708" height="1062">
+  <defs>
+    <marker id="arrow" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#000"/>
+    </marker>
+    <style>
+      .serif { font-family: "Times New Roman", Times, serif; fill:#000; }
+      .panel { fill:#c7f6cd; stroke:#176b2a; stroke-width:4; }
+      .pill { fill:#3fd653; stroke:#0a3614; stroke-width:3; }
+      .data { fill:#fff; stroke:#000; stroke-width:2.4; }
+      .rule { fill:#000; stroke:#000; stroke-width:1.5; }
+      .arrow { stroke:#000; stroke-width:2.4; fill:none; marker-end:url(#arrow); }
+      .smallarrow { stroke:#000; stroke-width:2.1; fill:none; marker-end:url(#arrow); }
+    </style>
+  </defs>
+
+  <rect x="0" y="0" width="708" height="1062" fill="#ffffff"/>
+
+  <!-- Main container -->
+  <rect x="30" y="127" width="658" height="803" rx="31" ry="31" fill="#c2e9f5" stroke="#14657c" stroke-width="4"/>
+
+  <!-- Top input arrows -->
+  <path class="arrow" d="M358 91 L443 128"/>
+  <path class="arrow" d="M524 91 L463 128"/>
+
+  <!-- Top input data circles -->
+  <circle class="data" cx="315" cy="66" r="50"/>
+  <text class="serif" font-size="20" text-anchor="middle">
+    <tspan x="315" y="47">issue</tspan>
+    <tspan x="315" y="72">description</tspan>
+    <tspan x="315" y="96" font-style="italic">dᵢₛₛᵤₑ</tspan>
+  </text>
+
+  <circle class="data" cx="561" cy="66" r="50"/>
+  <text class="serif" font-size="20" text-anchor="middle">
+    <tspan x="561" y="47">old</tspan>
+    <tspan x="561" y="72">code</tspan>
+    <tspan x="561" y="96" font-style="italic">cₒₗd</tspan>
+  </text>
+
+  <text class="serif" font-size="18" x="386" y="103">input <tspan font-style="italic">x</tspan></text>
+
+  <!-- Section panels -->
+  <rect class="panel" x="105" y="142" width="567" height="153" rx="31" ry="31"/>
+  <rect class="panel" x="105" y="421" width="567" height="156" rx="31" ry="31"/>
+  <rect class="panel" x="105" y="699" width="567" height="221" rx="31" ry="31"/>
+
+  <!-- Inter-module arrows -->
+  <path class="smallarrow" d="M344 279 L344 304"/>
+  <path class="smallarrow" d="M563 279 L563 304"/>
+
+  <path class="arrow" d="M344 407 L344 439"/>
+  <path class="arrow" d="M511 388 L419 439"/>
+
+  <path class="smallarrow" d="M344 497 L344 512"/>
+  <path class="smallarrow" d="M438 535 L487 469"/>
+  <path class="smallarrow" d="M565 497 L565 512"/>
+  <path class="smallarrow" d="M552 568 L469 603"/>
+
+  <path class="arrow" d="M439 688 L439 713"/>
+  <path class="smallarrow" d="M440 770 L440 784"/>
+  <path class="smallarrow" d="M440 839 L440 854"/>
+  <path class="arrow" d="M440 911 L440 925"/>
+
+  <!-- Localizer pills -->
+  <rect class="pill" x="251" y="153" width="186" height="56" rx="28" ry="28"/>
+  <rect class="pill" x="471" y="153" width="185" height="56" rx="28" ry="28"/>
+  <rect class="pill" x="251" y="224" width="186" height="55" rx="27.5" ry="27.5"/>
+  <rect class="pill" x="471" y="224" width="185" height="55" rx="27.5" ry="27.5"/>
+
+  <!-- Intermediate data circles -->
+  <circle class="data" cx="344" cy="356" r="51"/>
+  <circle class="data" cx="552" cy="358" r="51"/>
+
+  <!-- Planner nodes -->
+  <rect class="rule" x="266" y="439" width="157" height="57"/>
+  <rect class="pill" x="251" y="512" width="187" height="56" rx="28" ry="28"/>
+  <rect class="rule" x="487" y="439" width="157" height="57"/>
+  <rect class="pill" x="471" y="512" width="186" height="56" rx="28" ry="28"/>
+  <circle class="data" cx="439" cy="639" r="50"/>
+
+  <!-- Test generator nodes -->
+  <rect class="rule" x="362" y="713" width="157" height="57"/>
+  <rect class="pill" x="348" y="784" width="186" height="55" rx="27.5" ry="27.5"/>
+  <rect class="rule" x="363" y="854" width="157" height="57"/>
+  <circle class="data" cx="440" cy="976" r="50"/>
+
+  <!-- Outer labels -->
+  <text class="serif" font-size="20" x="48" y="165">Otter</text>
+
+  <text class="serif" font-size="20" x="121" y="226">Localizer</text>
+
+  <text class="serif" font-size="20">
+    <tspan x="125" y="490">Self-reflective</tspan>
+    <tspan x="125" y="516">action planner</tspan>
+  </text>
+
+  <text class="serif" font-size="20" x="126" y="817">Test generator</text>
+
+  <!-- Localizer text -->
+  <text class="serif" font-size="20" text-anchor="middle">
+    <tspan x="344" y="176">Localize</tspan>
+    <tspan x="344" y="201">test files</tspan>
+  </text>
+  <text class="serif" font-size="20" text-anchor="middle">
+    <tspan x="563" y="176">Localize</tspan>
+    <tspan x="563" y="201">focal files</tspan>
+  </text>
+  <text class="serif" font-size="20" text-anchor="middle">
+    <tspan x="344" y="247">Localize</tspan>
+    <tspan x="344" y="272">test functions</tspan>
+  </text>
+  <text class="serif" font-size="20" text-anchor="middle">
+    <tspan x="563" y="247">Localize</tspan>
+    <tspan x="563" y="272">focal functions</tspan>
+  </text>
+
+  <!-- Data circle labels -->
+  <text class="serif" font-size="20" text-anchor="middle">
+    <tspan x="344" y="337">test</tspan>
+    <tspan x="344" y="362">files and</tspan>
+    <tspan x="344" y="386">functions</tspan>
+  </text>
+
+  <text class="serif" font-size="20" text-anchor="middle">
+    <tspan x="552" y="337">focal</tspan>
+    <tspan x="552" y="362">files and</tspan>
+    <tspan x="552" y="386">functions</tspan>
+  </text>
+
+  <!-- Planner text -->
+  <text class="serif" font-size="19" fill="#ffffff" text-anchor="middle">
+    <tspan x="344.5" y="462" fill="#ffffff">Execute</tspan>
+    <tspan x="344.5" y="487" fill="#ffffff">read actions</tspan>
+  </text>
+  <text class="serif" font-size="20" text-anchor="middle">
+    <tspan x="344.5" y="536">Make</tspan>
+    <tspan x="344.5" y="561">initial plan</tspan>
+  </text>
+  <text class="serif" font-size="19" fill="#ffffff" text-anchor="middle">
+    <tspan x="565.5" y="462" fill="#ffffff">Validate</tspan>
+    <tspan x="565.5" y="487" fill="#ffffff">planned actions</tspan>
+  </text>
+  <text class="serif" font-size="20" text-anchor="middle">
+    <tspan x="564" y="536">Reflect and</tspan>
+    <tspan x="564" y="561">improve plan</tspan>
+  </text>
+  <text class="serif" font-size="20" text-anchor="middle">
+    <tspan x="439" y="629">planned</tspan>
+    <tspan x="439" y="654">actions</tspan>
+  </text>
+
+  <!-- Test generator text -->
+  <text class="serif" font-size="19" fill="#ffffff" text-anchor="middle">
+    <tspan x="440.5" y="736" fill="#ffffff">Execute</tspan>
+    <tspan x="440.5" y="761" fill="#ffffff">read actions</tspan>
+  </text>
+  <text class="serif" font-size="20" text-anchor="middle">
+    <tspan x="441" y="806">Flesh out write</tspan>
+    <tspan x="441" y="831">or modify action</tspan>
+  </text>
+  <text class="serif" font-size="19" fill="#ffffff" text-anchor="middle">
+    <tspan x="441.5" y="878" fill="#ffffff">Repair</tspan>
+    <tspan x="441.5" y="902" fill="#ffffff">generated tests</tspan>
+  </text>
+
+  <text class="serif" font-size="20" text-anchor="middle">
+    <tspan x="440" y="967">generated</tspan>
+    <tspan x="440" y="992">tests</tspan>
+    <tspan x="440" y="1016" font-style="italic">y</tspan>
+  </text>
+  <text class="serif" font-size="18" x="509" y="974">output <tspan font-style="italic">y</tspan></text>
+
+  <!-- Legend -->
+  <rect x="35" y="948" width="303" height="92" fill="#fde8dc"/>
+  <text class="serif" font-size="20" x="42" y="970" text-decoration="underline">Legend:</text>
+
+  <circle class="data" cx="62" cy="1011" r="19"/>
+  <text class="serif" font-size="15" text-anchor="middle" x="62" y="1016">data</text>
+
+  <rect class="pill" x="96" y="990" width="111" height="42" rx="21" ry="21"/>
+  <text class="serif" font-size="18" text-anchor="middle" x="151.5" y="1017">LLM call</text>
+
+  <rect class="rule" x="219" y="990" width="105" height="42"/>
+  <text class="serif" font-size="18" fill="#ffffff" text-anchor="middle" x="271.5" y="1017">Rule-based</text>
+</svg>

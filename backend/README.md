@@ -3,6 +3,9 @@
 This directory contains the product backend that is independent from the image-generation
 kernel. It is intentionally a modular monolith.
 
+A separate local reconstruction bridge is now available for kernel integration testing.
+See [local kernel setup](../docs/local-kernel.md). It is not mounted in the cloud application.
+
 Included in v0.1:
 
 - FastAPI application and health endpoints

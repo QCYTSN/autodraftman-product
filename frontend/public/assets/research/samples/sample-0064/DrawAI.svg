@@ -1,0 +1,248 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="2048" height="442" viewBox="0 0 2048 442">
+  <defs>
+    <marker id="arrow-black" markerWidth="7" markerHeight="6" refX="6" refY="3" orient="auto" markerUnits="strokeWidth">
+      <polygon points="0,0 7,3 0,6" fill="#111111"/>
+    </marker>
+    <marker id="arrow-gray" markerWidth="9" markerHeight="8" refX="8" refY="4" orient="auto" markerUnits="strokeWidth">
+      <polygon points="0,0 9,4 0,8" fill="#555555"/>
+    </marker>
+    <marker id="arrow-green" markerWidth="7" markerHeight="6" refX="6" refY="3" orient="auto" markerUnits="strokeWidth">
+      <polygon points="0,0 7,3 0,6" fill="#1db64c"/>
+    </marker>
+  </defs>
+  <rect id="background-white" data-pb-role="background" data-pb-editable="true" x="0" y="0" width="2048" height="442" fill="#ffffff" stroke="none"/>
+
+  <g id="panel-step-1" data-pb-role="panel" data-pb-editable="true">
+    <rect id="panel-step-1-box" x="155" y="37" width="509" height="374" fill="#fffdf8" stroke="#f3b300" stroke-width="2.5"/>
+    <text id="label-step-1" x="224" y="80" font-family="Arial, Helvetica, sans-serif" font-size="30" font-style="normal" font-weight="400" fill="#111111" data-pb-role="title" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="horizontal"><tspan font-weight="700">Step 1:</tspan><tspan> Specify Value Palette</tspan></text>
+    <text id="label-original-model" x="257" y="228" font-family="Arial, Helvetica, sans-serif" font-size="26" font-style="normal" font-weight="400" fill="#111111" data-pb-role="label" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="horizontal">Original model</text>
+    <text id="label-reward-distributions" x="297" y="303" font-family="Arial, Helvetica, sans-serif" font-size="26" font-style="normal" font-weight="400" fill="#ff0000" data-pb-role="label" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="horizontal">Reward distributions</text>
+  </g>
+
+  <g id="panel-step-2" data-pb-role="panel" data-pb-editable="true">
+    <rect id="panel-step-2-box" x="829" y="35" width="533" height="376" fill="#e4f6ff" stroke="#13aee5" stroke-width="2.5"/>
+    <text id="label-step-2" x="908" y="80" font-family="Arial, Helvetica, sans-serif" font-size="30" font-style="normal" font-weight="400" fill="#111111" data-pb-role="title" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="horizontal"><tspan font-weight="700">Step 2:</tspan><tspan> Check Feasibility</tspan></text>
+    <text id="label-map-reward-function" x="904" y="240" font-family="Arial, Helvetica, sans-serif" font-size="26" font-style="normal" font-weight="400" fill="#111111" data-pb-role="label" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="horizontal">MAP reward function</text>
+    <text id="label-infeasible" x="965" y="355" font-family="Arial, Helvetica, sans-serif" font-size="30" font-style="normal" font-weight="400" fill="#ff0000" data-pb-role="label" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="horizontal">Infeasible</text>
+    <text id="label-feasible" x="1207" y="355" font-family="Arial, Helvetica, sans-serif" font-size="30" font-style="normal" font-weight="400" fill="#00a64a" data-pb-role="label" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="horizontal">Feasible</text>
+  </g>
+
+  <g id="panel-step-3" data-pb-role="panel" data-pb-editable="true">
+    <rect id="panel-step-3-box" x="1537" y="37" width="462" height="374" fill="#e7f8ee" stroke="#83c765" stroke-width="2.5"/>
+    <text id="label-step-3" x="1623" y="80" font-family="Arial, Helvetica, sans-serif" font-size="30" font-style="normal" font-weight="400" fill="#111111" data-pb-role="title" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="horizontal"><tspan font-weight="700">Step 3:</tspan><tspan> Align Model</tspan></text>
+    <text id="label-post-reward-distributions" x="1572" y="303" font-family="Arial, Helvetica, sans-serif" font-size="26" font-style="normal" font-weight="400" fill="#00a64a" data-pb-role="label" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="horizontal">Post-alignment Reward distributions</text>
+  </g>
+
+  <g id="connector-major-flow" data-pb-role="connector" data-pb-editable="true">
+    <polygon id="arrow-user-to-model" points="117,219 143,219 143,214 157,224 143,234 143,229 117,229" fill="#111111" stroke="none"/>
+    <text id="label-solve" x="722" y="205" font-family="Arial, Helvetica, sans-serif" font-size="28" font-style="normal" font-weight="400" fill="#111111" data-pb-role="label" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="horizontal">Solve</text>
+    <polygon id="arrow-step1-to-step2" points="665,220 815,220 815,214 832,224 815,234 815,228 665,228" fill="#111111" stroke="none"/>
+    <line id="arrow-infeasible-return-shaft" x1="888" y1="348" x2="681" y2="348" stroke="#555555" stroke-width="2.5"/>
+    <polygon id="arrow-infeasible-return-head" points="665,348 681,340 681,356" fill="#555555" stroke="none"/>
+    <polyline id="arrow-feasible-to-step3" points="1328,347 1432,347 1432,224 1533,224" fill="none" stroke="#555555" stroke-width="2.5" marker-end="url(#arrow-gray)"/>
+    <polygon id="arrow-align-model" points="1639,210 1685,210 1685,203 1705,217 1685,231 1685,224 1639,224" fill="#111111" stroke="none"/>
+  </g>
+
+  <g id="icon-person" data-pb-role="node" data-pb-editable="true" fill="none" stroke="#f06d2f" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+    <circle id="icon-person-head" cx="67" cy="203" r="16"/>
+    <path id="icon-person-body" d="M34 258 L34 244 C34 233 49 227 67 227 C85 227 101 233 101 244 L101 258"/>
+  </g>
+
+  <g id="icon-palette" data-pb-role="node" data-pb-editable="true" fill="none" stroke="#ff9900" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+    <path id="icon-palette-outline" d="M376 137 C374 122 389 113 410 113 C434 113 452 124 452 140 C452 158 431 167 408 165 C389 163 376 153 376 137 Z M396 128 C387 130 383 124 382 119"/>
+    <circle cx="426" cy="121" r="3.5"/>
+    <circle cx="438" cy="130" r="3.5"/>
+    <circle cx="441" cy="143" r="3.5"/>
+    <circle cx="431" cy="153" r="3.5"/>
+    <circle cx="417" cy="156" r="3.5"/>
+  </g>
+
+  <g id="network-original" data-pb-role="node" data-pb-editable="true" transform="translate(171 180)">
+    <line x1="38" y1="5" x2="38" y2="58" stroke="#333333" stroke-width="2"/>
+    <line x1="8" y1="19" x2="38" y2="5" stroke="#333333" stroke-width="2"/>
+    <line x1="8" y1="19" x2="38" y2="24" stroke="#333333" stroke-width="2"/>
+    <line x1="8" y1="42" x2="38" y2="24" stroke="#333333" stroke-width="2"/>
+    <line x1="8" y1="42" x2="38" y2="58" stroke="#333333" stroke-width="2"/>
+    <line x1="38" y1="5" x2="66" y2="10" stroke="#333333" stroke-width="2"/>
+    <line x1="38" y1="24" x2="66" y2="10" stroke="#333333" stroke-width="2"/>
+    <line x1="38" y1="24" x2="66" y2="33" stroke="#333333" stroke-width="2"/>
+    <line x1="38" y1="58" x2="66" y2="33" stroke="#333333" stroke-width="2"/>
+    <line x1="66" y1="10" x2="66" y2="54" stroke="#333333" stroke-width="2"/>
+    <circle cx="38" cy="5" r="6" fill="#f74d7c" stroke="#3c5973" stroke-width="2"/>
+    <circle cx="8" cy="19" r="6" fill="#f74d7c" stroke="#3c5973" stroke-width="2"/>
+    <circle cx="38" cy="24" r="6" fill="#89c7ff" stroke="#3c5973" stroke-width="2"/>
+    <circle cx="66" cy="10" r="6" fill="#89c7ff" stroke="#3c5973" stroke-width="2"/>
+    <circle cx="66" cy="33" r="6" fill="#f74d7c" stroke="#3c5973" stroke-width="2"/>
+    <circle cx="8" cy="42" r="6" fill="#f74d7c" stroke="#3c5973" stroke-width="2"/>
+    <circle cx="38" cy="58" r="6" fill="#f74d7c" stroke="#3c5973" stroke-width="2"/>
+    <circle cx="66" cy="54" r="6" fill="#89c7ff" stroke="#3c5973" stroke-width="2"/>
+    <circle cx="1" cy="18" r="2" fill="#111111" stroke="none"/>
+    <circle cx="74" cy="62" r="2" fill="#111111" stroke="none"/>
+  </g>
+
+  <g id="icon-grid-reward" data-pb-role="node" data-pb-editable="true" transform="translate(1055 115)" fill="none" stroke="#8452b7" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+    <rect x="0" y="0" width="64" height="49" rx="3" ry="3"/>
+    <line x1="13" y1="0" x2="13" y2="49"/>
+    <line x1="26" y1="0" x2="26" y2="49"/>
+    <line x1="39" y1="0" x2="39" y2="49"/>
+    <line x1="52" y1="0" x2="52" y2="49"/>
+    <line x1="0" y1="12" x2="64" y2="12"/>
+    <line x1="0" y1="24" x2="64" y2="24"/>
+    <line x1="0" y1="36" x2="64" y2="36"/>
+    <circle cx="13" cy="7" r="3.2"/>
+    <circle cx="26" cy="7" r="3.2"/>
+    <circle cx="39" cy="7" r="3.2"/>
+    <circle cx="52" cy="7" r="3.2"/>
+    <circle cx="13" cy="20" r="3.2"/>
+    <circle cx="26" cy="20" r="3.2"/>
+    <circle cx="39" cy="20" r="3.2"/>
+    <circle cx="52" cy="20" r="3.2"/>
+    <circle cx="13" cy="32" r="3.2"/>
+    <circle cx="26" cy="32" r="3.2"/>
+    <circle cx="39" cy="32" r="3.2"/>
+    <circle cx="52" cy="32" r="3.2"/>
+    <circle cx="13" cy="44" r="3.2"/>
+    <circle cx="26" cy="44" r="3.2"/>
+    <circle cx="39" cy="44" r="3.2"/>
+    <circle cx="52" cy="44" r="3.2"/>
+  </g>
+
+  <g id="icon-map-curve" data-pb-role="node" data-pb-editable="true" transform="translate(1193 203)" fill="none" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M1 0 L1 62 L63 62" stroke="#333333" stroke-width="2.3"/>
+    <path d="M18 51 C25 46 25 18 35 12 C45 19 43 45 52 51" stroke="#333333" stroke-width="2.5"/>
+    <line x1="35" y1="12" x2="35" y2="55" stroke="#333333" stroke-width="1.8" stroke-dasharray="3 5"/>
+  </g>
+
+  <g id="mark-infeasible" data-pb-role="decorative" data-pb-editable="true" fill="none" stroke="#ff0000" stroke-width="2.2" stroke-linecap="round">
+    <line x1="906" y1="326" x2="954" y2="374"/>
+    <line x1="954" y1="326" x2="906" y2="374"/>
+  </g>
+  <g id="mark-feasible" data-pb-role="decorative" data-pb-editable="true" fill="none" stroke="#00a64a" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+    <polyline points="1113,342 1136,364 1180,323"/>
+  </g>
+
+  <g id="icon-align-machine" data-pb-role="node" data-pb-editable="true" transform="translate(1738 105)" fill="none" stroke="#111111" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+    <rect x="13" y="4" width="23" height="10" rx="4" ry="4"/>
+    <line x1="0" y1="9" x2="13" y2="9"/>
+    <line x1="36" y1="9" x2="47" y2="9"/>
+    <circle cx="48" cy="9" r="5"/>
+    <line x1="24" y1="14" x2="24" y2="24"/>
+    <line x1="7" y1="26" x2="44" y2="26"/>
+    <polyline points="10,16 10,26 5,34"/>
+    <polyline points="39,16 39,26 44,34"/>
+    <path d="M24 24 L18 34 M24 24 L30 34"/>
+    <rect x="14" y="34" width="36" height="23" fill="#d9efe4" stroke="#111111" stroke-width="2.4"/>
+    <path d="M10 59 L54 59" stroke="#111111" stroke-width="2.4"/>
+    <circle cx="32" cy="45" r="5" fill="#d9efe4" stroke="#111111"/>
+    <path d="M32 39 L32 35 M32 51 L32 55 M26 45 L22 45 M38 45 L42 45 M28 41 L25 38 M36 49 L39 52 M28 49 L25 52 M36 41 L39 38" stroke-width="1.5"/>
+  </g>
+
+  <g id="network-pre-align" data-pb-role="node" data-pb-editable="true" transform="translate(1556 184)">
+    <line x1="38" y1="5" x2="38" y2="58" stroke="#333333" stroke-width="2"/>
+    <line x1="8" y1="19" x2="38" y2="5" stroke="#333333" stroke-width="2"/>
+    <line x1="8" y1="19" x2="38" y2="24" stroke="#333333" stroke-width="2"/>
+    <line x1="8" y1="42" x2="38" y2="24" stroke="#333333" stroke-width="2"/>
+    <line x1="8" y1="42" x2="38" y2="58" stroke="#333333" stroke-width="2"/>
+    <line x1="38" y1="5" x2="66" y2="10" stroke="#333333" stroke-width="2"/>
+    <line x1="38" y1="24" x2="66" y2="10" stroke="#333333" stroke-width="2"/>
+    <line x1="38" y1="24" x2="66" y2="33" stroke="#333333" stroke-width="2"/>
+    <line x1="38" y1="58" x2="66" y2="33" stroke="#333333" stroke-width="2"/>
+    <line x1="66" y1="10" x2="66" y2="54" stroke="#333333" stroke-width="2"/>
+    <circle cx="38" cy="5" r="6" fill="#f74d7c" stroke="#3c5973" stroke-width="2"/>
+    <circle cx="8" cy="19" r="6" fill="#f74d7c" stroke="#3c5973" stroke-width="2"/>
+    <circle cx="38" cy="24" r="6" fill="#89c7ff" stroke="#3c5973" stroke-width="2"/>
+    <circle cx="66" cy="10" r="6" fill="#89c7ff" stroke="#3c5973" stroke-width="2"/>
+    <circle cx="66" cy="33" r="6" fill="#f74d7c" stroke="#3c5973" stroke-width="2"/>
+    <circle cx="8" cy="42" r="6" fill="#f74d7c" stroke="#3c5973" stroke-width="2"/>
+    <circle cx="38" cy="58" r="6" fill="#f74d7c" stroke="#3c5973" stroke-width="2"/>
+    <circle cx="66" cy="54" r="6" fill="#89c7ff" stroke="#3c5973" stroke-width="2"/>
+    <circle cx="1" cy="18" r="2" fill="#111111" stroke="none"/>
+    <circle cx="74" cy="62" r="2" fill="#111111" stroke="none"/>
+  </g>
+
+  <g id="network-post-align" data-pb-role="node" data-pb-editable="true" transform="translate(1725 184)">
+    <line x1="38" y1="5" x2="38" y2="58" stroke="#333333" stroke-width="2"/>
+    <line x1="8" y1="19" x2="38" y2="5" stroke="#333333" stroke-width="2"/>
+    <line x1="8" y1="19" x2="38" y2="24" stroke="#333333" stroke-width="2"/>
+    <line x1="8" y1="42" x2="38" y2="24" stroke="#333333" stroke-width="2"/>
+    <line x1="8" y1="42" x2="38" y2="58" stroke="#333333" stroke-width="2"/>
+    <line x1="38" y1="5" x2="66" y2="10" stroke="#333333" stroke-width="2"/>
+    <line x1="38" y1="24" x2="66" y2="10" stroke="#333333" stroke-width="2"/>
+    <line x1="38" y1="24" x2="66" y2="33" stroke="#333333" stroke-width="2"/>
+    <line x1="38" y1="58" x2="66" y2="33" stroke="#333333" stroke-width="2"/>
+    <line x1="66" y1="10" x2="66" y2="54" stroke="#333333" stroke-width="2"/>
+    <circle cx="38" cy="5" r="6" fill="#89c7ff" stroke="#3c5973" stroke-width="2"/>
+    <circle cx="8" cy="19" r="6" fill="#f74d7c" stroke="#3c5973" stroke-width="2"/>
+    <circle cx="38" cy="24" r="6" fill="#89c7ff" stroke="#3c5973" stroke-width="2"/>
+    <circle cx="66" cy="10" r="6" fill="#f74d7c" stroke="#3c5973" stroke-width="2"/>
+    <circle cx="66" cy="33" r="6" fill="#f74d7c" stroke="#3c5973" stroke-width="2"/>
+    <circle cx="8" cy="42" r="6" fill="#89c7ff" stroke="#3c5973" stroke-width="2"/>
+    <circle cx="38" cy="58" r="6" fill="#f74d7c" stroke="#3c5973" stroke-width="2"/>
+    <circle cx="66" cy="54" r="6" fill="#89c7ff" stroke="#3c5973" stroke-width="2"/>
+    <circle cx="1" cy="18" r="2" fill="#111111" stroke="none"/>
+    <circle cx="74" cy="62" r="2" fill="#111111" stroke="none"/>
+  </g>
+
+  <g id="chart-left-reward-1" data-pb-role="node" data-pb-editable="true" transform="translate(190 325)" fill="none" stroke-linecap="round" stroke-linejoin="round">
+    <polyline points="6,63 6,14" stroke="#111111" stroke-width="2.3" marker-end="url(#arrow-black)"/>
+    <polyline points="6,63 98,63" stroke="#111111" stroke-width="2.3" marker-end="url(#arrow-black)"/>
+    <path d="M10 59 C20 55 24 31 31 21 C38 7 52 11 60 33 C67 53 76 59 88 60" stroke="#ff0000" stroke-width="2.3"/>
+    <line x1="35" y1="17" x2="35" y2="62" stroke="#ff0000" stroke-width="2.4"/>
+    <line x1="59" y1="1" x2="59" y2="62" stroke="#1db64c" stroke-width="2.4"/>
+    <polyline points="60,8 80,8" stroke="#1db64c" stroke-width="2.2" marker-end="url(#arrow-green)"/>
+  </g>
+
+  <g id="chart-left-reward-2" data-pb-role="node" data-pb-editable="true" transform="translate(345 326)" fill="none" stroke-linecap="round" stroke-linejoin="round">
+    <polyline points="6,62 6,13" stroke="#111111" stroke-width="2.3" marker-end="url(#arrow-black)"/>
+    <polyline points="6,62 86,62" stroke="#111111" stroke-width="2.3" marker-end="url(#arrow-black)"/>
+    <path d="M13 58 C23 54 29 30 37 17 C43 8 54 17 59 36 C63 50 71 57 81 59" stroke="#ff0000" stroke-width="2.3"/>
+    <line x1="35" y1="18" x2="35" y2="61" stroke="#ff0000" stroke-width="2.4"/>
+    <line x1="54" y1="0" x2="54" y2="61" stroke="#1db64c" stroke-width="2.4"/>
+    <polyline points="55,8 74,8" stroke="#1db64c" stroke-width="2.2" marker-end="url(#arrow-green)"/>
+  </g>
+
+  <g id="chart-left-reward-3" data-pb-role="node" data-pb-editable="true" transform="translate(501 326)" fill="none" stroke-linecap="round" stroke-linejoin="round">
+    <polyline points="6,62 6,13" stroke="#111111" stroke-width="2.3" marker-end="url(#arrow-black)"/>
+    <polyline points="6,62 84,62" stroke="#111111" stroke-width="2.3" marker-end="url(#arrow-black)"/>
+    <path d="M11 58 C18 42 20 19 31 15 C44 10 58 27 68 42 C77 55 84 59 93 61" stroke="#ff0000" stroke-width="2.3"/>
+    <line x1="27" y1="0" x2="27" y2="61" stroke="#ff0000" stroke-width="2.4"/>
+    <line x1="52" y1="8" x2="52" y2="60" stroke="#1db64c" stroke-width="2.4"/>
+    <polyline points="53,9 72,9" stroke="#1db64c" stroke-width="2.2" marker-end="url(#arrow-green)"/>
+  </g>
+
+  <g id="ellipsis-reward" data-pb-role="decorative" data-pb-editable="true" fill="#111111" stroke="none">
+    <circle cx="613" cy="360" r="5.2"/>
+    <circle cx="625" cy="360" r="5.2"/>
+    <circle cx="637" cy="360" r="5.2"/>
+  </g>
+
+  <g id="chart-post-reward-1" data-pb-role="node" data-pb-editable="true" transform="translate(1572 326)" fill="none" stroke-linecap="round" stroke-linejoin="round">
+    <polyline points="6,63 6,14" stroke="#111111" stroke-width="2.3" marker-end="url(#arrow-black)"/>
+    <polyline points="6,63 96,63" stroke="#111111" stroke-width="2.3" marker-end="url(#arrow-black)"/>
+    <path d="M11 59 C18 54 23 31 31 20 C39 8 50 18 57 35 C64 53 73 59 86 60" stroke="#ff0000" stroke-width="2.3"/>
+    <path d="M33 60 C43 58 45 36 52 24 C63 6 73 22 80 43 C84 55 91 58 97 58" stroke="#1db64c" stroke-width="2.1"/>
+    <line x1="34" y1="0" x2="34" y2="62" stroke="#ff0000" stroke-width="2.4"/>
+    <line x1="61" y1="0" x2="61" y2="62" stroke="#1db64c" stroke-width="2.4"/>
+    <polyline points="36,8 63,8" stroke="#1db64c" stroke-width="2.2" marker-end="url(#arrow-green)"/>
+  </g>
+
+  <g id="chart-post-reward-2" data-pb-role="node" data-pb-editable="true" transform="translate(1720 329)" fill="none" stroke-linecap="round" stroke-linejoin="round">
+    <polyline points="6,60 6,11" stroke="#111111" stroke-width="2.3" marker-end="url(#arrow-black)"/>
+    <polyline points="6,60 95,60" stroke="#111111" stroke-width="2.3" marker-end="url(#arrow-black)"/>
+    <path d="M11 56 C20 52 27 30 36 18 C44 8 55 18 61 36 C66 50 74 56 83 57" stroke="#ff0000" stroke-width="2.3"/>
+    <path d="M32 57 C40 54 47 28 59 18 C72 6 84 22 91 42 C95 52 101 56 108 56" stroke="#1db64c" stroke-width="2.1"/>
+    <line x1="38" y1="16" x2="38" y2="59" stroke="#ff0000" stroke-width="2.4"/>
+    <line x1="64" y1="0" x2="64" y2="59" stroke="#1db64c" stroke-width="2.4"/>
+    <polyline points="40,8 66,8" stroke="#1db64c" stroke-width="2.2" marker-end="url(#arrow-green)"/>
+  </g>
+
+  <g id="chart-post-reward-3" data-pb-role="node" data-pb-editable="true" transform="translate(1878 329)" fill="none" stroke-linecap="round" stroke-linejoin="round">
+    <polyline points="6,60 6,11" stroke="#111111" stroke-width="2.3" marker-end="url(#arrow-black)"/>
+    <polyline points="6,60 95,60" stroke="#111111" stroke-width="2.3" marker-end="url(#arrow-black)"/>
+    <path d="M10 56 C16 37 24 16 40 15 C56 15 69 37 83 49 C92 57 102 59 112 59" stroke="#ff0000" stroke-width="2.3"/>
+    <path d="M29 58 C41 54 46 31 58 22 C72 11 84 25 91 43 C96 54 101 56 110 56" stroke="#1db64c" stroke-width="2.1"/>
+    <line x1="24" y1="16" x2="24" y2="59" stroke="#ff0000" stroke-width="2.4"/>
+    <line x1="59" y1="0" x2="59" y2="59" stroke="#1db64c" stroke-width="2.4"/>
+    <polyline points="61,8 82,8" stroke="#1db64c" stroke-width="2.2" marker-end="url(#arrow-green)"/>
+  </g>
+</svg>

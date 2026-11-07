@@ -1,0 +1,309 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1355" height="344" viewBox="0 0 1355 344">
+  <title>Illustration of MoEraser architecture and noise injection-restore tuning</title>
+  <desc>Complete editable reconstruction. Base frames include the left erase/preserve module, the central MoEraser architecture, the NIR construction module, and the restoration module. Fire icons are first constructed as SVG and then mapped to confirmed SAM assets P002 and P001 at their source crop coordinates.</desc>
+  <defs>
+    <linearGradient id="redFade" x1="0" x2="1" y1="0" y2="0">
+      <stop offset="0" stop-color="#f04e46" />
+      <stop offset="0.55" stop-color="#ff1f1f" />
+      <stop offset="1" stop-color="#ffffff" stop-opacity="0" />
+    </linearGradient>
+    <linearGradient id="redFadeReverse" x1="0" x2="1" y1="0" y2="0">
+      <stop offset="0" stop-color="#ffffff" stop-opacity="0" />
+      <stop offset="0.45" stop-color="#ff1f1f" />
+      <stop offset="1" stop-color="#f04e46" />
+    </linearGradient>
+    <linearGradient id="noiseGrad" x1="0" x2="1" y1="0" y2="0">
+      <stop offset="0" stop-color="#f0d2bd" />
+      <stop offset="0.5" stop-color="#7aa4d1" />
+      <stop offset="1" stop-color="#cb91ae" />
+    </linearGradient>
+    <marker id="arrowNavy" markerUnits="userSpaceOnUse" markerWidth="8" markerHeight="8" refX="8" refY="4" orient="auto">
+      <path d="M0,0 L8,4 L0,8 Z" fill="#0b2e4d" id="plus_node_0" />
+    </marker>
+    <marker id="arrowNavyStart" markerUnits="userSpaceOnUse" markerWidth="8" markerHeight="8" refX="0" refY="4" orient="auto-start-reverse">
+      <path d="M0,0 L8,4 L0,8 Z" fill="#0b2e4d" id="plus_node_1" />
+    </marker>
+    <marker id="arrowBlue" markerUnits="userSpaceOnUse" markerWidth="8" markerHeight="8" refX="8" refY="4" orient="auto">
+      <path d="M0,0 L8,4 L0,8 Z" fill="#087bd7" id="plus_node_2" />
+    </marker>
+    <marker id="arrowBlueStart" markerUnits="userSpaceOnUse" markerWidth="8" markerHeight="8" refX="0" refY="4" orient="auto-start-reverse">
+      <path d="M0,0 L8,4 L0,8 Z" fill="#087bd7" id="plus_node_3" />
+    </marker>
+    <marker id="arrowRed" markerUnits="userSpaceOnUse" markerWidth="8" markerHeight="8" refX="8" refY="4" orient="auto">
+      <path d="M0,0 L8,4 L0,8 Z" fill="#f0524c" id="plus_node_4" />
+    </marker>
+    <marker id="arrowRedStart" markerUnits="userSpaceOnUse" markerWidth="8" markerHeight="8" refX="0" refY="4" orient="auto-start-reverse">
+      <path d="M0,0 L8,4 L0,8 Z" fill="#f0524c" id="plus_node_5" />
+    </marker>
+    <marker id="arrowGreen" markerUnits="userSpaceOnUse" markerWidth="8" markerHeight="8" refX="8" refY="4" orient="auto">
+      <path d="M0,0 L8,4 L0,8 Z" fill="#146b29" id="plus_node_6" />
+    </marker>
+    <marker id="arrowCyan" markerUnits="userSpaceOnUse" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto">
+      <path d="M0,0 L12,6 L0,12 Z" fill="#0d7895" stroke="#0b2e4d" stroke-width="1" id="plus_node_7" />
+    </marker>
+    <style>
+      .navy{stroke:#0b2e4d;stroke-width:3;fill:none}
+      .navy2{stroke:#0b2e4d;stroke-width:2.4;fill:none}
+      .blue{stroke:#087bd7;stroke-width:3;fill:none}
+      .red{stroke:#f0524c;stroke-width:3;fill:none}
+      .green{stroke:#146b29;stroke-width:3;fill:none}
+      .txt{font-family:Arial, Helvetica, sans-serif;fill:#000}
+      .serif{font-family:"Times New Roman", Times, serif;fill:#000}
+      .bold{font-weight:700}
+      .small{font-size:14px}
+      .med{font-size:18px}
+      .large{font-size:22px}
+      .caption{font-family:"Times New Roman", Times, serif;font-size:20px;font-weight:700}
+      .box{fill:#f3f3f3;stroke:#777;stroke-width:1.5}
+      .paleBlue{fill:#dcebf7;stroke:#00608a;stroke-width:1.5}
+    </style>
+  </defs>
+
+  <rect id="canvas_bg" x="0" y="0" width="1355" height="344" fill="#ffffff" />
+
+  
+  <g id="panel_a_local">
+    <desc>Inventory: red dashed Erase frame and blue dashed Preserve frame surround a Text embedding projector above MoEraser; red target branch and blue anchor branch meet at MoEraser. A flame sits over the erased object at lower left, then is mapped to SAM P002.</desc>
+    <rect id="f02" data-plus-kind="frame" x="28" y="50" width="95" height="245" rx="16" fill="none" stroke="#f0524c" stroke-width="2" stroke-dasharray="6 4" />
+    <rect id="f03" data-plus-kind="frame" x="130" y="50" width="95" height="245" rx="16" fill="none" stroke="#1e79c9" stroke-width="2" stroke-dasharray="6 4" />
+    <text id="erase_title" class="txt bold small" x="58" y="44" fill="#f0524c">Erase</text>
+    <text id="preserve_title" class="txt bold small" x="146" y="44" fill="#087bd7">Preserve</text>
+    <text id="w_proj_map" class="serif bold" x="36" y="70" font-size="18" fill="#f0524c">
+      W<tspan font-size="12" baseline-shift="sub">proj. map</tspan>
+    </text>
+    <text id="w_proj_anc" class="serif bold" x="140" y="70" font-size="18" fill="#087bd7">
+      W<tspan font-size="12" baseline-shift="sub">proj. anc</tspan>
+    </text>
+    <rect id="local_projector" class="box" x="47" y="98" width="158" height="58" rx="6" />
+    <text id="local_projector_text" class="txt bold large" x="126" y="122" text-anchor="middle">Text emb.</text>
+    <text id="local_projector_text2" class="txt bold large" x="126" y="146" text-anchor="middle">Projector</text>
+    <rect id="local_moeraser" class="paleBlue" x="47" y="166" width="158" height="80" rx="8" />
+    <text id="local_moeraser_text" class="txt bold" x="126" y="219" font-size="24" text-anchor="middle">MoEraser</text>
+
+    <path id="red_side_path" class="red" d="M90 98 V80 M90 156 V166 H35 V259 H82 V246" marker-end="url(#arrowRed)" />
+    <path id="red_inside_path" class="red" d="M35 166 H91" marker-end="url(#arrowRed)" />
+    <path id="red_dash_mid" class="red" d="M91 166 H130" stroke-dasharray="6 4" marker-start="url(#arrowRedStart)" marker-end="url(#arrowRed)" />
+    <path id="red_up_arrow" class="red" d="M91 246 V284" marker-end="url(#arrowRed)" />
+    <text id="ftar_left" class="serif" x="70" y="289" font-size="30" fill="#f0524c">
+      f<tspan font-size="18" baseline-shift="sub">tar</tspan>
+    </text>
+
+    <path id="blue_projector_path" class="blue" d="M164 98 V80 M164 156 V166 H220 V246 H164 V253" marker-end="url(#arrowBlue)" />
+    <path id="blue_back_path" class="blue" d="M220 166 H164" marker-end="url(#arrowBlue)" />
+    <path id="blue_up_anchor" class="blue" d="M164 246 V284" marker-end="url(#arrowBlue)" />
+    <text id="fanc_left" class="serif" x="146" y="289" font-size="30" fill="#087bd7">
+      f<tspan font-size="18" baseline-shift="sub">anc</tspan>
+    </text>
+
+    </g>
+
+  
+  <g id="panel_a_architecture">
+    <desc>Inventory: large rounded blue MoEraser architecture frame. Origin is the lower routing block; wiring conducts upward to experts, summation, alpha scale, then rightward to a gated linear unit with W_in, W_out, V and sigma nodes. The layout is horizontally balanced: router/expert path on left, GLU on right.</desc>
+    <rect id="f01" data-plus-kind="frame" x="245" y="5" width="527" height="305" rx="42" fill="#dcebf7" stroke="#00608a" stroke-width="1.6" />
+    <path id="arch_outer_wire_left" class="navy" d="M254 257 V31 H337" marker-end="url(#arrowNavy)" />
+    <text id="alpha_label" class="serif" x="293" y="29" font-size="18" font-style="italic">α</text>
+    <rect id="arch_top_scale" x="339" y="22" width="131" height="22" rx="3" fill="#f4f4f4" stroke="#000" stroke-width="2" />
+    <text id="arch_top_scale_text" class="serif bold" x="405" y="39" font-size="15" text-anchor="middle">Scale</text>
+    <path id="arch_top_up" class="navy2" d="M405 22 V8" marker-end="url(#arrowNavy)" />
+    <path id="arch_top_down" class="navy2" d="M405 58 V44" marker-end="url(#arrowNavy)" />
+    <path id="arch_scale_to_sum" class="navy2" d="M405 58 V74" />
+    <circle id="sum_node" cx="405" cy="75" r="11" fill="#dcebf7" stroke="#0b2e4d" stroke-width="1.5" />
+    <path id="sum_plus_h" d="M394 75 H416 M405 64 V86" stroke="#0b2e4d" stroke-width="1.3" />
+    <path id="arch_sum_to_experts" class="navy2" d="M405 86 V99 H502 V109" marker-end="url(#arrowNavy)" />
+    <path id="arch_sum_to_left" class="navy2" d="M394 75 H264 V214 H311 V230" marker-end="url(#arrowNavy)" />
+    <path id="arch_right_return" class="navy2" d="M416 75 H502 V143" marker-end="url(#arrowNavy)" />
+
+    <rect id="expert_1" x="271" y="110" width="78" height="30" rx="5" fill="#e7ffe7" stroke="#0b2e4d" stroke-width="2" />
+    <text id="expert_1_text" class="serif" x="310" y="131" font-size="18" text-anchor="middle">Expert 1</text>
+    <rect id="expert_2" x="352" y="110" width="78" height="30" rx="5" fill="#e7ffe7" stroke="#0b2e4d" stroke-width="2" />
+    <text id="expert_2_text" class="serif" x="391" y="131" font-size="18" text-anchor="middle">Expert 2</text>
+    <text id="expert_dots" class="serif bold" x="444" y="132" font-size="24" text-anchor="middle">...</text>
+    <rect id="expert_n" x="458" y="110" width="85" height="30" rx="5" fill="#e7ffe7" stroke="#0b2e4d" stroke-width="2" />
+    <text id="expert_n_text" class="serif" x="500" y="131" font-size="18" text-anchor="middle">Expert <tspan font-style="italic">N</tspan></text>
+    <path id="expert1_wire" class="navy2" d="M310 140 V158 H368 V203" />
+    <path id="expert2_wire" class="navy2" d="M391 140 V158 H368" />
+    <path id="expertn_wire" class="navy2" d="M501 140 V158 H441 V203" />
+    <path id="expert1_up" class="navy2" d="M310 158 V143" marker-end="url(#arrowNavy)" />
+    <path id="expertn_up" class="navy2" d="M501 158 V143" marker-end="url(#arrowNavy)" />
+
+    <rect id="router_bar_left" x="358" y="182" width="17" height="18" fill="#df62cd" />
+    <rect id="router_bar_right" x="439" y="170" width="15" height="30" fill="#c83ebe" />
+    <text id="router_dots" class="serif bold" x="429" y="191" font-size="20">...</text>
+    <text id="router_k" class="serif" x="463" y="191" font-size="18" font-style="italic">k = 2</text>
+    <rect id="router_box" x="344" y="203" width="133" height="20" rx="3" fill="#fff2ff" stroke="#8d1683" stroke-width="2" />
+    <text id="router_text" class="serif" x="411" y="219" font-size="17" text-anchor="middle">Router</text>
+    <rect id="scale_bottom" x="345" y="230" width="133" height="19" rx="3" fill="#f4f4f4" stroke="#000" stroke-width="2" />
+    <text id="scale_bottom_text" class="serif" x="412" y="246" font-size="16" text-anchor="middle">Scale</text>
+    <rect id="mlp_box" x="265" y="257" width="73" height="22" rx="3" fill="#f4f4f4" stroke="#000" stroke-width="2" />
+    <text id="mlp_text" class="serif bold" x="302" y="274" font-size="15" text-anchor="middle">MLP</text>
+    <rect id="ln_box" x="344" y="257" width="133" height="22" rx="3" fill="#f4f4f4" stroke="#000" stroke-width="2" />
+    <text id="ln_text" class="serif" x="411" y="274" font-size="15" text-anchor="middle">LayerNorm</text>
+    <path id="bottom_feedback" class="navy2" d="M412 279 V293 H302 V281" marker-end="url(#arrowNavy)" />
+    <path id="bottom_up" class="navy2" d="M302 257 V226 H345" marker-end="url(#arrowNavy)" />
+    <text id="beta_gamma" class="serif" x="309" y="237" font-size="18" font-style="italic">β, γ</text>
+
+    <rect id="f06" data-plus-kind="frame" x="560" y="60" width="202" height="219" rx="30" fill="#dff5de" stroke="#279334" stroke-width="2" stroke-dasharray="6 3" />
+    <text id="glu_title" class="txt bold" x="663" y="80" font-size="13" text-anchor="middle">Gated Linear Unit</text>
+    <path id="win_poly" d="M589 88 H637 L658 124 H568 Z" fill="#a8e79e" stroke="#146b29" stroke-width="1.5" />
+    <text id="win_text" class="serif" x="614" y="113" font-size="20" text-anchor="middle">
+      W<tspan font-size="14" baseline-shift="sub">in</tspan>
+    </text>
+    <circle id="dot_top" cx="613" cy="150" r="11" fill="#dff5de" stroke="#000" stroke-width="1.5" />
+    <circle cx="613" cy="150" r="3" fill="#000" id="plus_node_11" />
+    <circle id="sigma_node" cx="613" cy="184" r="12" fill="#dff5de" stroke="#000" stroke-width="1.5" />
+    <text id="sigma_text" class="serif" x="613" y="190" font-size="18" text-anchor="middle">σ</text>
+    <path id="wout_poly" d="M589 244 H637 L658 209 H568 Z" fill="#a8e79e" stroke="#146b29" stroke-width="1.5" />
+    <text id="wout_text" class="serif" x="613" y="233" font-size="20" text-anchor="middle">
+      W<tspan font-size="14" baseline-shift="sub">out</tspan>
+    </text>
+    <path id="v_poly" d="M687 244 H735 L756 209 H666 Z" fill="#a8e79e" stroke="#146b29" stroke-width="1.5" />
+    <text id="v_text" class="serif" x="711" y="232" font-size="22" text-anchor="middle" font-style="italic">V</text>
+    <path id="glu_vert1" class="green" d="M614 88 V73" marker-end="url(#arrowGreen)" />
+    <path id="glu_vert2" class="green" d="M613 139 V124" marker-end="url(#arrowGreen)" />
+    <path id="glu_vert3" class="green" d="M613 172 V161" marker-end="url(#arrowGreen)" />
+    <path id="glu_vert4" class="green" d="M613 209 V197" marker-end="url(#arrowGreen)" />
+    <path id="glu_bottom_wire" class="green" d="M613 269 V259 H709 V244" />
+    <path id="glu_right_wire" class="green" d="M709 209 V149 H626" marker-end="url(#arrowGreen)" />
+    <path id="glu_v_to_bottom" class="green" d="M709 244 V259" />
+  </g>
+
+  
+  <g id="panel_b_construction">
+    <desc>Inventory: text embedding projector combines with structured noise p_tar through a plus sign, then arrow down to corrupted projector; spider-web corruption marks appear at input and output sides. Symmetry basis is vertical flow from clean projector and noise into corrupted projector.</desc>
+    <rect id="f04" data-plus-kind="frame" x="797" y="54" width="149" height="55" rx="6" fill="#f3f3f3" stroke="#888" stroke-width="1.4" />
+    <text id="nir_text_projector_1" class="txt bold" x="872" y="78" font-size="18" text-anchor="middle">Text emb.</text>
+    <text id="nir_text_projector_2" class="txt bold" x="872" y="99" font-size="18" text-anchor="middle">Projector</text>
+    <text id="plus_sign" class="txt bold" x="872" y="141" font-size="48" fill="#168aa6" stroke="#0b2e4d" stroke-width="1" text-anchor="middle">+</text>
+    <path id="ptar_patch" d="M798 128 L868 143 L868 177 L798 169 Z" fill="#f5eadf" stroke="#000" stroke-width="1.2" />
+    <text id="ptar_patch_text" class="serif" x="833" y="163" font-size="20" text-anchor="middle">
+      p<tspan font-size="14" baseline-shift="sub">tar</tspan>
+    </text>
+    <polygon id="noise_triangle" points="877,143 946,129 946,184" fill="url(#noiseGrad)" stroke="#000" stroke-width="1" />
+    <g id="noise_speckles" opacity="0.8">
+      <circle cx="890" cy="150" r="1" fill="#45254d" id="plus_node_12" /><circle cx="907" cy="154" r="1" fill="#1e65a7" id="plus_node_13" />
+      <circle cx="923" cy="138" r="1" fill="#7a224e" id="plus_node_14" /><circle cx="936" cy="170" r="1" fill="#1d934b" id="plus_node_15" />
+      <circle cx="914" cy="175" r="1" fill="#d38b26" id="plus_node_16" /><circle cx="899" cy="164" r="1" fill="#0c2547" id="plus_node_17" />
+      <circle cx="932" cy="149" r="1" fill="#552266" id="plus_node_18" /><circle cx="884" cy="176" r="1" fill="#c23c3c" id="plus_node_19" />
+      <path d="M880 147 l60 29 M884 179 l54 -41 M898 135 l28 47" stroke="#6e728a" stroke-width=".5" id="plus_node_20" />
+    </g>
+    <text id="structured_noise" class="txt bold" x="872" y="203" font-size="16" text-anchor="middle">Structured noise</text>
+    <path id="nir_down_arrow" d="M872 212 V238" stroke="#0b2e4d" stroke-width="2" marker-end="url(#arrowCyan)" />
+    <rect id="nir_corrupted_projector" class="box" x="797" y="241" width="149" height="54" rx="7" fill="#d1d1d1" stroke="#000" />
+    <text id="corrupt_proj_text1" class="txt bold" x="872" y="264" font-size="18" text-anchor="middle">Corrupted</text>
+    <text id="corrupt_proj_text2" class="txt bold" x="872" y="285" font-size="18" text-anchor="middle">Projector</text>
+
+    <g id="web_top" stroke="#000" stroke-width="1.3" fill="none">
+      <path d="M993 78 L1008 100 L981 119 L977 91 L1014 91 L986 111 L994 78 M976 103 H1017 M984 84 L1008 114" id="plus_node_21" />
+      <path d="M992 88 C986 94 985 105 992 112 C1000 112 1007 106 1006 98 C1005 91 1000 87 992 88 Z" id="plus_node_22" />
+      <path d="M989 94 C994 91 1001 92 1003 99 C1000 104 995 106 990 103 Z" id="plus_node_23" />
+    </g>
+    <g id="web_bottom" stroke="#000" stroke-width="1.3" fill="none">
+      <path d="M770 229 L793 247 L767 270 L754 244 L796 236 L766 257 M756 255 H804 M772 228 L788 268" id="plus_node_24" />
+      <path d="M771 239 C765 247 766 258 774 263 C783 263 790 255 788 247 C786 241 779 237 771 239 Z" id="plus_node_25" />
+      <path d="M771 247 C777 243 784 246 785 252 C781 258 774 257 771 252 Z" id="plus_node_26" />
+    </g>
+    <path id="vertical_dashed_separator" d="M963 49 V302" stroke="#000" stroke-width="2.2" stroke-dasharray="8 5" />
+  </g>
+
+  
+  <g id="panel_b_restore">
+    <desc>Inventory: a light green restoration area compares a corrupted projector branch through MoEraser with a clean projector branch through MoEraser*. Token rows and a red opposing arrow at the top indicate corruption/removal, while bottom rows label f_tar, f_anc and Noise. Fire and snow symbols mark target and anchor cues. The two branches are horizontally symmetric around the red central arrow.</desc>
+    <rect id="f05" data-plus-kind="frame" x="976" y="55" width="340" height="249" rx="4" fill="#eef8eb" stroke="none" />
+    <g id="top_tokens_left" stroke="#146b29" stroke-width="1.3">
+      <rect x="1018" y="58" width="14" height="16" fill="#b8eab7" id="plus_node_27" />
+      <rect x="1032" y="58" width="14" height="16" fill="#b8eab7" id="plus_node_28" />
+      <rect x="1046" y="58" width="14" height="16" fill="#b8eab7" id="plus_node_29" />
+      <rect x="1060" y="58" width="14" height="16" fill="#b8eab7" id="plus_node_30" />
+      <rect x="1074" y="58" width="14" height="16" fill="#b8eab7" id="plus_node_31" />
+      <rect x="1088" y="58" width="16" height="16" fill="#b8eab7" id="plus_node_32" />
+    </g>
+    <g id="top_tokens_right" stroke="#146b29" stroke-width="1.3">
+      <rect x="1201" y="58" width="14" height="16" fill="#b8eab7" id="plus_node_33" />
+      <rect x="1215" y="58" width="14" height="16" fill="#b8eab7" id="plus_node_34" />
+      <rect x="1229" y="58" width="14" height="16" fill="#b8eab7" id="plus_node_35" />
+      <rect x="1243" y="58" width="14" height="16" fill="#b8eab7" id="plus_node_36" />
+      <rect x="1257" y="58" width="14" height="16" fill="#b8eab7" id="plus_node_37" />
+      <rect x="1271" y="58" width="16" height="16" fill="#b8eab7" id="plus_node_38" />
+    </g>
+    <path id="red_collision_left" d="M1115 50 H1137 L1156 65 L1137 80 H1115 Z" fill="url(#redFade)" />
+    <path id="red_collision_right" d="M1194 50 H1171 L1152 65 L1171 80 H1194 Z" fill="url(#redFadeReverse)" />
+    <path id="top_left_down" class="navy2" d="M1061 94 V75" marker-end="url(#arrowNavy)" />
+    <path id="top_right_down" class="navy2" d="M1244 94 V75" marker-end="url(#arrowNavy)" />
+
+    <rect id="corrupted_projector_right" x="987" y="94" width="149" height="52" rx="6" fill="#d1d1d1" stroke="#000" stroke-width="1.3" />
+    <text id="corrupted_projector_right_text1" class="txt bold" x="1061" y="115" font-size="18" text-anchor="middle">Corrupted</text>
+    <text id="corrupted_projector_right_text2" class="txt bold" x="1061" y="136" font-size="18" text-anchor="middle">Projector</text>
+    <rect id="restore_text_projector" x="1172" y="94" width="149" height="54" rx="6" fill="#f3f3f3" stroke="#888" stroke-width="1.3" />
+    <text id="restore_text_projector_t1" class="txt bold" x="1246" y="116" font-size="18" text-anchor="middle">Text emb.</text>
+    <text id="restore_text_projector_t2" class="txt bold" x="1246" y="137" font-size="18" text-anchor="middle">Projector</text>
+
+    <rect id="restore_moeraser" class="paleBlue" x="987" y="166" width="149" height="68" rx="8" />
+    <text id="restore_moeraser_text" class="txt bold" x="1061" y="209" font-size="22" text-anchor="middle">MoEraser</text>
+    <rect id="restore_moeraser_star" class="paleBlue" x="1172" y="166" width="149" height="68" rx="8" />
+    <text id="restore_moeraser_star_text" class="txt bold" x="1246" y="209" font-size="22" text-anchor="middle">MoEraser*</text>
+
+    <path id="restore_left_box_wire" class="navy2" d="M977 157 H1061 V146" marker-end="url(#arrowNavy)" />
+    <path id="restore_left_input_wire" class="navy2" d="M977 248 V157" />
+    <path id="restore_left_moe_downup" class="navy2" d="M1062 166 V151" marker-end="url(#arrowNavy)" />
+    <path id="restore_left_bottom_arrow" class="navy2" d="M1061 252 V236" marker-end="url(#arrowNavy)" />
+    <path id="restore_right_top_wire" class="navy2" d="M1160 157 H1245 V148" marker-end="url(#arrowNavy)" />
+    <path id="restore_right_border_wire" class="navy2" d="M1160 248 V157" />
+    <path id="restore_right_moe_downup" class="navy2" d="M1245 166 V151" marker-end="url(#arrowNavy)" />
+    <path id="restore_right_bottom_arrow" class="navy2" d="M1244 252 V236" marker-end="url(#arrowNavy)" />
+
+    <g id="bottom_tokens_ftarget" stroke="#ff6d32" stroke-width="1.2">
+      <rect x="998" y="259" width="15" height="14" fill="#ffd9ae" id="plus_node_39" />
+      <rect x="1013" y="259" width="15" height="14" fill="#ffd9ae" id="plus_node_40" />
+      <rect x="1028" y="259" width="15" height="14" fill="#ffd9ae" id="plus_node_41" />
+      <rect x="1043" y="259" width="15" height="14" fill="#ffd9ae" id="plus_node_42" />
+      <rect x="1058" y="259" width="15" height="14" fill="#ffd9ae" id="plus_node_43" />
+      <rect x="1073" y="259" width="13" height="14" fill="#ffd9ae" id="plus_node_44" />
+    </g>
+    <g id="bottom_tokens_fanc" stroke="#217aaa" stroke-width="1.2">
+      <rect x="1109" y="259" width="15" height="14" fill="#ccecf8" id="plus_node_45" />
+      <rect x="1124" y="259" width="15" height="14" fill="#ccecf8" id="plus_node_46" />
+      <rect x="1139" y="259" width="15" height="14" fill="#ccecf8" id="plus_node_47" />
+      <rect x="1154" y="259" width="15" height="14" fill="#ccecf8" id="plus_node_48" />
+      <rect x="1169" y="259" width="15" height="14" fill="#ccecf8" id="plus_node_49" />
+      <rect x="1184" y="259" width="13" height="14" fill="#ccecf8" id="plus_node_50" />
+    </g>
+    <g id="bottom_tokens_noise" stroke="#000" stroke-width="1.1">
+      <rect x="1218" y="259" width="15" height="14" fill="#868686" id="plus_node_51" />
+      <rect x="1233" y="259" width="15" height="14" fill="#777" id="plus_node_52" />
+      <rect x="1248" y="259" width="15" height="14" fill="#999" id="plus_node_53" />
+      <rect x="1263" y="259" width="15" height="14" fill="#777" id="plus_node_54" />
+      <rect x="1278" y="259" width="15" height="14" fill="#999" id="plus_node_55" />
+      <rect x="1293" y="259" width="12" height="14" fill="#777" id="plus_node_56" />
+    </g>
+    <text id="ftar_restore" class="serif bold" x="1041" y="297" font-size="26" text-anchor="middle" fill="#f0524c">
+      f<tspan font-size="16" baseline-shift="sub">tar</tspan>
+    </text>
+    <text id="fanc_restore" class="serif bold" x="1149" y="297" font-size="26" text-anchor="middle" fill="#377ed8">
+      f<tspan font-size="16" baseline-shift="sub">anc</tspan>
+    </text>
+    <text id="noise_label" class="txt bold" x="1262" y="297" font-size="17" text-anchor="middle">Noise</text>
+
+    <g id="snowflake" stroke="#38aef0" stroke-width="2" fill="none">
+      <path d="M1176 158 V197 M1157 177 H1196 M1162 163 L1190 191 M1190 163 L1162 191" id="plus_node_60" />
+      <path d="M1176 158 l-5 8 M1176 158 l5 8 M1176 197 l-5 -8 M1176 197 l5 -8" id="plus_node_61" />
+      <path d="M1157 177 l8 -5 M1157 177 l8 5 M1196 177 l-8 -5 M1196 177 l-8 5" id="plus_node_62" />
+      <path d="M1162 163 l9 1 M1162 163 l1 9 M1190 191 l-9 -1 M1190 191 l-1 -9" id="plus_node_63" />
+      <path d="M1190 163 l-9 1 M1190 163 l-1 9 M1162 191 l9 -1 M1162 191 l1 -9" id="plus_node_64" />
+    </g>
+  </g>
+
+  
+  <text id="caption_a" class="caption" x="492" y="337" text-anchor="middle">(a) Illustration of our MoEraser architecture.</text>
+  <text id="caption_b" class="caption" x="1057" y="337" text-anchor="middle">(b) Illustration of noise injection-restore (NIR) tuning.</text>
+
+  
+  <g id="sam_replacement_P002_fire" data-plus-keeps="f02 f03 local_projector local_moeraser red_side_path red_inside_path red_dash_mid blue_projector_path blue_back_path" transform="translate(0 0)">
+    <desc>Original Figure Object: left fire over target branch; Constructed Element ID: fire_a_draft; SAM Asset ID: asset_sam_region_000056. The asset source crop [27,152,39,45] covers only the flame, not the surrounding dashed frame or arrows.</desc>
+    <image href="data:image/png;base64,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" x="27" y="152" width="39" height="45" id="plus_node_65" preserveAspectRatio="none" />
+  </g>
+  <g id="sam_replacement_P001_fire" data-plus-keeps="f05 restore_moeraser restore_left_box_wire restore_left_input_wire corrupted_projector_right" transform="translate(0 0)">
+    <desc>Original Figure Object: right restoration fire marker beside MoEraser; Constructed Element ID: fire_b_draft; SAM Asset ID: asset_sam_region_000055. The asset source crop [979,153,30,40] covers only the flame.</desc>
+    <image href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAAoCAYAAADpE0oSAAAE6klEQVR4nLWXbUxbVRjH/+e29JVCYbCWUnAMocB4mQY1uBmM8WWZiRE/LH4ZiTMum1+Mmpn4xcRodJpgUGMMuqgz6oLbYrYPkmmyRCfTZYYUqLC6USi0XXlpgQ5K3+495lKoufTe9rbb/p/Ofc557u+5z33Oc88llFLI0dJiEO7+PtriuABm3AWo1AifsROdXo98pJSzaPTiAL33/MdoCy8CG4EuVtaiJE+oLLDju09oy6VTAOUE9nlLLUqAuwMe/+Yj2ny5X3QuXG69DSzASE0MnTtFG//8UdqzpOy2wOSR5w6nW9dC+LlikhYqRAqPf8cuPw6iEW7jDpIvWDk8dj3N+GnNMi1UZH79Mz4/hn3xfLlQWkzClJXGg/RgZfZi316ogUWff7rJ1n3seftFavU6pD02Uj26rxstx94ld6S43NedsPrGZDmaJzMElys4cGmAbt2vUip3ORCcn8vY9m7Y/0YkEskO3jHxF2QrHoPnp+/5kSg8kUjA0PsmnCd6RdcoNwdLgQWULkzJBwOoPfM5uiZZrOlK6dZaud9xAe8HnCj2TuAJtxKMoUQcPD0yRI0yPxib0rMRHLd/i54HDkF1T926LRGNwHb1HF4JXFm/1nAJPDU/jKmG58XB8Wkn8pEttoS+y72YvWlDUFOEne5r0KwuC9a8HPoHM/s7oVT+v01TI13Ag3xFKAezaxxmiXnt8gJ8Y3ZUt7anF1dRaDZvcNbAAEScwwLbJpgawsL03GkVzHvSwXxF6mKrdxVcHAung1mWhZLLv+HLUVipTgdzHJc60sgS4dfmtvUipWaBA8N3GIZhAJKl31O+ENbAtruBfQvJipEpnqiobRbYGN97R2lw1o+4okDakXBgd8+A3e8ArZ8DJrS8UTY4rjWgIrmVaGgxiLmpG2CqPSMwHu8GE4uKQxUs2M5/QXfdBDZOJNSrQS66uvtJaLQ6+KcmYHqnm654p5INRBUVr2gKCrbDBVhCwomY5FFNVPyrXO55DR32X8HEoxjXFmY+ZXI1C0D1YvqEPgEsqWSDOwZPp8Z8znRlJioZOmU40Fav6BypWduyWHYMSGj0MJoshAeLVgm1LAH6mLh32y3AGEsC+W3YFgKM8vqAu9IGlVotkWoKcFaRFG9KTYGuOcClAwwJwBIFGlaBsyaAzfz+p5r2okbqQM8XFcpWMoeuoklYZTSZs5IE0JTZhzIKGB59Zn0sHp6Ck05zJtlWM3bA4dbHUFZZTaTBKhZgcmuJ6+KfWiV+WOQUBbjVdTR1zYPTCTw0nxMzfzeNOPiPPQdgsTWn7sosmHamr0owuX4DkuJ94ulJ9FrqUPbCG4JHYeKHP0BIv024MqYEwtK9W1JhBogIwUFDGaZf/QxqrVZgZyqqqkngSA9WDeUpI6EEZLo0d/Ck8OOxXGzC6LETZHtV+l/leng1tkay8nof8ZkbNsgAc80MxBTyoTEC2ItSteGq2oXxt34g1vqm7D9t0WgUY/1f0pYrp6GMR8BZA+D2TghrnwLK+S134evpYikwoQer0uD3xw/BdOAIUWs08v8WAcDv9cB//iS1jfwCdYUP3EOTgJoVB0cJ8FsJ4rNmDLY/Dd2zL5FtlqqsCRIFb+qLgUF89fVJ+uGeClgKh2Atd0KhnYQikAAXtsIdqIM3eh8i9Q+j4sFOotMXZgVu6j8Z99j+qe6rsAAAAABJRU5ErkJggg==" x="979" y="153" width="30" height="40" id="plus_node_66" preserveAspectRatio="none" />
+  </g>
+</svg>

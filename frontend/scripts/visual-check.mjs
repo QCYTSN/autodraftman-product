@@ -78,7 +78,7 @@ if ((await desktop.locator(".example-case").count()) !== 3) {
   errors.push("Expected three truthful R&D example cases.");
 }
 await desktop.locator(".example-case").nth(1).locator("button").click();
-await desktop.waitForURL(/\/workspace$/);
+await desktop.waitForURL(/\/workspace(?:\?view=(?:task|documents))?$/);
 if ((await desktop.locator(".empty-result").count()) !== 1) {
   errors.push("Expected examples to open a blank workspace.");
 }
@@ -263,7 +263,7 @@ if ((await desktop.locator(".editor-document-title strong").textContent()) !== "
   errors.push("Expected an invalid replacement to preserve the previously opened SVG.");
 }
 await desktop.locator(".editor-back-button").click();
-await desktop.waitForURL(/\/workspace$/);
+await desktop.waitForURL(/\/workspace(?:\?view=(?:task|documents))?$/);
 await desktop.fill(
   "#figure-prompt",
   "绘制一个双分支编码器结构，展示均值、方差和加权采样之间的关系。",
@@ -498,7 +498,7 @@ await mobile.screenshot({
 });
 await recordLayout(mobile, "editor-mobile");
 await mobile.locator(".editor-back-button").click();
-await mobile.waitForURL(/\/workspace$/);
+await mobile.waitForURL(/\/workspace(?:\?view=(?:task|documents))?$/);
 await mobile.locator(".mode-switch button").nth(1).click();
 await mobile.waitForTimeout(120);
 const mobileReferenceModeFits = await mobile

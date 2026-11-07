@@ -1,0 +1,162 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="786" height="405" viewBox="0 0 786 405">
+  <title>Prompt-to-model response evaluation diagrams</title>
+  <desc>Three aligned diagram panels: chat, code and math, and safety prompting. Each panel begins with a prompt block as origin, conducts downward through LLM blocks, response blocks, arrows, evaluation labels, and final y_c or y_r outcome boxes. The right panel is split into safe-prompt and unsafe-prompt subsections.</desc>
+
+  <defs>
+    <marker id="arrowGrey" markerUnits="userSpaceOnUse" markerWidth="10" markerHeight="8" refX="9.2" refY="4" orient="auto">
+      <path d="M0,0 L10,4 L0,8 Z" fill="#c9d6d8" id="plus_node_0" />
+    </marker>
+  </defs>
+
+  <rect id="canvas_background" x="0" y="0" width="786" height="405" fill="#ffffff" />
+
+  
+  <rect id="f01" data-plus-kind="frame" x="13" y="27" width="235" height="360" fill="none" stroke="none" />
+  <rect id="f02" data-plus-kind="frame" x="253" y="27" width="235" height="360" fill="none" stroke="none" />
+  <rect id="f03" data-plus-kind="frame" x="492" y="10" width="282" height="388" fill="none" stroke="none" />
+  <rect id="f03a" data-plus-kind="frame" x="494" y="15" width="273" height="196" fill="none" stroke="none" />
+  <rect id="f03b" data-plus-kind="frame" x="494" y="214" width="273" height="184" fill="none" stroke="none" />
+
+  
+  <g id="panel_chat">
+    <desc>Origin is the dark Prompt block at top. Direction proceeds downward to LLM, then Response, then splits diagonally to green y_c for direct copy and red y_r for injected error. The section is approximately symmetric about the vertical center line through Prompt, LLM, and Response.</desc>
+
+    <path id="p1_arrow_prompt_llm" d="M126 72 V123" fill="none" stroke="#c9d6d8" stroke-width="2" marker-end="url(#arrowGrey)" />
+    <path id="p1_arrow_llm_response" d="M126 158 V209" fill="none" stroke="#c9d6d8" stroke-width="2" marker-end="url(#arrowGrey)" />
+    <path id="p1_arrow_response_yc" d="M121 243 L69 323" fill="none" stroke="#c9d6d8" stroke-width="2" marker-end="url(#arrowGrey)" />
+    <path id="p1_arrow_response_yr" d="M132 243 L183 323" fill="none" stroke="#c9d6d8" stroke-width="2" marker-end="url(#arrowGrey)" />
+
+    <rect id="p1_prompt_box" x="69" y="40" width="114" height="32" fill="#5a7180" />
+    <text id="p1_prompt_text" x="126" y="61" text-anchor="middle" font-family="Courier New, monospace" font-size="20" font-weight="700" fill="#ffffff">Prompt</text>
+
+    <rect id="p1_llm_box" x="69" y="124" width="114" height="34" rx="7" ry="7" fill="#dceefb" stroke="#00549b" stroke-width="2" />
+    <text id="p1_llm_text" x="126" y="146" text-anchor="middle" font-family="Arial, sans-serif" font-size="18" fill="#00549b">LLM</text>
+
+    <rect id="p1_response_box" x="73" y="210" width="107" height="33" fill="#008f95" />
+    <text id="p1_response_text" x="126.5" y="231" text-anchor="middle" font-family="Courier New, monospace" font-size="20" font-weight="700" fill="#ffffff">Response</text>
+
+    <text id="p1_direct_copy_label" x="57" y="279" text-anchor="middle" font-family="Times New Roman, serif" font-size="17" font-style="italic" fill="#009b00">
+      <tspan x="57" dy="0">Direct</tspan>
+      <tspan x="57" dy="20">Copy</tspan>
+    </text>
+    <text id="p1_inject_error_label" x="196" y="283" text-anchor="middle" font-family="Times New Roman, serif" font-size="17" font-style="italic" fill="#e24b4b">
+      <tspan x="196" dy="0">Inject</tspan>
+      <tspan x="196" dy="20">Error</tspan>
+    </text>
+
+    <rect id="p1_yc_box" x="22" y="324" width="94" height="31" fill="#f4fff4" stroke="#00a000" stroke-width="2" />
+    <text id="p1_yc_text" x="69" y="340" text-anchor="middle" dominant-baseline="middle" font-family="Times New Roman, serif" font-size="22" font-style="italic" fill="#00a000">y<tspan font-size="14" baseline-shift="sub">c</tspan></text>
+
+    <rect id="p1_yr_box" x="136" y="324" width="94" height="31" fill="#fff8f8" stroke="#ef5350" stroke-width="2" />
+    <text id="p1_yr_text" x="183" y="340" text-anchor="middle" dominant-baseline="middle" font-family="Times New Roman, serif" font-size="22" font-style="italic" fill="#e24b4b">y<tspan font-size="14" baseline-shift="sub">r</tspan></text>
+
+    <text id="p1_caption" x="126" y="382" text-anchor="middle" font-family="Times New Roman, serif" font-size="18" fill="#000000">(1) Chat</text>
+  </g>
+
+  
+  <g id="panel_code_math">
+    <desc>Origin is the Prompt block. Direction proceeds downward to the LLM and then fans to multiple vertical response samples. The samples are arranged horizontally with ellipses indicating omitted responses. Evaluation arrows continue downward from response #a to green y_c and from response #b to red y_r; the structure is balanced around the center of the response row.</desc>
+
+    <path id="p2_arrow_prompt_llm" d="M374 72 V123" fill="none" stroke="#c9d6d8" stroke-width="2" marker-end="url(#arrowGrey)" />
+    <path id="p2_arrow_llm_resp1" d="M371 158 L292.5 184" fill="none" stroke="#c9d6d8" stroke-width="2" marker-end="url(#arrowGrey)" />
+    <path id="p2_arrow_llm_respa" d="M374 158 L347.5 184" fill="none" stroke="#c9d6d8" stroke-width="2" marker-end="url(#arrowGrey)" />
+    <path id="p2_arrow_llm_respb" d="M377 158 L400.5 184" fill="none" stroke="#c9d6d8" stroke-width="2" marker-end="url(#arrowGrey)" />
+    <path id="p2_arrow_llm_respn" d="M379 158 L455.5 184" fill="none" stroke="#c9d6d8" stroke-width="2" marker-end="url(#arrowGrey)" />
+    <path id="p2_arrow_respa_yc" d="M347.5 267 L318 323" fill="none" stroke="#c9d6d8" stroke-width="2" marker-end="url(#arrowGrey)" />
+    <path id="p2_arrow_respb_yr" d="M400.5 267 L431 323" fill="none" stroke="#c9d6d8" stroke-width="2" marker-end="url(#arrowGrey)" />
+
+    <rect id="p2_prompt_box" x="318" y="40" width="114" height="32" fill="#5a7180" />
+    <text id="p2_prompt_text" x="375" y="61" text-anchor="middle" font-family="Courier New, monospace" font-size="20" font-weight="700" fill="#ffffff">Prompt</text>
+
+    <rect id="p2_llm_box" x="317" y="124" width="114" height="34" rx="7" ry="7" fill="#dceefb" stroke="#00549b" stroke-width="2" />
+    <text id="p2_llm_text" x="374" y="146" text-anchor="middle" font-family="Arial, sans-serif" font-size="18" fill="#00549b">LLM</text>
+
+    <rect id="p2_resp1_box" x="280" y="185" width="25" height="82" fill="#008f95" />
+    <text id="p2_resp1_text" transform="translate(292.5 226) rotate(-90)" text-anchor="middle" dominant-baseline="middle" font-family="Courier New, monospace" font-size="17" font-weight="700" fill="#ffffff">Resp. #1</text>
+
+    <text id="p2_ellipsis_left" x="318" y="229" text-anchor="middle" font-family="Courier New, monospace" font-size="22" font-weight="700" fill="#008f95">...</text>
+
+    <rect id="p2_respa_box" x="335" y="185" width="25" height="82" fill="#008f95" />
+    <text id="p2_respa_text" transform="translate(347.5 226) rotate(-90)" text-anchor="middle" dominant-baseline="middle" font-family="Courier New, monospace" font-size="17" font-weight="700" fill="#ffffff">Resp. #a</text>
+
+    <rect id="p2_respb_box" x="388" y="185" width="25" height="82" fill="#008f95" />
+    <text id="p2_respb_text" transform="translate(400.5 226) rotate(-90)" text-anchor="middle" dominant-baseline="middle" font-family="Courier New, monospace" font-size="17" font-weight="700" fill="#ffffff">Resp. #b</text>
+
+    <text id="p2_ellipsis_right" x="428" y="229" text-anchor="middle" font-family="Courier New, monospace" font-size="22" font-weight="700" fill="#008f95">...</text>
+
+    <rect id="p2_respn_box" x="443" y="185" width="25" height="82" fill="#008f95" />
+    <text id="p2_respn_text" transform="translate(455.5 226) rotate(-90)" text-anchor="middle" dominant-baseline="middle" font-family="Courier New, monospace" font-size="17" font-weight="700" fill="#ffffff">Resp. #n</text>
+
+    <text id="p2_eval_correct_label" x="302" y="287" text-anchor="middle" font-family="Times New Roman, serif" font-size="17" font-style="italic" fill="#009b00">
+      <tspan x="302" dy="0">Eval as</tspan>
+      <tspan x="302" dy="20">Correct</tspan>
+    </text>
+    <text id="p2_eval_wrong_label" x="462" y="287" text-anchor="middle" font-family="Times New Roman, serif" font-size="17" font-style="italic" fill="#e24b4b">
+      <tspan x="462" dy="0">Eval as</tspan>
+      <tspan x="462" dy="20">Wrong</tspan>
+    </text>
+
+    <rect id="p2_yc_box" x="271" y="324" width="94" height="31" fill="#f4fff4" stroke="#00a000" stroke-width="2" />
+    <text id="p2_yc_text" x="318" y="340" text-anchor="middle" dominant-baseline="middle" font-family="Times New Roman, serif" font-size="22" font-style="italic" fill="#00a000">y<tspan font-size="14" baseline-shift="sub">c</tspan></text>
+
+    <rect id="p2_yr_box" x="384" y="324" width="94" height="31" fill="#fff8f8" stroke="#ef5350" stroke-width="2" />
+    <text id="p2_yr_text" x="431" y="340" text-anchor="middle" dominant-baseline="middle" font-family="Times New Roman, serif" font-size="22" font-style="italic" fill="#e24b4b">y<tspan font-size="14" baseline-shift="sub">r</tspan></text>
+
+    <text id="p2_caption" x="374" y="382" text-anchor="middle" font-family="Times New Roman, serif" font-size="18" fill="#000000">(2) Code &amp; Math</text>
+  </g>
+
+  
+  <g id="panel_safety">
+    <desc>Right panel has two stacked subsections. Top origin is Safe Prompt branching to LLM and Wary LLM, then downward to y_c and y_r. Bottom origin is Unsafe Prompt branching to LLM and Unc. LLM, then downward to y_c and y_r. Each subsection uses horizontal bilateral symmetry about its center.</desc>
+
+    
+    <g id="panel_safety_should_response">
+      <path id="p3a_arrow_prompt_llm" d="M590 57 L552.5 79" fill="none" stroke="#c9d6d8" stroke-width="2" marker-end="url(#arrowGrey)" />
+      <path id="p3a_arrow_prompt_wary" d="M652 57 L689.5 79" fill="none" stroke="#c9d6d8" stroke-width="2" marker-end="url(#arrowGrey)" />
+      <path id="p3a_arrow_llm_yc" d="M552.5 114 V149" fill="none" stroke="#c9d6d8" stroke-width="2" marker-end="url(#arrowGrey)" />
+      <path id="p3a_arrow_wary_yr" d="M689.5 114 V149" fill="none" stroke="#c9d6d8" stroke-width="2" marker-end="url(#arrowGrey)" />
+
+      <rect id="p3a_safe_prompt_box" x="550" y="24" width="142" height="33" fill="#5a7180" />
+      <text id="p3a_safe_prompt_text" x="621" y="45" text-anchor="middle" font-family="Courier New, monospace" font-size="20" font-weight="700" fill="#ffffff">Safe Prompt</text>
+
+      <rect id="p3a_llm_box" x="503" y="80" width="99" height="34" rx="7" ry="7" fill="#dceefb" stroke="#00549b" stroke-width="2" />
+      <text id="p3a_llm_text" x="552.5" y="102" text-anchor="middle" font-family="Arial, sans-serif" font-size="18" fill="#00549b">LLM</text>
+
+      <rect id="p3a_wary_llm_box" x="640" y="80" width="99" height="34" rx="7" ry="7" fill="#fde9ff" stroke="#a000a8" stroke-width="2" />
+      <text id="p3a_wary_llm_text" x="689.5" y="102" text-anchor="middle" font-family="Arial, sans-serif" font-size="18" fill="#a000a8">Wary LLM</text>
+
+      <rect id="p3a_yc_box" x="506" y="150" width="94" height="31" fill="#f4fff4" stroke="#00a000" stroke-width="2" />
+      <text id="p3a_yc_text" x="553" y="166" text-anchor="middle" dominant-baseline="middle" font-family="Times New Roman, serif" font-size="22" font-style="italic" fill="#00a000">y<tspan font-size="14" baseline-shift="sub">c</tspan></text>
+
+      <rect id="p3a_yr_box" x="642" y="150" width="94" height="31" fill="#fff8f8" stroke="#ef5350" stroke-width="2" />
+      <text id="p3a_yr_text" x="689" y="166" text-anchor="middle" dominant-baseline="middle" font-family="Times New Roman, serif" font-size="22" font-style="italic" fill="#e24b4b">y<tspan font-size="14" baseline-shift="sub">r</tspan></text>
+
+      <text id="p3a_caption" x="621" y="207" text-anchor="middle" font-family="Times New Roman, serif" font-size="17" fill="#000000">(3.a) Safety-Should-Response</text>
+    </g>
+
+    
+    <g id="panel_safety_should_refuse">
+      <path id="p3b_arrow_prompt_llm" d="M580 249 L552.5 271" fill="none" stroke="#c9d6d8" stroke-width="2" marker-end="url(#arrowGrey)" />
+      <path id="p3b_arrow_prompt_unc" d="M653 249 L689.5 271" fill="none" stroke="#c9d6d8" stroke-width="2" marker-end="url(#arrowGrey)" />
+      <path id="p3b_arrow_llm_yc" d="M552.5 306 V340" fill="none" stroke="#c9d6d8" stroke-width="2" marker-end="url(#arrowGrey)" />
+      <path id="p3b_arrow_unc_yr" d="M689.5 306 V340" fill="none" stroke="#c9d6d8" stroke-width="2" marker-end="url(#arrowGrey)" />
+
+      <rect id="p3b_unsafe_prompt_box" x="538" y="216" width="157" height="33" fill="#5a7180" />
+      <text id="p3b_unsafe_prompt_text" x="616.5" y="237" text-anchor="middle" font-family="Courier New, monospace" font-size="20" font-weight="700" fill="#ffffff">Unsafe Prompt</text>
+
+      <rect id="p3b_llm_box" x="503" y="272" width="99" height="34" rx="7" ry="7" fill="#dceefb" stroke="#00549b" stroke-width="2" />
+      <text id="p3b_llm_text" x="552.5" y="294" text-anchor="middle" font-family="Arial, sans-serif" font-size="18" fill="#00549b">LLM</text>
+
+      <rect id="p3b_unc_llm_box" x="640" y="272" width="99" height="34" rx="7" ry="7" fill="#fde9ff" stroke="#a000a8" stroke-width="2" />
+      <text id="p3b_unc_llm_text" x="689.5" y="294" text-anchor="middle" font-family="Arial, sans-serif" font-size="18" fill="#a000a8">Unc. LLM</text>
+
+      <rect id="p3b_yc_box" x="506" y="341" width="94" height="31" fill="#f4fff4" stroke="#00a000" stroke-width="2" />
+      <text id="p3b_yc_text" x="553" y="357" text-anchor="middle" dominant-baseline="middle" font-family="Times New Roman, serif" font-size="22" font-style="italic" fill="#00a000">y<tspan font-size="14" baseline-shift="sub">c</tspan></text>
+
+      <rect id="p3b_yr_box" x="642" y="341" width="94" height="31" fill="#fff8f8" stroke="#ef5350" stroke-width="2" />
+      <text id="p3b_yr_text" x="689" y="357" text-anchor="middle" dominant-baseline="middle" font-family="Times New Roman, serif" font-size="22" font-style="italic" fill="#e24b4b">y<tspan font-size="14" baseline-shift="sub">r</tspan></text>
+
+      <text id="p3b_caption" x="621" y="397" text-anchor="middle" font-family="Times New Roman, serif" font-size="17" fill="#000000">(3.b) Safety-Should-Refuse</text>
+    </g>
+  </g>
+</svg>

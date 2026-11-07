@@ -1,0 +1,8 @@
+{
+  "captured_stage": "G2",
+  "image_count": 10,
+  "public_runner_bound": 157293,
+  "archive_estimator_on_same_prompt_payload_images": 42608,
+  "limit": 131072,
+  "scope": "Same captured public-runner prompt/payload/images; archive request envelope and estimator. Not full historical prompt equivalence or actual billing."
+}

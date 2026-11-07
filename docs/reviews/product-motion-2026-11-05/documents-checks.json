@@ -1,0 +1,19 @@
+{
+  "base": "http://127.0.0.1:4176/figfox",
+  "checks": [
+    "Guide opens the real, editable experiment example",
+    "An example becomes a saved workspace document",
+    "Importing multiple documents preserves each SVG separately",
+    "Editing one SVG does not modify another, including immediate navigation",
+    "Renaming and gallery downloads use the saved, edited document",
+    "Search filters document names and reports no matches",
+    "New canvases are separate documents and preserve previous work",
+    "Failed imports neither create a document nor replace saved work",
+    "Delete confirmation removes only the selected document and persists after reload",
+    "The source preview and saved SVG library switch without discarding either",
+    "Saved documents reopen with their new names; populated layouts fit desktop and mobile",
+    "An older open tab gets an actionable upgrade message; closing it preserves and migrates the old SVG"
+  ],
+  "errors": [],
+  "apiRequests": []
+}
