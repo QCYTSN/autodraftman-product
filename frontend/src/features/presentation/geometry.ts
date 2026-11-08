@@ -24,7 +24,8 @@ export function assetConnector(box:Box, frame:Box, slotY:number) {
   const edge=distances.indexOf(Math.min(...distances));
   if(edge===0)return {start:[x,y+h/2],path:'M'+x+' '+(y+h/2)+' H'+(fx-20)+' V'+(fy-2)+' H1048 V'+slotY+' H1108'};
   if(edge===2)return {start:[x+w,y],path:'M'+(x+w)+' '+y+' V'+(fy-2)+' H1048 V'+slotY+' H1108'};
-  if(edge===3)return {start:[x+w/2,y+h],path:'M'+(x+w/2)+' '+(y+h)+' V'+(fy+fh+20)+' H1048 V'+slotY+' H1108'};
+  // The crop's lower margin precedes the original caption: leave through that gap.
+  if(edge===3)return {start:[x+w/2,y+h],path:'M'+(x+w/2)+' '+(y+h)+' V'+(y+h+16)+' H'+(fx+fw+20)+' V'+slotY+' H1108'};
   return {start:[x+w,y+h/2],path:'M'+(x+w)+' '+(y+h/2)+' H1048 V'+slotY+' H1108'};
 }
 export function draftObjects(markup: string, data: PresentationCase) {
