@@ -1,5 +1,5 @@
 import {
-  ArrowsOut, ArrowsClockwise, DownloadSimple, Eye,
+  ArrowsOut, ArrowsClockwise, DownloadSimple, ArrowsLeftRight,
   MagnifyingGlassMinus, MagnifyingGlassPlus, PencilSimple,
 } from "@phosphor-icons/react";
 import {
@@ -20,6 +20,8 @@ type Drag = {
 const copies = new Map<string, {index:number; transform:string|null; markup:string}[]>();
 let hintSeen = false;
 const objectManifest: Record<string, {id:string; zh:string; en:string}[]> = {
+ 'sample-0072': [{id:'title_diffusion',zh:'文字',en:'Text'},{id:'box_feature_extractor',zh:'模块',en:'Module'},{id:'arrow_top_iteration',zh:'连接',en:'Connection'},{id:'src_intermediate_protein_crop',zh:'图像',en:'Image'}],
+ 'sample-0079': [{id:'input_caption',zh:'文字',en:'Text'},{id:'f01_top_fusion_frame',zh:'分区',en:'Container'},{id:'arrow_T_to_top_vision',zh:'连接',en:'Connection'},{id:'source_photo_stack_crop',zh:'图像',en:'Image'}],
  'sample-0001': [{id:'title_top_row',zh:'文字',en:'Text'},{id:'f05_top_bbox_frame',zh:'形状 / 路径',en:'Shape / path'},{id:'green_pooling_path_left',zh:'连接',en:'Connection'}],
  study: [{id:'plus_node_34',zh:'文字',en:'Text'},{id:'exp1_restudy_panel',zh:'形状 / 路径',en:'Shape / path'},{id:'plus_node_84',zh:'图像',en:'Image'}],
  diffusion: [{id:'title_main',zh:'文字',en:'Text'},{id:'f01',zh:'形状 / 路径',en:'Shape / path'},{id:'arrow_photo_to_encoder',zh:'连接',en:'Connection'},{id:'plus_node_35',zh:'图像',en:'Image'},{id:'plus_node_47',zh:'公式',en:'Formula'}],
@@ -43,14 +45,14 @@ export function DemoCanvas({ item, language, focusedElementId = null, focusRevis
   const cancelEdit = useRef(false);
   const [status, setStatus] = useState<"loading" | "ready" | "error">("loading");
   const [zoom, setZoom] = useState(1);
-  const [comparison, setComparison] = useState(false);
+  const [split, setSplit] = useState(50);
   const [changes, setChanges] = useState(0);
   const [selectionText, setSelectionText] = useState("");
   const [editing, setEditing] = useState<{
     element: SVGGraphicsElement; value: string; left: number; top: number;
     width: number; height: number; fontSize: number; fontFamily: string;
   } | null>(null);
-  const [originalOnly, setOriginalOnly] = useState(false);
+  const [showComparison, setShowComparison] = useState(false);
   const focusedElement = useRef(focusedElementId);
   focusedElement.current = focusedElementId;
 
@@ -79,6 +81,9 @@ export function DemoCanvas({ item, language, focusedElementId = null, focusRevis
   }
 
   function remember(element: SVGGraphicsElement) {
+    // Keep text and its tspans in one snapshot so dragging cannot restore an
+    // already-edited child after Reset (or after switching examples).
+    element = element.closest<SVGGraphicsElement>('text') ?? element;
     if (!originals.current.has(element)) {
       originals.current.set(element, {
         transform: element.getAttribute("transform"), markup: element.innerHTML,
@@ -112,8 +117,8 @@ export function DemoCanvas({ item, language, focusedElementId = null, focusRevis
     let cancelled = false;
     setStatus("loading");
     setZoom(1);
-    setComparison(false);
-    setOriginalOnly(false);
+    setSplit(50);
+    setShowComparison(false);
     setChanges(0);
     setEditing(null);
     selectElement(null);
@@ -155,8 +160,8 @@ export function DemoCanvas({ item, language, focusedElementId = null, focusRevis
     if (status !== "ready" || !focusedElementId) return;
     const element = mount.current?.querySelector<SVGGraphicsElement>("#" + CSS.escape(focusedElementId));
     if (element) {
-      setOriginalOnly(false);
-      setComparison(false);
+      setShowComparison(false);
+      setSplit(50);
       setZoom(1);
       selectElement(element);
       stage.current?.focus({ preventScroll: true });
@@ -207,7 +212,7 @@ export function DemoCanvas({ item, language, focusedElementId = null, focusRevis
   }
 
   function pointerDown(event: PointerEvent<HTMLDivElement>) {
-    if (originalOnly || comparison || editing || event.button !== 0) return;
+    if (showComparison || editing || event.button !== 0) return;
     takeOver();
     const target = event.target instanceof Element
       ? (event.target.closest("text") ?? event.target.closest(selectable)) : null;
@@ -248,7 +253,7 @@ export function DemoCanvas({ item, language, focusedElementId = null, focusRevis
   }
 
   function keyDown(event: KeyboardEvent<HTMLDivElement>) {
-    if (event.target instanceof HTMLInputElement || originalOnly || comparison) return;
+    if (event.target instanceof HTMLInputElement || showComparison) return;
     if (event.key === "Enter") { event.preventDefault(); startEdit(); return; }
     if (event.key === "Escape") { selectElement(null); return; }
     const element = selected.current;
@@ -302,30 +307,14 @@ export function DemoCanvas({ item, language, focusedElementId = null, focusRevis
     <div className="demo-canvas" style={{ "--demo-aspect": item.width / item.height } as CSSProperties}>
       <div className="demo-canvas-toolbar">
         <div className="demo-view-switch" aria-label={zh ? "画布视图" : "Canvas view"}>
-          <button type="button" aria-pressed={!originalOnly} onClick={() => setOriginalOnly(false)}>
+          <button type="button" aria-pressed={!showComparison} onClick={() => setShowComparison(false)}>
             {zh ? "可编辑 SVG" : "Editable SVG"}
           </button>
-          <button type="button" aria-pressed={originalOnly} onClick={() => setOriginalOnly(true)}>
-            {zh ? "原图" : "Original"}
+          <button type="button" aria-pressed={showComparison} onClick={() => { commitEdit(); setShowComparison(true); }}>
+            {zh ? "原图对照" : "Compare original"}
           </button>
         </div>
         <div className="demo-canvas-tools">
-          <button type="button" disabled={status !== "ready" || originalOnly}
-            aria-pressed={comparison} title={zh ? "按住对照原图" : "Hold to compare"}
-            onPointerDown={(event) => {
-              event.currentTarget.setPointerCapture(event.pointerId); setComparison(true);
-            }}
-            onPointerUp={() => setComparison(false)}
-            onPointerCancel={() => setComparison(false)}
-            onLostPointerCapture={() => setComparison(false)}
-            onKeyDown={(event) => {
-              if (event.key === " " || event.key === "Enter") {
-                event.preventDefault(); setComparison(true);
-              }
-            }}
-            onKeyUp={() => setComparison(false)} onBlur={() => setComparison(false)}>
-            <Eye size={17} /><span>{zh ? "对照" : "Compare"}</span>
-          </button>
           <button type="button" onClick={reset} disabled={!changes}
             title={zh ? "恢复案例" : "Reset example"} aria-label={zh ? "恢复案例" : "Reset example"}>
             <ArrowsClockwise size={17} />
@@ -359,18 +348,22 @@ export function DemoCanvas({ item, language, focusedElementId = null, focusRevis
         onKeyDown={keyDown} onScroll={updateOutline}
         onDoubleClick={(event) => {
           const target = event.target instanceof Element ? (event.target.closest("tspan") ?? event.target.closest("text")) : null;
-          if (target instanceof SVGGraphicsElement && !originalOnly && !comparison) startEdit(target);
+          if (target instanceof SVGGraphicsElement && !showComparison) startEdit(target);
         }}>
         <div className="demo-svg-mount" ref={mount}
           style={{ width: zoom * 100 + "%", height: zoom * 100 + "%",
-            visibility: originalOnly || comparison ? "hidden" : "visible" }} />
-        {(originalOnly || comparison) && (
-          <div className="demo-original-view" style={{ width: zoom * 100 + "%", height: zoom * 100 + "%" }}>
-            <img src={demoAsset(item.id, "input.png")} alt={item.name[language]} width={item.width} height={item.height} />
+            visibility: showComparison ? "hidden" : "visible" }} />
+        {showComparison && (
+          <div className="demo-original-view demo-inline-comparison" style={{ width: zoom * 100 + "%", height: zoom * 100 + "%", "--demo-split": split + "%" } as CSSProperties}>
+            <img src={demoAsset(item.id, "result.png")} alt={zh ? "原始重建结果" : "Original reconstruction"} width={item.width} height={item.height} />
+            <div className="demo-comparison-original"><img src={demoAsset(item.id, "input.png")} alt={zh ? "原图" : "Reference"} width={item.width} height={item.height} /></div>
+            <div className="demo-comparison-divider" aria-hidden="true"><span><ArrowsLeftRight size={19} /></span></div>
+            <div className="demo-inline-labels" aria-hidden="true"><span>{zh ? "原图" : "Reference"}</span><span>{zh ? "重建结果" : "Reconstruction"}</span></div>
+            <input type="range" min="0" max="100" value={split} aria-label={zh ? "原图与重建结果的分割位置" : "Original and reconstruction split position"} onChange={event => setSplit(Number(event.target.value))} />
           </div>
         )}
         <div className="demo-selection" ref={outline} hidden
-          style={{ visibility: originalOnly || comparison ? "hidden" : "visible" }}>
+          style={{ visibility: showComparison ? "hidden" : "visible" }}>
           <i /><i /><i /><i />
         </div>
         {editing && (
@@ -391,12 +384,12 @@ export function DemoCanvas({ item, language, focusedElementId = null, focusRevis
         </div>}
       </div>
       <div className="demo-object-types" aria-label={zh ? '对象类型' : 'Object types'}>
-        {objectManifest[item.id].map(obj => <button key={obj.id} disabled={status !== 'ready'} onClick={() => { takeOver(); setOriginalOnly(false);setComparison(false);selectElement(mount.current?.querySelector<SVGGraphicsElement>('#' + CSS.escape(obj.id)) ?? null); }}>{zh?obj.zh:obj.en}</button>)}
-        <p>{hint ? (zh?'双击选中的标题试试':'Try double-clicking the selected title') : (zh?'独立演示副本 · 修改不会改变实验评分':'Independent demo copy · edits do not change experiment scores')}</p>
+        {objectManifest[item.id].map(obj => <button key={obj.id} disabled={status !== 'ready'} onClick={() => { takeOver(); setShowComparison(false);setSplit(50);selectElement(mount.current?.querySelector<SVGGraphicsElement>('#' + CSS.escape(obj.id)) ?? null); }}>{zh?obj.zh:obj.en}</button>)}
+        <p>{hint ? (zh?'双击选中的标题试试':'Try double-clicking the selected title') : (zh?'试着移动一个元素，再导出 SVG':'Move an element, then export the SVG')}</p>
       </div>
       <div className="demo-canvas-footer">
-        <span>{zh ? "拖动元素，双击文字修改" : "Drag an element. Double-click text to edit."}</span>
-        <button type="button" disabled={!selectionText || originalOnly} onClick={() => startEdit()}>
+        <span>{showComparison ? (zh ? "拖动分割线查看原始重建结果；切回编辑可继续修改。" : "Compare the original reconstruction. Switch back to continue editing.") : (zh ? "拖动元素，双击文字修改" : "Drag an element. Double-click text to edit.")}</span>
+        <button type="button" disabled={!selectionText || showComparison} onClick={() => startEdit()}>
           <PencilSimple size={15} />{zh ? "修改选中文字" : "Edit selected text"}
         </button>
       </div>

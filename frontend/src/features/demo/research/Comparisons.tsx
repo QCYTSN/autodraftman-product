@@ -25,7 +25,7 @@ export function ScoreComparison({ onLocate }: { onLocate: (metric: string) => vo
       const bestNames = best.methods.map(method => data.methods.find(item => item.id === method)!.name).join(' / ');
       return <figure className="research-score-example" data-demo-reveal key={id} data-metric={id}>
         <figcaption>{label(metric, language)}</figcaption>
-        <div className="research-score-pair"><div><small>FigFox</small><strong title={String(score)}>{number(score)}</strong></div><div><small>{zh ? '本项最高' : 'Best result'} · {bestNames}</small><b title={String(best.score)}>{number(best.score)}</b></div></div>
+        <div className="research-score-pair"><div><small>FigFox</small><strong title={String(score)}>{number(score)}</strong></div><div><small>{zh ? '最高' : 'Best'} · {bestNames}</small><b title={String(best.score)}>{number(best.score)}</b></div></div>
         <div className="research-score-track" role="img" aria-label={`FigFox ${number(score)}, ${bestNames} ${number(best.score)}, 0–100`}>
           <i style={{ left: `${Math.min(score, best.score ?? score)}%`, width: `${Number.isFinite(gap) ? gap : 0}%` }} /><b style={{ left: `${best.score ?? 0}%` }} /><span style={{ left: `${score}%` }} />
         </div>

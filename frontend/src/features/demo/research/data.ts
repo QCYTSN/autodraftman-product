@@ -33,3 +33,6 @@ export const label = (m: Metric, language: DemoLanguage) => language === 'zh' ? 
 export const number = (v: number | null | undefined, digits = 1) => v == null ? '—' : v.toFixed(digits);
 export const mainIds = ['A', 'DrawAI', 'AFE', 'Crafter'];
 export function category(id: string, zh: boolean) { return ({ C1_low: zh ? 'C1 · 低拥挤度' : 'C1 · Low clutter', C2_medium_low: zh ? 'C2 · 中低拥挤度' : 'C2 · Medium-low clutter', C3_medium_high: zh ? 'C3 · 中高拥挤度' : 'C3 · Medium-high clutter', C4_high: zh ? 'C4 · 高拥挤度' : 'C4 · High clutter' } as Record<string,string>)[id] ?? id; }
+
+// Display identity only: keep the exported experiment values untouched.
+export const methodColor = (id: string) => ({ A: '#b84c15', DrawAI: '#007d88', AFE: '#93607c', Crafter: '#3564b1', B: '#976235', C: '#657384' } as Record<string, string>)[id] ?? '#697180';

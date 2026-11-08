@@ -72,15 +72,16 @@ try {
   assert.equal(hash(sourceBefore), hash(await (await page.request.get(base + "/assets/demo/cases/study/result.svg")).text()));
   record("Visitors can edit, drag, download and reset the actual SVG without changing the source asset");
 
-  for (const [index, id, count] of [[1, "diffusion", 91], [2, "vit", 167], [0, "study", 49]]) {
+  for (const [index, id, count] of [[1, "sample-0072", 23], [2, "sample-0079", 45], [0, "study", 49]]) {
     await page.locator(".demo-case-picker button").nth(index).click();
     await page.locator('.demo-canvas-stage').scrollIntoViewIfNeeded();
     await page.waitForFunction(total => document.querySelectorAll(".demo-svg-mount text").length === total, count);
-    await page.locator('.demo-comparison').scrollIntoViewIfNeeded();
+    await page.getByRole('button', { name: '原图对照', exact: true }).click();
+    await page.locator('.demo-inline-comparison').scrollIntoViewIfNeeded();
     await page.waitForFunction(() => Boolean(document.querySelector('.demo-comparison-original img')?.getAttribute('src')));
-    assert.ok((await page.locator(".demo-comparison-original img").getAttribute("src")).endsWith(`/${id}/input.png`));
+    assert.ok((await page.locator(".demo-comparison-original img").getAttribute("src")).endsWith(`/${id}/${id.startsWith("sample-") ? "source.webp" : "input.png"}`));
   }
-  const slider = page.locator(".demo-comparison input[type=range]");
+  const slider = page.locator(".demo-inline-comparison input[type=range]");
   await slider.focus();
   await slider.press("Home");
   assert.equal(await slider.inputValue(), "0");
@@ -128,7 +129,7 @@ try {
     await page.locator(".demo-refinement-original").waitFor();
     await page.keyboard.press("Escape");
   }
-  await page.getByRole("button", { name: "放大对照", exact: true }).click();
+  await page.locator("#demo-result-panel").getByRole("button", { name: "放大对照", exact: true }).click();
   await page.getByRole("button", { name: "放大图像", exact: true }).click();
   assert.equal(await page.locator(".demo-refinement-dialog-canvas").evaluate(canvas => canvas.style.width), "150%");
   await page.keyboard.press("Escape");
@@ -160,6 +161,7 @@ try {
   await page.evaluate(() => scrollTo({ top: 0, behavior: "instant" }));
   await page.getByRole("button", { name: "Switch to Chinese" }).click();
   await page.screenshot({ path: output + "/showcase-desktop.png", fullPage: true });
+  assert.deepEqual(requests.filter(url => new URL(url).pathname.includes("/api/")), []);
   await page.locator(".demo-header").getByRole("link", { name: "开始使用" }).click();
   await page.waitForURL(/\/workspace(?:\?view=(?:task|documents))?$/);
   await page.locator("#figure-prompt").waitFor();
@@ -167,7 +169,7 @@ try {
   record("The complete showcase supports both languages, small screens, reduced motion and product entry");
 
   assert.deepEqual(errors, []);
-  assert.deepEqual(requests.filter(url => url.includes("/__demo-assets/") || new URL(url).pathname.includes("/api/")), []);
-  await writeFile(output + "/checks.json", JSON.stringify({ base, checks, errors, apiRequests: [], assetCount: allowed.length }, null, 2));
+  assert.deepEqual(requests.filter(url => url.includes("/__demo-assets/") || (new URL(url).pathname.includes("/api/") && new URL(url).pathname !== "/api/v1/auth/providers")), []);
+  await writeFile(output + "/checks.json", JSON.stringify({ base, checks, errors, showcaseApiRequests: [], shellMetadataRequests: requests.filter(url => new URL(url).pathname === "/api/v1/auth/providers"), assetCount: allowed.length }, null, 2));
   console.log(JSON.stringify({ checks: checks.length, errors, assetCount: allowed.length }));
 } finally { await browser.close(); }

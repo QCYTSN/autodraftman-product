@@ -11,6 +11,9 @@ The earlier warm-paper and clay design is superseded.
 - Chinese: Noto Sans SC. English and numbers: Google Sans Flex.
 - Main text: `#1e2437`; secondary text: `#6d7384`.
 - Action purple: `#6243ce`; hover: `#5035b2`; selected surfaces: `#f0ecfa`.
+- FigFox data identity: `#b84c15` for its values and markers. AutoFigure uses
+  `#93607c`; DrawAI teal and Crafter blue. Orange identifies FigFox, not a positive
+  delta. Interactions stay purple and experimental values stay unchanged.
 - Working surface: white; surrounding surface: `#fcfcfe` or a pale violet-gray.
 - Borders: pale neutral purple, used to separate controls or document surfaces.
 

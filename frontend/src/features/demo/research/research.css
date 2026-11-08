@@ -79,7 +79,7 @@
 .pipeline-stage-heading{display:flex;align-items:center;justify-content:space-between;gap:32px;margin-bottom:40px}.pipeline-stage-heading>div{max-width:78%}.pipeline-stage-heading .research-eyebrow{margin-bottom:10px}
 .demo-site .pipeline-stage-heading h3{font-size:26px;font-weight:550;margin-bottom:14px}.pipeline-stage-heading p{font-size:14px;line-height:1.8;color:var(--demo-muted)}
 .pipeline-pair{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:40px}.pipeline-pair figure{min-width:0}.pipeline-pair figcaption{display:flex;align-items:center;justify-content:space-between;font-size:13px;color:var(--demo-muted);margin-bottom:20px}
-.pipeline-artifact{position:relative;background:#fff}.pipeline-artifact img{display:block;width:100%;aspect-ratio:968/510;object-fit:contain}
+.pipeline-artifact{position:relative;background:#fff}.pipeline-artifact img{display:block;width:100%;aspect-ratio:var(--pipeline-aspect);object-fit:contain}
 .pipeline-artifact .pipeline-roi{position:absolute;pointer-events:none;border:2px solid #b54837;background:#b548370e;transition:all 250ms}
 .pipeline-stage-footer{display:flex;align-items:center;justify-content:space-between;gap:24px;font-size:12px;color:var(--demo-muted);margin-top:28px}
 .demo-site .pipeline-stage-footer .research-controls{margin:0}.pipeline-records{margin-top:28px}.pipeline-records[open]{max-height:320px;overflow:auto}.pipeline-records p{margin-top:16px!important}
@@ -133,3 +133,17 @@
 @media(min-width:1000px){.demo-site .demo-section-heading h2{font-size:38px}.demo-site #demo-method,.demo-site #demo-content,.demo-site #demo-results{padding-top:88px}}
 @media(max-width:1100px){.demo-site .demo-refinement-region-overlay{inset:17px;width:calc(100% - 34px);height:calc(100% - 34px)}}
 .demo-method-index{display:flex;justify-content:center;gap:30px;margin-top:32px;font-size:13px;color:var(--demo-purple)}
+
+/* Keep the selected detail stable across inspection and repair. */
+.pipeline-overview{max-width:760px;margin:0 auto 36px!important}
+.pipeline-overview figcaption{font-size:12px;color:var(--demo-muted);margin-bottom:12px}
+.pipeline-overview svg{width:100%;display:block;background:white}
+.pipeline-focus-box{fill:#6243ce09;stroke:#6243ce;stroke-width:2}
+.pipeline-pair.is-detail{max-width:800px;margin-inline:auto;gap:64px}
+.pipeline-pair.is-detail .pipeline-artifact{height:280px}
+.pipeline-artifact>svg{width:100%;height:100%;display:block}
+.demo-site .pipeline-detail-picker{margin:0 0 32px;gap:24px}
+.pipeline-detail-picker button{padding:4px 0 10px;border:0;border-bottom:2px solid transparent;border-radius:0;background:transparent}
+.pipeline-detail-picker button[aria-pressed=true]{border-bottom-color:var(--demo-purple);background:transparent}
+.pipeline-loading{padding:80px 0;text-align:center;color:var(--demo-muted)}
+@media(max-width:600px){.pipeline-pair.is-detail{grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}.pipeline-pair.is-detail .pipeline-artifact{height:205px}.pipeline-pair.is-detail figcaption svg{transform:none}.pipeline-overview{margin-bottom:24px!important}.pipeline-artifact img{min-height:100px}.pipeline-pair.is-detail figcaption{font-size:12px}.pipeline-pair.is-detail figcaption svg{width:15px}}

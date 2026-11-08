@@ -58,7 +58,7 @@ try {
  const cell=page.locator('.research-heatmap tbody tr').nth(7).locator('button').nth(1);await cell.click();
  await page.locator('.research-output-grid article').nth(1).waitFor();assert.equal(await page.locator('.research-output-grid article').count(),2);
  assert.equal(await page.getByLabel('指标',{exact:true}).inputValue(),'D08');
- await page.getByRole('button',{name:'四方法总览',exact:true}).click();assert.equal(await page.locator('.research-output-grid article').count(),4);await page.getByRole('button',{name:'两方法对照',exact:true}).click();assert.equal(await page.locator('.research-output-grid article').count(),2);
+ await page.getByRole('button',{name:'四方法总览',exact:true}).click();assert.equal(await page.locator('.research-output-grid article').count(),4);await page.getByRole('button',{name:'双图对照',exact:true}).click();assert.equal(await page.locator('.research-output-grid article').count(),2);
  await page.getByLabel('同步缩放',{exact:true}).fill('2');await page.getByRole('button',{name:'向右平移',exact:true}).click();
  assert.equal(await page.locator('.research-output-grid').evaluate(el=>el.style.getPropertyValue('--pan-x')),'40px');
  await page.getByRole('button',{name:'重置视图',exact:true}).click();assert.equal(await page.getByLabel('同步缩放',{exact:true}).inputValue(),'1');
@@ -78,11 +78,11 @@ try {
  await page.keyboard.press('Escape');checks.push('Three named visual examples switch source/output and open the matching detail');
  await page.locator('#demo-ablations').getByRole('button',{name:/^无 SAM:/}).click();
  await page.locator('#demo-ablations').getByRole('button',{name:'查看无 SAM示例'}).click();
- await page.locator('.research-dialog').waitFor();assert.equal(await page.getByLabel('方法 2',{exact:true}).inputValue(),'B');await page.keyboard.press('Escape');
+ await page.locator('.research-dialog').waitFor();assert.equal(await page.getByLabel('右侧内容',{exact:true}).inputValue(),'B');await page.keyboard.press('Escape');
  await page.locator('#demo-ablations').getByRole('button',{name:/^完整 FigFox:/}).click();
  await page.locator('#demo-ablations').getByRole('button',{name:'查看完整 FigFox示例'}).click();
- await page.getByLabel('方法 2',{exact:true}).waitFor();assert.equal(await page.getByLabel('方法 2',{exact:true}).inputValue(),'C');
- assert.equal(await page.getByLabel('方法 2',{exact:true}).locator('option').count(),3);await page.keyboard.press('Escape');
+ await page.getByLabel('右侧内容',{exact:true}).waitFor();assert.equal(await page.getByLabel('右侧内容',{exact:true}).inputValue(),'C');
+ assert.equal(await page.getByLabel('右侧内容',{exact:true}).locator('option').count(),4);await page.keyboard.press('Escape');
  await page.locator('#demo-ablations').scrollIntoViewIfNeeded();
  await openCriterion(page,'消融指标');
  const ablationMotion=await page.evaluate(async()=>{
@@ -181,13 +181,13 @@ try {
  await page.locator('#research-settings summary').click();assert.match(await page.locator('#research-settings').innerText(),/D09/);
  assert.match(await page.locator('#research-settings').innerText(),/GPT-5.5/);await page.locator('#research-settings summary').click();
  checks.push('Resource breakdown derives from A/C records; complete protocol and downloads remain available in settings');
- await page.locator('.research-stage-tabs button').nth(2).click();await page.locator('.research-stage-evidence').getByText(/13 \/ 13/).waitFor();checks.push('Historical native receipt shows 13 of 13 executed operations');
- await page.locator('.research-stage-tabs button').nth(1).click();await page.getByRole('button',{name:'B1 · 定位问题',exact:true}).click();assert.equal(await page.locator('.pipeline-roi').count(),2);await page.locator('.research-stage-tabs button').nth(2).click();
+ await page.locator('.research-stage-tabs button').nth(2).click();await page.locator('.research-stage-evidence').getByText(/5 \/ 5/).waitFor();checks.push('Historical native receipt shows 5 of 5 executed operations');
+ await page.locator('.research-stage-tabs button').nth(1).click();await page.getByRole('button',{name:'蛋白质细节',exact:true}).click();assert.equal(await page.locator('.pipeline-focus-box').count(),1);await page.locator('.research-stage-tabs button').nth(2).click();
  await page.locator('#demo-method .demo-section-heading').scrollIntoViewIfNeeded();await page.waitForTimeout(400);await page.locator('#demo-method').screenshot({path:output+'/architecture.png',style:'.demo-header{visibility:hidden}[data-demo-reveal]{opacity:1!important;transform:none!important}'});
  await page.locator('.demo-object-types button').first().click();await page.getByRole('button',{name:'修改选中文字',exact:true}).click();await page.getByLabel('修改案例文字').fill('Research demo edit');await page.getByLabel('修改案例文字').press('Enter');
- await page.locator('.demo-case-picker button').nth(1).click();await page.locator('.demo-svg-mount #title_main').waitFor();await page.locator('.demo-case-picker button').first().click();await page.locator('.demo-svg-mount #plus_node_34').waitFor();assert.equal(await page.locator('.demo-svg-mount #plus_node_34').textContent(),'Research demo edit');
+ await page.locator('.demo-case-picker button').nth(1).click();await page.locator('.demo-svg-mount #title_diffusion').waitFor();await page.locator('.demo-case-picker button').first().click();await page.locator('.demo-svg-mount #plus_node_34').waitFor();assert.equal(await page.locator('.demo-svg-mount #plus_node_34').textContent(),'Research demo edit');
  await page.getByRole('button',{name:'恢复案例',exact:true}).click();assert.notEqual(await page.locator('.demo-svg-mount #plus_node_34').textContent(),'Research demo edit');
- const download=page.waitForEvent('download');await page.getByRole('button',{name:'下载 SVG',exact:true}).click();assert.match((await download).suggestedFilename(),/\.svg$/);await page.locator('.demo-case-picker button').nth(3).click();await page.locator('.demo-svg-mount #title_top_row').waitFor();assert.match(await page.locator('.demo-svg-mount #title_top_row').textContent(),/Category/);
+ const download=page.waitForEvent('download');await page.getByRole('button',{name:'下载 SVG',exact:true}).click();assert.match((await download).suggestedFilename(),/\.svg$/);await page.locator('.demo-case-picker button').nth(2).click();await page.locator('.demo-svg-mount #input_caption').waitFor();assert.match(await page.locator('.demo-svg-mount #input_caption').textContent(),/pedestrian/);
  checks.push('Case-local edits survive switching; reset and SVG download work');
  for(const language of ['zh','en']) {
   if(language==='en'){await page.evaluate(()=>scrollTo(0,0));await page.getByRole('button',{name:'切换为英文'}).click();}

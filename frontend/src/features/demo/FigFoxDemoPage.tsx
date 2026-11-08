@@ -1,17 +1,16 @@
 import {
-  ArrowCounterClockwise, ArrowDown, ArrowRight, ArrowsLeftRight, GithubLogo, Globe, MagnifyingGlassPlus, X,
+  ArrowCounterClockwise, ArrowDown, ArrowRight, GithubLogo, Globe, MagnifyingGlassPlus, X,
 } from "@phosphor-icons/react";
-import { useRef, useState, lazy, Suspense, type CSSProperties, type MouseEvent } from "react";
+import { useRef, useState, lazy, Suspense, type MouseEvent } from "react";
 import type { ProductRoute } from "../../ProductPages";
 import { DemoCanvas } from "./DemoCanvas";
-import { DeferredImage } from "./DeferredImage";
 import { MechanismSection } from "./MechanismSection";
 import { RefinementSection } from "./RefinementSection";
 import { ResearchProvider, ResearchOverview } from "./research/ResearchContext";
 import Pipeline from "./research/Pipeline";
 const Results = lazy(() => import("./research/Results"));
 import { HeroSvgWord } from "./HeroSvgWord";
-import { demoAsset, demoThumbnail, demoBrandAsset, demoCases, type DemoLanguage } from "./cases";
+import { demoThumbnail, demoBrandAsset, demoCases, allDemoCases, type DemoLanguage } from "./cases";
 import { useDemoMotion } from "./useDemoMotion";
 import "./demo.css";
 import "./showcase-fonts.css";
@@ -32,11 +31,7 @@ const words = {
     replay: "重播", replayLabel: "重播关系重建与局部修复示意",
     explore: "查看案例", scroll: "向下探索",
     examplesTitle: "亲手编辑重建结果",
-    examplesBody: "拖动元素、双击改字，按住“对照”查看原图。",
-    comparisonTitle: "原图与重建结果",
-    comparisonBody: "拖动分割线，对照同一区域的细节。",
-    original: "原图", result: "重建结果",
-    comparisonLabel: "原图与重建结果的分割位置",
+    examplesBody: "拖动元素、双击改字，切换原图对照查看重建细节。",
     methodTitle: "FigFox 如何重建一张图",
     methodBody: "构建初稿 → 定位差异 → 修复 SVG",
     steps: [
@@ -59,11 +54,7 @@ const words = {
     replay: "Replay", replayLabel: "Replay the relation-guided reconstruction and local refinement illustration",
     explore: "Explore examples", scroll: "Scroll to explore",
     examplesTitle: "Edit a reconstruction yourself",
-    examplesBody: "Drag elements, double-click to edit text, and hold “Compare” to see the source.",
-    comparisonTitle: "Source and reconstruction",
-    comparisonBody: "Drag the divider to compare details in the same region.",
-    original: "Original", result: "Reconstruction",
-    comparisonLabel: "Original and reconstruction split position",
+    examplesBody: "Drag elements, edit a label, or compare the reconstruction with its source.",
     methodTitle: "How FigFox reconstructs a figure",
     methodBody: "Build a draft → Locate differences → Repair the SVG",
     steps: [
@@ -84,17 +75,15 @@ export function FigFoxDemoPage(props: Props) { return <ResearchProvider language
 
 function DemoPageContent({ language, onLanguageChange, onNavigate, hrefFor }: Props) {
   const content = words[language];
-  const [active, setActive] = useState(0);
+  const [active, setActive] = useState("study");
   const [methodStage, setMethodStage] = useState(0);
   const [returnPosition, setReturnPosition] = useState<number | null>(null);
-  const [split, setSplit] = useState(50);
-  const [failedImages, setFailedImages] = useState(false);
   const [heroRevision, setHeroRevision] = useState(0);
   const [focusedElement, setFocusedElement] = useState<string | null>(null);
   const [focusRevision, setFocusRevision] = useState(0);
   const diagramDialog = useRef<HTMLDialogElement>(null);
   const page = useRef<HTMLDivElement>(null);
-  const item = demoCases[active];
+  const item = allDemoCases.find(example => example.id === active)!;
 
   useDemoMotion(page);
 
@@ -104,18 +93,15 @@ function DemoPageContent({ language, onLanguageChange, onNavigate, hrefFor }: Pr
     onNavigate(destination);
   }
 
-  function chooseCase(index: number) {
-    setActive(index);
-    setSplit(50);
-    setFailedImages(false);
+  function chooseCase(id: string) {
+    setActive(id);
     setFocusedElement(null);
   }
 
   function openContentCase(caseId: string, elementId: string) {
     setReturnPosition(window.scrollY);
-    const index = demoCases.findIndex(example => example.id === caseId);
-    if (index < 0) return;
-    chooseCase(index);
+    if (!allDemoCases.some(example => example.id === caseId)) return;
+    chooseCase(caseId);
     setFocusedElement(elementId);
     setFocusRevision(revision => revision + 1);
     requestAnimationFrame(() => document.getElementById("demo-examples")?.scrollIntoView({ block: "start" }));
@@ -200,38 +186,14 @@ function DemoPageContent({ language, onLanguageChange, onNavigate, hrefFor }: Pr
             </div>
             <div data-demo-reveal data-demo-delay="2">
               <div className="demo-case-picker" role="group" aria-label={content.cases}>
-                {demoCases.map((example, index) => (
-                  <button type="button" key={example.id} aria-pressed={active === index} data-allow-wrap="true"
-                    onClick={() => chooseCase(index)}>
+                {demoCases.map((example) => (
+                  <button type="button" key={example.id} aria-pressed={active === example.id} data-allow-wrap="true"
+                    onClick={() => chooseCase(example.id)}>
                     <img src={demoThumbnail(example.id)} alt="" width={example.width} height={example.height} loading="lazy" decoding="async"
                       onError={(event) => { event.currentTarget.style.visibility = "hidden"; }} />
                     <span><strong>{example.name[language]}</strong><small>{example.category[language]}</small></span>
                   </button>
                 ))}
-              </div>
-            </div>
-        </section>
-
-        <section className="demo-evidence demo-section" aria-labelledby="demo-compare-title">
-            <div className="demo-section-heading" data-demo-reveal>
-              <h2 id="demo-compare-title">{content.comparisonTitle}</h2>
-              <p>{content.comparisonBody}</p>
-            </div>
-            <div data-demo-reveal data-demo-delay="1">
-              <div className="demo-comparison-labels"><span>{content.original}</span><span>{content.result}</span></div>
-              <div className="demo-comparison" style={{ "--demo-split": split + "%", "--demo-aspect": item.width / item.height } as CSSProperties}>
-                <DeferredImage src={demoAsset(item.id, "result.png")} alt={content.result + ": " + item.name[language]}
-                  width={item.width} height={item.height} loading="lazy" decoding="async" onError={() => setFailedImages(true)} />
-                <div className="demo-comparison-original">
-                  <DeferredImage src={demoAsset(item.id, "input.png")} alt={content.original + ": " + item.name[language]}
-                    width={item.width} height={item.height} loading="lazy" decoding="async" onError={() => setFailedImages(true)} />
-                </div>
-                <div className="demo-comparison-divider" aria-hidden="true"><span><ArrowsLeftRight size={19} /></span></div>
-                <input type="range" min="0" max="100" value={split}
-                  aria-label={content.comparisonLabel} onChange={(event) => setSplit(Number(event.target.value))} />
-                {failedImages && <p className="demo-comparison-error">
-                  {language === "zh" ? "案例暂不可用" : "Example unavailable"}
-                </p>}
               </div>
             </div>
         </section>
@@ -244,7 +206,7 @@ function DemoPageContent({ language, onLanguageChange, onNavigate, hrefFor }: Pr
           <figure className="demo-method-figure" data-demo-reveal data-demo-delay="1">
             <button type="button" className="demo-method-preview" data-demo-cursor="zoom"
               aria-label={language === "zh" ? "查看完整流程图" : "View the full pipeline diagram"} onClick={() => diagramDialog.current?.showModal()}>
-              <img src={demoBrandAsset("figfox-method-20261103.webp")} width="1208" height="669" loading="lazy" decoding="async" alt={content.methodAlt} />
+              <img src={demoBrandAsset("framework-v80.svg")} width="1208" height="669" loading="lazy" decoding="async" alt={content.methodAlt} />
             </button>
             <button type="button" className="demo-diagram-enlarge" data-demo-cursor="zoom" onClick={() => diagramDialog.current?.showModal()}>
               <MagnifyingGlassPlus size={16} />{content.enlarge}
@@ -294,7 +256,7 @@ function DemoPageContent({ language, onLanguageChange, onNavigate, hrefFor }: Pr
           </button>
         </div>
         <div className="demo-dialog-image">
-          <img src={demoBrandAsset("figfox-method-20261103.png")} width="1208" height="669" loading="lazy" decoding="async" alt={content.methodAlt} />
+          <img src={demoBrandAsset("framework-v80.svg")} width="1208" height="669" loading="lazy" decoding="async" alt={content.methodAlt} />
         </div>
       </dialog>
     </div>

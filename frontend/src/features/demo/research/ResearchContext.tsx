@@ -1,6 +1,6 @@
 import { createContext, useContext, useEffect, useRef, useState, lazy, Suspense, type ReactNode } from 'react';
 import type { DemoLanguage } from '../cases';
-import { load, type SampleIndex, type Selection, type Summary } from './data';
+import { load, methodColor, type SampleIndex, type Selection, type Summary } from './data';
 import './research.css';
 const Compare = lazy(() => import('./SampleBrowser'));
 type Store = { data: Summary | null; samples: SampleIndex[]; error: boolean; ensureSamples: () => void; open: (s: Selection) => void; language: DemoLanguage };
@@ -11,7 +11,7 @@ export function ResearchProvider({ language, children }: { language: DemoLanguag
   const trigger=useRef<HTMLElement|null>(null), previousHash=useRef('');
   function ensureSamples() { setError(false); void load<SampleIndex[]>('samples.json').then(setSamples).catch(()=>setError(true)); }
   function open(s: Selection) { trigger.current=document.activeElement as HTMLElement; previousHash.current=location.hash; ensureSamples(); setSelection(s); history.replaceState(null,'',`#research?sample=${s.sample}&metric=${s.metric}&condition=${s.condition??'A'}&methods=${(s.methods??[]).join(',')}&view=${s.view??''}&scope=${s.scope??''}`); }
-  useEffect(()=>{ void load<Summary>('summary.json').then(setData).catch(()=>setError(true));
+  useEffect(()=>{ void load<Summary>('summary.json').then(value => setData({ ...value, methods: value.methods.map(method => ({ ...method, color: methodColor(method.id) })) })).catch(()=>setError(true));
     function readHash() { if(location.hash.startsWith('#research?')) { const q=new URLSearchParams(location.hash.slice(10)); ensureSamples(); setSelection({sample:q.get('sample')??'sample-0001',metric:q.get('metric')??'D01',condition:q.get('condition')??'A', methods:q.get('methods')?.split(',').filter(Boolean), view:q.get('view')==='overview'?'overview':q.get('view')==='pair'?'pair':undefined, scope:q.get('scope')==='ablation'?'ablation':q.get('scope')==='comparison'?'comparison':undefined}); } }
     readHash(); addEventListener('hashchange',readHash);return()=>removeEventListener('hashchange',readHash);
   },[]);
