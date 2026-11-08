@@ -1,0 +1,10 @@
+{
+  "checks": [
+    "All three actual SVGs: edit, drag, compare, keyboard slider, export, case-local persistence and reset; originals unchanged",
+    "Supplied vector preserved byte-for-byte; recorded draft/final hashes verified; stable detail, playback, pause and resume",
+    "Source selectable on either side in both scopes; equal viewports, shared zoom/pan, no invented source score and no duplicate thumbnail",
+    "Chinese/English desktop/mobile visual evidence, no horizontal overflow, reduced motion and zero generation requests"
+  ],
+  "errors": [],
+  "apiRequests": []
+}

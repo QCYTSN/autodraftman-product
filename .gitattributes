@@ -17,3 +17,7 @@ frontend/public/assets/demo/cases/**/*.svg binary
 frontend/public/assets/research/samples/**/*.svg binary
 frontend/public/assets/demo/framework-v80.svg binary
 frontend/public/assets/presentation/**/*.svg binary
+
+# Delivery evidence must preserve the tested file bytes and recorded hashes.
+frontend/presentation-dist/FigFox-Architecture-Demo.html binary
+docs/reviews/figfox-presentation-mode/*.svg binary

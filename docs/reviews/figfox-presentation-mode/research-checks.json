@@ -1,0 +1,17 @@
+{
+  "checks": [
+    "Official data and 68 heatmap cells",
+    "Row-best highlights, smaller unframed architecture, synchronized profile motion and section spacing",
+    "Heatmap opens matching metric; focus, zoom, pan, reset, Escape and focus restoration",
+    "Three named visual examples switch source/output and open the matching detail",
+    "Ablation numbers and markers interpolate together, rapid changes settle correctly, reduced motion updates immediately",
+    "Equal-weight mean, true score gaps, zero-based cost/quality positions for all 16 criteria, keyboard and tap point readouts",
+    "Disclosed rank distributions, every quality criterion, recorded resources and animated selection",
+    "Resource breakdown derives from A/C records; complete protocol and downloads remain available in settings",
+    "Historical native receipt shows 5 of 5 executed operations",
+    "Case-local edits survive switching; reset and SVG download work",
+    "Chinese and English at 1440, 1280 and 1920 px; reduced motion and no page overflow",
+    "Direct /figfox/ research deep link restores sample and condition"
+  ],
+  "errors": []
+}

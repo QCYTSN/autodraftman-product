@@ -1,0 +1,13 @@
+{
+  "checks": [
+    "F3 startup: Slow extension loading keeps the canvas unready; the first click and arrow key work immediately after readiness",
+    "F5: Zoom buttons use 1–6400%, remain monotonic and stop at both boundaries",
+    "F6: Stroke width supports 90/150 and zero without an artificial 99 px cap; values agree with the displayed input",
+    "F3/F4: Actual canvas clicks restore focus after zoom input; rotated/scaled text nudges in screen directions at 25/100%, with undo",
+    "F4: Grid step and redo are preserved; arrows in an inspector field do not move artwork",
+    "F2: Default/original-size inserts are centered; star/text attributes survive ID collisions, unlinking, parameter edits, one undo/redo and export",
+    "F2/F6: Closing and reopening the edited SVG preserves star parameters and stroke width",
+    "F1: em/ex/mm preference → edit → export → close → reopen preserves 800×600 intrinsic size and the edit"
+  ],
+  "errors": []
+}

@@ -1,0 +1,11 @@
+{
+  "checks": [
+    "Text properties precede geometry; IME composition stays uncommitted until completion; focus and tspan structure survive",
+    "Merely focusing a rounded numeric display does not edit coordinates; color and position changes preserve selection, zoom and undo/redo",
+    "Export and reopen preserve edits plus untouched groups, IDs, transforms, gradients, markers, clip, mask, embedded image and formula source",
+    "Explicit Layers/Page choices stay selected; download feedback matches the actual file action",
+    "Existing research SVG opens, edits, exports and reopens with all 49 text elements; Chinese and English inspector captures checked",
+    "Real writable browser file handles retain write-back and Save as; notices distinguish original file, new file and SVG download"
+  ],
+  "errors": []
+}

@@ -1,0 +1,8 @@
+{
+  "checks": [
+    "Export commits the latest edited document before delivering its download",
+    "Refreshing immediately after export restores that document and its edits",
+    "A failed local save still exports the real edited SVG and reports the failure honestly"
+  ],
+  "errors": []
+}

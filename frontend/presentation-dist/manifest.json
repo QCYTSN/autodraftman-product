@@ -1,0 +1,415 @@
+{
+  "file": "FigFox-Architecture-Demo.html",
+  "bytes": 948191,
+  "sha256": "d55b681c6d045b664591383449f74834937f2858caa741007a8c94c53dc110bc",
+  "case": {
+    "id": "sample-0001",
+    "title": {
+      "zh": "科研图的重建、检查与修复",
+      "en": "Reconstruct, inspect and repair a research figure"
+    },
+    "provenance": {
+      "sourceCommit": "c67feff986f5f9de0e1a139d416eefcccf8a3b80",
+      "runId": "四方法对比/Full-FigFox/sample-0001",
+      "conditionId": "A",
+      "upstreamHashes": {
+        "source": "a78268849a4fbe310682c97b5d6b5dfe54e4591ed16fc188953e06e67935351b",
+        "draft": "45f03aece4eecf326548b11eb3ff43b11f212bfd4016649ae85392f18d6650c1",
+        "final": "94e9648d7481a98548eca3ce4cf95f9e6427d1913cbd107e310f3c4e77d529f3",
+        "executor": "2276f55cca4d9c060064e87da47cdaea64d04a73ff1a10e97381071a16733255",
+        "operations": "336f89871221bc2731bf0f0988ac720d1fad391a7d3a89d51f97403f6d726f83",
+        "journal": "cd17a8ebef16846cc9e026d614de734d64eb5ac44967fd5e78b1da5e6d2a59ae",
+        "samCatalog": "022f04792cf327cbc0fb08d7f05f33cbbb9eae7a10d4005ad3bf203300a90566",
+        "draftPng": "23bc15d46da1b5a1161ba86cf4e6b89ab51d93a66eea8cd74c5ea0df036822c0",
+        "finalPng": "6de3605a10942b6dba818c22f048da149a2c1904050e89eb5508170bc2ca9e1d"
+      },
+      "bundledHashes": {
+        "reference.webp": "d807e007fd8f62c38a20af077bab4e04b04d438f63ff102a7a1f8cb47564100f",
+        "draft.webp": "1a1e571b3627f41b8b823953c0dc6b8d55a231434c55367c1987e3f4303aa0c4",
+        "final.webp": "d7b27e13f396b06557217fe4b8275742d51b369cedff4c8ee17bf27883e56c83",
+        "draft.svg": "45f03aece4eecf326548b11eb3ff43b11f212bfd4016649ae85392f18d6650c1",
+        "final.svg": "94e9648d7481a98548eca3ce4cf95f9e6427d1913cbd107e310f3c4e77d529f3",
+        "before-B1.svg": "7c9d8ee06541cae2ac31ee29f1f7ff40c91bb0aabf40039d2c349c637e81db71",
+        "after-B1.svg": "33e3b216d1afd2b168aeb8c68eaad611197420842a6dad8fc84a1a1f9364dda9",
+        "crop-point-cloud.png": "f16017b0a339165da2760c41a2e2e0d99e37630e48a737e2b2105d7f736a631b",
+        "crop-vehicle.png": "8debe1426267b765f2641b1a1a77b87a91398741feca5992ea332f76e04d24cd",
+        "crop-graph.png": "d6bdf59294fd114ff4ce601b83fb612332e6865535c12235bf096b171d13a43a"
+      }
+    },
+    "dimensions": {
+      "width": 968,
+      "height": 510,
+      "viewBox": [
+        0,
+        0,
+        968,
+        510
+      ]
+    },
+    "images": {
+      "reference": "reference.webp",
+      "draftPreview": "draft.webp",
+      "finalPreview": "final.webp"
+    },
+    "svg": {
+      "draft": "draft.svg",
+      "final": "final.svg"
+    },
+    "sam": {
+      "mode": "reference-crop-illustration",
+      "segmentationCount": null,
+      "assets": [
+        {
+          "id": "point-cloud",
+          "name": {
+            "zh": "点云纹理",
+            "en": "Point cloud"
+          },
+          "image": "crop-point-cloud.png",
+          "sourceRegion": {
+            "box": [
+              397,
+              41,
+              501,
+              122
+            ],
+            "coordinateWidth": 968,
+            "coordinateHeight": 510,
+            "origin": "author-verified"
+          }
+        },
+        {
+          "id": "vehicle",
+          "name": {
+            "zh": "车辆图形",
+            "en": "Vehicle"
+          },
+          "image": "crop-vehicle.png",
+          "sourceRegion": {
+            "box": [
+              47,
+              91,
+              96,
+              122
+            ],
+            "coordinateWidth": 968,
+            "coordinateHeight": 510,
+            "origin": "author-verified"
+          }
+        },
+        {
+          "id": "graph",
+          "name": {
+            "zh": "图结构",
+            "en": "Graph structure"
+          },
+          "image": "crop-graph.png",
+          "sourceRegion": {
+            "box": [
+              608,
+              306,
+              706,
+              430
+            ],
+            "coordinateWidth": 968,
+            "coordinateHeight": 510,
+            "origin": "author-verified"
+          }
+        }
+      ],
+      "reason": "Same-run SAM proof is retained, but its catalog and crop bytes are absent from the accessible archive. Available preflight catalogs belong to a different source hash."
+    },
+    "issues": [
+      {
+        "id": "B1",
+        "title": {
+          "zh": "连接方向",
+          "en": "Arrow direction"
+        },
+        "sourceRegion": {
+          "box": [
+            585,
+            107,
+            623,
+            146
+          ],
+          "coordinateWidth": 968,
+          "coordinateHeight": 510,
+          "origin": "author-verified"
+        },
+        "draftRegion": {
+          "box": [
+            589,
+            109,
+            620,
+            134
+          ],
+          "coordinateWidth": 968,
+          "coordinateHeight": 510,
+          "origin": "model-recorded"
+        },
+        "finalRegion": {
+          "box": [
+            580,
+            107,
+            626,
+            151
+          ],
+          "coordinateWidth": 968,
+          "coordinateHeight": 510,
+          "origin": "author-verified"
+        },
+        "sourceEvidence": {
+          "zh": "向上后转向右侧",
+          "en": "Up, then to the right"
+        },
+        "draftEvidence": {
+          "zh": "箭头朝下，指向特征点",
+          "en": "Down toward the feature dot"
+        },
+        "verification": "confirmed",
+        "targetIds": [
+          "green_pooling_path_left",
+          "feature_dots_top"
+        ],
+        "transactionId": "T_B_pooling_arrow_and_feature_container",
+        "factId": "F_B_pool_arrow",
+        "recordedEvidence": {
+          "source": "SOURCE shows a green pooling path rising from the N point features area and ending with a right-pointing arrowhead near the top, feeding the Global Pooling concept.",
+          "draft": "INITIAL shows the green path with a downward arrowhead aimed at the top red feature dot instead of the source rightward endpoint/direction."
+        },
+        "labelPosition": [
+          552,
+          8
+        ],
+        "leaderSide": "top",
+        "sourceEndpoint": [
+          620,
+          111
+        ],
+        "draftEndpoint": [
+          592,
+          133
+        ]
+      },
+      {
+        "id": "B2",
+        "title": {
+          "zh": "文字与边框重叠",
+          "en": "Label overlaps border"
+        },
+        "sourceRegion": {
+          "box": [
+            818,
+            103,
+            932,
+            140
+          ],
+          "coordinateWidth": 968,
+          "coordinateHeight": 510,
+          "origin": "author-verified"
+        },
+        "draftRegion": {
+          "box": [
+            819,
+            104,
+            930,
+            140
+          ],
+          "coordinateWidth": 968,
+          "coordinateHeight": 510,
+          "origin": "model-recorded"
+        },
+        "finalRegion": {
+          "box": [
+            817,
+            99,
+            932,
+            140
+          ],
+          "coordinateWidth": 968,
+          "coordinateHeight": 510,
+          "origin": "author-verified"
+        },
+        "sourceEvidence": {
+          "zh": "标题位于面板上方",
+          "en": "Label above the panel"
+        },
+        "draftEvidence": {
+          "zh": "面板边线穿过标题",
+          "en": "Panel border crosses the label"
+        },
+        "verification": "not-recorded",
+        "targetIds": [
+          "f05_top_bbox_frame"
+        ],
+        "transactionId": "T_B_restore_top_bbox_panel",
+        "factId": null,
+        "recordedEvidence": {
+          "source": "In SOURCE, the text label “Bounding Box” sits above the gray bounding-box panel without being crossed by the panel border.",
+          "draft": "In INITIAL, the gray panel’s top border runs through/behind the “Bounding Box” text, creating an unintended strike-through/overlap."
+        },
+        "labelPosition": [
+          886,
+          8
+        ],
+        "leaderSide": "right",
+        "sourceEndpoint": null,
+        "draftEndpoint": null
+      },
+      {
+        "id": "D1",
+        "title": {
+          "zh": "图连接缺失",
+          "en": "Missing graph connection"
+        },
+        "sourceRegion": {
+          "box": [
+            608,
+            306,
+            706,
+            430
+          ],
+          "coordinateWidth": 968,
+          "coordinateHeight": 510,
+          "origin": "author-verified"
+        },
+        "draftRegion": {
+          "box": [
+            612,
+            309,
+            705,
+            397
+          ],
+          "coordinateWidth": 968,
+          "coordinateHeight": 510,
+          "origin": "model-recorded"
+        },
+        "finalRegion": {
+          "box": [
+            608,
+            306,
+            706,
+            430
+          ],
+          "coordinateWidth": 968,
+          "coordinateHeight": 510,
+          "origin": "author-verified"
+        },
+        "sourceEvidence": {
+          "zh": "左上节点连向中央节点",
+          "en": "Upper-left node connects to the center"
+        },
+        "draftEvidence": {
+          "zh": "橙色对角连接缺失",
+          "en": "Orange diagonal connection is missing"
+        },
+        "verification": "not-recorded",
+        "targetIds": [
+          "red_dashed_verticals"
+        ],
+        "transactionId": "T_D_restore_structure_graph_topology",
+        "factId": null,
+        "recordedEvidence": {
+          "source": "SOURCE’s Structure-Aware Localization graph shows the central orange diamond connected by an orange diagonal from the left top yellow diamond area as well as to the upper structure, with the green lower graph following the source edge arrangement.",
+          "draft": "INITIAL’s orange graph lacks the visible left-to-central orange diagonal connection and has a changed top orange topology; the lower green edge layout also appears simplified/shifted relative to SOURCE."
+        },
+        "labelPosition": [
+          664,
+          261
+        ],
+        "leaderSide": "top",
+        "sourceEndpoint": null,
+        "draftEndpoint": null
+      }
+    ],
+    "repair": {
+      "kind": "transaction-snapshot",
+      "beforeSvg": "before-B1.svg",
+      "afterSvg": "after-B1.svg",
+      "transactionId": "T_B_pooling_arrow_and_feature_container",
+      "context": "Sequential replay: preceding transaction applied, then B1 transaction.",
+      "region": {
+        "box": [
+          575,
+          105,
+          628,
+          216
+        ],
+        "coordinateWidth": 968,
+        "coordinateHeight": 510,
+        "origin": "author-verified"
+      },
+      "operations": [
+        {
+          "op": "set",
+          "targetId": "green_pooling_path_left",
+          "description": {
+            "zh": "调整 pooling 路径",
+            "en": "Update pooling path"
+          }
+        },
+        {
+          "op": "replace_svg",
+          "targetId": "feature_dots_top",
+          "description": {
+            "zh": "调整关联特征对象",
+            "en": "Update feature container"
+          }
+        }
+      ],
+      "executionStatus": "recorded-complete",
+      "plannedOperations": 13,
+      "executedOperations": 13,
+      "unresolvedCount": 0,
+      "visualQualityPass": null,
+      "transactionOperations": 2,
+      "replay": {
+        "fullResultHashMatches": true,
+        "journalMatches": true,
+        "outsideTargetsUnchanged": true,
+        "beforeHash": "7c9d8ee06541cae2ac31ee29f1f7ff40c91bb0aabf40039d2c349c637e81db71",
+        "afterHash": "33e3b216d1afd2b168aeb8c68eaad611197420842a6dad8fc84a1a1f9364dda9"
+      }
+    },
+    "gapGuidance": {
+      "state": "not-recorded",
+      "summary": {
+        "zh": "当前材料未记录此分支调用",
+        "en": "This material does not record a call to this branch."
+      }
+    },
+    "editTarget": {
+      "elementId": "plus_node_49",
+      "textNodePath": [
+        0
+      ],
+      "originalText": "Global Pooling",
+      "exampleText": "Demo Pooling",
+      "focusCamera": [
+        552,
+        55,
+        400,
+        200
+      ]
+    },
+    "modelLabels": {
+      "draft": null,
+      "inspection": "GPT-5.5",
+      "planning": "GPT-5.5",
+      "guidance": null
+    },
+    "objectCounts": {
+      "text": 35,
+      "graphics": 131,
+      "connectors": 12
+    },
+    "transformations": [
+      "Reference and previews losslessly encoded from same-run archival PNGs; decoded RGB pixels verified identical. SVG source bytes unchanged.",
+      "Three illustrative rectangular crops extracted from the lossless reference; no segmentation or source-to-draft mapping claimed.",
+      "Transaction snapshots generated by the archived executor after validating full-run byte identity and journal equality.",
+      "Source and final ROI boxes visually verified against the reference and SVG. Draft boxes retain original model coordinates.",
+      "DOM sanitization and instance ID prefixes apply only to runtime display copies; export uses the clean editable document."
+    ]
+  }
+}
