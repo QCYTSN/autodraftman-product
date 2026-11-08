@@ -51,7 +51,7 @@ export default function PresentationStage({data,media,state,patch,edited,downloa
    selectedRegion={scene==='assets'?state.selectedAsset:issue.id} regionsAnimated={scene==='assets'&&forward&&time<600}
    endpoint={issue.sourceEndpoint??undefined} showEndpoint={scene==='opening'||(scene==='evidence'&&!mapVisible&&!state.fullReference&&time>=990)} openingPoint={scene==='opening'}/>
   {(scene==='assets'||(scene==='draft'&&forward&&time<440))&&<AssetExtractionScene data={data} media={media} state={state} patch={patch} {...sequence}/>}
-  <FigureViewport dimensions={data.dimensions} svg={media[data.svg.draft]} name="draft" frame={draftFrame} camera={draftCamera}
+  <FigureViewport dimensions={data.dimensions} svg={media[scene==='targets'?data.repair.beforeSvg:data.svg.draft]} name="draft" frame={draftFrame} camera={draftCamera}
    visible={['draft','evidence','targets'].includes(scene)} opacity={scene==='draft'&&forward&&time<440?0:1} duration={sceneDuration} label={scene==='draft'?copy.svgDraft[lang]:scene==='targets'?copy.target[lang]:scene==='evidence'?(mapVisible?copy.issueMap[lang]:copy.draft[lang]):undefined}
    targets={scene==='targets'?targetIds:scene==='draft'&&time>=650?objects.map(o=>o.id):[]} selectedTarget={scene==='targets'?activeTarget:activeObject?.id}
    onlySelected={scene==='draft'} objectLabel={scene==='draft'&&time>=650&&activeObject?copy[activeObject.type][lang]:undefined}

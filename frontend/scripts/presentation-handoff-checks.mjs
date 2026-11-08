@@ -35,6 +35,12 @@ export async function checkHandoffs(browser,base,output,data,checks,errors){
   checks.push('All nine original detector regions precede paired crops; replay resets full map; I and Escape hold/close it without another scene');
 
   await go('targets');assert.equal(await page.locator('[data-verification]').getAttribute('data-verification'),data.issues[0].verification);
+  // Plan and execution must start from the same recorded transaction state,
+  // including changes already applied by earlier transactions.
+  assert(await page.evaluate(()=>{
+   const content=name=>{const root=document.querySelector('[data-figure="'+name+'"] svg > g[id$="-document"]');return root.innerHTML.replaceAll(root.id.slice(0,-9),'instance');};
+   return content('draft')===content('before');
+  }));
   await page.evaluate(()=>{window.planGroup=document.querySelector('[data-operation-group]');});
   const camera=await page.locator('[data-figure="draft"] svg').first().getAttribute('data-camera');
   await page.evaluate(()=>{window.handoffTrace=[];window.handoffObserver=new MutationObserver(()=>{const m=document.querySelector('main');window.handoffTrace.push({phase:m.dataset.handoffPhase,comparison:m.dataset.comparison});});window.handoffObserver.observe(document.querySelector('main'),{attributes:true});});
