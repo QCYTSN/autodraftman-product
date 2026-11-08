@@ -8,6 +8,7 @@ export type Issue = {
   targetIds: string[]; transactionId: string | null; factId: string | null;
   recordedEvidence: { source: string; draft: string };
   labelPosition: [number, number]; sourceEndpoint: [number, number] | null; draftEndpoint: [number, number] | null;
+  leaderSide: 'top' | 'right';
 };
 export type PresentationCase = {
   id: string; title: Copy;

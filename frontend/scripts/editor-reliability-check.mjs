@@ -142,6 +142,8 @@ try {
   await page.getByRole('button', { name: '撤销', exact: true }).click(); await settle();
   assert.equal(await frame().locator('#svgcontent use').count(), 1);
   await pick(await frame().locator('#svgcontent use').evaluate(e => e.id));
+  // The current inspector keeps unlinking and shape details in a collapsed section.
+  await page.locator('.ff-inspector-advanced > summary').filter({ hasText: '高级属性' }).click();
   await page.getByRole('button', { name: '解除引用，独立编辑', exact: true }).click(); await settle();
   await pick(await frame().locator('#svgcontent > g polygon[shape="star"]').evaluate(e => e.id));
   assert.equal(await page.getByLabel('内外径比例', { exact: true }).inputValue(), '4');

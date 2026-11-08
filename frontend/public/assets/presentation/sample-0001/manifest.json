@@ -176,8 +176,9 @@
       },
       "labelPosition": [
         552,
-        54
+        8
       ],
+      "leaderSide": "top",
       "sourceEndpoint": [
         620,
         111
@@ -245,9 +246,10 @@
         "draft": "In INITIAL, the gray panel’s top border runs through/behind the “Bounding Box” text, creating an unintended strike-through/overlap."
       },
       "labelPosition": [
-        821,
-        48
+        886,
+        8
       ],
+      "leaderSide": "right",
       "sourceEndpoint": null,
       "draftEndpoint": null
     },
@@ -312,6 +314,7 @@
         664,
         261
       ],
+      "leaderSide": "top",
       "sourceEndpoint": null,
       "draftEndpoint": null
     }

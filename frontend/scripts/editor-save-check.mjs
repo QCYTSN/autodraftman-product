@@ -34,20 +34,29 @@ try {
   const page = await browser.newPage({ viewport: { width: 1440, height: 900 }, acceptDownloads: true });
   await edit(page);
   await exportSvg(page, "saved-export.svg");
-  const saved = await page.evaluate(() => new Promise((resolve, reject) => {
-    const request = indexedDB.open("figfox-local-editor", 2);
-    request.onerror = () => reject(request.error);
-    request.onsuccess = () => {
-      const db = request.result;
-      const active = db.transaction("preferences", "readonly").objectStore("preferences").get("active");
-      active.onerror = () => reject(active.error);
-      active.onsuccess = () => {
-        const document = db.transaction("documents", "readonly").objectStore("documents").get(active.result);
-        document.onerror = () => reject(document.error);
-        document.onsuccess = () => { db.close(); resolve(document.result); };
+  const saved = await page.evaluate(async () => {
+    // Internal/Pages mode uses the existing account-scoped editor database.
+    const databases = (await indexedDB.databases()).filter(db => db.name === "figfox-local-editor" || db.name?.startsWith("figfox-local-editor:"));
+    if (databases.length !== 1) throw new Error("Expected one editor database in the isolated browser context");
+    return new Promise((resolve, reject) => {
+      const request = indexedDB.open(databases[0].name, 2);
+      request.onerror = () => reject(request.error);
+      request.onblocked = () => reject(new Error("Editor database is blocked"));
+      request.onsuccess = () => {
+        const db = request.result;
+        if (!db.objectStoreNames.contains("preferences") || !db.objectStoreNames.contains("documents")) {
+          db.close(); reject(new Error("Editor database has no document stores")); return;
+        }
+        const active = db.transaction("preferences", "readonly").objectStore("preferences").get("active");
+        active.onerror = () => reject(active.error);
+        active.onsuccess = () => {
+          const document = db.transaction("documents", "readonly").objectStore("documents").get(active.result);
+          document.onerror = () => reject(document.error);
+          document.onsuccess = () => { db.close(); resolve(document.result); };
+        };
       };
-    };
-  }));
+    });
+  });
   assert.equal(saved.fileName, "export-save.svg");
   assert.ok(saved.markup.includes("#24a37a"));
   checks.push("Export commits the latest edited document before delivering its download");

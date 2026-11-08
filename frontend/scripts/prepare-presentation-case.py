@@ -112,7 +112,8 @@ for ident, title, source, result, se, de, targets, transaction, fact in specs:
                        sourceEvidence=se, draftEvidence=de, verification=verification,
                        targetIds=targets, transactionId=transaction, factId=fact,
                        recordedEvidence=dict(source=recorded["source_evidence"], draft=recorded["initial_evidence"]),
-                       labelPosition={"B1": [552, 54], "B2": [821, 48], "D1": [664, 261]}[ident],
+                       labelPosition={"B1": [552, 8], "B2": [886, 8], "D1": [664, 261]}[ident],
+                       leaderSide="right" if ident == "B2" else "top",
                        sourceEndpoint=[620, 111] if ident == "B1" else None,
                        draftEndpoint=[592, 133] if ident == "B1" else None))
 

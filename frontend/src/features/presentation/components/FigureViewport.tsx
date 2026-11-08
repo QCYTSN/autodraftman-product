@@ -8,7 +8,7 @@ import { motionTokens } from '../state';
 type Props = {
   dimensions: PresentationCase['dimensions'];
   image?: string; svg?: string; label: string; camera?: Box; targets?: string[]; selectedTarget?: string;
-  regions?: { id: string; region: Region; label?: string; labelPosition?: [number, number]; maskSvg?: string }[];
+  regions?: { id: string; region: Region; label?: string; labelPosition?: [number, number]; maskSvg?: string; leaderSide?: 'top' | 'right' }[];
   selectedRegion?: string | null; onRegion?: (id: string) => void; regionColor?: string;
   endpoint?: [number, number]; endpointLabel?: string; editableTarget?: string; onSelectText?: () => void;
   duration?: number; className?: string; focusOnMount?: boolean; animateRegions?: boolean; emphasizeTargets?: boolean; continuityId?: string;
@@ -56,7 +56,7 @@ export default function FigureViewport({ dimensions, image, svg, label, camera =
       {image && <image href={image} x="0" y="0" width={dimensions.width} height={dimensions.height} />}
       {instance && <g id={prefix + '-document'} ref={documentRoot} dangerouslySetInnerHTML={{ __html: instance.html }} />}
       <g className="ffp-observation-layer">
-        {regions.map(({ id, region: { box: [l, t, r, b] }, label: badge, labelPosition, maskSvg }, index) => {
+        {regions.map(({ id, region: { box: [l, t, r, b] }, label: badge, labelPosition, maskSvg, leaderSide }, index) => {
           const active = id === selectedRegion;
           const [x, y] = labelPosition ?? [r + 10, t - 12];
           return <motion.g key={id} className={'ffp-region ' + (active ? 'is-active' : '')} style={{ color: regionColor }} data-region={id}
@@ -67,7 +67,9 @@ export default function FigureViewport({ dimensions, image, svg, label, camera =
             {badge && <g role="button" tabIndex={0} aria-label={badge} aria-pressed={active} onClick={() => onRegion?.(id)}
               onKeyDown={event => { if (event.key === 'Enter' || event.key === ' ') { event.preventDefault(); event.stopPropagation(); onRegion?.(id); } }}>
               <rect x={x - 6} y={y - 4} width="64" height="44" fill="transparent" />
-              <path d={'M' + (l + (r - l) / 2) + ' ' + t + ' L' + (x + 24) + ' ' + (y + 36)} fill="none" stroke="currentColor" strokeWidth="1.5" vectorEffect="non-scaling-stroke" />
+              <path d={leaderSide === 'right'
+                ? 'M' + r + ' ' + ((t + b) / 2) + ' H' + (r + 24) + ' V' + (y + 18) + ' H' + (x + 52)
+                : 'M' + (l + (r - l) / 2) + ' ' + t + ' L' + (x + 24) + ' ' + (y + 36)} fill="none" stroke="currentColor" strokeWidth="1.5" vectorEffect="non-scaling-stroke" />
               <rect x={x} y={y} width="52" height="36" rx="6" fill={active ? '#A75A10' : '#FFF3E4'} stroke="currentColor" vectorEffect="non-scaling-stroke" />
               <text x={x + 26} y={y + 25} textAnchor="middle" fill={active ? 'white' : '#A75A10'} fontSize="22" fontFamily="Arial">{badge}</text>
             </g>}
