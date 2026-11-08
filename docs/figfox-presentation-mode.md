@@ -1,5 +1,7 @@
 # FigFox Presentation Mode
 
+This is the V1 guide at commit `4d53116`. The current seven-scene interface and compatible offline download are documented in [Presentation Mode V2](figfox-presentation-visual-v2.md).
+
 ## Scope and baseline
 
 This independent walkthrough explains saved experimental artifacts. Live generation remains in the existing workspace.

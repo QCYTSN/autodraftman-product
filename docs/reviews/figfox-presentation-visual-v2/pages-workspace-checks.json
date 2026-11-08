@@ -1,0 +1,14 @@
+{
+  "checks": [
+    "Showcase and workspace remain on Pages without redirect or connection message",
+    "Account pause keeps a manual continue action even when new-run budget is exhausted",
+    "Tab session survives refresh; authenticated preview and both downloads work without cookies",
+    "Authenticated SVG opens in editor on the same Pages address",
+    "Tabs keep separate account sessions and results",
+    "Revoked session returns to signed-out workspace and disables generation"
+  ],
+  "errors": [],
+  "syntheticSubmissions": 1,
+  "syntheticRetries": 1,
+  "realGenerationSubmissions": 0
+}

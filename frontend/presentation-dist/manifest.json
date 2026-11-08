@@ -1,7 +1,8 @@
 {
-  "file": "FigFox-Architecture-Demo.html",
-  "bytes": 948191,
-  "sha256": "d55b681c6d045b664591383449f74834937f2858caa741007a8c94c53dc110bc",
+  "file": "FigFox-Architecture-Demo-V2.html",
+  "compatibilityFile": "FigFox-Architecture-Demo.html",
+  "bytes": 955089,
+  "sha256": "d0633b0f5fcc0eaca215d3c2b021def15dd37abab821e746603490d4560049f0",
   "case": {
     "id": "sample-0001",
     "title": {

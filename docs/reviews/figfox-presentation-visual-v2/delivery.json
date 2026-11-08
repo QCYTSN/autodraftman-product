@@ -1,0 +1,25 @@
+{
+  "baselineCommit": "4d53116669c4cc318e8a55376150e95086047d8a",
+  "implementationCommit": "74a9c5fe5e73ab1eb6e367ca56c1c2036eb14715",
+  "testedAt": "2026-11-08T19:02:16.374114+08:00",
+  "os": "Windows-11-10.0.26200-SP0",
+  "browser": "Chrome 156.0.8078.74",
+  "presentationGroups": 18,
+  "productRegressionGroups": 39,
+  "standaloneBytes": 955089,
+  "standaloneSha256": "d0633b0f5fcc0eaca215d3c2b021def15dd37abab821e746603490d4560049f0",
+  "compatibilityByteIdentical": true,
+  "caseResourcesIdenticalToBaseline": true,
+  "offlineHttpRequests": 0,
+  "video": {
+    "file": "architecture-transitions.webm",
+    "seconds": 13.12,
+    "fps": 25.0,
+    "sha256": "f820a881d3f2785b964f2172c33cd4ccb0bf15223f0a936b1ae838b2cc5dcd90"
+  },
+  "publicDeploymentPerformed": false,
+  "deviceChecksPending": [
+    "macOS",
+    "actual lecture computer"
+  ]
+}

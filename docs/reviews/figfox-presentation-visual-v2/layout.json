@@ -1,0 +1,366 @@
+[
+  {
+    "width": 1600,
+    "height": 900,
+    "scene": "opening",
+    "language": "en",
+    "count": 5,
+    "words": "From pixels.\nTo structure. Reference",
+    "errors": []
+  },
+  {
+    "width": 1600,
+    "height": 900,
+    "scene": "assets",
+    "language": "en",
+    "count": 9,
+    "words": "Reconstruct. Reference Crop illustration Point cloud Vehicle Graph structure",
+    "errors": []
+  },
+  {
+    "width": 1600,
+    "height": 900,
+    "scene": "draft",
+    "language": "en",
+    "count": 5,
+    "words": "Reconstruct. Reference SVG draft Text",
+    "errors": []
+  },
+  {
+    "width": 1600,
+    "height": 900,
+    "scene": "evidence",
+    "language": "en",
+    "count": 4,
+    "words": "Inspect. Reference Draft Direction",
+    "errors": []
+  },
+  {
+    "width": 1600,
+    "height": 900,
+    "scene": "targets",
+    "language": "en",
+    "count": 7,
+    "words": "Repair. Target Operations 01 set 02 replace",
+    "errors": []
+  },
+  {
+    "width": 1600,
+    "height": 900,
+    "scene": "repair",
+    "language": "en",
+    "count": 4,
+    "words": "Repair. Before After Repaired",
+    "errors": []
+  },
+  {
+    "width": 1600,
+    "height": 900,
+    "scene": "editable",
+    "language": "en",
+    "count": 4,
+    "words": "Now editable. Edit SVG",
+    "errors": []
+  },
+  {
+    "width": 1366,
+    "height": 768,
+    "scene": "opening",
+    "language": "en",
+    "count": 5,
+    "words": "From pixels.\nTo structure. Reference",
+    "errors": []
+  },
+  {
+    "width": 1366,
+    "height": 768,
+    "scene": "assets",
+    "language": "en",
+    "count": 9,
+    "words": "Reconstruct. Reference Crop illustration Point cloud Vehicle Graph structure",
+    "errors": []
+  },
+  {
+    "width": 1366,
+    "height": 768,
+    "scene": "draft",
+    "language": "en",
+    "count": 5,
+    "words": "Reconstruct. Reference SVG draft Text",
+    "errors": []
+  },
+  {
+    "width": 1366,
+    "height": 768,
+    "scene": "evidence",
+    "language": "en",
+    "count": 4,
+    "words": "Inspect. Reference Draft Direction",
+    "errors": []
+  },
+  {
+    "width": 1366,
+    "height": 768,
+    "scene": "targets",
+    "language": "en",
+    "count": 7,
+    "words": "Repair. Target Operations 01 set 02 replace",
+    "errors": []
+  },
+  {
+    "width": 1366,
+    "height": 768,
+    "scene": "repair",
+    "language": "en",
+    "count": 4,
+    "words": "Repair. Before After Repaired",
+    "errors": []
+  },
+  {
+    "width": 1366,
+    "height": 768,
+    "scene": "editable",
+    "language": "en",
+    "count": 4,
+    "words": "Now editable. Edit SVG",
+    "errors": []
+  },
+  {
+    "width": 1920,
+    "height": 1080,
+    "scene": "opening",
+    "language": "en",
+    "count": 5,
+    "words": "From pixels.\nTo structure. Reference",
+    "errors": []
+  },
+  {
+    "width": 1920,
+    "height": 1080,
+    "scene": "assets",
+    "language": "en",
+    "count": 9,
+    "words": "Reconstruct. Reference Crop illustration Point cloud Vehicle Graph structure",
+    "errors": []
+  },
+  {
+    "width": 1920,
+    "height": 1080,
+    "scene": "draft",
+    "language": "en",
+    "count": 5,
+    "words": "Reconstruct. Reference SVG draft Text",
+    "errors": []
+  },
+  {
+    "width": 1920,
+    "height": 1080,
+    "scene": "evidence",
+    "language": "en",
+    "count": 4,
+    "words": "Inspect. Reference Draft Direction",
+    "errors": []
+  },
+  {
+    "width": 1920,
+    "height": 1080,
+    "scene": "targets",
+    "language": "en",
+    "count": 7,
+    "words": "Repair. Target Operations 01 set 02 replace",
+    "errors": []
+  },
+  {
+    "width": 1920,
+    "height": 1080,
+    "scene": "repair",
+    "language": "en",
+    "count": 4,
+    "words": "Repair. Before After Repaired",
+    "errors": []
+  },
+  {
+    "width": 1920,
+    "height": 1080,
+    "scene": "editable",
+    "language": "en",
+    "count": 4,
+    "words": "Now editable. Edit SVG",
+    "errors": []
+  },
+  {
+    "width": 1280,
+    "height": 720,
+    "scene": "opening",
+    "language": "en",
+    "count": 5,
+    "words": "From pixels.\nTo structure. Reference",
+    "errors": []
+  },
+  {
+    "width": 1280,
+    "height": 720,
+    "scene": "assets",
+    "language": "en",
+    "count": 9,
+    "words": "Reconstruct. Reference Crop illustration Point cloud Vehicle Graph structure",
+    "errors": []
+  },
+  {
+    "width": 1280,
+    "height": 720,
+    "scene": "draft",
+    "language": "en",
+    "count": 5,
+    "words": "Reconstruct. Reference SVG draft Text",
+    "errors": []
+  },
+  {
+    "width": 1280,
+    "height": 720,
+    "scene": "evidence",
+    "language": "en",
+    "count": 4,
+    "words": "Inspect. Reference Draft Direction",
+    "errors": []
+  },
+  {
+    "width": 1280,
+    "height": 720,
+    "scene": "targets",
+    "language": "en",
+    "count": 7,
+    "words": "Repair. Target Operations 01 set 02 replace",
+    "errors": []
+  },
+  {
+    "width": 1280,
+    "height": 720,
+    "scene": "repair",
+    "language": "en",
+    "count": 4,
+    "words": "Repair. Before After Repaired",
+    "errors": []
+  },
+  {
+    "width": 1280,
+    "height": 720,
+    "scene": "editable",
+    "language": "en",
+    "count": 4,
+    "words": "Now editable. Edit SVG",
+    "errors": []
+  },
+  {
+    "width": 1024,
+    "height": 768,
+    "scene": "opening",
+    "language": "en",
+    "count": 5,
+    "words": "From pixels.\nTo structure. Reference",
+    "errors": []
+  },
+  {
+    "width": 1024,
+    "height": 768,
+    "scene": "assets",
+    "language": "en",
+    "count": 9,
+    "words": "Reconstruct. Reference Crop illustration Point cloud Vehicle Graph structure",
+    "errors": []
+  },
+  {
+    "width": 1024,
+    "height": 768,
+    "scene": "draft",
+    "language": "en",
+    "count": 5,
+    "words": "Reconstruct. Reference SVG draft Text",
+    "errors": []
+  },
+  {
+    "width": 1024,
+    "height": 768,
+    "scene": "evidence",
+    "language": "en",
+    "count": 4,
+    "words": "Inspect. Reference Draft Direction",
+    "errors": []
+  },
+  {
+    "width": 1024,
+    "height": 768,
+    "scene": "targets",
+    "language": "en",
+    "count": 7,
+    "words": "Repair. Target Operations 01 set 02 replace",
+    "errors": []
+  },
+  {
+    "width": 1024,
+    "height": 768,
+    "scene": "repair",
+    "language": "en",
+    "count": 4,
+    "words": "Repair. Before After Repaired",
+    "errors": []
+  },
+  {
+    "width": 1024,
+    "height": 768,
+    "scene": "editable",
+    "language": "en",
+    "count": 4,
+    "words": "Now editable. Edit SVG",
+    "errors": []
+  },
+  {
+    "scene": "opening",
+    "language": "zh",
+    "count": 8,
+    "words": "从像素\n到结构 原图",
+    "errors": []
+  },
+  {
+    "scene": "assets",
+    "language": "zh",
+    "count": 19,
+    "words": "重建 原图 素材示意 点云纹理 车辆图形 图结构",
+    "errors": []
+  },
+  {
+    "scene": "draft",
+    "language": "zh",
+    "count": 11,
+    "words": "重建 原图 SVG 初稿 文字",
+    "errors": []
+  },
+  {
+    "scene": "evidence",
+    "language": "zh",
+    "count": 8,
+    "words": "检查 原图 初稿 方向",
+    "errors": []
+  },
+  {
+    "scene": "targets",
+    "language": "zh",
+    "count": 20,
+    "words": "修复 目标 操作 01 set 02 replace",
+    "errors": []
+  },
+  {
+    "scene": "repair",
+    "language": "zh",
+    "count": 11,
+    "words": "修复 修改前 修复后 已修复",
+    "errors": []
+  },
+  {
+    "scene": "editable",
+    "language": "zh",
+    "count": 9,
+    "words": "继续编辑 编辑 SVG",
+    "errors": []
+  }
+]
