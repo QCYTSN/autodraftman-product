@@ -6,6 +6,11 @@ export const titles: Record<SceneId, Copy> = {
 export const copy = {
   reference: { en: 'Reference', zh: '原图' }, svgDraft: { en: 'SVG draft', zh: 'SVG 初稿' }, draft: { en: 'Draft', zh: '初稿' },
   sam: { en: 'SAM assets', zh: 'SAM 素材' }, crops: { en: 'Crop illustration', zh: '素材示意' }, direction: { en: 'Direction', zh: '方向' },
+  focusEvidence: { en: 'Evidence', zh: '局部' },
+  draftModel: { en: 'Draft model', zh: '生成模型' }, issueMap: { en: 'Issue map', zh: '问题分布' },
+  plan: { en: 'Plan', zh: '计划' }, execution: { en: 'Local execution', zh: '本地执行' }, render: { en: 'Render', zh: '渲染' },
+  confirmed: { en: 'Confirmed', zh: '已复核' }, guidance: { en: 'Gap guidance', zh: '缺口指导' }, retained: { en: 'Unresolved', zh: '保留问题' },
+  replay: { en: 'Replay transition', zh: '重播交接' },
   target: { en: 'Target', zh: '目标' }, operations: { en: 'Operations', zh: '操作' }, before: { en: 'Before', zh: '修改前' }, after: { en: 'After', zh: '修复后' },
   repaired: { en: 'Repaired', zh: '已修复' }, edit: { en: 'Edit', zh: '编辑' }, image: { en: 'Image', zh: '图像' }, shape: { en: 'Shape', zh: '图形' }, text: { en: 'Text', zh: '文字' },
   mode: { en: 'Recorded example', zh: '案例演示' }, menu: { en: 'Menu', zh: '菜单' }, close: { en: 'Close', zh: '关闭' },

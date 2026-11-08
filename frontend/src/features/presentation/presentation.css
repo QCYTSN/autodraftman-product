@@ -95,3 +95,25 @@
 .pv2-comparison button{width:116px;height:44px;font-size:22px;line-height:28px;position:relative;color:var(--pv2-secondary)}
 .pv2-comparison button[aria-pressed=true]{color:var(--pv2-ink)}.pv2-comparison button[aria-pressed=true]:after{content:'';position:absolute;left:20px;right:20px;bottom:0;height:2px;background:var(--pv2-accent)}
 .pv2-comparison>span{display:block;text-align:center;margin-top:22px;font-size:24px;line-height:30px}
+.pv2-draft-model-label{position:absolute;left:418px;top:354px;width:124px;text-align:center;font-size:22px;line-height:26px;color:var(--pv2-secondary)}
+.pv2-map-toggle{position:absolute;left:1000px;top:720px;height:44px;font-size:22px;line-height:28px;color:var(--pv2-secondary)!important;border-bottom:1px solid var(--pv2-hairline)!important}
+.pv2-map-toggle[aria-pressed=true]{color:var(--pv2-accent-text)!important;border-color:var(--pv2-accent)!important}
+.pv2-replay{position:absolute;left:1350px;top:826px;width:48px;height:44px;pointer-events:auto;opacity:.65;display:grid;place-items:center}
+.pv2-replay:hover{opacity:1}
+.pv2-review-mark{position:absolute;left:1190px;top:224px;display:flex;align-items:center;gap:10px;font-size:20px;line-height:28px;color:var(--pv2-confirmed)}
+.pv2-guidance-branch{position:absolute;left:1190px;top:548px;width:314px;height:80px;color:var(--pv2-secondary)}
+.pv2-guidance-line{position:absolute;left:0;top:-144px;pointer-events:none;overflow:visible}.pv2-guidance-line path{fill:none;stroke:var(--pv2-muted);stroke-width:1;stroke-dasharray:3 3;opacity:.65}
+.pv2-guidance-branch button{position:absolute;left:40px;top:0;min-height:60px;text-align:left}
+.pv2-guidance-branch button>span{display:block;font-size:22px;line-height:28px}
+.pv2-guidance-branch small{display:block;font-size:16px;line-height:24px;color:var(--pv2-muted)}
+.pv2-guidance-branch[data-guidance=triggered] path{stroke:var(--pv2-accent);opacity:1}
+.pv2-guidance-execution{top:668px}.pv2-guidance-execution .pv2-guidance-line{top:-348px}
+.pv2-retained{position:absolute;left:224px;top:760px;height:44px;font-size:20px!important;color:var(--pv2-secondary)!important;border-bottom:1px solid var(--pv2-hairline)!important}
+.pv2-retained b{font-weight:500;margin-left:12px;font-variant-numeric:tabular-nums}
+.pv2-render-handoff{position:absolute;left:1190px;top:350px;width:240px;pointer-events:none;transition:opacity 140ms}
+.pv2-render-handoff path{fill:none;stroke:var(--pv2-accent);stroke-width:1.5}
+.pv2-render-handoff>span{display:block;font-size:24px;line-height:30px}
+.pv2-render-arrow{position:absolute;left:-96px;top:88px}
+.pv2-execution-comparison{top:518px}
+
+.pv2-model-inputs{position:absolute;left:421px;top:500px;width:118px;height:36px;pointer-events:none}.pv2-model-inputs img{position:absolute;width:36px;height:36px;object-fit:contain}

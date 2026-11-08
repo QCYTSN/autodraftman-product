@@ -13,7 +13,7 @@ export default function AssetExtractionScene({data,media,state,patch,forward,tim
   {!handing&&<motion.span className="pv2-assets-label" data-stage-copy initial={forward?{opacity:0}:false} animate={{opacity:1}} transition={{duration:.18,delay:forward?.44:0}}>{(data.sam.mode==='recorded'?copy.sam:copy.crops)[state.language]}</motion.span>}
   {assets.map((asset,i)=>{const source=mapBox(regionBox(asset.sourceRegion),data.dimensions.viewBox,frame),top=232+offset+i*166;
    return <motion.button className="pv2-asset" data-asset={asset.id} aria-pressed={state.selectedAsset===asset.id} key={asset.id}
-    inert={handing} initial={false} animate={{left:handing?522+i*12:1120,top:handing?396+i*12:top,opacity:handing?0:1}}
+    inert={handing} initial={false} animate={{left:handing?421+i*41:1120,top:handing?500:top,opacity:handing?0:1}}
     transition={{duration:reduced?0:handing?.48:.22,ease:motionTokens.enterEase}} onClick={()=>patch({selectedAsset:asset.id})}>
     <motion.img src={media[asset.image]} alt="" initial={forward&&!handing?{x:source[0]-1120,y:source[1]-top,width:source[2],height:source[3],opacity:0}:false}
      animate={{x:0,y:handing?0:(124-(asset.displayHeight??124))/2,width:handing?40:240,height:handing?40:(asset.displayHeight??124),opacity:1}}

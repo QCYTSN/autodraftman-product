@@ -2,13 +2,19 @@ import { useEffect,useRef,type RefObject } from 'react';
 import { X } from '@phosphor-icons/react';
 import type { PresentationCase,PresentationState } from '../types';
 import { copy } from '../copy';
+import RecordDetails from './RecordDetails';
 type Props={state:PresentationState;data:PresentationCase;offline:boolean;patch:(value:Partial<PresentationState>)=>void;
  onReset:()=>void;onRestore:()=>void;onFullscreen:()=>Promise<void>;returnFocus:RefObject<HTMLButtonElement|null>};
 export default function CaseDetails({state,data,offline,patch,onReset,onRestore,onFullscreen,returnFocus}:Props){
  const root=useRef<HTMLElement>(null),lang=state.language;
- useEffect(()=>{const prior=document.activeElement as HTMLElement|null;root.current?.querySelector<HTMLButtonElement>('button')?.focus();
-   return()=>{requestAnimationFrame(()=>{if(prior?.isConnected&&!prior.closest('[inert]'))prior.focus();else returnFocus.current?.focus();});};},[returnFocus]);
- const title=state.overlay==='menu'?copy.menu:state.overlay==='case'?copy.case:copy.details;
+ const priorFocus=useRef<HTMLElement|null>(null),restoreFrame=useRef(0);
+ useEffect(()=>{cancelAnimationFrame(restoreFrame.current);
+   priorFocus.current??=document.activeElement as HTMLElement|null;
+   root.current?.querySelector<HTMLButtonElement>('button')?.focus();
+   return()=>{restoreFrame.current=requestAnimationFrame(()=>{const prior=priorFocus.current;
+     if(prior?.isConnected&&!prior.closest('[inert]'))prior.focus();else returnFocus.current?.focus();});};
+ },[returnFocus]);
+ const title=state.overlay==='menu'?copy.menu:state.overlay==='case'?copy.case:state.overlay==='guidance'?copy.guidance:state.overlay==='retained'?copy.retained:copy.details;
  return <aside ref={root} className={'pv2-overlay '+(state.overlay==='menu'?'pv2-menu':'pv2-details')} role="dialog" aria-modal="true" aria-labelledby="pv2-dialog-title"
   onKeyDown={e=>{if(e.key!=='Tab')return;const items=[...root.current!.querySelectorAll<HTMLElement>('button,a[href],summary,input')];const first=items[0],last=items[items.length-1];
    if(e.shiftKey&&document.activeElement===first){e.preventDefault();last.focus();}else if(!e.shiftKey&&document.activeElement===last){e.preventDefault();first.focus();}}}>
@@ -21,7 +27,7 @@ export default function CaseDetails({state,data,offline,patch,onReset,onRestore,
    {offline?<span>{copy.packaged[lang]}</span>:<a download href={import.meta.env.BASE_URL+'presentation-downloads/FigFox-Architecture-Demo-V2.html'}>{copy.offline[lang]}</a>}
    <button onClick={onReset}>{copy.reset[lang]}</button>
    <button onClick={()=>{onRestore();patch({overlay:'none'});}}>{copy.restore[lang]}</button>
-  </div>:<div className="pv2-details-scroll">
+  </div>:state.overlay==='guidance'||state.overlay==='retained'?<RecordDetails data={data} language={lang} kind={state.overlay}/>:<div className="pv2-details-scroll">
    <h3>{data.id} · {data.title[lang]}</h3>
    <p>{lang==='en'?'Recorded artifacts. Live generation remains in the workspace.':'此处展示已记录产物，现场生成由工作台承担。'}</p>
    <dl><dt>SAM</dt><dd>{data.sam.mode} · {data.sam.segmentationCount??'—'}</dd>
@@ -37,6 +43,10 @@ export default function CaseDetails({state,data,offline,patch,onReset,onRestore,
     {data.issues.map(issue=><details key={issue.id} open={issue.id===data.issues[0].id}><summary>{issue.id} · {issue.title[lang]} · {issue.verification}</summary>
       <p>{issue.sourceEvidence[lang]}</p><p>{issue.draftEvidence[lang]}</p><p>{issue.recordedEvidence.source}</p><p>{issue.recordedEvidence.draft}</p>
       <pre>{JSON.stringify({factId:issue.factId,sourceRegion:issue.sourceRegion,draftRegion:issue.draftRegion,finalRegion:issue.finalRegion,targetIds:issue.targetIds,transactionId:issue.transactionId},null,2)}</pre></details>)}
+    <details><summary>{lang==='en'?'Issue map · detector records':'问题分布 · 检测记录'} ({data.issueMap?.length??data.issues.length})</summary>
+      <p>{lang==='en'?'Original detector boxes and readings, before planning review. These coordinates are not silently corrected.':'这里保留规划复核前的检测坐标与读取结果，没有静默改写检测记录。'}</p>
+      <pre>{JSON.stringify(data.issueMap??data.issues,null,2)}</pre>
+    </details>
     <h3>{data.repair.transactionId}</h3><pre>{JSON.stringify(data.repair.operations,null,2)}</pre>
     <p>{lang==='en'?'Entire run counts; execution completion is separate from visual acceptance.':'以下数字属于整次运行；执行完成与视觉验收分别记录。'}</p>
     <dl><dt>planned / executed</dt><dd>{data.repair.plannedOperations??'—'} / {data.repair.executedOperations??'—'}</dd>

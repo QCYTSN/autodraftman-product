@@ -17,6 +17,8 @@
       "journal": "416fb5cdc04a0403b618e5aa1f44a03101337429bbef826cace327a2dea86c79",
       "samCatalog": "8f3f64fc46e9335d7d22af821c2751436e13e0c1941aa20a37ba4dffa2e625a7",
       "samProof": "13c7478cb28dc48d8c7686b45063e2158f69102ee9610ce741c8d53b71545f8f",
+      "inspection": "a7a53c2bf90058c634283a7c84214a74c7fe2ca7a2829db1319b5e4115715f5e",
+      "planning": "7c56c38cace5911ca2ab717ff592b259f419a9049614d4c24203d27d7f7dbd1e",
       "draftPng": "d6739ceae56cbdd38e0964dd2d5e15f5564534fb6a1d5d13510dbe3129ddc3aa",
       "finalPng": "71c5c7adde9abefa5c01be25cf94e23a99779782d354b72ff88a5dd409ac2683"
     },
@@ -373,6 +375,191 @@
       "draftEndpoint": null
     }
   ],
+  "issueMap": [
+    {
+      "id": "A1",
+      "region": {
+        "box": [
+          105,
+          53,
+          124,
+          76
+        ],
+        "coordinateWidth": 575,
+        "coordinateHeight": 241,
+        "origin": "model-recorded"
+      },
+      "labelPosition": null,
+      "labelAnchor": "start",
+      "sourceEvidence": "Source has an orange flame icon just above the left/input side of the upper-left Image Encoder.",
+      "draftEvidence": "Initial has no flame icon at that location; only the Image Encoder outline/text is present.",
+      "repair": "Add the orange flame icon at the same relative position above the input side of the upper-left Image Encoder, preserving the existing encoder and arrows."
+    },
+    {
+      "id": "A2",
+      "region": {
+        "box": [
+          207,
+          28,
+          270,
+          111
+        ],
+        "coordinateWidth": 575,
+        "coordinateHeight": 241,
+        "origin": "model-recorded"
+      },
+      "labelPosition": [
+        207,
+        6
+      ],
+      "labelAnchor": "start",
+      "sourceEvidence": "Source Hash Table has a red dashed boundary containing narrow white grid columns with selected black cells and black dots between the middle/right column area.",
+      "draftEvidence": "Initial Hash Table has different light-blue filled vertical strips, a different black-cell pattern, and dots placed within a different column arrangement.",
+      "repair": "Redraw the upper-left Hash Table interior to match the source cell grid, black-cell locations, dot lane, and white/light fill pattern while keeping the label, red dashed boundary, and incoming/update arrows aligned."
+    },
+    {
+      "id": "B1",
+      "region": {
+        "box": [
+          374,
+          53,
+          393,
+          76
+        ],
+        "coordinateWidth": 575,
+        "coordinateHeight": 241,
+        "origin": "model-recorded"
+      },
+      "labelPosition": null,
+      "labelAnchor": "start",
+      "sourceEvidence": "Source has an orange flame icon above the input side of the upper-right Image Encoder.",
+      "draftEvidence": "Initial lacks this flame icon at the corresponding encoder-input position.",
+      "repair": "Add the missing orange flame icon above the left/input side of the upper-right Image Encoder without moving the bird image, encoder, or arrows."
+    },
+    {
+      "id": "B2",
+      "region": {
+        "box": [
+          486,
+          31,
+          553,
+          109
+        ],
+        "coordinateWidth": 575,
+        "coordinateHeight": 241,
+        "origin": "model-recorded"
+      },
+      "labelPosition": [
+        486,
+        8
+      ],
+      "labelAnchor": "start",
+      "sourceEvidence": "Source Prototype Bank has a red dashed outer box with multiple subdivided columns, pastel blue/cream/yellow cells, a vertical black-dot lane, and a red circled glyph/curved arrow near the lower-right inside edge.",
+      "draftEvidence": "Initial Prototype Bank uses mostly uniform blue/white vertical columns with different subdivisions and lacks the source pastel cell distribution; the red circled glyph is placed/styled differently at the far right.",
+      "repair": "Restore the Prototype Bank to the source column grouping, horizontal subdivisions, pastel cell colors, black-dot lane, and red circled glyph/curved-arrow placement."
+    },
+    {
+      "id": "C1",
+      "region": {
+        "box": [
+          102,
+          127,
+          123,
+          149
+        ],
+        "coordinateWidth": 575,
+        "coordinateHeight": 241,
+        "origin": "model-recorded"
+      },
+      "labelPosition": null,
+      "labelAnchor": "start",
+      "sourceEvidence": "Source has a blue snowflake icon above the input side of the lower-left Image Encoder.",
+      "draftEvidence": "Initial has no snowflake icon at that corresponding encoder-input location.",
+      "repair": "Add the missing blue snowflake icon above the lower-left Image Encoder input side, preserving nearby inference thumbnails and arrows."
+    },
+    {
+      "id": "C2",
+      "region": {
+        "box": [
+          207,
+          123,
+          273,
+          230
+        ],
+        "coordinateWidth": 575,
+        "coordinateHeight": 241,
+        "origin": "model-recorded"
+      },
+      "labelPosition": [
+        191,
+        124
+      ],
+      "labelAnchor": "end",
+      "sourceEvidence": "Source lower-left hash area shows a red dashed box around the main hash table columns and a separate right-side 'New' column; cells are mostly white with selected black fills and the Update arrow/marker sits above.",
+      "draftEvidence": "Initial shows a different light-blue/black cell pattern and a different grouping: the right-side column is visually integrated/rearranged compared with the source, though 'New' remains below.",
+      "repair": "Redraw the lower-left hash/update area so the main red-dashed table, separate 'New' column, black-cell pattern, white cells, and top Update arrow/marker match the source."
+    },
+    {
+      "id": "D1",
+      "region": {
+        "box": [
+          374,
+          126,
+          393,
+          147
+        ],
+        "coordinateWidth": 575,
+        "coordinateHeight": 241,
+        "origin": "model-recorded"
+      },
+      "labelPosition": null,
+      "labelAnchor": "start",
+      "sourceEvidence": "Source has an orange flame icon above the input side of the lower-right Image Encoder in the TTA Inference block.",
+      "draftEvidence": "Initial lacks the flame icon at that corresponding encoder-input position.",
+      "repair": "Add the missing orange flame icon above the lower-right Image Encoder input side without altering the TTA Inference image collage or encoder."
+    },
+    {
+      "id": "D2",
+      "region": {
+        "box": [
+          481,
+          126,
+          570,
+          219
+        ],
+        "coordinateWidth": 575,
+        "coordinateHeight": 241,
+        "origin": "model-recorded"
+      },
+      "labelPosition": [
+        481,
+        116
+      ],
+      "labelAnchor": "end",
+      "sourceEvidence": "Source lower-right prototype area has a black dashed outer boundary, a red dashed box around the left column pair, a separate right column group, and pastel blue/cream/yellow cell fills.",
+      "draftEvidence": "Initial shows two red dashed groups with mostly uniform blue vertical columns and different internal subdivisions/colors compared with the source.",
+      "repair": "Redraw the lower-right prototype bank so the black outer dashed box, red dashed grouping, separate right-side group, horizontal subdivisions, and pastel fill colors match the source."
+    },
+    {
+      "id": "D3",
+      "region": {
+        "box": [
+          393,
+          217,
+          559,
+          239
+        ],
+        "coordinateWidth": 575,
+        "coordinateHeight": 241,
+        "origin": "model-recorded"
+      },
+      "labelPosition": null,
+      "labelAnchor": "start",
+      "sourceEvidence": "Source bottom Update connector rises from below the Image Encoder area and runs horizontally to a vertical segment near the prototype-bank/projector area, ending before the far-right bank edge.",
+      "draftEvidence": "Initial bottom Update connector extends much farther right under the prototype bank and has vertical segments/endpoints in different positions.",
+      "repair": "Reroute the bottom Update connector to match the source: keep the clock/text position, use the source horizontal span, and place the vertical endpoint at the source location rather than extending to the far-right bank edge."
+    }
+  ],
   "repair": {
     "kind": "transaction-snapshot",
     "beforeSvg": "before-A2.svg",
@@ -404,6 +591,7 @@
     "plannedOperations": 19,
     "executedOperations": 19,
     "unresolvedCount": 0,
+    "unresolvedItems": [],
     "visualQualityPass": null,
     "transactionOperations": 1,
     "replay": {

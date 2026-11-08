@@ -9,7 +9,7 @@ type Props = {
   label?: string; name: string; visible?: boolean; duration?: number; opacity?: number; paperShadow?: boolean;
   targets?: string[]; selectedTarget?: string; onBoxes?: (boxes: ObjectBounds) => void;
   onObject?: (id: string) => void; objectNames?: Record<string,string>; objectLabel?: string;
-  regions?: {id:string; region:Region; maskSvg?:string}[]; selectedRegion?: string; regionsOpacity?: number;
+  regions?: {id:string; region:Region; maskSvg?:string; labelPosition?:[number,number]|null; labelAnchor?:'start'|'end'}[]; selectedRegion?: string; regionsOpacity?: number; regionLabels?: boolean;
   endpoint?: [number,number]; showEndpoint?: boolean;
   onlySelected?: boolean; regionsAnimated?: boolean; emphasis?: boolean; openingPoint?: boolean;
   objectLabelSide?: 'left'|'right';
@@ -22,7 +22,7 @@ export function corners([x,y,w,h]: Box, length: number) {
 }
 export default function FigureViewport({dimensions,image,svg,frame,camera=dimensions.viewBox,label,name,visible=true,duration=0,opacity=1,paperShadow=false,
  targets=[],selectedTarget,onBoxes,onObject,objectNames={},objectLabel,regions=[],selectedRegion,regionsOpacity=1,endpoint,showEndpoint=false,
- onlySelected=false,regionsAnimated=false,emphasis=false,openingPoint=false,objectLabelSide='left',openingEntrance=false}:Props){
+ onlySelected=false,regionsAnimated=false,emphasis=false,openingPoint=false,objectLabelSide='left',openingEntrance=false,regionLabels=false}:Props){
   const prefix='pv2-'+useId().replace(/:/g,'');
   const instance=useMemo(()=>svg?instanceSvg(svg,prefix):null,[svg,prefix]);
   const root=useRef<SVGGElement>(null);
@@ -48,10 +48,11 @@ export default function FigureViewport({dimensions,image,svg,frame,camera=dimens
       {image&&<image href={image} width={dimensions.width} height={dimensions.height}/>}
       {instance&&<g ref={root} id={prefix+'-document'} dangerouslySetInnerHTML={{__html:instance.html}}/>}
       <g className="pv2-observation">
-        {regions.map(({id,region:{box:[l,t,r,b]},maskSvg},i)=><motion.g key={id} data-region={id} className={id===selectedRegion?'is-selected':''}
-          initial={regionsAnimated?{opacity:0}:false} animate={{opacity:regionsOpacity*(id===selectedRegion?1:.35)}} transition={{duration:duration===0?0:regionsAnimated?.16:.22,delay:regionsAnimated?.2+i*.07:0}}>
+        {regions.map(({id,region:{box:[l,t,r,b]},maskSvg,labelPosition,labelAnchor},i)=><motion.g key={id} data-region={id} className={id===selectedRegion?'is-selected':''}
+          initial={regionsAnimated?{opacity:0}:false} animate={{opacity:regionsOpacity*(id===selectedRegion?1:regionLabels?.6:.35)}} transition={{duration:duration===0?0:regionsAnimated?.16:.22,delay:regionsAnimated?.2+i*.07:0}}>
           {maskSvg?<g id={prefix+'-mask-'+id+'-document'} dangerouslySetInnerHTML={{__html:masks[id]}}/>:
             <path d={corners([l,t,r-l,b-t],18/s)} fill="none" stroke="var(--pv2-accent)" strokeWidth="2.5" vectorEffect="non-scaling-stroke"/>}
+          {regionLabels&&<text data-stage-copy data-issue-label={id} x={labelPosition?.[0]??l} y={labelPosition?.[1]??t-7/s} textAnchor={labelAnchor??'start'} fontSize={22/s} fontFamily="inherit" fill="var(--pv2-accent-text)" paintOrder="stroke" stroke="white" strokeWidth={3/s}>{id}</text>}
         </motion.g>)}
         <AnimatePresence>{Object.entries(boxes).map(([id,box])=>{
           const [x,y,w,h]=box, active=id===selectedTarget, pad=4/s;

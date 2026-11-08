@@ -27,9 +27,15 @@ for (const [name, hash] of Object.entries(manifest.provenance.bundledHashes)) {
   media[name] = svg ? value : 'data:image/' + (name.endsWith('.png') ? 'png' : 'webp') + ';base64,' + data.toString('base64');
   report.push({ name, bytes: data.length, sha256: hash });
 }
-for (const issue of manifest.issues) for (const key of ['sourceRegion', 'draftRegion', 'finalRegion']) {
-  const { box: [l, t, r, b], coordinateWidth: w, coordinateHeight: h } = issue[key];
+const regions = [...manifest.issues.flatMap(issue => ['sourceRegion', 'draftRegion', 'finalRegion'].map(key => issue[key])), ...(manifest.issueMap ?? []).map(issue => issue.region)];
+for (const region of regions) {
+  const { box: [l, t, r, b], coordinateWidth: w, coordinateHeight: h } = region;
   assert(l >= 0 && t >= 0 && r > l && b > t && r <= w && b <= h);
+}
+if (manifest.repair.unresolvedItems) assert.equal(manifest.repair.unresolvedCount, manifest.repair.unresolvedItems.length);
+if (manifest.issueMap) {
+  assert.equal(new Set(manifest.issueMap.map(issue => issue.id)).size, manifest.issueMap.length);
+  assert(manifest.issueMap.some(issue => issue.id === manifest.issues[0].id));
 }
 assert(media[manifest.svg.final].includes('id="' + manifest.editTarget.elementId + '"'));
 const logo = await readFile(path.join(root, 'public/assets/demo/figfox-logo.svg'));

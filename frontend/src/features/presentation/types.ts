@@ -18,11 +18,12 @@ export type PresentationCase = {
   svg: { draft: string; final: string };
   sam: { mode: 'recorded' | 'reference-crop-illustration'; segmentationCount: number | null; assets: { id: string; name: Copy; image: string; sourceRegion: Region; draftRegion?: Region; maskSvg?: string; displayHeight?: number; evidence?: { assetId: string; svgElementId: string; sha256: string; recovery: string } }[]; reason: string };
   issues: Issue[];
+  issueMap?: { id: string; region: Region; labelPosition?: [number,number] | null; labelAnchor?: 'start'|'end'; sourceEvidence: string; draftEvidence: string; repair: string }[];
   repair: {
     kind: 'transaction-snapshot' | 'final-comparison'; beforeSvg: string; afterSvg: string; transactionId: string;
     context: string; region: Region; operations: { op: string; targetId: string; description: Copy }[];
     executionStatus: 'recorded-complete' | 'not-recorded'; plannedOperations: number | null; executedOperations: number | null;
-    unresolvedCount: number | null; visualQualityPass: boolean | null; transactionOperations: number;
+    unresolvedCount: number | null; unresolvedItems?: unknown[]; visualQualityPass: boolean | null; transactionOperations: number;
     replay: { fullResultHashMatches: boolean; journalMatches: boolean; outsideTargetsUnchanged: boolean; beforeHash: string; afterHash: string };
   };
   gapGuidance: { state: 'triggered' | 'not-triggered' | 'not-recorded'; summary: Copy };
@@ -35,8 +36,8 @@ export type SceneId = 'opening' | 'assets' | 'draft' | 'evidence' | 'targets' | 
 export type PresentationState = {
   scene: SceneId; language: Language; selectedAsset: string; selectedOperation: number;
   comparisonMode: 'before' | 'after'; temporaryBefore: boolean;
-  overlay: 'none' | 'menu' | 'case' | 'details';
+  overlay: 'none' | 'menu' | 'case' | 'details' | 'guidance' | 'retained';
   editedText: string; inputDraft: string; editing: boolean;
-  fullReference: boolean; fullDraft: boolean;
+  fullReference: boolean; fullDraft: boolean; issueMapOpen: boolean;
   navigation: 'forward' | 'direct' | 'back'; revision: number;
 };

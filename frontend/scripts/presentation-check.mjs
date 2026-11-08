@@ -1,3 +1,4 @@
+import { checkHandoffs } from './presentation-handoff-checks.mjs';
 import { chromium } from 'playwright-core';
 import { spawn } from 'node:child_process';
 import { mkdir,readFile,writeFile } from 'node:fs/promises';
@@ -5,7 +6,7 @@ import path from 'node:path';
 import { fileURLToPath,pathToFileURL } from 'node:url';
 import assert from 'node:assert/strict';
 const root=path.resolve(path.dirname(fileURLToPath(import.meta.url)),'..');process.chdir(root);
-const output=path.join(root,'.review/presentation-case-refresh');await mkdir(output,{recursive:true});
+const output=path.join(root,'.review/presentation-handoffs');await mkdir(output,{recursive:true});
 const active=JSON.parse(await readFile(path.join(root,'public/assets/presentation/active-case.json'),'utf8'));
 const data=JSON.parse(await readFile(path.join(root,'public/assets/presentation',active.id,'manifest.json'),'utf8'));
 const editedName='FigFox-'+data.id+'-edited.svg',editId=data.editTarget.elementId;
@@ -69,7 +70,7 @@ try{
  assert.equal(await page.locator('[data-figure="draft"] [data-selected="true"]').getAttribute('data-target'),id);assert.equal(await page.locator('[data-operation-connector]').getAttribute('data-operation-connector'),id);}
  checks.push('Recorded transaction operations select their actual SVG targets and connector');
  await go(page,'repair');await page.locator('[data-compare="before"]').click();assert.equal(await page.locator('main').getAttribute('data-comparison'),'before');
- await page.locator('[data-compare="after"]').click();await page.keyboard.down('b');assert.equal(await page.locator('main').getAttribute('data-comparison'),'before');await page.keyboard.up('b');assert.equal(await page.locator('main').getAttribute('data-comparison'),'after');
+ await page.locator('[data-compare="after"]').click();await page.keyboard.down('b');assert.equal(await page.locator('main').getAttribute('data-comparison'),'before');assert.equal(await page.locator('[data-compare="before"]').getAttribute('aria-pressed'),'true');await page.keyboard.up('b');assert.equal(await page.locator('main').getAttribute('data-comparison'),'after');assert.equal(await page.locator('[data-compare="after"]').getAttribute('aria-pressed'),'true');
  await page.locator('[data-compare="before"]').click();await page.keyboard.down('b');await page.keyboard.up('b');assert.equal(await page.locator('main').getAttribute('data-comparison'),'before');
  await page.keyboard.down('b');await page.evaluate(()=>window.dispatchEvent(new Event('blur')));await page.keyboard.up('b');
  checks.push('Before/After clicks and hold-B restore the selected view; blur releases temporary comparison');
@@ -83,7 +84,7 @@ try{
  assert.equal(exported.text,'Demo Table');assert.deepEqual(exported.attrs,exported.originalAttrs);assert(exported.valid&&exported.references&&!exported.overlays);
  checks.push('Real text-node edit and exported SVG parse/render, original attributes, references and no observation overlays');
  await page.getByRole('button',{name:'Edit',exact:true}).first().click();const input=page.getByRole('textbox',{name:'Edit SVG text'});await input.fill('Unconfirmed');
- for(const key of ['Space','ArrowLeft','Home','End','b','d'])await input.press(key);await at(page,'editable');
+ for(const key of ['Space','ArrowLeft','Home','End','b','d','r','i'])await input.press(key);await at(page,'editable');
  await input.dispatchEvent('compositionstart');await input.dispatchEvent('keydown',{key:'Enter',code:'Enter',isComposing:true});assert(await input.isVisible());await input.dispatchEvent('compositionend');
  await input.press('Escape');assert.equal(await input.count(),0);assert((await page.locator('[data-figure="result"] [data-original-id="'+editId+'"]').textContent()).includes('Demo Table'));
  await page.getByRole('button',{name:'Edit',exact:true}).first().click();await input.fill('Pending copy');await menu(page);await page.getByRole('button',{name:'中文',exact:true}).click();await close(page);
@@ -99,11 +100,13 @@ try{
  assert(await page.locator('.pv2-menu-trigger').evaluate(e=>e===document.activeElement));
  await menu(page);await page.getByRole('button',{name:'Reset walkthrough',exact:true}).click();await at(page,'opening');
  checks.push('Menu, complete case/evidence details, focus restoration and walkthrough reset');
- console.log('Interaction checks passed; capturing layouts.');
+ await checkHandoffs(browser,base,output,data,checks,errors);
+ console.log('Interaction and architecture checks passed; capturing layouts.');
  const layouts=[];
  for(const [width,height] of [[1600,900],[1366,768],[1920,1080],[1280,720],[1024,768]]){await page.setViewportSize({width,height});for(const scene of scenes){await go(page,scene);const result=await layout(page);layouts.push({width,height,scene,language:'en',...result});if(width===1600||width===1366)await page.screenshot({path:path.join(output,width+'x'+height+'-'+scene+'.png')});}}
  await page.setViewportSize({width:1600,height:900});await menu(page);await page.getByRole('button',{name:'中文',exact:true}).click();await close(page);
  for(const scene of scenes){await go(page,scene);layouts.push({scene,language:'zh',...await layout(page)});await page.screenshot({path:path.join(output,'zh-'+scene+'.png')});}
+ await go(page,'evidence');await page.keyboard.press('i');await pause(700);layouts.push({scene:'issue-map',language:'zh',...await layout(page)});await page.screenshot({path:path.join(output,'zh-issue-map.png')});await page.keyboard.press('Escape');
  await writeFile(path.join(output,'layout.json'),JSON.stringify(layouts,null,2));assert.deepEqual(layouts.flatMap(x=>x.errors),[]);
  checks.push('All seven scenes in five viewports; bilingual text budgets; 21 complete screenshots; no viewport overflow');
  await menu(page);await page.getByRole('button',{name:'English',exact:true}).click();await close(page);await page.emulateMedia({reducedMotion:'reduce'});
@@ -144,7 +147,10 @@ try{
 
  const offlineContext=await browser.newContext({offline:true,viewport:{width:1600,height:900},acceptDownloads:true});const offlineRequests=[];offlineContext.on('request',r=>{if(/^https?:/.test(r.url()))offlineRequests.push(r.url());});
  const offlinePage=await open(offlineContext,pathToFileURL(path.join(root,'presentation-dist/FigFox-Architecture-Demo-V2.html')).href,false);
- for(const scene of scenes)await go(offlinePage,scene);const offlineSvg=await editAndExport(offlinePage,'Offline Table');assert(offlineSvg.includes('Offline Table'));
+ for(const scene of scenes)await go(offlinePage,scene);
+ await go(offlinePage,'evidence');await offlinePage.keyboard.press('i');await pause(700);assert.equal(await offlinePage.locator('[data-issue-label]').count(),data.issueMap.length);await offlinePage.keyboard.press('Escape');
+ await go(offlinePage,'repair');await offlinePage.getByRole('button',{name:'Gap guidance: Not recorded',exact:true}).click();assert(await offlinePage.locator('[data-guidance-status]').isVisible());await close(offlinePage);
+ const offlineSvg=await editAndExport(offlinePage,'Offline Table');assert(offlineSvg.includes('Offline Table'));
  await menu(offlinePage);assert(await offlinePage.getByText('Packaged for offline use',{exact:true}).isVisible());await offlinePage.getByRole('button',{name:'中文',exact:true}).click();await close(offlinePage);
  await offlinePage.screenshot({path:path.join(output,'offline-edit.png')});assert.deepEqual(offlineRequests,[]);
  checks.push('Offline file:// seven scenes, language, actual text edit and SVG export with zero HTTP/HTTPS attempts');

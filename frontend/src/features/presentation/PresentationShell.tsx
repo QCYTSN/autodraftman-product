@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useMemo, useReducer, useRef, useState } from 'react';
-import { ArrowLeft, ArrowRight, DotsThree } from '@phosphor-icons/react';
+import { ArrowLeft, ArrowRight, DotsThree, ArrowCounterClockwise } from '@phosphor-icons/react';
 import { MotionConfig } from 'motion/react';
 import { initialState,reducer,scenes,stageFor,stageStarts } from './state';
 import { copy,stages,titles } from './copy';
@@ -17,6 +17,8 @@ export default function PresentationShell({data,media,offline,language}:{data:Pr
     next=Math.max(0,Math.min(6,next));if(next===index||performance.now()-lastNavigation.current<250)return;
     lastNavigation.current=performance.now();dispatch({type:'navigate',index:next,direct});
   },[index]);
+  const canReplay=['draft','evidence','repair'].includes(state.scene);
+  const replay=useCallback(()=>dispatch({type:'replay'}),[]);
   const fullscreen=useCallback(async()=>{try{if(document.fullscreenElement)await document.exitFullscreen();else await host.current?.requestFullscreen();}
     catch{setMessage(copy.fullscreenFailed[lang]);}},[lang]);
   useEffect(()=>{const resize=()=>setScale(Math.min(host.current!.clientWidth/1600,host.current!.clientHeight/900));
@@ -28,10 +30,12 @@ export default function PresentationShell({data,media,offline,language}:{data:Pr
       const target=e.target as HTMLElement;
       if(target.closest('input,textarea,select,[contenteditable="true"]'))return;
       const key=e.key.toLowerCase();
-      if(key==='escape'){if(state.overlay!=='none'){e.preventDefault();patch({overlay:'none'});}return;}
+      if(key==='escape'){if(state.overlay!=='none'){e.preventDefault();patch({overlay:'none'});}else if(state.issueMapOpen){e.preventDefault();patch({issueMapOpen:false});}return;}
       if(key==='f'){e.preventDefault();void fullscreen();return;}
       if(key==='d'){e.preventDefault();patch({overlay:state.overlay==='details'?'none':'details'});return;}
       if(state.overlay!=='none')return;
+      if(key==='r'&&canReplay){e.preventDefault();replay();return;}
+      if(key==='i'&&state.scene==='evidence'){e.preventDefault();patch({issueMapOpen:!state.issueMapOpen});return;}
       if((key===' '||key==='enter')&&target.closest('button,a,[role="button"]'))return;
       let next:number|undefined,direct=false;
       if(['ArrowRight','PageDown',' '].includes(e.key))next=index+1;
@@ -46,7 +50,7 @@ export default function PresentationShell({data,media,offline,language}:{data:Pr
     window.addEventListener('keydown',down);window.addEventListener('keyup',up);window.addEventListener('blur',release);
     document.addEventListener('visibilitychange',release);
     return()=>{window.removeEventListener('keydown',down);window.removeEventListener('keyup',up);window.removeEventListener('blur',release);document.removeEventListener('visibilitychange',release);};
-  },[state.overlay,state.scene,index,navigate,fullscreen,patch]);
+  },[state.overlay,state.scene,state.issueMapOpen,index,navigate,fullscreen,patch,replay,canReplay]);
   const edited=useMemo(()=>editedSvg(media[data.svg.final],data.editTarget,state.editedText),[data,media,state.editedText]);
   const download=()=>{const url=URL.createObjectURL(new Blob([edited],{type:'image/svg+xml;charset=utf-8'}));const a=document.createElement('a');
     a.href=url;a.download='FigFox-'+data.id+'-edited.svg';document.body.append(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),10000);};
@@ -59,6 +63,7 @@ export default function PresentationShell({data,media,offline,language}:{data:Pr
         <PresentationStage data={data} media={media} state={state} patch={patch} edited={edited} download={download}/>
         <footer className="pv2-footer"><nav className="pv2-dots" aria-label="Scenes">{scenes.map((scene,i)=><button key={scene} data-scene-button={scene} aria-label={scene} aria-current={index===i?'step':undefined} onClick={()=>navigate(i,true)}><span/></button>)}</nav>
           <nav className="pv2-stages" aria-label="Stages">{stages.map((label,i)=><button key={i} aria-current={stage===i?'step':undefined} onClick={()=>navigate(stageStarts[i],true)}>{label[lang]}</button>)}</nav>
+          {canReplay&&<button className="pv2-replay" aria-label={copy.replay[lang]} aria-keyshortcuts="R" title={copy.replay[lang]+' (R)'} onClick={replay}><ArrowCounterClockwise size={22}/></button>}
           <div className="pv2-arrows"><button disabled={index===0} aria-label={copy.previous[lang]} onClick={()=>navigate(index-1)}><ArrowLeft size={24}/></button><button disabled={index===6} aria-label={copy.next[lang]} onClick={()=>navigate(index+1)}><ArrowRight size={24}/></button></div>
         </footer>
       </div>
