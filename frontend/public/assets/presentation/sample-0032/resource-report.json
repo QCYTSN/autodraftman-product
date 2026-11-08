@@ -1,0 +1,55 @@
+{
+  "files": [
+    {
+      "name": "reference.webp",
+      "bytes": 55092,
+      "sha256": "d1a654acb5e0a9f2407faec7376335f40099bb77321451458beafecc3c81ed27"
+    },
+    {
+      "name": "draft.webp",
+      "bytes": 35158,
+      "sha256": "92f772bd33162de251dd3bf1d4fda9b005fe03dfea1b7fa84e404003a5c9ec37"
+    },
+    {
+      "name": "final.webp",
+      "bytes": 37818,
+      "sha256": "038c7df309253b66481d71120339a01514ba8d528f2a694ca48b64463a1df106"
+    },
+    {
+      "name": "draft.svg",
+      "bytes": 69768,
+      "sha256": "6d68166c945dafdaa5d843252ec6ef4d772773a7d3a21bedfda7023c3b999a2b"
+    },
+    {
+      "name": "final.svg",
+      "bytes": 70199,
+      "sha256": "5a587a9c290017dc9ca244255aea392a0bec815cd3ab9daf6f368f02f9396939"
+    },
+    {
+      "name": "before-A2.svg",
+      "bytes": 66926,
+      "sha256": "a35a4c71e92b0a44b5b1047d411b2235cf8a42094919e62f8f6e205af9da18d5"
+    },
+    {
+      "name": "after-A2.svg",
+      "bytes": 67596,
+      "sha256": "fefd6fd66ba00fb2ad8e0cae92a0d2996cdd25e93b690078f59c5fea3c525817"
+    },
+    {
+      "name": "sam-bird.png",
+      "bytes": 8820,
+      "sha256": "1531257ae8ceeb12b69496ee03e2c75d91759fc51e765aefc731229e176c7730"
+    },
+    {
+      "name": "sam-flame.png",
+      "bytes": 621,
+      "sha256": "78f3c696573fd11ed20de4e5a8be631d4e9cc5b0f4b8d6d4c20af4923f5e82d5"
+    },
+    {
+      "name": "sam-snowflake.png",
+      "bytes": 704,
+      "sha256": "afbdd0f5d0f6c0be98bba27fa2ff858fd0f906f12869d003e454a23ef510dc6e"
+    }
+  ],
+  "checked": true
+}

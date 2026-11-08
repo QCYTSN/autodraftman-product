@@ -23,3 +23,5 @@ frontend/presentation-dist/FigFox-Architecture-Demo.html binary
 frontend/presentation-dist/FigFox-Architecture-Demo-V2.html binary
 docs/reviews/figfox-presentation-visual-v2/*.svg binary
 docs/reviews/figfox-presentation-mode/*.svg binary
+
+docs/reviews/figfox-presentation-case-refresh/*.svg binary

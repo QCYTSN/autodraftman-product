@@ -1,0 +1,457 @@
+{
+  "id": "sample-0032",
+  "title": {
+    "zh": "小鸟图像编码与原型库",
+    "en": "Bird encoding and prototype banks"
+  },
+  "provenance": {
+    "sourceCommit": "c67feff986f5f9de0e1a139d416eefcccf8a3b80",
+    "runId": "四方法对比/Full-FigFox/sample-0032",
+    "conditionId": "A",
+    "upstreamHashes": {
+      "source": "9d4ff0c12dc878a0771f37081e2e75728ca13122c504ffbd8d8908c0c60514d3",
+      "draft": "6d68166c945dafdaa5d843252ec6ef4d772773a7d3a21bedfda7023c3b999a2b",
+      "final": "5a587a9c290017dc9ca244255aea392a0bec815cd3ab9daf6f368f02f9396939",
+      "executor": "2276f55cca4d9c060064e87da47cdaea64d04a73ff1a10e97381071a16733255",
+      "operations": "5dc269cdf37b203494eb52b4601a718b21ba923e9643aae0eeabd07c1d701c53",
+      "journal": "416fb5cdc04a0403b618e5aa1f44a03101337429bbef826cace327a2dea86c79",
+      "samCatalog": "8f3f64fc46e9335d7d22af821c2751436e13e0c1941aa20a37ba4dffa2e625a7",
+      "samProof": "13c7478cb28dc48d8c7686b45063e2158f69102ee9610ce741c8d53b71545f8f",
+      "draftPng": "d6739ceae56cbdd38e0964dd2d5e15f5564534fb6a1d5d13510dbe3129ddc3aa",
+      "finalPng": "71c5c7adde9abefa5c01be25cf94e23a99779782d354b72ff88a5dd409ac2683"
+    },
+    "bundledHashes": {
+      "reference.webp": "d1a654acb5e0a9f2407faec7376335f40099bb77321451458beafecc3c81ed27",
+      "draft.webp": "92f772bd33162de251dd3bf1d4fda9b005fe03dfea1b7fa84e404003a5c9ec37",
+      "final.webp": "038c7df309253b66481d71120339a01514ba8d528f2a694ca48b64463a1df106",
+      "draft.svg": "6d68166c945dafdaa5d843252ec6ef4d772773a7d3a21bedfda7023c3b999a2b",
+      "final.svg": "5a587a9c290017dc9ca244255aea392a0bec815cd3ab9daf6f368f02f9396939",
+      "before-A2.svg": "a35a4c71e92b0a44b5b1047d411b2235cf8a42094919e62f8f6e205af9da18d5",
+      "after-A2.svg": "fefd6fd66ba00fb2ad8e0cae92a0d2996cdd25e93b690078f59c5fea3c525817",
+      "sam-bird.png": "1531257ae8ceeb12b69496ee03e2c75d91759fc51e765aefc731229e176c7730",
+      "sam-flame.png": "78f3c696573fd11ed20de4e5a8be631d4e9cc5b0f4b8d6d4c20af4923f5e82d5",
+      "sam-snowflake.png": "afbdd0f5d0f6c0be98bba27fa2ff858fd0f906f12869d003e454a23ef510dc6e"
+    }
+  },
+  "dimensions": {
+    "width": 575,
+    "height": 241,
+    "viewBox": [
+      0,
+      0,
+      575,
+      241
+    ]
+  },
+  "images": {
+    "reference": "reference.webp",
+    "draftPreview": "draft.webp",
+    "finalPreview": "final.webp"
+  },
+  "svg": {
+    "draft": "draft.svg",
+    "final": "final.svg"
+  },
+  "sam": {
+    "mode": "recorded",
+    "segmentationCount": null,
+    "assets": [
+      {
+        "id": "bird",
+        "name": {
+          "zh": "小鸟图像",
+          "en": "Bird image"
+        },
+        "image": "sam-bird.png",
+        "sourceRegion": {
+          "box": [
+            15,
+            32,
+            90,
+            105
+          ],
+          "coordinateWidth": 575,
+          "coordinateHeight": 241,
+          "origin": "author-verified"
+        },
+        "draftRegion": {
+          "box": [
+            15,
+            32,
+            90,
+            105
+          ],
+          "coordinateWidth": 575,
+          "coordinateHeight": 241,
+          "origin": "author-verified"
+        },
+        "displayHeight": 124,
+        "evidence": {
+          "assetId": "asset_sam_region_000038",
+          "svgElementId": "plus_node_27",
+          "sha256": "1531257ae8ceeb12b69496ee03e2c75d91759fc51e765aefc731229e176c7730",
+          "recovery": "Exact embedded PNG bytes matched to same-run G0 asset proof; source placement visually verified, not recovered SAM bounds."
+        }
+      },
+      {
+        "id": "flame",
+        "name": {
+          "zh": "训练标记",
+          "en": "Train icon"
+        },
+        "image": "sam-flame.png",
+        "sourceRegion": {
+          "box": [
+            107,
+            28,
+            119,
+            44
+          ],
+          "coordinateWidth": 575,
+          "coordinateHeight": 241,
+          "origin": "author-verified"
+        },
+        "draftRegion": {
+          "box": [
+            107,
+            28,
+            119,
+            44
+          ],
+          "coordinateWidth": 575,
+          "coordinateHeight": 241,
+          "origin": "author-verified"
+        },
+        "displayHeight": 64,
+        "evidence": {
+          "assetId": "asset_sam_region_000030",
+          "svgElementId": "plus_node_29",
+          "sha256": "78f3c696573fd11ed20de4e5a8be631d4e9cc5b0f4b8d6d4c20af4923f5e82d5",
+          "recovery": "Exact embedded PNG bytes matched to same-run G0 asset proof; source placement visually verified, not recovered SAM bounds."
+        }
+      },
+      {
+        "id": "snowflake",
+        "name": {
+          "zh": "冻结标记",
+          "en": "Freeze icon"
+        },
+        "image": "sam-snowflake.png",
+        "sourceRegion": {
+          "box": [
+            445,
+            130,
+            459,
+            146
+          ],
+          "coordinateWidth": 575,
+          "coordinateHeight": 241,
+          "origin": "author-verified"
+        },
+        "draftRegion": {
+          "box": [
+            445,
+            130,
+            459,
+            146
+          ],
+          "coordinateWidth": 575,
+          "coordinateHeight": 241,
+          "origin": "author-verified"
+        },
+        "displayHeight": 64,
+        "evidence": {
+          "assetId": "asset_sam_region_000032",
+          "svgElementId": "plus_node_129",
+          "sha256": "afbdd0f5d0f6c0be98bba27fa2ff858fd0f906f12869d003e454a23ef510dc6e",
+          "recovery": "Exact embedded PNG bytes matched to same-run G0 asset proof; source placement visually verified, not recovered SAM bounds."
+        }
+      }
+    ],
+    "reason": "Three actual SAM PNGs recovered byte-for-byte from the initial SVG and matched to same-run G0-reuse-proof asset hashes. Source placements visually verified. The complete SAM catalog is unavailable, so no segmentation total or original mask bounds are claimed."
+  },
+  "issues": [
+    {
+      "id": "A2",
+      "title": {
+        "zh": "单元格排列",
+        "en": "Cell layout"
+      },
+      "sourceRegion": {
+        "box": [
+          207,
+          28,
+          270,
+          111
+        ],
+        "coordinateWidth": 575,
+        "coordinateHeight": 241,
+        "origin": "author-verified"
+      },
+      "draftRegion": {
+        "box": [
+          207,
+          28,
+          270,
+          111
+        ],
+        "coordinateWidth": 575,
+        "coordinateHeight": 241,
+        "origin": "model-recorded"
+      },
+      "finalRegion": {
+        "box": [
+          207,
+          28,
+          270,
+          111
+        ],
+        "coordinateWidth": 575,
+        "coordinateHeight": 241,
+        "origin": "author-verified"
+      },
+      "sourceEvidence": {
+        "zh": "原图的网格、颜色与列分组",
+        "en": "Three separated narrow white grid columns; selected black cells; three black dots in a lane between the middle and right columns; no light-blue filled columns"
+      },
+      "draftEvidence": {
+        "zh": "初稿改变了网格、颜色或列分组",
+        "en": "Light-blue vertical strips, black cells and dots in a different arrangement"
+      },
+      "verification": "confirmed",
+      "targetIds": [
+        "left_hash_table_top"
+      ],
+      "transactionId": "tx_A2_redraw_upper_left_hash_table",
+      "factId": "F_A_hash_table_interior",
+      "recordedEvidence": {
+        "source": "Source Hash Table has a red dashed boundary containing narrow white grid columns with selected black cells and black dots between the middle/right column area.",
+        "draft": "Initial Hash Table has different light-blue filled vertical strips, a different black-cell pattern, and dots placed within a different column arrangement."
+      },
+      "labelPosition": [
+        207,
+        8
+      ],
+      "leaderSide": "top",
+      "sourceEndpoint": [
+        232,
+        50
+      ],
+      "draftEndpoint": [
+        232,
+        50
+      ]
+    },
+    {
+      "id": "B2",
+      "title": {
+        "zh": "原型库排列",
+        "en": "Prototype layout"
+      },
+      "sourceRegion": {
+        "box": [
+          486,
+          31,
+          553,
+          109
+        ],
+        "coordinateWidth": 575,
+        "coordinateHeight": 241,
+        "origin": "author-verified"
+      },
+      "draftRegion": {
+        "box": [
+          486,
+          31,
+          553,
+          109
+        ],
+        "coordinateWidth": 575,
+        "coordinateHeight": 241,
+        "origin": "model-recorded"
+      },
+      "finalRegion": {
+        "box": [
+          486,
+          31,
+          553,
+          109
+        ],
+        "coordinateWidth": 575,
+        "coordinateHeight": 241,
+        "origin": "author-verified"
+      },
+      "sourceEvidence": {
+        "zh": "原图的网格、颜色与列分组",
+        "en": "Pastel subdivided bank: two multi-row columns at left, a three-dot vertical lane, and a right-side small two-column/color-block group with red T1 circular annotation near lower right"
+      },
+      "draftEvidence": {
+        "zh": "初稿改变了网格、颜色或列分组",
+        "en": "Uniform blue/white columns with different horizontal subdivision and T1 too far/right styled differently"
+      },
+      "verification": "confirmed",
+      "targetIds": [
+        "right_proto_top"
+      ],
+      "transactionId": "tx_B2_redraw_upper_right_prototype_bank",
+      "factId": "F_B_proto_bank_interior",
+      "recordedEvidence": {
+        "source": "Source Prototype Bank has a red dashed outer box with multiple subdivided columns, pastel blue/cream/yellow cells, a vertical black-dot lane, and a red circled glyph/curved arrow near the lower-right inside edge.",
+        "draft": "Initial Prototype Bank uses mostly uniform blue/white vertical columns with different subdivisions and lacks the source pastel cell distribution; the red circled glyph is placed/styled differently at the far right."
+      },
+      "labelPosition": [
+        207,
+        8
+      ],
+      "leaderSide": "top",
+      "sourceEndpoint": null,
+      "draftEndpoint": null
+    },
+    {
+      "id": "C2",
+      "title": {
+        "zh": "新增列分组",
+        "en": "New column grouping"
+      },
+      "sourceRegion": {
+        "box": [
+          207,
+          123,
+          273,
+          230
+        ],
+        "coordinateWidth": 575,
+        "coordinateHeight": 241,
+        "origin": "author-verified"
+      },
+      "draftRegion": {
+        "box": [
+          207,
+          123,
+          273,
+          230
+        ],
+        "coordinateWidth": 575,
+        "coordinateHeight": 241,
+        "origin": "model-recorded"
+      },
+      "finalRegion": {
+        "box": [
+          207,
+          123,
+          273,
+          230
+        ],
+        "coordinateWidth": 575,
+        "coordinateHeight": 241,
+        "origin": "author-verified"
+      },
+      "sourceEvidence": {
+        "zh": "原图的网格、颜色与列分组",
+        "en": "Main red dashed box contains two narrow white/black grid columns; a separate right-side New column stands outside it"
+      },
+      "draftEvidence": {
+        "zh": "初稿改变了网格、颜色或列分组",
+        "en": "Initial encloses/rearranges columns into a wider red dashed area with light-blue fills and different black-cell locations"
+      },
+      "verification": "confirmed",
+      "targetIds": [
+        "left_hash_table_bottom"
+      ],
+      "transactionId": "tx_C2_redraw_lower_left_hash_new_area",
+      "factId": "F_C_hash_table_interior",
+      "recordedEvidence": {
+        "source": "Source lower-left hash area shows a red dashed box around the main hash table columns and a separate right-side 'New' column; cells are mostly white with selected black fills and the Update arrow/marker sits above.",
+        "draft": "Initial shows a different light-blue/black cell pattern and a different grouping: the right-side column is visually integrated/rearranged compared with the source, though 'New' remains below."
+      },
+      "labelPosition": [
+        207,
+        8
+      ],
+      "leaderSide": "top",
+      "sourceEndpoint": null,
+      "draftEndpoint": null
+    }
+  ],
+  "repair": {
+    "kind": "transaction-snapshot",
+    "beforeSvg": "before-A2.svg",
+    "afterSvg": "after-A2.svg",
+    "transactionId": "tx_A2_redraw_upper_left_hash_table",
+    "context": "Sequential replay: icon visibility transaction applied first; then the single hash-table replacement.",
+    "region": {
+      "box": [
+        207,
+        28,
+        270,
+        111
+      ],
+      "coordinateWidth": 575,
+      "coordinateHeight": 241,
+      "origin": "author-verified"
+    },
+    "operations": [
+      {
+        "op": "replace_svg",
+        "targetId": "left_hash_table_top",
+        "description": {
+          "zh": "恢复哈希表单元格",
+          "en": "Restore hash-table cells"
+        }
+      }
+    ],
+    "executionStatus": "recorded-complete",
+    "plannedOperations": 19,
+    "executedOperations": 19,
+    "unresolvedCount": 0,
+    "visualQualityPass": null,
+    "transactionOperations": 1,
+    "replay": {
+      "fullResultHashMatches": true,
+      "journalMatches": true,
+      "outsideTargetsUnchanged": true,
+      "beforeHash": "a35a4c71e92b0a44b5b1047d411b2235cf8a42094919e62f8f6e205af9da18d5",
+      "afterHash": "fefd6fd66ba00fb2ad8e0cae92a0d2996cdd25e93b690078f59c5fea3c525817"
+    }
+  },
+  "gapGuidance": {
+    "state": "not-recorded",
+    "summary": {
+      "zh": "当前材料未记录此分支调用",
+      "en": "This material does not record a call to this branch."
+    }
+  },
+  "editTarget": {
+    "elementId": "txt_hash_table_title",
+    "textNodePath": [
+      0
+    ],
+    "originalText": "Hash Table",
+    "exampleText": "Demo Table",
+    "focusCamera": [
+      180,
+      0,
+      110,
+      125
+    ]
+  },
+  "modelLabels": {
+    "draft": null,
+    "inspection": "GPT-5.5",
+    "planning": "GPT-5.5",
+    "guidance": null
+  },
+  "objectCounts": {
+    "text": 27,
+    "graphics": 104,
+    "connectors": 17
+  },
+  "transformations": [
+    "Reference and previews losslessly encoded from archival PNGs with decoded RGB identity; original SVG bytes unchanged.",
+    "SAM assets decoded from original SVG data URIs with byte identity against same-run asset proofs. No synthesized or enlarged source files.",
+    "Source placements visually verified; SVG placements read from actual objects. Full catalog and original masks unavailable.",
+    "Complete recorded executor replay matches final bytes and journal. A2 snapshots differ only in the recorded target subtree.",
+    "Evidence ROI retains original model coordinates, verified against source and SVG. First issue defines the main presentation route.",
+    "Sanitization and instance namespaces affect runtime copies only. Edits and exports operate on an editable copy of the final document."
+  ]
+}

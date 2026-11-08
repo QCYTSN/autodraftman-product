@@ -11,7 +11,7 @@ import { useSceneSequence } from './useSceneSequence';
 import type { Box,PresentationCase,PresentationState } from './types';
 export type StageProps={data:PresentationCase;media:Record<string,string>;state:PresentationState;patch:(value:Partial<PresentationState>)=>void;edited:string;download:()=>void};
 export default function PresentationStage({data,media,state,patch,edited,download}:StageProps){
- const {scene,language:lang}=state,issue=data.issues.find(i=>i.id==='B1')!;
+ const {scene,language:lang}=state,issue=data.issues[0];
  const sequence=useSceneSequence(state),{time,forward,reduced}=sequence;
  const cameras=useMemo(()=>evidenceCameras(issue.sourceRegion,issue.draftRegion),[issue]);
  const localCamera=useMemo(()=>repairCamera(data),[data]);
@@ -42,8 +42,8 @@ export default function PresentationStage({data,media,state,patch,edited,downloa
   </motion.h1></AnimatePresence>
   <FigureViewport dimensions={data.dimensions} image={media[data.images.reference]} name="reference" frame={referenceFrame} camera={referenceCamera}
    visible={referenceVisible} duration={sceneDuration} openingEntrance={openingEntrance} paperShadow={scene==='opening'} label={!referenceVisible||scene==='targets'?undefined:copy.reference[lang]}
-   regions={scene==='assets'?data.sam.assets.slice(0,3).map(a=>({id:a.id,region:a.sourceRegion,maskSvg:a.maskSvg})):scene==='evidence'&&state.fullReference?[{id:'B1',region:issue.sourceRegion}]:[]}
-   selectedRegion={scene==='assets'?state.selectedAsset:'B1'} regionsAnimated={scene==='assets'&&forward&&time<600}
+   regions={scene==='assets'?data.sam.assets.slice(0,3).map(a=>({id:a.id,region:a.sourceRegion,maskSvg:a.maskSvg})):scene==='evidence'&&state.fullReference?[{id:issue.id,region:issue.sourceRegion}]:[]}
+   selectedRegion={scene==='assets'?state.selectedAsset:issue.id} regionsAnimated={scene==='assets'&&forward&&time<600}
    endpoint={issue.sourceEndpoint??undefined} showEndpoint={scene==='opening'||(scene==='evidence'&&!state.fullReference&&time>=560)} openingPoint={scene==='opening'}/>
   {(scene==='assets'||(scene==='draft'&&forward&&time<480))&&<AssetExtractionScene data={data} media={media} state={state} patch={patch} {...sequence}/>}
   <FigureViewport dimensions={data.dimensions} svg={media[data.svg.draft]} name="draft" frame={draftFrame} camera={draftCamera}
@@ -52,9 +52,9 @@ export default function PresentationStage({data,media,state,patch,edited,downloa
    onlySelected={scene==='draft'} objectLabel={scene==='draft'&&time>=480&&activeObject?copy[activeObject.type][lang]:undefined}
    objectLabelSide={activeObject?.type==='text'?'right':'left'}
    onObject={scene==='draft'?id=>setChosenObject(id):undefined} objectNames={Object.fromEntries(objects.map(o=>[o.id,copy[o.type][lang]]))} onBoxes={onTargetBounds}
-   regions={scene==='evidence'&&state.fullDraft?[{id:'B1',region:issue.draftRegion}]:[]} selectedRegion="B1" endpoint={issue.draftEndpoint??undefined} showEndpoint={scene==='evidence'&&!state.fullDraft&&time>=560}/>
+   regions={scene==='evidence'&&state.fullDraft?[{id:issue.id,region:issue.draftRegion}]:[]} selectedRegion={issue.id} endpoint={issue.draftEndpoint??undefined} showEndpoint={scene==='evidence'&&!state.fullDraft&&time>=560}/>
   {scene==='draft'&&<svg className="pv2-lines pv2-draft-arrow" viewBox="0 0 1600 900"><path d="M438 416 H522 m-7 -4 7 4 -7 4"/></svg>}
-  {scene==='evidence'&&<><span className="pv2-direction" data-stage-copy>{copy.direction[lang]}</span><div className="pv2-evidence-baseline pv2-left"/><div className="pv2-evidence-baseline pv2-right"/>
+  {scene==='evidence'&&<><span className="pv2-direction" data-stage-copy>{issue.title[lang]}</span><div className="pv2-evidence-baseline pv2-left"/><div className="pv2-evidence-baseline pv2-right"/>
    {[false,true].map(right=><button key={String(right)} className={'pv2-full-figure '+(right?'pv2-right':'pv2-left')} aria-label={copy.fullFigure[lang]+' '+(right?copy.draft[lang]:copy.reference[lang])}
     aria-pressed={right?state.fullDraft:state.fullReference} onClick={()=>patch(right?{fullDraft:!state.fullDraft}:{fullReference:!state.fullReference})}><CornersOut size={24}/></button>)}</>}
   <AnimatePresence>{scene==='targets'&&<RepairTargetScene key="targets" data={data} state={state} patch={patch} forward={forward} reduced={reduced}

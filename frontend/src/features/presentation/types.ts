@@ -16,7 +16,7 @@ export type PresentationCase = {
   dimensions: { width: number; height: number; viewBox: Box };
   images: { reference: string; draftPreview: string; finalPreview: string };
   svg: { draft: string; final: string };
-  sam: { mode: 'recorded' | 'reference-crop-illustration'; segmentationCount: number | null; assets: { id: string; name: Copy; image: string; sourceRegion: Region; draftRegion?: Region; maskSvg?: string }[]; reason: string };
+  sam: { mode: 'recorded' | 'reference-crop-illustration'; segmentationCount: number | null; assets: { id: string; name: Copy; image: string; sourceRegion: Region; draftRegion?: Region; maskSvg?: string; displayHeight?: number; evidence?: { assetId: string; svgElementId: string; sha256: string; recovery: string } }[]; reason: string };
   issues: Issue[];
   repair: {
     kind: 'transaction-snapshot' | 'final-comparison'; beforeSvg: string; afterSvg: string; transactionId: string;
@@ -26,7 +26,7 @@ export type PresentationCase = {
     replay: { fullResultHashMatches: boolean; journalMatches: boolean; outsideTargetsUnchanged: boolean; beforeHash: string; afterHash: string };
   };
   gapGuidance: { state: 'triggered' | 'not-triggered' | 'not-recorded'; summary: Copy };
-  editTarget: { elementId: string; textNodePath: number[]; originalText: string; exampleText: 'Demo Pooling'; focusCamera: Box };
+  editTarget: { elementId: string; textNodePath: number[]; originalText: string; exampleText: string; focusCamera: Box };
   modelLabels: Record<string, string | null>;
   objectCounts: { text: number; graphics: number; connectors: number };
   transformations: string[];

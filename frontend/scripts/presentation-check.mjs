@@ -5,7 +5,10 @@ import path from 'node:path';
 import { fileURLToPath,pathToFileURL } from 'node:url';
 import assert from 'node:assert/strict';
 const root=path.resolve(path.dirname(fileURLToPath(import.meta.url)),'..');process.chdir(root);
-const output=path.join(root,'.review/presentation-v2');await mkdir(output,{recursive:true});
+const output=path.join(root,'.review/presentation-case-refresh');await mkdir(output,{recursive:true});
+const active=JSON.parse(await readFile(path.join(root,'public/assets/presentation/active-case.json'),'utf8'));
+const data=JSON.parse(await readFile(path.join(root,'public/assets/presentation',active.id,'manifest.json'),'utf8'));
+const editedName='FigFox-'+data.id+'-edited.svg',editId=data.editTarget.elementId;
 const scenes=['opening','assets','draft','evidence','targets','repair','editable'],checks=[],errors=[],servers=[];
 const executablePath=process.env.CHROME_PATH||(process.platform==='win32'?'C:/Program Files/Google/Chrome/Application/chrome.exe':'/usr/bin/google-chrome');
 const pause=ms=>new Promise(resolve=>setTimeout(resolve,ms));
@@ -32,7 +35,7 @@ async function layout(page){return page.evaluate(()=>{
 async function editAndExport(page,text){await go(page,'editable');await page.getByRole('button',{name:'Edit',exact:true}).first().click();
  await page.getByRole('textbox',{name:'Edit SVG text'}).fill(text);await page.getByRole('textbox').press('Enter');
  const pending=page.waitForEvent('download');await page.getByRole('button',{name:'SVG',exact:true}).click();const download=await pending;
- assert.equal(download.suggestedFilename(),'FigFox-sample-0001-edited.svg');return readFile(await download.path(),'utf8');}
+ assert.equal(download.suggestedFilename(),editedName);return readFile(await download.path(),'utf8');}
 try{
  const base=process.env.AUDIT_BASE_URL||await serve('pages',5196),dev=await serve('dev',5197);
  const context=await browser.newContext({viewport:{width:1600,height:900},acceptDownloads:true});const requests=[];context.on('request',r=>requests.push(r.url()));
@@ -51,48 +54,48 @@ try{
  await pause(270);await page.keyboard.press('ArrowLeft');await pause(1200);await at(page,'opening');
  await page.evaluate(()=>window.dispatchEvent(new KeyboardEvent('keydown',{key:'ArrowRight',repeat:true,bubbles:true})));await at(page,'opening');
  checks.push('Stage keys, direct jumps, interrupted transitions, repeat filtering and navigation throttle');
- await go(page,'assets');for(const asset of ['point-cloud','vehicle','graph']){await page.locator('[data-asset="'+asset+'"]').click();await pause(260);
+ await go(page,'assets');for(const asset of data.sam.assets.map(a=>a.id)){await page.locator('[data-asset="'+asset+'"]').click();await pause(260);
  assert.equal(await page.locator('[data-figure="reference"] .is-selected').getAttribute('data-region'),asset);assert.equal(await page.locator('[data-asset-connector]').getAttribute('data-asset-connector'),asset);}
- checks.push('Three crop illustrations map to their own source regions with one connector');
+ checks.push('Three verified SAM assets map to their own source regions with one connector');
  await go(page,'draft');const objectHits=page.locator('[data-figure="draft"] [data-object-hit]');assert.equal(await objectHits.count(),3);
  for(const id of await objectHits.evaluateAll(els=>els.map(e=>e.dataset.objectHit))){await page.locator('[data-object-hit="'+id+'"]').click();assert.equal(await page.locator('[data-figure="draft"] [data-selected="true"]').getAttribute('data-target'),id);}
  checks.push('Actual image, shape and text objects can be selected in the SVG draft');
  await go(page,'evidence');const cameras=await page.locator('[data-figure="reference"] svg,[data-figure="draft"] svg').evaluateAll(els=>els.map(e=>e.dataset.camera.split(' ').map(Number)));
- assert.equal(cameras[0][2],cameras[1][2]);assert.equal(cameras[0][3],cameras[1][3]);assert.notDeepEqual(cameras[0].slice(0,2),cameras[1].slice(0,2));
- assert(25*430/cameras[1][3]*(768/900)>=72);
+ assert.equal(cameras[0][2],cameras[1][2]);assert.equal(cameras[0][3],cameras[1][3]);for(const [i,key] of ['sourceRegion','draftRegion'].entries()){const [l,t,r,b]=data.issues[0][key].box;assert(Math.abs(cameras[i][0]+cameras[i][2]/2-(l+r)/2)<.01);assert(Math.abs(cameras[i][1]+cameras[i][3]/2-(t+b)/2)<.01);}
+ const [l,t,r,b]=data.issues[0].draftRegion.box;assert(Math.min(r-l,b-t)*430/cameras[1][3]*(768/900)>=72);
  for(const label of ['Toggle full figure Reference','Toggle full figure Draft']){const button=page.getByRole('button',{name:label});await button.click();assert.equal(await button.getAttribute('aria-pressed'),'true');await button.click();}
  checks.push('Independent evidence centers, equal unit scale, 28-pixel context, >=72px short side at 1366 and independent overview toggles');
- await go(page,'targets');for(const id of ['green_pooling_path_left','feature_dots_top']){await page.locator('[data-operation="'+id+'"]').click();await pause(250);
+ await go(page,'targets');for(const id of data.repair.operations.map(op=>op.targetId)){await page.locator('[data-operation="'+id+'"]').click();await pause(250);
  assert.equal(await page.locator('[data-figure="draft"] [data-selected="true"]').getAttribute('data-target'),id);assert.equal(await page.locator('[data-operation-connector]').getAttribute('data-operation-connector'),id);}
- checks.push('Two recorded operations select their actual SVG targets and connector');
+ checks.push('Recorded transaction operations select their actual SVG targets and connector');
  await go(page,'repair');await page.locator('[data-compare="before"]').click();assert.equal(await page.locator('main').getAttribute('data-comparison'),'before');
  await page.locator('[data-compare="after"]').click();await page.keyboard.down('b');assert.equal(await page.locator('main').getAttribute('data-comparison'),'before');await page.keyboard.up('b');assert.equal(await page.locator('main').getAttribute('data-comparison'),'after');
  await page.locator('[data-compare="before"]').click();await page.keyboard.down('b');await page.keyboard.up('b');assert.equal(await page.locator('main').getAttribute('data-comparison'),'before');
  await page.keyboard.down('b');await page.evaluate(()=>window.dispatchEvent(new Event('blur')));await page.keyboard.up('b');
  checks.push('Before/After clicks and hold-B restore the selected view; blur releases temporary comparison');
- const svg=await editAndExport(page,'Demo Pooling');await writeFile(path.join(output,'FigFox-sample-0001-edited.svg'),svg);
- const original=await readFile(path.join(root,'public/assets/presentation/sample-0001/final.svg'),'utf8');
- const exported=await page.evaluate(async({svg,original})=>{const parse=s=>new DOMParser().parseFromString(s,'image/svg+xml');const d=parse(svg),o=parse(original);
-  const t=d.getElementById('plus_node_49'),originalText=o.getElementById('plus_node_49');const attrs=n=>Object.fromEntries([...n.attributes].map(a=>[a.name,a.value]));
+ const svg=await editAndExport(page,'Demo Table');await writeFile(path.join(output,editedName),svg);
+ const original=await readFile(path.join(root,'public/assets/presentation',active.id,data.svg.final),'utf8');
+ const exported=await page.evaluate(async({svg,original,editId})=>{const parse=s=>new DOMParser().parseFromString(s,'image/svg+xml');const d=parse(svg),o=parse(original);
+  const t=d.getElementById(editId),originalText=o.getElementById(editId);const attrs=n=>Object.fromEntries([...n.attributes].map(a=>[a.name,a.value]));
   const ids=new Set([...d.querySelectorAll('[id]')].map(n=>n.id));const refs=[...svg.matchAll(/url\(#([^)]+)\)/g)].map(m=>m[1]);
   const image=new Image();image.src='data:image/svg+xml;charset=utf-8,'+encodeURIComponent(svg);await image.decode();
-  return {text:t.textContent,attrs:attrs(t),originalAttrs:attrs(originalText),valid:!d.querySelector('parsererror'),references:refs.every(id=>ids.has(id)),overlays:svg.includes('pv2-observation')||svg.includes('data-original-id')};},{svg,original});
- assert.equal(exported.text,'Demo Pooling');assert.deepEqual(exported.attrs,exported.originalAttrs);assert(exported.valid&&exported.references&&!exported.overlays);
+  return {text:t.textContent,attrs:attrs(t),originalAttrs:attrs(originalText),valid:!d.querySelector('parsererror'),references:refs.every(id=>ids.has(id)),overlays:svg.includes('pv2-observation')||svg.includes('data-original-id')};},{svg,original,editId});
+ assert.equal(exported.text,'Demo Table');assert.deepEqual(exported.attrs,exported.originalAttrs);assert(exported.valid&&exported.references&&!exported.overlays);
  checks.push('Real text-node edit and exported SVG parse/render, original attributes, references and no observation overlays');
  await page.getByRole('button',{name:'Edit',exact:true}).first().click();const input=page.getByRole('textbox',{name:'Edit SVG text'});await input.fill('Unconfirmed');
  for(const key of ['Space','ArrowLeft','Home','End','b','d'])await input.press(key);await at(page,'editable');
  await input.dispatchEvent('compositionstart');await input.dispatchEvent('keydown',{key:'Enter',code:'Enter',isComposing:true});assert(await input.isVisible());await input.dispatchEvent('compositionend');
- await input.press('Escape');assert.equal(await input.count(),0);assert((await page.locator('[data-figure="result"] [data-original-id="plus_node_49"]').textContent()).includes('Demo Pooling'));
+ await input.press('Escape');assert.equal(await input.count(),0);assert((await page.locator('[data-figure="result"] [data-original-id="'+editId+'"]').textContent()).includes('Demo Table'));
  await page.getByRole('button',{name:'Edit',exact:true}).first().click();await input.fill('Pending copy');await menu(page);await page.getByRole('button',{name:'中文',exact:true}).click();await close(page);
  assert.equal(await page.getByRole('textbox').inputValue(),'Pending copy');await at(page,'editable');await page.getByRole('textbox').press('Escape');
  await menu(page);await page.getByRole('button',{name:'English',exact:true}).click();await close(page);
- await go(page,'opening');await go(page,'editable');assert.equal(await page.locator('[data-figure="result"] [data-original-id="plus_node_49"]').textContent(),'Demo Pooling');
- await menu(page);await page.getByRole('button',{name:'Restore case',exact:true}).click();assert.equal(await page.locator('[data-figure="result"] [data-original-id="plus_node_49"]').textContent(),'Global Pooling');
+ await go(page,'opening');await go(page,'editable');assert.equal(await page.locator('[data-figure="result"] [data-original-id="'+editId+'"]').textContent(),'Demo Table');
+ await menu(page);await page.getByRole('button',{name:'Restore case',exact:true}).click();assert.equal(await page.locator('[data-figure="result"] [data-original-id="'+editId+'"]').textContent(),data.editTarget.originalText);
  checks.push('Input keys and IME, cancel pending input, language preserves draft, scene navigation preserves edits, restore case');
  await page.keyboard.press('d');assert(await page.getByRole('dialog').isVisible());assert((await page.getByRole('dialog').innerText()).includes('not-recorded'));await close(page);
  await menu(page);await page.keyboard.press('d');assert(await page.getByRole('heading',{name:'Technical details',exact:true}).isVisible());await close(page);
  await menu(page);await page.keyboard.press('f');await pause(250);assert(await page.evaluate(()=>Boolean(document.fullscreenElement)));await page.keyboard.press('f');await pause(250);await close(page);
- await menu(page);await page.getByRole('button',{name:'Case materials',exact:true}).click();assert((await page.getByRole('dialog').innerText()).includes('reference-crop-illustration'));await close(page);
+ await menu(page);await page.getByRole('button',{name:'Case materials',exact:true}).click();assert((await page.getByRole('dialog').innerText()).includes(data.sam.mode));await close(page);
  assert(await page.locator('.pv2-menu-trigger').evaluate(e=>e===document.activeElement));
  await menu(page);await page.getByRole('button',{name:'Reset walkthrough',exact:true}).click();await at(page,'opening');
  checks.push('Menu, complete case/evidence details, focus restoration and walkthrough reset');
@@ -141,7 +144,7 @@ try{
 
  const offlineContext=await browser.newContext({offline:true,viewport:{width:1600,height:900},acceptDownloads:true});const offlineRequests=[];offlineContext.on('request',r=>{if(/^https?:/.test(r.url()))offlineRequests.push(r.url());});
  const offlinePage=await open(offlineContext,pathToFileURL(path.join(root,'presentation-dist/FigFox-Architecture-Demo-V2.html')).href,false);
- for(const scene of scenes)await go(offlinePage,scene);const offlineSvg=await editAndExport(offlinePage,'Offline Pooling');assert(offlineSvg.includes('Offline Pooling'));
+ for(const scene of scenes)await go(offlinePage,scene);const offlineSvg=await editAndExport(offlinePage,'Offline Table');assert(offlineSvg.includes('Offline Table'));
  await menu(offlinePage);assert(await offlinePage.getByText('Packaged for offline use',{exact:true}).isVisible());await offlinePage.getByRole('button',{name:'中文',exact:true}).click();await close(offlinePage);
  await offlinePage.screenshot({path:path.join(output,'offline-edit.png')});assert.deepEqual(offlineRequests,[]);
  checks.push('Offline file:// seven scenes, language, actual text edit and SVG export with zero HTTP/HTTPS attempts');

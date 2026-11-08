@@ -34,7 +34,7 @@ export default function CaseDetails({state,data,offline,patch,onReset,onRestore,
     <h3>{lang==='en'?'Provenance and transformations':'来源与转换'}</h3><pre>{JSON.stringify(data.provenance,null,2)}</pre>
     {data.transformations.map(t=><p key={t}>{t}</p>)}
    </>:<>
-    {data.issues.map(issue=><details key={issue.id} open={issue.id==='B1'}><summary>{issue.id} · {issue.title[lang]} · {issue.verification}</summary>
+    {data.issues.map(issue=><details key={issue.id} open={issue.id===data.issues[0].id}><summary>{issue.id} · {issue.title[lang]} · {issue.verification}</summary>
       <p>{issue.sourceEvidence[lang]}</p><p>{issue.draftEvidence[lang]}</p><p>{issue.recordedEvidence.source}</p><p>{issue.recordedEvidence.draft}</p>
       <pre>{JSON.stringify({factId:issue.factId,sourceRegion:issue.sourceRegion,draftRegion:issue.draftRegion,finalRegion:issue.finalRegion,targetIds:issue.targetIds,transactionId:issue.transactionId},null,2)}</pre></details>)}
     <h3>{data.repair.transactionId}</h3><pre>{JSON.stringify(data.repair.operations,null,2)}</pre>

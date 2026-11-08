@@ -5,9 +5,13 @@ import { fileURLToPath } from 'node:url';
 import assert from 'node:assert/strict';
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
-const folder = path.join(root, 'public/assets/presentation/sample-0001');
+const active = JSON.parse(await readFile(path.join(root, 'public/assets/presentation/active-case.json'), 'utf8'));
+assert(/^sample-\d{4}$/.test(active.id));
+const folder = path.join(root, 'public/assets/presentation', active.id);
 const generated = path.join(root, 'src/features/presentation/data');
 const manifest = JSON.parse(await readFile(path.join(folder, 'manifest.json'), 'utf8'));
+assert.equal(manifest.id, active.id);
+assert(manifest.issues.length > 0 && manifest.repair.operations.length > 0);
 const media = {};
 const report = [];
 for (const [name, hash] of Object.entries(manifest.provenance.bundledHashes)) {
@@ -18,7 +22,7 @@ for (const [name, hash] of Object.entries(manifest.provenance.bundledHashes)) {
   const value = data.toString('utf8');
   if (svg) {
     assert(!/<script|<foreignObject|\son\w+=|(?:href|src)=["']https?:/i.test(value), 'Active or remote SVG: ' + name);
-    assert(value.includes('viewBox="0 0 968 510"'));
+    assert(value.includes('viewBox="' + manifest.dimensions.viewBox.join(' ') + '"'));
   }
   media[name] = svg ? value : 'data:image/' + (name.endsWith('.png') ? 'png' : 'webp') + ';base64,' + data.toString('base64');
   report.push({ name, bytes: data.length, sha256: hash });

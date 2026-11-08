@@ -49,7 +49,7 @@ export default function PresentationShell({data,media,offline,language}:{data:Pr
   },[state.overlay,state.scene,index,navigate,fullscreen,patch]);
   const edited=useMemo(()=>editedSvg(media[data.svg.final],data.editTarget,state.editedText),[data,media,state.editedText]);
   const download=()=>{const url=URL.createObjectURL(new Blob([edited],{type:'image/svg+xml;charset=utf-8'}));const a=document.createElement('a');
-    a.href=url;a.download='FigFox-sample-0001-edited.svg';document.body.append(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),10000);};
+    a.href=url;a.download='FigFox-'+data.id+'-edited.svg';document.body.append(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),10000);};
   return <MotionConfig reducedMotion="user"><div ref={host} className="figfox-presentation-v2">
     <div className="pv2-stage" data-scene={state.scene} data-language={lang} data-scale={scale} data-offline={offline} style={{transform:'translate(-50%,-50%) scale('+scale+')'}}>
       <div inert={state.overlay!=='none'}>

@@ -16,7 +16,7 @@ export default function AssetExtractionScene({data,media,state,patch,forward,tim
     inert={handing} initial={false} animate={{left:handing?522+i*12:1120,top:handing?396+i*12:top,opacity:handing?0:1}}
     transition={{duration:reduced?0:handing?.48:.22,ease:motionTokens.enterEase}} onClick={()=>patch({selectedAsset:asset.id})}>
     <motion.img src={media[asset.image]} alt="" initial={forward&&!handing?{x:source[0]-1120,y:source[1]-top,width:source[2],height:source[3],opacity:0}:false}
-     animate={{x:0,y:0,width:handing?40:240,height:handing?40:124,opacity:1}}
+     animate={{x:0,y:handing?0:(124-(asset.displayHeight??124))/2,width:handing?40:240,height:handing?40:(asset.displayHeight??124),opacity:1}}
      transition={{duration:reduced?0:handing?.48:.42,delay:forward&&!handing?.44+i*.07:0,ease:motionTokens.enterEase}}/>
     <motion.span data-stage-copy initial={forward?{opacity:0}:false} animate={{opacity:handing?0:1}} transition={{duration:.1,delay:forward&&!handing?.86+i*.07:0}}>{asset.name[state.language]}</motion.span>
    </motion.button>;

@@ -17,8 +17,11 @@ export default function RepairTargetScene({data,state,patch,box,forward,reduced}
   };track();return()=>cancelAnimationFrame(raf);
  },[operation.targetId,state.revision,boxKey]);
  const point=anchor??(box?[box[0]+box[2],box[1]+box[3]/2]:null),endY=368+state.selectedOperation*100;
- const radius=point?Math.min(10,Math.abs(endY-point[1])/2):0,direction=point&&endY>point[1]?1:-1;
- const path=point?'M'+point[0]+' '+point[1]+' H'+(1122-radius)+' Q1122 '+point[1]+' 1122 '+(point[1]+direction*radius)+' V'+(endY-direction*radius)+' Q1122 '+endY+' '+(1122+radius)+' '+endY+' H1178':'';
+ // Leave the target through its margin, then cross above the figure, clear of other objects.
+ const exitX=point?Math.min(point[0]+16,1112):0,roof=212,radius=6;
+ const path=point?'M'+point[0]+' '+point[1]+' H'+(exitX-radius)+' Q'+exitX+' '+point[1]+' '+exitX+' '+(point[1]-radius)+
+  ' V'+(roof+radius)+' Q'+exitX+' '+roof+' '+(exitX+radius)+' '+roof+' H1116 Q1122 '+roof+' 1122 '+(roof+radius)+
+  ' V'+(endY-radius)+' Q1122 '+endY+' 1128 '+endY+' H1178':'';
  return <motion.div className="pv2-target-scene" inert={!present} initial={false} exit={{opacity:0}} transition={{duration:reduced?0:.16}}>
   <motion.div className="pv2-operations" initial={forward?{opacity:0,y:8}:false} animate={{opacity:1,y:0}} transition={{duration:reduced?0:.18,delay:forward?.3:0}}>
     <span data-stage-copy>{copy.operations[lang]}</span>
@@ -26,7 +29,7 @@ export default function RepairTargetScene({data,state,patch,box,forward,reduced}
       <span className="pv2-operation-number" data-stage-copy>0{i+1}</span><span data-stage-copy>{op.op==='replace_svg'?'replace':op.op}</span></button>)}
   </motion.div>
   {point&&<svg className="pv2-lines" viewBox="0 0 1600 900"><motion.path data-operation-connector={operation.targetId} d={path} initial={forward?{pathLength:0}:false} animate={{pathLength:1}} transition={{duration:reduced?0:.3,delay:forward?.3:0}}/>
-   {data.issues.find(i=>i.id==='B1')?.verification==='confirmed'&&<g transform={'translate('+point[0]+','+point[1]+')'} className="pv2-confirmed"><circle r="7"/><path d="M-3 0 L-1 2 L3 -2"/></g>}
+   {data.issues[0]?.verification==='confirmed'&&<g transform={'translate('+point[0]+','+point[1]+')'} className="pv2-confirmed"><circle r="7"/><path d="M-3 0 L-1 2 L3 -2"/></g>}
   </svg>}
  </motion.div>;
 }

@@ -18,7 +18,7 @@ const compatibilityName = 'FigFox-Architecture-Demo.html';
 await writeFile(path.join(out, name), html);
 await writeFile(path.join(out, compatibilityName), html);
 await writeFile(path.join(out, 'Figtree-LICENSE.txt'), license);
-const data = JSON.parse(await readFile(path.join(root, 'public/assets/presentation/sample-0001/manifest.json'), 'utf8'));
+const data = JSON.parse(await readFile(path.join(root, 'src/features/presentation/data/case-manifest.json'), 'utf8'));
 await writeFile(path.join(out, 'manifest.json'), JSON.stringify({ file: name, compatibilityFile: compatibilityName, bytes: Buffer.byteLength(html), sha256: createHash('sha256').update(html).digest('hex'), case: data }, null, 2) + '\n');
 await writeFile(path.join(out, 'README.md'), '# FigFox Architecture Demo V2\n\nDouble-click FigFox-Architecture-Demo-V2.html. All resources and the Figtree font are embedded. The legacy filename contains the identical V2 artifact.\n\nEnglish by default; ?lang=zh selects Chinese. Arrows/PageDown/PageUp: scenes; Home/End: opening/editable; 1/2/3: stages; hold B: temporary Before; F: fullscreen; D: details. Menus provide mouse equivalents. Edit confirms with Enter, cancels with Escape, and SVG exports the actual document.\n\nSee ../../docs/figfox-presentation-visual-v2.md and its linked script/review for provenance, commands and acceptance. Font license included in the HTML and Figtree-LICENSE.txt.\n');
 if (process.argv.includes('--pages')) {
