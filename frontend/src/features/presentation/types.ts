@@ -31,10 +31,12 @@ export type PresentationCase = {
   objectCounts: { text: number; graphics: number; connectors: number };
   transformations: string[];
 };
-export type Cue = 'overview' | 'assets' | 'draft' | 'issue-map' | 'evidence' | 'plan' | 'repair' | 'edit';
+export type SceneId = 'opening' | 'assets' | 'draft' | 'evidence' | 'targets' | 'repair' | 'editable';
 export type PresentationState = {
-  cueIndex: number; selectedIssueId: string; selectedAssetId: string | null;
-  evidenceView: 'detail' | 'overview'; repairView: 'pair' | 'before' | 'after';
-  drawer: 'none' | 'help' | 'notes' | 'gap' | 'records';
-  language: Language; editedText: string; inputText: string; editSelected: boolean; selectedTargetId: string;
+  scene: SceneId; language: Language; selectedAsset: string; selectedOperation: number;
+  comparisonMode: 'before' | 'after'; temporaryBefore: boolean;
+  overlay: 'none' | 'menu' | 'case' | 'details';
+  editedText: string; inputDraft: string; editing: boolean;
+  fullReference: boolean; fullDraft: boolean;
+  navigation: 'forward' | 'direct' | 'back'; revision: number;
 };

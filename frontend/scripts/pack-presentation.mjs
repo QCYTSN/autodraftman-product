@@ -9,16 +9,22 @@ await mkdir(out, { recursive: true });
 const js = (await readFile(path.join(build, 'presentation.js'), 'utf8')).replace(/<\/script/gi, '<\\/script').replaceAll('\u2028', '\\u2028').replaceAll('\u2029', '\\u2029');
 const css = (await Promise.all((await readdir(build)).filter(n => n.endsWith('.css')).map(n => readFile(path.join(build, n), 'utf8')))).join('\n').replace(/<\/style/gi, '<\\/style');
 assert(js && css);
-const html = '<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="color-scheme" content="light"><title>FigFox · Architecture walkthrough</title><style>' + css + '</style></head><body><div id="root"></div><script>' + js + '</script></body></html>';
+const license = await readFile(path.join(root, 'node_modules/@fontsource-variable/figtree/LICENSE'), 'utf8');
+const licenseJson = JSON.stringify({ font: 'Figtree', license }).replaceAll('<', '\\u003c');
+const html = '<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="color-scheme" content="light"><title>FigFox · Architecture walkthrough</title><style>' + css + '</style></head><body><div id="root"></div><script>' + js + '</script><script type="application/json" id="font-license">' + licenseJson + '</script></body></html>';
 assert(Buffer.byteLength(html) < 20 * 1024 * 1024, 'Offline HTML exceeds 20 MiB');
-const name = 'FigFox-Architecture-Demo.html';
+const name = 'FigFox-Architecture-Demo-V2.html';
+const compatibilityName = 'FigFox-Architecture-Demo.html';
 await writeFile(path.join(out, name), html);
+await writeFile(path.join(out, compatibilityName), html);
+await writeFile(path.join(out, 'Figtree-LICENSE.txt'), license);
 const data = JSON.parse(await readFile(path.join(root, 'public/assets/presentation/sample-0001/manifest.json'), 'utf8'));
-await writeFile(path.join(out, 'manifest.json'), JSON.stringify({ file: name, bytes: Buffer.byteLength(html), sha256: createHash('sha256').update(html).digest('hex'), case: data }, null, 2) + '\n');
-await writeFile(path.join(out, 'README.md'), '# FigFox Architecture Demo\n\nDouble-click FigFox-Architecture-Demo.html. It contains all resources and needs no server or network.\n\n中文默认；append ?lang=en to the file URL for English. Arrow keys or visible buttons advance. N: notes; H: help; F: fullscreen; B: before/after in repair; Home/End: overview/edit. Inputs keep normal editing keys.\n\nSee ../../docs/figfox-presentation-mode.md in the repository for provenance and acceptance evidence.\n');
+await writeFile(path.join(out, 'manifest.json'), JSON.stringify({ file: name, compatibilityFile: compatibilityName, bytes: Buffer.byteLength(html), sha256: createHash('sha256').update(html).digest('hex'), case: data }, null, 2) + '\n');
+await writeFile(path.join(out, 'README.md'), '# FigFox Architecture Demo V2\n\nDouble-click FigFox-Architecture-Demo-V2.html. All resources and the Figtree font are embedded. The legacy filename contains the identical V2 artifact.\n\nEnglish by default; ?lang=zh selects Chinese. Arrows/PageDown/PageUp: scenes; Home/End: opening/editable; 1/2/3: stages; hold B: temporary Before; F: fullscreen; D: details. Menus provide mouse equivalents. Edit confirms with Enter, cancels with Escape, and SVG exports the actual document.\n\nSee ../../docs/figfox-presentation-visual-v2.md and its linked script/review for provenance, commands and acceptance. Font license included in the HTML and Figtree-LICENSE.txt.\n');
 if (process.argv.includes('--pages')) {
   const downloads = path.join(root, 'dist/presentation-downloads');
   await mkdir(downloads, { recursive: true });
   await copyFile(path.join(out, name), path.join(downloads, name));
+  await copyFile(path.join(out, compatibilityName), path.join(downloads, compatibilityName));
 }
 console.log('Offline presentation: ' + Buffer.byteLength(html) + ' bytes');

@@ -1,5 +1,5 @@
 import { restoreSvgDocument } from '../../svgDocument';
-import type { Box, PresentationCase, Region } from './types';
+import type { Box, PresentationCase } from './types';
 export function cleanSvg(value: string) {
   const markup = restoreSvgDocument(value, 'presentation.svg').markup;
   const doc = new DOMParser().parseFromString(markup, 'image/svg+xml');
@@ -52,22 +52,6 @@ export function editedSvg(markup: string, target: PresentationCase['editTarget']
   if (node.nodeType !== Node.TEXT_NODE) throw new Error('Edit target must be a text node');
   node.nodeValue = [...text].slice(0, 40).join('');
   return new XMLSerializer().serializeToString(doc.documentElement);
-}
-export function expandedRegion(region: Region): Box {
-  const [l, t, r, b] = region.box;
-  const w = Math.min(region.coordinateWidth, Math.max(180, r - l + 64));
-  const h = Math.min(region.coordinateHeight, Math.max(120, b - t + 64));
-  return [Math.min(region.coordinateWidth - w, Math.max(0, (l + r - w) / 2)),
-    Math.min(region.coordinateHeight - h, Math.max(0, (t + b - h) / 2)), w, h];
-}
-// Cameras share image units per pixel; independently centered reference/draft ROIs.
-export function pairedCameras(a: Region, b: Region, width = 516, height = 340): [Box, Box] {
-  const one = expandedRegion(a), two = expandedRegion(b);
-  const scale = Math.min(width / Math.max(one[2], two[2]), height / Math.max(one[3], two[3]));
-  const w = width / scale, h = height / scale;
-  const camera = (box: Box, region: Region): Box => [Math.max(0, Math.min(region.coordinateWidth - w, box[0] + box[2] / 2 - w / 2)),
-    Math.max(0, Math.min(region.coordinateHeight - h, box[1] + box[3] / 2 - h / 2)), w, h];
-  return [camera(one, a), camera(two, b)];
 }
 export function targetBox(node: SVGGraphicsElement, documentRoot: SVGGraphicsElement): Box {
   const box = node.getBBox(), relative = documentRoot.getCTM()?.inverse().multiply(node.getCTM()!);

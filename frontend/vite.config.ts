@@ -26,9 +26,10 @@ export default defineConfig(({ mode }) => {
       name: "presentation-download",
       configureServer(server) {
         server.middlewares.use((request, response, next) => {
-          if (!request.url?.split("?")[0].endsWith("/presentation-downloads/FigFox-Architecture-Demo.html")) return next();
+          const name = request.url?.split("?")[0].match(/\/presentation-downloads\/(FigFox-Architecture-Demo(?:-V2)?\.html)$/)?.[1];
+          if (!name) return next();
           try {
-            const html = readFileSync(new URL("./presentation-dist/FigFox-Architecture-Demo.html", import.meta.url));
+            const html = readFileSync(new URL("./presentation-dist/" + name, import.meta.url));
             response.setHeader("Content-Type", "text/html; charset=utf-8");
             response.end(html);
           } catch {
