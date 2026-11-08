@@ -11,6 +11,8 @@
 **/dist/
 **/.review/
 **/*.tsbuildinfo
+**/.presentation-build/
+frontend/src/features/presentation/data/prepared-case.ts
 **/vite.config.js
 **/vite.config.d.ts
 

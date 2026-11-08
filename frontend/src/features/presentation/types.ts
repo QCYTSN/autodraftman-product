@@ -1,0 +1,39 @@
+export type Language = 'zh' | 'en';
+export type Copy = Record<Language, string>;
+export type Box = [number, number, number, number];
+export type Region = { box: Box; coordinateWidth: number; coordinateHeight: number; origin: 'model-recorded' | 'author-verified' };
+export type Issue = {
+  id: string; title: Copy; sourceRegion: Region; draftRegion: Region; finalRegion: Region;
+  sourceEvidence: Copy; draftEvidence: Copy; verification: 'confirmed' | 'corrected' | 'uncertain' | 'not-recorded';
+  targetIds: string[]; transactionId: string | null; factId: string | null;
+  recordedEvidence: { source: string; draft: string };
+  labelPosition: [number, number]; sourceEndpoint: [number, number] | null; draftEndpoint: [number, number] | null;
+};
+export type PresentationCase = {
+  id: string; title: Copy;
+  provenance: { sourceCommit: string; runId: string | null; conditionId: string | null; upstreamHashes: Record<string, string>; bundledHashes: Record<string, string> };
+  dimensions: { width: number; height: number; viewBox: Box };
+  images: { reference: string; draftPreview: string; finalPreview: string };
+  svg: { draft: string; final: string };
+  sam: { mode: 'recorded' | 'reference-crop-illustration'; segmentationCount: number | null; assets: { id: string; name: Copy; image: string; sourceRegion: Region; draftRegion?: Region; maskSvg?: string }[]; reason: string };
+  issues: Issue[];
+  repair: {
+    kind: 'transaction-snapshot' | 'final-comparison'; beforeSvg: string; afterSvg: string; transactionId: string;
+    context: string; region: Region; operations: { op: string; targetId: string; description: Copy }[];
+    executionStatus: 'recorded-complete' | 'not-recorded'; plannedOperations: number | null; executedOperations: number | null;
+    unresolvedCount: number | null; visualQualityPass: boolean | null; transactionOperations: number;
+    replay: { fullResultHashMatches: boolean; journalMatches: boolean; outsideTargetsUnchanged: boolean; beforeHash: string; afterHash: string };
+  };
+  gapGuidance: { state: 'triggered' | 'not-triggered' | 'not-recorded'; summary: Copy };
+  editTarget: { elementId: string; textNodePath: number[]; originalText: string; exampleText: 'Demo Pooling'; focusCamera: Box };
+  modelLabels: Record<string, string | null>;
+  objectCounts: { text: number; graphics: number; connectors: number };
+  transformations: string[];
+};
+export type Cue = 'overview' | 'assets' | 'draft' | 'issue-map' | 'evidence' | 'plan' | 'repair' | 'edit';
+export type PresentationState = {
+  cueIndex: number; selectedIssueId: string; selectedAssetId: string | null;
+  evidenceView: 'detail' | 'overview'; repairView: 'pair' | 'before' | 'after';
+  drawer: 'none' | 'help' | 'notes' | 'gap' | 'records';
+  language: Language; editedText: string; inputText: string; editSelected: boolean; selectedTargetId: string;
+};

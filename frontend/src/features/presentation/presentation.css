@@ -1,0 +1,164 @@
+:root {
+  --ffp-background: #F5F5F8; --ffp-surface: #FFFFFF; --ffp-surface-muted: #F8F8FC;
+  --ffp-text: #20212B; --ffp-text-secondary: #555967; --ffp-text-muted: #707586;
+  --ffp-border: #DCDDE6; --ffp-border-strong: #B9BDCB;
+  --ffp-accent: #6D46D9; --ffp-accent-hover: #5933BF; --ffp-accent-soft: #F0EBFC;
+  --ffp-stage-one: #A74439; --ffp-stage-one-soft: #FAEEEB;
+  --ffp-stage-two: #7540B0; --ffp-stage-two-soft: #F2ECF9;
+  --ffp-stage-three: #3F4CA5; --ffp-stage-three-soft: #EEF0FB;
+  --ffp-issue: #A75A10; --ffp-issue-soft: #FFF3E4; --ffp-success: #227650; --ffp-success-soft: #EAF6EF;
+}
+html:has(.ffp-host), body:has(.ffp-host) { margin: 0; width: 100%; height: 100%; overflow: hidden; background: var(--ffp-background); }
+.ffp-host { position: fixed; inset: 0; width: 100%; height: 100%; overflow: hidden; background: var(--ffp-background); color: var(--ffp-text); font: 400 26px/38px Inter, "Segoe UI", "PingFang SC", "Microsoft YaHei", Arial, sans-serif; }
+.ffp-host * { box-sizing: border-box; }
+.ffp-host button, .ffp-button, .ffp-host input { font: 500 22px/30px Inter, "Segoe UI", "PingFang SC", "Microsoft YaHei", Arial, sans-serif; color: inherit; }
+.ffp-host button, .ffp-button { min-height: 48px; padding: 8px 18px; border: 1px solid var(--ffp-border); border-radius: 10px; background: var(--ffp-surface); display: inline-flex; align-items: center; justify-content: center; gap: 8px; cursor: pointer; text-decoration: none; transition: background .14s, border-color .14s, transform .14s; }
+.ffp-host button:hover, .ffp-button:hover { background: var(--ffp-surface-muted); border-color: var(--ffp-border-strong); }
+.ffp-host button:active { transform: scale(.985); }
+.ffp-host button:disabled { opacity: .45; cursor: default; transform: none; }
+.ffp-host :focus-visible { outline: 2px solid var(--ffp-accent); outline-offset: 3px; }
+.ffp-host .ffp-primary { min-height: 52px; min-width: 208px; background: var(--ffp-accent); color: white; border-color: var(--ffp-accent); }
+.ffp-host .ffp-primary:hover { background: var(--ffp-accent-hover); }
+.ffp-host figure, .ffp-host p, .ffp-host h1, .ffp-host h2, .ffp-host dl { margin: 0; }
+.ffp-host code { font: 400 18px/26px ui-monospace, SFMono-Regular, Consolas, monospace; overflow-wrap: anywhere; white-space: pre-wrap; }
+.ffp-canvas { position: absolute; width: 1600px; height: 900px; left: 50%; top: 50%; transform-origin: center; }
+.ffp-topbar { position: absolute; left: 32px; top: 32px; width: 1536px; height: 40px; display: flex; align-items: center; justify-content: space-between; }
+.ffp-brand { display: flex; align-items: center; gap: 18px; white-space: nowrap; }
+.ffp-brand img { width: 106px; height: 40px; object-fit: contain; }
+.ffp-brand span { font-size: 18px; color: var(--ffp-text-secondary); }
+.ffp-top-actions { display: flex; gap: 8px; align-items: center; }
+.ffp-top-actions button { height: 40px; min-height: 40px; padding: 4px 12px; }
+.ffp-mode, .ffp-offline { font-size: 18px; line-height: 26px; padding: 4px 10px; border-radius: 6px; border: 1px solid var(--ffp-border); background: var(--ffp-surface-muted); color: var(--ffp-text-secondary); }
+.ffp-offline { color: var(--ffp-success); background: var(--ffp-success-soft); }
+.ffp-stages { position: absolute; left: 32px; top: 88px; width: 1536px; height: 80px; display: flex; }
+.ffp-stage-group { display: flex; align-items: center; }
+.ffp-host .ffp-stage { width: 488px; height: 80px; padding: 10px 20px; border-radius: 12px; justify-content: flex-start; gap: 16px; text-align: left; }
+.ffp-stage strong { display: block; font-size: 25px; line-height: 32px; font-weight: 600; }
+.ffp-stage small { display: block; font-size: 17px; line-height: 24px; font-weight: 500; color: var(--ffp-text-secondary); }
+.ffp-stage-number { flex-shrink: 0; width: 36px; height: 36px; display: grid; place-items: center; border-radius: 50%; background: var(--ffp-surface-muted); border: 1px solid var(--ffp-border); }
+.ffp-stage-connector { margin: 0 6px; color: var(--ffp-text-muted); }
+.ffp-stage-0 { --stage: var(--ffp-stage-one); --stage-soft: var(--ffp-stage-one-soft); }
+.ffp-stage-1 { --stage: var(--ffp-stage-two); --stage-soft: var(--ffp-stage-two-soft); }
+.ffp-stage-2 { --stage: var(--ffp-stage-three); --stage-soft: var(--ffp-stage-three-soft); }
+.ffp-host .ffp-stage.is-active { border: 2px solid var(--stage); background: var(--stage-soft); padding-left: 19px; }
+.ffp-stage.is-active .ffp-stage-number { background: var(--stage); color: white; border-color: var(--stage); }
+.ffp-main { position: absolute; left: 32px; top: 192px; width: 1120px; height: 600px; border-radius: 12px; border: 1px solid var(--ffp-border); background: var(--ffp-surface); overflow: hidden; }
+.ffp-main h1 { position: absolute; left: 32px; top: 24px; width: 1056px; font-size: 42px; line-height: 52px; font-weight: 650; letter-spacing: normal; z-index: 2; pointer-events: none; }
+.ffp-scene-body { position: absolute; inset: 0; }
+.ffp-evidence-panel, .ffp-drawer { position: absolute; left: 1176px; top: 192px; width: 392px; height: 600px; padding: 28px; border-radius: 12px; border: 1px solid var(--ffp-border); background: var(--ffp-surface); }
+.ffp-evidence-panel { display: flex; flex-direction: column; align-items: flex-start; gap: 18px; }
+.ffp-eyebrow { display: block; font-size: 17px; line-height: 24px; font-weight: 500; letter-spacing: .06em; color: var(--ffp-text-muted); }
+.ffp-evidence-panel h2 { font-size: 32px; line-height: 44px; font-weight: 600; }
+.ffp-evidence-panel > p { color: var(--ffp-text-secondary); }
+.ffp-small, .ffp-host p.ffp-small { font-size: 18px; line-height: 26px; color: var(--ffp-text-secondary); }
+.ffp-tag, .ffp-source-label { display: inline-flex; padding: 4px 10px; font-size: 18px; line-height: 26px; border-radius: 6px; background: var(--ffp-surface-muted); border: 1px solid var(--ffp-border); color: var(--ffp-text-secondary); }
+.ffp-source-label { color: var(--ffp-stage-one); background: var(--ffp-stage-one-soft); }
+.ffp-overview-points { padding: 0; margin: 6px 0 16px; list-style: none; display: flex; flex-direction: column; gap: 20px; }
+.ffp-overview-points li { display: flex; align-items: flex-start; gap: 12px; }
+.ffp-overview-points svg { flex-shrink: 0; margin-top: 7px; color: var(--ffp-accent); }
+.ffp-panel-overview .ffp-primary { margin-top: auto; }
+.ffp-record-link { margin-top: auto; font-size: 18px !important; min-height: 40px !important; padding: 4px 0 !important; border: none !important; background: transparent !important; color: var(--ffp-accent) !important; }
+.ffp-controls { position: absolute; left: 32px; top: 808px; width: 1536px; height: 60px; display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+.ffp-step-caption { display: flex; align-items: center; gap: 22px; font-size: 22px; line-height: 30px; }
+.ffp-step-caption b { white-space: nowrap; font-weight: 600; font-variant-numeric: tabular-nums; }
+.ffp-step-caption b span { color: var(--ffp-text-muted); font-weight: 400; }
+.ffp-cues { display: flex; align-items: center; }
+.ffp-host .ffp-cues button { width: 32px; min-width: 32px; height: 44px; min-height: 44px; padding: 0; border: 0; background: transparent; }
+.ffp-cues span { display: block; width: 8px; height: 8px; border-radius: 8px; background: var(--ffp-border-strong); }
+.ffp-cues button[aria-current] span { background: var(--ffp-accent); width: 28px; }
+.ffp-control-actions { display: flex; align-items: center; gap: 12px; }
+.ffp-key-hint { font-size: 18px; line-height: 26px; color: var(--ffp-text-muted); }
+.ffp-control-actions .ffp-primary { min-width: 208px; }
+.ffp-figure { width: 100%; height: 100%; background: white; overflow: hidden; }
+.ffp-document-viewport { width: 100%; height: 100%; display: block; }
+.ffp-observation-layer { pointer-events: none; }
+.ffp-region { color: var(--ffp-issue); }
+.ffp-region [role=button] { cursor: pointer; pointer-events: auto; }
+.ffp-region:not(.is-active) { opacity: .65; }
+.ffp-asset-source .ffp-region:not(.is-active) { opacity: .45; }
+.ffp-editable-text { cursor: text; }
+.ffp-overview-images { position: absolute; left: 32px; top: 150px; display: flex; gap: 24px; }
+.ffp-overview-images figure { width: 336px; position: relative; }
+.ffp-overview-images img { display: block; width: 336px; height: 200px; object-fit: contain; }
+.ffp-overview-images figcaption { margin-top: 24px; text-align: center; font-size: 26px; line-height: 38px; }
+.ffp-overview-arrow { position: absolute; left: 336px; top: 88px; color: var(--ffp-text-muted); }
+.ffp-overview-summary { position: absolute; left: 32px; top: 466px; color: var(--ffp-text-secondary); }
+.ffp-asset-mode { position: absolute; left: 32px; top: 80px; }
+.ffp-asset-source { position: absolute; left: 32px; top: 116px; width: 760px; height: 420px; }
+.ffp-assets { position: absolute; left: 824px; top: 116px; width: 264px; display: flex; flex-direction: column; gap: 16px; }
+.ffp-host .ffp-assets button { width: 264px; height: 124px; padding: 12px; border-radius: 8px; gap: 12px; justify-content: flex-start; text-align: left; }
+.ffp-assets img { width: 124px; height: 92px; object-fit: contain; background: white; }
+.ffp-assets small { display: block; font-size: 18px; line-height: 26px; color: var(--ffp-stage-one); }
+.ffp-assets strong { display: block; font-size: 22px; line-height: 30px; font-weight: 500; }
+.ffp-host .ffp-assets .is-active { background: var(--ffp-stage-one-soft); border: 2px solid var(--ffp-stage-one); padding: 11px; }
+.ffp-asset-leader { position: absolute; inset: 0; pointer-events: none; }
+.ffp-draft-pair, .ffp-evidence-pair, .ffp-repair-pair { position: absolute; left: 32px; top: 124px; display: flex; gap: 24px; }
+.ffp-draft-pair figure, .ffp-evidence-pair figure, .ffp-repair-pair figure { width: 516px; position: relative; }
+.ffp-draft-pair figcaption, .ffp-evidence-pair figcaption, .ffp-repair-pair figcaption { position: absolute; left: 0; top: -38px; font-size: 26px; line-height: 34px; }
+.ffp-draft-pair .ffp-figure { height: 360px; }
+.ffp-object-types { position: absolute; left: 32px; top: 514px; display: flex; gap: 12px; }
+.ffp-object-types span { height: 36px; padding: 2px 12px; border: 1px solid var(--ffp-border); background: var(--ffp-surface-muted); border-radius: 6px; font-size: 22px; line-height: 30px; }
+.ffp-asset-participation { position: absolute; right: 32px; top: 519px; font-size: 18px; line-height: 26px; color: var(--ffp-text-secondary); }
+.ffp-issue-map { position: absolute; left: 32px; top: 112px; width: 1056px; height: 420px; }
+.ffp-reference-thumbnail { width: 334px; height: 160px; border: 1px solid var(--ffp-border); border-radius: 8px; overflow: hidden; }
+.ffp-evidence-pair { top: 116px; }
+.ffp-evidence-pair .ffp-figure { height: 340px; border: 1px solid var(--ffp-border); border-radius: 8px; }
+.ffp-evidence-pair p { position: absolute; top: 362px; left: 0; width: 516px; font-size: 30px; line-height: 42px; font-weight: 500; }
+.ffp-panel-evidence { gap: 14px; }
+.ffp-observations { display: flex; flex-direction: column; gap: 12px; }
+.ffp-observations p { font-size: 22px; line-height: 30px; }
+.ffp-observations p span { display: block; font-size: 18px; line-height: 26px; color: var(--ffp-text-muted); margin-bottom: 4px; }
+.ffp-verification { display: flex; align-items: center; gap: 8px; color: var(--ffp-success); font-size: 22px; line-height: 30px; }
+.ffp-verification svg { flex-shrink: 0; }
+.ffp-verification.is-unknown { color: var(--ffp-text-secondary); }
+.ffp-plan-scene { position: absolute; inset: 0; }
+.ffp-plan-figure { position: absolute; left: 32px; top: 116px; width: 500px; height: 412px; border: 1px solid var(--ffp-border); border-radius: 8px; overflow: hidden; }
+.ffp-plan-card { position: absolute; left: 572px; top: 116px; width: 516px; height: 412px; border: 1px solid var(--ffp-border); background: var(--ffp-surface-muted); border-radius: 8px; padding: 24px; display: flex; flex-direction: column; gap: 16px; }
+.ffp-plan-card .ffp-eyebrow { color: var(--ffp-issue); }
+.ffp-plan-card button { text-align: left; justify-content: flex-start; padding: 12px; border-radius: 8px; min-height: 90px; gap: 12px; }
+.ffp-plan-card button strong { display: block; font-size: 26px; line-height: 38px; font-weight: 500; }
+.ffp-plan-card button.is-active { background: var(--ffp-accent-soft); border-color: var(--ffp-accent); }
+.ffp-plan-card button > svg { margin-left: auto; flex-shrink: 0; }
+.ffp-plan-order { color: var(--ffp-accent); font-size: 18px; }
+.ffp-plan-leader { position: absolute; inset: 0; width: 1120px; height: 600px; pointer-events: none; }
+.ffp-gap-button { font-size: 20px !important; padding: 8px 10px !important; }
+.ffp-view-switch { position: absolute; right: 32px; top: 26px; display: flex; justify-content: flex-end; gap: 8px; z-index: 3; }
+.ffp-scene-repair h1 { width: 630px; }
+.ffp-host .ffp-view-switch button { min-height: 48px; height: 48px; padding: 8px 18px; font-size: 22px; line-height: 30px; border-radius: 10px; }
+.ffp-view-switch button[aria-pressed=true] { color: var(--ffp-accent); background: var(--ffp-accent-soft); border-color: var(--ffp-accent); }
+.ffp-repair-pair { top: 116px; }
+.ffp-repair-pair figcaption { top: -34px; font-size: 26px; line-height: 34px; }
+.ffp-repair-image { position: relative; width: 100%; height: 340px; overflow: hidden; border: 1px solid var(--ffp-border); border-radius: 8px; }
+.ffp-repair-underlay, .ffp-repair-overlay { position: absolute; inset: 0; background: white; }
+.ffp-repair-pair.is-single figure { width: 1056px; }
+.ffp-repair-caption { position: absolute; left: 32px; top: 486px; width: 1056px; color: var(--ffp-text-secondary); font-size: 22px; line-height: 30px; }
+.ffp-repair-summary dt { color: var(--ffp-text-muted); font-size: 18px; line-height: 26px; margin-top: 12px; }
+.ffp-repair-summary dd { margin: 4px 0 0; font-size: 22px; line-height: 30px; }
+.ffp-edit-preview { position: absolute; left: 32px; top: 112px; width: 1056px; height: 440px; }
+.ffp-panel-edit { gap: 10px; }
+.ffp-panel-edit h2 { font-size: 32px; line-height: 44px; }
+.ffp-edit-controls { width: 100%; display: flex; flex-direction: column; gap: 8px; }
+.ffp-edit-controls form { display: flex; flex-direction: column; gap: 8px; }
+.ffp-edit-controls label { font-size: 18px; line-height: 26px; }
+.ffp-edit-controls input { height: 48px; width: 100%; border: 1px solid var(--ffp-border-strong); padding: 8px 12px; border-radius: 8px; background: white; }
+.ffp-edit-small-actions { display: flex; gap: 8px; }
+.ffp-host .ffp-edit-small-actions button { flex: 1; padding: 8px 10px; }
+.ffp-edit-controls > button, .ffp-edit-controls .ffp-primary { width: 100%; }
+.ffp-edit-status { color: var(--ffp-success); font-size: 18px; line-height: 26px; }
+.ffp-drawer { z-index: 20; padding: 0; display: flex; flex-direction: column; box-shadow: 0 14px 40px rgba(32,33,43,.12); }
+.ffp-drawer header { display: flex; align-items: center; justify-content: space-between; gap: 8px; padding: 20px 20px 16px 28px; border-bottom: 1px solid var(--ffp-border); }
+.ffp-drawer h2 { font-size: 25px; line-height: 32px; font-weight: 600; }
+.ffp-drawer header button { padding: 0; min-width: 40px; min-height: 40px; }
+.ffp-drawer-content { overflow: auto; overscroll-behavior: contain; padding: 24px 28px 28px; display: flex; flex-direction: column; gap: 20px; }
+.ffp-shortcuts div { margin-bottom: 14px; }
+.ffp-shortcuts dt { font: 400 18px/26px ui-monospace, SFMono-Regular, Consolas, monospace; color: var(--ffp-accent); }
+.ffp-shortcuts dd { margin: 0; font-size: 22px; line-height: 30px; }
+.ffp-records dt { font-size: 18px; line-height: 26px; color: var(--ffp-text-muted); margin-top: 12px; }
+.ffp-records dd { margin: 0; font-size: 22px; line-height: 30px; }
+.ffp-drawer details { font-size: 18px; line-height: 26px; }
+.ffp-drawer summary { cursor: pointer; margin-bottom: 12px; }
+.ffp-toast { position: absolute; bottom: 105px; left: 400px; max-width: 800px; padding: 16px 24px; border: 1px solid var(--ffp-border); border-radius: 12px; background: white; font-size: 22px; line-height: 30px; box-shadow: 0 14px 40px rgba(32,33,43,.12); }
+.ffp-loading { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 24px; font-size: 22px; }
+.ffp-loading > img { width: 160px; height: 60px; object-fit: contain; }
+.ffp-loading h1 { font-size: 32px; line-height: 44px; font-weight: 600; }
+@media (prefers-reduced-motion: reduce) { .ffp-host *, .ffp-host *::before, .ffp-host *::after { transition-duration: 0ms !important; animation-duration: 0ms !important; } }

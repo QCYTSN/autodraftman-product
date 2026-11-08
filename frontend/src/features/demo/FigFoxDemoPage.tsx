@@ -200,7 +200,7 @@ function DemoPageContent({ language, onLanguageChange, onNavigate, hrefFor }: Pr
 
         <section className="demo-method demo-section" id="demo-method" aria-labelledby="demo-method-title">
           <div className="demo-section-heading" data-demo-reveal>
-            <h2 id="demo-method-title">{content.methodTitle}</h2>
+            <h2 id="demo-method-title">{content.methodTitle} <a className="demo-presentation-link" href={import.meta.env.BASE_URL + 'presentation'} target="_blank" rel="noopener noreferrer">{language === 'zh' ? '打开交互演示 ↗' : 'Open interactive walkthrough ↗'}</a></h2>
             <p>{content.methodBody}</p>
           </div>
           <figure className="demo-method-figure" data-demo-reveal data-demo-delay="1">

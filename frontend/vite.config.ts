@@ -23,6 +23,21 @@ export default defineConfig(({ mode }) => {
       env.VITE_PUBLIC_BASE_PATH ||
       (mode === "github-pages" ? "/figfox/" : "/"),
     plugins: [react(), {
+      name: "presentation-download",
+      configureServer(server) {
+        server.middlewares.use((request, response, next) => {
+          if (!request.url?.split("?")[0].endsWith("/presentation-downloads/FigFox-Architecture-Demo.html")) return next();
+          try {
+            const html = readFileSync(new URL("./presentation-dist/FigFox-Architecture-Demo.html", import.meta.url));
+            response.setHeader("Content-Type", "text/html; charset=utf-8");
+            response.end(html);
+          } catch {
+            response.statusCode = 503;
+            response.end("Run npm run presentation:build to prepare the offline download.");
+          }
+        });
+      },
+    }, {
       name: "local-mathlive-fonts",
       configureServer(server) {
         server.middlewares.use((request, response, next) => {

@@ -10,5 +10,5 @@
     "allowImportingTsExtensions": true,
     "noEmit": true
   },
-  "include": ["vite.config.ts", "demo-assets-plugin.ts"]
+  "include": ["vite.config.ts", "vite.presentation.config.ts", "demo-assets-plugin.ts"]
 }

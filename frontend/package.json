@@ -7,8 +7,8 @@
     "dev": "vite --host 127.0.0.1",
     "dev:kernel": "vite --mode local-kernel --host 127.0.0.1 --port 5178 --strictPort",
     "dev:internal": "vite --mode internal-test --host 127.0.0.1 --port 5179 --strictPort",
-    "build": "tsc -b && vite build",
-    "build:pages": "tsc -b && vite build --mode github-pages && node scripts/prepare-pages.mjs",
+    "build": "npm run presentation:prepare && tsc -b && vite build && npm run presentation:build && node scripts/pack-presentation.mjs --pages",
+    "build:pages": "npm run presentation:prepare && tsc -b && vite build --mode github-pages && node scripts/prepare-pages.mjs && npm run presentation:build && node scripts/pack-presentation.mjs --pages",
     "preview": "vite preview --host 127.0.0.1",
     "review": "node scripts/run-visual-review.mjs",
     "review:quality": "node scripts/run-quality.mjs",
@@ -37,7 +37,13 @@
     "review:editor-parity-repair": "node scripts/editor-parity-repair-check.mjs",
     "review:pages": "node scripts/run-pages-review.mjs",
     "research:export": "python scripts/export-research.py",
-    "review:research": "node scripts/research-check.mjs"
+    "review:research": "node scripts/research-check.mjs",
+    "presentation:prepare": "node scripts/prepare-presentation.mjs",
+    "presentation:build": "npm run presentation:prepare && vite build --config vite.presentation.config.ts && node scripts/pack-presentation.mjs",
+    "review:presentation": "node scripts/presentation-check.mjs",
+    "predev": "npm run presentation:prepare",
+    "predev:kernel": "npm run presentation:prepare",
+    "predev:internal": "npm run presentation:prepare"
   },
   "dependencies": {
     "@base-ui/react": "^1.7.0",

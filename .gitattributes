@@ -16,3 +16,4 @@
 frontend/public/assets/demo/cases/**/*.svg binary
 frontend/public/assets/research/samples/**/*.svg binary
 frontend/public/assets/demo/framework-v80.svg binary
+frontend/public/assets/presentation/**/*.svg binary

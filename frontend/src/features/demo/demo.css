@@ -553,3 +553,6 @@ body:has(.demo-site), .radix-themes:has(.demo-site) { background: #fcfcfe; }
 }
 
 @media(max-width:600px) { .demo-inline-comparison { padding: 0; } .demo-inline-comparison > img, .demo-inline-comparison .demo-comparison-original img { padding: 9px; } .demo-inline-labels { inset: 8px 9px auto; font-size: 11px; } }
+.demo-presentation-link { display: inline-block; margin-inline-start: 18px; font-size: 16px; line-height: 1.5; font-weight: 500; letter-spacing: normal; color: #6D46D9; text-decoration: none; vertical-align: middle; }
+.demo-presentation-link:hover { text-decoration: underline; }
+.demo-presentation-link:focus-visible { outline: 2px solid #6D46D9; outline-offset: 3px; }
