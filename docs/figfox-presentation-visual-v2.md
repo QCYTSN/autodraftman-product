@@ -2,7 +2,7 @@
 
 本版把 V1 的八状态说明界面改成七状态图形舞台：opening → assets → draft → evidence → targets → repair → editable。讲解者前进六次完成主线，每次动画结束后停留。
 
-> 当前主讲案例已换为 sample-0032（小鸟编码与原型库）。换图基线为 `a364e80`，筛选、来源核验和新截图见 [换图交付报告](reviews/figfox-presentation-case-refresh/README.md)。
+> 当前主讲案例为 sample-0032（小鸟编码与原型库）。本轮在 `4f13688` 基线上补充架构交接，最新截图、录像和测试见 [架构交接报告](reviews/figfox-presentation-handoffs/README.md)。[换图记录](reviews/figfox-presentation-case-refresh/README.md) 保留为历史交付。
 
 ## 基线与范围
 
@@ -50,6 +50,9 @@ npm run preview -- --mode github-pages --port 5186 --strictPort
 | --- | --- | --- |
 | 前进 / 后退 | → / ←、PageDown / PageUp、Space 前进 | 右下箭头 |
 | 开场 / 结尾 | Home / End | 左下第一 / 第七定位点 |
+| 重播当前交接 | draft / evidence / repair 中按 R | 右下回转箭头 |
+| 停留查看问题分布 | evidence 中 I 开关，Escape 关闭 | Issue map / Evidence |
+| 辅助支路和保留项 | Tab、Enter 打开，Escape 关闭 | Gap guidance / Unresolved |
 | 三个阶段 | 1 / 2 / 3 | 底部阶段文字 |
 | 技术详情 | D | 菜单 → 技术详情 |
 | 全屏 | F | 菜单 → 全屏 |
@@ -67,6 +70,14 @@ npm run preview -- --mode github-pages --port 5186 --strictPort
 先完成 assets、evidence、editable 静态构图并检查两套截图，再实现其余场景。来源展开移动的是显示副本；证据两侧使用独立中心和相同图像单位倍率；目标边界由实际 getBBox/CTM 计算；修复使用真实前后产物交叉淡入。
 
 原图与初稿视口保持同一 DOM 身份。向前播放指定短序列，直接跳转和反向导航到标准结束画面；新导航取消旧计时器。页面隐藏或减少动态效果时完成当前序列，返回后不补播。稳定场景没有持续装饰动画。
+
+## 架构交接
+
+- 原图和真实 SAM 素材通过两条独立输入连接进入 Draft model；节点短暂出现，初稿承接输出。结束后只保留连接名称，图像继续占主要空间。
+- evidence 向前入场先展示 G1 全部九条原始检测记录，200ms 聚焦 A2，440ms 开始展开成对局部，1100ms 前停稳。问题图可用 I / 鼠标单独打开停留；人工标注位置调整只移动编号，不改检测坐标。
+- targets 显示真实 Confirmed A2 和 Plan，图形与执行前视图共用该事务的真实前快照；repair 保留同一操作组，180ms 进入 Local execution，560ms 展示已核验的事务后 SVG，820ms 强调 Render，1100ms 停稳。浏览器展示记录并渲染 SVG，不重新调用模型或执行归档 Python。
+- Gap guidance 按 triggered / not-triggered / not-recorded 显示；当前为未记录。Unresolved 读取真实数量，详情分开呈现执行完成与视觉验收。两个详情都支持键盘进入和原位返回焦点。
+- 原始 SVG、SAM 字节、修复快照和素材来源均不变。仅增加 G1 问题图、G1/G2 哈希和原始保留项数组。
 
 ## 来源与编辑边界
 
@@ -90,6 +101,6 @@ npm run presentation:prepare
 
 [两分钟讲稿](figfox-presentation-visual-v2-script.md) 单独保存，不回填投影舞台。
 
-[本轮验收报告与七状态截图、过渡录像](reviews/figfox-presentation-case-refresh/README.md) 记录实际测试环境、来源核验、文本预算和产品回归结果。
+[本轮验收报告与七状态截图、过渡录像](reviews/figfox-presentation-handoffs/README.md) 记录实际测试环境、来源核验、文本预算和演示回归结果。
 
 macOS 与实际讲台电脑待测。复制单 HTML，断网打开，完成七状态、三块素材、两侧完整图切换、replace 操作、Before/After 与按住 B、文字确认/取消、SVG 导出重开；再检查中英文、全屏、125% 缩放与翻页器。记录系统、浏览器、字体替代和投影比例。

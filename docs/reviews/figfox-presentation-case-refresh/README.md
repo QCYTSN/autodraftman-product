@@ -1,5 +1,7 @@
 # Presentation Mode V2 · 换图交付
 
+> 本报告是换图交付快照。当前 HTML 已加入架构职责交接，最新验证见 [架构交接报告](../figfox-presentation-handoffs/README.md)。
+
 当前主案例为 **sample-0032 · 小鸟图像编码与原型库**。保持七幕、手动六次前进和原有视觉系统。
 
 ## 选择依据

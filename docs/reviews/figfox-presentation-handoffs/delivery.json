@@ -1,0 +1,44 @@
+{
+  "baseline": "4f1368890098296dab44b83d7234e96268dab69a",
+  "sourceCommit": "e88ede1e9e459f56243d13fc8f65eff7fd2ae455",
+  "implementationCommits": [
+    "879f4d1100c782a916687e69ca15a5bb0ab9497e",
+    "e88ede1e9e459f56243d13fc8f65eff7fd2ae455"
+  ],
+  "branch": "codex/figfox-presentation-visual-v2",
+  "checkedAt": "2026-11-08T21:13:53.523454+08:00",
+  "case": "sample-0032",
+  "html": {
+    "file": "frontend/presentation-dist/FigFox-Architecture-Demo-V2.html",
+    "bytes": 938208,
+    "sha256": "dd7ffb82ceb99c9b0a68e228ffe585ab15c61d88cae96aa746e0cf7e1f34a122",
+    "compatibilityIdentical": true,
+    "previewDownloadBytesVerified": true
+  },
+  "browser": "156.0.8078.74",
+  "presentationChecks": 23,
+  "layoutChecks": 43,
+  "screenshots": 32,
+  "offlineHttpRequests": 0,
+  "publicDeployment": false,
+  "gitRemoteUpdated": false,
+  "architecture": {
+    "originalDetectorRecords": 9,
+    "primaryIssue": "A2",
+    "transactionOperations": 1,
+    "planUsesTransactionBefore": true,
+    "guidance": "not-recorded",
+    "unresolved": 0,
+    "visualQualityPass": null,
+    "originalResourceBytesChanged": false
+  },
+  "independentReview": "approved; G1/G2 evidence, three guidance states, unknown retained records, interrupts, reduced motion, IME, replay position and StrictMode focus independently checked",
+  "video": {
+    "file": "architecture-transitions.webm",
+    "sha256": "bfc7c07c2b76265213d10fd49590e8cbc4e2b83e7fc13196d3f43406dd414f3c"
+  },
+  "pendingDevices": [
+    "macOS",
+    "lecture computer"
+  ]
+}

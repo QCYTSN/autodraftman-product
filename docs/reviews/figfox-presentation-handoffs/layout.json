@@ -1,0 +1,373 @@
+[
+  {
+    "width": 1600,
+    "height": 900,
+    "scene": "opening",
+    "language": "en",
+    "count": 5,
+    "words": "From pixels.\nTo structure. Reference",
+    "errors": []
+  },
+  {
+    "width": 1600,
+    "height": 900,
+    "scene": "assets",
+    "language": "en",
+    "count": 10,
+    "words": "Reconstruct. Reference SAM assets Bird image Train icon Freeze icon",
+    "errors": []
+  },
+  {
+    "width": 1600,
+    "height": 900,
+    "scene": "draft",
+    "language": "en",
+    "count": 7,
+    "words": "Reconstruct. Reference SVG draft Text Draft model",
+    "errors": []
+  },
+  {
+    "width": 1600,
+    "height": 900,
+    "scene": "evidence",
+    "language": "en",
+    "count": 7,
+    "words": "Inspect. Reference Draft Cell layout Issue map",
+    "errors": []
+  },
+  {
+    "width": 1600,
+    "height": 900,
+    "scene": "targets",
+    "language": "en",
+    "count": 10,
+    "words": "Repair. Target Plan replace Confirmed A2 Gap guidance Not recorded",
+    "errors": []
+  },
+  {
+    "width": 1600,
+    "height": 900,
+    "scene": "repair",
+    "language": "en",
+    "count": 11,
+    "words": "Repair. Local execution replace Render Before After Gap guidance Not recorded",
+    "errors": []
+  },
+  {
+    "width": 1600,
+    "height": 900,
+    "scene": "editable",
+    "language": "en",
+    "count": 6,
+    "words": "Now editable. Unresolved 0 Edit SVG",
+    "errors": []
+  },
+  {
+    "width": 1366,
+    "height": 768,
+    "scene": "opening",
+    "language": "en",
+    "count": 5,
+    "words": "From pixels.\nTo structure. Reference",
+    "errors": []
+  },
+  {
+    "width": 1366,
+    "height": 768,
+    "scene": "assets",
+    "language": "en",
+    "count": 10,
+    "words": "Reconstruct. Reference SAM assets Bird image Train icon Freeze icon",
+    "errors": []
+  },
+  {
+    "width": 1366,
+    "height": 768,
+    "scene": "draft",
+    "language": "en",
+    "count": 7,
+    "words": "Reconstruct. Reference SVG draft Text Draft model",
+    "errors": []
+  },
+  {
+    "width": 1366,
+    "height": 768,
+    "scene": "evidence",
+    "language": "en",
+    "count": 7,
+    "words": "Inspect. Reference Draft Cell layout Issue map",
+    "errors": []
+  },
+  {
+    "width": 1366,
+    "height": 768,
+    "scene": "targets",
+    "language": "en",
+    "count": 10,
+    "words": "Repair. Target Plan replace Confirmed A2 Gap guidance Not recorded",
+    "errors": []
+  },
+  {
+    "width": 1366,
+    "height": 768,
+    "scene": "repair",
+    "language": "en",
+    "count": 11,
+    "words": "Repair. Local execution replace Render Before After Gap guidance Not recorded",
+    "errors": []
+  },
+  {
+    "width": 1366,
+    "height": 768,
+    "scene": "editable",
+    "language": "en",
+    "count": 6,
+    "words": "Now editable. Unresolved 0 Edit SVG",
+    "errors": []
+  },
+  {
+    "width": 1920,
+    "height": 1080,
+    "scene": "opening",
+    "language": "en",
+    "count": 5,
+    "words": "From pixels.\nTo structure. Reference",
+    "errors": []
+  },
+  {
+    "width": 1920,
+    "height": 1080,
+    "scene": "assets",
+    "language": "en",
+    "count": 10,
+    "words": "Reconstruct. Reference SAM assets Bird image Train icon Freeze icon",
+    "errors": []
+  },
+  {
+    "width": 1920,
+    "height": 1080,
+    "scene": "draft",
+    "language": "en",
+    "count": 7,
+    "words": "Reconstruct. Reference SVG draft Text Draft model",
+    "errors": []
+  },
+  {
+    "width": 1920,
+    "height": 1080,
+    "scene": "evidence",
+    "language": "en",
+    "count": 7,
+    "words": "Inspect. Reference Draft Cell layout Issue map",
+    "errors": []
+  },
+  {
+    "width": 1920,
+    "height": 1080,
+    "scene": "targets",
+    "language": "en",
+    "count": 10,
+    "words": "Repair. Target Plan replace Confirmed A2 Gap guidance Not recorded",
+    "errors": []
+  },
+  {
+    "width": 1920,
+    "height": 1080,
+    "scene": "repair",
+    "language": "en",
+    "count": 11,
+    "words": "Repair. Local execution replace Render Before After Gap guidance Not recorded",
+    "errors": []
+  },
+  {
+    "width": 1920,
+    "height": 1080,
+    "scene": "editable",
+    "language": "en",
+    "count": 6,
+    "words": "Now editable. Unresolved 0 Edit SVG",
+    "errors": []
+  },
+  {
+    "width": 1280,
+    "height": 720,
+    "scene": "opening",
+    "language": "en",
+    "count": 5,
+    "words": "From pixels.\nTo structure. Reference",
+    "errors": []
+  },
+  {
+    "width": 1280,
+    "height": 720,
+    "scene": "assets",
+    "language": "en",
+    "count": 10,
+    "words": "Reconstruct. Reference SAM assets Bird image Train icon Freeze icon",
+    "errors": []
+  },
+  {
+    "width": 1280,
+    "height": 720,
+    "scene": "draft",
+    "language": "en",
+    "count": 7,
+    "words": "Reconstruct. Reference SVG draft Text Draft model",
+    "errors": []
+  },
+  {
+    "width": 1280,
+    "height": 720,
+    "scene": "evidence",
+    "language": "en",
+    "count": 7,
+    "words": "Inspect. Reference Draft Cell layout Issue map",
+    "errors": []
+  },
+  {
+    "width": 1280,
+    "height": 720,
+    "scene": "targets",
+    "language": "en",
+    "count": 10,
+    "words": "Repair. Target Plan replace Confirmed A2 Gap guidance Not recorded",
+    "errors": []
+  },
+  {
+    "width": 1280,
+    "height": 720,
+    "scene": "repair",
+    "language": "en",
+    "count": 11,
+    "words": "Repair. Local execution replace Render Before After Gap guidance Not recorded",
+    "errors": []
+  },
+  {
+    "width": 1280,
+    "height": 720,
+    "scene": "editable",
+    "language": "en",
+    "count": 6,
+    "words": "Now editable. Unresolved 0 Edit SVG",
+    "errors": []
+  },
+  {
+    "width": 1024,
+    "height": 768,
+    "scene": "opening",
+    "language": "en",
+    "count": 5,
+    "words": "From pixels.\nTo structure. Reference",
+    "errors": []
+  },
+  {
+    "width": 1024,
+    "height": 768,
+    "scene": "assets",
+    "language": "en",
+    "count": 10,
+    "words": "Reconstruct. Reference SAM assets Bird image Train icon Freeze icon",
+    "errors": []
+  },
+  {
+    "width": 1024,
+    "height": 768,
+    "scene": "draft",
+    "language": "en",
+    "count": 7,
+    "words": "Reconstruct. Reference SVG draft Text Draft model",
+    "errors": []
+  },
+  {
+    "width": 1024,
+    "height": 768,
+    "scene": "evidence",
+    "language": "en",
+    "count": 7,
+    "words": "Inspect. Reference Draft Cell layout Issue map",
+    "errors": []
+  },
+  {
+    "width": 1024,
+    "height": 768,
+    "scene": "targets",
+    "language": "en",
+    "count": 10,
+    "words": "Repair. Target Plan replace Confirmed A2 Gap guidance Not recorded",
+    "errors": []
+  },
+  {
+    "width": 1024,
+    "height": 768,
+    "scene": "repair",
+    "language": "en",
+    "count": 11,
+    "words": "Repair. Local execution replace Render Before After Gap guidance Not recorded",
+    "errors": []
+  },
+  {
+    "width": 1024,
+    "height": 768,
+    "scene": "editable",
+    "language": "en",
+    "count": 6,
+    "words": "Now editable. Unresolved 0 Edit SVG",
+    "errors": []
+  },
+  {
+    "scene": "opening",
+    "language": "zh",
+    "count": 8,
+    "words": "从像素\n到结构 原图",
+    "errors": []
+  },
+  {
+    "scene": "assets",
+    "language": "zh",
+    "count": 21,
+    "words": "重建 原图 SAM 素材 小鸟图像 训练标记 冻结标记",
+    "errors": []
+  },
+  {
+    "scene": "draft",
+    "language": "zh",
+    "count": 15,
+    "words": "重建 原图 SVG 初稿 文字 生成模型",
+    "errors": []
+  },
+  {
+    "scene": "evidence",
+    "language": "zh",
+    "count": 15,
+    "words": "检查 原图 初稿 单元格排列 问题分布",
+    "errors": []
+  },
+  {
+    "scene": "targets",
+    "language": "zh",
+    "count": 25,
+    "words": "修复 目标 计划 replace 已复核 A2 缺口指导 未记录",
+    "errors": []
+  },
+  {
+    "scene": "repair",
+    "language": "zh",
+    "count": 28,
+    "words": "修复 本地执行 replace 渲染 修改前 修复后 缺口指导 未记录",
+    "errors": []
+  },
+  {
+    "scene": "editable",
+    "language": "zh",
+    "count": 14,
+    "words": "继续编辑 保留问题 0 编辑 SVG",
+    "errors": []
+  },
+  {
+    "scene": "issue-map",
+    "language": "zh",
+    "count": 28,
+    "words": "检查 原图 问题分布 A1 A2 B1 B2 C1 C2 D1 D2 D3 局部",
+    "errors": []
+  }
+]
