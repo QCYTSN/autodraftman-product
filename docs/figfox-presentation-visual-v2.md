@@ -2,11 +2,13 @@
 
 本版把 V1 的八状态说明界面改成七状态图形舞台：opening → assets → draft → evidence → targets → repair → editable。讲解者前进六次完成主线，每次动画结束后停留。
 
+> 当前主讲案例已换为 sample-0032（小鸟编码与原型库）。换图基线为 `a364e80`，筛选、来源核验和新截图见 [换图交付报告](reviews/figfox-presentation-case-refresh/README.md)。
+
 ## 基线与范围
 
 - 基线：`4d53116669c4cc318e8a55376150e95086047d8a`，保留 `4e4ab35 → 56c9180 → 8cb533d → 4d53116` 的已核验交付历史。
 - 分支：`codex/figfox-presentation-visual-v2`。
-- 实现提交：`437199b`；素材引线视觉修正：`74a9c5f`。
+- V2 实现：`437199b`；原素材引线修正：`74a9c5f`；小鸟案例与数据适配：`d918b5f`。
 - 规格：`FigFox_Codex_Demo_Visual_Redesign_V2.md`。
 - 在仓库及上级适用目录中未发现 AGENTS.md。原有三个未跟踪宣传片目录未改动。
 - 改动限定在演示场景、控制、动效、字体准备、离线打包和验收脚本。首页入口、账户、工作台、生成服务与完整编辑器沿用基线。
@@ -68,19 +70,26 @@ npm run preview -- --mode github-pages --port 5186 --strictPort
 
 ## 来源与编辑边界
 
-案例仍为 sample-0001，沿用 [原 manifest](../frontend/public/assets/presentation/sample-0001/manifest.json) 和所有原资源哈希。本轮没有模型调用、SAM 重跑或实验结论修改。
+当前案例为 [sample-0032](../frontend/public/assets/presentation/sample-0032/manifest.json)，由 `public/assets/presentation/active-case.json` 指定。原 sample-0001 资源和核验历史完整保留。本轮没有模型调用、SAM 重跑或实验结论修改。
 
-- SAM 原始产物缺失：保持 `reference-crop-illustration`，舞台显示 `Crop illustration / 素材示意`。分割数量为空值。
-- B1 箭头问题：保持 `F_B_pool_arrow` 与 `T_B_pooling_arrow_and_feature_container` 的对应关系。
-- 主操作仍为 `green_pooling_path_left` 的 set，关联操作为 `feature_dots_top` 的 replace_svg。舞台短名为 set、replace，完整名称在详情。
-- 修复比较仍为已验证的 `transaction-snapshot`。修改前快照包含先前事务上下文；完整重放 13 个操作的哈希和操作范围验证沿用 V1。
-- 初稿、参考图和事务快照只读；最终文字编辑作用于演示副本中的 `plus_node_49`。导出保留原 ID、引用和未修改节点，不包含观察框。
-- 模型名称、复核结论、来源哈希、ROI、全量运行数字与 Gap Guidance 状态保留在案例资料和技术详情。执行完成、视觉评价、未解决项仍分别表示。
+- 素材：三块真实 SAM PNG 从原始初稿的 data URI 恢复，逐字节匹配同次 G0 记录的 asset proof；舞台显示 `SAM assets / SAM 素材`。源位置经过视觉核验，未宣称是原始 SAM 边界。完整目录缺失，分割总数仍为空值。
+- 主问题：A2，`F_A_hash_table_interior`，黑白单元格与圆点列被初稿改变。B2、C2 辅助证据保留在技术详情中。
+- 主事务：`tx_A2_redraw_upper_left_hash_table`，一个 `replace_svg` 操作，目标 `left_hash_table_top`。
+- 完整 19 项操作重新重放，最终字节和执行 journal 与原记录一致。该事务的前后快照中，目标子树之外的内容完全一致。
+- 文字编辑目标：`txt_hash_table_title`，`Hash Table` → `Demo Table`。编辑只作用于展示副本，导出保留真实 SVG 的其他节点与属性。
+- 模型、ROI、事实复核、哈希和全量执行数字保留在详情。执行完成、视觉评价与未解决项分别表示。
+
+归档再生（普通构建无需 Python 或外部归档）：
+
+~~~powershell
+python scripts/prepare-presentation-bird-case.py 'D:\Downloads\FigFox-研究资料总库\FigFox-研究资料总库'
+npm run presentation:prepare
+~~~
 
 ## 讲稿、验收与设备检查
 
 [两分钟讲稿](figfox-presentation-visual-v2-script.md) 单独保存，不回填投影舞台。
 
-[验收报告与七状态截图、过渡录像](reviews/figfox-presentation-visual-v2/README.md) 记录实际测试环境、来源核验、文本预算和产品回归结果。
+[本轮验收报告与七状态截图、过渡录像](reviews/figfox-presentation-case-refresh/README.md) 记录实际测试环境、来源核验、文本预算和产品回归结果。
 
-macOS 与实际讲台电脑待测。复制单 HTML，断网打开，完成七状态、三块素材、两侧完整图切换、两项操作、Before/After 与按住 B、文字确认/取消、SVG 导出重开；再检查中英文、全屏、125% 缩放与翻页器。记录系统、浏览器、字体替代和投影比例。
+macOS 与实际讲台电脑待测。复制单 HTML，断网打开，完成七状态、三块素材、两侧完整图切换、replace 操作、Before/After 与按住 B、文字确认/取消、SVG 导出重开；再检查中英文、全屏、125% 缩放与翻页器。记录系统、浏览器、字体替代和投影比例。

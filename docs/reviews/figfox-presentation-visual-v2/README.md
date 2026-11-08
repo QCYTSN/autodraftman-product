@@ -1,5 +1,7 @@
 # Presentation Mode V2 · 验收报告
 
+> 此报告对应换图前的 sample-0001。当前 HTML 与讲稿已更新到 sample-0032，最新结果见 [换图报告](../figfox-presentation-case-refresh/README.md)。
+
 2026-11-08，Windows 11，Chrome 156.0.8078.74。演示专用检查 18 组，现有产品回归 39 组，均通过。macOS 与实际讲台电脑待测。公网未发布。
 
 ## 交付与版本
