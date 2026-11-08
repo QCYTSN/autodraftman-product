@@ -1,0 +1,55 @@
+{
+  "files": [
+    {
+      "name": "reference.webp",
+      "bytes": 113824,
+      "sha256": "d807e007fd8f62c38a20af077bab4e04b04d438f63ff102a7a1f8cb47564100f"
+    },
+    {
+      "name": "draft.webp",
+      "bytes": 57524,
+      "sha256": "1a1e571b3627f41b8b823953c0dc6b8d55a231434c55367c1987e3f4303aa0c4"
+    },
+    {
+      "name": "final.webp",
+      "bytes": 61818,
+      "sha256": "d7b27e13f396b06557217fe4b8275742d51b369cedff4c8ee17bf27883e56c83"
+    },
+    {
+      "name": "draft.svg",
+      "bytes": 40149,
+      "sha256": "45f03aece4eecf326548b11eb3ff43b11f212bfd4016649ae85392f18d6650c1"
+    },
+    {
+      "name": "final.svg",
+      "bytes": 41670,
+      "sha256": "94e9648d7481a98548eca3ce4cf95f9e6427d1913cbd107e310f3c4e77d529f3"
+    },
+    {
+      "name": "before-B1.svg",
+      "bytes": 40649,
+      "sha256": "7c9d8ee06541cae2ac31ee29f1f7ff40c91bb0aabf40039d2c349c637e81db71"
+    },
+    {
+      "name": "after-B1.svg",
+      "bytes": 40760,
+      "sha256": "33e3b216d1afd2b168aeb8c68eaad611197420842a6dad8fc84a1a1f9364dda9"
+    },
+    {
+      "name": "crop-point-cloud.png",
+      "bytes": 10192,
+      "sha256": "f16017b0a339165da2760c41a2e2e0d99e37630e48a737e2b2105d7f736a631b"
+    },
+    {
+      "name": "crop-vehicle.png",
+      "bytes": 1259,
+      "sha256": "8debe1426267b765f2641b1a1a77b87a91398741feca5992ea332f76e04d24cd"
+    },
+    {
+      "name": "crop-graph.png",
+      "bytes": 7017,
+      "sha256": "d6bdf59294fd114ff4ce601b83fb612332e6865535c12235bf096b171d13a43a"
+    }
+  ],
+  "checked": true
+}
