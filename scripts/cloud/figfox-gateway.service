@@ -1,0 +1,23 @@
+[Unit]
+Description=FigFox authenticated internal API
+After=network.target postgresql.service
+
+[Service]
+Type=simple
+User=figfox
+Group=figfox
+WorkingDirectory=/opt/figfox/current/backend
+EnvironmentFile=/etc/figfox/runtime.env
+EnvironmentFile=/etc/figfox/gateway.env
+ExecStart=/opt/figfox/runtime/backend/bin/python -m uvicorn autodraftman_backend.main:app --host 127.0.0.1 --port 8788 --no-access-log --proxy-headers --forwarded-allow-ips=127.0.0.1
+Restart=on-failure
+RestartSec=5
+UMask=0077
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=true
+ReadWritePaths=/var/lib/figfox
+
+[Install]
+WantedBy=multi-user.target

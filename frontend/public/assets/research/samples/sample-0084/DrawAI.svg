@@ -1,0 +1,184 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="2048" height="624" viewBox="0 0 2048 624">
+  <defs>
+    <marker id="arrow-end" markerWidth="14" markerHeight="12" refX="12" refY="6" orient="auto" markerUnits="userSpaceOnUse">
+      <path d="M 1 1 L 12 6 L 1 11 z" fill="#000000" data-pb-role="decorative" data-pb-editable="true"/>
+    </marker>
+    <marker id="arrow-start" markerWidth="14" markerHeight="12" refX="2" refY="6" orient="auto" markerUnits="userSpaceOnUse">
+      <path d="M 13 1 L 2 6 L 13 11 z" fill="#000000" data-pb-role="decorative" data-pb-editable="true"/>
+    </marker>
+  </defs>
+  <rect id="background" data-pb-role="background" data-pb-editable="true" x="0" y="0" width="2048" height="624" fill="#ffffff"/>
+
+  <g id="module-train-graphs" data-pb-role="panel" data-pb-editable="true" stroke="#000000" stroke-width="3.5" stroke-linecap="round">
+    <g id="module-top-training-graph" data-pb-role="node" data-pb-editable="true">
+      <line x1="78" y1="155" x2="95" y2="111"/>
+      <line x1="78" y1="155" x2="143" y2="139"/>
+      <line x1="78" y1="155" x2="187" y2="91"/>
+      <line x1="187" y1="91" x2="196" y2="124"/>
+      <circle cx="78" cy="155" r="14" fill="#000000"/>
+      <circle cx="95" cy="111" r="13" fill="#000000"/>
+      <circle cx="143" cy="139" r="13" fill="#000000"/>
+      <circle cx="187" cy="91" r="13" fill="#000000"/>
+      <circle cx="196" cy="124" r="13" fill="#000000"/>
+      <rect x="92" y="82" width="31" height="10" fill="#f5dca6" stroke="#000000" stroke-width="1.8"/>
+      <rect x="206" y="76" width="29" height="10" fill="#f5dca6" stroke="#000000" stroke-width="1.8"/>
+      <rect x="131" y="158" width="31" height="10" fill="#f5dca6" stroke="#000000" stroke-width="1.8"/>
+      <rect x="37" y="176" width="30" height="10" fill="#d2b0b0" stroke="#000000" stroke-width="1.8"/>
+      <rect x="215" y="124" width="31" height="10" fill="#d2b0b0" stroke="#000000" stroke-width="1.8"/>
+    </g>
+    <g id="module-middle-training-graph" data-pb-role="node" data-pb-editable="true">
+      <line x1="78" y1="325" x2="146" y2="226"/>
+      <line x1="146" y1="226" x2="153" y2="260"/>
+      <line x1="153" y1="260" x2="148" y2="326"/>
+      <line x1="78" y1="325" x2="148" y2="326"/>
+      <line x1="148" y1="326" x2="194" y2="292"/>
+      <circle cx="78" cy="325" r="13" fill="#000000"/>
+      <circle cx="146" cy="226" r="13" fill="#000000"/>
+      <circle cx="153" cy="260" r="12" fill="#000000"/>
+      <circle cx="148" cy="326" r="13" fill="#000000"/>
+      <circle cx="194" cy="292" r="13" fill="#000000"/>
+      <rect x="154" y="200" width="30" height="10" fill="#d2b0b0" stroke="#000000" stroke-width="1.8"/>
+      <rect x="176" y="250" width="30" height="10" fill="#f5dca6" stroke="#000000" stroke-width="1.8"/>
+      <rect x="213" y="286" width="30" height="10" fill="#d2b0b0" stroke="#000000" stroke-width="1.8"/>
+      <rect x="64" y="347" width="30" height="10" fill="#d2b0b0" stroke="#000000" stroke-width="1.8"/>
+    </g>
+    <g id="module-bottom-training-graph" data-pb-role="node" data-pb-editable="true">
+      <line x1="76" y1="438" x2="101" y2="468"/>
+      <line x1="101" y1="468" x2="162" y2="463"/>
+      <line x1="76" y1="438" x2="177" y2="423"/>
+      <circle cx="76" cy="438" r="13" fill="#000000"/>
+      <circle cx="101" cy="468" r="13" fill="#000000"/>
+      <circle cx="162" cy="463" r="13" fill="#000000"/>
+      <circle cx="177" cy="423" r="13" fill="#000000"/>
+      <circle cx="116" cy="418" r="13" fill="#000000"/>
+      <rect x="34" y="412" width="30" height="10" fill="#f5dca6" stroke="#000000" stroke-width="1.8"/>
+      <rect x="107" y="391" width="30" height="10" fill="#f5dca6" stroke="#000000" stroke-width="1.8"/>
+      <rect x="198" y="414" width="30" height="10" fill="#d2b0b0" stroke="#000000" stroke-width="1.8"/>
+      <rect x="184" y="465" width="30" height="10" fill="#f5dca6" stroke="#000000" stroke-width="1.8"/>
+      <rect x="80" y="491" width="30" height="10" fill="#d2b0b0" stroke="#000000" stroke-width="1.8"/>
+    </g>
+  </g>
+  <text id="label-train-graphs-line1" x="27" y="546" font-family="Arial, Helvetica, sans-serif" font-size="30" font-weight="700" font-style="normal" fill="#000000" data-pb-role="label" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="horizontal">Set of train graphs</text>
+  <text id="label-train-graphs-line2" x="27" y="584" font-family="Arial, Helvetica, sans-serif" font-size="30" font-weight="700" font-style="normal" fill="#000000" data-pb-role="label" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="horizontal">from the same class</text>
+
+  <g id="flow-input-arrows" data-pb-role="connector" data-pb-editable="true" fill="none" stroke="#000000" stroke-width="3.5" stroke-linecap="round">
+    <path id="connector-top-graph-to-layers" d="M 281 136 C 301 184, 321 210, 354 226" marker-end="url(#arrow-end)"/>
+    <path id="connector-middle-graph-to-layers" d="M 267 286 C 300 292, 326 292, 361 292" marker-end="url(#arrow-end)"/>
+    <path id="connector-bottom-graph-to-layers" d="M 259 423 C 302 386, 329 354, 362 333" marker-end="url(#arrow-end)"/>
+  </g>
+
+  <g id="module-message-passing-layers" data-pb-role="panel" data-pb-editable="true" stroke="#000000" stroke-width="2" stroke-linejoin="round">
+    <g id="module-combine-layer-1" data-pb-role="node" data-pb-editable="true">
+      <polygon points="386,175 416,164 418,422 387,432" fill="#fff4df"/>
+      <polygon points="416,164 486,75 490,360 418,422" fill="#fff4df"/>
+      <polygon points="386,175 416,164 486,75 454,83" fill="#f6ead8"/>
+    </g>
+    <g id="module-aggregate-layer-1" data-pb-role="node" data-pb-editable="true">
+      <polygon points="520,180 536,180 538,372 522,376" fill="#e2e2e2"/>
+      <polygon points="536,180 575,132 576,326 538,372" fill="#dddddd"/>
+      <polygon points="520,180 536,180 575,132 558,132" fill="#eeeeee"/>
+    </g>
+    <g id="module-combine-layer-2" data-pb-role="node" data-pb-editable="true">
+      <polygon points="605,176 636,164 638,423 607,433" fill="#fff4df"/>
+      <polygon points="636,164 706,77 710,361 638,423" fill="#fff4df"/>
+      <polygon points="605,176 636,164 706,77 674,84" fill="#f6ead8"/>
+    </g>
+    <g id="module-aggregate-layer-2" data-pb-role="node" data-pb-editable="true">
+      <polygon points="740,181 756,181 758,372 742,376" fill="#e2e2e2"/>
+      <polygon points="756,181 795,133 796,327 758,372" fill="#dddddd"/>
+      <polygon points="740,181 756,181 795,133 778,133" fill="#eeeeee"/>
+    </g>
+    <g id="module-readout-layer" data-pb-role="node" data-pb-editable="true">
+      <polygon points="836,244 847,244 849,345 837,349" fill="#f2e6d8"/>
+      <polygon points="847,244 870,214 871,317 849,345" fill="#f2e6d8"/>
+      <polygon points="836,244 847,244 870,214 859,214" fill="#fff3e4"/>
+    </g>
+  </g>
+  <g id="flow-training-span" data-pb-role="connector" data-pb-editable="true">
+    <line id="connector-training-double-arrow" x1="380" y1="469" x2="883" y2="469" stroke="#000000" stroke-width="4" marker-start="url(#arrow-start)" marker-end="url(#arrow-end)"/>
+  </g>
+  <text id="label-message-passing-training" x="389" y="509" font-family="Arial, Helvetica, sans-serif" font-size="30" font-weight="700" font-style="normal" fill="#000000" data-pb-role="label" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="horizontal">Training of Message Passing Layers</text>
+
+  <g id="flow-layers-to-representations" data-pb-role="connector" data-pb-editable="true">
+    <line id="connector-readout-to-reps" x1="890" y1="279" x2="969" y2="277" stroke="#000000" stroke-width="3.5" stroke-linecap="round" marker-end="url(#arrow-end)"/>
+  </g>
+
+  <text id="title-graph-representations" x="1060" y="62" font-family="Arial, Helvetica, sans-serif" font-size="31" font-weight="700" font-style="normal" fill="#000000" data-pb-role="title" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="horizontal">Graph Representations</text>
+  <g id="panel-graph-representations" data-pb-role="panel" data-pb-editable="true">
+    <rect id="panel-representation-frame" x="965" y="80" width="532" height="348" rx="66" ry="66" fill="#eeeeee" stroke="#000000" stroke-width="2" stroke-dasharray="9 9"/>
+    <text id="label-trained-line1" x="1040" y="144" font-family="Arial, Helvetica, sans-serif" font-size="28" font-weight="700" font-style="normal" fill="#000000" data-pb-role="label" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="horizontal">Trained</text>
+    <text id="label-trained-line2" x="984" y="182" font-family="Arial, Helvetica, sans-serif" font-size="28" font-weight="700" font-style="normal" fill="#000000" data-pb-role="label" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="horizontal">Representations</text>
+    <text id="label-sampled-line1" x="1208" y="136" font-family="Arial, Helvetica, sans-serif" font-size="27" font-weight="700" font-style="normal" fill="#000000" data-pb-role="label" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="horizontal">Sampled Augmented</text>
+    <text id="label-sampled-line2" x="1234" y="175" font-family="Arial, Helvetica, sans-serif" font-size="27" font-weight="700" font-style="normal" fill="#000000" data-pb-role="label" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="horizontal">Representations</text>
+    <g id="module-trained-representation-rows" data-pb-role="node" data-pb-editable="true" stroke="#000000" stroke-width="2">
+      <g id="module-trained-row-1"><rect x="1025" y="207" width="31" height="32" fill="#8fa578"/><rect x="1056" y="207" width="31" height="32" fill="#8fa578"/><rect x="1087" y="207" width="31" height="32" fill="#8fa578"/></g>
+      <g id="module-trained-row-2"><rect x="1025" y="263" width="31" height="32" fill="#8fa578"/><rect x="1056" y="263" width="31" height="32" fill="#8fa578"/><rect x="1087" y="263" width="31" height="32" fill="#8fa578"/></g>
+      <g id="module-trained-row-3"><rect x="1026" y="317" width="31" height="32" fill="#8fa578"/><rect x="1057" y="317" width="31" height="32" fill="#8fa578"/><rect x="1088" y="317" width="31" height="32" fill="#8fa578"/></g>
+    </g>
+    <g id="module-sampled-representation-rows" data-pb-role="node" data-pb-editable="true" stroke="#000000" stroke-width="2">
+      <g id="module-sampled-row-1"><rect x="1279" y="204" width="31" height="32" fill="#7edd16"/><rect x="1310" y="204" width="31" height="32" fill="#7edd16"/><rect x="1341" y="204" width="31" height="32" fill="#7edd16"/></g>
+      <g id="module-sampled-row-2"><rect x="1279" y="261" width="31" height="32" fill="#7edd16"/><rect x="1310" y="261" width="31" height="32" fill="#7edd16"/><rect x="1341" y="261" width="31" height="32" fill="#7edd16"/></g>
+      <g id="module-sampled-row-3"><rect x="1279" y="315" width="31" height="32" fill="#7edd16"/><rect x="1310" y="315" width="31" height="32" fill="#7edd16"/><rect x="1341" y="315" width="31" height="32" fill="#7edd16"/></g>
+    </g>
+  </g>
+
+  <g id="flow-fit-sample" data-pb-role="connector" data-pb-editable="true" fill="none" stroke="#000000" stroke-width="3" stroke-linecap="round">
+    <path id="connector-fit-arrow" d="M 1095 378 C 1101 420, 1114 448, 1138 461" marker-end="url(#arrow-end)"/>
+    <path id="connector-sample-arrow" d="M 1305 445 C 1314 415, 1321 394, 1328 377" marker-end="url(#arrow-end)"/>
+  </g>
+  <text id="label-fit" x="1059" y="461" font-family="Arial, Helvetica, sans-serif" font-size="30" font-weight="700" font-style="normal" fill="#000000" data-pb-role="label" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="horizontal">Fit</text>
+  <text id="label-sample" x="1336" y="440" font-family="Arial, Helvetica, sans-serif" font-size="30" font-weight="700" font-style="normal" fill="#000000" data-pb-role="label" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="horizontal">Sample</text>
+  <g id="label-formula-gaussian-mixture" data-pb-role="formula" data-pb-editable="true" data-pb-formula-bbox="1053 451 385 112" data-pb-formula-latex-b64="cChoKT1cc3VtX3trPTF9XkteXHBpX2tOKGhcLCB8XFwgbXVfa1wsIFNpZ21hX2sp">
+    <text id="label-formula-left" x="1053" y="523" font-family="Times New Roman, Times, serif" font-size="38" font-weight="400" font-style="italic" fill="#000000" data-pb-role="formula" data-pb-editable="true" data-pb-text-source="visual_inferred" data-pb-orientation="horizontal">p(h) =</text>
+    <text id="label-formula-sigma" x="1170" y="523" font-family="Times New Roman, Times, serif" font-size="80" font-weight="400" font-style="normal" fill="#000000" text-anchor="middle" data-pb-role="formula" data-pb-editable="true" data-pb-text-source="visual_inferred" data-pb-orientation="horizontal">&#8721;</text>
+    <text id="label-formula-sigma-top" x="1190" y="469" font-family="Times New Roman, Times, serif" font-size="25" font-weight="400" font-style="italic" fill="#000000" text-anchor="middle" data-pb-role="formula" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="horizontal">K</text>
+    <text id="label-formula-sigma-bottom" x="1176" y="558" font-family="Times New Roman, Times, serif" font-size="24" font-weight="400" font-style="italic" fill="#000000" text-anchor="middle" data-pb-role="formula" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="horizontal">k=1</text>
+    <text id="label-formula-right" x="1220" y="523" font-family="Times New Roman, Times, serif" font-size="38" font-weight="400" font-style="italic" fill="#000000" data-pb-role="formula" data-pb-editable="true" data-pb-text-source="visual_inferred" data-pb-orientation="horizontal">&#960;<tspan font-size="24" baseline-shift="sub">k</tspan>N(h | &#956;<tspan font-size="24" baseline-shift="sub">k</tspan>, &#931;<tspan font-size="24" baseline-shift="sub">k</tspan>)</text>
+    <desc>LaTeX: p(h)=\sum_{k=1}^K \pi_k N(h \mid \mu_k,\Sigma_k)</desc>
+  </g>
+
+  <g id="flow-post-readout" data-pb-role="connector" data-pb-editable="true">
+    <line id="connector-reps-to-post-readout" x1="1510" y1="247" x2="1569" y2="255" stroke="#000000" stroke-width="3.5" stroke-linecap="round" marker-end="url(#arrow-end)"/>
+  </g>
+  <g id="module-post-readout" data-pb-role="panel" data-pb-editable="true">
+    <rect id="panel-post-readout-box" x="1586" y="202" width="161" height="93" rx="17" ry="17" fill="#f6dadd" stroke="#000000" stroke-width="2"/>
+  </g>
+  <g id="label-post-readout-formula" data-pb-role="formula" data-pb-editable="true" data-pb-formula-bbox="1542 336 223 36" data-pb-formula-latex-b64="XFRleHR7UG9zdC1SZWFkb3V0fSBcUHNp">
+    <text id="label-post-readout-fallback" x="1542" y="360" font-family="Arial, Helvetica, sans-serif" font-size="30" font-weight="700" font-style="normal" fill="#000000" data-pb-role="formula" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="horizontal">Post-Readout <tspan font-family="Times New Roman, Times, serif" font-style="italic" font-weight="400">&#936;</tspan></text>
+    <desc>LaTeX: \text{Post-Readout} \Psi</desc>
+  </g>
+
+  <g id="legend" data-pb-role="legend" data-pb-editable="true">
+    <circle id="legend-node-symbol" cx="1847" cy="54" r="13" fill="#000000" stroke="#000000" stroke-width="2"/>
+    <text id="legend-nodes-label" x="1881" y="63" font-family="Arial, Helvetica, sans-serif" font-size="26" font-weight="700" font-style="normal" fill="#000000" data-pb-role="legend" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="horizontal">Nodes</text>
+    <line id="legend-edge-symbol" x1="1831" y1="88" x2="1867" y2="88" stroke="#000000" stroke-width="3"/>
+    <text id="legend-edges-label" x="1881" y="96" font-family="Arial, Helvetica, sans-serif" font-size="26" font-weight="700" font-style="normal" fill="#000000" data-pb-role="legend" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="horizontal">Edges</text>
+    <rect id="legend-node-attr-symbol" x="1832" y="116" width="31" height="10" fill="#ffffff" stroke="#000000" stroke-width="2"/>
+    <text id="legend-node-attr-label" x="1881" y="134" font-family="Arial, Helvetica, sans-serif" font-size="26" font-weight="700" font-style="normal" fill="#000000" data-pb-role="legend" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="horizontal">Node Attr.</text>
+    <g id="legend-aggregate-symbol" data-pb-role="node" data-pb-editable="true" stroke="#000000" stroke-width="1.7" stroke-linejoin="round">
+      <polygon points="1838,154 1847,148 1847,174 1839,181" fill="#e6e6e6"/>
+      <polygon points="1847,148 1856,144 1855,169 1847,174" fill="#d6d6d6"/>
+      <polygon points="1838,154 1847,148 1856,144 1847,151" fill="#eeeeee"/>
+    </g>
+    <text id="legend-aggregate-label" x="1881" y="173" font-family="Arial, Helvetica, sans-serif" font-size="26" font-weight="700" font-style="normal" fill="#000000" data-pb-role="legend" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="horizontal">AGGREGATE</text>
+    <g id="legend-combine-symbol" data-pb-role="node" data-pb-editable="true" stroke="#000000" stroke-width="1.7" stroke-linejoin="round">
+      <polygon points="1838,197 1847,191 1847,217 1839,224" fill="#fff4df"/>
+      <polygon points="1847,191 1856,187 1855,212 1847,217" fill="#fff4df"/>
+      <polygon points="1838,197 1847,191 1856,187 1847,194" fill="#fff8ea"/>
+    </g>
+    <text id="legend-combine-label" x="1881" y="209" font-family="Arial, Helvetica, sans-serif" font-size="26" font-weight="700" font-style="normal" fill="#000000" data-pb-role="legend" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="horizontal">COMBINE</text>
+    <g id="legend-readout-symbol" data-pb-role="node" data-pb-editable="true" stroke="#000000" stroke-width="1.7" stroke-linejoin="round">
+      <polygon points="1838,239 1847,233 1847,259 1839,266" fill="#f2e6d8"/>
+      <polygon points="1847,233 1856,229 1855,254 1847,259" fill="#f2e6d8"/>
+      <polygon points="1838,239 1847,233 1856,229 1847,236" fill="#fff3e4"/>
+    </g>
+    <text id="legend-readout-label" x="1881" y="254" font-family="Arial, Helvetica, sans-serif" font-size="26" font-weight="700" font-style="normal" fill="#000000" data-pb-role="legend" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="horizontal">READOUT</text>
+    <g id="legend-output-symbol" data-pb-role="node" data-pb-editable="true" stroke="#000000" stroke-width="2">
+      <rect x="1828" y="284" width="16" height="16" fill="#ffffff"/>
+      <rect x="1844" y="284" width="16" height="16" fill="#ffffff"/>
+      <rect x="1860" y="284" width="16" height="16" fill="#ffffff"/>
+    </g>
+    <text id="legend-output-label-line1" x="1882" y="289" font-family="Arial, Helvetica, sans-serif" font-size="26" font-weight="700" font-style="normal" fill="#000000" data-pb-role="legend" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="horizontal">Output of</text>
+    <text id="legend-output-label-line2" x="1882" y="323" font-family="Arial, Helvetica, sans-serif" font-size="26" font-weight="700" font-style="normal" fill="#000000" data-pb-role="legend" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="horizontal">REDOUT</text>
+  </g>
+</svg>

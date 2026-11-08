@@ -1,0 +1,218 @@
+{
+  "sample": "sample-0072",
+  "title": {
+    "zh": "蛋白质结构生成",
+    "en": "Protein structure generation"
+  },
+  "width": 1776,
+  "height": 309,
+  "focus": [
+    {
+      "id": "protein",
+      "issueIds": [
+        "B1",
+        "D1"
+      ],
+      "label": {
+        "zh": "蛋白质细节",
+        "en": "Protein detail"
+      },
+      "bounds": [
+        1347,
+        56,
+        195,
+        207
+      ],
+      "inspect": {
+        "zh": "蛋白质结构被简化为几块曲面。",
+        "en": "The draft simplifies the protein into broad shapes."
+      },
+      "repair": {
+        "zh": "恢复结构细节，保留外围文字与连接。",
+        "en": "Restore the structural detail and retain the surrounding labels and connections."
+      }
+    },
+    {
+      "id": "cloud",
+      "issueIds": [
+        "A1",
+        "C1"
+      ],
+      "label": {
+        "zh": "点云细节",
+        "en": "Point-cloud detail"
+      },
+      "bounds": [
+        533,
+        67,
+        186,
+        140
+      ],
+      "inspect": {
+        "zh": "密集点云变成了稀疏、规则的圆点。",
+        "en": "The dense point cloud becomes a sparse, regular dot pattern."
+      },
+      "repair": {
+        "zh": "恢复原图中的密集点云。",
+        "en": "Restore the dense point cloud from the source."
+      }
+    }
+  ],
+  "issues": [
+    {
+      "id": "A1",
+      "region": "A",
+      "source_evidence": "SOURCE point-cloud panel upper half contains a dense multicolor scatter cluster with many overlapping orange/yellow/green/cyan points.",
+      "initial_evidence": "INITIAL point-cloud panel upper half contains far fewer dots arranged in a sparse, regular-looking distribution.",
+      "bbox": [
+        535,
+        67,
+        708,
+        154
+      ],
+      "repair": "Replace the sparse regular dot field in the upper point-cloud area with a dense overlapping multicolor scatter cluster matching the SOURCE appearance, while preserving the surrounding dotted panel and label."
+    },
+    {
+      "id": "B1",
+      "region": "B",
+      "source_evidence": "SOURCE first post-module structure panel shows a detailed cyan/teal protein ribbon with fine strands, helices, and red/yellow loop details in the upper portion.",
+      "initial_evidence": "INITIAL first post-module structure panel shows simplified broad abstract teal shapes with much less ribbon detail.",
+      "bbox": [
+        1347,
+        56,
+        1542,
+        154
+      ],
+      "repair": "Redraw the upper portion of the first post-module protein as the detailed cyan/teal ribbon cartoon seen in SOURCE, retaining the panel border and sequence label placement."
+    },
+    {
+      "id": "B2",
+      "region": "B",
+      "source_evidence": "SOURCE Final Result panel upper portion shows a detailed tan/brown protein ribbon rendering with fine strand and helix geometry.",
+      "initial_evidence": "INITIAL Final Result panel upper portion shows simplified abstract tan/brown patch shapes rather than a detailed protein ribbon.",
+      "bbox": [
+        1559,
+        56,
+        1750,
+        154
+      ],
+      "repair": "Redraw the upper portion of the Final Result protein as the detailed tan/brown ribbon cartoon from SOURCE, preserving the title and surrounding dotted border."
+    },
+    {
+      "id": "C1",
+      "region": "C",
+      "source_evidence": "SOURCE point-cloud panel lower half continues as a dense overlapping multicolor scatter cluster.",
+      "initial_evidence": "INITIAL point-cloud panel lower half continues as a sparse regular dot field with fewer points.",
+      "bbox": [
+        533,
+        154,
+        719,
+        207
+      ],
+      "repair": "Replace the sparse lower point-cloud dots with the dense overlapping SOURCE-like multicolor point cluster, without changing the sequence label below."
+    },
+    {
+      "id": "C2",
+      "region": "C",
+      "source_evidence": "SOURCE shows only a blank gap/dotted-panel separation between the tensor/matrix panel and the point-cloud panel; no right-pointing connector arrow is visible there.",
+      "initial_evidence": "INITIAL adds a black right-pointing arrow from the tensor/matrix panel into the point-cloud panel.",
+      "bbox": [
+        512,
+        153,
+        532,
+        165
+      ],
+      "repair": "Remove the extra right-pointing arrow between the tensor/matrix panel and the point-cloud panel, leaving the spacing/borders as in SOURCE."
+    },
+    {
+      "id": "D1",
+      "region": "D",
+      "source_evidence": "SOURCE lower portion of the first post-module structure remains a detailed cyan/teal ribbon protein with fine strand/loop geometry.",
+      "initial_evidence": "INITIAL lower portion of the first post-module structure is simplified into large abstract teal patches and curves.",
+      "bbox": [
+        1347,
+        154,
+        1542,
+        263
+      ],
+      "repair": "Redraw the lower portion of the first post-module protein to match the detailed SOURCE ribbon geometry, preserving the existing label area."
+    },
+    {
+      "id": "D2",
+      "region": "D",
+      "source_evidence": "SOURCE lower portion of the Final Result panel shows a detailed tan/brown ribbon protein with fine structural elements and yellow loop detail.",
+      "initial_evidence": "INITIAL lower portion of the Final Result panel uses simplified tan/brown abstract patches with reduced structural detail.",
+      "bbox": [
+        1559,
+        154,
+        1750,
+        263
+      ],
+      "repair": "Redraw the lower portion of the Final Result protein as the detailed SOURCE ribbon cartoon, keeping the sequence and CDR label placement unchanged."
+    }
+  ],
+  "receipt": {
+    "accepted": true,
+    "acceptance_scope": "Actual unchanged native validators, exact scoped plan execution and rendered artifact identity. Not a claim visual issues all pass.",
+    "initial_sha256": "c76d4dec828f84240e83b287f198f7433ac94d151bd4c53a52d512208960c025",
+    "final_sha256": "9d9650c9204a8739ab0410493f64133e67050fc210f2979fa7b7c2407599126e",
+    "final_png_sha256": "4d2a4f88238991e5e10a824f2ec717691201e2d786a1cdbc6d8fc9e37b5b435a",
+    "planned_operations": 5,
+    "executed_operations": 5,
+    "transactions": 3,
+    "unresolved": [
+      {
+        "issue_id": "C2",
+        "reason": "Erroneous first-stage observation. Re-reading SOURCE shows a short black right-pointing connector arrow between the tensor/matrix panel and the point-cloud panel, matching INITIAL arrow_repr_to_cloud. Removing it would damage correct topology."
+      }
+    ],
+    "visual_quality_pass": null
+  },
+  "operations": [
+    {
+      "transaction": "T1_dense_point_cloud_and_cloud_sequence",
+      "edits": [
+        {
+          "op": "source_crop",
+          "target": "src_point_cloud_dense_crop"
+        },
+        {
+          "op": "replace_svg",
+          "target": "txt_cloud_seq"
+        }
+      ]
+    },
+    {
+      "transaction": "T2_intermediate_protein_and_sequence",
+      "edits": [
+        {
+          "op": "source_crop",
+          "target": "src_intermediate_protein_crop"
+        },
+        {
+          "op": "replace_svg",
+          "target": "txt_intermediate_seq"
+        }
+      ]
+    },
+    {
+      "transaction": "T3_final_protein_ribbon",
+      "edits": [
+        {
+          "op": "source_crop",
+          "target": "src_final_protein_crop"
+        }
+      ]
+    }
+  ],
+  "provenance": {
+    "run": "四方法对比/Full-FigFox/sample-0072",
+    "files": {
+      "G1.json": "99361df123e4c79b6e72c86c9c2db90fa640974edce1e5db39938ab3e8c4281d",
+      "native-acceptance.json": "e2e74de6bbb6cdf693894096f1ace8c49209472985a8aeef9486515cac3fa087",
+      "G0-reuse-proof.json": "e0204835f870b5465eb26c718fbe695873804c60afe656478c160e12e46561d8",
+      "local-execution-operations.json": "62404b3c0514835b4760897eaeb7a4869b774b7464615caaac0399f91a1cf586"
+    },
+    "sourceSha256": "ca1c1f5d0560667ab1a67a9470c41f5e38234af45070b1b5cc661441784ff75e"
+  }
+}

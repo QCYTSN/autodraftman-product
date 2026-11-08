@@ -1,0 +1,166 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="584" height="392" viewBox="0 0 584 392">
+  <title>Comparison of modality-aware and token-aware quantization methods</title>
+  <desc>Three horizontally arranged comparison panels. Each panel has left status indicators, a D block, arrows, scaling/token bars, and a Wq output block. The construction includes native SVG drawings first; supplied SAM icon crops are then bound as replacements for the six status icons only.</desc>
+
+  <defs>
+    <linearGradient id="gradS" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#e51c23" />
+      <stop offset="42%" stop-color="#ffd229" />
+      <stop offset="70%" stop-color="#13b84a" />
+      <stop offset="100%" stop-color="#1968b2" />
+    </linearGradient>
+    <linearGradient id="gradSY" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#e51c23" />
+      <stop offset="50%" stop-color="#ffd229" />
+      <stop offset="100%" stop-color="#1976bd" />
+    </linearGradient>
+    <linearGradient id="gradOrange" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#f04c2f" />
+      <stop offset="50%" stop-color="#ffd451" />
+      <stop offset="100%" stop-color="#f3a23b" />
+    </linearGradient>
+    <linearGradient id="gradGreen" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#00b86b" />
+      <stop offset="100%" stop-color="#1aa87c" />
+    </linearGradient>
+    <linearGradient id="gradRedToken" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#e60012" />
+      <stop offset="62%" stop-color="#ff4b54" />
+      <stop offset="100%" stop-color="#ffe3e6" />
+    </linearGradient>
+    <linearGradient id="gradOrangeToken" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#f07c22" />
+      <stop offset="62%" stop-color="#ffb044" />
+      <stop offset="100%" stop-color="#fff0d0" />
+    </linearGradient>
+    <linearGradient id="gradGreenToken" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#00a365" />
+      <stop offset="100%" stop-color="#27c279" />
+    </linearGradient>
+    <linearGradient id="gradBlueToken" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#006db8" />
+      <stop offset="100%" stop-color="#77bde8" />
+    </linearGradient>
+    <pattern id="diagHatch" patternUnits="userSpaceOnUse" width="8" height="8">
+      <rect width="8" height="8" fill="#ffffff" id="plus_node_0" />
+      <path d="M-2,2 L2,-2 M0,8 L8,0 M6,10 L10,6" stroke="#d8d8d8" stroke-width="1" id="plus_node_1" />
+    </pattern>
+    <style>
+      .serif{font-family:"Times New Roman", Times, serif;}
+      .sans{font-family:Arial, Helvetica, sans-serif;}
+      .label{font-family:"Times New Roman", Times, serif;font-size:17px;font-weight:700;fill:#000;}
+      .caption{font-family:"Times New Roman", Times, serif;font-size:15px;font-weight:700;fill:#000;}
+      .smallcap{font-family:"Times New Roman", Times, serif;font-size:14px;font-weight:700;fill:#000;}
+      .mathbig{font-family:"Times New Roman", Times, serif;font-size:36px;font-style:italic;fill:#000;}
+      .bartext{font-family:"Times New Roman", Times, serif;font-size:14px;font-style:italic;fill:#000;}
+    </style>
+  </defs>
+
+  <rect id="background" x="0" y="0" width="584" height="392" fill="#ffffff" />
+  <rect id="f01" data-plus-kind="frame" x="0" y="0" width="584" height="123" fill="none" stroke="none" />
+  <rect id="f02" data-plus-kind="frame" x="0" y="123" width="584" height="137" fill="none" stroke="none" />
+  <rect id="f03" data-plus-kind="frame" x="0" y="260" width="584" height="132" fill="none" stroke="none" />
+
+  <g id="draft_status_icons">
+    <desc>Six left status icons: top row has red cross for modality-aware and red cross for token-aware; middle row has green check and red cross; bottom row has two green checks. These correspond to the SAM picture assets P001-P006.</desc>
+    </g>
+
+  <g id="left_labels">
+    <text id="top_label_modality" class="label" x="50" y="40">Modality-aware</text>
+    <text id="top_label_token" class="label" x="50" y="75">Token-aware</text>
+    <text id="mid_label_modality" class="label" x="50" y="177">Modality-aware</text>
+    <text id="mid_label_token" class="label" x="50" y="212">Token-aware</text>
+    <text id="bot_label_modality" class="label" x="50" y="313">Modality-aware</text>
+    <text id="bot_label_token" class="label" x="50" y="348">Token-aware</text>
+  </g>
+
+  <g id="panel_top">
+    <desc>Top section: origin is the pale green D block. To its right is a thick white outlined arrow, one global fixed-scaling vertical S bar, another arrow, and a hatched Wq block. Status indicators at left both show red crosses. Symmetry is horizontal flow from D to Wq.</desc>
+    <rect id="top_D_box" x="178" y="12" width="80" height="80" fill="#dce9d4" stroke="#000" stroke-width="1" />
+    <text id="top_D_text" class="mathbig" x="205" y="63">D</text>
+
+    <polygon id="top_arrow_1" points="268,45 336,45 336,38 357,52 336,66 336,59 268,59" fill="#fff" stroke="#000" stroke-width="2" stroke-linejoin="miter" />
+    <text id="top_fixed_scaling" class="smallcap" x="335" y="8">Fixed scaling</text>
+    <rect id="top_S_bar" x="364" y="12" width="17" height="80" fill="url(#gradS)" stroke="#000" stroke-width=".6" />
+    <text id="top_S_text" class="bartext" x="368" y="56">S</text>
+    <polygon id="top_arrow_2" points="390,45 458,45 458,38 479,52 458,66 458,59 390,59" fill="#fff" stroke="#000" stroke-width="2" stroke-linejoin="miter" />
+
+    <rect id="top_W_box" x="486" y="12" width="80" height="80" fill="url(#diagHatch)" stroke="#000" stroke-width="1" />
+    <text id="top_W_text" class="mathbig" x="508" y="62">W<tspan font-size="18" baseline-shift="-30%">q</tspan></text>
+
+    <text id="top_caption" class="caption" x="212" y="108">
+      <tspan font-style="italic">e.g.</tspan>
+      <tspan> SmoothQuant </tspan>
+      <tspan font-weight="400">(Channel-wise static quantization)</tspan>
+    </text>
+  </g>
+
+  <line id="separator_1" x1="178" y1="123" x2="566" y2="123" stroke="#000" stroke-width="1.6" stroke-dasharray="7 5" />
+
+  <g id="panel_middle">
+    <desc>Middle section: origin is the D block. Flow proceeds rightward through a short arrow to two modality scaling bars labeled sw and s, then another arrow to a global S bar, a final arrow, and a hatched Wq block. Left statuses indicate modality-aware true and token-aware false. The two modality bars form an equipartitioned pair.</desc>
+    <rect id="mid_D_box" x="178" y="149" width="80" height="80" fill="#dce9d4" stroke="#000" stroke-width="1" />
+    <text id="mid_D_text" class="mathbig" x="205" y="200">D</text>
+
+    <polygon id="mid_arrow_1" points="270,185 288,185 288,177 306,189 288,201 288,194 270,194" fill="#fff" stroke="#000" stroke-width="2" stroke-linejoin="miter" />
+    <text id="mid_title" class="smallcap" x="279" y="145">Different modalities</text>
+    <rect id="mid_bar_sw" x="315" y="149" width="17" height="80" fill="url(#gradOrange)" stroke="#000" stroke-width=".6" />
+    <rect id="mid_bar_s" x="338" y="149" width="17" height="80" fill="url(#gradGreen)" stroke="#000" stroke-width=".6" />
+    <text id="mid_sw_text" class="bartext" x="318" y="193">s<tspan font-size="9" baseline-shift="-25%">w</tspan></text>
+    <text id="mid_s_text" class="bartext" x="343" y="193">s</text>
+
+    <polygon id="mid_arrow_2" points="367,185 385,185 385,177 403,189 385,201 385,194 367,194" fill="#fff" stroke="#000" stroke-width="2" stroke-linejoin="miter" />
+    <rect id="mid_S_bar" x="412" y="149" width="17" height="80" fill="url(#gradSY)" stroke="#000" stroke-width=".6" />
+    <text id="mid_S_text" class="bartext" x="416" y="193">S</text>
+
+    <polygon id="mid_arrow_3" points="442,185 457,185 457,177 475,189 457,201 457,194 442,194" fill="#fff" stroke="#000" stroke-width="2" stroke-linejoin="miter" />
+    <rect id="mid_W_box" x="486" y="149" width="80" height="80" fill="url(#diagHatch)" stroke="#000" stroke-width="1" />
+    <text id="mid_W_text" class="mathbig" x="508" y="199">W<tspan font-size="18" baseline-shift="-30%">q</tspan></text>
+
+    <text id="mid_caption" class="caption" x="251" y="245">
+      <tspan font-style="italic">e.g.</tspan>
+      <tspan> MBQ </tspan>
+      <tspan font-weight="400">(Modality-aware quantization)</tspan>
+    </text>
+  </g>
+
+  <line id="separator_2" x1="178" y1="260" x2="566" y2="260" stroke="#000" stroke-width="1.6" stroke-dasharray="7 5" />
+
+  <g id="panel_bottom">
+    <desc>Bottom section: origin is the D block. Flow proceeds rightward through one arrow to a sequence of token expert bars t1, t2, t3, ellipsis, tn, then an arrow to a hatched Wq block. Left statuses are both green checks. The token bars are separated vertical experts arranged by token order.</desc>
+    <rect id="bot_D_box" x="178" y="285" width="80" height="80" fill="#dce9d4" stroke="#000" stroke-width="1" />
+    <text id="bot_D_text" class="mathbig" x="205" y="336">D</text>
+
+    <polygon id="bot_arrow_1" points="271,321 291,321 291,313 312,325 291,338 291,330 271,330" fill="#fff" stroke="#000" stroke-width="2" stroke-linejoin="miter" />
+    <text id="bot_title" class="smallcap" x="325" y="281">Different tokens</text>
+
+    <rect id="bot_bar_t1" x="323" y="285" width="17" height="80" fill="url(#gradRedToken)" stroke="#000" stroke-width=".6" />
+    <rect id="bot_bar_t2" x="344" y="285" width="17" height="80" fill="url(#gradOrangeToken)" stroke="#000" stroke-width=".6" />
+    <rect id="bot_bar_t3" x="365" y="285" width="17" height="80" fill="url(#gradGreenToken)" stroke="#000" stroke-width=".6" />
+    <text id="bot_t1_text" class="bartext" x="326" y="329">t<tspan font-size="9" baseline-shift="-25%">1</tspan></text>
+    <text id="bot_t2_text" class="bartext" x="347" y="329">t<tspan font-size="9" baseline-shift="-25%">2</tspan></text>
+    <text id="bot_t3_text" class="bartext" x="368" y="329">t<tspan font-size="9" baseline-shift="-25%">3</tspan></text>
+    <text id="bot_ellipsis" class="serif" x="386" y="328" font-size="18" font-weight="700">···</text>
+    <rect id="bot_bar_tn" x="406" y="285" width="17" height="80" fill="url(#gradBlueToken)" stroke="#000" stroke-width=".6" />
+    <text id="bot_tn_text" class="bartext" x="409" y="329">t<tspan font-size="9" baseline-shift="-25%">n</tspan></text>
+
+    <polygon id="bot_arrow_2" points="436,321 454,321 454,313 475,325 454,338 454,330 436,330" fill="#fff" stroke="#000" stroke-width="2" stroke-linejoin="miter" />
+    <rect id="bot_W_box" x="486" y="285" width="80" height="80" fill="url(#diagHatch)" stroke="#000" stroke-width="1" />
+    <text id="bot_W_text" class="mathbig" x="508" y="335">W<tspan font-size="18" baseline-shift="-30%">q</tspan></text>
+
+    <text id="bot_caption" class="caption" x="217" y="381">
+      <tspan>Quant Experts </tspan>
+      <tspan font-weight="400">(Token-aware adaptive quantization)</tspan>
+    </text>
+  </g>
+
+  <g id="sam_status_icon_replacements" transform="translate(0 0)" data-plus-keeps="top_label_modality top_label_token mid_label_modality mid_label_token bot_label_modality bot_label_token">
+    <title>SAM replacements for only the six left status icons; text labels and all quantization diagrams remain native SVG.</title>
+    <image id="sam_p001_icon" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABkAAAAaCAYAAABCfffNAAADdUlEQVR4nJ1WbSidURz/nbv7lslmRm7sii9r1nbtRlLyQXxBioxmnxRhtRZFySckiuSL2lr5oLSFiCisfcG8Ls1mdjdRI13y1uYOey7OOo/dx3M8z2PXfh+e55z/Oef/+7+c8z+HUErhDTa6u+n28DDo0RFMFguuJyTgZnIy8WYt0SIRBAFf8/Jw4HBcaAXR62EbHSVGo/FyJAtPnlDX1BS8hTkiAvc7OzW90p+3/kN8PMXxsbpFJhOg0wFutxg2D64nJrKfx1qiSSISxMUp3PKNjkbkixeqpIIgsA+Mvr5i/3NBAY42N+mdjg4ufFK4pmNjKWTWGUNCENXXB2+wXFeHra6uM8tv3ID9zRvJIx37OJ494whMoaEiwcfsbExHR8PZ3q7pyUx8PEfAYAgI4Po6NvHn2BhHYOvtFduHS0sApVhtasJSVRW3cHNggIUX9OCAkxOjEfdev+Zk+sXiYi4PHoLz2O7rw2+nE5HPn2OxshK7g4OKOQaLBQ/6+xVyMmW3SyRX7XbcfflSGnS+eoXVxkbedR8fnOzvKxRdS0zE7YaG0wg4nfiYlia2g3JziZgTD+QEDJZHj8QzIMeJCkFwfr5EwPC9qUlqb3Z0UI5EDfc7O0HMZs3xW6WlsBYXc7LwsjKpzc6TTp4wLdh6elTlhuBgWB4/VsiNQUFc/8wTdpI18CE1VVXuXl8XD+C/IGmmbrfqBFHJyYmmgl+zs3CUlHhHolavhJ0dUYkcJqsVIHx5+jkyguXaWqm/1tZ2NkiIjATA3twct/hTVhbPqteL+YkaHwcxGLihre5ubPw9Y07ZLr3i5wedPOGOoqILt2vU27finxW/mMlJxfZeqa+H4HJx68IqKqALr66WfKeCANfKijQh8OFDqR1RXy9VW/n2tlZUSP2A9HTMn/Oe3Z5iFZ6OiaHy5Eb29MCXxf6SWCgqgmtm5owgMxMRlZWnJMz6hYwMroZdlmihsBCu9++lPktDzMSEGCUx8UyZf3IyvygjA8s1Nf9ULuzsYDYpiSNgsMnuE+6O//L0Kd0bH1coMoWFwVpWBv+4uFPFgoC15mZs9faCHh4q5v+NgjoJw1prK11racH/gJjNsA0NkfMbRPW1wiydT0mhR7u7XhME5uQgvLxc9cWi+e7y4Ft5Of3x7p0yLIRA7++P8OpqFsYLH3l/ALaAaZ8mPFsFAAAAAElFTkSuQmCC" x="20" y="21" width="25" height="26" preserveAspectRatio="none" />
+    <image id="sam_p003_icon" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABkAAAAaCAYAAABCfffNAAADiElEQVR4nJVWXUgUURT+ZnYd11qzUFZW02JFhRWjdk188weEqCAVg0AIFFR8WnxQiujFhzTIBwMF8UUFWfVNVIyEQHypzTUVMSi0skRdw5/cUtfdvXFHd3buzkxr38vcc+fc852/e2Y4QgiiYX1ggGw4nfDv7ADBIHhBgP7SJWQ8ewaj1cpFO89pkWyNj+NrSwshfn9UJ6xOJ2fMyjo7ic/nw3xJCSEHBzgrYsxm3Bgb04xILxd2XS58amhQDU2XkIBzOTnQxcXBt7mJg+VlhBy5+uQJfYTOcZqR7M/P42NNDUPACQIyOzpwMT8/ajS7Lhc+Oxyg6c3u7kaCzcYpSFx2O0OQVFEBy4mHUTF76xb8W1vhqI1G2KemJBL+VEmV4H1BASXHYnW1pvcuu50hoDDm5TEy79veZpTkEZDjY/H5Z2EBH+7cYQ4u1dfT+imIDRkZyG5vZ0kWq6qYKJgUceEaHm9swF1UJKXHOzOjIKAOXhseFtdbr16Rtf5+0bbe7/FISskPHzKHrMPDWLp/X5ID+/tietSQ8eIFEouLQwT4curs7vQ0EWsSwhWHgzlotFiQVFmpalQOq9MpEVDsu93S+vfc3EnhI1Mjh+XxYzHPWrg2NobI2365qSks0DEkccTGahpKqa1V3ecMBhjMZsW+IAiMzKRLDXTMrDx6pPqOHB7CXVgYzUSYhBwdqSos3r79TwMBrxezpaUKx1RJoDKN6WUTx7sMSWVl4hyTw7+9jfnyckn+8fx5+KVOx6Zrrb+fOfy5sZGR9SYTLE+fwv7mDeIyM5l3R6ur+NTcLK5/jo5K+zEmE3i5V2svX7KhBIPhNcfBNjEhibmDgzDX1THqe9PT8C4tAYGAtJfZ1cXx2b294d4lhIkmq7NTNK6Lj8f1169ZBwCk1dfj+uSk2GVUj07sj/I5x/MwpqefTGF3YSGhBQwh1eFAasTtPwvo2KFTIQRLWxuSSks5sSa5k5PMTVzr6FDU538JhJQUkYD5npzOG6bFdBcuIHdoCILJpGn8e3c31nt62O7U65H/7p3yo0WxOTKCby0tyl7W6WBIS0PivXsQEhPxa2YGu1NTCOztKVS5mBjcfPuW+/ePhMeDubt3ibxDzorzNhtyenq0v/GR+NreTjxOp+oljQRNa3ZfH0c7SQ2aJCH4PB6y0toKr9uN4OHhCSnPi3VKfvAA5qqqqD93fwEa029CHSLDjQAAAABJRU5ErkJggg==" x="20" y="56" width="25" height="26" preserveAspectRatio="none" />
+    <image id="sam_p004_icon" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABkAAAAaCAYAAABCfffNAAADi0lEQVR4nJVWa0hUQRQ+9+7DR5vS4iPNJAMf5PqqSOyp1Y8iNRWrH2apiKRlZVGWpLaZjwwlIjFTNNQsH5hJIhkRPkg01Cyh1Ypy07IkRVxMV92Judve3eu9667fn5k5c+d8c+ace84hEEJgCAqlAkr7itHQxBAgpAILE0twt/aA456RhMHDAEDoI5lQTMCl10locnZyeQVAwOPDtYRQKFwZyZnmePRDMQrGwlXsBtn7cqn5y88voPhdESygBWrtYe1J8JfePrY5itM0kuCBSLCKGpWLczCzMEPvhbiGUmN+Zx50jLQyzsn+fES0JfoIgpxDINo7xqA1OR2Z0P2ziyUvOfhQa8lSgk1W7nAzIBuMQWabFHp+9bDkGXuyQCwSA4kXF1rOMQgk1h5GE1R9qOQkOOERBe42Eir6SKVSCd+mvjIIbvhnGkXQNdIJdbIalhzrCHELo9dEYnMCGpn+TgvqjzQaRTCmGIOE5jiWnEfwoTa8nvLxHMwSdiJ74OsS+DsGMA7IJ+UgEPABf6gLbD0XAUZZcDll4a1O6rlRqGsYM4TP+ibRsV7YV8ByoruNhJpHNB7jJMB+EAlF0DD4lJY1fWpClOPV0GaIGlk1S0Fqawo1nm9JhEW0yNq3MbOh/RDnc0prtWpOHV0YJjxtWkjdcZ3zpicbIkA+Ncy5dz+whJ47iTcy9kjdHKSB4xpH8Lb1YSmanp/mJLiz/x6nnEWiVM0zNtJ2S4EkdF5TD9zEbtSllkaeLmgtKo53zt6rTnrLIet/YtRFcW8RPecTfC0JxtvRbsbHzmIXMOOb6SWI8eIO4/7fffTc3mIdkCY8E1qQ25nDOlB46AGnIiEphECXQJZ8cFwGKqSi12nbpUBe25lOe3wRLUD/WD/jkIXQEuJ9TjNkpjxTKA+q4iTXhDoGLgtikZigUv3RujCkKTIY6bsywGutF6wU0c8iYUo5Ra+T/a6Cr4OfOnxKgssYtVransqyaKUEtua2FAGe00Wr8n0Fqh+sZRzcYOkEOf63Ybn6/UbeAfndeYzoxKFfF95AcNb40t4S9PwLOwub881hq902iN0cR+UmnAArBypgdBr3Acxiiv1QFVzNaCxYjQR+Jml7quE+CdhwWL0e7h4oYLVJeluilFeXkWxCZpRyASmAK34phI/9Fs59vSQatA23oicDj2D87zgj++KfVGIlgYu+ydhnyzZ5/wCYGlOSlwf5LQAAAABJRU5ErkJggg==" x="20" y="158" width="25" height="26" preserveAspectRatio="none" />
+    <image id="sam_p002_icon" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABkAAAAaCAYAAABCfffNAAADjUlEQVR4nKVWS0wTURQ9bzqWAgUFIUDAT4uKNoryUQJqIiiEYKLGdMOGBWFDCAuJGyWQACEYYwMhsGODEkzEWF3ohkSDJBoEDCXxs9CKmFIg0PDVMrQ+MyNM57XTFuNZvXffnXfuvXPn3CGUUoSC2+mEvaWFrk9Ogm5sAKI/x4HT6ZBcUYG0qioS8gIAJBiJvbUVC1YrlS4Ng8NdXSQuP3/nJGLkk1evUni92Cl2JScj6/nzoBnxys3s48eYbmsLDJ3nEWkwINFsBr97N9Y/foRrcBCbTidACA63t4te28+RoJnMPXuG783NDAEfF4fjjx5BGx8fNhvH/ftwdHZK78zQ3IzEy5cJQyIIAiby8xmCfTdvIqW8POzlgiDAVlgI6nbLNo1ej5yhIcKUa/LSJVWCd7m5UmRbNYc/nA8f4se9ewH2uJISZs+vTU/j9/q6j6CuzpfBVik3Z2cxdv48coeHZb+JK1cgOBwBBHsuXoSxvp6xkbELF6h3ZWVrR3BmbEw+HM3LA/V4fM48j9MjIxg9dw70168AggP19Ui6fl1a21tasLm0hAyLhZCR7Gwa7D0ILhcmiouxE5isVuj37w8ooy49HZzS0f9Fi10lEofDqaEhmUAKbn5eXrvtdgUJYdqbKIljCgqCE7x9C61ez9hSqqt9G0p9JCQiQunHdFtsVpY6g0YDrVYbYPa3MeVSg7C2Bkd3t/qh1ys1RzjIJJLCqsBWWhryAurxYPTsWTYwl0udRE1tRanxb9XUmhrojEaWyO3GeFGRvJ+6c8d3qNGw5ZqyWJiHp5XOACIzMpBaWYnMgQHpo1PCu7yMD1VV0nrp5UvZHpGWBo5PSpIN8/39bCqcIgaexwnF+ZG7d5HuJyk/P3+GS1QFRVWO9fQQ7nhfH9O7X5ua5PVJqxVEq4Xu4EGcUkjKNvYWFuLM+DjEQEU1ONbfjy83bjCBid+apMLvy8qoZ25OPku4dg3Ghgb8K0b9ZMj04AH0JhOR6pH94gWTzcLTp5L2/A9BlMkkETBDa9Vmw6fKSqbFxBIc6uhAqPn9qbYWq2/eMDYuOhq5r1+zQ2sbakTb0MTESN3FRUVhc2YG7qkpJnLZLzYWOa9ekZA/EuKkE4eYcsbsFAlmM4y3bgWf8f5YGBzEt8ZGSgUh7OWinB/t6yNqOhaSRIm5J0/obG8vhMXFv6rK84jKzITh9m3oUlLC/tz9ARq1bl3LTISkAAAAAElFTkSuQmCC" x="20" y="193" width="25" height="26" preserveAspectRatio="none" />
+    <image id="sam_p005_icon" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABkAAAAaCAYAAABCfffNAAADgElEQVR4nJ2Wa0gUURTHzx3X1WLRXDRWI19kZvaySMskMbOU8lFqTzQNA8U+GIplZtGDClEzzTQRKwossshU7KXSgzLLUrJ8oSapmeFSuSSN6Y17bWd3dmZ18w/L3HvunfObe86ZM4swxmCIytvKcF3fCxjHGCxnWsFKG3dYa+eNDLkX6YOwLAtJNQdw7/DnSR1IkASuB91AUqn0/yAp1cm4TdkKhmqhpSuc8jlD/b3rb8AZr9Jh5M8IXXO39kAS7c0qVgV7ynZjDEIwAgQmRqbAIASj46P0p5aP3Tp6vdxYjMs77vLuezvQgLmTEEBk2S6Bd885ayDJ86DekBKRUOW/zoNHnx6ArvICCoA7CTmB9qK9uQNkbTgPk0n6Lw+59TlQ2/NYsJ7kkQzWMhvEkElqzUFeiAwBqFXRXiEKCHQKAU9bL1p9DDlyy1DLtABt31qhuKlQYHeY5QjRy/Zyc5T4MAF3fe/kDHfC7xkE+Mn+gKiyCIGdQQyUhk0kn2VZWtoSbYC7tYfexOraxQBEhf7F0DTQBMefpZEpjlwcxS/hQ16p9Pq05wlk12dqjgsILgTkkyTSeUT5TlHAFuetIJfJIb3uNGe7+bEE08Tr6tr7q7w5KYr4qlg6TqlO5r0japlJzSBiSRQdRy+N4ey/x34DBzFhTHilJ6bYihjQ1wmuBF/nxs5WC3hrHAQhxNs032K+wNHgyKAo4KS3Jjxi4iC6ITi7PoPmYirZmduD6+xFPJtSpRSHjOExgYMja45OCTm3IUdgK2zM58ZGyEgDIfow2Mzb7GazAqRaudLVNhfxKmsYeMONFTJrYKSM5h048eyY4IaLGy/p/Y7sWCSEdCu7eFFJ9ToKTOKqZKSdF7JJW6TudZ9YgiRQFHRZFJ5Sq+nYJKcKmQLRVh9WGoLH8Ti3mOmbDQ5yR9FWYgozBB1ArdjKfTD46ys3j3OLB795Gye68AX/Al4ZJVYnCE5EZCY1Nxgwy8SCAsiYQhQyBfja+4Eu6OTT4zCVOpTtsP12KA9AwlQcdBWJfuOzXmbi571PBI7IU21y2gyhLuF0/kXVD3mvc6F1qAW0w6wGlATfIicWhxDVdtfg3DfZMB3JTeVQFHhF8Abr/Uu0vyoO96v6DHJOviFxy+PB19FPtEXohah1o7kE3++shGF2mHZjtYwZY5hrZguHV6eRMp+0//wFgdNWG6u+HHkAAAAASUVORK5CYII=" x="20" y="294" width="25" height="26" preserveAspectRatio="none" />
+    <image id="sam_p006_icon" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABkAAAAaCAYAAABCfffNAAADkklEQVR4nKVWaWxMURT+7pvpbTBLO1EUEVoMUZ3E8kNCbOmPIq3aYmljaRsEEeKHH5KGwaiQNKKWqHZqWktspWhqSUToGEKltihRqi1F0HY06VTnynvi9r2+N4v4/rx7v/vu+d4579xzLmGMIRh8Ph8u1J5nN+sq4fV5wcCgF/QwUzM2TdqCEZaRJKgBACSQyJXaKyiuOc66WFcoGyhIdhKLwRK+iPi1meXLWae/E+FiWFQc9iflSfZy7zmYp8nN12L7xEIvf9nT4Eau26HhGkEUNcPadzQiBIqv7c2oa6lDR1eHtLpxwmbpub5iLWvyNip2tnS0dHvysPEBHFU7FQJUiIR9+i4x7iG9WXM1G5/bm1X86dRzRBIRf+7iSwsUAmnWechIXBHSeDABZ6oLJmomUriyr61UCMyzLkR6YgbCQc7tbZoCjml7JQFxLHzyfkJbZ1sggaDp6apx4umXGhU/Jz4F1phRfC5svbWFe0FAenoQ8BBV1d/FxVcXVLwxwohV47Jw/uVZnH1xRtqvb/W18heWJqTzcf33erieFsHSqy8ybdmglPK1j94m7PPs1RQvnlsqGsep56XS/P2Pd0yRwvNHL5SeRU8KUf66jPM33lViWUIGX19XsUZTIGeKXXq+/PqCcw+aPBDkofqLh433VQZKn7mkLEwvW6IpMDYmEbYBNmm8ftxGzv9iv7pFqK47HHlJBzUNLb28CO2dP1W8nuixfdpOPu9ZYriIHGL8xSzrCT/za4oXppwImo1cxNflUyyIWRapi0QozByaBAM1KLi6b2+1RcQS3hNH5xQEFSAgWDdxg5ySjBx9fIgTVKDKcIm5LYeJmtGvd/+AIjum7tLka7/X8nF8dDwEEzVx4uSzEtWGA0n5moaiI6Mxpl+Cir/xplIxz5lsh7Bn5j4iD1lJjUuVBAXJTuiIjnNxUfE4nlKsKX64Ol8RKkrpnyq8vGwZk9evf6nAciw4lwa/rJPmJx9BrGEgkf7JsVlFitQTa5JY/P5HIDHGJgmIY3nTYo6q7gP111379N1Bm5b9znZUNz9ScIYII07MLSWaPd7T4Ga5boeGKQITNcJqsaJXRB98aKtHQ+sHaN0DxERyppaQkBeJrPIVzOdXHs5wMCtuNrLGr1ad+oBXooo3V1nhkwKEcyUaZByM/TPyiLwdhCUiAxP7w/W3lWjraJXSXEf0GG4ZjizbagyJHhLycvcblFFi0hdsVicAAAAASUVORK5CYII=" x="20" y="329" width="25" height="26" preserveAspectRatio="none" />
+  </g>
+</svg>

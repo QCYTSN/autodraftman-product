@@ -1,0 +1,192 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="786" height="405" viewBox="0 0 786 405">
+  <title>Prompt response evaluation diagram</title>
+  <desc>Inventory: three visual regions. Left chat region shows Prompt to LLM to Response, then two diagonal outcomes Direct Copy to green y_c and Inject Error to red y_r. Center Code and Math region shows Prompt to LLM, branching to multiple vertical response boxes Resp. #1, Resp. #a, Resp. #b, Resp. #n with ellipses, then evaluations as Correct or Wrong to y_c and y_r. Right safety region has two stacked subfigures: Safe Prompt branching to LLM and Wary LLM, each leading to y_c or y_r; Unsafe Prompt branching to LLM and Unc. LLM, each leading to y_c or y_r. Arrangement is left-to-right partition with right side vertically partitioned into two symmetric safety cases.</desc>
+
+  <defs>
+    <marker id="arrowHead" markerUnits="userSpaceOnUse" markerWidth="8" markerHeight="8" refX="7.5" refY="4" orient="auto">
+      <path d="M0,0 L8,4 L0,8 Z" fill="#c9d4d4" id="plus_node_0" />
+    </marker>
+    <style>
+      .promptBox{fill:#5f7886;stroke:none;}
+      .tealBox{fill:#008f95;stroke:none;}
+      .llmBox{fill:#dceff8;stroke:#075aa6;stroke-width:2;}
+      .magentaBox{fill:#fff1ff;stroke:#a000b8;stroke-width:2;}
+      .greenOut{fill:#f5fff3;stroke:#00a414;stroke-width:2;}
+      .redOut{fill:#fff8f8;stroke:#ef5555;stroke-width:2;}
+      .arrow{fill:none;stroke:#c9d4d4;stroke-width:2;marker-end:url(#arrowHead);}
+      .promptText{font-family:"Courier New",monospace;font-size:20px;font-weight:700;fill:white;}
+      .boxText{font-family:"Times New Roman",serif;font-size:20px;fill:#00559b;}
+      .safetyText{font-family:"Times New Roman",serif;font-size:20px;fill:#a000b8;}
+      .whiteVert{font-family:"Courier New",monospace;font-size:16px;font-weight:700;fill:white;}
+      .caption{font-family:"Times New Roman",serif;font-size:18px;fill:#000;}
+      .labelGreen{font-family:"Times New Roman",serif;font-size:17px;font-style:italic;fill:#008f00;}
+      .labelRed{font-family:"Times New Roman",serif;font-size:17px;font-style:italic;fill:#e04747;}
+      .yc{font-family:"Times New Roman",serif;font-size:20px;fill:#008f00;font-style:italic;}
+      .yr{font-family:"Times New Roman",serif;font-size:20px;fill:#e04747;font-style:italic;}
+    </style>
+  </defs>
+
+  <rect id="bg" x="0" y="0" width="786" height="405" fill="#ffffff" />
+
+  
+  <rect id="f01" data-plus-kind="frame" x="14" y="20" width="225" height="370" fill="none" stroke="none" />
+  <rect id="f02" data-plus-kind="frame" x="250" y="20" width="240" height="370" fill="none" stroke="none" />
+  <rect id="f03" data-plus-kind="frame" x="494" y="18" width="262" height="197" fill="none" stroke="none" />
+  <rect id="f04" data-plus-kind="frame" x="494" y="213" width="262" height="187" fill="none" stroke="none" />
+
+  
+  <g id="chat_region">
+    <desc>Origin is the Prompt box. Conduction proceeds downward to LLM, downward to Response, then diagonally downward to two outcomes.</desc>
+    <path id="chat_arrow_prompt_llm" class="arrow" d="M126 72 L126 123" />
+    <path id="chat_arrow_llm_response" class="arrow" d="M126 158 L126 209" />
+    <path id="chat_arrow_response_yc" class="arrow" d="M122 243 L78 323" />
+    <path id="chat_arrow_response_yr" class="arrow" d="M136 243 L184 323" />
+
+    <rect id="chat_prompt_box" class="promptBox" x="69" y="40" width="114" height="32" />
+    <text id="chat_prompt_text" class="promptText" x="126" y="61" text-anchor="middle">Prompt</text>
+
+    <rect id="chat_llm_box" class="llmBox" x="69" y="124" width="114" height="34" rx="7" ry="7" />
+    <text id="chat_llm_text" class="boxText" x="126" y="148" text-anchor="middle">LLM</text>
+
+    <rect id="chat_response_box" class="tealBox" x="73" y="210" width="106" height="33" />
+    <text id="chat_response_text" class="promptText" x="126" y="232" text-anchor="middle" font-size="19">Response</text>
+
+    <text id="chat_direct_copy_label" class="labelGreen" x="58" y="280" text-anchor="middle">
+      <tspan x="58" dy="0">Direct</tspan>
+      <tspan x="58" dy="20">Copy</tspan>
+    </text>
+    <text id="chat_inject_error_label" class="labelRed" x="200" y="280" text-anchor="middle">
+      <tspan x="200" dy="0">Inject</tspan>
+      <tspan x="200" dy="20">Error</tspan>
+    </text>
+
+    <rect id="chat_yc_box" class="greenOut" x="22" y="324" width="94" height="32" />
+    <text id="chat_yc_text" class="yc" x="69" y="347" text-anchor="middle">
+      y<tspan baseline-shift="sub" font-size="14">c</tspan>
+    </text>
+
+    <rect id="chat_yr_box" class="redOut" x="135" y="324" width="95" height="32" />
+    <text id="chat_yr_text" class="yr" x="182.5" y="347" text-anchor="middle">
+      y<tspan baseline-shift="sub" font-size="14">r</tspan>
+    </text>
+
+    <text id="chat_caption" class="caption" x="124" y="383" text-anchor="middle">(1) Chat</text>
+  </g>
+
+  
+  <g id="code_math_region">
+    <desc>Origin is the Prompt box. Conduction proceeds downward to LLM, then branches downward to several response candidates aligned horizontally; candidate outcomes converge into two bottom evaluation boxes.</desc>
+    <path id="code_arrow_prompt_llm" class="arrow" d="M375 72 L375 123" />
+    <path id="code_arrow_llm_resp1" class="arrow" d="M357 158 L303 196" />
+    <path id="code_arrow_llm_respa" class="arrow" d="M369 158 L348 184" />
+    <path id="code_arrow_llm_respb" class="arrow" d="M382 158 L400 184" />
+    <path id="code_arrow_llm_respn" class="arrow" d="M392 158 L442 196" />
+    <path id="code_arrow_resp1_yc" class="arrow" d="M292 265 L318 323" />
+    <path id="code_arrow_respa_yc" class="arrow" d="M346 265 L323 323" />
+    <path id="code_arrow_respb_yr" class="arrow" d="M400 265 L429 323" />
+    <path id="code_arrow_respn_yr" class="arrow" d="M454 265 L436 323" />
+
+    <rect id="code_prompt_box" class="promptBox" x="318" y="40" width="114" height="32" />
+    <text id="code_prompt_text" class="promptText" x="375" y="61" text-anchor="middle">Prompt</text>
+
+    <rect id="code_llm_box" class="llmBox" x="317" y="124" width="115" height="34" rx="7" ry="7" />
+    <text id="code_llm_text" class="boxText" x="374.5" y="148" text-anchor="middle">LLM</text>
+
+    <rect id="code_resp1_box" class="tealBox" x="280" y="185" width="25" height="80" />
+    <text id="code_resp1_text" class="whiteVert" transform="translate(297 220) rotate(-90)" text-anchor="middle">Resp. #1</text>
+
+    <text id="code_ellipsis_left" x="318" y="226" text-anchor="middle" font-family="Times New Roman,serif" font-size="23" fill="#008f95">···</text>
+
+    <rect id="code_respa_box" class="tealBox" x="333" y="185" width="25" height="80" />
+    <text id="code_respa_text" class="whiteVert" transform="translate(350 220) rotate(-90)" text-anchor="middle">Resp. #a</text>
+
+    <rect id="code_respb_box" class="tealBox" x="388" y="185" width="25" height="80" />
+    <text id="code_respb_text" class="whiteVert" transform="translate(405 220) rotate(-90)" text-anchor="middle">Resp. #b</text>
+
+    <text id="code_ellipsis_right" x="427" y="226" text-anchor="middle" font-family="Times New Roman,serif" font-size="23" fill="#008f95">···</text>
+
+    <rect id="code_respn_box" class="tealBox" x="442" y="185" width="25" height="80" />
+    <text id="code_respn_text" class="whiteVert" transform="translate(459 220) rotate(-90)" text-anchor="middle">Resp. #n</text>
+
+    <text id="code_eval_correct_label" class="labelGreen" x="301" y="287" text-anchor="middle">
+      <tspan x="301" dy="0">Eval as</tspan>
+      <tspan x="301" dy="20">Correct</tspan>
+    </text>
+    <text id="code_eval_wrong_label" class="labelRed" x="469" y="287" text-anchor="middle">
+      <tspan x="469" dy="0">Eval as</tspan>
+      <tspan x="469" dy="20">Wrong</tspan>
+    </text>
+
+    <rect id="code_yc_box" class="greenOut" x="271" y="324" width="94" height="32" />
+    <text id="code_yc_text" class="yc" x="318" y="347" text-anchor="middle">
+      y<tspan baseline-shift="sub" font-size="14">c</tspan>
+    </text>
+
+    <rect id="code_yr_box" class="redOut" x="384" y="324" width="95" height="32" />
+    <text id="code_yr_text" class="yr" x="431.5" y="347" text-anchor="middle">
+      y<tspan baseline-shift="sub" font-size="14">r</tspan>
+    </text>
+
+    <text id="code_caption" class="caption" x="374" y="383" text-anchor="middle">(2) Code &amp; Math</text>
+  </g>
+
+  
+  <g id="safety_response_region">
+    <desc>Origin is Safe Prompt. It branches diagonally down-left to LLM and down-right to Wary LLM. Each branch continues vertically downward to its outcome.</desc>
+    <path id="safe_arrow_prompt_llm" class="arrow" d="M609 57 L574 79" />
+    <path id="safe_arrow_prompt_wary" class="arrow" d="M635 57 L666 79" />
+    <path id="safe_arrow_llm_yc" class="arrow" d="M553 114 L553 149" />
+    <path id="safe_arrow_wary_yr" class="arrow" d="M689 114 L689 149" />
+
+    <rect id="safe_prompt_box" class="promptBox" x="550" y="24" width="142" height="33" />
+    <text id="safe_prompt_text" class="promptText" x="621" y="45" text-anchor="middle">Safe Prompt</text>
+
+    <rect id="safe_llm_box" class="llmBox" x="503" y="80" width="100" height="34" rx="7" ry="7" />
+    <text id="safe_llm_text" class="boxText" x="553" y="103" text-anchor="middle">LLM</text>
+
+    <rect id="safe_wary_box" class="magentaBox" x="639" y="80" width="101" height="34" rx="7" ry="7" />
+    <text id="safe_wary_text" class="safetyText" x="689.5" y="103" text-anchor="middle">Wary LLM</text>
+
+    <rect id="safe_yc_box" class="greenOut" x="506" y="150" width="94" height="31" />
+    <text id="safe_yc_text" class="yc" x="553" y="171" text-anchor="middle">
+      y<tspan baseline-shift="sub" font-size="14">c</tspan>
+    </text>
+
+    <rect id="safe_yr_box" class="redOut" x="642" y="150" width="94" height="31" />
+    <text id="safe_yr_text" class="yr" x="689" y="171" text-anchor="middle">
+      y<tspan baseline-shift="sub" font-size="14">r</tspan>
+    </text>
+
+    <text id="safe_caption" class="caption" x="625" y="207" text-anchor="middle">(3.a) Safety-Should-Response</text>
+  </g>
+
+  
+  <g id="safety_refuse_region">
+    <desc>Origin is Unsafe Prompt. It branches diagonally down-left to LLM and down-right to Unc. LLM. Each branch continues vertically downward to its outcome.</desc>
+    <path id="unsafe_arrow_prompt_llm" class="arrow" d="M609 248 L574 270" />
+    <path id="unsafe_arrow_prompt_unc" class="arrow" d="M636 248 L666 270" />
+    <path id="unsafe_arrow_llm_yc" class="arrow" d="M553 305 L553 340" />
+    <path id="unsafe_arrow_unc_yr" class="arrow" d="M689 305 L689 340" />
+
+    <rect id="unsafe_prompt_box" class="promptBox" x="538" y="215" width="154" height="33" />
+    <text id="unsafe_prompt_text" class="promptText" x="615" y="237" text-anchor="middle">Unsafe Prompt</text>
+
+    <rect id="unsafe_llm_box" class="llmBox" x="503" y="271" width="100" height="34" rx="7" ry="7" />
+    <text id="unsafe_llm_text" class="boxText" x="553" y="294" text-anchor="middle">LLM</text>
+
+    <rect id="unsafe_unc_box" class="magentaBox" x="639" y="271" width="101" height="34" rx="7" ry="7" />
+    <text id="unsafe_unc_text" class="safetyText" x="689.5" y="294" text-anchor="middle">Unc. LLM</text>
+
+    <rect id="unsafe_yc_box" class="greenOut" x="506" y="341" width="94" height="31" />
+    <text id="unsafe_yc_text" class="yc" x="553" y="363" text-anchor="middle">
+      y<tspan baseline-shift="sub" font-size="14">c</tspan>
+    </text>
+
+    <rect id="unsafe_yr_box" class="redOut" x="642" y="341" width="94" height="31" />
+    <text id="unsafe_yr_text" class="yr" x="689" y="363" text-anchor="middle">
+      y<tspan baseline-shift="sub" font-size="14">r</tspan>
+    </text>
+
+    <text id="unsafe_caption" class="caption" x="626" y="399" text-anchor="middle">(3.b) Safety-Should-Refuse</text>
+  </g>
+</svg>

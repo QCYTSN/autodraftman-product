@@ -1,0 +1,13 @@
+{
+  "base": "http://127.0.0.1:4176/figfox",
+  "checks": [
+    "Suggestions stay stable while empty or focused and never overwrite entered text",
+    "Manual suggestions can be selected and edited as ordinary draft text",
+    "Independent sign-in preserves the draft and local image on Back and Continue, without creating an identity",
+    "Process illustration advances, pauses its motion, supports replay and preserves the draft without submitting a task",
+    "Reduced motion disables automatic cycling and animation while retaining manual controls",
+    "Chinese and English input and independent sign-in layouts fit desktop, tablet and narrow phones"
+  ],
+  "errors": [],
+  "apiRequests": []
+}

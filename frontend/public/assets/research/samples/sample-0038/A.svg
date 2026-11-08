@@ -1,0 +1,271 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1220" height="360" viewBox="0 0 1220 360">
+  <title>Channel importance estimation, top-k channel identification, partitioning, and low-rank expert routing diagram</title>
+  <desc>
+    Inventory and construction: f01 contains token feature columns from D, channel-wise/token-wise axes, Hadamard product, W column, and a rightward process arrow. f02 contains Top-k importance heatmap squares, ellipsis, important-channel column, and a process arrow. f03 contains an important channel frequency chart with token-independent and token-dependent channel annotations. f04 contains two outline arrows leading to dotted expert frames with hourglass low-rank adapters and expert labels. f05 contains the rounded legend. Construction uses native SVG only; no SAM image replacement is applied because no confirmed picture assets are supplied.
+  </desc>
+
+  <defs>
+    <marker id="arrowSmall" markerUnits="strokeWidth" markerWidth="9" markerHeight="7" viewBox="0 0 9 7" refX="8" refY="3.5" orient="auto">
+      <path id="plus_node_0" d="M0,0 L8,3.5 L0,7" fill="none" stroke="#000" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" /></marker>
+    <marker id="arrowTiny" markerUnits="strokeWidth" markerWidth="7" markerHeight="6" viewBox="0 0 7 6" refX="6.4" refY="3" orient="auto">
+      <path d="M0,0 L7,3 L0,6 Z" fill="#000" id="plus_node_1" />
+    </marker>
+    <style>
+      .serif{font-family:"Times New Roman", Times, serif;}
+      .bold{font-weight:700;}
+      .small{font-size:12px;}
+      .label{font-size:18px;font-weight:700;font-family:"Times New Roman", Times, serif;}
+      .caption{font-size:18px;font-weight:700;font-family:"Times New Roman", Times, serif;}
+      .axisText{font-size:11px;font-family:"Times New Roman", Times, serif;fill:#333;}
+      .cell{stroke:#000;stroke-width:1.5;}
+      .lightCell{stroke:none;}
+    </style>
+  </defs>
+
+  <rect width="1220" height="360" fill="#fff" id="plus_node_2" />
+
+  
+  <rect id="f01" data-plus-kind="frame" x="20" y="15" width="300" height="288" fill="none" stroke="none" />
+  <rect id="f02" data-plus-kind="frame" x="326" y="15" width="276" height="288" fill="none" stroke="none" />
+  <rect id="f03" data-plus-kind="frame" x="610" y="15" width="246" height="288" fill="none" stroke="none" />
+  <rect id="f04" data-plus-kind="frame" x="858" y="15" width="330" height="288" fill="none" stroke="none" />
+  <rect id="f05" data-plus-kind="frame" x="56" y="310" width="1117" height="38" rx="7" ry="7" fill="none" stroke="#a8a8a8" stroke-width="2.4" />
+
+  
+  <g id="section_tokens" class="serif">
+    <desc>Origin is the left token matrix. Content proceeds rightward: token feature blocks, ellipsis, language token column, Hadamard product, W column, and process arrow. The section is organized by channel rows and token columns.</desc>
+
+    <text id="txt_tokens_from_d" x="94" y="42" class="label">Tokens from <tspan font-style="italic" font-size="27">D</tspan></text>
+
+    
+    <path id="axis_channelwise" d="M57 223 L57 112" fill="none" stroke="#000" stroke-width="1.5" marker-end="url(#arrowSmall)" />
+    <path id="axis_tokenwise" d="M67 231 L154 231" fill="none" stroke="#000" stroke-width="1.5" marker-end="url(#arrowSmall)" />
+    <text x="43" y="177" font-size="17" transform="rotate(-90 43 177)" text-anchor="middle" id="plus_node_3">Channel-wise</text>
+    <text x="70" y="256" font-size="17" id="plus_node_4">Token-wise</text>
+
+    
+    <g id="vision_token_matrix">
+      <rect class="cell" x="67" y="56" width="31" height="31" fill="#dcefd2" id="plus_node_5" />
+      <rect class="cell" x="102" y="56" width="31" height="31" fill="#3f742b" id="plus_node_6" />
+      <rect class="cell" x="137" y="56" width="31" height="31" fill="#f3b27d" id="plus_node_7" />
+
+      <rect class="cell" x="67" y="90" width="31" height="31" fill="#b8d99f" id="plus_node_8" />
+      <rect class="cell" x="102" y="90" width="31" height="31" fill="#dcecd3" id="plus_node_9" />
+      <rect class="cell" x="137" y="90" width="31" height="31" fill="#f6ddca" id="plus_node_10" />
+
+      <rect class="cell" x="67" y="124" width="31" height="31" fill="#c8e2b6" id="plus_node_11" />
+      <rect class="cell" x="102" y="124" width="31" height="31" fill="#285f22" id="plus_node_12" />
+      <rect class="cell" x="137" y="124" width="31" height="31" fill="#f3c099" id="plus_node_13" />
+
+      <rect class="cell" x="67" y="158" width="31" height="31" fill="#4d842f" id="plus_node_14" />
+      <rect class="cell" x="102" y="158" width="31" height="31" fill="#dbeed6" id="plus_node_15" />
+      <rect class="cell" x="137" y="158" width="31" height="31" fill="#efc5a9" id="plus_node_16" />
+
+      <rect class="cell" x="67" y="192" width="31" height="31" fill="#e3f0db" id="plus_node_17" />
+      <rect class="cell" x="102" y="192" width="31" height="31" fill="#b9d9aa" id="plus_node_18" />
+      <rect class="cell" x="137" y="192" width="31" height="31" fill="#95460b" id="plus_node_19" />
+    </g>
+
+    <text id="tokens_ellipsis" x="174" y="146" font-size="28" font-weight="700">•••</text>
+
+    
+    <g id="language_token_column">
+      <rect class="cell" x="209" y="56" width="31" height="31" fill="#f4c9ac" id="plus_node_20" />
+      <rect class="cell" x="209" y="90" width="31" height="31" fill="#efab78" id="plus_node_21" />
+      <rect class="cell" x="209" y="124" width="31" height="31" fill="#c55f0d" id="plus_node_22" />
+      <rect class="cell" x="209" y="158" width="31" height="31" fill="#f6dfcd" id="plus_node_23" />
+      <rect class="cell" x="209" y="192" width="31" height="31" fill="#f0aa77" id="plus_node_24" />
+    </g>
+
+    
+    <g id="hadamard_product_symbol">
+      <circle cx="265" cy="140" r="13" fill="#fff" stroke="#000" stroke-width="2" id="plus_node_25" />
+      <circle cx="265" cy="140" r="3" fill="#000" id="plus_node_26" />
+    </g>
+
+    
+    <text id="txt_w" x="297" y="43" class="label">W</text>
+    <g id="w_column">
+      <rect class="cell" x="291" y="56" width="31" height="31" fill="#2e75b6" id="plus_node_27" />
+      <rect class="cell" x="291" y="90" width="31" height="31" fill="#bed7e9" id="plus_node_28" />
+      <rect class="cell" x="291" y="124" width="31" height="31" fill="#eef5fa" id="plus_node_29" />
+      <rect class="cell" x="291" y="158" width="31" height="31" fill="#2e75b6" id="plus_node_30" />
+      <rect class="cell" x="291" y="192" width="31" height="31" fill="#1b5a8a" id="plus_node_31" />
+    </g>
+
+    
+    <path id="arrow_tokens_to_topk" d="M333 128 L348 128 L348 116 L372 139 L348 162 L348 150 L333 150 Z" fill="#fff" stroke="#000" stroke-width="2" />
+
+    <text id="caption_channel_estimation_1" x="80" y="280" class="caption">Channel importance estimation</text>
+    <text id="caption_channel_estimation_2" x="116" y="299" class="caption">from calibration data</text>
+  </g>
+
+  
+  <g id="section_topk" class="serif">
+    <desc>Origin is the upper-left heatmap cell of Top-k importance. Content is distributed on a grid, with dark outlined gray cells indicating important channels, pale cells indicating unselected channels, an ellipsis, a right-side per-token column, and a process arrow. The section uses row-wise token symmetry with sparse top-k selections.</desc>
+
+    <text id="txt_topk_importance" x="402" y="41" class="label">Top-<tspan font-style="italic">k</tspan> importance</text>
+
+    
+    <g id="topk_heatmap_pale_cells">
+      <rect class="lightCell" x="383" y="56" width="31" height="31" fill="#efefef" id="plus_node_32" />
+      <rect class="lightCell" x="383" y="90" width="31" height="31" fill="#d9d9d9" id="plus_node_33" />
+      <rect class="lightCell" x="383" y="124" width="31" height="31" fill="#eeeeee" id="plus_node_34" />
+      <rect class="lightCell" x="383" y="158" width="31" height="31" fill="#eeeeee" id="plus_node_35" />
+      <rect class="lightCell" x="383" y="192" width="31" height="31" fill="#c9c9c9" id="plus_node_36" />
+
+      <rect class="lightCell" x="418" y="56" width="31" height="31" fill="#9b9b9b" id="plus_node_37" />
+      <rect class="lightCell" x="418" y="90" width="31" height="31" fill="#f3f3f3" id="plus_node_38" />
+      <rect class="lightCell" x="418" y="124" width="31" height="31" fill="#9a9a9a" id="plus_node_39" />
+      <rect class="lightCell" x="418" y="158" width="31" height="31" fill="#f0f0f0" id="plus_node_40" />
+      <rect class="lightCell" x="418" y="192" width="31" height="31" fill="#eeeeee" id="plus_node_41" />
+
+      <rect class="lightCell" x="453" y="56" width="31" height="31" fill="#c4c4c4" id="plus_node_42" />
+      <rect class="lightCell" x="453" y="90" width="31" height="31" fill="#eeeeee" id="plus_node_43" />
+      <rect class="lightCell" x="453" y="124" width="31" height="31" fill="#f2f2f2" id="plus_node_44" />
+      <rect class="lightCell" x="453" y="158" width="31" height="31" fill="#ededed" id="plus_node_45" />
+      <rect class="lightCell" x="453" y="192" width="31" height="31" fill="#5f5f5f" id="plus_node_46" />
+    </g>
+
+    
+    <g id="topk_heatmap_important_cells">
+      <rect x="383" y="90" width="31" height="31" fill="#d7d7d7" stroke="#000" stroke-width="2.5" id="plus_node_47" />
+      <rect x="383" y="192" width="31" height="31" fill="#6a6a6a" stroke="#000" stroke-width="2.5" id="plus_node_48" />
+      <rect x="418" y="56" width="31" height="31" fill="#9c9c9c" stroke="#000" stroke-width="2.5" id="plus_node_49" />
+      <rect x="418" y="124" width="31" height="31" fill="#8c8c8c" stroke="#000" stroke-width="2.5" id="plus_node_50" />
+      <rect x="453" y="56" width="31" height="31" fill="#c2c2c2" stroke="#000" stroke-width="2.5" id="plus_node_51" />
+      <rect x="453" y="192" width="31" height="31" fill="#555" stroke="#000" stroke-width="2.5" id="plus_node_52" />
+    </g>
+
+    <text id="topk_ellipsis" x="489" y="146" font-size="28" font-weight="700">•••</text>
+
+    <g id="right_topk_channel_column">
+      <rect x="526" y="56" width="31" height="31" fill="#d9d9d9" stroke="none" id="plus_node_53" />
+      <rect x="526" y="90" width="31" height="31" fill="#cfcfcf" stroke="none" id="plus_node_54" />
+      <rect x="526" y="124" width="31" height="31" fill="#bdbdbd" stroke="#000" stroke-width="2.5" id="plus_node_55" />
+      <rect x="526" y="158" width="31" height="31" fill="#eeeeee" stroke="none" id="plus_node_56" />
+      <rect x="526" y="192" width="31" height="31" fill="#858585" stroke="#000" stroke-width="2.5" id="plus_node_57" />
+    </g>
+
+    <path id="arrow_topk_to_chart" d="M568 128 L583 128 L583 116 L607 139 L583 162 L583 150 L568 150 Z" fill="#fff" stroke="#000" stroke-width="2" />
+
+    <text id="caption_topk_1" x="379" y="280" class="caption">Top-<tspan font-style="italic">k</tspan> important channel</text>
+    <text id="caption_topk_2" x="385" y="299" class="caption">identification per token</text>
+  </g>
+
+  
+  <g id="section_frequency_chart" class="serif">
+    <desc>Origin is the frequency chart coordinate system. A decreasing blue frequency area occupies low channel indices, a pink token-dependent tail occupies higher indices, and dashed annotation boxes classify token-independent and token-dependent channels. The chart is asymmetric and monotone decreasing from left to right.</desc>
+
+    <text id="txt_important_channel_frequency" x="636" y="42" class="label">Important channel frequency</text>
+
+    <g id="chart_axes">
+      <rect x="618" y="55" width="233" height="151" fill="#fff" stroke="#d9d9d9" stroke-width="1" id="plus_node_58" />
+      <path d="M618 206 L852 206" stroke="#000" stroke-width="1" id="plus_node_59" />
+      <path d="M618 206 L618 55" stroke="#000" stroke-width="1" id="plus_node_60" />
+
+      <text class="axisText" x="632" y="210" text-anchor="middle" id="plus_node_67">0</text>
+      <text class="axisText" x="744" y="218" text-anchor="middle" id="plus_node_68">64</text>
+      <text class="axisText" x="840" y="218" text-anchor="middle" id="plus_node_69">256</text>
+      <text class="axisText" x="735" y="226" text-anchor="middle" id="plus_node_70">Important Channel Index</text>
+
+      <text class="axisText" x="613" y="210" text-anchor="end" id="plus_node_71">0.0</text>
+      <text class="axisText" x="613" y="182" text-anchor="end" id="plus_node_72">0.2</text>
+      <text class="axisText" x="613" y="153" text-anchor="end" id="plus_node_73">0.4</text>
+      <text class="axisText" x="613" y="125" text-anchor="end" id="plus_node_74">0.6</text>
+      <text class="axisText" x="613" y="96" text-anchor="end" id="plus_node_75">0.8</text>
+      <text class="axisText" x="613" y="68" text-anchor="end" id="plus_node_76">1.0</text>
+      <text class="axisText" x="601" y="135" transform="rotate(-90 601 135)" text-anchor="middle" id="plus_node_77">Frequency</text>
+    </g>
+
+    <path id="chart_frequency_area" d="M618 206 L618 76 C622 76 626 77 630 77 C634 92 637 104 641 116 C645 127 648 140 652 151 C658 153 662 163 667 169 C674 174 682 178 690 184 C698 187 707 190 718 193 C733 197 754 199 779 201 C807 203 832 203 852 204 L852 206 Z" fill="#93d4f3" opacity="0.95" />
+    <g id="chart_frequency_curve"><path id="chart_token_dependent_tail_repaired" d="M707 193 C724 194 743 197 768 199 C795 202 826 203 851 204 L851 206 L707 206 Z" fill="#f3a9c4" opacity="0.85" /><path id="chart_frequency_curve_line" d="M618 76 C622 76 626 77 630 77 C634 92 637 104 641 116 C645 127 648 140 652 151 C658 153 662 163 667 169 C674 174 682 178 690 184 C698 187 707 190 718 193 C733 197 754 199 779 201 C807 203 832 203 852 204" fill="none" stroke="#6eb8ee" stroke-width="1.5" /> </g><g id="annotation_token_independent">
+      <rect x="684" y="67" width="121" height="31" rx="2" fill="#fff" stroke="#000" stroke-width="1" stroke-dasharray="2,2" id="plus_node_78" />
+      <text x="745" y="79" text-anchor="middle" font-size="12" id="plus_node_79">Token-independent</text>
+      <text x="745" y="94" text-anchor="middle" font-size="12" id="plus_node_80">Channels</text>
+      <path d="M718 99 L685 122" stroke="#000" stroke-width="1.4" fill="none" marker-end="url(#arrowTiny)" id="plus_node_81" />
+    </g>
+
+    <g id="annotation_token_dependent">
+      <rect x="733" y="134" width="108" height="30" rx="2" fill="#fff" stroke="#000" stroke-width="1" stroke-dasharray="2,2" id="plus_node_82" />
+      <text x="787" y="146" text-anchor="middle" font-size="12" id="plus_node_83">Token-dependent</text>
+      <text x="787" y="160" text-anchor="middle" font-size="12" id="plus_node_84">Channels</text>
+      <path d="M771 164 L771 194" stroke="#000" stroke-width="1.4" fill="none" marker-end="url(#arrowTiny)" id="plus_node_85" />
+    </g>
+
+    <text id="caption_partition_1" x="619" y="280" class="caption">Partitioning into token-dependent</text>
+    <text id="caption_partition_2" x="623" y="299" class="caption">and token-independent Channels</text>
+  </g>
+
+  
+  <g id="section_experts" class="serif">
+    <desc>Origin is the upper outline arrow. Two separate rightward arrows point from the chart to vertically stacked expert boxes. The top box is shared expert with blue hourglass low-rank adapter; the lower box is routed experts with pink hourglass adapter and multiplicity by N_r. Layout uses horizontal alignment of arrow-to-box links and vertical stacking symmetry.</desc>
+
+    <path id="arrow_to_shared_expert" d="M859 96 L903 84 L900 73 L931 95 L912 121 L909 109 L866 120 Z" fill="#fff" stroke="#000" stroke-width="2" />
+    <path id="arrow_to_routed_experts" d="M862 159 L905 172 L912 160 L928 194 L895 207 L900 195 L857 184 Z" fill="#fff" stroke="#000" stroke-width="2" />
+
+    <rect id="f04_shared_expert_box" data-plus-kind="frame" x="943" y="31" width="120" height="102" fill="#fff" stroke="#000" stroke-width="1.4" stroke-dasharray="2,3" />
+    <rect id="f04_routed_expert_box" data-plus-kind="frame" x="943" y="147" width="120" height="102" fill="#fff" stroke="#000" stroke-width="1.4" stroke-dasharray="2,3" />
+
+    <g id="shared_low_rank_adapter">
+      <polygon points="948,36 1060,36 1027,70 981,70" fill="#94cfec" id="plus_node_86" />
+      <polygon points="981,96 1027,96 1060,130 948,130" fill="#94cfec" id="plus_node_87" />
+      <path id="plus_node_88" d="M981 77 L981 89 M981 83 L991 83 M1018 83 L1028 83 M1028 77 L1028 89" fill="none" stroke="#000" stroke-width="1.4" stroke-linecap="square" /><text x="1004.5" y="89" font-size="20" text-anchor="middle" id="plus_node_89"><tspan font-style="italic">r</tspan>/2</text>
+    </g>
+
+    <g id="routed_low_rank_adapter">
+      <polygon points="948,152 1060,152 1027,186 981,186" fill="#f3c2e6" id="plus_node_90" />
+      <polygon points="981,212 1027,212 1060,246 948,246" fill="#f3c2e6" id="plus_node_91" />
+      <path id="plus_node_92" d="M981 193 L981 205 M981 199 L991 199 M1018 199 L1028 199 M1028 193 L1028 205" fill="none" stroke="#000" stroke-width="1.4" stroke-linecap="square" /><text x="1004.5" y="205" font-size="20" text-anchor="middle" id="plus_node_93"><tspan font-style="italic">r</tspan>/2</text>
+    </g>
+
+    <text id="txt_shared_expert" x="1073" y="89" class="label">Shared Expert</text>
+    <text id="txt_routed_experts" x="1073" y="202" class="label">Routed Experts</text>
+    <text id="txt_nr_multiplier" x="1068" y="242" font-size="20">× <tspan font-style="italic">N</tspan><tspan baseline-shift="sub" font-size="14" font-style="italic">r</tspan></text>
+
+    <text id="caption_experts_1" x="937" y="280" class="caption">Shared and routed experts with</text>
+    <text id="caption_experts_2" x="960" y="299" class="caption">low-rank adaptor</text>
+  </g>
+
+  
+  <g id="legend" class="serif">
+    <desc>Legend entries proceed left to right: vision token color patches, language token color patches, Hadamard product symbol, important-channel square, and low-rank adapter hourglass.</desc>
+
+    <g id="legend_vision_token">
+      <rect x="70" y="320" width="18" height="18" fill="#cfe5bf" stroke="#000" stroke-width="1.2" id="plus_node_94" />
+      <rect x="91" y="320" width="18" height="18" fill="#e0efd9" stroke="#000" stroke-width="1.2" id="plus_node_95" />
+      <rect x="112" y="320" width="18" height="18" fill="#3c7029" stroke="#000" stroke-width="1.2" id="plus_node_96" />
+      <rect x="133" y="320" width="18" height="18" fill="#e7f2df" stroke="#000" stroke-width="1.2" id="plus_node_97" />
+      <rect x="154" y="320" width="18" height="18" fill="#4a7e2f" stroke="#000" stroke-width="1.2" id="plus_node_98" />
+      <text x="178" y="335" font-size="18" font-weight="700" id="plus_node_99">Vision token</text>
+    </g>
+
+    <g id="legend_language_token">
+      <rect x="294" y="320" width="19" height="18" fill="#8e420b" stroke="#000" stroke-width="1.2" id="plus_node_100" />
+      <rect x="314" y="320" width="19" height="18" fill="#f2c19e" stroke="#000" stroke-width="1.2" id="plus_node_101" />
+      <rect x="334" y="320" width="19" height="18" fill="#f6d8c0" stroke="#000" stroke-width="1.2" id="plus_node_102" />
+      <rect x="354" y="320" width="19" height="18" fill="#f4e1d2" stroke="#000" stroke-width="1.2" id="plus_node_103" />
+      <rect x="374" y="320" width="19" height="18" fill="#f0ab78" stroke="#000" stroke-width="1.2" id="plus_node_104" />
+      <text x="400" y="335" font-size="18" font-weight="700" id="plus_node_105">Language token</text>
+    </g>
+
+    <g id="legend_hadamard_product">
+      <circle cx="554" cy="329" r="9" fill="#fff" stroke="#000" stroke-width="2" id="plus_node_106" />
+      <circle cx="554" cy="329" r="2.5" fill="#000" id="plus_node_107" />
+      <text x="568" y="335" font-size="18" font-weight="700" id="plus_node_108">Hadamard product</text>
+    </g>
+
+    <g id="legend_important_channel">
+      <rect x="733" y="320" width="18" height="18" fill="#999" stroke="#000" stroke-width="2" id="plus_node_109" />
+      <text x="758" y="335" font-size="18" font-weight="700" id="plus_node_110">Important channel</text>
+    </g>
+
+    <g id="legend_low_rank_adapter">
+      <polygon points="922,315 958,315 946,329 934,329" fill="#94cfec" id="plus_node_111" />
+      <polygon points="934,329 946,329 958,343 922,343" fill="#94cfec" id="plus_node_112" />
+      <polygon points="964,315 1000,315 988,329 976,329" fill="#f3c2e6" id="plus_node_113" />
+      <polygon points="976,329 988,329 1000,343 964,343" fill="#f3c2e6" id="plus_node_114" />
+      <text x="1006" y="335" font-size="18" font-weight="700" id="plus_node_115">Low-rank adapter</text>
+    </g>
+  </g>
+</svg>

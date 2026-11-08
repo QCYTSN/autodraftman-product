@@ -1,0 +1,412 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1770" height="483" viewBox="0 0 1770 483">
+  <title>MedAgentGym workflow diagram</title>
+  <desc>Inventory: two left biomedical source/task panels feed an agentic trajectory sampling panel; sampled agents connect to MedAgentGym command and feedback panels; sandbox filesystem connects to gym; bottom dashed pipeline shows BioMed DS Question through Request Info, Data Info, Coding, Errors, Debug, ellipsis, Results, and Reward. Symmetry basis: top row arranged left-to-right process flow with stacked paired panels on left and in gym; bottom pipeline is a horizontal sequence with repeated boxes and arrow spacing.</desc>
+
+  <defs>
+    <marker id="arrowBlack" markerWidth="16" markerHeight="12" refX="15" refY="6" orient="auto" markerUnits="userSpaceOnUse">
+      <path d="M0,0 L16,6 L0,12 Z" fill="#000" id="plus_node_0" />
+    </marker>
+    <marker id="arrowBlue" markerWidth="16" markerHeight="12" refX="15" refY="6" orient="auto" markerUnits="userSpaceOnUse">
+      <path d="M0,0 L16,6 L0,12 Z" fill="#2b78df" id="plus_node_1" />
+    </marker>
+    <marker id="arrowGreen" markerWidth="18" markerHeight="14" refX="17" refY="7" orient="auto" markerUnits="userSpaceOnUse">
+      <path d="M0,0 L18,7 L0,14 Z" fill="#2f7d27" id="plus_node_2" />
+    </marker>
+    <marker id="arrowOrange" markerWidth="16" markerHeight="12" refX="15" refY="6" orient="auto" markerUnits="userSpaceOnUse">
+      <path d="M0,0 L16,6 L0,12 Z" fill="#ec6f29" id="plus_node_3" />
+    </marker>
+    <marker id="arrowRed" markerWidth="16" markerHeight="12" refX="15" refY="6" orient="auto" markerUnits="userSpaceOnUse">
+      <path d="M0,0 L16,6 L0,12 Z" fill="#db4c2a" id="plus_node_4" />
+    </marker>
+
+    <pattern id="diagBeige" width="14" height="14" patternUnits="userSpaceOnUse" patternTransform="rotate(-35)">
+      <line x1="0" y1="0" x2="0" y2="14" stroke="#d8c8ad" stroke-width="4" opacity=".55" id="plus_node_5" />
+    </pattern>
+    <pattern id="diagGreen" width="10" height="10" patternUnits="userSpaceOnUse" patternTransform="rotate(-35)"><rect x="0" y="0" width="10" height="10" fill="#f4faee" /><line x1="0" y1="0" x2="0" y2="10" stroke="#c9df9a" stroke-width="3" opacity=".55" /></pattern><style>
+      .serif{font-family:Georgia, "Times New Roman", serif}
+      .mono{font-family:"Courier New", monospace}
+      .bold{font-weight:700}
+      .label{font-size:28px; fill:#000}
+      .small{font-size:21px}
+      .med{font-size:26px}
+      .title{font-size:32px; font-weight:700}
+      .blueText{fill:#1f5b9d}
+      .greenText{fill:#2f7d27}
+      .orangeText{fill:#d85020}
+      .brownText{fill:#98430c}
+      .strokeRound{stroke-linecap:round; stroke-linejoin:round}
+    </style>
+
+    <symbol id="iconRecord" viewBox="0 0 42 38">
+      <rect x="7" y="7" width="25" height="25" fill="#f3fbff" stroke="#6ca2b8" stroke-width="2" id="plus_node_7" />
+      <line x1="4" y1="33" x2="36" y2="33" stroke="#597b91" stroke-width="4" id="plus_node_8" />
+      <rect x="13" y="2" width="14" height="10" rx="2" fill="#fff" stroke="#83b4ce" stroke-width="1.5" id="plus_node_9" />
+      <circle cx="20" cy="7" r="5" fill="#ffedf0" stroke="#ff7890" stroke-width="1.5" id="plus_node_10" />
+      <line x1="20" y1="4" x2="20" y2="10" stroke="#ff7890" stroke-width="2" id="plus_node_11" />
+      <line x1="17" y1="7" x2="23" y2="7" stroke="#ff7890" stroke-width="2" id="plus_node_12" />
+      <line x1="12" y1="17" x2="27" y2="17" stroke="#8db1c0" stroke-width="2" id="plus_node_13" />
+      <line x1="12" y1="22" x2="27" y2="22" stroke="#8db1c0" stroke-width="2" id="plus_node_14" />
+    </symbol>
+
+    <symbol id="iconNotes" viewBox="0 0 42 38">
+      <rect x="9" y="4" width="23" height="29" rx="2" transform="rotate(-10 20 19)" fill="#e9f8ff" stroke="#52a7e8" stroke-width="2" id="plus_node_15" />
+      <line x1="14" y1="14" x2="27" y2="12" stroke="#52a7e8" stroke-width="2" id="plus_node_16" />
+      <line x1="15" y1="20" x2="27" y2="18" stroke="#52a7e8" stroke-width="2" id="plus_node_17" />
+      <line x1="16" y1="26" x2="25" y2="24" stroke="#52a7e8" stroke-width="2" id="plus_node_18" />
+      <path d="M28,8 l5,-5 l3,4 l-6,4 z" fill="#3aa3e6" id="plus_node_19" />
+    </symbol>
+
+    <symbol id="iconDNA" viewBox="0 0 52 52">
+      <path d="M13,6 C42,20 7,31 38,46" fill="none" stroke="#07131b" stroke-width="3" id="plus_node_20" />
+      <path d="M38,6 C8,21 44,31 14,46" fill="none" stroke="#07131b" stroke-width="3" id="plus_node_21" />
+      <path d="M18,12 L31,7 M16,20 L37,14 M16,30 L37,22 M18,39 L33,32" stroke="#44b4d7" stroke-width="3" id="plus_node_22" />
+      <circle cx="13" cy="6" r="3" fill="#ff5b70" id="plus_node_23" />
+      <circle cx="38" cy="6" r="3" fill="#43d5e6" id="plus_node_24" />
+      <circle cx="14" cy="46" r="3" fill="#ff5b70" id="plus_node_25" />
+      <circle cx="38" cy="46" r="3" fill="#43d5e6" id="plus_node_26" />
+      <circle cx="9" cy="28" r="2" fill="#111" id="plus_node_27" />
+      <circle cx="6" cy="35" r="2" fill="#111" id="plus_node_28" />
+      <line x1="4" y1="40" x2="11" y2="40" stroke="#111" stroke-width="2" id="plus_node_29" />
+      <line x1="4" y1="45" x2="11" y2="45" stroke="#111" stroke-width="2" id="plus_node_30" />
+    </symbol>
+
+    <symbol id="iconPills" viewBox="0 0 48 48">
+      <ellipse cx="17" cy="29" rx="9" ry="17" transform="rotate(-24 17 29)" fill="#ef5454" stroke="#111" stroke-width="1.8" id="plus_node_31" />
+      <path d="M9,23 C14,20 20,21 24,26" stroke="#111" stroke-width="1.5" id="plus_node_32" />
+      <path d="M11,36 C15,38 21,36 25,31" stroke="#111" stroke-width="1.5" id="plus_node_33" />
+      <ellipse cx="30" cy="16" rx="8" ry="15" transform="rotate(18 30 16)" fill="#f6d75d" stroke="#111" stroke-width="1.8" id="plus_node_34" />
+      <path d="M22,12 C27,16 34,18 38,17" stroke="#111" stroke-width="1.5" id="plus_node_35" />
+      <circle cx="9" cy="18" r="4" fill="#ffc64a" stroke="#111" id="plus_node_36" />
+      <circle cx="13" cy="14" r="2" fill="#60c7e8" stroke="#111" id="plus_node_37" />
+    </symbol>
+
+    <symbol id="iconRobot" viewBox="0 0 88 92">
+      <line x1="44" y1="8" x2="44" y2="21" stroke="#111" stroke-width="4" id="plus_node_38" />
+      <circle cx="44" cy="7" r="6" fill="#ffe284" stroke="#111" stroke-width="3" id="plus_node_39" />
+      <rect x="13" y="23" width="62" height="49" rx="16" fill="#d8f2f6" stroke="#111" stroke-width="4" id="plus_node_40" />
+      <rect x="22" y="30" width="44" height="32" rx="10" fill="#eefcff" stroke="#111" stroke-width="3" id="plus_node_41" />
+      <rect x="4" y="40" width="9" height="19" rx="3" fill="#ff5e66" stroke="#111" stroke-width="3" id="plus_node_42" />
+      <rect x="75" y="40" width="9" height="19" rx="3" fill="#ff5e66" stroke="#111" stroke-width="3" id="plus_node_43" />
+      <circle cx="31" cy="46" r="4" fill="#f06b7e" id="plus_node_44" />
+      <circle cx="57" cy="46" r="4" fill="#f06b7e" id="plus_node_45" />
+      <line x1="39" y1="51" x2="49" y2="51" stroke="#333" stroke-width="3" id="plus_node_46" />
+      <rect x="16" y="72" width="56" height="17" fill="#9ed7e4" stroke="#111" stroke-width="4" id="plus_node_47" />
+      <rect x="33" y="75" width="25" height="14" fill="#ffef92" stroke="#111" stroke-width="2" id="plus_node_48" />
+    </symbol>
+
+    <symbol id="iconRequest" viewBox="0 0 44 38">
+      <rect x="4" y="5" width="29" height="25" rx="2" fill="#f6fbff" stroke="#222" stroke-width="1.8" id="plus_node_49" />
+      <line x1="9" y1="12" x2="25" y2="12" stroke="#3dbf8b" stroke-width="2" id="plus_node_50" />
+      <line x1="9" y1="18" x2="28" y2="18" stroke="#222" stroke-width="1.6" id="plus_node_51" />
+      <line x1="9" y1="24" x2="21" y2="24" stroke="#222" stroke-width="1.6" id="plus_node_52" />
+      <rect x="29" y="2" width="12" height="13" fill="#eee" stroke="#222" stroke-width="1.3" id="plus_node_53" />
+      <text x="32" y="12" font-size="12" font-family="Georgia" font-weight="700" id="plus_node_54">?</text>
+      <circle cx="31" cy="31" r="2.5" fill="#111" id="plus_node_55" />
+    </symbol>
+
+    <symbol id="iconEdit" viewBox="0 0 44 42">
+      <circle cx="20" cy="22" r="18" fill="#ffdf8d" opacity=".8" id="plus_node_56" />
+      <path d="M12,6 h17 l7,7 v23 h-24 z" fill="#f8fbff" stroke="#777" stroke-width="1.5" id="plus_node_57" />
+      <path d="M29,6 v8 h8" fill="none" stroke="#777" stroke-width="1.5" id="plus_node_58" />
+      <line x1="16" y1="17" x2="27" y2="17" stroke="#777" id="plus_node_59" />
+      <line x1="16" y1="22" x2="28" y2="22" stroke="#777" id="plus_node_60" />
+      <path d="M14,34 l4,-10 l13,-13 l6,6 l-13,13 z" fill="#ffd24a" stroke="#333" stroke-width="1.5" id="plus_node_61" />
+    </symbol>
+
+    <symbol id="iconEval" viewBox="0 0 48 42">
+      <rect x="7" y="4" width="24" height="28" fill="#e8edf5" stroke="#333" stroke-width="1.5" id="plus_node_62" />
+      <line x1="11" y1="9" x2="27" y2="9" stroke="#777" id="plus_node_63" />
+      <line x1="11" y1="14" x2="27" y2="14" stroke="#777" id="plus_node_64" />
+      <line x1="11" y1="19" x2="27" y2="19" stroke="#777" id="plus_node_65" />
+      <circle cx="31" cy="25" r="13" fill="#7d8aa8" opacity=".95" stroke="#333" stroke-width="1.5" id="plus_node_66" />
+      <line x1="40" y1="34" x2="46" y2="40" stroke="#333" stroke-width="3" id="plus_node_67" />
+      <line x1="25" y1="24" x2="37" y2="24" stroke="#26355e" id="plus_node_68" />
+      <line x1="25" y1="29" x2="35" y2="29" stroke="#26355e" id="plus_node_69" />
+    </symbol>
+
+    <symbol id="iconTerminal" viewBox="0 0 46 36">
+      <rect x="5" y="4" width="36" height="28" rx="3" fill="#344154" stroke="#111" stroke-width="1.5" id="plus_node_70" />
+      <path d="M12,11 l7,7 l-7,7" fill="none" stroke="#fff" stroke-width="2" id="plus_node_71" />
+      <line x1="22" y1="25" x2="34" y2="25" stroke="#fff" stroke-width="2" id="plus_node_72" />
+    </symbol>
+
+    <symbol id="iconData" viewBox="0 0 46 46">
+      <ellipse cx="22" cy="10" rx="13" ry="6" fill="#c7edff" stroke="#2b5c83" stroke-width="1.8" id="plus_node_73" />
+      <path d="M9,10 v19 c0,4 6,7 13,7 s13,-3 13,-7 v-19" fill="#c7edff" stroke="#2b5c83" stroke-width="1.8" id="plus_node_74" />
+      <path d="M9,18 c0,4 6,7 13,7 s13,-3 13,-7" fill="none" stroke="#2b5c83" stroke-width="1.4" id="plus_node_75" />
+      <path d="M9,26 c0,4 6,7 13,7 s13,-3 13,-7" fill="none" stroke="#2b5c83" stroke-width="1.4" id="plus_node_76" />
+      <rect x="22" y="2" width="13" height="16" fill="#e7f4ff" stroke="#2b5c83" stroke-width="1.3" id="plus_node_77" />
+      <line x1="25" y1="7" x2="32" y2="7" stroke="#2b5c83" id="plus_node_78" />
+      <line x1="25" y1="11" x2="32" y2="11" stroke="#2b5c83" id="plus_node_79" />
+      <circle cx="6" cy="39" r="2" fill="#e14d52" id="plus_node_80" />
+      <circle cx="16" cy="41" r="2" fill="#2b91e6" id="plus_node_81" />
+      <circle cx="28" cy="40" r="2" fill="#f6c142" id="plus_node_82" />
+    </symbol>
+
+    <symbol id="iconError" viewBox="0 0 46 42">
+      <rect x="6" y="8" width="31" height="27" rx="2" fill="#d9edf9" stroke="#333" stroke-width="1.5" id="plus_node_83" />
+      <path d="M19,2 l17,30 h-34 z" fill="#f0757f" stroke="#333" stroke-width="1.8" id="plus_node_84" />
+      <line x1="19" y1="11" x2="19" y2="22" stroke="#333" stroke-width="3" id="plus_node_85" />
+      <circle cx="19" cy="27" r="2" fill="#333" id="plus_node_86" />
+      <line x1="12" y1="35" x2="31" y2="35" stroke="#333" stroke-width="1.5" id="plus_node_87" />
+    </symbol>
+
+    <symbol id="iconCodeResult" viewBox="0 0 44 38">
+      <rect x="6" y="4" width="32" height="30" fill="#344154" stroke="#111" stroke-width="1.5" id="plus_node_88" />
+      <line x1="11" y1="10" x2="16" y2="10" stroke="#19e573" stroke-width="2" id="plus_node_89" />
+      <line x1="18" y1="10" x2="25" y2="10" stroke="#27a8ff" stroke-width="2" id="plus_node_90" />
+      <line x1="12" y1="16" x2="22" y2="16" stroke="#e2d13a" stroke-width="2" id="plus_node_91" />
+      <line x1="24" y1="16" x2="31" y2="16" stroke="#22c77d" stroke-width="2" id="plus_node_92" />
+      <line x1="15" y1="22" x2="27" y2="22" stroke="#27a8ff" stroke-width="2" id="plus_node_93" />
+      <line x1="11" y1="28" x2="20" y2="28" stroke="#df77ff" stroke-width="2" id="plus_node_94" />
+    </symbol>
+
+    <symbol id="iconHistory" viewBox="0 0 44 42">
+      <rect x="8" y="4" width="28" height="32" fill="#f8fbff" stroke="#333" stroke-width="1.5" id="plus_node_95" />
+      <line x1="12" y1="11" x2="31" y2="11" stroke="#333" id="plus_node_96" />
+      <line x1="12" y1="18" x2="31" y2="18" stroke="#333" id="plus_node_97" />
+      <line x1="12" y1="25" x2="27" y2="25" stroke="#333" id="plus_node_98" />
+      <circle cx="29" cy="32" r="10" fill="#2fa4ff" id="plus_node_99" />
+      <path d="M29,25 v8 l6,3" fill="none" stroke="#fff" stroke-width="2" id="plus_node_100" />
+    </symbol>
+
+    <symbol id="iconChart" viewBox="0 0 45 42">
+      <rect x="4" y="29" width="5" height="9" fill="#f34d52" stroke="#111" id="plus_node_101" />
+      <rect x="12" y="23" width="5" height="15" fill="#f2cf3d" stroke="#111" id="plus_node_102" />
+      <rect x="20" y="15" width="5" height="23" fill="#44b6e8" stroke="#111" id="plus_node_103" />
+      <rect x="28" y="7" width="5" height="31" fill="#5bc66d" stroke="#111" id="plus_node_104" />
+      <line x1="3" y1="38" x2="37" y2="38" stroke="#111" stroke-width="2" id="plus_node_105" />
+      <path d="M7,20 C14,18 16,10 22,12 C28,13 29,5 37,4" fill="none" stroke="#2b91e6" stroke-width="2" id="plus_node_106" />
+      <circle cx="37" cy="4" r="2" fill="#2b91e6" id="plus_node_107" />
+    </symbol>
+
+    <symbol id="iconRisk" viewBox="0 0 45 42">
+      <path d="M23,3 L39,30 H7 Z" fill="#ff7b70" stroke="#111" stroke-width="1.5" id="plus_node_108" />
+      <line x1="23" y1="11" x2="23" y2="22" stroke="#111" stroke-width="3" id="plus_node_109" />
+      <circle cx="23" cy="26" r="2" fill="#111" id="plus_node_110" />
+      <rect x="4" y="30" width="37" height="8" rx="4" fill="#ffe071" stroke="#111" id="plus_node_111" />
+      <text x="12" y="36.5" font-family="Arial" font-size="7" font-weight="700" id="plus_node_112">RISK</text>
+    </symbol>
+
+    <symbol id="iconAnalysis" viewBox="0 0 45 42">
+      <circle cx="23" cy="22" r="14" fill="#f7f7f7" stroke="#111" stroke-width="2" id="plus_node_113" />
+      <path d="M23,8 v28 M9,22 h28" stroke="#111" stroke-width="1" id="plus_node_114" />
+      <path d="M23,8 a14,14 0 0 1 0,28 a6,14 0 0 0 0,-28" fill="#59b6e8" opacity=".75" id="plus_node_115" />
+      <rect x="18" y="10" width="6" height="24" fill="#ef5757" opacity=".85" id="plus_node_116" />
+      <rect x="24" y="10" width="6" height="24" fill="#59b6e8" opacity=".85" id="plus_node_117" />
+      <path d="M6,37 L17,28" stroke="#111" stroke-width="5" stroke-linecap="round" id="plus_node_118" />
+      <path d="M4,39 L15,30" stroke="#ef5757" stroke-width="2" stroke-linecap="round" id="plus_node_119" />
+    </symbol>
+
+    <symbol id="iconQuestion" viewBox="0 0 56 54">
+      <circle cx="22" cy="21" r="18" fill="#dff4ff" stroke="#111" stroke-width="3" id="plus_node_120" />
+      <line x1="35" y1="34" x2="51" y2="50" stroke="#111" stroke-width="5" stroke-linecap="round" id="plus_node_121" />
+      <line x1="37" y1="36" x2="50" y2="49" stroke="#fff" stroke-width="2" id="plus_node_122" />
+      <circle cx="22" cy="17" r="11" fill="#ffc8d0" stroke="#111" stroke-width="1.5" id="plus_node_123" />
+      <text x="18" y="25" font-family="Georgia" font-size="24" font-weight="700" id="plus_node_124">?</text>
+      <circle cx="18" cy="35" r="2" fill="#111" id="plus_node_125" />
+      <circle cx="27" cy="35" r="2" fill="#111" id="plus_node_126" />
+    </symbol>
+
+    <symbol id="iconClipboard" viewBox="0 0 42 42">
+      <rect x="7" y="5" width="28" height="32" rx="3" fill="#e7f9ff" stroke="#111" stroke-width="1.5" id="plus_node_127" />
+      <rect x="15" y="2" width="12" height="7" rx="2" fill="#fff" stroke="#111" id="plus_node_128" />
+      <path d="M14,17 l4,4 l8,-9" fill="none" stroke="#368f42" stroke-width="2" id="plus_node_129" />
+      <line x1="14" y1="27" x2="27" y2="27" stroke="#111" id="plus_node_130" />
+    </symbol>
+
+    <symbol id="iconClipboardX" viewBox="0 0 42 42">
+      <rect x="7" y="5" width="28" height="32" rx="3" fill="#e7f9ff" stroke="#111" stroke-width="1.5" id="plus_node_131" />
+      <rect x="15" y="2" width="12" height="7" rx="2" fill="#fff" stroke="#111" id="plus_node_132" />
+      <path d="M15,14 l10,10 M25,14 l-10,10" stroke="#d63c4e" stroke-width="2" id="plus_node_133" />
+      <line x1="14" y1="30" x2="27" y2="30" stroke="#111" id="plus_node_134" />
+    </symbol>
+  </defs>
+
+  
+  <g id="f01" data-plus-kind="frame"><rect id="canvas-white-background" x="0" y="0" width="1770" height="483" fill="#ffffff" /><rect id="f01-panel" x="22" y="27" width="534" height="142" rx="9" fill="#eff9ec" stroke="#2f7d27" stroke-width="3" /></g><rect id="f02" data-plus-kind="frame" x="22" y="183" width="534" height="167" rx="5" fill="#f6fbff" stroke="#1f5b9d" stroke-width="3" />
+  <rect id="f03" data-plus-kind="frame" x="600" y="26" width="256" height="325" rx="13" fill="#fff7ec" stroke="#d6c9b6" stroke-width="3" />
+  <rect id="f04" data-plus-kind="frame" x="872" y="26" width="540" height="326" rx="4" fill="#f2f2f2" stroke="none" />
+  <rect id="f05" data-plus-kind="frame" x="1438" y="19" width="285" height="312" rx="9" fill="#ffe0d5" stroke="#dc5328" stroke-width="3" />
+  <rect id="f06" data-plus-kind="frame" x="22" y="365" width="1724" height="96" rx="12" fill="url(#diagBeige)" stroke="#e2d5c0" stroke-width="3" stroke-dasharray="14 9" />
+
+  
+  <g id="metadata-panel">
+    <text x="37" y="58" class="serif title" id="plus_node_135" textLength="330" lengthAdjust="spacingAndGlyphs">Bio-Medical Metadata</text>
+    <text x="388" y="62" class="serif title greenText" id="plus_node_136">7.4M Data</text>
+    <use href="#iconRecord" x="39" y="78" width="42" height="38" id="plus_node_137" />
+    <text x="86" y="108" class="serif label" id="plus_node_138">EHR Data</text>
+    <use href="#iconNotes" x="39" y="119" width="42" height="38" id="plus_node_139" />
+    <text x="86" y="146" class="serif label" id="plus_node_140">Clinical Notes</text>
+    <text x="314" y="107" class="serif label" id="plus_node_142">Genomics Data</text>
+    <text x="314" y="146" class="serif label" id="plus_node_144">Drugs …</text>
+  <image id="src_metadata_genomics_drugs_icons" x="263" y="78" width="50" height="82" href="data:image/png;base64,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" /></g>
+
+  
+  <g id="task-panel">
+    <text x="37" y="214" class="serif title" id="plus_node_145">Bio-Medical Data</text>
+    <text x="37" y="249" class="serif title" id="plus_node_146">Science Tasks</text>
+    <text x="402" y="214" class="serif title blueText" id="plus_node_147">129 Tasks</text>
+    <text x="338" y="253" class="serif title blueText" id="plus_node_148">72K Instances</text>
+    <use href="#iconRequest" x="37" y="263" width="44" height="38" id="plus_node_149" />
+    <text x="86" y="288" class="serif label" id="plus_node_150">BioMed SWE</text>
+    <use href="#iconChart" x="36" y="300" width="45" height="42" id="plus_node_151" />
+    <text x="86" y="330" class="serif label" id="plus_node_152">Bio-Statistics</text>
+    <use href="#iconRisk" x="270" y="257" width="45" height="42" id="plus_node_153" />
+    <text x="313" y="288" class="serif label" id="plus_node_154">Predictive Modeling</text>
+    <use href="#iconAnalysis" x="268" y="299" width="45" height="42" id="plus_node_155" />
+    <text x="313" y="330" class="serif label" id="plus_node_156">BioMed Analysis…</text>
+  </g>
+
+  
+  <path id="arrow-metadata-sampling" d="M557,98 H599" fill="none" stroke="#2f7d27" stroke-width="5" marker-end="url(#arrowGreen)" />
+  <path id="arrow-tasks-sampling" d="M557,266 H599" fill="none" stroke="#1f5b9d" stroke-width="5" marker-end="url(#arrowBlue)" />
+
+  
+  <g id="sampling-panel">
+    <text x="637" y="68" class="serif title brownText" id="plus_node_157">Agentic Traj.</text>
+    <text x="657" y="105" class="serif title brownText" id="plus_node_158">Sampling</text>
+
+    <rect id="f09" data-plus-kind="frame" x="620" y="159" width="219" height="66" rx="8" fill="#fffdf8" stroke="#e0cdb4" stroke-width="3" />
+    <use href="#iconRobot" x="610" y="121" width="88" height="92" id="plus_node_159" />
+    <text x="693" y="202" class="serif med bold" id="plus_node_160">LLM Agent</text>
+
+    <path id="arrow-agent-down" d="M728,226 V250" fill="none" stroke="#e1d5bf" stroke-width="5" marker-end="none" opacity=".70" />
+
+    <rect id="f10" data-plus-kind="frame" x="615" y="266" width="226" height="62" rx="12" fill="url(#diagBeige)" stroke="#e0cdb4" stroke-width="3" stroke-dasharray="10 5" />
+    <g id="trajectory-icon">
+      <path d="M635,312 C653,323 664,285 681,297 C696,307 702,284 718,289" fill="none" stroke="#7f98a0" stroke-width="3" stroke-dasharray="4 4" id="plus_node_161" />
+      <path d="M630,324 l-8,-24 a13,13 0 1 1 25,0 z" fill="#d45b58" stroke="#9d4841" stroke-width="2" id="plus_node_162" />
+      <circle cx="630" cy="298" r="6" fill="#963d3c" id="plus_node_163" />
+      <path d="M673,296 l-8,-20 a9,9 0 1 1 17,0 z" fill="#4c7fa1" stroke="#4c7fa1" stroke-width="2" id="plus_node_164" />
+      <circle cx="673" cy="276" r="4" fill="#365e7d" id="plus_node_165" />
+      <text x="691" y="309" class="serif med bold brownText" id="plus_node_166">Trajectories</text>
+    </g>
+  <polygon id="arrow_agent_down_pale_head" points="720,247 736,247 728,264" fill="#e1d5bf" opacity=".70" /></g>
+
+  
+  <g id="gym-panel">
+    <text x="1026" y="62" class="serif title" id="plus_node_167">MedAgentGym</text>
+
+    <rect id="f07" data-plus-kind="frame" x="894" y="77" width="496" height="129" rx="8" fill="#dcecfb" stroke="#2b78df" stroke-width="3" />
+    <text x="995" y="107" class="serif med bold" id="plus_node_168">LLM-friendly commands</text>
+    <use href="#iconRequest" x="920" y="120" width="44" height="38" id="plus_node_169" />
+    <text x="969" y="145" class="serif label" id="plus_node_170">Request Info</text>
+    <use href="#iconEdit" x="920" y="162" width="44" height="42" id="plus_node_171" />
+    <text x="969" y="190" class="serif label" id="plus_node_172">Edit File</text>
+    <use href="#iconEval" x="1144" y="117" width="48" height="42" id="plus_node_173" />
+    <text x="1197" y="145" class="serif label" id="plus_node_174">Evaluate Code</text>
+    <use href="#iconTerminal" x="1145" y="164" width="46" height="36" id="plus_node_175" />
+    <text x="1197" y="190" class="serif label" id="plus_node_176">Debug Code</text>
+
+    <rect id="f08" data-plus-kind="frame" x="894" y="216" width="496" height="130" rx="8" fill="#ffe6d8" stroke="#dc5328" stroke-width="3" />
+    <text x="919" y="248" class="serif med bold" id="plus_node_177">LLM-friendly environment feedbacks</text>
+    <use href="#iconData" x="922" y="256" width="46" height="46" id="plus_node_178" />
+    <text x="969" y="287" class="serif label" id="plus_node_179">Data Info</text>
+    <use href="#iconError" x="922" y="298" width="46" height="42" id="plus_node_180" />
+    <text x="969" y="330" class="serif label" id="plus_node_181">Error Msgs</text>
+    <use href="#iconCodeResult" x="1146" y="260" width="44" height="38" id="plus_node_182" />
+    <text x="1197" y="287" class="serif label" id="plus_node_183">Code Results</text>
+    <use href="#iconHistory" x="1146" y="300" width="44" height="42" id="plus_node_184" />
+    <text x="1197" y="330" class="serif label" id="plus_node_185">Interact History</text>
+  </g>
+
+  
+  <path id="arrow-agent-to-commands" d="M815,160 C825,137 842,126 891,121" fill="none" stroke="#2b78df" stroke-width="4" marker-end="url(#arrowBlue)" />
+  <path id="arrow-agent-to-feedback" d="M808,231 C838,267 861,273 894,270" fill="none" stroke="#ec6f29" stroke-width="4" marker-end="url(#arrowOrange)" />
+
+  
+  <g id="sandbox-shadow"><path id="sandbox_shadow_clean_1" d="M1735,43 C1741,43 1746,48 1746,54 L1746,340 C1746,348 1740,354 1732,354 L1462,354 C1454,354 1448,348 1448,340 L1448,322" fill="none" stroke="#dc5328" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" /><path id="sandbox_shadow_clean_2" d="M1743,51 C1749,51 1754,56 1754,62 L1754,348 C1754,356 1748,362 1740,362 L1470,362 C1462,362 1456,356 1456,348 L1456,330" fill="none" stroke="#dc5328" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" /></g><g id="sandbox-panel">
+    <rect x="1457" y="69" width="247" height="253" rx="6" fill="#fff1ec" stroke="none" id="plus_node_188" />
+    <g id="sandbox-title">
+      <path d="M1486,42 h37 c2,5 -2,11 -10,14 h-29 c-9,-3 -12,-9 -8,-14 z" fill="#1498d6" id="plus_node_189" />
+      <rect x="1492" y="35" width="6" height="6" fill="#1498d6" id="plus_node_190" />
+      <rect x="1500" y="28" width="6" height="13" fill="#1498d6" id="plus_node_191" />
+      <rect x="1508" y="35" width="6" height="6" fill="#1498d6" id="plus_node_192" />
+      <rect x="1484" y="37" width="6" height="4" fill="#1498d6" id="plus_node_193" />
+      <path d="M1519,38 c6,0 6,5 0,7" fill="none" stroke="#1498d6" stroke-width="5" id="plus_node_194" />
+      <text x="1545" y="56" class="serif title orangeText" id="plus_node_195">Sandbox</text>
+    </g>
+    <rect x="1457" y="69" width="247" height="45" rx="6" fill="#fff0e8" id="plus_node_196" />
+    <use href="#iconTerminal" x="1466" y="74" width="46" height="36" id="plus_node_197" />
+    <text x="1521" y="100" class="mono small bold" id="plus_node_198">Terminal</text>
+
+    <g id="filesystem-list" class="mono bold" font-size="24">
+      <path d="M1478,132 v25 M1478,137 h8 M1478,149 h8 M1488,133 h18 M1488,150 h18" stroke="#111" stroke-width="4" fill="none" id="plus_node_199" />
+      <text x="1521" y="151" id="plus_node_200">Filesystem</text>
+
+      <path d="M1493,166 h13 l5,5 h18 v21 h-36 z" fill="#000" id="plus_node_201" />
+      <text x="1537" y="188" id="plus_node_202">Features</text>
+
+      <path d="M1493,207 h13 l5,5 h18 v21 h-36 z" fill="#000" id="plus_node_203" />
+      <text x="1537" y="229" id="plus_node_204">Labels</text>
+
+      <path d="M1500,251 h15 l9,8 v17 h-24 z" fill="#fff" stroke="#111" stroke-width="3" id="plus_node_205" />
+      <path d="M1515,251 v9 h9" fill="none" stroke="#111" stroke-width="2" id="plus_node_206" />
+      <text x="1537" y="272" id="plus_node_207">Metadata</text>
+
+      <path d="M1500,290 h15 l9,8 v17 h-24 z" fill="#fff" stroke="#111" stroke-width="3" id="plus_node_208" />
+      <path d="M1515,290 v9 h9" fill="none" stroke="#111" stroke-width="2" id="plus_node_209" />
+      <text x="1537" y="311" id="plus_node_210">Unit-Test</text>
+    </g>
+  </g>
+
+  
+  <path id="arrow-gym-to-sandbox" d="M1390,132 H1437" fill="none" stroke="#2b78df" stroke-width="4" marker-end="url(#arrowBlue)" />
+  <path id="arrow-sandbox-to-feedback" d="M1438,281 H1391" fill="none" stroke="#dc5328" stroke-width="4" marker-end="url(#arrowRed)" />
+
+  
+  <g id="pipeline">
+    <rect id="f11" data-plus-kind="frame" x="37" y="380" width="195" height="66" rx="7" fill="#eff9ff" stroke="#1f5b9d" stroke-width="3" />
+    <use href="#iconQuestion" x="46" y="386" width="56" height="54" id="plus_node_211" />
+    <text x="96" y="406" class="serif med" id="plus_node_212">BioMed DS</text>
+    <text x="111" y="437" class="serif med" id="plus_node_213">Question</text>
+
+    <path d="M233,413 H268" fill="none" stroke="#000" stroke-width="5" marker-end="url(#arrowBlack)" id="plus_node_214" />
+
+    <rect id="f12" data-plus-kind="frame" x="270" y="380" width="205" height="66" rx="4" fill="#eef8ff" stroke="#2b78df" stroke-width="3" />
+    <use href="#iconRequest" x="279" y="394" width="44" height="38" id="plus_node_215" />
+    <text x="327" y="422" class="serif med" id="plus_node_216">Request Info</text>
+
+    <path d="M476,413 H512" fill="none" stroke="#000" stroke-width="5" marker-end="url(#arrowBlack)" id="plus_node_217" />
+
+    <rect id="f13" data-plus-kind="frame" x="514" y="380" width="171" height="66" rx="4" fill="#fff0e7" stroke="#dc5328" stroke-width="3" />
+    <use href="#iconData" x="527" y="390" width="46" height="46" id="plus_node_218" />
+    <text x="574" y="422" class="serif med" id="plus_node_219">Data Info</text>
+
+    <path d="M686,413 H721" fill="none" stroke="#000" stroke-width="5" marker-end="url(#arrowBlack)" id="plus_node_220" />
+
+    <rect id="f14" data-plus-kind="frame" x="723" y="380" width="150" height="66" rx="4" fill="#e8f4ff" stroke="#2b78df" stroke-width="3" />
+    <use href="#iconEval" x="731" y="391" width="48" height="42" id="plus_node_221" />
+    <text x="782" y="422" class="serif med" id="plus_node_222">Coding</text>
+
+    <path d="M874,413 H910" fill="none" stroke="#000" stroke-width="5" marker-end="url(#arrowBlack)" id="plus_node_223" />
+
+    <rect id="f15" data-plus-kind="frame" x="912" y="380" width="136" height="66" rx="4" fill="#fff0e7" stroke="#dc5328" stroke-width="3" />
+    <use href="#iconError" x="920" y="392" width="46" height="42" id="plus_node_224" />
+    <text x="968" y="422" class="serif med" id="plus_node_225">Errors</text>
+
+    <path d="M1049,413 H1085" fill="none" stroke="#000" stroke-width="5" marker-end="url(#arrowBlack)" id="plus_node_226" />
+
+    <rect id="f16" data-plus-kind="frame" x="1087" y="380" width="160" height="66" rx="4" fill="#e8f4ff" stroke="#2b78df" stroke-width="3" />
+    <use href="#iconTerminal" x="1098" y="397" width="46" height="36" id="plus_node_227" />
+    <text x="1155" y="422" class="serif med" id="plus_node_228">Debug</text>
+
+    <path d="M1248,413 H1288" fill="none" stroke="#000" stroke-width="5" marker-end="url(#arrowBlack)" id="plus_node_229" />
+    <text x="1297" y="422" class="serif med bold" id="plus_node_230">…</text>
+    <path d="M1335,413 H1367" fill="none" stroke="#000" stroke-width="5" marker-end="url(#arrowBlack)" id="plus_node_231" />
+
+    <rect id="f17" data-plus-kind="frame" x="1369" y="380" width="149" height="66" rx="4" fill="#fff0e7" stroke="#dc5328" stroke-width="3" />
+    <use href="#iconCodeResult" x="1382" y="394" width="44" height="38" id="plus_node_232" />
+    <text x="1435" y="422" class="serif med" id="plus_node_233">Results</text>
+
+    <path d="M1519,413 H1554" fill="none" stroke="#000" stroke-width="5" marker-end="url(#arrowBlack)" id="plus_node_234" />
+
+    <rect id="f18" data-plus-kind="frame" x="1556" y="380" width="179" height="66" rx="7" fill="url(#diagGreen)" stroke="#6ea83b" stroke-width="3" />
+    <use href="#iconClipboard" x="1563" y="387" width="42" height="42" id="plus_node_235" />
+    <use href="#iconClipboardX" x="1595" y="387" width="42" height="42" id="plus_node_236" />
+    <circle cx="1590" cy="421" r="5" fill="#ef5e5e" stroke="#111" id="plus_node_237" />
+    <rect x="1585" y="430" width="12" height="11" rx="2" fill="#5ed0e6" stroke="#111" id="plus_node_238" />
+    <text x="1627" y="422" class="serif med" id="plus_node_239">Reward</text>
+  </g>
+</svg>

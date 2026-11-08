@@ -1,0 +1,326 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1181" height="288" viewBox="0 0 1181 288">
+  <defs>
+    <marker id="mkArrowBlack" markerUnits="userSpaceOnUse" markerWidth="8" markerHeight="7" refX="7" refY="3.5" orient="auto">
+      <path d="M0,0 L8,3.5 L0,7 Z" fill="#111" id="plus_node_0" />
+    </marker>
+    <marker id="mkArrowRed" markerUnits="userSpaceOnUse" markerWidth="6" markerHeight="8" refX="3" refY="0" orient="auto">
+      <path d="M0,8 L3,0 L6,8 Z" fill="#e11" id="plus_node_1" />
+    </marker>
+    <marker id="mkArrowOrange" markerUnits="userSpaceOnUse" markerWidth="8" markerHeight="7" refX="7" refY="3.5" orient="auto">
+      <path d="M0,0 L8,3.5 L0,7 Z" fill="#ff7a00" id="plus_node_2" />
+    </marker>
+    <marker id="mkSmallBlue" markerUnits="userSpaceOnUse" markerWidth="5" markerHeight="5" refX="2.5" refY="2.5" orient="auto">
+      <path d="M0,0 L5,2.5 L0,5 Z" fill="#1e88e5" id="plus_node_3" />
+    </marker>
+    <linearGradient id="cubeFace" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#ffffff" stop-opacity=".45" />
+      <stop offset="1" stop-color="#ff8b32" stop-opacity=".18" />
+    </linearGradient>
+    <linearGradient id="grayStrip" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#111" />
+      <stop offset=".35" stop-color="#aaa" />
+      <stop offset=".7" stop-color="#444" />
+      <stop offset="1" stop-color="#ddd" />
+    </linearGradient>
+    <style>
+      text{font-family:Arial,Helvetica,sans-serif;fill:#000}
+      .small{font-size:11px}
+      .med{font-size:14px}
+      .label{font-size:16px}
+      .dashOrange{stroke:#ff6b00;stroke-dasharray:3 2;fill:none}
+      .axis{stroke:#111;stroke-width:1.25;marker-end:url(#mkArrowBlack)}
+      .thin{stroke:#111;stroke-width:1;fill:none}
+      .bluebar{stroke:#1e88e5;stroke-width:2}
+      .cyanReset{stroke:#00a6b3;stroke-width:1.1;stroke-dasharray:5 3}
+      .orangeLine{stroke:#ffb000;stroke-width:1.25;fill:none}
+      .redSpike{stroke:#e11;stroke-width:1.3;marker-end:url(#mkArrowRed)}
+    </style>
+  </defs>
+
+  <rect x="0" y="0" width="1181" height="288" fill="#fff" id="plus_node_4" />
+
+  <rect id="f01" data-plus-kind="frame" x="12" y="12" width="804" height="142" fill="none" stroke="#008cff" stroke-width="1.6" />
+  <rect id="f02" data-plus-kind="frame" x="12" y="162" width="670" height="115" fill="none" stroke="#ff6b00" stroke-width="1.6" />
+  <rect id="f03" data-plus-kind="frame" x="689" y="162" width="127" height="115" fill="none" stroke="#6b8e23" stroke-width="1.6" />
+  <rect id="f04" data-plus-kind="frame" x="824" y="12" width="343" height="265" fill="none" stroke="#6b8e23" stroke-width="1.6" />
+
+  <g id="panel_a">
+    <desc>Panel (a) contains a dynamic scene origin at left, arrow to a spike camera, arrow to a tilted sensor/lattice, spike train arrows, binary spike stream volume, SCSR block, and an HR image stack. Objects progress left to right with approximate horizontal symmetry along the central row.</desc>
+    <text x="20" y="31" class="label" id="plus_node_5">(a)</text>
+    <text id="scene_title" x="62" y="51" class="label">Dynamic</text>
+    <text x="70" y="70" class="label" id="plus_node_6">Scene</text>
+
+    <g id="scene_motion_lines" stroke="#777" stroke-width="1">
+      <line x1="18" y1="88" x2="47" y2="88" id="plus_node_7" />
+      <line x1="18" y1="98" x2="47" y2="98" id="plus_node_8" />
+      <line x1="18" y1="108" x2="47" y2="108" id="plus_node_9" />
+    </g>
+
+    <g id="replacement_dynamic_car" data-plus-keeps="scene_title scene_motion_lines" transform="translate(0 0)">
+      <image href="data:image/png;base64,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" x="51" y="83" width="91" height="28" id="plus_node_16" preserveAspectRatio="none" />
+    </g>
+
+    <g id="block_arrow_scene_to_camera" fill="#fff8dc" stroke="#111" stroke-width="1.1">
+      <path d="M150,94 L165,94 L165,90 L174,99 L165,108 L165,103 L150,103 Z" id="plus_node_17" />
+    </g>
+
+    <g id="spike_camera">
+      <text x="178" y="50" class="label" id="plus_node_18">Spike</text>
+      <text x="173" y="69" class="label" id="plus_node_19">Camera</text>
+      <path d="M192,85 L215,85 L220,103 L187,103 Z" fill="#1e88e5" opacity=".95" id="plus_node_20" />
+      <rect x="213" y="82" width="8" height="24" fill="#ff7a00" id="plus_node_21" />
+      <polygon points="221,86 246,75 246,111 221,101" fill="#f4f4f4" stroke="#999" id="plus_node_22" />
+      <line x1="196" y1="103" x2="191" y2="119" stroke="#ff7a00" stroke-width="1" id="plus_node_23" />
+      <line x1="204" y1="103" x2="204" y2="121" stroke="#ff7a00" stroke-width="1" id="plus_node_24" />
+      <line x1="212" y1="103" x2="219" y2="119" stroke="#ff7a00" stroke-width="1" id="plus_node_25" />
+    </g>
+
+    <g id="sensor_lattice">
+      <polygon points="255,63 280,43 280,122 255,132" fill="#f7f7f7" stroke="#111" id="plus_node_26" />
+      <polygon points="246,75 270,51 270,116 246,128" fill="#fff" stroke="#111" id="plus_node_27" />
+      <line x1="252" y1="69" x2="279" y2="51" stroke="#111" id="plus_node_28" />
+      <line x1="252" y1="81" x2="279" y2="63" stroke="#111" id="plus_node_29" />
+      <line x1="252" y1="94" x2="279" y2="75" stroke="#111" id="plus_node_30" />
+      <line x1="252" y1="107" x2="279" y2="88" stroke="#111" id="plus_node_31" />
+      <line x1="252" y1="120" x2="279" y2="101" stroke="#111" id="plus_node_32" />
+      <line x1="253" y1="67" x2="253" y2="129" stroke="#111" id="plus_node_33" />
+      <line x1="263" y1="58" x2="263" y2="124" stroke="#111" id="plus_node_34" />
+      <line x1="272" y1="50" x2="272" y2="119" stroke="#111" id="plus_node_35" />
+      <rect x="254" y="86" width="7" height="17" fill="#ff7a00" stroke="#c45c00" id="plus_node_36" />
+      <line x1="246" y1="75" x2="222" y2="85" stroke="#999" stroke-dasharray="2 2" id="plus_node_37" />
+      <line x1="246" y1="128" x2="222" y2="102" stroke="#999" stroke-dasharray="2 2" id="plus_node_38" />
+    </g>
+
+    <g id="spike_array" stroke-width="1">
+      <path d="M282,57 H351" class="axis" id="plus_node_39" />
+      <path d="M282,77 H351" class="axis" id="plus_node_40" />
+      <path d="M282,96 H351" class="axis" id="plus_node_41" />
+      <path d="M282,116 H351" class="axis" id="plus_node_42" />
+      <line x1="285" y1="53" x2="285" y2="70" class="redSpike" id="plus_node_43" />
+      <line x1="296" y1="46" x2="296" y2="67" class="redSpike" id="plus_node_44" />
+      <line x1="309" y1="48" x2="309" y2="68" class="redSpike" id="plus_node_45" />
+      <line x1="330" y1="47" x2="330" y2="68" class="redSpike" id="plus_node_46" />
+      <line x1="288" y1="78" x2="288" y2="88" stroke="#e11" id="plus_node_47" />
+      <line x1="304" y1="74" x2="304" y2="86" stroke="#e11" id="plus_node_48" />
+      <line x1="318" y1="76" x2="318" y2="88" stroke="#e11" id="plus_node_49" />
+      <line x1="282" y1="99" x2="282" y2="116" class="redSpike" id="plus_node_50" />
+      <line x1="296" y1="99" x2="296" y2="116" class="redSpike" id="plus_node_51" />
+      <line x1="313" y1="99" x2="313" y2="116" class="redSpike" id="plus_node_52" />
+      <line x1="332" y1="99" x2="332" y2="116" class="redSpike" id="plus_node_53" />
+    </g>
+
+    <g id="arrow_lattice_to_stream" fill="#fff8dc" stroke="#111" stroke-width="1.1">
+      <path d="M355,93 L371,93 L371,89 L380,98 L371,107 L371,102 L355,102 Z" id="plus_node_54" />
+    </g>
+
+    <g id="binary_spike_stream">
+      <polygon points="390,67 447,54 528,65 469,82" fill="url(#cubeFace)" stroke="#bbb" id="plus_node_55" />
+      <polygon points="390,67 390,119 470,133 469,82" fill="url(#cubeFace)" stroke="#bbb" id="plus_node_56" />
+      <polygon points="469,82 528,65 528,114 470,133" fill="url(#cubeFace)" stroke="#ddd" id="plus_node_57" />
+      <path d="M390,119 C420,104 448,101 470,133" stroke="#ff7a00" stroke-width="1.2" fill="none" id="plus_node_58" />
+      <path d="M390,67 C420,82 448,93 528,114" stroke="#ff7a00" stroke-width="1" fill="none" opacity=".8" id="plus_node_59" />
+      <g fill="#ff8a33" opacity=".65" id="plus_node_60">
+        <circle cx="409" cy="76" r=".9" id="plus_node_61" /><circle cx="421" cy="84" r=".8" id="plus_node_62" /><circle cx="436" cy="72" r=".9" id="plus_node_63" /><circle cx="462" cy="64" r=".8" id="plus_node_64" />
+        <circle cx="489" cy="70" r=".8" id="plus_node_65" /><circle cx="506" cy="89" r=".9" id="plus_node_66" /><circle cx="414" cy="111" r=".8" id="plus_node_67" /><circle cx="433" cy="117" r=".8" id="plus_node_68" />
+        <circle cx="456" cy="122" r=".8" id="plus_node_69" /><circle cx="478" cy="104" r=".9" id="plus_node_70" /><circle cx="500" cy="112" r=".7" id="plus_node_71" /><circle cx="517" cy="78" r=".7" id="plus_node_72" />
+        <circle cx="402" cy="92" r=".7" id="plus_node_73" /><circle cx="447" cy="94" r=".7" id="plus_node_74" /><circle cx="475" cy="90" r=".8" id="plus_node_75" /><circle cx="523" cy="101" r=".7" id="plus_node_76" />
+      </g>
+      <path d="M389,119 L372,125" class="axis" id="plus_node_77" />
+      <path d="M528,114 L545,116" class="axis" id="plus_node_78" />
+      <path d="M447,54 L447,26" class="axis" id="plus_node_79" />
+      <text x="406" y="49" class="med" font-style="italic" id="plus_node_80">W</text>
+      <text x="371" y="91" class="med" font-style="italic" id="plus_node_81">H</text>
+      <text x="371" y="127" class="med" font-style="italic" id="plus_node_82">x</text>
+      <text x="447" y="34" class="med" font-style="italic" id="plus_node_83">y</text>
+      <text x="542" y="118" class="med" font-style="italic" id="plus_node_84">t</text>
+      <text x="382" y="147" class="label" id="plus_node_85">Binary Spike Stream</text>
+    </g>
+
+    <g id="arrow_stream_to_scsr" fill="#fff8dc" stroke="#111" stroke-width="1.1">
+      <path d="M531,93 L550,93 L550,89 L559,98 L550,107 L550,102 L531,102 Z" id="plus_node_86" />
+    </g>
+
+    <g id="scsr_block">
+      <rect x="558" y="81" width="66" height="34" rx="4" fill="#fff0e5" stroke="#111" id="plus_node_87" />
+      <text x="570" y="103" class="label" id="plus_node_88">SCSR</text>
+    </g>
+
+    <g id="arrow_scsr_to_hr" fill="#fff8dc" stroke="#111" stroke-width="1.1">
+      <path d="M628,93 L645,93 L645,89 L654,98 L645,107 L645,102 L628,102 Z" id="plus_node_89" />
+      <text x="633" y="116" class="med" font-style="italic" id="plus_node_90">rH</text>
+    </g>
+
+    <g id="hr_images">
+      <desc>Right of panel (a) is a stack of grayscale high-resolution images, slanted layers with the foremost layer showing a bus-like scene; rW label marks width.</desc>
+      <g transform="translate(654 18)" id="plus_node_91">
+        <polygon points="55,0 145,-4 145,101 55,128" fill="#333" opacity=".18" id="plus_node_92" />
+        <polygon points="44,3 134,-1 134,104 44,131" fill="#333" opacity=".22" id="plus_node_93" />
+        <polygon points="33,6 123,2 123,107 33,134" fill="#333" opacity=".28" id="plus_node_94" />
+        <polygon points="22,9 112,5 112,110 22,137" fill="#333" opacity=".35" id="plus_node_95" />
+        <polygon points="10,14 100,10 100,115 10,132" fill="#f0f0f0" stroke="#111" id="plus_node_96" />
+        <clipPath id="clipHR"><polygon points="10,14 100,10 100,115 10,132" id="plus_node_97" /></clipPath>
+        <g clip-path="url(#clipHR)" id="plus_node_98">
+          <rect x="10" y="10" width="95" height="130" fill="url(#grayStrip)" id="plus_node_99" />
+          <path d="M5,100 C23,70 52,62 91,65 L100,86 C70,82 44,91 20,125 Z" fill="#eee" opacity=".88" id="plus_node_100" />
+          <circle cx="77" cy="78" r="9" fill="#555" id="plus_node_101" /><circle cx="77" cy="78" r="5" fill="#222" id="plus_node_102" />
+          <path d="M6,30 C35,20 65,20 104,31" stroke="#666" fill="none" opacity=".7" id="plus_node_103" />
+          <path d="M8,50 C38,44 65,45 104,53" stroke="#888" fill="none" opacity=".7" id="plus_node_104" />
+        </g>
+        <text x="18" y="12" class="med" font-style="italic" id="plus_node_105">rW</text>
+        <text x="120" y="113" class="label" id="plus_node_106">HR</text>
+      </g>
+      <text x="762" y="147" class="label" id="plus_node_107">Images</text>
+    </g>
+  </g>
+
+  <g id="panel_b">
+    <desc>Panel (b) expands one pixel in the spike camera: photons from scene are gathered into a receptor, integrator, comparator, spike flag, readout circuit, clock, enable signal, and binary output. The drawing proceeds left to right from photons as origin.</desc>
+    <text x="20" y="268" class="label" id="plus_node_108">(b)</text>
+    <text x="27" y="195" class="small" id="plus_node_109">Photons from</text>
+    <text x="42" y="209" class="small" id="plus_node_110">Scene</text>
+    <g id="photons_scene">
+      <g fill="#f6c000" stroke="#f6c000" id="plus_node_111">
+        <circle cx="32" cy="225" r="2" id="plus_node_112" /><circle cx="44" cy="219" r="2" id="plus_node_113" /><circle cx="54" cy="228" r="2" id="plus_node_114" /><circle cx="66" cy="222" r="2" id="plus_node_115" />
+        <circle cx="78" cy="229" r="2" id="plus_node_116" /><circle cx="88" cy="219" r="2" id="plus_node_117" /><circle cx="95" cy="226" r="2" id="plus_node_118" /><circle cx="36" cy="232" r="1.7" id="plus_node_119" />
+        <line x1="24" y1="224" x2="39" y2="224" id="plus_node_120" /><line x1="47" y1="230" x2="60" y2="230" id="plus_node_121" /><line x1="69" y1="222" x2="83" y2="222" id="plus_node_122" /><line x1="88" y1="227" x2="104" y2="227" id="plus_node_123" />
+      </g>
+      <polygon points="105,216 114,209 114,238 105,233" fill="#ff7a00" stroke="#111" id="plus_node_124" />
+      <path d="M114,209 C145,150 181,113 215,102" class="dashOrange" id="plus_node_125" />
+      <path d="M114,238 C151,193 187,160 221,104" class="dashOrange" id="plus_node_126" />
+    </g>
+
+    <rect id="f02_inner_pixel" data-plus-kind="frame" x="140" y="184" width="302" height="74" fill="none" stroke="#ff6b00" stroke-width="1" stroke-dasharray="3 2" />
+    <text x="144" y="179" class="small" id="plus_node_127">One Pixel In Spike Camera</text>
+
+    <g id="pixel_chain">
+      <rect x="156" y="207" width="69" height="34" rx="2" fill="#fff3e8" stroke="#111" id="plus_node_128" />
+      <text x="167" y="220" class="small" id="plus_node_129">Photon</text>
+      <text x="163" y="233" class="small" id="plus_node_130">Receptor</text>
+      <line x1="225" y1="224" x2="244" y2="224" class="thin" marker-end="url(#mkArrowBlack)" id="plus_node_131" />
+
+      <rect x="244" y="207" width="71" height="34" rx="2" fill="#fff3e8" stroke="#111" id="plus_node_132" />
+      <text x="254" y="228" class="small" id="plus_node_133">Integrator</text>
+      <line x1="280" y1="204" x2="280" y2="190" class="axis" id="plus_node_134" />
+      <text x="284" y="201" class="small" id="plus_node_135">Reset</text>
+      <line x1="315" y1="224" x2="338" y2="224" class="thin" marker-end="url(#mkArrowBlack)" id="plus_node_136" />
+
+      <polygon points="338,206 410,224 338,242" fill="#fff8dc" stroke="#111" id="plus_node_137" />
+      <text x="354" y="226" class="small" id="plus_node_138">Comparator</text>
+      <text x="319" y="216" class="small" font-style="italic" id="plus_node_139">A(t)</text>
+      <text x="390" y="239" class="small" font-style="italic" id="plus_node_140">θ</text>
+      <polyline points="313,224 323,218 333,222" stroke="#111" fill="none" id="plus_node_141" />
+
+      <line x1="410" y1="224" x2="451" y2="224" class="thin" marker-end="url(#mkArrowBlack)" id="plus_node_142" />
+      <rect x="451" y="205" width="73" height="36" fill="#fff3e8" stroke="#ff9a4d" id="plus_node_143" />
+      <text x="462" y="219" class="small" fill="#ff5a00" id="plus_node_144">Spike Flag</text>
+      <text x="476" y="234" class="small" fill="#ff5a00" id="plus_node_145">0 / 1</text>
+
+      <line x1="524" y1="224" x2="541" y2="224" class="thin" marker-end="url(#mkArrowBlack)" id="plus_node_146" />
+      <rect x="541" y="207" width="70" height="34" rx="3" fill="#fff" stroke="#111" id="plus_node_147" />
+      <text x="556" y="220" class="small" id="plus_node_148">Readout</text>
+      <text x="561" y="233" class="small" id="plus_node_149">Circuit</text>
+      <polyline points="531,187 540,187 540,169 550,169 550,187 559,187 559,169 569,169 569,187 579,187 579,169 589,169 589,187 599,187 599,169 609,169 609,187 620,187" fill="none" stroke="#111" stroke-width="1.2" id="plus_node_150" />
+      <text x="625" y="182" class="small" id="plus_node_151">Clock</text>
+      <line x1="577" y1="169" x2="577" y2="197" stroke="#ff6b00" stroke-dasharray="3 2" id="plus_node_152" />
+      <text x="579" y="200" class="small" fill="#ff6b00" id="plus_node_153">Enable</text>
+      <line x1="611" y1="224" x2="624" y2="224" class="thin" marker-end="url(#mkArrowBlack)" id="plus_node_154" />
+      <text x="628" y="229" class="label" id="plus_node_155">0 0 1 ...</text>
+    </g>
+  </g>
+
+  <g id="legend_panel">
+    <desc>Legend lists the color and symbol coding used in panel (c): light intensity, threshold, accumulation, reset, readout time, and spike.</desc>
+    <line x1="696" y1="174" x2="717" y2="174" stroke="#ff0060" stroke-width="1.3" id="plus_node_156" />
+    <text x="724" y="178" class="small" id="plus_node_157">Light Intensity</text>
+    <line x1="696" y1="191" x2="717" y2="191" stroke="#00a6d6" stroke-width="1.2" stroke-dasharray="2 2" id="plus_node_158" />
+    <text x="724" y="195" class="small" id="plus_node_159">Threshold</text>
+    <line x1="696" y1="207" x2="717" y2="207" stroke="#ffb000" stroke-width="1.3" id="plus_node_160" />
+    <text x="724" y="211" class="small" id="plus_node_161">Accumulation</text>
+    <line x1="696" y1="224" x2="717" y2="224" stroke="#00a6b3" stroke-width="1.1" stroke-dasharray="5 3" id="plus_node_162" />
+    <text x="724" y="228" class="small" id="plus_node_163">Reset</text>
+    <g stroke="#1e88e5" stroke-width="2" id="plus_node_164">
+      <line x1="697" y1="236" x2="697" y2="246" id="plus_node_165" /><line x1="707" y1="236" x2="707" y2="246" id="plus_node_166" /><line x1="717" y1="236" x2="717" y2="246" id="plus_node_167" />
+    </g>
+    <text x="724" y="244" class="small" id="plus_node_168">Readout Time</text>
+    <line x1="706" y1="264" x2="706" y2="252" class="redSpike" id="plus_node_169" />
+    <text x="724" y="261" class="small" id="plus_node_170">Spike</text>
+  </g>
+
+  <g id="panel_c">
+    <desc>Panel (c) contains three vertically stacked time plots sharing a horizontal time axis: top light intensity curve, middle accumulation with threshold/reset/readout bars, and bottom spike output with binary labels. Symmetry is stacked temporal alignment on common t-axis.</desc>
+    <text x="1144" y="31" class="label" id="plus_node_171">(c)</text>
+
+    <g id="plot_intensity">
+      <path d="M850,86 H1145" class="axis" id="plus_node_172" />
+      <path d="M850,86 V20" class="axis" id="plus_node_173" />
+      <text x="832" y="29" class="med" font-style="italic" id="plus_node_174">I</text>
+      <text x="1150" y="93" class="med" font-style="italic" id="plus_node_175">t</text>
+      <path d="M851,58 C908,75 961,37 1028,42 C1076,45 1101,45 1131,58" fill="none" stroke="#ff0060" stroke-width="1.2" id="plus_node_176" />
+    </g>
+
+    <g id="plot_accumulation">
+      <path d="M850,171 H1145" class="axis" id="plus_node_177" />
+      <path d="M850,171 V105" class="axis" id="plus_node_178" />
+      <text x="831" y="104" class="med" font-style="italic" id="plus_node_179">A</text>
+      <text x="843" y="119" class="small" font-style="italic" id="plus_node_180">θ</text>
+      <text x="1150" y="178" class="med" font-style="italic" id="plus_node_181">t</text>
+      <line x1="850" y1="117" x2="1132" y2="117" stroke="#00a6d6" stroke-width="1.1" stroke-dasharray="2 2" id="plus_node_182" />
+      <g class="orangeLine" id="plus_node_183">
+        <path d="M850,169 C862,143 890,143 903,136 C918,128 928,118 936,117" id="plus_node_184" />
+        <path d="M936,169 C947,145 968,137 982,118" id="plus_node_185" />
+        <path d="M985,169 C995,145 1008,131 1017,118" id="plus_node_186" />
+        <path d="M1019,169 C1028,144 1039,130 1046,118" id="plus_node_187" />
+        <path d="M1050,169 C1059,144 1068,130 1075,118" id="plus_node_188" />
+        <path d="M1079,169 C1088,144 1095,130 1102,118" id="plus_node_189" />
+      </g>
+      <g id="plus_node_190">
+        <line x1="936" y1="117" x2="936" y2="171" class="cyanReset" id="plus_node_191" />
+        <line x1="985" y1="117" x2="985" y2="171" class="cyanReset" id="plus_node_192" />
+        <line x1="1019" y1="117" x2="1019" y2="171" class="cyanReset" id="plus_node_193" />
+        <line x1="1050" y1="117" x2="1050" y2="171" class="cyanReset" id="plus_node_194" />
+        <line x1="1079" y1="117" x2="1079" y2="171" class="cyanReset" id="plus_node_195" />
+        <line x1="1103" y1="117" x2="1103" y2="171" class="cyanReset" id="plus_node_196" />
+      </g>
+      <g class="bluebar" id="plus_node_197">
+        <line x1="862" y1="163" x2="862" y2="171" id="plus_node_198" /><line x1="873" y1="163" x2="873" y2="171" id="plus_node_199" />
+        <line x1="885" y1="163" x2="885" y2="171" id="plus_node_200" /><line x1="897" y1="163" x2="897" y2="171" id="plus_node_201" />
+        <line x1="922" y1="163" x2="922" y2="171" id="plus_node_202" /><line x1="949" y1="163" x2="949" y2="171" id="plus_node_203" />
+        <line x1="962" y1="163" x2="962" y2="171" id="plus_node_204" /><line x1="976" y1="163" x2="976" y2="171" id="plus_node_205" />
+        <line x1="1000" y1="163" x2="1000" y2="171" id="plus_node_206" /><line x1="1012" y1="163" x2="1012" y2="171" id="plus_node_207" />
+        <line x1="1032" y1="163" x2="1032" y2="171" id="plus_node_208" /><line x1="1042" y1="163" x2="1042" y2="171" id="plus_node_209" />
+        <line x1="1065" y1="163" x2="1065" y2="171" id="plus_node_210" /><line x1="1090" y1="163" x2="1090" y2="171" id="plus_node_211" />
+        <line x1="1114" y1="163" x2="1114" y2="171" id="plus_node_212" />
+      </g>
+    </g>
+
+    <g id="plot_spikes">
+      <path d="M850,260 H1145" class="axis" id="plus_node_213" />
+      <path d="M850,260 V192" class="axis" id="plus_node_214" />
+      <text x="831" y="198" class="med" font-style="italic" id="plus_node_215">S</text>
+      <text x="1150" y="267" class="med" font-style="italic" id="plus_node_216">t</text>
+      <path d="M858,258 h11 v-10 h-11 z" fill="none" stroke="#111" id="plus_node_217" />
+      <text x="862" y="244" class="small" font-style="italic" id="plus_node_218">δ</text>
+      <g id="plus_node_219">
+        <line x1="936" y1="260" x2="936" y2="218" class="redSpike" id="plus_node_220" />
+        <line x1="992" y1="260" x2="992" y2="218" class="redSpike" id="plus_node_221" />
+        <line x1="1018" y1="260" x2="1018" y2="218" class="redSpike" id="plus_node_222" />
+        <line x1="1048" y1="260" x2="1048" y2="218" class="redSpike" id="plus_node_223" />
+        <line x1="1076" y1="260" x2="1076" y2="218" class="redSpike" id="plus_node_224" />
+      </g>
+      <g id="plus_node_225">
+        <line x1="936" y1="204" x2="936" y2="260" class="cyanReset" id="plus_node_226" />
+        <line x1="985" y1="204" x2="985" y2="260" class="cyanReset" id="plus_node_227" />
+        <line x1="1019" y1="204" x2="1019" y2="260" class="cyanReset" id="plus_node_228" />
+        <line x1="1050" y1="204" x2="1050" y2="260" class="cyanReset" id="plus_node_229" />
+        <line x1="1079" y1="204" x2="1079" y2="260" class="cyanReset" id="plus_node_230" />
+      </g>
+      <g font-size="12" id="plus_node_231">
+        <text x="858" y="273" id="plus_node_232">0</text><text x="871" y="273" id="plus_node_233">0</text><text x="885" y="273" id="plus_node_234">0</text><text x="900" y="273" id="plus_node_235">0</text>
+        <text x="914" y="273" id="plus_node_236">0</text><text x="929" y="273" id="plus_node_237">1</text><text x="944" y="273" id="plus_node_238">0</text><text x="958" y="273" id="plus_node_239">0</text>
+        <text x="972" y="273" id="plus_node_240">0</text><text x="986" y="273" id="plus_node_241">1</text><text x="1001" y="273" id="plus_node_242">0</text><text x="1013" y="273" id="plus_node_243">1</text>
+        <text x="1028" y="273" id="plus_node_244">0</text><text x="1043" y="273" id="plus_node_245">1</text><text x="1058" y="273" id="plus_node_246">0</text><text x="1072" y="273" id="plus_node_247">1</text>
+        <text x="1087" y="273" id="plus_node_248">0</text><text x="1102" y="273" id="plus_node_249">1</text><text x="1117" y="273" id="plus_node_250">0</text><text x="1131" y="273" id="plus_node_251">1</text>
+      </g>
+    </g>
+  </g>
+</svg>

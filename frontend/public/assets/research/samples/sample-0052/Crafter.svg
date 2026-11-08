@@ -1,0 +1,246 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1395 696" width="1395" height="696">
+  <defs>
+    <marker id="arrow-gray" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#55585c"/>
+    </marker>
+    <marker id="arrow-green" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#58bb62"/>
+    </marker>
+    <marker id="arrow-orange" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#f3a13a"/>
+    </marker>
+    <marker id="arrow-orange-open" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0.8,0.7 L7.4,3 L0.8,5.3 Z" fill="#fff4c5" stroke="#f3a13a" stroke-width="1.2" stroke-linejoin="round"/>
+    </marker>
+    <marker id="arrow-gray-open" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0.8,0.7 L7.4,3 L0.8,5.3 Z" fill="#d8dfe7" stroke="#55585c" stroke-width="1.2" stroke-linejoin="round"/>
+    </marker>
+    <marker id="arrow-magenta" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#df1aa9"/>
+    </marker>
+    <marker id="arrow-blue" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#278cda"/>
+    </marker>
+    <marker id="arrow-lightblue" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#7ab9eb"/>
+    </marker>
+  </defs>
+
+  <path d="M0,0 H1395 V696 H0 Z
+           M1192,188 H1330 V268 H1192 Z
+           M917,527 H965 V573 H917 Z
+           M1052,528 H1100 V575 H1052 Z" fill="#ffffff" fill-rule="evenodd"/>
+
+  <!-- outer loop and state input -->
+  <path d="M100,558 H40 V112 Q40,108 44,108 H258" fill="none" stroke="#55585c" stroke-width="1.8"/>
+  <path d="M258,108 H296" fill="none" stroke="#55585c" stroke-width="1.8" marker-end="url(#arrow-gray)"/>
+  <path d="M322,558 H100" fill="none" stroke="#55585c" stroke-width="1.8" marker-end="url(#arrow-gray)"/>
+  <path d="M75,585 V528" fill="none" stroke="#55585c" stroke-width="1.8"/>
+  <text x="67" y="154" font-family="serif" font-size="38" font-style="italic" fill="#000">sₜ</text>
+  <text x="104" y="154" font-family="serif" font-size="38" fill="#000">=</text>
+
+  <!-- small q card in state -->
+  <g>
+    <path d="M133,121 H169 L185,137 V166 H133 Z" fill="#fff0fb" stroke="#df1bb2" stroke-width="2"/>
+    <path d="M169,121 V137 H185" fill="none" stroke="#df1bb2" stroke-width="2"/>
+    <text x="149" y="154" text-anchor="middle" font-family="serif" font-size="30" font-style="italic" fill="#000">q</text>
+  </g>
+  <text x="194" y="154" font-family="serif" font-size="32" fill="#000">{</text>
+  <g>
+    <path d="M209,120 H241 L256,135 V166 H209 Z" fill="#d4dbe3" stroke="#3f4854" stroke-width="2"/>
+    <path d="M241,120 V135 H256" fill="none" stroke="#3f4854" stroke-width="2"/>
+    <text x="232" y="154" text-anchor="middle" font-family="serif" font-size="30" font-style="italic" fill="#000">c⁴</text>
+  </g>
+  <text x="259" y="154" font-family="serif" font-size="32" fill="#000">}</text>
+
+  <!-- Q-RAG Agent container -->
+  <text x="636" y="40" font-family="sans-serif" font-size="28" fill="#6d737c">Q-RAG Agent</text>
+  <rect x="297" y="61" width="863" height="270" rx="4" fill="none" stroke="#c6e8b3" stroke-width="5"/>
+
+  <rect x="322" y="82" width="461" height="53" rx="4" fill="#c7e9ae" stroke="#111" stroke-width="2"/>
+  <text x="553" y="113" text-anchor="middle" font-family="sans-serif" font-size="22" fill="#000">State Embedder</text>
+
+  <rect x="316" y="269" width="461" height="48" rx="3" fill="#c7e9ae" stroke="#111" stroke-width="2"/>
+  <text x="548" y="298" text-anchor="middle" font-family="sans-serif" font-size="22" fill="#000">Action Embedder</text>
+
+  <rect x="809" y="107" width="154" height="144" fill="#e3f8dc" stroke="none"/>
+  <text x="838" y="94" font-family="sans-serif" font-size="22" fill="#8c9298">Q values</text>
+  <text x="817" y="142" font-family="serif" font-size="30" font-style="italic" fill="#000">Q<tspan font-size="20">θ</tspan>(sₜ, c⁰)</text>
+  <text x="879" y="177" font-family="serif" font-size="34" fill="#000">⋮</text>
+  <text x="817" y="225" font-family="serif" font-size="30" font-style="italic" fill="#000">Q<tspan font-size="20">θ</tspan>(sₜ, c⁵)</text>
+
+  <!-- green embedding flows -->
+  <path d="M553,135 V158 Q553,164 560,164 H807" fill="none" stroke="#5cc66b" stroke-width="1.8" marker-end="url(#arrow-green)"/>
+  <text x="558" y="191" font-family="serif" font-size="32" font-style="italic" fill="#000">e<tspan font-size="20">sₜ</tspan></text>
+  <path d="M605,190 H807" fill="none" stroke="#5cc66b" stroke-width="1.8" marker-end="url(#arrow-green)"/>
+
+  <path d="M354,269 V205 Q354,203 358,203 H745" fill="none" stroke="#58bb62" stroke-width="1.8"/>
+  <path d="M428,269 V205" fill="none" stroke="#58bb62" stroke-width="1.8"/>
+  <path d="M510,269 V205" fill="none" stroke="#58bb62" stroke-width="1.8"/>
+  <path d="M594,269 V205" fill="none" stroke="#58bb62" stroke-width="1.8"/>
+  <path d="M744,269 V205" fill="none" stroke="#58bb62" stroke-width="1.8"/>
+  <path d="M745,203 H807" fill="none" stroke="#58bb62" stroke-width="1.8" marker-end="url(#arrow-green)"/>
+  <text x="334" y="239" font-family="serif" font-size="31" font-style="italic" fill="#000">e<tspan font-size="19">c0</tspan></text>
+  <text x="414" y="239" font-family="serif" font-size="31" font-style="italic" fill="#000">e<tspan font-size="19">c1</tspan></text>
+  <text x="496" y="239" font-family="serif" font-size="31" font-style="italic" fill="#000">e<tspan font-size="19">c2</tspan></text>
+  <text x="579" y="239" font-family="serif" font-size="31" font-style="italic" fill="#000">e<tspan font-size="19">c3</tspan></text>
+  <text x="659" y="239" font-family="serif" font-size="30" fill="#000">×</text>
+  <text x="730" y="239" font-family="serif" font-size="31" font-style="italic" fill="#000">e<tspan font-size="19">c5</tspan></text>
+
+  <!-- policy and output -->
+  <path d="M963,178 H998" fill="none" stroke="#58bb62" stroke-width="1.8" marker-end="url(#arrow-green)"/>
+  <text x="1007" y="190" font-family="serif" font-size="36" font-style="italic" fill="#000">π(·|sₜ)</text>
+  <path d="M1125,184 H1191" fill="none" stroke="#55585c" stroke-width="2" marker-end="url(#arrow-gray)"/>
+  <text x="1203" y="159" font-family="serif" font-size="38" font-style="italic" fill="#000">aₜ = c³</text>
+
+  <!-- selected action document callout -->
+  <g>
+    <path d="M1193,189 H1315 L1330,204 V268 H1193 Z" fill="#fff4c5" stroke="#f4a23b" stroke-width="2"/>
+    <path d="M1315,189 V204 H1330" fill="none" stroke="#f4a23b" stroke-width="2"/>
+    <text x="1261" y="216" text-anchor="middle" font-family="sans-serif" font-size="14" fill="#111">
+      <tspan x="1261">...that, he spent</tspan>
+      <tspan x="1261" dy="1.15em">twenty minutes at a</tspan>
+      <tspan x="1261" dy="1.15em">café...</tspan>
+    </text>
+  </g>
+
+  <!-- right return line from selected action into next state -->
+  <path d="M1330,228 H1347 V558 H1130" fill="none" stroke="#55585c" stroke-width="1.8" marker-end="url(#arrow-gray)"/>
+
+  <!-- document row labels/cards -->
+  <text x="169" y="382" font-family="serif" font-size="30" font-style="italic" fill="#000">c⁰</text>
+  <text x="307" y="382" font-family="serif" font-size="30" font-style="italic" fill="#000">c¹</text>
+  <text x="446" y="382" font-family="serif" font-size="30" font-style="italic" fill="#000">c²</text>
+  <text x="584" y="382" font-family="serif" font-size="30" font-style="italic" fill="#000">c³</text>
+  <text x="724" y="382" font-family="serif" font-size="30" font-style="italic" fill="#000">c⁴</text>
+  <text x="862" y="382" font-family="serif" font-size="30" font-style="italic" fill="#000">c⁵</text>
+
+  <text x="136" y="441" font-family="serif" font-size="72" fill="#9aa0a6">{</text>
+
+  <g>
+    <path d="M169,390 H286 L300,404 V459 H169 Z" fill="#fff4c5" stroke="#f4a23b" stroke-width="2"/>
+    <path d="M286,390 V404 H300" fill="none" stroke="#f4a23b" stroke-width="2"/>
+    <text x="234" y="421" text-anchor="middle" font-family="sans-serif" font-size="14" fill="#111">
+      <tspan x="234">...John stayed</tspan>
+      <tspan x="234" dy="1.1em">late at the office...</tspan>
+    </text>
+  </g>
+  <g>
+    <path d="M306,390 H423 L437,404 V459 H306 Z" fill="#fff4c5" stroke="#f4a23b" stroke-width="2"/>
+    <path d="M423,390 V404 H437" fill="none" stroke="#f4a23b" stroke-width="2"/>
+    <text x="371" y="420" text-anchor="middle" font-family="sans-serif" font-size="14" fill="#111">
+      <tspan x="371">...He briefly</tspan>
+      <tspan x="371" dy="1.1em">stopped by</tspan>
+      <tspan x="371" dy="1.1em">home...</tspan>
+    </text>
+  </g>
+  <g>
+    <path d="M444,390 H561 L575,404 V459 H444 Z" fill="#fff4c5" stroke="#f4a23b" stroke-width="2"/>
+    <path d="M561,390 V404 H575" fill="none" stroke="#f4a23b" stroke-width="2"/>
+    <text x="510" y="418" text-anchor="middle" font-family="sans-serif" font-size="13.5" fill="#111">
+      <tspan x="510">he bought</tspan>
+      <tspan x="510" dy="1.15em">something at the</tspan>
+      <tspan x="510" dy="1.15em">pharmacy...</tspan>
+    </text>
+  </g>
+  <g>
+    <path d="M582,390 H699 L713,404 V459 H582 Z" fill="#fff4c5" stroke="#f4a23b" stroke-width="2"/>
+    <path d="M699,390 V404 H713" fill="none" stroke="#f4a23b" stroke-width="2"/>
+    <text x="647" y="418" text-anchor="middle" font-family="sans-serif" font-size="14" fill="#111">
+      <tspan x="647">...that, he spent</tspan>
+      <tspan x="647" dy="1.1em">twenty minutes at</tspan>
+      <tspan x="647" dy="1.1em">a café...</tspan>
+    </text>
+  </g>
+  <g>
+    <path d="M721,390 H839 L853,404 V459 H721 Z" fill="#d8dfe7" stroke="#3f4854" stroke-width="2"/>
+    <path d="M839,390 V404 H853" fill="none" stroke="#3f4854" stroke-width="2"/>
+    <text x="787" y="418" text-anchor="middle" font-family="sans-serif" font-size="14" fill="#111">
+      <tspan x="787">Outside his</tspan>
+      <tspan x="787" dy="1.1em">place, he realized</tspan>
+      <tspan x="787" dy="1.1em">his keys were</tspan>
+    </text>
+  </g>
+  <g>
+    <path d="M861,390 H978 L992,404 V459 H861 Z" fill="#fff4c5" stroke="#f4a23b" stroke-width="2"/>
+    <path d="M978,390 V404 H992" fill="none" stroke="#f4a23b" stroke-width="2"/>
+    <text x="927" y="418" text-anchor="middle" font-family="sans-serif" font-size="14" fill="#111">
+      <tspan x="927">...He stayed</tspan>
+      <tspan x="927" dy="1.1em">overnight at his</tspan>
+      <tspan x="927" dy="1.1em">neighbor's place...</tspan>
+    </text>
+  </g>
+  <text x="1019" y="441" font-family="serif" font-size="72" fill="#9aa0a6">}</text>
+  <text x="1034" y="417" font-family="sans-serif" font-size="22" fill="#8c9298">
+    <tspan x="1034">Long-Context</tspan>
+    <tspan x="1034" dy="1.25em">Document</tspan>
+  </text>
+
+  <!-- dashed orange/gray links from documents to action embedder -->
+  <path d="M224,390 V354 H354 V319" fill="none" stroke="#f4a23b" stroke-width="1.8" stroke-dasharray="6 4" marker-end="url(#arrow-orange-open)"/>
+  <path d="M369,390 V354 H429 V319" fill="none" stroke="#f4a23b" stroke-width="1.8" stroke-dasharray="6 4" marker-end="url(#arrow-orange-open)"/>
+  <path d="M506,390 V354 H512 V319" fill="none" stroke="#f4a23b" stroke-width="1.8" stroke-dasharray="6 4" marker-end="url(#arrow-orange-open)"/>
+  <path d="M647,390 V354 H595 V319" fill="none" stroke="#f4a23b" stroke-width="1.8" stroke-dasharray="6 4" marker-end="url(#arrow-orange-open)"/>
+  <path d="M785,390 V354 H668 V319" fill="none" stroke="#55585c" stroke-width="1.8" stroke-dasharray="6 4" marker-end="url(#arrow-gray-open)"/>
+  <path d="M925,390 V354 H744 V319" fill="none" stroke="#f4a23b" stroke-width="1.8" stroke-dasharray="6 4" marker-end="url(#arrow-orange-open)"/>
+
+  <!-- environment container -->
+  <rect x="297" y="472" width="863" height="180" rx="4" fill="none" stroke="#d6ebff" stroke-width="5"/>
+  <text x="643" y="681" font-family="sans-serif" font-size="28" fill="#8c9298">Environment</text>
+  <text x="67" y="500" font-family="sans-serif" font-size="22" fill="#a6abb1">
+    <tspan x="67">Next</tspan>
+    <tspan x="67" dy="1.3em">timestep</tspan>
+  </text>
+  <text x="119" y="594" font-family="serif" font-size="34" font-style="italic" fill="#000">rₜ₊₁ , sₜ₊₁</text>
+
+  <rect x="322" y="488" width="122" height="142" rx="4" fill="#61a7f4" stroke="#111" stroke-width="2"/>
+  <text x="383" y="534" text-anchor="middle" font-family="sans-serif" font-size="22" fill="#111">
+    <tspan x="383">reward</tspan>
+    <tspan x="383" dy="1.2em">function /</tspan>
+    <tspan x="383" dy="1.2em">critic</tspan>
+  </text>
+
+  <g>
+    <path d="M537,489 H680 L696,505 V584 H537 Z" fill="#fde8fb" stroke="#df1bb2" stroke-width="2"/>
+    <path d="M680,489 V505 H696" fill="none" stroke="#df1bb2" stroke-width="2"/>
+    <text x="617" y="516" text-anchor="middle" font-family="sans-serif" font-size="14" fill="#111">
+      <tspan x="617">Question: Where</tspan>
+      <tspan x="617" dy="1.2em">could John have</tspan>
+      <tspan x="617" dy="1.2em">forgotten his keys?</tspan>
+    </text>
+  </g>
+  <g>
+    <path d="M538,583 H681 L697,599 V631 H538 Z" fill="#cfe8ff" stroke="#258fe1" stroke-width="2"/>
+    <path d="M681,583 V599 H697" fill="none" stroke="#258fe1" stroke-width="2"/>
+    <text x="617" y="611" text-anchor="middle" font-family="sans-serif" font-size="14" fill="#111">
+      <tspan x="617">Answer: cafe,</tspan>
+      <tspan x="617" dy="1.15em">pharmacy</tspan>
+    </text>
+  </g>
+
+  <path d="M537,522 H530" fill="none" stroke="#df1bb2" stroke-width="1.8" stroke-dasharray="6 4"/>
+  <path d="M500,522 H446" fill="none" stroke="#df1bb2" stroke-width="1.8" stroke-dasharray="6 4" marker-end="url(#arrow-magenta)"/>
+  <path d="M696,522 H792" fill="none" stroke="#df1bb2" stroke-width="1.8" stroke-dasharray="6 4" marker-end="url(#arrow-magenta)"/>
+  <path d="M792,565 H535" fill="none" stroke="#278cda" stroke-width="2"/>
+  <path d="M500,565 H446" fill="none" stroke="#278cda" stroke-width="2" marker-end="url(#arrow-blue)"/>
+  <path d="M538,611 H446" fill="none" stroke="#7ab9eb" stroke-width="1.6" stroke-dasharray="6 4" marker-end="url(#arrow-lightblue)"/>
+  <text x="513" y="529" font-family="serif" font-size="31" font-style="italic" fill="#000">q</text>
+  <text x="513" y="584" font-family="serif" font-size="31" font-style="italic" fill="#000">y</text>
+
+  <!-- next state panel -->
+  <rect x="793" y="490" width="337" height="112" rx="3" fill="#cfe4fb" stroke="none"/>
+  <text x="813" y="566" font-family="serif" font-size="38" font-style="italic" fill="#000">sₜ₊₁</text>
+  <text x="885" y="566" font-family="serif" font-size="38" fill="#000">=</text>
+  <text x="973" y="565" font-family="serif" font-size="36" fill="#000">{</text>
+  <g>
+    <path d="M991,529 H1026 L1040,543 V574 H991 Z" fill="#fff4c5" stroke="#f4a23b" stroke-width="2"/>
+    <path d="M1026,529 V543 H1040" fill="none" stroke="#f4a23b" stroke-width="2"/>
+    <text x="1016" y="558" text-anchor="middle" font-family="serif" font-size="27" font-style="italic" fill="#000">c³</text>
+  </g>
+  <text x="1105" y="565" font-family="serif" font-size="36" fill="#000">}</text>
+
+  <!-- RAS placeholders -->
+  <g id="RAS_03"><rect x="1192" y="188" width="138" height="80" fill="none" stroke="none"/></g>
+  <image id="icon_RAS_10" x="917" y="527" width="48" height="46" href="data:image/png;base64,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" preserveAspectRatio="xMidYMid meet"/>
+  <image id="icon_RAS_08" x="1052" y="528" width="48" height="47" href="data:image/png;base64,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" preserveAspectRatio="xMidYMid meet"/>
+</svg>

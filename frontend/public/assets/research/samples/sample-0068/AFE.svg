@@ -1,0 +1,54 @@
+<svg width="3840" height="1372" viewBox="0 0 3840 1372" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <marker id="arrowEnd" markerWidth="11" markerHeight="11" viewBox="0 -6 12 12" refX="12" refY="0" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,-6 L12,0 L0,6" fill="none" stroke="#000000" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+    </marker>
+    <marker id="arrowStart" markerWidth="11" markerHeight="11" viewBox="0 -6 12 12" refX="0" refY="0" orient="auto" markerUnits="strokeWidth">
+      <path d="M12,-6 L0,0 L12,6" fill="none" stroke="#000000" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+    </marker>
+  </defs>
+
+  <rect width="3840" height="1372" fill="#ffffff"/>
+
+  <rect x="68" y="75" width="2792" height="1210" rx="240" ry="240" fill="#fdfdfd" stroke="#e4e4e4" stroke-width="8"/>
+  <rect x="2904" y="82" width="852" height="1203" rx="158" ry="158" fill="#fdfdfd" stroke="#e4e4e4" stroke-width="8"/>
+
+  <text x="1464" y="202" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="82" font-weight="700" fill="#000000">EngiBench</text>
+  <text x="3330" y="207" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="82" font-weight="700" fill="#000000">EngiOpt</text>
+
+  <rect x="304" y="274" width="941" height="690" rx="119" ry="119" fill="#e9fbdd" stroke="#cfe2c5" stroke-width="8"/>
+  <rect x="257" y="378" width="944" height="687" rx="119" ry="119" fill="#e9fbdd" stroke="#cfe2c5" stroke-width="8"/>
+  <rect x="210" y="486" width="943" height="685" rx="119" ry="119" fill="#e9fbdd" stroke="#cfe2c5" stroke-width="8"/>
+  <rect x="160" y="612" width="941" height="604" rx="119" ry="119" fill="#e9fbdd" stroke="#cfe2c5" stroke-width="8"/>
+
+  <text x="398" y="358" font-family="Arial, Helvetica, sans-serif" font-size="54" font-weight="400" fill="#000000">...</text>
+  <text x="350" y="456" font-family="Arial, Helvetica, sans-serif" font-size="54" font-weight="400" fill="#000000">Beams2D</text>
+  <text x="300" y="584" font-family="Arial, Helvetica, sans-serif" font-size="54" font-weight="400" fill="#000000">HeatConduction</text>
+  <text x="250" y="710" font-family="Arial, Helvetica, sans-serif" font-size="54" font-weight="400" fill="#000000">Airfoil</text>
+
+  <rect x="241" y="762" width="786" height="176" rx="33" ry="33" fill="#c9efa8" stroke="#bfeaa0" stroke-width="8"/>
+  <rect x="241" y="979" width="786" height="178" rx="33" ry="33" fill="#c9efa8" stroke="#bfeaa0" stroke-width="8"/>
+
+  <text x="634" y="872" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="56" font-weight="400" fill="#000000">Simulator</text>
+  <text x="634" y="1098" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="56" font-weight="400" fill="#000000">Dataset</text>
+
+  <rect x="1407" y="448" width="1370" height="594" rx="114" ry="114" fill="#ffefad" stroke="#ffe176" stroke-width="8"/>
+  <rect x="1448" y="582" width="1284" height="416" rx="82" ry="82" fill="#fbf5e2" stroke="#e0e0e0" stroke-width="7"/>
+
+  <path d="M1027 805 C1145 735 1288 707 1451 687" fill="none" stroke="#000000" stroke-width="4" stroke-linecap="round" marker-start="url(#arrowStart)" marker-end="url(#arrowEnd)"/>
+  <path d="M1027 867 C1142 808 1287 790 1451 786" fill="none" stroke="#000000" stroke-width="4" stroke-linecap="round" marker-start="url(#arrowStart)" marker-end="url(#arrowEnd)"/>
+  <path d="M1028 1037 C1142 950 1288 912 1450 886" fill="none" stroke="#000000" stroke-width="4" stroke-linecap="round" marker-start="url(#arrowStart)" marker-end="url(#arrowEnd)"/>
+
+  <text x="1542" y="535" font-family="Arial, Helvetica, sans-serif" font-size="56" font-weight="400" fill="#000000">Python API</text>
+  <text x="1473" y="711" font-family="'Courier New', Courier, monospace" font-size="50" font-weight="400" letter-spacing="3.2" fill="#000000">problem.simulate(design, conds)</text>
+  <text x="1473" y="810" font-family="'Courier New', Courier, monospace" font-size="50" font-weight="400" letter-spacing="3.2" fill="#000000">problem.optimize(design, conds)</text>
+  <text x="1473" y="908" font-family="'Courier New', Courier, monospace" font-size="50" font-weight="400" letter-spacing="3.2" fill="#000000">problem.dataset</text>
+
+  <rect x="2939" y="353" width="779" height="216" rx="43" ry="43" fill="#c6def7" stroke="#abd7ff" stroke-width="8"/>
+  <rect x="2939" y="639" width="779" height="216" rx="43" ry="43" fill="#c6def7" stroke="#abd7ff" stroke-width="8"/>
+  <rect x="2939" y="922" width="779" height="216" rx="43" ry="43" fill="#c6def7" stroke="#abd7ff" stroke-width="8"/>
+
+  <text x="3329" y="491" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="54" font-weight="400" fill="#000000">Optimization</text>
+  <text x="3329" y="778" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="54" font-weight="400" fill="#000000">Surrogate Models</text>
+  <text x="3329" y="1062" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="54" font-weight="400" fill="#000000">Generative Models</text>
+</svg>

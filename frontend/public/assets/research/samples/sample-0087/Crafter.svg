@@ -1,0 +1,149 @@
+<svg viewBox="0 0 753 819" width="753" height="819" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <marker id="arrowBlack" markerWidth="8" markerHeight="6" refX="7.5" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#000000"/>
+    </marker>
+    <marker id="arrowBlue" markerWidth="8" markerHeight="6" refX="7.5" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#6f91bf"/>
+    </marker>
+    <marker id="arrowBlueDash" markerWidth="8" markerHeight="6" refX="7.5" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#9aafd0"/>
+    </marker>
+    <marker id="arrowOrange" markerWidth="8" markerHeight="6" refX="7.5" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#d7a600"/>
+    </marker>
+    <marker id="arrowGreen" markerWidth="8" markerHeight="6" refX="7.5" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#77ae63"/>
+    </marker>
+  </defs>
+
+  <rect x="0" y="0" width="753" height="819" fill="#ffffff"/>
+
+  <!-- lower data-flow arrows -->
+  <line x1="275" y1="681" x2="148" y2="549" stroke="#6f91bf" stroke-width="1.6" marker-end="url(#arrowBlue)"/>
+  <line x1="287" y1="681" x2="333" y2="559" stroke="#9aafd0" stroke-width="1.2" stroke-dasharray="6 6" marker-end="url(#arrowBlueDash)"/>
+  <line x1="375" y1="681" x2="582" y2="559" stroke="#9aafd0" stroke-width="1.2" stroke-dasharray="6 6" marker-end="url(#arrowBlueDash)"/>
+  <line x1="369" y1="681" x2="391" y2="559" stroke="#d7a600" stroke-width="1.7" marker-end="url(#arrowOrange)"/>
+  <line x1="450" y1="681" x2="637" y2="559" stroke="#77ae63" stroke-width="1.7" marker-end="url(#arrowGreen)"/>
+
+  <!-- top vertical arrows to caches -->
+  <line x1="105" y1="167" x2="105" y2="127" stroke="#000000" stroke-width="1.5" marker-end="url(#arrowBlack)"/>
+  <line x1="354" y1="167" x2="354" y2="127" stroke="#000000" stroke-width="1.5" marker-end="url(#arrowBlack)"/>
+  <line x1="589" y1="167" x2="589" y2="127" stroke="#000000" stroke-width="1.5" marker-end="url(#arrowBlack)"/>
+
+  <!-- vertical arrows from inputs/anchors to hosts -->
+  <line x1="105" y1="504" x2="105" y2="441" stroke="#000000" stroke-width="1.5" marker-end="url(#arrowBlack)"/>
+  <line x1="354" y1="512" x2="354" y2="441" stroke="#000000" stroke-width="1.5" marker-end="url(#arrowBlack)"/>
+  <line x1="589" y1="512" x2="589" y2="441" stroke="#000000" stroke-width="1.5" marker-end="url(#arrowBlack)"/>
+
+  <!-- host containers -->
+  <rect x="33" y="167" width="144" height="226" rx="18" ry="18" fill="#f1f1f1" stroke="#666666" stroke-width="1.4"/>
+  <rect x="282" y="167" width="144" height="226" rx="18" ry="18" fill="#f1f1f1" stroke="#666666" stroke-width="1.4"/>
+  <rect x="517" y="167" width="144" height="226" rx="18" ry="18" fill="#f1f1f1" stroke="#666666" stroke-width="1.4"/>
+
+  <!-- internal upward arrows -->
+  <line x1="105" y1="335" x2="105" y2="308" stroke="#000000" stroke-width="1.4" marker-end="url(#arrowBlack)"/>
+  <line x1="354" y1="335" x2="354" y2="308" stroke="#000000" stroke-width="1.4" marker-end="url(#arrowBlack)"/>
+  <line x1="589" y1="335" x2="589" y2="308" stroke="#000000" stroke-width="1.4" marker-end="url(#arrowBlack)"/>
+
+  <!-- layer boxes host 1 -->
+  <rect x="48" y="180" width="115" height="42" rx="5" ry="5" fill="#ffffff" stroke="#000000" stroke-width="1.6"/>
+  <rect x="48" y="265" width="115" height="42" rx="5" ry="5" fill="#ffffff" stroke="#000000" stroke-width="1.6"/>
+  <rect x="48" y="335" width="115" height="42" rx="5" ry="5" fill="#ffffff" stroke="#000000" stroke-width="1.6"/>
+
+  <!-- layer boxes host 2 -->
+  <rect x="297" y="180" width="115" height="42" rx="5" ry="5" fill="#ffffff" stroke="#000000" stroke-width="1.6"/>
+  <rect x="297" y="265" width="115" height="42" rx="5" ry="5" fill="#ffffff" stroke="#000000" stroke-width="1.6"/>
+  <rect x="297" y="335" width="115" height="42" rx="5" ry="5" fill="#ffffff" stroke="#000000" stroke-width="1.6"/>
+
+  <!-- layer boxes host 3 -->
+  <rect x="532" y="180" width="115" height="42" rx="5" ry="5" fill="#ffffff" stroke="#000000" stroke-width="1.6"/>
+  <rect x="532" y="265" width="115" height="42" rx="5" ry="5" fill="#ffffff" stroke="#000000" stroke-width="1.6"/>
+  <rect x="532" y="335" width="115" height="42" rx="5" ry="5" fill="#ffffff" stroke="#000000" stroke-width="1.6"/>
+
+  <!-- top cache boxes -->
+  <rect x="80" y="35" width="51" height="45" rx="6" ry="6" fill="#ffffff" stroke="#8aa9cd" stroke-width="1.8"/>
+  <rect x="301" y="35" width="51" height="45" rx="6" ry="6" fill="none" stroke="#9aaed2" stroke-width="1.4" stroke-dasharray="6 4"/>
+  <rect x="350" y="35" width="50" height="45" rx="6" ry="6" fill="#fff8e5" stroke="#d9ad2c" stroke-width="1.6"/>
+  <line x1="297" y1="91" x2="365" y2="23" stroke="#000000" stroke-width="1.6"/>
+
+  <rect x="548" y="35" width="51" height="45" rx="6" ry="6" fill="none" stroke="#9aaed2" stroke-width="1.4" stroke-dasharray="6 4"/>
+  <rect x="598" y="35" width="50" height="45" rx="6" ry="6" fill="#eef8e8" stroke="#8fc87f" stroke-width="1.6"/>
+  <line x1="542" y1="91" x2="610" y2="23" stroke="#000000" stroke-width="1.6"/>
+
+  <!-- input / anchor boxes -->
+  <rect x="80" y="504" width="67" height="44" rx="7" ry="7" fill="#d6e7fb" stroke="#86a7cf" stroke-width="1.5"/>
+
+  <rect x="299" y="512" width="69" height="44" rx="7" ry="7" fill="none" stroke="#9aaed2" stroke-width="1.4" stroke-dasharray="6 4"/>
+  <rect x="363" y="512" width="70" height="44" rx="7" ry="7" fill="#f9e6c8" stroke="#d9ab2d" stroke-width="1.6"/>
+
+  <rect x="548" y="512" width="69" height="44" rx="7" ry="7" fill="none" stroke="#9aaed2" stroke-width="1.4" stroke-dasharray="6 4"/>
+  <rect x="613" y="512" width="70" height="44" rx="7" ry="7" fill="#def0d9" stroke="#8cc27b" stroke-width="1.6"/>
+
+  <!-- context boxes -->
+  <rect x="244" y="682" width="82" height="49" rx="7" ry="7" fill="#d6e7fb" stroke="#86a7cf" stroke-width="1.6"/>
+  <rect x="326" y="682" width="84" height="49" rx="7" ry="7" fill="#f9e6c8" stroke="#d9ab2d" stroke-width="1.6"/>
+  <rect x="410" y="682" width="82" height="49" rx="7" ry="7" fill="#def0d9" stroke="#8cc27b" stroke-width="1.6"/>
+
+  <!-- three separate braces above context -->
+  <path d="M247 659 C252 659 253 653 259 653 C263 653 263 651 267 651 L303 651 C307 651 307 653 311 653 C318 653 318 659 323 659" fill="none" stroke="#9a9a9a" stroke-width="1.3"/>
+  <path d="M331 659 C336 659 337 653 343 653 C347 653 347 651 351 651 L386 651 C390 651 390 653 394 653 C401 653 401 659 406 659" fill="none" stroke="#9a9a9a" stroke-width="1.3"/>
+  <path d="M414 659 C419 659 420 653 426 653 C430 653 430 651 434 651 L471 651 C475 651 475 653 479 653 C486 653 486 659 489 659" fill="none" stroke="#9a9a9a" stroke-width="1.3"/>
+
+  <!-- query legend -->
+  <rect x="630" y="680" width="88" height="57" rx="2" ry="2" fill="none" stroke="#777777" stroke-width="1.5" stroke-dasharray="7 5"/>
+
+  <!-- text -->
+  <g font-family="Helvetica, Arial, sans-serif" fill="#000000">
+    <!-- cache labels -->
+    <text x="105" y="65" font-size="22" text-anchor="middle">C1</text>
+    <text x="326" y="65" font-size="22" text-anchor="middle">C1</text>
+    <text x="375" y="65" font-size="22" text-anchor="middle">C2</text>
+    <text x="573" y="65" font-size="22" text-anchor="middle">C1</text>
+    <text x="623" y="65" font-size="22" text-anchor="middle">C3</text>
+
+    <text x="105" y="112" font-size="23" text-anchor="middle">KV-Cache</text>
+    <text x="354" y="112" font-size="23" text-anchor="middle">KV-Cache</text>
+    <text x="589" y="112" font-size="23" text-anchor="middle">KV-Cache</text>
+
+    <!-- layers host 1 -->
+    <text x="105" y="209" font-size="23" text-anchor="middle">Layer N</text>
+    <text x="105" y="294" font-size="23" text-anchor="middle">Layer 2</text>
+    <text x="105" y="364" font-size="23" text-anchor="middle">Layer 1</text>
+    <text x="105" y="250" font-size="28" text-anchor="middle">⋮</text>
+
+    <!-- layers host 2 -->
+    <text x="354" y="209" font-size="23" text-anchor="middle">Layer N</text>
+    <text x="354" y="294" font-size="23" text-anchor="middle">Layer 2</text>
+    <text x="354" y="364" font-size="23" text-anchor="middle">Layer 1</text>
+    <text x="354" y="250" font-size="28" text-anchor="middle">⋮</text>
+
+    <!-- layers host 3 -->
+    <text x="589" y="209" font-size="23" text-anchor="middle">Layer N</text>
+    <text x="589" y="294" font-size="23" text-anchor="middle">Layer 2</text>
+    <text x="589" y="364" font-size="23" text-anchor="middle">Layer 1</text>
+    <text x="589" y="250" font-size="28" text-anchor="middle">⋮</text>
+
+    <text x="105" y="424" font-size="24" text-anchor="middle">Host 1</text>
+    <text x="354" y="424" font-size="24" text-anchor="middle">Host 2</text>
+    <text x="589" y="424" font-size="24" text-anchor="middle">Host 3</text>
+
+    <!-- anchors and input -->
+    <text x="114" y="533" font-size="22" text-anchor="middle">C1</text>
+    <text x="333" y="541" font-size="22" text-anchor="middle">C1</text>
+    <text x="398" y="541" font-size="22" text-anchor="middle">C2</text>
+    <text x="583" y="541" font-size="22" text-anchor="middle">C1</text>
+    <text x="648" y="541" font-size="22" text-anchor="middle">C3</text>
+
+    <text x="366" y="584" font-size="22" text-anchor="middle">Anchor</text>
+    <text x="616" y="584" font-size="22" text-anchor="middle">Anchor</text>
+
+    <!-- context -->
+    <text x="285" y="714" font-size="22" text-anchor="middle">C1</text>
+    <text x="368" y="714" font-size="22" text-anchor="middle">C2</text>
+    <text x="451" y="714" font-size="22" text-anchor="middle">C3</text>
+    <text x="368" y="770" font-size="24" text-anchor="middle">Context</text>
+
+    <text x="674" y="717" font-size="22" text-anchor="middle">Query</text>
+  </g>
+</svg>

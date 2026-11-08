@@ -1,0 +1,67 @@
+{
+  "commit": "21ffc01271904d6c5610f0f96afd84530968f11e",
+  "profile": "upstream-factual-ds41-v1",
+  "declared_overrides": {
+    "budget_usd": 5,
+    "G1_G2": {
+      "model": "deepseek-flash",
+      "input_usd_per_million": 0.3,
+      "cached_usd_per_million": 0.006,
+      "output_usd_per_million": 1.2
+    },
+    "price_basis": "DS V4.1 Flash peak-rate reserve, checked 2026-11-05; G0 upstream rates"
+  },
+  "source_files_checked": 1111,
+  "portability_patches": [
+    "adapters/raw_evidence.py",
+    "src/figfox_plus/factual/pipeline.py",
+    "src/figfox_plus/providers.py"
+  ],
+  "cases": [
+    {
+      "size": [
+        80,
+        64
+      ],
+      "sam_crops": 0,
+      "requests_equal": true,
+      "models": [
+        "gpt-5.5",
+        "deepseek-flash",
+        "deepseek-flash"
+      ],
+      "body_sha256": [
+        "abfcae0fe889603dfab264f3c8276470833d0d8a4682326444119ef1bd81483a",
+        "9a797057b5effc087105217e6ddd7714162b459281aedca24ac513676f0a422e",
+        "cd72c4042d3e30ce79da66826eec8f10863628a453a62279bf08441e008e805e"
+      ],
+      "outputs_equal": true,
+      "executed_operations": 0,
+      "completed_reuse_calls": 0
+    },
+    {
+      "size": [
+        609,
+        277
+      ],
+      "sam_crops": 3,
+      "requests_equal": true,
+      "models": [
+        "gpt-5.5",
+        "deepseek-flash",
+        "deepseek-flash"
+      ],
+      "body_sha256": [
+        "ff232926bc6d87019caeca9ba2d308de5d9aa133e4dbaa9193d11a06880232c6",
+        "975de2d8dfa63cd0ca5e21682e1dab74705adbcf63f5a2f8e4f076325ef9bd08",
+        "0d38f186d33130476a7916707fe3d8e2df46d87bd074fa5868be2ce2e68bb3ad"
+      ],
+      "outputs_equal": true,
+      "executed_operations": 1,
+      "completed_reuse_calls": 0
+    }
+  ],
+  "network_requests": 0,
+  "paid_calls": 0,
+  "scope": "Upstream entry and web worker use the same declared config; exact HTTP bodies and outputs for offline fixtures; no live validation"
+}

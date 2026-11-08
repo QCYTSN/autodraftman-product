@@ -1,7 +1,7 @@
 # FigFox Product
 
 This repository is the source of truth for the FigFox web product.
-Research experiments and generated runs remain in the original FYP repository.
+Research experiments and generated runs remain in the separate FigFox kernel repository.
 
 ## Repository roles
 
@@ -11,9 +11,9 @@ Research experiments and generated runs remain in the original FYP repository.
 - `QCYTSN/figfox` is a static GitHub Pages deployment mirror. It may
   receive built assets from a reviewed product commit, but product features
   must not be edited there.
-- `LawrenceRiver/fyp_AutoDraftman` remains the research and generation-kernel
-  repository. Kernel work should enter this repository only through an agreed
-  runtime or API contract.
+- `LawrenceRiver/FigFox` is the current research and generation-kernel
+  repository, available locally in the sibling `FigFox-926` directory. Kernel
+  work should enter this repository only through an agreed runtime or API contract.
 
 Do not copy source changes back from a deployment mirror. Product development
 starts here, is reviewed here, and is deployed outward from a known commit.
@@ -52,6 +52,23 @@ npm run dev
 The frontend is available at `http://127.0.0.1:5173` and the API at
 `http://127.0.0.1:8000`.
 
+The showcase and product pages can run without the API. The static release includes
+a real local SVG editor, browser draft storage, a guide and proposed pricing.
+Account sign-in, subscriptions and generation are visibly unavailable until their
+services are deployed. The complete showcase uses a selected static asset set in
+`frontend/public/assets/demo/cases/`, with origins and checksums recorded in its
+manifest. Development and production include the same editing, comparison,
+mechanism and repair demonstrations. Missing evaluation charts show placeholders.
+Raw experiment runs and user uploads remain outside the product repository.
+See `docs/figfox-completion-audit-2026-10-04.md`.
+
+The public feedback page opens a draft in `QCYTSN/figfox` GitHub Issues for the
+visitor to review and publish. It also supports copying the message and retaining
+the draft in the current browser tab; it never simulates a successful submission.
+The current local data handling is explained before draft policies for future
+account and cloud services. The proposed restricted kernel integration is retained
+in `docs/research/figfox-private-beta-deferred-2026-10-04.md` and is not deployed.
+
 ## Product information pages
 
 The bilingual product interface includes:
@@ -61,7 +78,7 @@ The bilingual product interface includes:
 - `/terms` — internal-test terms draft
 - `/content-policy` — responsible-use and scientific-integrity rules
 
-These pages are intentionally marked as drafts. The operating entity, formal
+The policy and terms pages are intentionally marked as drafts. The operating entity, formal
 contact channel, deployment regions, generation providers, payment terms, and
 governing law must be confirmed before public testing.
 
@@ -72,6 +89,9 @@ Set-Location frontend
 npm ci
 npm run build
 npm run review:quality
+npm run review:product
+npm run review:documents
+npm run review:showcase
 
 Set-Location ..\backend
 python -m pip install -e ".[dev]"

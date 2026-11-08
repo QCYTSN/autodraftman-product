@@ -1,0 +1,244 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1070" height="532" viewBox="0 0 1070 532">
+  <title>OmniRet contrastive and triplet learning architecture</title>
+  <desc>Complete editable reconstruction of the figure: left legend for frozen/trainable icons, central OmniRet query-side network with stacked pooling/LLM/resampler/projector/encoder modules, lower omni-modality query panel with text prompts and media examples, right omni-modality candidate panel with video/audio/image/text examples, embeddings, dashed arrows and loss annotations. Confirmed SAM assets replace only small frozen/trainable icons and waveform crops after visible SVG construction.</desc>
+  <defs>
+    <linearGradient id="iceGrad" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#bff5ff" />
+      <stop offset="0.45" stop-color="#66dfff" />
+      <stop offset="1" stop-color="#23a7e3" />
+    </linearGradient>
+    <linearGradient id="iceFacet" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#e8ffff" />
+      <stop offset="1" stop-color="#7bd8ff" />
+    </linearGradient>
+    <linearGradient id="flameGrad" x1="0" y1="1" x2="0" y2="0">
+      <stop offset="0" stop-color="#ff2a00" />
+      <stop offset="0.45" stop-color="#ff8b00" />
+      <stop offset="1" stop-color="#fff400" />
+    </linearGradient>
+    <marker id="arrowBlack" markerUnits="userSpaceOnUse" markerWidth="8" markerHeight="7" refX="8" refY="3.5" orient="auto">
+      <path d="M0,0 L8,3.5 L0,7 Z" fill="#111" id="plus_node_0" />
+    </marker>
+    <marker id="arrowBlackSmall" markerUnits="userSpaceOnUse" markerWidth="6" markerHeight="7" refX="6" refY="3.5" orient="auto">
+      <path d="M0,0 L6,3.5 L0,7 Z" fill="#111" id="plus_node_1" />
+    </marker>
+    <marker id="arrowOrange" markerUnits="userSpaceOnUse" markerWidth="6" markerHeight="7" refX="6" refY="3.5" orient="auto">
+      <path d="M0,0 L6,3.5 L0,7 Z" fill="#f07c00" id="plus_node_2" />
+    </marker>
+    <marker id="arrowBlue" markerUnits="userSpaceOnUse" markerWidth="6" markerHeight="7" refX="6" refY="3.5" orient="auto">
+      <path d="M0,0 L6,3.5 L0,7 Z" fill="#138bd3" id="plus_node_3" />
+    </marker>
+    <marker id="arrowGray" markerUnits="userSpaceOnUse" markerWidth="18" markerHeight="16" refX="16" refY="8" orient="auto">
+      <path d="M0,0 L18,8 L0,16 Z" fill="#b8b8b8" id="plus_node_4" />
+    </marker>
+    <style>
+      .font{font-family:Arial, Helvetica, sans-serif}
+      .bold{font-weight:700}
+      .italic{font-style:italic}
+      .dash{stroke-dasharray:9 7}
+      .dot{stroke-dasharray:1.2 4;stroke-linecap:round}
+      .small{font-size:16px}
+      .med{font-size:18px}
+      .large{font-size:22px}
+    </style>
+  </defs>
+
+  <rect id="f00_canvas" data-plus-kind="frame" x="0" y="0" width="1070" height="532" fill="#ffffff" />
+
+  <g id="legend_block">
+    <desc>Legend frame at the left: blue ice cube marks Frozen and flame marks Trainable.</desc>
+    <rect id="f07_legend" data-plus-kind="frame" x="58" y="268" width="112" height="66" fill="none" stroke="none" />
+    <text class="font small" x="90" y="291" fill="#000" id="plus_node_10">Frozen</text>
+    <text class="font small" x="90" y="324" fill="#000" id="plus_node_13">Trainable</text>
+  </g>
+
+  <g id="top_losses_and_embeddings">
+    <desc>Top embedding labels and loss arrows: the central loss spans query and candidate embeddings with dashed black arrows.</desc>
+    <rect id="f04_query_embedding" data-plus-kind="frame" x="320" y="56" width="192" height="37" fill="#dfe8f3" stroke="none" />
+    <text class="font med" x="333" y="81" fill="#000" id="plus_node_14">Query Embedding <tspan class="bold">h</tspan><tspan class="bold" baseline-shift="sub" font-size="12">q</tspan></text>
+    <rect id="f05_candidate_embedding" data-plus-kind="frame" x="742" y="56" width="221" height="37" fill="#dfe8f3" stroke="none" />
+    <text class="font med" x="752" y="81" fill="#000" id="plus_node_15">Candidate Embedding <tspan class="bold">h</tspan><tspan class="bold" baseline-shift="sub" font-size="12">c</tspan></text>
+
+    <text class="font italic small" x="527" y="38" fill="#000" id="plus_node_16">Contrastive &amp; Triplet loss</text>
+    <text class="font italic small" x="568" y="62" fill="#000" id="plus_node_17">L<tspan baseline-shift="sub" font-size="11">cont</tspan> &amp; L<tspan baseline-shift="sub" font-size="11">triplet</tspan></text>
+    <path id="loss_arrow_from_query" d="M416 57 L416 44 L506 44" fill="none" stroke="#111" stroke-width="2" stroke-dasharray="9 7" marker-end="url(#arrowBlackSmall)" />
+    <path id="loss_arrow_from_candidate" d="M852 57 L852 44 L743 44" fill="none" stroke="#111" stroke-width="2" stroke-dasharray="9 7" marker-end="url(#arrowBlackSmall)" />
+    <path id="query_embed_up" d="M416 110 L416 94" fill="none" stroke="#111" stroke-width="2" marker-end="url(#arrowBlackSmall)" />
+    <path id="candidate_embed_up" d="M853 110 L853 94" fill="none" stroke="#111" stroke-width="2" marker-end="url(#arrowBlackSmall)" />
+  </g>
+
+  <g id="main_network">
+    <desc>Central OmniRet query-side model. Origin is the outer rounded green frame; contents are stacked vertically with bilateral visual/audio branches below the shared media resampler. Symmetry basis: visual and audio branches are horizontally paired under shared media resampler; upper pooling and LLM bars span the full model width.</desc>
+    <rect id="f01_main_omniret_model" data-plus-kind="frame" x="174" y="110" width="483" height="222" rx="13" ry="13" fill="#d9f8de" stroke="#5ead35" stroke-width="2.2" />
+    <rect id="f01_bar_attention" data-plus-kind="frame" x="180" y="118" width="468" height="36" rx="6" ry="6" fill="#cb9800" stroke="none" />
+    <text class="font small" x="269" y="142" fill="#fff" id="plus_node_18">Attention Sliced Wasserstein Pooling</text>
+    <rect id="f01_bar_llm" data-plus-kind="frame" x="180" y="158" width="468" height="37" rx="6" ry="6" fill="#ffe99c" stroke="none" />
+    <text class="font small" x="285" y="182" fill="#000" id="plus_node_21">Large Language Model</text>
+    <text class="font small" x="490" y="182" fill="#000" id="plus_node_26">+ LoRA</text>
+    <rect id="f01_bar_resampler" data-plus-kind="frame" x="180" y="207" width="346" height="36" rx="4" ry="4" fill="#4f8738" stroke="none" />
+    <text class="font small" x="253" y="230" fill="#fff" id="plus_node_29">Shared Media Resampler</text>
+    <rect id="f01_bar_visual_projector" data-plus-kind="frame" x="180" y="247" width="164" height="36" rx="4" ry="4" fill="#ffc18f" stroke="none" />
+    <text class="font small" x="197" y="270" fill="#000" id="plus_node_32">Visual Projector</text>
+    <rect id="f01_bar_audio_projector" data-plus-kind="frame" x="362" y="247" width="164" height="36" rx="4" ry="4" fill="#bde2ff" stroke="none" />
+    <text class="font small" x="382" y="270" fill="#000" id="plus_node_35">Audio Projector</text>
+    <rect id="f01_bar_visual_encoder" data-plus-kind="frame" x="180" y="286" width="164" height="36" rx="4" ry="4" fill="#e36f10" stroke="none" />
+    <text class="font small" x="226" y="309" fill="#fff" id="plus_node_38">Visual Encoder</text>
+    <rect id="f01_bar_audio_encoder" data-plus-kind="frame" x="362" y="286" width="164" height="36" rx="4" ry="4" fill="#2f7fc2" stroke="none" />
+    <text class="font small" x="408" y="309" fill="#fff" id="plus_node_43">Audio Encoder</text>
+    <text class="font large bold" x="547" y="275" fill="#000" id="plus_node_48">OmniRet</text>
+  </g>
+
+  <g id="diversity_loss">
+    <desc>Diversity loss bracket at left of the main model: dashed vertical guide with horizontal connector to the model branch, labeled M.</desc>
+    <text class="font italic small" x="84" y="82" fill="#000" id="plus_node_49">Diversity loss L<tspan baseline-shift="sub" font-size="11">div</tspan></text>
+    <path id="diversity_vertical_arrow" d="M155 199 L155 92" fill="none" stroke="#111" stroke-width="2" stroke-dasharray="9 7" marker-end="url(#arrowBlackSmall)" />
+    <path id="diversity_horizontal_connector" d="M156 200 L355 200" fill="none" stroke="#111" stroke-width="2" stroke-dasharray="9 7" />
+    <text class="font bold small" x="131" y="184" fill="#000" id="plus_node_50">M</text>
+  </g>
+
+  <g id="query_panel">
+    <desc>Lower left omni-modality query frame. Origin is the rounded mint frame; prompt text starts at left, dotted colored references conduct rightward to video, image and audio examples. A gray arrow points upward from this query frame to the central model.</desc>
+    <rect id="f02_query_panel" data-plus-kind="frame" x="134" y="351" width="574" height="142" rx="18" ry="18" fill="#cdf9ed" stroke="none" />
+    <path id="query_to_model_gray_arrow" d="M414 356 L414 336" fill="none" stroke="#b8b8b8" stroke-width="12" marker-end="url(#arrowGray)" />
+
+    <text class="font small bold" x="142" y="385" fill="#000" id="plus_node_51">Instruct:</text>
+    <text class="font small italic" x="217" y="385" fill="#000" id="plus_node_52">Finding ...</text>
+    <text class="font small bold" x="142" y="407" fill="#000" id="plus_node_53">Query:</text>
+    <text class="font small" x="215" y="407" fill="#000" id="plus_node_54">Video:</text>
+    <text class="font small" x="273" y="407" fill="#ff7f00" id="plus_node_55">[VIDEO]</text>
+    <text class="font small" x="215" y="429" fill="#000" id="plus_node_56">Image:</text>
+    <text class="font small" x="273" y="429" fill="#ff7f00" id="plus_node_57">[IMAGE]</text>
+    <text class="font small" x="215" y="451" fill="#000" id="plus_node_58">Audio:</text>
+    <text class="font small" x="273" y="451" fill="#138bd3" id="plus_node_59">[AUDIO]</text>
+    <text class="font small italic" x="215" y="474" fill="#000" id="plus_node_60">Change to violin</text>
+
+    <g id="query_video_filmstrip">
+      <rect id="f02_query_video_frame" data-plus-kind="frame" x="433" y="360" width="262" height="65" fill="#232323" stroke="#4b4b4b" stroke-width="1" />
+      <rect x="443" y="370" width="75" height="45" fill="#d8c3a2" id="plus_node_61" />
+      <rect x="522" y="370" width="75" height="45" fill="#d8c3a2" id="plus_node_62" />
+      <rect x="601" y="370" width="84" height="45" fill="#d8c3a2" id="plus_node_63" />
+      <path d="M443 391 C465 374 492 376 515 389" stroke="#967957" stroke-width="8" opacity=".45" id="plus_node_64" />
+      <path d="M522 391 C544 374 570 376 594 389" stroke="#967957" stroke-width="8" opacity=".45" id="plus_node_65" />
+      <path d="M601 391 C626 374 658 376 685 389" stroke="#967957" stroke-width="8" opacity=".45" id="plus_node_66" />
+      <g fill="#ffffff" id="plus_node_67">
+        <circle cx="480" cy="383" r="7" id="plus_node_68" /><rect x="469" y="390" width="23" height="23" fill="#f4f4f4" id="plus_node_69" />
+        <circle cx="565" cy="382" r="7" id="plus_node_70" /><rect x="553" y="389" width="24" height="24" fill="#f4f4f4" id="plus_node_71" />
+        <circle cx="651" cy="381" r="7" id="plus_node_72" /><rect x="639" y="388" width="24" height="25" fill="#f4f4f4" id="plus_node_73" />
+      </g>
+      <g fill="#101010" id="plus_node_74">
+        <path d="M473 380 C474 371 488 371 489 382 C484 377 478 377 473 380Z" id="plus_node_75" />
+        <path d="M558 379 C559 370 573 370 574 381 C569 376 562 376 558 379Z" id="plus_node_76" />
+        <path d="M644 378 C645 369 660 369 661 381 C655 376 649 376 644 378Z" id="plus_node_77" />
+      </g>
+      <g fill="#efefef" id="plus_node_78">
+        <rect x="438" y="362" width="5" height="5" id="plus_node_79" /><rect x="449" y="362" width="5" height="5" id="plus_node_80" /><rect x="460" y="362" width="5" height="5" id="plus_node_81" /><rect x="471" y="362" width="5" height="5" id="plus_node_82" /><rect x="482" y="362" width="5" height="5" id="plus_node_83" /><rect x="493" y="362" width="5" height="5" id="plus_node_84" /><rect x="504" y="362" width="5" height="5" id="plus_node_85" /><rect x="515" y="362" width="5" height="5" id="plus_node_86" /><rect x="526" y="362" width="5" height="5" id="plus_node_87" /><rect x="537" y="362" width="5" height="5" id="plus_node_88" /><rect x="548" y="362" width="5" height="5" id="plus_node_89" /><rect x="559" y="362" width="5" height="5" id="plus_node_90" /><rect x="570" y="362" width="5" height="5" id="plus_node_91" /><rect x="581" y="362" width="5" height="5" id="plus_node_92" /><rect x="592" y="362" width="5" height="5" id="plus_node_93" /><rect x="603" y="362" width="5" height="5" id="plus_node_94" /><rect x="614" y="362" width="5" height="5" id="plus_node_95" /><rect x="625" y="362" width="5" height="5" id="plus_node_96" /><rect x="636" y="362" width="5" height="5" id="plus_node_97" /><rect x="647" y="362" width="5" height="5" id="plus_node_98" /><rect x="658" y="362" width="5" height="5" id="plus_node_99" /><rect x="669" y="362" width="5" height="5" id="plus_node_100" /><rect x="680" y="362" width="5" height="5" id="plus_node_101" />
+        <rect x="438" y="418" width="5" height="5" id="plus_node_102" /><rect x="449" y="418" width="5" height="5" id="plus_node_103" /><rect x="460" y="418" width="5" height="5" id="plus_node_104" /><rect x="471" y="418" width="5" height="5" id="plus_node_105" /><rect x="482" y="418" width="5" height="5" id="plus_node_106" /><rect x="493" y="418" width="5" height="5" id="plus_node_107" /><rect x="504" y="418" width="5" height="5" id="plus_node_108" /><rect x="515" y="418" width="5" height="5" id="plus_node_109" /><rect x="526" y="418" width="5" height="5" id="plus_node_110" /><rect x="537" y="418" width="5" height="5" id="plus_node_111" /><rect x="548" y="418" width="5" height="5" id="plus_node_112" /><rect x="559" y="418" width="5" height="5" id="plus_node_113" /><rect x="570" y="418" width="5" height="5" id="plus_node_114" /><rect x="581" y="418" width="5" height="5" id="plus_node_115" /><rect x="592" y="418" width="5" height="5" id="plus_node_116" /><rect x="603" y="418" width="5" height="5" id="plus_node_117" /><rect x="614" y="418" width="5" height="5" id="plus_node_118" /><rect x="625" y="418" width="5" height="5" id="plus_node_119" /><rect x="636" y="418" width="5" height="5" id="plus_node_120" /><rect x="647" y="418" width="5" height="5" id="plus_node_121" /><rect x="658" y="418" width="5" height="5" id="plus_node_122" /><rect x="669" y="418" width="5" height="5" id="plus_node_123" /><rect x="680" y="418" width="5" height="5" id="plus_node_124" />
+      </g>
+    </g>
+
+    <g id="query_image_thumb">
+      <rect id="f02_query_image_frame" data-plus-kind="frame" x="457" y="432" width="90" height="46" fill="#222" stroke="none" />
+      <rect x="460" y="435" width="84" height="40" fill="#d9c09e" id="plus_node_125" />
+      <path d="M462 456 C481 441 520 441 544 457" stroke="#937655" stroke-width="7" opacity=".45" id="plus_node_126" />
+      <circle cx="501" cy="444" r="7" fill="#fff" id="plus_node_127" />
+      <rect x="491" y="451" width="22" height="22" fill="#f7f7f7" id="plus_node_128" />
+      <path d="M495 442 C496 434 509 434 510 444 C504 440 500 440 495 442Z" fill="#111" id="plus_node_129" />
+    </g>
+
+    <text class="font italic small" x="581" y="470" fill="#000" id="plus_node_132">“erhu sound”</text>
+
+    <path id="query_video_dotted" d="M338 402 C370 402 402 402 433 402" fill="none" stroke="#f07c00" stroke-width="2" stroke-dasharray="1.2 4" stroke-linecap="round" marker-end="url(#arrowOrange)" />
+    <path id="query_image_dotted" d="M338 424 C358 421 383 422 392 433 C405 449 430 450 457 451" fill="none" stroke="#f07c00" stroke-width="2" stroke-dasharray="1.2 4" stroke-linecap="round" marker-end="url(#arrowOrange)" />
+    <path id="query_audio_dotted" d="M338 447 C392 454 492 486 579 478 C627 475 640 464 640 458" fill="none" stroke="#138bd3" stroke-width="2" stroke-dasharray="1.2 4" stroke-linecap="round" marker-end="url(#arrowBlue)" />
+    <path id="query_change_dotted" d="M324 473 C407 494 554 497 625 487 C667 481 680 467 681 456" fill="none" stroke="#138bd3" stroke-width="2" stroke-dasharray="1.2 4" stroke-linecap="round" />
+  </g>
+
+  <g id="candidate_panel">
+    <desc>Right omni-modality candidate frame. Origin is the OmniRet header; downward content is a pink candidate block with video filmstrip, audio waveform, image and caption. Symmetry basis: labels are left aligned; media examples occupy the right column.</desc>
+    <rect id="f03_candidate_header" data-plus-kind="frame" x="752" y="110" width="200" height="46" rx="10" ry="10" fill="#d9f8de" stroke="#5ead35" stroke-width="2" />
+    <text class="font large bold" x="803" y="141" fill="#000" id="plus_node_133">OmniRet</text>
+    <rect id="f03_candidate_panel" data-plus-kind="frame" x="753" y="172" width="205" height="281" rx="18" ry="18" fill="#ffd2fa" stroke="none" />
+    <path id="candidate_to_header_gray_arrow" d="M853 173 L853 157" fill="none" stroke="#b8b8b8" stroke-width="12" marker-end="url(#arrowGray)" />
+    <path id="main_to_candidate_green_dashed" d="M657 110 L753 110" fill="none" stroke="#5ead35" stroke-width="2" stroke-dasharray="6 4" />
+    <path id="main_to_candidate_diagonal_green_dashed" d="M656 322 L760 156" fill="none" stroke="#5ead35" stroke-width="2" stroke-dasharray="6 4" />
+
+    <text class="font small" x="766" y="199" fill="#000" id="plus_node_134">Video:</text>
+    <g id="candidate_video_filmstrip">
+      <rect id="f03_candidate_video_frame" data-plus-kind="frame" x="822" y="184" width="122" height="87" fill="#252525" stroke="#444" stroke-width="1" />
+      <rect x="830" y="194" width="106" height="66" fill="#c99b70" id="plus_node_135" />
+      <rect x="822" y="184" width="122" height="8" fill="#3b3b3b" id="plus_node_136" />
+      <rect x="822" y="263" width="122" height="8" fill="#3b3b3b" id="plus_node_137" />
+      <g fill="#f2f2f2" id="plus_node_138">
+        <rect x="826" y="186" width="6" height="6" id="plus_node_139" /><rect x="838" y="186" width="6" height="6" id="plus_node_140" /><rect x="850" y="186" width="6" height="6" id="plus_node_141" /><rect x="862" y="186" width="6" height="6" id="plus_node_142" /><rect x="874" y="186" width="6" height="6" id="plus_node_143" /><rect x="886" y="186" width="6" height="6" id="plus_node_144" /><rect x="898" y="186" width="6" height="6" id="plus_node_145" /><rect x="910" y="186" width="6" height="6" id="plus_node_146" /><rect x="922" y="186" width="6" height="6" id="plus_node_147" /><rect x="934" y="186" width="6" height="6" id="plus_node_148" />
+        <rect x="826" y="263" width="6" height="6" id="plus_node_149" /><rect x="838" y="263" width="6" height="6" id="plus_node_150" /><rect x="850" y="263" width="6" height="6" id="plus_node_151" /><rect x="862" y="263" width="6" height="6" id="plus_node_152" /><rect x="874" y="263" width="6" height="6" id="plus_node_153" /><rect x="886" y="263" width="6" height="6" id="plus_node_154" /><rect x="898" y="263" width="6" height="6" id="plus_node_155" /><rect x="910" y="263" width="6" height="6" id="plus_node_156" /><rect x="922" y="263" width="6" height="6" id="plus_node_157" /><rect x="934" y="263" width="6" height="6" id="plus_node_158" />
+      </g>
+      <circle cx="877" cy="210" r="12" fill="#1a0d08" id="plus_node_159" />
+      <path d="M853 256 C860 227 873 218 892 224 C912 229 926 246 937 251" stroke="#2a130b" stroke-width="6" fill="none" id="plus_node_160" />
+      <path d="M861 224 C880 234 899 238 924 241" stroke="#a65331" stroke-width="8" fill="none" id="plus_node_161" />
+      <path d="M849 252 L931 216" stroke="#372016" stroke-width="3" id="plus_node_162" />
+      <rect x="858" y="221" width="36" height="36" rx="8" fill="#171717" id="plus_node_163" />
+      <path d="M894 220 C904 226 914 236 928 247" stroke="#e8c496" stroke-width="5" fill="none" id="plus_node_164" />
+      <path d="M873 197 C888 195 895 205 887 219 C875 215 869 207 873 197Z" fill="#111" id="plus_node_165" />
+      <circle cx="881" cy="211" r="8" fill="#b46944" id="plus_node_166" />
+    </g>
+
+    <text class="font small" x="766" y="310" fill="#000" id="plus_node_167">Audio:</text>
+    <text class="font italic small" x="830" y="331" fill="#000" id="plus_node_170">“violin sound”</text>
+
+    <text class="font small" x="766" y="375" fill="#000" id="plus_node_171">Image:</text>
+    <g id="candidate_image">
+      <rect id="f03_candidate_image_frame" data-plus-kind="frame" x="828" y="345" width="119" height="63" fill="#d1a678" stroke="none" />
+      <path d="M834 397 C850 365 878 356 902 365 C925 373 938 390 947 401" stroke="#2d180e" stroke-width="7" fill="none" opacity=".8" id="plus_node_172" />
+      <path d="M845 382 C869 391 900 395 936 397" stroke="#9e4d2f" stroke-width="8" fill="none" id="plus_node_173" />
+      <path d="M846 398 L937 363" stroke="#321c13" stroke-width="3" id="plus_node_174" />
+      <rect x="852" y="367" width="38" height="34" rx="8" fill="#171717" id="plus_node_175" />
+      <path d="M890 364 C900 369 912 379 929 393" stroke="#e7c394" stroke-width="5" fill="none" id="plus_node_176" />
+      <path d="M865 351 C882 350 890 361 881 374 C869 370 862 361 865 351Z" fill="#111" id="plus_node_177" />
+      <circle cx="873" cy="366" r="8" fill="#b46944" id="plus_node_178" />
+    </g>
+    <text class="font italic small" x="767" y="441" fill="#000" id="plus_node_179">A woman playing violin</text>
+  </g>
+
+  <text class="font large bold italic" x="307" y="512" fill="#000" id="plus_node_180">Omni Modality Query</text>
+  <text class="font large bold italic" x="745" y="512" fill="#000" id="plus_node_181">Omni Modality Candidate</text>
+
+  <g id="sam_replacements">
+    <desc>Confirmed SAM replacements: each image preserves the original source_crop coordinates and replaces only the corresponding draft construction. Text, frames and borders are kept.</desc>
+    <g id="replace_ice_legend" data-plus-keeps="f07_legend">
+      <image href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABUAAAAZCAYAAADe1WXtAAAE60lEQVR4nI2V228dVxXGf2vvPXOuPuc4Po6d2ImxnTgOSZEQUaNIqAgJkJBQqyLxyB/AX8QLL4gHeKkQfWpVgRBIBYlLGhpobo5DQuPYPj6+ncucmdl7oRm3QQg3YkkjzexZ+9vfWutba4uqcpoNRyPev7uhW91LJOIo3FrjPa5le3LrK1cxxvBFJqeB9vf3eWdzX3faixwmQupzKpFhOjY4CcwcbfHGtJHVpYv/H+hgOOTn97f1X41FdsaeQMFIUYSKDUxXLA0r1PAs737Cd2+8Js65LwbN85x3HmzpvWiOFwPFS0DFYFTLJ4hQeBcQ9TjQiR0Xkh2+NWNl4dy500F/9ee7eq+zxrOhkmoADIKnFRtalYgs9xwlOWMVUIMYZaFmmNaEG5NPef36FSly/RL0w4/u6l86a2wOPMO8CNcWZzIdKWdqgiGAFkdYBnmgn+TkaokEFpuCE2Up6fPmyrSUoC92dvl9WtWNccTjYXGIIEDDwtlG8S6IfL4KxZ4sGHbGOeMAs5HQqZ78e2PwsEiV8qedoY6o8s9RmZGyNK0Iug2L1eJbMGU6/mOx8ZyrG1oWJqKoKD4Iw2SC+e3tuxrPn+eTA09QIUZL57M1Q8sE2tZjxeMLqiXNl+XAoczWLPNVw9PDtPSTcn3pMvePoFOxiPU0Y0dFlDkXmIsKloYES2+SsxtCKa1CTt2q43mi1F3OH5+nXG5HXG4a7L7BRcHyZJyRZIGlqRgjcM4EZqMi6JOQq+QsVAzNIgUa6NYqPB54GjbjvWcJK50ar7UjBqly1lnMoQZ8bkhy4eP+hK71rNahYgK2DPWkPBUJrFUN6w1Lf5ygpLy7OWapWedKI+KD3Zzb+544cri9REmCMNeMydOEXz8d0Vyus1Kx2DgQglI1hbyUg8wz8sKZyPCzjQErrQbLLcudoh5iyESpVWLcXlq4C2GScmu2Qr/l+OnfB1ydi3h7sUbHwSDLOcxh4g0+TPjFRkZkDF+ftfyhH/BFIxCoW0u7URdTyNKJpxY7NvuBSab88FqbloOf3DvgTm9C3RmWq5Yrbfjls8DHh/DN8zWeHCtVEYIp2lhoxZ6zM2dwQS1zkWetmhOwJEF5cZSy2oi5MVPj+TDld1sjqpHw40eBQQ4/ulrneCx4qww0IOoIRYH3nhBfWsdNgmcqMqQW5q0gxuGrQn/iUe/5Ut3h6zGJKPv5mLcXLXmuJbtBZsi0EJ3ScMKtqUopZnPd72Kc0ksNjyaUKnCSM1cVYlO4F+lROuL5xoxQjSELJzPgwBd/DTUr3Jxssr66XErQvLXSlYXhdjnWRhp4kAa2MkdeNutJEY162tWYCw1oWkcxAPczLX2axnO5nvLt1fnPWg5MvVbjB2vzstq7j1FTjrQXOWwknkE4mZ8esAHasUNDMbaFY1WqeC62LF9LPmW603k5F0w5HOKY779+Xa4fPMBKwQ1Gank4UbZTKRl5yYgdZD6lX7APwle7wvLeY25eW5dXXicf3vmHftRaZlDwUQiiTKmwPiX8bd+TasqRd6y3ob7X480vL7z6OuEz29nt8ZvNXd3qrpKXCRBqNrCdCDcaGRemHA+f7fC95RlpNBr/s/9U0M/t0ZOn3H7e0+MzFzmOpjhGmUbpDLf5zvmmzHa7p+57Jeh/se/1+OvDp5qD3Lx0kdnZ0wEL538DJm1Qo9/N83YAAAAASUVORK5CYII=" x="65" y="273" width="21" height="25" id="plus_node_182" preserveAspectRatio="none" />
+    </g>
+    <g id="replace_ice_audio_encoder" data-plus-keeps="f01_main_omniret_model f01_bar_audio_encoder">
+      <image href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABYAAAAYCAYAAAD+vg1LAAAFBElEQVR4nIWVy28dWRHGf3XO6b59H7nX70dsx9ghk4eTaIZBkBGDCA8JDRs0iC0bNogdLPhXYAEbYAESAgQSKAghIRhpMtIAM7FCRkk8jieJ48T2tR1f33v7dp9TqNtmWDgJtes+VV9VfafOV3L5B3/keRbylMVpw2ffuKpRLUGASvcx0907XFqaF2PMc2Pd8w582uHq1dM6ffkiu31h0MmpRIbh6hT3auM8+WBVzzV2mTs1VeQ7Zs9MGbJ+CTp64SIP9j17WaAXhJ0UHnZznuaG/aFPsuxe5q13P9Q8z/X/AmvwXHltTseWlnjSVXyR6Kgmq4GBFza6gbV9z/1UeTj9On9dFR5vbOoLgecnvJ5+5RJbPfASShejnmYMJ5sxk1VDTQIeZT+1PDhQtpJT/CM9w/LNNQ0hHAeuZJt8+Ztf5UkayNQfHQtDkWUsMSSSccIpU42Y8arFGk9QYaOndKM6KyNXeHsVTdPB/4BDus+3v/M17Xvo5KAYBKVhA8PVI5rEgDFYozQjmKnHVK2SoXTSggnDZm2OO3cfHAKrKl+6Mq/VRou1bvFHyoMieKxusVp8C0YP2/yvxcYzXTM0LaSiqCg+CL1+riXwZPKUN77yMrd2D1uL0TJgompomkDLeqx4vBzd4sfXJDi0pGUqMXy0Nyj9Ci+nvTbf+/7X9XZHGKoYxHoasaMiyqQLTEZFtYY+lq00ZzMEFKGKZyxxrPeVmsu5vj7gTCviTMOQGoObHIaWq3Cvl9HPAvMnYozAtAmMRwUBh+0n5MxUDI2CDg2MVSt82PHUbca1+30Wh6pcakV0BkrVGczJoRPsacDnhn4uLLdTxqzndA0qJmDLtuXwOUvgpcRwrm5p9/ooA36/2mO+UeNsPeLPmzn/2vE4Z3Ezi3Ns95V+ECYbMfmgz18+6tJYqLFYsdg4EIKSGFuSu5t5ul4YiQw/X+mw2Kyz0LS8X9yPGDJRKhUnrpZEuj0oQoSQDnhtvEK76fjpzQ7nJyPenK0y5KCT5ezlkHqDDym/XMmIjOH1ccvb7YDXQ9pq1tCoVjDBCgcKTjzV2LHaDqSZ8q2lFk0HP/lgl/e3UmrOsJBYzrbgt/cDy3vwxZNV7u0riQjBKEaFepQzMtLCre/2OKmWycjzUpITsPSDsvF0wOl6zKdHq6wfDPjboy5JJPzobigf0HfP19jvCd4qHQ2IulJTWpu3iGZHcbf+eVtGLi5pM7IMLExZQYzDJ0I79aj3fKLm8LWYvig7eY83Zy2FoBVVdjJDpsVAFmMH51r9ctjNTt5i88ZNjFO2Boa7KeV0OMmZTITYFCEFVcqQeL4wKiQxZEHwWHb94VOuWuH8wQ0WFmcORUjE8M47D+Xuu8ulRHY1cHsQeJQ58iMpKS62ULhWEjNXh4Z1pY7sZFr6NIxnodrlU/PJx6JfRoqLuX79kbz1m2tIQZQaNnJY6Xs6oYCgTGoDtGKHhlBqx74qCZ65pmFu/wbN1onjeizWsbYZyR9+9rtS7IvUXbXcSZXHAykr85IRO8j8gHbRRRBeGYORx+9x8dwpeaHQt/tN+dUPfy1Zt1eqVWHrIbDSE7YzSxZMufsKaj434Ym21vjMhdFje++ZOy+NRvnFj/8k7137O/jD+TxA+Hc3sK2Gs3XLN2Ysfnudy7Mqzh3fyfKi9V9av83UREVf/fyrTMxO0UEYLkarc58Lox0ZGR1+Ztx/ALYMRWLNTp6tAAAAAElFTkSuQmCC" x="516" y="292" width="22" height="24" id="plus_node_183" preserveAspectRatio="none" />
+    </g>
+    <g id="replace_ice_llm" data-plus-keeps="f01_main_omniret_model f01_bar_llm">
+      <image href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAaCAYAAAC3g3x9AAAE7ElEQVR4nIWVz29dRxXHP2fm3nffrzjP9rOTOLZJ80ONk6YBVoBaVBAqUIlFpKhCCCEkFqj/SZddVbBjUxZQqYsuWjWLqBRVigqUBqr8wHab2nEdO/b75ffj3jszp7rPLqqlpB3pLq7mzGdmznfO94hu/JGvGw/bA3Z7gcma1ZmpinxtMBA9buLuWo/35RltNS/jEyEKIxZuvak/mtth6ujjwfKoE35we5f353+vO1qnnyreeKbjiFKkTIy2ufjgrzz7ZEVE5JuBtz7t8M7k73TNV+nl4xBAx18jMUyUDIkox9eu8fPZZZluVA6tN1/92dod8O70r3Qj1McwFQhFkOoY20qVta5jvR9YPvFjXjcv6kcrHX0kMMscbw2/p5s6Qy/1BBFEoSSO2XrMXD2iESsiysDDxsDyWZji+omXePvjoFnuDgPfWq7p1vR32Bk63BgmWOBYtUTdOiom0KxEnKjFVGxxKM/DVOiGEjfP/Ja/dJ/TVme0D7z5SU/Tpas8HAbSgz2MepoVoWwDQQwqhkKDSgRztYhGyaIE2mnABMtG9Sz/WAtEo9SxOvUCm6OYdlZkTIgkMFW11KNCNcFoAS2m9lU1KM0yRCLsuUAwSnDCwEVqrn82qTROs9zzY1jNBOZrlskIjtpA1RT5PMiLfqn3PrRRMizULZt7OQE3Fi5KLl7hv22YrUSMvKeWxFTwnEqgboSA0PXweeoZmIg4eGYSQ8cLLjhWew51cOl4CSNgXGZZ7TvaPmciMVQInEqUuggqiiHQsMrpasRClPH00ZhaZBHvWOkN2RoEnpur0B0pkQGzq55EItbanvVBzqnEc7wExnjMwV0tgRkb+O5ETBQcO6Mhd7opa13Lz05WeXcr58aOI47AbA+VoVeWmmUGw4y/P3B0g9BMLI2ycqxkOF6NiY3y+dDjvbI7UpZbwvOLFf7V8oyC4MSQWIdp5QfK5Y4rC1XqifDKzS432o5YLMF6tkc5W97QGuV83Mt47X8DfnOuzHrPkxVaAmULNZNjikdcMooxlrs7ynzF8OsLE3y4NeS1lQ6DHGZKlvPVwMhEvPyfjKvnatzvQayCL9aqkESehWaRPBUWEsNi4sbC93Nlt+f46fwRkMCN7ZTJJPBhS/jTJ46XlqrUilIF9oIHLRDCXOcW04tlolwdtshmZDhmhVA2ZE7oZY7ZsvDUZHn8Dv/ddSxMBM5WLdtpTqaGfijKU4mscnnvPaCGOR/u4UXZSIV7qRBCUW4FrKhkGT/ioo5/MGPHz2k3LZJmaTnFY4mBy6OPeOb8vumaF+QdmR6s4sWwGzx3UqXj4/E19r0QqtbQLFuaZUNiYBAMg2JjPPNHAj8M74kxBx4wM1nhaumazG7+DaMGF4TVXFlPPXlxQlG8KsnYE4WpJKKVB0QC83Vh6f4bPLk4cdgPjx4p88uTd+Tk5rXCDcaGuhUsyyNlz0fkWgA8EY7CTgtHOlcTnhje5vnFzqE+8H8/TEoRL35rXc58+vpY3cJch6qsZp57Q8soWCYqMf3guFhPOW3bPKvXpZwc7nOHWoC1hitLffnJ/VeZbN9FCk9RYd0pt4dQiwy/OGY4k2RcePBnOTFT/+Ym9eVIM8cHK0O9V7lEp3GJfjJFP/M8VXecvPMHvn+h8chW+ljgV4f3gX+u9PV+v8oTR3ry7bONxwZ/AZABVQlO1pAUAAAAAElFTkSuQmCC" x="467" y="162" width="20" height="26" id="plus_node_184" preserveAspectRatio="none" />
+    </g>
+    <g id="replace_ice_visual_encoder" data-plus-keeps="f01_main_omniret_model f01_bar_visual_encoder">
+      <image href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABUAAAAZCAYAAADe1WXtAAAFFUlEQVR4nIWVS2xdVxWGv7X3edyXnev4lYcd36K6pE5Baah4FTHiJUEGtAUJWsEIBAiJAQMkVMQMoUx4dAJIpUwqJKROgUGFVClAMkmlQEWSJk6duHZsx/fa9/o+z957oXOcVG2TwJa2dLbOWv9ee61//Uv+/vUJHrRWXY1bT53R7NSXUBMjgzbxn57ng5dekbFSxPRv/nlfv+hBgFfcBM3nz+pOOkV3oHjjmYzrJN98gUubP9Dqi9/i06oiIvf4yv0ivZFVefvH53Q9nqSTFWaAFrueGsYTQ4pS3bzIEwuR1CcOvMffvB+wlVk2fvgX3UymC0AVCLmhagHdGio3247VXmBj8gTnuwt6+fKKPhA0C3DtqV9pq/4InaEniCAKiThmajFHahH1WBFReh7WepZ1V+HK2Mc4d2FFs1F2L+i/G6d1+NGn2e47XAEoWGC2klCzjrIJTJUjDldjyjYPznN7KOwFy/qRj/OPtaru7nT0HdC3mGTqey9wexAY3rnLqGeqLJRsIIhBxZDXpRzBkWpEPbEogZ1hwARLM53m0vLGfvVHHvj2b3UjK7EzyjMoRBI4WLHUIoqIjebA+a/9ahuUqRJEIuy5QDBKcMJwFPZDunbia1pZepKrnRxdqJrAXNUyEcEBG6iYPL93nqR3ebAPXE8M8zXLrb2MgCOnWHQ9TND4zhkutGGmHDHwnmoaU8bTSKFmhIDQ9rA+9PRMRBw806lh1wsuOJY7DnXwoUMJzTUhGiw+qd4lLHdHVGNhJo1ICDRSpVbkMRR0qluhXInYdSNmyiXaDtqjIdf2Bmz1LF9pVGkPAsYKpnTkMZrqSSXi5o5ntZfRSD2HEjDGY+682xKYtoFT4zFRcGwP+lxuD7nZtnzhaIXXNjPObzviyGLqx0+y1Vf6Xnl0qkSvP+LshqMdhKnUUi8ps4nhUCUmNsp63+O90hwoV1vC546VudDyDILgxBBFea5rk7SyOxXNHF+er1BLhV9ebHN+xxGLJVjP1iBj0xtag4w3OiNefrPHNxZLrHb8PnuAks23YDqmVBA9MYoxlivbylzZ8NzSOK9v9nn52i69DKYTy/FKYGAifv6vEc8sVnm7A7EKPvdVIYmU2dkJotb2LagsMp8ajqUuJwXdTGl2HJ+fGwMJnN8aMpEGXm8Jf7ju+O6jFao5v4G94EEjVISD3TXqC+MYffVFsuCwkUBkmE0NjbGIhVpMd+SoivLYRInD1QpiY+bHDQ9XLJkGRgrdkLeyEtvAwuitQtLM0spfZe7GWbwoa0NhZSiEkLemYyZPElIQPe/7T07bgmrNYZ5ES8spHksMLLobnPxwY782iYUPvPQcpTdzYEMzeC4PlV0fF0/a11KoWMNUyTJVMqQGesHQyy/Hc3QMltJNjDGFcdGmByInx3//VeK//Q4TDC4Iy5myOvRkeaSieFXSQlOFg2lEKwuIBOZqwqHbF2g8dPSdEWDuftQilZOv/oTkz2eKzs67aDNYrg6UPR8VORTxRDh2lULJFqvC4WydJx45+J6ZYt59SCzy+LlfSPrS99HgCoHuq7I88qz0LYNgGS/HdIPjRG3IfDzg4XJT0lL6v8eJFfjI9Vfk8E9PSfKf15Bci1RYdcqlPlQjw+lZw0JoM7H3BtOzk++HuP/gu7tyab0aH9PuJ55FHz9NNv0Q3cyzlPbp/uyLfOrXf7x3lP4/0Hcvr6rL9ig79UUmty7K0mc+y9izP7qv8X8BHpJHIsZYVxAAAAAASUVORK5CYII=" x="329" y="293" width="21" height="25" id="plus_node_185" preserveAspectRatio="none" />
+    </g>
+    <g id="replace_flame_visual_projector" data-plus-keeps="f01_main_omniret_model f01_bar_visual_projector">
+      <image href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAbCAYAAAB836/YAAAEYklEQVR4nI2Vz29UVRTHP/fNzJsfbacznWkZ+kNaBrAQFk0huCBKxIULMSES3Rg1bghREo1uZeNf4NaFO00M2oQEExV/JSiY0iJEbUtLaZkObZkOQ2fambbT+XHNfffODA0lcpKX9+6953zPOd9zzn1iY2SIp5Ebl3+XlYdpDp98Tai1FILkgYHH9KynAZNSErnyHS6P/b+61tMAJmbuypb7M1QrZQd/O53NYpG5oa8bgPduTz8RMDt6FWQVUchve/4gOS9LH70tq7EeWQfMjF5hemJSbpdux9QIhMDOLj0GlhybkLEPT7HUf4Teo0dFHbBoB2TTt59T3CxtAb2/mMKfnocIRDPJuh/1pGZmZfzcO1iWIPbuGeegDui2bXzpBLd+/mkLT6nxf8FbhWbwZhbIF9ac/bX1Ddo+fQ9v7gG3jr2Ov7lpK6CsVp139x9DdSMlnplxSdQsKmWSE5PO552hrwgnJx3P9vMvqS2xBbC8pkGsfJbJX3SUir+dC1PQUVOH4sQN7s4m6Bn9EeEBvDbhvr56AHXA5pV0fbNn5Hs2SyWWl3NSPEw5/KGMJXTdHqHyw3knWvYrbRe2z1e3ddcybqsRHgBPLs3E8DVsf4CYrfmjZAyyS7Spau9ysFDA6/kCnja7EeHKagFv+p4uhVKUEBy+xHpyFsJGK/hIPir9fuOkXCI73ehhRyUxPo7QUwBtoIoQmhtj1/SwXqsIW9CpK4kBqqhujb05fHkroDU2yhYSDgBViZWY1hE+YzT3mIbqNVEqUAn7/rxIuaT716pUKrTP3mykopRUVaNm3Wq+VYSdhpIO4yBkaE/NkfjtVx3h/L1FPCsZU2rAZwwVR17Ab8B2mAwOG50ecx7Ufnde+MIZUys3n5RIqVPpNkYq5bhZu41hT6MX2WsiVGvlXAU9dZ3U9Iy0NtcKDf52NbzyHHDQ9J/LUNFpQPpMNkq6NI9CSnJTt7C8LYokw4cyioDb14eItsAx40A8ErmqdMBQoLIKGUpUtfOrWDt27xa43NqjMgxDtVog1H4WOm0Y1MouV4c2HgSXpxPCti6YMG2kZrq5Bau9PUKmez+sGY8qPbmB7Y0Tip6FqO1Q3BQ8oa+gkE0o+j5CuHTqUkeoXq37+nUfbrx4ErICltX1qw71SPgCBwl3fIzLHcEXGMTjjWP7+vHYO3F5ujTnQj+5nn464n36gj04OCAexgfgL3UFQ3VhlXJJ385e314isXMIy0dL6yncHt0KPv8gUo2vH2QOZk6dwbKsxm0TeOO0KJZa4RqIqxWy45+xWUw4veVyBRHCwvY9S1PwZc2Xbx8sgVyCf+JvsufEq07pxKP/5fupNKmL38iu7HVcu3NwSOA/9AJN3a/gdtcGWf9n8osXyH95ib+DH9D71mmhonsMsCalcplMOiOXU4usry/gapql95Cf8P6juD1RCouXuHN+iZXjnxDbu6fWVE8G3EakmvnbczfZ8I0R4TjNA0fEarQ2jw35D8gUjnNaiWnbAAAAAElFTkSuQmCC" x="329" y="252" width="20" height="27" id="plus_node_186" preserveAspectRatio="none" />
+    </g>
+    <g id="replace_flame_resampler" data-plus-keeps="f01_main_omniret_model f01_bar_resampler">
+      <image href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABIAAAAbCAYAAABxwd+fAAAEKklEQVR4nIWVS2xUVRjHf+feO6/OdKZPppS+hQotIBFUogGaSjREokFZ4gaIKxODC3SlxrhRF124UcEFiSaujG4kEYKJGolhQZSqSIHWlpaOQ2k7nU7nce895txzOk2t1pPc5J5zv/v7/t/jnCOOvv0I641Tx4dk8s1XBe+fIxKN/KedtS4F5IXPP6ZhYkTajr2uofM/IDb+9D3C95C+LwGxxpOUjF34Riuys4v/CvFdnwN/TUKlRHmpuOZ7qVhi6p3XYXpcg54am8bNV1Y5Uo89nSdZKUOkxEL2XnVdPYX8oiycPiFrMxOy89gJDVpw4cnhiarRMm1zNoeoByFgYfRW1YvrupTeeoX23y4zf/I0lmVpkGdb8sjcDDKzOsR9CzloASoQ+uNadX3iow/ouHqJ2e6dtO/aJVaqJiW2hBduT1aNvZJHf6EAzVrjxutXgvU714bZ8dWHGrhnsGofgGJlL5gcmJvHyxaCd+degbAloU7XqvHmVfLzOZJn3kW4FYhCpf2B1aBtslyd7BvLBO/Ns4tQr0oKhEBUynhnh2j99Ufo1o0TisdXQL7ry03FUmCsPj57/z7ukktffhEaTefEtPGmr88hQhK2Ankoz8+vgORskbjngQ90Qdzz2TA6w8PFJa1IDRWeYqp69hjpEmJjN/QHtZTO5HR8vjFy4PhMltZSSYMagLRpCqWue2VjtQ7/sAIanDPylkPogc78EpGQDzVABzpEpUpVUKVFpSEM9bevcXdE95f1aCGvQTGT2C3GYwpImJ+Vk4eANuNe2aVUqJLKl58FDWxFPBWT8ap+6DIqFKgWSAIRA+wyoUkzB3q/+yJoC9OQqiRGVb/aGwagQlMW7UbJcqjKXnW8hFAhx+Sli1KDIiahy8ndq84Ps44pAgZSa5SrnJk2skavG0UtJu4mCEW3I/sF9OqEBiNlwEp11MzVn636s5vPozaBTqp6qQMnlCaRPIzcrcFCxBBWHHYqtTZ2qF0rY6UtnEQCazQaBb29AlXSL5Koe46a5AAyAHcSjvYFOatJPU04uk2DhAlTsboexPoknUaqTa/OtRlNE8Ii2XCMePIQTqiVWGK/OiCIxR8nFO5AqqJs0DA/HKX5if3Cme1tEqOZjOz5uRh4cDePIRtdhHCorTuK7+Ww7Foi0e3YTjOWFUcIG1IezMPv+5+nI92MZTsWQ1s6RXlCwC9Q+Xacuckz+F4BIQS2kwoU1jW9FMAtO4mt5IzD3XwfjS+/Fhxs+hZpS3LK2SoO35qSA8UFyF6h/NhNancdIZbaawCqIlApT+NezjKeOYjzxnsimdSJEv+8IL2yh8iVqCkWZTq6xMCeBIPPDBCr241bnuLOxfPc8F6k6+Ahoc7q5bHmXrPDNjTVUKRG/AmcX2ijpXBSLo6cJV/aQc+BT0WPs/Y6/BvUhGggNm95BAAAAABJRU5ErkJggg==" x="518" y="209" width="18" height="27" id="plus_node_187" preserveAspectRatio="none" />
+    </g>
+    <g id="replace_flame_audio_projector" data-plus-keeps="f01_main_omniret_model f01_bar_audio_projector">
+      <image href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAaCAYAAAC3g3x9AAAEV0lEQVR4nI2VXWyTVRjHf+d927dv161rt1LL2IBlrFRclAyYGqIkkuiFeLV4ZdB4oUHFj+A1N95KookXRhNj/IwxQUkMMYBiUAeKgvLhGLNswMag22Qt68rWr2POe85WyILupO17Pp7n//yf//Oct+L7c9dZwpBjR74kOndBJJ974T8NrSWhSck9h9/DCgTk/9laSwGcTJ8lMXoKWS7f0aY4N8flvV/UALPn/7ijse+XrxGyin0ju4g8ICdHrsjSrqdlNdFWAxTHvpKZs8cXgUkpZar/AESgbmJ00fnIX+dIvNbLeKpHrN68uQZYCIS597NdslScu1UnmR27RFPmPDTD8rG/51l5z8zQMB27n8GyBIlnd3ibC4CWE6Qp08/Utx8tpKIms2d+QgSqUA+hsWEKN6a985szBZreeJFAbpKBLU8SrA/dDiirFQTwwOG3uJm/sUCxebAPYmZRLpI5edKb/vPuHqIj572ozkNblevtgBQ0iDudIXfg43n9SI7+DnElsvfB+u0IV84NkDr0OcIPBByi7e0sAmzOjSxsbup7n3KpSP76BMHJi55+KGcJnSe+o/6TdxDlItytrG0c113Q3Tc/aR0f0JM6aMiOkunbj1XXgHC0fpT0sTMxygpV7VUeFlTK3MzP4G9yagwL0zkZyQzqMihDCcmfP8S+eBaixiqsnyptoX5SJki5RDad5jaGU6ePYlWKeqcJrwgrh/uIyoJeK4bqkqjUJ4EEoIrq0wGKv/4IPZtqDGOnDngHCyHWgahKwkMnNcOVxnKNaabVukgeqITksW8ol0qejlalUqEzfViDzRupqsbMutHMG4AWI0ncBIgY2TOXufSDxrCuX04Tyl3RJyo11zgqjQJA0IDdZTLYaGzazHlYx12+7wOvzazSyIAUUupUWo3TOqDDrH3GUQHM69JpGKq1Cq5ID54gkx6SVnWmdiu8dExU7ge6TP/ZRooWA9JuslFjhdZRkcoNDmBZjeZeRYxTM/jcdkSsAbaYAOIW5qrSdUYClVXESKKqnZ/GCq25T0jbryMqxyhUqzNElu2EFge6tbFtx7VzN9j+Fog6umDCtJFq+voGrMZ4C8OrHoSCiajSk7M4gQ4isZ0Qc1ASh8Lb9Osn4hCJvYQQtk5daobq0ZhM6T5MP/oKMitgSjeuNFfcresiGn8d29eMW9eNP9CB46bwO8ux/Su05kJ/c20p4h3twvNs7XlEDCW3gnozjUB1bJpyadwDDbidNCd2IyyXhsZefH7dCm6wG6mubxBkDoZ6d2BZVu1tc3X7HpEvL4PjII5WyPa/TXHuktdbth1GCAvHXUso/JjWy03COMhxONPxFGu2PeGVTtz6vzx1bRRn75t0TR6Ubvs4YoMguOFhQq2P4/Op8uqhguSv7iP/6UFOh19l9fbnhWK3CHB+lEslpifGmL16AWYuyEjwT9avnyO+diM+f4z8tUP075+l2POySHSqC14b/wKHNXvsaf6yCQAAAABJRU5ErkJggg==" x="516" y="252" width="20" height="26" id="plus_node_188" preserveAspectRatio="none" />
+    </g>
+    <g id="replace_flame_attention" data-plus-keeps="f01_main_omniret_model f01_bar_attention">
+      <image href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABMAAAAaCAYAAABVX2cEAAADmUlEQVR4nIWVTW9bRRSGn7nXvr6246/YcfNB+oHrtpSW0oRSsUKwYYPEoj+D7liz4g90wT9gx4oFEptKlRCiCFVBRbQr2jQ0DY6xE6eJHX/Fg86dY+xSSkay79yZc97zvuecmWvu3OLY8fQhNtbGLFz7fzvvOCBrsW+ug4lhj7P1jjP4axsW2mBHr7YZDKHxQMFaf76aWOwJGAvx3n8b7LYgexsG6TGzJ9ja5ksyrLVwvgHkIdt9GahWw16+g93MYxdOK1jHh7d+iei+ALi7C7NtoAjLhy8CNZvYd++CZyB91a1FYJ4PhQ7s/OYY6Y/uMzAJYAZybTjs6nofe/YupPqwNg9hYgpM5Bjg+nrk8M8oisSSm0veWs9csME9KEtRgKOTbnsC1ncOYR9aD8YJg+oBUHamYp2sQX0bVjfBxKU6kJmdBI/ASlOVuvYUhkM4aEOy4/JF3Am/3IBFaQGh9AYwgiA28Y2mS+PkpmCmA7XfwQ/ABC5fDHS7CxVJwynAd2y7PZhRQK9zCHmRY9XIwrkN8JpAQbln3VOcjfxd0AAjaDenZO5sYiPaMkR/CZZbcLWl78Iso3JlzANppykC35oCK21pKcaiL7rKZcfMTiq7s8r+tNZOAC1cqcPwyLWMVxUGTBmUtR3kPadzYbaoaSgreN65ZQ9h+5Eyk6RGQ+SE6iQ5kUZMKtAJtXlHbZZ1P+tiVh+7VpLT4Oi/pg4XgYq+x9RJnMe5qCozo4Flew+aDezkCjo1icZ14JL2l6/yFxXgjKqIesoRkeVOY3xr5NWhCLHwDKaUgfcV3EwxloqmVLZVP0mDdEpfmtnTSOJUgNGoTX7uJiwGsOIMfb/sHFfAjy9CIXDFMdoqIiIAb11kdTSSSLJdgkSFfOkmlIIosensx672+YB86VOM8Z1cWcy4R6qE8R5Vwe7K5QU0ZMMpD1OXKJQ/w48VCVMrxBMVgvAC8WABP77kchx1LTTSMFsEb/l1zGPJxZp8hmC0tc9wUI8AE2GV4vznGC8kk7tBLO5KHiZXsHJuk2D34H4F43lagO1VOBCpP4P58YjWw1v0exvRve37WYzxCMLzpLMfRWBBeA7qYOvwUw+WpC/HV9BsAfPrh5h7Izj8HoZf19n59gueb3zFcOhOsjEG389EAXrN+9jb8MMfkHsv2nI2//4ID49g/zm2u+cSm5v3ufLBKife/oRYfI79re9Y+/IbGr6lNDc51uL8N72lFjVlFUENAAAAAElFTkSuQmCC" x="606" y="122" width="19" height="26" id="plus_node_189" preserveAspectRatio="none" />
+    </g>
+    <g id="replace_flame_lora" data-plus-keeps="f01_main_omniret_model f01_bar_llm">
+      <image href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABMAAAAbCAYAAACeA7ShAAAELUlEQVR4nI2VS2wbRRjHf7O7fsWpvc2jCU3iJog2tAklAhVKDoDoASFAqAgugAAJiSt3DiCuSHDigkBIoB4LHEoRRWopqhAVBJE2VlonzcupnbR5NXFirx/xoNkZJ7USKJ9k7+ub3/y//3w7K2T2c+4VUkom3/+Ejg/fk+FwQPxbnnVPEnDtr3HZmJ2TjvPf6c7/YMnSxd+hWqValbsnSEny4vC2svS19K6JxWKZfckRZKVM0SvvKNHzyvz96TeUby/KLZh35mcWF1Z3TDpxdRJrPQehMiuLdc/lxoYnb3z0mYwsLMmBV0+ILdhaWTL31Xd1yepvY3gU9gICltLz6p7/q1Q2mf74S1rGUzivn8SyrO0y7VBQtg79IW8kp2sD/GgaG4N2oAzViW0rhr8+S3NyhHziAAcf6vHL34JVN6va5NM/bA1YX/eIzs5Cq8a74+P+/YnRNJ3nfvLPl48e3crfgsmNgn+MJZNMpm765zdTs1Atg6vLjE5PsraWp3jqW6hsQhhEZ/tO2L7ciqFKcmcvaB/HprVfNhBQpVa4feoMTakU9OjGCkVC9bBisSydhQU9wIHWoSFWVtYJz6ShWasiogc0nr8AAQkPKh+gkMvXwzJT81ieB1WgGyyvyPj5P2nOZrQyFe5da3y/GSnBSmfrYQvDKb88H6YSHUj8dglLqVWwJqDNgAS6RGOQe320HuaOJPVVrRwFTGcQogQNQAJdrlKnVjZqPAxCNJ0mPen3H1YuV5Du1ISGRYzZB800cWWSAaiJHgY6a41pnkvJwo+/amUzo9PIYkkn1MzuNmpU8h7VL0DIQLtNmdJcA+2XL/stYxVm5raN7TDq+oAHDKTBqOwyihrMRCpftZgEu5Bn7NIVrM2Cp5NCxuSa4ceB+8x9jI8qEkatMB4q/1QLzmSk5cSUKWYW5UMLBML9yD4Bh7TJfsQNvAO/8/1rpXi/flzKe1hurzLBGK2ku+AE2miMvYB8VMOFiCCsKKjXsMnGDnRphWy3TLAhjNXT20mxrR1qjWyDrHo0ui/REHsa6cMPEAwf8T1siD9LMHxYw4QpWXVKogPLti3mTjwDGb3NsKSJQljEmt4gGnsOJ7CfSOOTfl9HooMEggmkWqh9GigDQbofP+JvjmLg+UGKze1wBUhBJTeNlBUfuMd9hcb4i4TChwmF+7GdVkLhPoSwtW+rkH3iOC2tcf0GqM/X+tuvIbMOXIXyL2nuZL6guplHCIHtxH2w2/IuQjhYdgxbyUrD8p0uDr3zsn6B7v5upq5OUTx9VrZVx5G9HuKxvewZOEkkftyH1KJcmmfp+w9YHO6j8823cN2ov9PWwWqRzxe5dXNRrt66RamQwW1bpOtYP+G9x6iUstw+d5qljUH6n3pEqL2/FrvCdgm5vLzG7NJ5NjcSHO0fwHHsHV/2fwDXkIimm+QYfwAAAABJRU5ErkJggg==" x="547" y="160" width="19" height="27" id="plus_node_190" preserveAspectRatio="none" />
+    </g>
+    <g id="replace_flame_legend" data-plus-keeps="f07_legend">
+      <image href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABMAAAAaCAYAAABVX2cEAAAEJElEQVR4nIWVW0xcVRSGv33OzJkDA8PQGREoFxFKodYmoIlJE7wm5UGND32wr5qY1LRvptqkURN96JOm0aRpqolPKl5iG9tGiCSmRmml1IgUKKDAAIVyCcO9zIXZZp+9B1qbhpVMctbstf71r3+tsw9SSrb7dZ37Sl45fVJuF2exjSmEgh9O4Qu424WyLdjIjW7yhq+TSaceGJNIJOj55nMNNt7d9cDA+M/fQmYDsTjvEeV/NjUWY/TIAWmXVmmwmbYWBq9duQ9I6RDpvABh8M+M3nf+T0836Tf3y+XHmtjT9IIGS+QUyMBHh2Uikbin8lRsBHe8HyIQmejdrAHIiX+HpPtOs7QsQf0bx70DD8zv5hIY66H367ObwR7Y1V8kzgbkgf/WICtLS17S2uoq6ycO4luYZvL51wnm5W2BZTIbXn7xdyc3E5TZ3Zchapx0klhXh/c48MkJ8sZuAILCZ1/ejPfA0suL2olP0dfyWVYvWTx0FYq8HK/YnautjPT2UPLTGfBLcAMUPVpLNsIDy5uLbaKXXPqUZDLJ/OwMTA17euHXjZdc+5HkFx9AOgH1IKSNm5OzmetTYeGsuLngn43R23YeJxgi4td6YVbMnh6lYHoUKpUDciPF6vIyTkRVBGtpYQFnrF9LroIkBC+cYW3gLyg03EPZHqSiA3WmQDrF7FD/lmbDf/yKSCe1twNP8FDvZcq7zmlfMctHt6usGAianpDEO1q3wMTvF7cWWwXs8cYLfZ2aWYVhVWPCHjFyB42Ov7WQSmkdrEh3mwbKBqjpRY1fYJ4Vs1IjQ5EBD+s05/Ywfe0XPTaWb25C/6vacU2S0iQA5Bigh00fT5qYcnOutETifv+xuYJkRtMvMwmqzWrj+0xSeXaTgF2GmTCFVQM3OxgfGpBbV1DlXdWeAvaa/bJN+6UGoMp0oWxn9uXLMHPzb3OfhU1CBHxuFSKaD88YcHEXYzXRXNO2NHlKBmB9eQkLn6MrqaRCNchVwg8dhVIHGs2y2kU6sRFsfykUOno4wqyKkjI/hBWvb4I1U0m1JNdxAtWEo0ch6iDVEode0ssTdghHjyCErduVWWaCorp9WKlDb8OCBXFgTp3rzt3cvRQWvYXti+DmNuIPVOO4dfidEmz/Tq2xYibgTuXjlNXUCmvfcwfEQkMz/Knub8hMLpNOzXiAAXcXkeJ3EZZLfsFBfH49cjenEemY1VkUxF89jmVZmkbo2GmRUKp2gujYYKHvFMlEzNsd2w4hhIXj7iYYataL6taCqjcjiNUepuGVQ96YhEpQNjU+xuTZD2Xx6CXsimlP7JwnniZY9iI+X/bF1N+FlanzrH7Zzq0d79Pw2jGhWN0DljX1ns1NTsj52BBr8UEsrlNRu0JhTSO2L8rq7XZirRb5+9+jYnd9dnE8+w+JFp/Sfk2kTQAAAABJRU5ErkJggg==" x="66" y="304" width="19" height="26" id="plus_node_191" preserveAspectRatio="none" />
+    </g>
+    <g id="replace_query_waveform" data-plus-keeps="f02_query_panel">
+      <image href="data:image/png;base64,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" x="582" y="428" width="98" height="28" id="plus_node_192" preserveAspectRatio="none" />
+    </g>
+    <g id="replace_candidate_waveform" data-plus-keeps="f03_candidate_panel">
+      <image href="data:image/png;base64,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" x="825" y="276" width="123" height="35" id="plus_node_193" preserveAspectRatio="none" />
+    </g>
+  </g>
+</svg>

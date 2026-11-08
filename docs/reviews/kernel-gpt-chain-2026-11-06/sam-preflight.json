@@ -1,0 +1,29 @@
+{
+  "scope": "Real local SAM3 and original G0 preparation; no model submissions",
+  "cases": [
+    {
+      "sample": "sample-0032",
+      "source_sha256": "9d4ff0c12dc878a0771f37081e2e75728ca13122c504ffbd8d8908c0c60514d3",
+      "sam_status": {
+        "sam": "ok"
+      },
+      "sam_asset_count": 49,
+      "g0_attachments": 52,
+      "g0_input_bound": 467602,
+      "g0_limit": 131072,
+      "paid_calls": 0
+    },
+    {
+      "sample": "sample-0005",
+      "source_sha256": "e842edee5bd245e75bd7f8089ce785adf46bc2d9f48970d9be27b4c110990f7d",
+      "sam_status": {
+        "sam": "ok"
+      },
+      "sam_asset_count": 5,
+      "g0_attachments": 6,
+      "g0_input_bound": 74975,
+      "g0_limit": 131072,
+      "paid_calls": 0
+    }
+  ]
+}

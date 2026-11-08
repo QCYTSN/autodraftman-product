@@ -1,0 +1,169 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1587" height="576" viewBox="0 0 1587 576">
+  <defs>
+    <style>
+      .sans{font-family:Arial, Helvetica, sans-serif; fill:#000;}
+      .math{font-family:"Times New Roman", Times, serif; fill:#000; font-style:italic;}
+      .edge{stroke:#666; stroke-width:1.45; fill:none;}
+      .node-gray{fill:#eeeeee; stroke:#5e5e5e; stroke-width:4;}
+      .node-purple{fill:#efd0eb; stroke:#9900ff; stroke-width:4;}
+      .node-orange{fill:#fff0c5; stroke:#ff9900; stroke-width:4;}
+      .node-blue{fill:#cfe5ff; stroke:#0018ff; stroke-width:4;}
+      .node-green{fill:#cfe2d4; stroke:#5c9d50; stroke-width:4;}
+      .node-red{fill:#f8cfd0; stroke:#ff0000; stroke-width:4;}
+      .node-lightgray{fill:#f3f3f3; stroke:#9a9a9a; stroke-width:4;}
+      .small-label{font-family:"Times New Roman", Times, serif; font-style:italic; font-size:28px; fill:#000;}
+      .section-title{font-family:Arial, Helvetica, sans-serif; font-size:29px; fill:#000;}
+      .box-title{font-family:Arial, Helvetica, sans-serif; font-size:30px; fill:#000;}
+      .box-text{font-family:Arial, Helvetica, sans-serif; font-size:28px; fill:#000;}
+      .formula{font-family:"Times New Roman", Times, serif; font-size:27px; font-style:italic; fill:#000;}
+      .red-arrow{stroke:#ff0000; stroke-width:1.2; fill:none;}
+    </style>
+    <marker id="redArrow" markerUnits="userSpaceOnUse" markerWidth="10" markerHeight="8" viewBox="0 0 10 8" refX="9" refY="4" orient="auto">
+      <path d="M0,0 L10,4 L0,8 Z" fill="#ff0000" id="plus_node_0" />
+    </marker>
+  </defs>
+
+  <rect id="bg" x="0" y="0" width="1587" height="576" fill="#ffffff" />
+
+  <g id="base-frames">
+    <g id="f01-group">
+      <desc>Left frame: initial search tree with gray root, purple and orange children, blue and green leaves, action labels, value-decomposition equation and reward/value annotations.</desc>
+      <rect id="f01" data-plus-kind="frame" x="25" y="35" width="420" height="360" fill="none" stroke="none" />
+    </g>
+    <g id="f02-group">
+      <desc>Middle frame: expansion result tree, transition model legend, and incoming expansion arrow from the left.</desc>
+      <rect id="f02" data-plus-kind="frame" x="610" y="42" width="330" height="365" fill="none" stroke="none" />
+    </g>
+    <g id="f03-group">
+      <desc>Right frame: backup tree with red upward curved backup arrows, leaf value equation, Q and V backup equations.</desc>
+      <rect id="f03" data-plus-kind="frame" x="1124" y="38" width="435" height="365" fill="none" stroke="none" />
+    </g>
+    <rect id="f04" data-plus-kind="frame" x="44" y="411" width="528" height="141" rx="23" ry="23" fill="#ffffff" stroke="#111111" stroke-width="2.4" />
+    <rect id="f05" data-plus-kind="frame" x="999" y="411" width="552" height="141" rx="23" ry="23" fill="#ffffff" stroke="#111111" stroke-width="2.4" />
+  </g>
+
+  
+  <g id="left-initial-tree">
+    <desc>Origin is the gray root. From it, construction proceeds downward to purple/orange children, then downward from purple to blue and green leaf states. The top-level branches are approximately symmetric about the root; lower branches are symmetric about the purple node.</desc>
+    <path id="left-edge-root-purple" class="edge" d="M235,100 L187,135" />
+    <path id="left-edge-root-orange" class="edge" d="M273,100 L319,136" />
+    <path id="left-edge-purple-blue" class="edge" d="M158,182 L128,215" />
+    <path id="left-edge-purple-green" class="edge" d="M183,181 L211,216" />
+
+    <circle id="left-root-gray" class="node-gray" cx="254" cy="80" r="27" />
+    <circle id="left-child-purple" class="node-purple" cx="170" cy="157" r="27" />
+    <circle id="left-child-orange" class="node-orange" cx="337" cy="157" r="27" />
+    <circle id="left-leaf-blue" class="node-blue" cx="116" cy="238" r="27" />
+    <circle id="left-leaf-green" class="node-green" cx="224" cy="239" r="27" />
+
+    <text id="left-action-a1-top" class="small-label" x="181" y="114">a<tspan baseline-shift="-30%" font-size="70%">1</tspan></text>
+    <text id="left-action-a2-top" class="small-label" x="293" y="115">a<tspan baseline-shift="-30%" font-size="70%">2</tspan></text>
+    <text id="left-action-a1-low" class="small-label" x="110" y="199">a<tspan baseline-shift="-30%" font-size="70%">1</tspan></text>
+    <text id="left-action-a2-low" class="small-label" x="198" y="199">a<tspan baseline-shift="-30%" font-size="70%">2</tspan></text>
+  </g>
+
+  
+  <g id="left-value-equation"><desc>The equation decomposes the selected blue leaf value into accumulated rewards along gray and purple actions plus the terminal leaf value. The overbrace annotation names the final value term; the lower annotation names the reward sum up to the blue leaf.</desc><text class="formula" x="34" y="329" id="plus_node_1">V̄(</text><circle id="eq-left-blue-1" cx="72" cy="319" r="11" fill="#cfe5ff" stroke="#0018ff" stroke-width="3.5" /><text class="formula" x="86" y="329" id="plus_node_2">) = R<tspan baseline-shift="-30%" font-size="70%">θ</tspan>(</text><circle id="eq-left-gray-1" cx="164" cy="319" r="11" fill="#eeeeee" stroke="#5e5e5e" stroke-width="3.5" /><text class="formula" x="178" y="329" id="plus_node_3">, a) + R<tspan baseline-shift="-30%" font-size="70%">θ</tspan>(</text><circle id="eq-left-purple-1" cx="291" cy="319" r="11" fill="#efd0eb" stroke="#9900ff" stroke-width="3.5" /><text class="formula" x="305" y="329" id="plus_node_4">, a) + v<tspan baseline-shift="-30%" font-size="70%">θ</tspan>(</text><circle id="eq-left-blue-2" cx="407" cy="319" r="11" fill="#cfe5ff" stroke="#0018ff" stroke-width="3.5" /><text class="formula" x="421" y="329" id="plus_node_5">)</text><text id="left-leaf-value-label" class="sans" x="315" y="282" font-size="21">Value of leaf state</text><path id="left-overbrace" d="M370,295 C374,295 374,289 379,289 L389,289 C394,289 391,295 397,295 C403,295 400,289 405,289 L415,289 C420,289 420,295 424,295" fill="none" stroke="#000" stroke-width="2" /><path id="left-reward-underbrace" d="M119,340 C123,340 123,347 129,347 L225,347 C232,347 229,354 238,354 C247,354 244,347 251,347 L345,347 C351,347 351,340 355,340" fill="none" stroke="#000" stroke-width="2.2" /><text id="left-sum-label" class="sans" x="107" y="377" font-size="22">Sum of rewards to</text><circle id="left-sum-blue-icon" cx="294" cy="369" r="12" fill="#cfe5ff" stroke="#0018ff" stroke-width="3.5" /></g><g id="expansion-arrow-block">
+    <desc>A rightward white outlined block arrow carries the diagram from the initial tree to the expanded tree.</desc>
+    <text id="expansion-arrow-title" class="section-title" x="456" y="160">Expansion</text>
+    <path id="expansion-arrow" d="M454,187 H579 V181 L592,193 L579,205 V199 H454 Z" fill="#f2f2f2" stroke="#777777" stroke-width="1.2" />
+  </g>
+
+  
+  <g id="middle-expanded-tree">
+    <desc>Origin is the expanded gray root. The purple selected node expands to blue and green children; the blue state then expands to red and light-gray successor leaves. The legend below associates red and gray outcomes with T theta of the blue state and actions a1 and a2. Symmetry basis is a downward branching tree with paired children from each internal node.</desc>
+    <path id="middle-edge-root-purple" class="edge" d="M798,94 L764,119" />
+    <path id="middle-edge-root-orange" class="edge" d="M847,94 L883,118" />
+    <path id="middle-edge-purple-blue" class="edge" d="M727,157 L698,171" />
+    <path id="middle-edge-purple-green" class="edge" d="M755,157 L779,178" />
+    <path id="middle-edge-blue-red" class="edge" d="M673,220 L660,240" />
+    <path id="middle-edge-blue-gray" class="edge" d="M702,218 L718,241" />
+
+    <circle id="middle-root-gray" class="node-gray" cx="822" cy="76" r="27" />
+    <circle id="middle-child-purple" class="node-purple" cx="739" cy="133" r="27" />
+    <circle id="middle-child-orange" class="node-orange" cx="905" cy="132" r="27" />
+    <circle id="middle-node-blue" class="node-blue" cx="685" cy="195" r="27" />
+    <circle id="middle-node-green" class="node-green" cx="792" cy="201" r="27" />
+    <circle id="middle-leaf-red" class="node-red" cx="648" cy="265" r="27" />
+    <circle id="middle-leaf-gray" class="node-lightgray" cx="727" cy="264" r="27" />
+
+    <text id="middle-action-a1" class="small-label" x="628" y="228">a<tspan baseline-shift="-30%" font-size="70%">1</tspan></text>
+    <text id="middle-action-a2" class="small-label" x="718" y="228">a<tspan baseline-shift="-30%" font-size="70%">2</tspan></text>
+  </g>
+
+  <g id="middle-transition-legend">
+    <circle id="middle-legend-red" cx="682" cy="326" r="12" fill="#f8cfd0" stroke="#ff0000" stroke-width="3.5" />
+    <text class="formula" x="706" y="333" id="plus_node_6">= T<tspan baseline-shift="-30%" font-size="70%">θ</tspan>(</text>
+    <circle id="middle-legend-blue-1" cx="764" cy="326" r="10.5" fill="#cfe5ff" stroke="#0018ff" stroke-width="3.4" />
+    <text class="formula" x="777" y="333" id="plus_node_7">, a<tspan baseline-shift="-30%" font-size="70%">1</tspan>)</text>
+
+    <circle id="middle-legend-gray" cx="682" cy="371" r="12" fill="#eeeeee" stroke="#9a9a9a" stroke-width="3.5" />
+    <text class="formula" x="706" y="378" id="plus_node_8">= T<tspan baseline-shift="-30%" font-size="70%">θ</tspan>(</text>
+    <circle id="middle-legend-blue-2" cx="764" cy="371" r="10.5" fill="#cfe5ff" stroke="#0018ff" stroke-width="3.4" />
+    <text class="formula" x="777" y="378" id="plus_node_9">, a<tspan baseline-shift="-30%" font-size="70%">2</tspan>)</text>
+  </g>
+
+  
+  <g id="backup-arrow-block">
+    <desc>A second rightward white outlined block arrow points from the expanded tree to the backup tree.</desc>
+    <text id="backup-arrow-title" class="section-title" x="990" y="160">Backup</text>
+    <path id="backup-arrow" d="M977,187 H1102 V181 L1115,193 L1102,205 V199 H977 Z" fill="#f2f2f2" stroke="#777777" stroke-width="1.2" />
+  </g>
+
+  
+  <g id="right-backup-tree">
+    <desc>Origin is the gray root. The tree geometry matches the expanded tree, while red curved arrows run upward from leaf outcomes to parents and then toward the root, showing backup propagation. The backup section is symmetric by corresponding child pairs, with additional red arrows over the structural edges.</desc>
+    <path id="right-edge-root-purple" class="edge" d="M1314,95 L1280,120" />
+    <path id="right-edge-root-orange" class="edge" d="M1363,95 L1398,120" />
+    <path id="right-edge-purple-blue" class="edge" d="M1244,158 L1216,173" />
+    <path id="right-edge-purple-green" class="edge" d="M1271,158 L1296,176" />
+    <path id="right-edge-blue-red" class="edge" d="M1190,221 L1177,242" />
+    <path id="right-edge-blue-gray" class="edge" d="M1219,220 L1242,243" />
+
+    <circle id="right-root-gray" class="node-gray" cx="1338" cy="77" r="27" />
+    <circle id="right-child-purple" class="node-purple" cx="1255" cy="134" r="27" />
+    <circle id="right-child-orange" class="node-orange" cx="1422" cy="134" r="27" />
+    <circle id="right-node-blue" class="node-blue" cx="1202" cy="196" r="27" />
+    <circle id="right-node-green" class="node-green" cx="1310" cy="199" r="27" />
+    <circle id="right-leaf-red" class="node-red" cx="1165" cy="266" r="27" />
+    <circle id="right-leaf-gray" class="node-lightgray" cx="1255" cy="266" r="27" />
+
+    <path id="backup-arrow-red-to-blue" class="red-arrow" marker-end="url(#redArrow)" d="M1167,238 C1158,228 1168,215 1187,214" />
+    <path id="backup-arrow-gray-to-blue" class="red-arrow" marker-end="url(#redArrow)" d="M1244,239 C1243,224 1232,213 1218,214" />
+    <path id="backup-arrow-blue-to-purple" class="red-arrow" marker-end="url(#redArrow)" d="M1216,174 C1219,160 1228,150 1237,151" />
+    <path id="backup-arrow-green-to-purple" class="red-arrow" marker-end="url(#redArrow)" d="M1298,175 C1297,160 1286,151 1273,151" />
+    <path id="backup-arrow-purple-to-root" class="red-arrow" marker-end="url(#redArrow)" d="M1278,116 C1287,96 1304,86 1316,88" />
+    <path id="backup-arrow-orange-to-root" class="red-arrow" marker-end="url(#redArrow)" d="M1400,116 C1391,96 1374,86 1360,88" />
+  </g>
+
+  <g id="right-leaf-value-equation">
+    <text class="formula" x="1372" y="204" id="plus_node_10">V(</text>
+    <circle id="right-eq-orange-1" cx="1412" cy="195" r="10.5" fill="#fff0c5" stroke="#ff9900" stroke-width="3.4" />
+    <text class="formula" x="1426" y="204" id="plus_node_11">)=v<tspan baseline-shift="-30%" font-size="70%">θ</tspan>(</text>
+    <circle id="right-eq-orange-2" cx="1493" cy="195" r="10.5" fill="#fff0c5" stroke="#ff9900" stroke-width="3.4" />
+    <text class="formula" x="1507" y="204" id="plus_node_12">)</text>
+  </g>
+
+  <g id="right-backup-equations"><text class="formula" x="1132" y="337" id="plus_node_13">Q(</text><circle id="right-q-gray-1" cx="1168" cy="328" r="10.5" fill="#eeeeee" stroke="#5e5e5e" stroke-width="3.4" /><text class="formula" x="1182" y="337" id="plus_node_14">,a<tspan baseline-shift="-30%" font-size="70%">1</tspan>) = R<tspan baseline-shift="-30%" font-size="70%">θ</tspan>(</text><circle id="right-q-gray-2" cx="1294" cy="328" r="10.5" fill="#eeeeee" stroke="#5e5e5e" stroke-width="3.4" /><text class="formula" x="1308" y="337" id="plus_node_15">, a) + V(</text><circle id="right-q-purple" cx="1396" cy="328" r="10.5" fill="#efd0eb" stroke="#9900ff" stroke-width="3.4" /><text class="formula" x="1410" y="337" id="plus_node_16">)</text><text class="formula" x="1130" y="383" id="plus_node_17">V(</text><circle id="right-v-purple-1" cx="1168" cy="374" r="10.5" fill="#efd0eb" stroke="#9900ff" stroke-width="3.4" /><text class="formula" x="1182" y="383" id="plus_node_18">) = max<tspan baseline-shift="-30%" font-size="70%">a</tspan> Q(</text><circle id="right-v-purple-2" cx="1341" cy="374" r="10.5" fill="#efd0eb" stroke="#9900ff" stroke-width="3.4" /><text class="formula" x="1355" y="383" id="plus_node_19">, a)</text></g><g id="bottom-expansion-text">
+    <desc>Expansion explanation box: title and two-line instruction to sample a leaf node using softmax over values of the blue, green and orange leaves. The listed leaves are shown by inline colored node icons.</desc>
+    <text id="box-expansion-title" class="box-title" x="59" y="445">Expansion</text>
+    <text id="box-expansion-line1" class="box-text" x="56" y="498">Sample a leaf node from</text>
+
+    <text class="box-text" x="56" y="529" id="plus_node_20">softmax(</text>
+    <text class="formula" x="166" y="529" id="plus_node_21">v̄(</text>
+    <circle id="box-softmax-blue" cx="217" cy="520" r="12" fill="#cfe5ff" stroke="#0018ff" stroke-width="3.5" />
+    <text class="formula" x="232" y="529" id="plus_node_22">), V̄(</text>
+    <circle id="box-softmax-green" cx="295" cy="520" r="12" fill="#cfe2d4" stroke="#5c9d50" stroke-width="3.5" />
+    <text class="formula" x="310" y="529" id="plus_node_23">), V̄(</text>
+    <circle id="box-softmax-orange" cx="376" cy="520" r="12" fill="#fff0c5" stroke="#ff9900" stroke-width="3.5" />
+    <text class="formula" x="391" y="529" id="plus_node_24">))</text>
+    <text class="box-text" x="420" y="529" id="plus_node_25">to expand</text>
+  </g>
+
+  <g id="bottom-backup-text">
+    <desc>Backup explanation box: nodes are updated by taking the maximum Q value among children. The alignment follows the box title at upper left with two text lines below.</desc>
+    <text id="box-backup-title" class="box-title" x="1018" y="445">Backup</text>
+    <text id="box-backup-line1" class="box-text" x="1017" y="498">Value of nodes are updated as maximum</text>
+    <text id="box-backup-line2" class="box-text" x="1017" y="533">Q value of children nodes</text>
+  </g>
+</svg>

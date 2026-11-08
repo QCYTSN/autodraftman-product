@@ -1,0 +1,228 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="2048" height="549" viewBox="0 0 2048 549">
+<defs><marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z" fill="#111111" stroke="none"/></marker><marker id="arrow-small" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z" fill="#111111" stroke="none"/></marker></defs>
+<rect id="background" x="0" y="0" width="2048" height="549" rx="0" ry="0" fill="#ffffff" stroke="none" stroke-width="0" data-pb-role="background" data-pb-editable="true"/>
+<rect id="module-fa" x="1895" y="27" width="96" height="460" rx="16" ry="16" fill="#ffae5a" stroke="#111111" stroke-width="2" data-pb-role="panel" data-pb-editable="true"/>
+<rect id="panel-offline-calibration" x="33" y="285" width="507" height="202" rx="28" ry="28" fill="#fff3e8" stroke="#6d2f17" stroke-width="3" stroke-dasharray="8 5" data-pb-role="panel" data-pb-editable="true"/>
+<rect id="panel-fused-recover-kernel" x="1232" y="111" width="435" height="378" rx="18" ry="18" fill="#fff3e8" stroke="#6d2f17" stroke-width="3" stroke-dasharray="8 5" data-pb-role="panel" data-pb-editable="true"/>
+<rect id="module-attention-score" x="875" y="60" width="205" height="82" rx="0" ry="0" fill="#ffffff" stroke="#111111" stroke-width="2" data-pb-role="panel" data-pb-editable="true"/>
+<rect id="module-topk" x="997" y="263" width="219" height="48" rx="0" ry="0" fill="#ffffff" stroke="#111111" stroke-width="2" data-pb-role="panel" data-pb-editable="true"/>
+<rect id="grid-pre-query-sheet-3" x="102" y="61" width="132" height="34" rx="0" ry="0" fill="#ffe28e" stroke="#111111" stroke-width="2" data-pb-role="grid" data-pb-editable="true"/>
+<line id="grid-pre-query-sheet-3-v1" x1="135.0" y1="61" x2="135.0" y2="95" stroke="#111111" stroke-width="2" fill="none" data-pb-role="grid" data-pb-editable="true"/>
+<line id="grid-pre-query-sheet-3-v2" x1="168.0" y1="61" x2="168.0" y2="95" stroke="#111111" stroke-width="2" fill="none" data-pb-role="grid" data-pb-editable="true"/>
+<line id="grid-pre-query-sheet-3-v3" x1="201.0" y1="61" x2="201.0" y2="95" stroke="#111111" stroke-width="2" fill="none" data-pb-role="grid" data-pb-editable="true"/>
+<rect id="grid-pre-query-sheet-2" x="93" y="69" width="132" height="34" rx="0" ry="0" fill="#ffe28e" stroke="#111111" stroke-width="2" data-pb-role="grid" data-pb-editable="true"/>
+<line id="grid-pre-query-sheet-2-v1" x1="126.0" y1="69" x2="126.0" y2="103" stroke="#111111" stroke-width="2" fill="none" data-pb-role="grid" data-pb-editable="true"/>
+<line id="grid-pre-query-sheet-2-v2" x1="159.0" y1="69" x2="159.0" y2="103" stroke="#111111" stroke-width="2" fill="none" data-pb-role="grid" data-pb-editable="true"/>
+<line id="grid-pre-query-sheet-2-v3" x1="192.0" y1="69" x2="192.0" y2="103" stroke="#111111" stroke-width="2" fill="none" data-pb-role="grid" data-pb-editable="true"/>
+<rect id="grid-pre-query-sheet-1" x="84" y="77" width="132" height="34" rx="0" ry="0" fill="#ffe28e" stroke="#111111" stroke-width="2" data-pb-role="grid" data-pb-editable="true"/>
+<line id="grid-pre-query-sheet-1-v1" x1="117.0" y1="77" x2="117.0" y2="111" stroke="#111111" stroke-width="2" fill="none" data-pb-role="grid" data-pb-editable="true"/>
+<line id="grid-pre-query-sheet-1-v2" x1="150.0" y1="77" x2="150.0" y2="111" stroke="#111111" stroke-width="2" fill="none" data-pb-role="grid" data-pb-editable="true"/>
+<line id="grid-pre-query-sheet-1-v3" x1="183.0" y1="77" x2="183.0" y2="111" stroke="#111111" stroke-width="2" fill="none" data-pb-role="grid" data-pb-editable="true"/>
+<rect id="grid-pre-query-front" x="75" y="85" width="132" height="34" rx="0" ry="0" fill="#ffe28e" stroke="#111111" stroke-width="2" data-pb-role="grid" data-pb-editable="true"/>
+<line id="grid-pre-query-front-v1" x1="108.0" y1="85" x2="108.0" y2="119" stroke="#111111" stroke-width="2" fill="none" data-pb-role="grid" data-pb-editable="true"/>
+<line id="grid-pre-query-front-v2" x1="141.0" y1="85" x2="141.0" y2="119" stroke="#111111" stroke-width="2" fill="none" data-pb-role="grid" data-pb-editable="true"/>
+<line id="grid-pre-query-front-v3" x1="174.0" y1="85" x2="174.0" y2="119" stroke="#111111" stroke-width="2" fill="none" data-pb-role="grid" data-pb-editable="true"/>
+<rect id="grid-query-vector" x="297" y="75" width="209" height="35" rx="0" ry="0" fill="#ffe28e" stroke="#111111" stroke-width="2" data-pb-role="grid" data-pb-editable="true"/>
+<line id="grid-query-vector-v1" x1="331.8333333333333" y1="75" x2="331.8333333333333" y2="110" stroke="#111111" stroke-width="2" fill="none" data-pb-role="grid" data-pb-editable="true"/>
+<line id="grid-query-vector-v2" x1="366.6666666666667" y1="75" x2="366.6666666666667" y2="110" stroke="#111111" stroke-width="2" fill="none" data-pb-role="grid" data-pb-editable="true"/>
+<line id="grid-query-vector-v3" x1="401.5" y1="75" x2="401.5" y2="110" stroke="#111111" stroke-width="2" fill="none" data-pb-role="grid" data-pb-editable="true"/>
+<line id="grid-query-vector-v4" x1="436.33333333333337" y1="75" x2="436.33333333333337" y2="110" stroke="#111111" stroke-width="2" fill="none" data-pb-role="grid" data-pb-editable="true"/>
+<text id="grid-query-vector-ellipsis" x="480.92" y="96.7" font-family="Times New Roman, Times, serif" font-size="26" font-weight="400" fill="#000000" text-anchor="start" data-pb-role="label" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="horizontal">...</text>
+<rect id="grid-pre-key-sheet-3" x="102" y="162" width="132" height="34" rx="0" ry="0" fill="#d9eef1" stroke="#111111" stroke-width="2" data-pb-role="grid" data-pb-editable="true"/>
+<line id="grid-pre-key-sheet-3-v1" x1="135.0" y1="162" x2="135.0" y2="196" stroke="#111111" stroke-width="2" fill="none" data-pb-role="grid" data-pb-editable="true"/>
+<line id="grid-pre-key-sheet-3-v2" x1="168.0" y1="162" x2="168.0" y2="196" stroke="#111111" stroke-width="2" fill="none" data-pb-role="grid" data-pb-editable="true"/>
+<line id="grid-pre-key-sheet-3-v3" x1="201.0" y1="162" x2="201.0" y2="196" stroke="#111111" stroke-width="2" fill="none" data-pb-role="grid" data-pb-editable="true"/>
+<rect id="grid-pre-key-sheet-2" x="93" y="170" width="132" height="34" rx="0" ry="0" fill="#d9eef1" stroke="#111111" stroke-width="2" data-pb-role="grid" data-pb-editable="true"/>
+<line id="grid-pre-key-sheet-2-v1" x1="126.0" y1="170" x2="126.0" y2="204" stroke="#111111" stroke-width="2" fill="none" data-pb-role="grid" data-pb-editable="true"/>
+<line id="grid-pre-key-sheet-2-v2" x1="159.0" y1="170" x2="159.0" y2="204" stroke="#111111" stroke-width="2" fill="none" data-pb-role="grid" data-pb-editable="true"/>
+<line id="grid-pre-key-sheet-2-v3" x1="192.0" y1="170" x2="192.0" y2="204" stroke="#111111" stroke-width="2" fill="none" data-pb-role="grid" data-pb-editable="true"/>
+<rect id="grid-pre-key-sheet-1" x="84" y="178" width="132" height="34" rx="0" ry="0" fill="#d9eef1" stroke="#111111" stroke-width="2" data-pb-role="grid" data-pb-editable="true"/>
+<line id="grid-pre-key-sheet-1-v1" x1="117.0" y1="178" x2="117.0" y2="212" stroke="#111111" stroke-width="2" fill="none" data-pb-role="grid" data-pb-editable="true"/>
+<line id="grid-pre-key-sheet-1-v2" x1="150.0" y1="178" x2="150.0" y2="212" stroke="#111111" stroke-width="2" fill="none" data-pb-role="grid" data-pb-editable="true"/>
+<line id="grid-pre-key-sheet-1-v3" x1="183.0" y1="178" x2="183.0" y2="212" stroke="#111111" stroke-width="2" fill="none" data-pb-role="grid" data-pb-editable="true"/>
+<rect id="grid-pre-key-front" x="75" y="186" width="132" height="34" rx="0" ry="0" fill="#d9eef1" stroke="#111111" stroke-width="2" data-pb-role="grid" data-pb-editable="true"/>
+<line id="grid-pre-key-front-v1" x1="108.0" y1="186" x2="108.0" y2="220" stroke="#111111" stroke-width="2" fill="none" data-pb-role="grid" data-pb-editable="true"/>
+<line id="grid-pre-key-front-v2" x1="141.0" y1="186" x2="141.0" y2="220" stroke="#111111" stroke-width="2" fill="none" data-pb-role="grid" data-pb-editable="true"/>
+<line id="grid-pre-key-front-v3" x1="174.0" y1="186" x2="174.0" y2="220" stroke="#111111" stroke-width="2" fill="none" data-pb-role="grid" data-pb-editable="true"/>
+<rect id="grid-key-vector" x="297" y="175" width="209" height="35" rx="0" ry="0" fill="#d9eef1" stroke="#111111" stroke-width="2" data-pb-role="grid" data-pb-editable="true"/>
+<line id="grid-key-vector-v1" x1="331.8333333333333" y1="175" x2="331.8333333333333" y2="210" stroke="#111111" stroke-width="2" fill="none" data-pb-role="grid" data-pb-editable="true"/>
+<line id="grid-key-vector-v2" x1="366.6666666666667" y1="175" x2="366.6666666666667" y2="210" stroke="#111111" stroke-width="2" fill="none" data-pb-role="grid" data-pb-editable="true"/>
+<line id="grid-key-vector-v3" x1="401.5" y1="175" x2="401.5" y2="210" stroke="#111111" stroke-width="2" fill="none" data-pb-role="grid" data-pb-editable="true"/>
+<line id="grid-key-vector-v4" x1="436.33333333333337" y1="175" x2="436.33333333333337" y2="210" stroke="#111111" stroke-width="2" fill="none" data-pb-role="grid" data-pb-editable="true"/>
+<text id="grid-key-vector-ellipsis" x="480.92" y="196.7" font-family="Times New Roman, Times, serif" font-size="26" font-weight="400" fill="#000000" text-anchor="start" data-pb-role="label" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="horizontal">...</text>
+<rect id="grid-selected-query" x="778" y="86" width="67" height="34" rx="0" ry="0" fill="#ffa94f" stroke="#111111" stroke-width="2" data-pb-role="grid" data-pb-editable="true"/>
+<line id="grid-selected-query-v1" x1="811.5" y1="86" x2="811.5" y2="120" stroke="#111111" stroke-width="2" fill="none" data-pb-role="grid" data-pb-editable="true"/>
+<rect id="grid-small-latent" x="778" y="176" width="67" height="33" rx="0" ry="0" fill="#48b9df" stroke="#111111" stroke-width="2" data-pb-role="grid" data-pb-editable="true"/>
+<line id="grid-small-latent-v1" x1="811.5" y1="176" x2="811.5" y2="209" stroke="#111111" stroke-width="2" fill="none" data-pb-role="grid" data-pb-editable="true"/>
+<rect id="grid-compressed-basis" x="575" y="257" width="68" height="208" rx="0" ry="0" fill="#8bd873" stroke="#111111" stroke-width="2" data-pb-role="grid" data-pb-editable="true"/>
+<line id="grid-compressed-basis-v1" x1="609.0" y1="257" x2="609.0" y2="465" stroke="#111111" stroke-width="2" fill="none" data-pb-role="grid" data-pb-editable="true"/>
+<line id="grid-compressed-basis-h1" x1="575" y1="291.6666666666667" x2="643" y2="291.6666666666667" stroke="#111111" stroke-width="2" fill="none" data-pb-role="grid" data-pb-editable="true"/>
+<line id="grid-compressed-basis-h2" x1="575" y1="326.3333333333333" x2="643" y2="326.3333333333333" stroke="#111111" stroke-width="2" fill="none" data-pb-role="grid" data-pb-editable="true"/>
+<line id="grid-compressed-basis-h3" x1="575" y1="361.0" x2="643" y2="361.0" stroke="#111111" stroke-width="2" fill="none" data-pb-role="grid" data-pb-editable="true"/>
+<line id="grid-compressed-basis-h4" x1="575" y1="395.66666666666663" x2="643" y2="395.66666666666663" stroke="#111111" stroke-width="2" fill="none" data-pb-role="grid" data-pb-editable="true"/>
+<line id="grid-compressed-basis-h5" x1="575" y1="430.33333333333337" x2="643" y2="430.33333333333337" stroke="#111111" stroke-width="2" fill="none" data-pb-role="grid" data-pb-editable="true"/>
+<text id="grid-compressed-ellipsis" x="584" y="432" font-family="Times New Roman, Times, serif" font-size="22" font-weight="400" fill="#000000" text-anchor="start" data-pb-role="label" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="horizontal">......</text>
+<rect id="grid-latent-cache" x="778" y="253" width="69" height="234" rx="0" ry="0" fill="#a9ddea" stroke="#111111" stroke-width="2" data-pb-role="grid" data-pb-editable="true"/>
+<line id="grid-latent-cache-v1" x1="812.5" y1="253" x2="812.5" y2="487" stroke="#111111" stroke-width="2" fill="none" data-pb-role="grid" data-pb-editable="true"/>
+<line id="grid-latent-cache-h1" x1="778" y1="286.42857142857144" x2="847" y2="286.42857142857144" stroke="#111111" stroke-width="2" fill="none" data-pb-role="grid" data-pb-editable="true"/>
+<line id="grid-latent-cache-h2" x1="778" y1="319.8571428571429" x2="847" y2="319.8571428571429" stroke="#111111" stroke-width="2" fill="none" data-pb-role="grid" data-pb-editable="true"/>
+<line id="grid-latent-cache-h3" x1="778" y1="353.2857142857143" x2="847" y2="353.2857142857143" stroke="#111111" stroke-width="2" fill="none" data-pb-role="grid" data-pb-editable="true"/>
+<line id="grid-latent-cache-h4" x1="778" y1="386.7142857142857" x2="847" y2="386.7142857142857" stroke="#111111" stroke-width="2" fill="none" data-pb-role="grid" data-pb-editable="true"/>
+<line id="grid-latent-cache-h5" x1="778" y1="420.1428571428571" x2="847" y2="420.1428571428571" stroke="#111111" stroke-width="2" fill="none" data-pb-role="grid" data-pb-editable="true"/>
+<line id="grid-latent-cache-h6" x1="778" y1="453.57142857142856" x2="847" y2="453.57142857142856" stroke="#111111" stroke-width="2" fill="none" data-pb-role="grid" data-pb-editable="true"/>
+<rect id="grid-selected-column" x="910" y="219" width="68" height="267" rx="0" ry="0" fill="#a9ddea" stroke="#111111" stroke-width="2" data-pb-role="grid" data-pb-editable="true"/>
+<line id="grid-selected-column-v1" x1="944.0" y1="219" x2="944.0" y2="486" stroke="#111111" stroke-width="2" fill="none" data-pb-role="grid" data-pb-editable="true"/>
+<line id="grid-selected-column-h1" x1="910" y1="248.66666666666666" x2="978" y2="248.66666666666666" stroke="#111111" stroke-width="2" fill="none" data-pb-role="grid" data-pb-editable="true"/>
+<line id="grid-selected-column-h2" x1="910" y1="278.3333333333333" x2="978" y2="278.3333333333333" stroke="#111111" stroke-width="2" fill="none" data-pb-role="grid" data-pb-editable="true"/>
+<line id="grid-selected-column-h3" x1="910" y1="308.0" x2="978" y2="308.0" stroke="#111111" stroke-width="2" fill="none" data-pb-role="grid" data-pb-editable="true"/>
+<line id="grid-selected-column-h4" x1="910" y1="337.6666666666667" x2="978" y2="337.6666666666667" stroke="#111111" stroke-width="2" fill="none" data-pb-role="grid" data-pb-editable="true"/>
+<line id="grid-selected-column-h5" x1="910" y1="367.33333333333337" x2="978" y2="367.33333333333337" stroke="#111111" stroke-width="2" fill="none" data-pb-role="grid" data-pb-editable="true"/>
+<line id="grid-selected-column-h6" x1="910" y1="397.0" x2="978" y2="397.0" stroke="#111111" stroke-width="2" fill="none" data-pb-role="grid" data-pb-editable="true"/>
+<line id="grid-selected-column-h7" x1="910" y1="426.66666666666663" x2="978" y2="426.66666666666663" stroke="#111111" stroke-width="2" fill="none" data-pb-role="grid" data-pb-editable="true"/>
+<line id="grid-selected-column-h8" x1="910" y1="456.33333333333337" x2="978" y2="456.33333333333337" stroke="#111111" stroke-width="2" fill="none" data-pb-role="grid" data-pb-editable="true"/>
+<rect id="grid-recovered-column" x="1305" y="218" width="68" height="267" rx="0" ry="0" fill="#a0d7df" stroke="#111111" stroke-width="2" data-pb-role="grid" data-pb-editable="true"/>
+<rect id="grid-recovered-column-band-0" x="1305" y="218.0" width="68" height="33.375" rx="0" ry="0" fill="#4c9fd4" stroke="none" stroke-width="0" data-pb-role="node" data-pb-editable="true"/>
+<rect id="grid-recovered-column-band-1" x="1305" y="251.375" width="68" height="33.375" rx="0" ry="0" fill="#4c9fd4" stroke="none" stroke-width="0" data-pb-role="node" data-pb-editable="true"/>
+<rect id="grid-recovered-column-band-5" x="1305" y="384.875" width="68" height="33.375" rx="0" ry="0" fill="#4c9fd4" stroke="none" stroke-width="0" data-pb-role="node" data-pb-editable="true"/>
+<line id="grid-recovered-column-v1" x1="1339.0" y1="218" x2="1339.0" y2="485" stroke="#111111" stroke-width="2" fill="none" data-pb-role="grid" data-pb-editable="true"/>
+<line id="grid-recovered-column-h1" x1="1305" y1="251.375" x2="1373" y2="251.375" stroke="#111111" stroke-width="2" fill="none" data-pb-role="grid" data-pb-editable="true"/>
+<line id="grid-recovered-column-h2" x1="1305" y1="284.75" x2="1373" y2="284.75" stroke="#111111" stroke-width="2" fill="none" data-pb-role="grid" data-pb-editable="true"/>
+<line id="grid-recovered-column-h3" x1="1305" y1="318.125" x2="1373" y2="318.125" stroke="#111111" stroke-width="2" fill="none" data-pb-role="grid" data-pb-editable="true"/>
+<line id="grid-recovered-column-h4" x1="1305" y1="351.5" x2="1373" y2="351.5" stroke="#111111" stroke-width="2" fill="none" data-pb-role="grid" data-pb-editable="true"/>
+<line id="grid-recovered-column-h5" x1="1305" y1="384.875" x2="1373" y2="384.875" stroke="#111111" stroke-width="2" fill="none" data-pb-role="grid" data-pb-editable="true"/>
+<line id="grid-recovered-column-h6" x1="1305" y1="418.25" x2="1373" y2="418.25" stroke="#111111" stroke-width="2" fill="none" data-pb-role="grid" data-pb-editable="true"/>
+<line id="grid-recovered-column-h7" x1="1305" y1="451.625" x2="1373" y2="451.625" stroke="#111111" stroke-width="2" fill="none" data-pb-role="grid" data-pb-editable="true"/>
+<rect id="grid-reconstruct-green" x="1439" y="363" width="210" height="66" rx="0" ry="0" fill="#8bdb74" stroke="#111111" stroke-width="2" data-pb-role="grid" data-pb-editable="true"/>
+<line id="grid-reconstruct-green-v1" x1="1474.0" y1="363" x2="1474.0" y2="429" stroke="#111111" stroke-width="2" fill="none" data-pb-role="grid" data-pb-editable="true"/>
+<line id="grid-reconstruct-green-v2" x1="1509.0" y1="363" x2="1509.0" y2="429" stroke="#111111" stroke-width="2" fill="none" data-pb-role="grid" data-pb-editable="true"/>
+<line id="grid-reconstruct-green-v3" x1="1544.0" y1="363" x2="1544.0" y2="429" stroke="#111111" stroke-width="2" fill="none" data-pb-role="grid" data-pb-editable="true"/>
+<line id="grid-reconstruct-green-v4" x1="1579.0" y1="363" x2="1579.0" y2="429" stroke="#111111" stroke-width="2" fill="none" data-pb-role="grid" data-pb-editable="true"/>
+<line id="grid-reconstruct-green-v5" x1="1614.0" y1="363" x2="1614.0" y2="429" stroke="#111111" stroke-width="2" fill="none" data-pb-role="grid" data-pb-editable="true"/>
+<line id="grid-reconstruct-green-h1" x1="1439" y1="396.0" x2="1649" y2="396.0" stroke="#111111" stroke-width="2" fill="none" data-pb-role="grid" data-pb-editable="true"/>
+<text id="grid-green-ellipsis-top" x="1592" y="390" font-family="Times New Roman, Times, serif" font-size="28" font-weight="400" fill="#000000" text-anchor="start" data-pb-role="label" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="horizontal">...</text>
+<text id="grid-green-ellipsis-bottom" x="1592" y="421" font-family="Times New Roman, Times, serif" font-size="28" font-weight="400" fill="#000000" text-anchor="start" data-pb-role="label" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="horizontal">...</text>
+<rect id="grid-post-query-sheet-3" x="1734" y="61" width="132" height="34" rx="0" ry="0" fill="#ffad57" stroke="#111111" stroke-width="2" data-pb-role="grid" data-pb-editable="true"/>
+<line id="grid-post-query-sheet-3-v1" x1="1767.0" y1="61" x2="1767.0" y2="95" stroke="#111111" stroke-width="2" fill="none" data-pb-role="grid" data-pb-editable="true"/>
+<line id="grid-post-query-sheet-3-v2" x1="1800.0" y1="61" x2="1800.0" y2="95" stroke="#111111" stroke-width="2" fill="none" data-pb-role="grid" data-pb-editable="true"/>
+<line id="grid-post-query-sheet-3-v3" x1="1833.0" y1="61" x2="1833.0" y2="95" stroke="#111111" stroke-width="2" fill="none" data-pb-role="grid" data-pb-editable="true"/>
+<rect id="grid-post-query-sheet-2" x="1725" y="69" width="132" height="34" rx="0" ry="0" fill="#ffad57" stroke="#111111" stroke-width="2" data-pb-role="grid" data-pb-editable="true"/>
+<line id="grid-post-query-sheet-2-v1" x1="1758.0" y1="69" x2="1758.0" y2="103" stroke="#111111" stroke-width="2" fill="none" data-pb-role="grid" data-pb-editable="true"/>
+<line id="grid-post-query-sheet-2-v2" x1="1791.0" y1="69" x2="1791.0" y2="103" stroke="#111111" stroke-width="2" fill="none" data-pb-role="grid" data-pb-editable="true"/>
+<line id="grid-post-query-sheet-2-v3" x1="1824.0" y1="69" x2="1824.0" y2="103" stroke="#111111" stroke-width="2" fill="none" data-pb-role="grid" data-pb-editable="true"/>
+<rect id="grid-post-query-sheet-1" x="1716" y="77" width="132" height="34" rx="0" ry="0" fill="#ffad57" stroke="#111111" stroke-width="2" data-pb-role="grid" data-pb-editable="true"/>
+<line id="grid-post-query-sheet-1-v1" x1="1749.0" y1="77" x2="1749.0" y2="111" stroke="#111111" stroke-width="2" fill="none" data-pb-role="grid" data-pb-editable="true"/>
+<line id="grid-post-query-sheet-1-v2" x1="1782.0" y1="77" x2="1782.0" y2="111" stroke="#111111" stroke-width="2" fill="none" data-pb-role="grid" data-pb-editable="true"/>
+<line id="grid-post-query-sheet-1-v3" x1="1815.0" y1="77" x2="1815.0" y2="111" stroke="#111111" stroke-width="2" fill="none" data-pb-role="grid" data-pb-editable="true"/>
+<rect id="grid-post-query-front" x="1707" y="85" width="132" height="34" rx="0" ry="0" fill="#ffad57" stroke="#111111" stroke-width="2" data-pb-role="grid" data-pb-editable="true"/>
+<line id="grid-post-query-front-v1" x1="1740.0" y1="85" x2="1740.0" y2="119" stroke="#111111" stroke-width="2" fill="none" data-pb-role="grid" data-pb-editable="true"/>
+<line id="grid-post-query-front-v2" x1="1773.0" y1="85" x2="1773.0" y2="119" stroke="#111111" stroke-width="2" fill="none" data-pb-role="grid" data-pb-editable="true"/>
+<line id="grid-post-query-front-v3" x1="1806.0" y1="85" x2="1806.0" y2="119" stroke="#111111" stroke-width="2" fill="none" data-pb-role="grid" data-pb-editable="true"/>
+<rect id="grid-critical-key-sheet-3" x="1734" y="293" width="132" height="35" rx="0" ry="0" fill="#4da3df" stroke="#111111" stroke-width="2" data-pb-role="grid" data-pb-editable="true"/>
+<line id="grid-critical-key-sheet-3-v1" x1="1767.0" y1="293" x2="1767.0" y2="328" stroke="#111111" stroke-width="2" fill="none" data-pb-role="grid" data-pb-editable="true"/>
+<line id="grid-critical-key-sheet-3-v2" x1="1800.0" y1="293" x2="1800.0" y2="328" stroke="#111111" stroke-width="2" fill="none" data-pb-role="grid" data-pb-editable="true"/>
+<line id="grid-critical-key-sheet-3-v3" x1="1833.0" y1="293" x2="1833.0" y2="328" stroke="#111111" stroke-width="2" fill="none" data-pb-role="grid" data-pb-editable="true"/>
+<rect id="grid-critical-key-sheet-2" x="1725" y="301" width="132" height="35" rx="0" ry="0" fill="#4da3df" stroke="#111111" stroke-width="2" data-pb-role="grid" data-pb-editable="true"/>
+<line id="grid-critical-key-sheet-2-v1" x1="1758.0" y1="301" x2="1758.0" y2="336" stroke="#111111" stroke-width="2" fill="none" data-pb-role="grid" data-pb-editable="true"/>
+<line id="grid-critical-key-sheet-2-v2" x1="1791.0" y1="301" x2="1791.0" y2="336" stroke="#111111" stroke-width="2" fill="none" data-pb-role="grid" data-pb-editable="true"/>
+<line id="grid-critical-key-sheet-2-v3" x1="1824.0" y1="301" x2="1824.0" y2="336" stroke="#111111" stroke-width="2" fill="none" data-pb-role="grid" data-pb-editable="true"/>
+<rect id="grid-critical-key-sheet-1" x="1716" y="309" width="132" height="35" rx="0" ry="0" fill="#4da3df" stroke="#111111" stroke-width="2" data-pb-role="grid" data-pb-editable="true"/>
+<line id="grid-critical-key-sheet-1-v1" x1="1749.0" y1="309" x2="1749.0" y2="344" stroke="#111111" stroke-width="2" fill="none" data-pb-role="grid" data-pb-editable="true"/>
+<line id="grid-critical-key-sheet-1-v2" x1="1782.0" y1="309" x2="1782.0" y2="344" stroke="#111111" stroke-width="2" fill="none" data-pb-role="grid" data-pb-editable="true"/>
+<line id="grid-critical-key-sheet-1-v3" x1="1815.0" y1="309" x2="1815.0" y2="344" stroke="#111111" stroke-width="2" fill="none" data-pb-role="grid" data-pb-editable="true"/>
+<rect id="grid-critical-key-front" x="1707" y="317" width="132" height="35" rx="0" ry="0" fill="#4da3df" stroke="#111111" stroke-width="2" data-pb-role="grid" data-pb-editable="true"/>
+<line id="grid-critical-key-front-v1" x1="1740.0" y1="317" x2="1740.0" y2="352" stroke="#111111" stroke-width="2" fill="none" data-pb-role="grid" data-pb-editable="true"/>
+<line id="grid-critical-key-front-v2" x1="1773.0" y1="317" x2="1773.0" y2="352" stroke="#111111" stroke-width="2" fill="none" data-pb-role="grid" data-pb-editable="true"/>
+<line id="grid-critical-key-front-v3" x1="1806.0" y1="317" x2="1806.0" y2="352" stroke="#111111" stroke-width="2" fill="none" data-pb-role="grid" data-pb-editable="true"/>
+<rect id="grid-calibration-keys" x="86" y="343" width="90" height="90" rx="0" ry="0" fill="#dff3f6" stroke="#111111" stroke-width="2" data-pb-role="grid" data-pb-editable="true"/>
+<line id="grid-calibration-keys-v1" x1="108.5" y1="343" x2="108.5" y2="433" stroke="#111111" stroke-width="2" fill="none" data-pb-role="grid" data-pb-editable="true"/>
+<line id="grid-calibration-keys-v2" x1="131.0" y1="343" x2="131.0" y2="433" stroke="#111111" stroke-width="2" fill="none" data-pb-role="grid" data-pb-editable="true"/>
+<line id="grid-calibration-keys-v3" x1="153.5" y1="343" x2="153.5" y2="433" stroke="#111111" stroke-width="2" fill="none" data-pb-role="grid" data-pb-editable="true"/>
+<line id="grid-calibration-keys-h1" x1="86" y1="365.5" x2="176" y2="365.5" stroke="#111111" stroke-width="2" fill="none" data-pb-role="grid" data-pb-editable="true"/>
+<line id="grid-calibration-keys-h2" x1="86" y1="388.0" x2="176" y2="388.0" stroke="#111111" stroke-width="2" fill="none" data-pb-role="grid" data-pb-editable="true"/>
+<line id="grid-calibration-keys-h3" x1="86" y1="410.5" x2="176" y2="410.5" stroke="#111111" stroke-width="2" fill="none" data-pb-role="grid" data-pb-editable="true"/>
+<rect id="grid-covariance" x="316" y="343" width="90" height="90" rx="0" ry="0" fill="#cfeec6" stroke="#111111" stroke-width="2" data-pb-role="grid" data-pb-editable="true"/>
+<line id="grid-covariance-v1" x1="338.5" y1="343" x2="338.5" y2="433" stroke="#111111" stroke-width="2" fill="none" data-pb-role="grid" data-pb-editable="true"/>
+<line id="grid-covariance-v2" x1="361.0" y1="343" x2="361.0" y2="433" stroke="#111111" stroke-width="2" fill="none" data-pb-role="grid" data-pb-editable="true"/>
+<line id="grid-covariance-v3" x1="383.5" y1="343" x2="383.5" y2="433" stroke="#111111" stroke-width="2" fill="none" data-pb-role="grid" data-pb-editable="true"/>
+<line id="grid-covariance-h1" x1="316" y1="365.5" x2="406" y2="365.5" stroke="#111111" stroke-width="2" fill="none" data-pb-role="grid" data-pb-editable="true"/>
+<line id="grid-covariance-h2" x1="316" y1="388.0" x2="406" y2="388.0" stroke="#111111" stroke-width="2" fill="none" data-pb-role="grid" data-pb-editable="true"/>
+<line id="grid-covariance-h3" x1="316" y1="410.5" x2="406" y2="410.5" stroke="#111111" stroke-width="2" fill="none" data-pb-role="grid" data-pb-editable="true"/>
+<rect id="frame-selected-query" x="768" y="76" width="50" height="52" rx="4" ry="4" fill="none" stroke="#ff2a2a" stroke-width="3" stroke-dasharray="3 4" data-pb-role="decorative" data-pb-editable="true"/>
+<rect id="frame-selected-dimension" x="906" y="215" width="51" height="274" rx="4" ry="4" fill="none" stroke="#ff2a2a" stroke-width="3" stroke-dasharray="3 4" data-pb-role="decorative" data-pb-editable="true"/>
+<polyline id="connector-top-rope" points="141,67 141,35 1782,35 1782,73" fill="none" stroke="#111111" stroke-width="3" marker-end="url(#arrow)" data-pb-role="connector" data-pb-editable="true"/>
+<line id="connector-query-stack-to-vector" x1="233" y1="93" x2="291" y2="93" stroke="#111111" stroke-width="3" marker-end="url(#arrow)" fill="none" data-pb-role="connector" data-pb-editable="true"/>
+<line id="connector-key-stack-to-vector" x1="233" y1="194" x2="291" y2="194" stroke="#111111" stroke-width="3" marker-end="url(#arrow)" fill="none" data-pb-role="connector" data-pb-editable="true"/>
+<polyline id="connector-query-vector-product" points="514,92 608,92 608,137" fill="none" stroke="#111111" stroke-width="3" marker-end="url(#arrow)" data-pb-role="connector" data-pb-editable="true"/>
+<polyline id="connector-key-vector-product" points="514,193 608,193 608,166" fill="none" stroke="#111111" stroke-width="3" marker-end="url(#arrow)" data-pb-role="connector" data-pb-editable="true"/>
+<circle id="symbol-product-circle" cx="609" cy="151" r="12" fill="#ffffff" stroke="#111111" stroke-width="2" data-pb-role="node" data-pb-editable="true"/>
+<line id="symbol-product-a" x1="602.4" y1="144.4" x2="615.6" y2="157.6" stroke="#111111" stroke-width="3" fill="none" data-pb-role="node" data-pb-editable="true"/>
+<line id="symbol-product-b" x1="602.4" y1="157.6" x2="615.6" y2="144.4" stroke="#111111" stroke-width="3" fill="none" data-pb-role="node" data-pb-editable="true"/>
+<line id="connector-product-to-branch" x1="636" y1="151" x2="688" y2="151" stroke="#111111" stroke-width="3" marker-end="url(#arrow)" fill="none" data-pb-role="connector" data-pb-editable="true"/>
+<polyline id="connector-branch-upper" points="688,151 688,102 744,102" fill="none" stroke="#111111" stroke-width="3" marker-end="url(#arrow)" data-pb-role="connector" data-pb-editable="true"/>
+<polyline id="connector-branch-lower" points="688,151 688,192 744,192" fill="none" stroke="#111111" stroke-width="3" marker-end="url(#arrow)" data-pb-role="connector" data-pb-editable="true"/>
+<line id="connector-query-small-attention" x1="819" y1="102" x2="873" y2="102" stroke="#111111" stroke-width="3" marker-end="url(#arrow)" fill="none" data-pb-role="connector" data-pb-editable="true"/>
+<line id="connector-small-latent-to-cache" x1="811" y1="210" x2="811" y2="248" stroke="#111111" stroke-width="3" marker-end="url(#arrow)" fill="none" data-pb-role="connector" data-pb-editable="true"/>
+<line id="connector-cache-selected-column" x1="852" y1="375" x2="898" y2="375" stroke="#111111" stroke-width="3" marker-end="url(#arrow)" fill="none" data-pb-role="connector" data-pb-editable="true"/>
+<line id="connector-selected-dim-up" x1="929" y1="214" x2="929" y2="147" stroke="#111111" stroke-width="3" marker-end="url(#arrow)" fill="none" data-pb-role="connector" data-pb-editable="true"/>
+<polyline id="connector-score-to-topk" points="1080,101 1111,101 1111,242" fill="none" stroke="#111111" stroke-width="3" marker-end="url(#arrow)" data-pb-role="connector" data-pb-editable="true"/>
+<line id="connector-topk-to-kernel" x1="1216" y1="287" x2="1255" y2="287" stroke="#111111" stroke-width="3" marker-end="url(#arrow)" fill="none" data-pb-role="connector" data-pb-editable="true"/>
+<polyline id="connector-kernel-fork-upper" points="1255,287 1255,235 1294,235" fill="none" stroke="#111111" stroke-width="3" marker-end="url(#arrow)" data-pb-role="connector" data-pb-editable="true"/>
+<polyline id="connector-kernel-fork-lower" points="1255,287 1255,404 1294,404" fill="none" stroke="#111111" stroke-width="3" marker-end="url(#arrow)" data-pb-role="connector" data-pb-editable="true"/>
+<polyline id="connector-transpose-branch" points="1001,351 1148,351 1148,438 1294,438" fill="none" stroke="#111111" stroke-width="3" marker-end="url(#arrow)" data-pb-role="connector" data-pb-editable="true"/>
+<path id="connector-bottom-transpose" d="M 608 441 L 608 500 L 1543 500 L 1543 451" fill="none" stroke="#111111" stroke-width="3" marker-end="url(#arrow)" data-pb-role="connector" data-pb-editable="true"/>
+<line id="connector-green-up" x1="1544" y1="450" x2="1544" y2="430" stroke="#111111" stroke-width="3" marker-end="url(#arrow)" fill="none" data-pb-role="connector" data-pb-editable="true"/>
+<line id="connector-dotted-reconstruct-top" x1="1385" y1="235" x2="1518" y2="235" stroke="#111111" stroke-width="3" stroke-dasharray="2 3" marker-end="url(#arrow-small)" fill="none" data-pb-role="connector" data-pb-editable="true"/>
+<polyline id="connector-dotted-left-return" points="1385,235 1412,235 1412,403 1385,403" fill="none" stroke="#111111" stroke-width="3" stroke-dasharray="2 3" data-pb-role="connector" data-pb-editable="true"/>
+<circle id="symbol-kernel-product-circle" cx="1545" cy="239" r="13" fill="#ffffff" stroke="#111111" stroke-width="2" data-pb-role="node" data-pb-editable="true"/>
+<line id="symbol-kernel-product-a" x1="1537.85" y1="231.85" x2="1552.15" y2="246.15" stroke="#111111" stroke-width="3" fill="none" data-pb-role="node" data-pb-editable="true"/>
+<line id="symbol-kernel-product-b" x1="1537.85" y1="246.15" x2="1552.15" y2="231.85" stroke="#111111" stroke-width="3" fill="none" data-pb-role="node" data-pb-editable="true"/>
+<line id="connector-dotted-up-to-product" x1="1545" y1="344" x2="1545" y2="268" stroke="#111111" stroke-width="3" stroke-dasharray="2 3" marker-end="url(#arrow-small)" fill="none" data-pb-role="connector" data-pb-editable="true"/>
+<polyline id="connector-dotted-output" points="1571,238 1636,238 1636,339 1684,339" fill="none" stroke="#111111" stroke-width="3" stroke-dasharray="2 3" marker-end="url(#arrow)" data-pb-role="connector" data-pb-editable="true"/>
+<line id="connector-kernel-output" x1="1638" y1="338" x2="1697" y2="338" stroke="#111111" stroke-width="3" marker-end="url(#arrow)" fill="none" data-pb-role="connector" data-pb-editable="true"/>
+<line id="connector-post-query-fa" x1="1857" y1="93" x2="1889" y2="93" stroke="#111111" stroke-width="3" marker-end="url(#arrow)" fill="none" data-pb-role="connector" data-pb-editable="true"/>
+<line id="connector-critical-key-fa" x1="1855" y1="343" x2="1889" y2="343" stroke="#111111" stroke-width="3" marker-end="url(#arrow)" fill="none" data-pb-role="connector" data-pb-editable="true"/>
+<line id="connector-cov-calc" x1="197" y1="388" x2="302" y2="388" stroke="#111111" stroke-width="3" marker-end="url(#arrow)" fill="none" data-pb-role="connector" data-pb-editable="true"/>
+<polyline id="connector-evd" points="430,388 497,388 497,342 565,342" fill="none" stroke="#111111" stroke-width="3" marker-end="url(#arrow)" data-pb-role="connector" data-pb-editable="true"/>
+<line id="connector-evd-short" x1="500" y1="342" x2="566" y2="342" stroke="#111111" stroke-width="3" marker-end="url(#arrow)" fill="none" data-pb-role="connector" data-pb-editable="true"/>
+<line id="connector-calib-to-compressed" x1="565" y1="342" x2="575" y2="342" stroke="#111111" stroke-width="3" marker-end="url(#arrow)" fill="none" data-pb-role="connector" data-pb-editable="true"/>
+<line id="connector-product-down" x1="609" y1="176" x2="609" y2="242" stroke="#111111" stroke-width="3" marker-end="url(#arrow)" fill="none" data-pb-role="connector" data-pb-editable="true"/>
+<line id="stage1-left" x1="296" y1="519" x2="40" y2="519" stroke="#111111" stroke-width="3" stroke-dasharray="2 4" marker-end="url(#arrow)" fill="none" data-pb-role="connector" data-pb-editable="true"/>
+<line id="stage1-right" x1="559" y1="519" x2="811" y2="519" stroke="#111111" stroke-width="3" stroke-dasharray="2 4" marker-end="url(#arrow)" fill="none" data-pb-role="connector" data-pb-editable="true"/>
+<line id="stage2-left" x1="928" y1="519" x2="807" y2="519" stroke="#111111" stroke-width="3" stroke-dasharray="2 4" marker-end="url(#arrow)" fill="none" data-pb-role="connector" data-pb-editable="true"/>
+<line id="stage2-right" x1="1190" y1="519" x2="1297" y2="519" stroke="#111111" stroke-width="3" stroke-dasharray="2 4" marker-end="url(#arrow)" fill="none" data-pb-role="connector" data-pb-editable="true"/>
+<line id="stage3-left" x1="1567" y1="519" x2="1301" y2="519" stroke="#111111" stroke-width="3" stroke-dasharray="2 4" marker-end="url(#arrow)" fill="none" data-pb-role="connector" data-pb-editable="true"/>
+<line id="stage3-right" x1="1825" y1="519" x2="1958" y2="519" stroke="#111111" stroke-width="3" stroke-dasharray="2 4" marker-end="url(#arrow)" fill="none" data-pb-role="connector" data-pb-editable="true"/>
+<text id="label-rope" x="1464" y="70" font-family="Times New Roman, Times, serif" font-size="29" font-weight="400" fill="#000000" text-anchor="start" data-pb-role="label" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="horizontal">Rope</text>
+<text id="label-approx" x="978" y="94" font-family="Times New Roman, Times, serif" font-size="27" font-weight="400" fill="#000000" text-anchor="middle" data-pb-role="label" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="horizontal">Approx.</text>
+<text id="label-attention-score" x="978" y="127" font-family="Times New Roman, Times, serif" font-size="27" font-weight="400" fill="#000000" text-anchor="middle" data-pb-role="label" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="horizontal">Attention Score</text>
+<text id="label-pre-query" x="132" y="153" font-family="Times New Roman, Times, serif" font-size="31" font-weight="400" fill="#000000" text-anchor="middle" data-pb-role="label" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="horizontal">Pre-rope Query</text>
+<g id="label-formula-head-dim" data-pb-role="formula" data-pb-editable="true" data-pb-formula-bbox="262 131 539 153" data-pb-formula-latex-b64="MSBcXHRpbWVzIChoZWFkX251bSBcXHRpbWVzIGhlYWRfZGltKQ==">
+<text id="label-formula-head-dim-fallback" x="268" y="151" font-family="Times New Roman, Times, serif" font-size="21" font-weight="400" fill="#000000" text-anchor="start" data-pb-role="formula" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="horizontal">1 × (<tspan font-style="italic">head_num</tspan> × <tspan font-style="italic">head_dim</tspan>)</text>
+<desc>LaTeX: 1 \times (head_num \times head_dim)</desc></g>
+<text id="label-fused" x="1455" y="147" font-family="Arial, Helvetica, sans-serif" font-size="31" font-weight="400" fill="#000000" text-anchor="middle" data-pb-role="label" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="horizontal">Fused Recover Kernel</text>
+<text id="label-post-query" x="1780" y="167" font-family="Times New Roman, Times, serif" font-size="31" font-weight="400" fill="#000000" text-anchor="middle" data-pb-role="label" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="horizontal">Post-rope Query</text>
+<text id="label-selected" x="995" y="176" font-family="Times New Roman, Times, serif" font-size="26" font-weight="400" fill="#000000" text-anchor="middle" data-pb-role="label" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="horizontal">Selected</text>
+<text id="label-dim" x="975" y="208" font-family="Times New Roman, Times, serif" font-size="26" font-weight="400" fill="#000000" text-anchor="middle" data-pb-role="label" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="horizontal">Dim.</text>
+<text id="label-reconstruct" x="1522" y="205" font-family="Times New Roman, Times, serif" font-size="28" font-weight="400" fill="#000000" text-anchor="middle" data-pb-role="label" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="horizontal">Reconstruct &amp; Rope</text>
+<text id="label-pre-key" x="132" y="254" font-family="Times New Roman, Times, serif" font-size="31" font-weight="400" fill="#000000" text-anchor="middle" data-pb-role="label" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="horizontal">Pre-rope Key</text>
+<text id="label-fa" x="1943" y="269" font-family="Arial, Helvetica, sans-serif" font-size="31" font-weight="400" fill="#ffffff" text-anchor="middle" data-pb-role="label" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="horizontal">FA</text>
+<text id="label-topk" x="1106" y="297" font-family="Times New Roman, Times, serif" font-size="27" font-weight="400" fill="#000000" text-anchor="middle" data-pb-role="label" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="horizontal">Top-k Index [2,7]</text>
+<text id="label-offline" x="286" y="324" font-family="Arial, Helvetica, sans-serif" font-size="31" font-weight="400" fill="#000000" text-anchor="middle" data-pb-role="label" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="horizontal">Offline Calibration</text>
+<text id="label-latent" x="731" y="342" font-family="Times New Roman, Times, serif" font-size="31" font-weight="400" fill="#000000" text-anchor="middle" data-pb-role="label" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="horizontal">Latent</text>
+<text id="label-latent-key" x="731" y="380" font-family="Times New Roman, Times, serif" font-size="31" font-weight="400" fill="#000000" text-anchor="middle" data-pb-role="label" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="horizontal">Key</text>
+<text id="label-cov-calc" x="246" y="381" font-family="Times New Roman, Times, serif" font-size="24" font-weight="400" fill="#000000" text-anchor="middle" data-pb-role="label" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="horizontal">Cov. Calc.</text>
+<text id="label-evd" x="459" y="381" font-family="Times New Roman, Times, serif" font-size="24" font-weight="400" fill="#000000" text-anchor="middle" data-pb-role="label" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="horizontal">EVD</text>
+<text id="label-cache" x="731" y="415" font-family="Times New Roman, Times, serif" font-size="31" font-weight="400" fill="#000000" text-anchor="middle" data-pb-role="label" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="horizontal">Cache</text>
+<text id="label-critical" x="1762" y="425" font-family="Times New Roman, Times, serif" font-size="31" font-weight="400" fill="#000000" text-anchor="middle" data-pb-role="label" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="horizontal">Critical Post-rope</text>
+<text id="label-critical-key" x="1788" y="460" font-family="Times New Roman, Times, serif" font-size="31" font-weight="400" fill="#000000" text-anchor="middle" data-pb-role="label" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="horizontal">Key</text>
+<text id="label-calib-keys" x="131" y="462" font-family="Times New Roman, Times, serif" font-size="24" font-weight="400" fill="#000000" text-anchor="middle" data-pb-role="label" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="horizontal">Pre-rope Keys</text>
+<text id="label-cov-matrix" x="365" y="462" font-family="Times New Roman, Times, serif" font-size="24" font-weight="400" fill="#000000" text-anchor="middle" data-pb-role="label" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="horizontal">Key covariance matrix</text>
+<text id="label-transpose" x="1066" y="480" font-family="Times New Roman, Times, serif" font-size="31" font-weight="400" fill="#000000" text-anchor="middle" data-pb-role="label" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="horizontal">Transpose</text>
+<text id="label-stage1" x="438" y="529" font-family="Times New Roman, Times, serif" font-size="21" font-weight="400" fill="#000000" text-anchor="middle" data-pb-role="label" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="horizontal">Stage 1: KV compression</text>
+<text id="label-stage2" x="1072" y="529" font-family="Times New Roman, Times, serif" font-size="21" font-weight="400" fill="#000000" text-anchor="middle" data-pb-role="label" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="horizontal">Stage 2: Token selection</text>
+<text id="label-stage3" x="1696" y="529" font-family="Times New Roman, Times, serif" font-size="21" font-weight="400" fill="#000000" text-anchor="middle" data-pb-role="label" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="horizontal">Stage 3: Sparse attention</text>
+<line id="grid-post-query-top-edge-1" x1="1839" y1="85" x2="1866" y2="61" stroke="#111111" stroke-width="2" fill="none" data-pb-role="grid" data-pb-editable="true"/>
+<line id="grid-post-query-side-edge-1" x1="1839" y1="119" x2="1866" y2="95" stroke="#111111" stroke-width="2" fill="none" data-pb-role="grid" data-pb-editable="true"/>
+<line id="grid-critical-key-top-edge-1" x1="1839" y1="317" x2="1866" y2="293" stroke="#111111" stroke-width="2" fill="none" data-pb-role="grid" data-pb-editable="true"/>
+<line id="grid-critical-key-side-edge-1" x1="1839" y1="351" x2="1866" y2="327" stroke="#111111" stroke-width="2" fill="none" data-pb-role="grid" data-pb-editable="true"/>
+</svg>

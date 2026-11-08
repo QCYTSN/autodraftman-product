@@ -1,0 +1,95 @@
+<svg width="3840" height="1588" viewBox="0 0 3840 1588" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <marker id="blackArrow" markerWidth="34" markerHeight="34" refX="30" refY="17" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L34,17 L0,34 Z" fill="#000"/>
+    </marker>
+    <style>
+      .title { font-family: Arial, Helvetica, sans-serif; font-size: 108px; font-weight: 400; fill: #000; }
+      .maintext { font-family: Arial, Helvetica, sans-serif; font-size: 100px; font-weight: 400; fill: #000; }
+      .math { font-family: 'Times New Roman', Times, serif; font-size: 74px; font-style: italic; font-weight: 700; fill: #000; }
+      .bracket { fill: none; stroke: #000; stroke-width: 5.5; stroke-linecap: square; stroke-linejoin: round; }
+      .greenDash { fill: none; stroke: #536b2f; stroke-width: 10; stroke-dasharray: 38 18; stroke-linecap: butt; stroke-linejoin: miter; }
+    </style>
+  </defs>
+
+  <rect x="0" y="0" width="3840" height="1588" fill="#fff"/>
+
+  <rect x="140" y="253" width="3520" height="310" fill="#c8dbf2"/>
+  <text class="title" x="205" y="448">Layer 2: Copy value using context similarity based attention</text>
+
+  <path class="greenDash" d="M1045 590 L1045 495 L3338 495 L3338 632"/>
+  <polygon points="1045,632 1018,579 1072,579" fill="#536b2f"/>
+
+  <path class="bracket" d="M248 628 L205 628 L205 950 L248 950"/>
+  <path class="bracket" d="M657 628 L701 628 L701 950 L657 950"/>
+  <text class="maintext" x="272" y="759">K: &lt;start&gt;</text>
+  <text class="maintext" x="272" y="881">V: Hello</text>
+
+  <path class="bracket" d="M822 628 L778 628 L778 950 L822 950"/>
+  <path class="bracket" d="M1419 628 L1463 628 L1463 950 L1419 950"/>
+  <text class="maintext" x="849" y="759">K: Hello</text>
+  <text class="maintext" x="849" y="881">V: 11</text>
+
+  <path class="bracket" d="M1583 628 L1539 628 L1539 950 L1583 950"/>
+  <path class="bracket" d="M2191 628 L2235 628 L2235 950 L2191 950"/>
+  <text class="maintext" x="1609" y="759">K: 11</text>
+  <text class="maintext" x="1609" y="881">V: Goodbye</text>
+
+  <path class="bracket" d="M2356 628 L2312 628 L2312 950 L2356 950"/>
+  <path class="bracket" d="M2964 628 L3008 628 L3008 950 L2964 950"/>
+  <text class="maintext" x="2381" y="759">K: Goodbye</text>
+  <text class="maintext" x="2381" y="881">V: 77</text>
+
+  <path class="bracket" d="M3113 628 L3069 628 L3069 950 L3113 950"/>
+  <path class="bracket" d="M3524 628 L3568 628 L3568 950 L3524 950"/>
+  <text class="maintext" x="3152" y="881">Q: Hello</text>
+
+  <path d="M1394 784
+           C1434 610 1432 454 1618 362
+           C1776 284 2008 344 2245 342
+           C2518 339 2814 348 3096 340
+           C3282 334 3348 293 3378 98"
+        fill="none" stroke="#000" stroke-width="7.5" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#blackArrow)"/>
+  <circle cx="1394" cy="784" r="27" fill="#000"/>
+  <text class="maintext" x="3410" y="119" font-size="96">11</text>
+
+  <rect x="140" y="998" width="3495" height="236" fill="#c8dbf2"/>
+  <text class="title" x="205" y="1155">Layer 1: Context formed with previous token using position based attention</text>
+
+  <path class="greenDash" d="M407 1265 L407 1185 L1062 1185 L1062 1265"/>
+  <polygon points="407,1320 379,1265 435,1265" fill="#536b2f"/>
+  <polygon points="1062,1320 1034,1265 1090,1265" fill="#536b2f"/>
+
+  <path class="greenDash" d="M1148 1265 L1148 1185 L1808 1185 L1808 1265"/>
+  <polygon points="1148,1320 1120,1265 1176,1265" fill="#536b2f"/>
+  <polygon points="1808,1320 1780,1265 1836,1265" fill="#536b2f"/>
+
+  <path class="greenDash" d="M1940 1265 L1940 1201 L2599 1201 L2599 1265"/>
+  <polygon points="1940,1320 1912,1265 1968,1265" fill="#536b2f"/>
+
+  <path class="bracket" d="M305 1253 L205 1253 L205 1444 L305 1444"/>
+  <path class="bracket" d="M581 1253 L681 1253 L681 1444 L581 1444"/>
+  <text class="maintext" x="308" y="1378">Hello</text>
+  <text class="math" x="374" y="1501">x<tspan font-size="46" baseline-shift="super">1</tspan></text>
+
+  <path class="bracket" d="M873 1253 L773 1253 L773 1444 L873 1444"/>
+  <path class="bracket" d="M1370 1253 L1470 1253 L1470 1444 L1370 1444"/>
+  <text class="maintext" x="1048" y="1378">11</text>
+  <text class="maintext" x="1218" y="1284" font-size="52">’</text>
+  <text class="math" x="1076" y="1501">y<tspan font-size="46" baseline-shift="super">1</tspan></text>
+
+  <path class="bracket" d="M1634 1253 L1534 1253 L1534 1444 L1634 1444"/>
+  <path class="bracket" d="M2137 1253 L2237 1253 L2237 1444 L2137 1444"/>
+  <text class="maintext" x="1652" y="1378">Goodbye</text>
+  <text class="math" x="1806" y="1501">x<tspan font-size="46" baseline-shift="super">2</tspan></text>
+
+  <path class="bracket" d="M2386 1253 L2286 1253 L2286 1444 L2386 1444"/>
+  <path class="bracket" d="M2889 1253 L2989 1253 L2989 1444 L2889 1444"/>
+  <text class="maintext" x="2492" y="1378">77</text>
+  <text class="math" x="2533" y="1501">y<tspan font-size="46" baseline-shift="super">2</tspan></text>
+
+  <path class="bracket" d="M3168 1253 L3068 1253 L3068 1444 L3168 1444"/>
+  <path class="bracket" d="M3478 1253 L3578 1253 L3578 1444 L3478 1444"/>
+  <text class="maintext" x="3208" y="1378">Hello</text>
+  <text class="math" x="3266" y="1501">x<tspan font-size="50" baseline-shift="super">*</tspan></text>
+</svg>

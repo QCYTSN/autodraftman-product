@@ -1,0 +1,275 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1878" height="681" viewBox="0 0 1878 681">
+  <defs>
+    <marker id="arrowGray" markerUnits="userSpaceOnUse" markerWidth="23" markerHeight="14" refX="22" refY="7" orient="auto">
+      <path d="M0,0 L23,7 L0,14 Z" fill="#555" id="plus_node_0" />
+    </marker>
+    <marker id="arrowGreen" markerUnits="userSpaceOnUse" markerWidth="19" markerHeight="12" refX="18" refY="6" orient="auto">
+      <path d="M0,0 L19,6 L0,12 Z" fill="#16833b" id="plus_node_1" />
+    </marker>
+    <marker id="arrowOrange" markerUnits="userSpaceOnUse" markerWidth="19" markerHeight="12" refX="18" refY="6" orient="auto">
+      <path d="M0,0 L19,6 L0,12 Z" fill="#df5d2f" id="plus_node_2" />
+    </marker>
+    <style>
+      text{font-family:Arial, Helvetica, sans-serif; fill:#000}
+      .label{font-weight:700}
+      .mono{font-family:"Courier New", monospace}
+      .kw{fill:#0019ff}
+      .str{fill:#c01818}
+      .comment{fill:#4588ff;font-style:italic}
+      .small{font-size:16px}
+      .mid{font-size:22px}
+      .big{font-size:31px}
+      .title{font-size:34px;font-weight:700}
+      .frameStroke{stroke:#d9cebf;stroke-width:4;fill:#fffaf1}
+      .innerStroke{stroke:#a9a9a9;stroke-width:4;fill:#fffdf9}
+    </style>
+  </defs>
+
+  <desc>
+    Full editable reconstruction of a Text-to-SQL workflow figure. Base frames: top user question, left workflow environment containing database/documents/codebase panels, language-model box, and SQL output box. Contents include system/app/database icons, table schemas, document/codebase lists, arrows and feedback loops.
+  </desc>
+
+  
+  <rect id="f01_question" data-plus-kind="frame" x="25" y="28" width="1110" height="80" rx="13" class="frameStroke" />
+  <rect id="f02_environment" data-plus-kind="frame" x="25" y="128" width="1124" height="523" rx="27" class="frameStroke" />
+  <rect id="f03_database" data-plus-kind="frame" x="34" y="211" width="659" height="425" rx="22" class="innerStroke" />
+  <rect id="f04_documents" data-plus-kind="frame" x="715" y="211" width="421" height="169" rx="20" class="innerStroke" />
+  <rect id="f05_codebase" data-plus-kind="frame" x="718" y="452" width="421" height="184" rx="18" class="innerStroke" />
+  <rect id="f06_language_models" data-plus-kind="frame" x="1331" y="38" width="421" height="69" rx="11" fill="#fbfbfb" stroke="#4b73c9" stroke-width="4" />
+  <rect id="f07_sql_output" data-plus-kind="frame" x="1243" y="167" width="600" height="484" rx="24" fill="#fff2ec" stroke="#df653b" stroke-width="4" />
+
+  
+  <g id="question_text">
+    <desc>Origin is the left edge of the user request; text runs rightward inside the rounded question frame.</desc>
+    <text x="48" y="60" font-size="30" font-weight="400" id="plus_node_3">Q: I need a daily report on key sales activities—covering tasks completed,</text>
+    <text x="48" y="100" font-size="30" font-weight="400" id="plus_node_4">events held, leads generated, and the status of opportunities.</text>
+  </g>
+
+  
+  <g id="input_to_lm_arrow">
+    <path d="M1155 34 C1166 34 1164 53 1164 68 C1164 78 1173 81 1191 82 C1173 83 1164 86 1164 96 C1164 117 1164 132 1164 157 C1164 180 1164 202 1155 202" fill="none" stroke="#555" stroke-width="4" id="plus_node_5" />
+    <path d="M1228 81 L1300 81" stroke="#555" stroke-width="4" fill="none" marker-end="url(#arrowGray)" id="plus_node_6" />
+  </g>
+
+  
+  <g id="environment_header">
+    <text x="587" y="162" text-anchor="middle" class="title" id="plus_node_7">Text-to-SQL Workflow Environment</text>
+    <text x="364" y="200" text-anchor="middle" class="title" text-decoration="underline" id="plus_node_8">Database</text>
+    <text x="912" y="200" text-anchor="middle" class="title" text-decoration="underline" id="plus_node_9">Documents</text>
+  </g>
+
+  
+  <g id="database_panel_content">
+    <desc>Database panel contains labels on left, two rows of data-system and real-app icons across the top/middle, and complex schema tables at the bottom. Symmetry basis is vertical grouping: labels left, representative sources center/right, schema tables bottom.</desc>
+
+    <text x="43" y="260" font-size="29" id="plus_node_10">Diverse</text>
+    <text x="43" y="296" font-size="29" id="plus_node_11">System</text>
+    <text x="43" y="358" font-size="29" id="plus_node_12">Real</text>
+    <text x="43" y="395" font-size="29" id="plus_node_13">Apps</text>
+    <text x="43" y="523" font-size="29" id="plus_node_14">Complex</text>
+    <text x="43" y="560" font-size="29" id="plus_node_15">Schema</text>
+
+    
+    <g id="diverse_system_icons">
+      <circle cx="239" cy="271" r="27" fill="#000" id="plus_node_16" />
+      <circle cx="233" cy="270" r="11" fill="#fff21a" id="plus_node_17" />
+      <circle cx="253" cy="270" r="4" fill="#fff21a" id="plus_node_18" />
+
+      <g id="csv_icon" transform="translate(278 244)">
+        <path d="M8 0 L30 0 L45 15 L45 45 L8 45 Z" fill="#fff" stroke="#777" stroke-width="1.5" id="plus_node_19" />
+        <path d="M30 0 L30 15 L45 15" fill="none" stroke="#777" id="plus_node_20" />
+        <rect x="1" y="5" width="25" height="12" rx="1" fill="#23b24b" stroke="#0a7c26" id="plus_node_21" />
+        <text x="4" y="15" font-size="9" fill="#fff" font-weight="700" id="plus_node_22">CSV</text>
+        <path d="M12 22 H41 M12 31 H41 M12 40 H41 M22 18 V45 M32 18 V45" stroke="#999" stroke-width="1" id="plus_node_23" />
+      </g>
+
+      <g id="snowflake_icon" transform="translate(361 269)" stroke="#12aee5" stroke-width="7" stroke-linecap="round">
+        <line x1="0" y1="-25" x2="0" y2="25" id="plus_node_24" />
+        <line x1="-23" y1="-13" x2="23" y2="13" id="plus_node_25" />
+        <line x1="-23" y1="13" x2="23" y2="-13" id="plus_node_26" />
+        <line x1="-12" y1="-21" x2="-21" y2="-25" id="plus_node_27" />
+        <line x1="12" y1="21" x2="21" y2="25" id="plus_node_28" />
+        <line x1="-12" y1="21" x2="-21" y2="25" id="plus_node_29" />
+        <line x1="12" y1="-21" x2="21" y2="-25" id="plus_node_30" />
+      </g>
+
+      <g id="analytics_magnifier_icon" transform="translate(424 268)">
+        <circle cx="0" cy="0" r="20" fill="none" stroke="#619bf4" stroke-width="5" id="plus_node_31" />
+        <line x1="15" y1="15" x2="31" y2="31" stroke="#619bf4" stroke-width="5" stroke-linecap="round" id="plus_node_32" />
+        <rect x="-10" y="-4" width="5" height="17" fill="#7aa8f9" id="plus_node_33" />
+        <rect x="-1" y="-13" width="5" height="26" fill="#7aa8f9" id="plus_node_34" />
+        <rect x="8" y="3" width="5" height="10" fill="#7aa8f9" id="plus_node_35" />
+      </g>
+
+      <g id="feather_icon" transform="translate(462 248)">
+        <path d="M0 0 H42 C46 0 49 3 46 8 C35 28 23 41 0 44 Z" fill="#1b95c9" stroke="#0c5e7e" id="plus_node_36" />
+        <path d="M44 2 C33 17 21 28 4 42" stroke="#08394d" stroke-width="2" id="plus_node_37" />
+      </g>
+
+      <image id="repair_postgres_source_crop" x="516" y="242" width="66" height="54" href="data:image/png;base64,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" /></g>
+
+    
+    <g id="real_apps_icons">
+      <g id="hubspot_icon" transform="translate(202 366)" fill="none" stroke="#ff7a59" stroke-width="7" stroke-linecap="round">
+        <circle cx="0" cy="0" r="15" id="plus_node_43" />
+        <line x1="-27" y1="-31" x2="-10" y2="-13" id="plus_node_44" />
+        <circle cx="-35" cy="-31" r="3" fill="#ff7a59" id="plus_node_45" />
+        <line x1="0" y1="-15" x2="0" y2="-29" id="plus_node_46" />
+        <circle cx="0" cy="-31" r="3" fill="#ff7a59" id="plus_node_47" />
+        <line x1="-12" y1="12" x2="-21" y2="21" id="plus_node_48" />
+        <circle cx="-21" cy="21" r="3" fill="#ff7a59" id="plus_node_49" />
+      </g>
+
+      <g id="slack_icon" transform="translate(259 363)" stroke-linecap="round">
+        <line x1="-24" y1="-8" x2="-4" y2="-8" stroke="#36c5f0" stroke-width="12" id="plus_node_50" />
+        <line x1="8" y1="-24" x2="8" y2="-4" stroke="#2eb67d" stroke-width="12" id="plus_node_51" />
+        <line x1="-24" y1="8" x2="-4" y2="8" stroke="#e01e5a" stroke-width="12" id="plus_node_52" />
+        <line x1="8" y1="4" x2="8" y2="24" stroke="#ecb22e" stroke-width="12" id="plus_node_53" />
+        <line x1="-9" y1="-23" x2="-9" y2="-14" stroke="#36c5f0" stroke-width="12" id="plus_node_54" />
+        <line x1="23" y1="-8" x2="14" y2="-8" stroke="#2eb67d" stroke-width="12" id="plus_node_55" />
+        <line x1="-9" y1="23" x2="-9" y2="14" stroke="#e01e5a" stroke-width="12" id="plus_node_56" />
+        <line x1="23" y1="8" x2="14" y2="8" stroke="#ecb22e" stroke-width="12" id="plus_node_57" />
+      </g>
+
+      <g id="shopify_icon" transform="translate(322 360)">
+        <path d="M-20 28 L-14 -22 L22 -28 L35 23 Z" fill="#95bf47" id="plus_node_58" />
+        <path d="M-3 -17 C-3 -36 19 -34 19 -17" fill="none" stroke="#6f9e35" stroke-width="3" id="plus_node_59" />
+        <text x="-8" y="17" font-size="39" font-weight="700" fill="#fff" transform="rotate(9)" id="plus_node_60">S</text>
+      </g>
+
+      <g id="salesforce_icon" transform="translate(353 336)">
+        <rect x="0" y="0" width="97" height="69" fill="#f7f7f7" stroke="#333" stroke-width="2" id="plus_node_61" />
+        <path d="M25 64 C6 63 1 48 8 36 C1 22 14 11 28 15 C37 0 59 2 65 17 C80 13 94 25 90 42 C100 54 85 69 70 64 Z" fill="#16a5e8" id="plus_node_62" />
+        <text x="15" y="39" font-size="15" fill="#fff" id="plus_node_63">salesforce</text>
+      </g>
+      <path id="salesforce_down_arrow" d="M402 405 V451" stroke="#666" stroke-width="1.8" marker-end="url(#arrowGray)" fill="none" />
+
+      <g id="github_icon" transform="translate(482 360)">
+        <circle cx="0" cy="0" r="31" fill="#000" id="plus_node_64" />
+        <path d="M-16 12 C-12 21 13 21 17 12 C23 0 14 -8 14 -8 C15 -15 10 -18 4 -13 C0 -14 -5 -14 -9 -13 C-16 -18 -20 -15 -18 -7 C-18 -7 -26 0 -16 12 Z" fill="#fff" id="plus_node_65" />
+        <rect x="-6" y="14" width="12" height="13" fill="#fff" id="plus_node_66" />
+      </g>
+
+      <g id="stack_google_icon" transform="translate(525 331)">
+        <path d="M14 4 L73 24" stroke="#ff8a22" stroke-width="6" id="plus_node_67" />
+        <path d="M9 18 L73 33" stroke="#ff8a22" stroke-width="6" id="plus_node_68" />
+        <path d="M5 33 H74" stroke="#ff8a22" stroke-width="6" id="plus_node_69" />
+        <rect x="0" y="25" width="70" height="29" fill="none" stroke="#cfcfcf" stroke-width="5" id="plus_node_70" />
+        </g>
+
+      <text x="649" y="361" font-size="40" font-weight="700" id="plus_node_75">•••</text>
+    <image id="repair_google_ads_source_crop" x="592" y="327" width="58" height="71" href="data:image/png;base64,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" /></g>
+
+    
+    <g id="schema_tables">
+      <text x="165" y="495" font-size="22" font-weight="700" id="plus_node_76">Table 1:</text>
+      <text x="196" y="522" font-size="44" font-weight="700" id="plus_node_77">⋮</text>
+      <rect x="256" y="459" width="428" height="54" fill="#dedede" stroke="#8c8c8c" stroke-width="2" id="plus_node_78" />
+      <line x1="406" y1="459" x2="406" y2="513" stroke="#8c8c8c" stroke-width="2" id="plus_node_79" />
+      <line x1="540" y1="459" x2="540" y2="513" stroke="#8c8c8c" stroke-width="2" id="plus_node_80" />
+      <line x1="612" y1="459" x2="612" y2="513" stroke="#8c8c8c" stroke-width="2" id="plus_node_81" />
+      <text x="279" y="492" font-size="18" id="plus_node_82">activity_date</text>
+      <text x="428" y="492" font-size="18" id="plus_node_83">account_id</text>
+      <text x="559" y="492" font-size="28" font-weight="700" id="plus_node_84">•••</text>
+      <text x="629" y="492" font-size="18" id="plus_node_85">type</text>
+
+      <text x="340" y="545" font-size="26" font-weight="700" id="plus_node_86">...</text>
+      <text x="395" y="552" font-size="21" fill="#4d86ff" font-style="italic" id="plus_node_87">(8695 columns omitted)</text>
+
+      <text x="143" y="609" font-size="22" font-weight="700" id="plus_node_88">Table 495:</text>
+      <rect x="257" y="573" width="427" height="55" fill="#dedede" stroke="#8c8c8c" stroke-width="2" id="plus_node_89" />
+      <line x1="408" y1="573" x2="408" y2="628" stroke="#8c8c8c" stroke-width="2" id="plus_node_90" />
+      <line x1="541" y1="573" x2="541" y2="628" stroke="#8c8c8c" stroke-width="2" id="plus_node_91" />
+      <line x1="612" y1="573" x2="612" y2="628" stroke="#8c8c8c" stroke-width="2" id="plus_node_92" />
+      <text x="270" y="608" font-size="18" id="plus_node_93">opportunity_id</text>
+      <text x="430" y="608" font-size="18" id="plus_node_94">stage_name</text>
+      <text x="560" y="608" font-size="28" font-weight="700" id="plus_node_95">•••</text>
+      <text x="627" y="608" font-size="18" id="plus_node_96">amount</text>
+    </g>
+  </g>
+
+  
+  <g id="documents_panel_content">
+    <desc>Documents panel has small document/database/query icons in a left column and four labels aligned on the right; content is vertically equipartitioned.</desc>
+    <text x="810" y="248" font-size="30" id="plus_node_119">Database Metadata</text>
+    <text x="810" y="289" font-size="30" id="plus_node_120">External Knowledge</text>
+    <text x="810" y="329" font-size="30" id="plus_node_121">SQL Dialect Docs</text>
+    <text x="810" y="369" font-size="30" id="plus_node_122">Query Interface</text>
+  <image id="repair_documents_icons_source_crop" x="738" y="218" width="52" height="158" href="data:image/png;base64,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" /></g>
+
+  
+  <g id="codebase_panel_content">
+    <desc>Codebase panel is below documents; the underlined Codebase title sits outside the inner frame, with two columns of folders/files and a database file row. Symmetry basis is two-column list alignment.</desc>
+    <text x="899" y="443" text-anchor="middle" class="title" text-decoration="underline" id="plus_node_123">Codebase</text>
+    <g id="dbt_logo" transform="translate(1032 417)">
+      <text x="40" y="31" font-size="34" font-weight="700" id="plus_node_127">dbt</text>
+    </g>
+
+    <g id="codebase_left_column">
+      <path d="M752 469 H777 L784 476 V491 H752 Z" fill="#000" id="plus_node_128" />
+      <text x="803" y="488" font-size="24" id="plus_node_129">macros/</text>
+      <path d="M752 511 H777 L784 518 V534 H752 Z" fill="#000" id="plus_node_130" />
+      <text x="803" y="529" font-size="24" id="plus_node_131">data/</text>
+      <path d="M758 552 H773 L782 562 V580 H758 Z" fill="#fff" stroke="#111" stroke-width="3" id="plus_node_132" />
+      <path d="M773 552 V562 H782" fill="none" stroke="#111" stroke-width="2" id="plus_node_133" />
+      <text x="803" y="571" font-size="24" id="plus_node_134">project.yml</text>
+      <ellipse cx="768" cy="599" rx="14" ry="6" fill="#fff" stroke="#111" id="plus_node_135" />
+      <path d="M754 599 V618 C754 626 782 626 782 618 V599" fill="#fff" stroke="#111" id="plus_node_136" />
+      <path d="M754 606 C754 614 782 614 782 606 M754 612 C754 620 782 620 782 612" fill="none" stroke="#111" id="plus_node_137" />
+      <text x="803" y="617" font-size="24" id="plus_node_138">salesforce.db</text>
+    </g>
+
+    <g id="codebase_right_column">
+      <path d="M950 469 H975 L982 476 V491 H950 Z" fill="#000" id="plus_node_139" />
+      <text x="1001" y="488" font-size="24" id="plus_node_140">models/</text>
+      <path d="M977 508 H991 L1000 518 V536 H977 Z" fill="#fff" stroke="#111" stroke-width="3" id="plus_node_141" />
+      <path d="M991 508 V518 H1000" fill="none" stroke="#111" stroke-width="2" id="plus_node_142" />
+      <text x="1013" y="529" font-size="24" id="plus_node_143">schema.yml</text>
+      <path d="M977 552 H991 L1000 562 V580 H977 Z" fill="#fff" stroke="#111" stroke-width="3" id="plus_node_144" />
+      <path d="M991 552 V562 H1000" fill="none" stroke="#111" stroke-width="2" id="plus_node_145" />
+      <text x="1013" y="574" font-size="24" id="plus_node_146">leads.sql</text>
+      <text x="974" y="617" font-size="30" font-weight="700" id="plus_node_147">•••</text>
+      <text x="1021" y="616" font-size="24" id="plus_node_148">+20 files</text>
+    </g>
+  <image id="repair_dbt_mark_source_crop" x="1028" y="415" width="41" height="36" href="data:image/png;base64,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" /></g>
+
+  
+  <g id="language_model_content">
+    <desc>Language model box contains robot icon at left and bold label to the right, centered vertically.</desc>
+    <g id="robot_icon" transform="translate(1393 73)">
+      <rect x="-18" y="-14" width="36" height="28" rx="5" fill="#dce7ff" stroke="#162a8a" stroke-width="2.5" id="plus_node_149" />
+      <rect x="-24" y="-6" width="6" height="13" rx="1" fill="#dce7ff" stroke="#162a8a" stroke-width="2" id="plus_node_150" />
+      <rect x="18" y="-6" width="6" height="13" rx="1" fill="#dce7ff" stroke="#162a8a" stroke-width="2" id="plus_node_151" />
+      <line x1="0" y1="-14" x2="0" y2="-22" stroke="#162a8a" stroke-width="2" id="plus_node_152" />
+      <circle cx="0" cy="-24" r="3" fill="#ff42b3" stroke="#162a8a" stroke-width="1.5" id="plus_node_153" />
+      <circle cx="-8" cy="-4" r="2.5" fill="#162a8a" id="plus_node_154" />
+      <circle cx="8" cy="-4" r="2.5" fill="#162a8a" id="plus_node_155" />
+      <path d="M-7 7 Q0 12 7 7" fill="none" stroke="#162a8a" stroke-width="2" id="plus_node_156" />
+    </g>
+    <text x="1444" y="84" font-size="33" font-weight="700" id="plus_node_157">Language Models</text>
+    <path d="M1488 114 V159" stroke="#666" stroke-width="4" fill="none" marker-end="url(#arrowGray)" id="plus_node_158" />
+  </g>
+
+  
+  <g id="sql_title">
+    <text x="1298" y="160" font-size="34" font-weight="700" text-decoration="underline" id="plus_node_159" fill="#000">SQL</text>
+    <text x="1538" y="154" font-size="17" font-weight="700" id="plus_node_160" fill="#000">(e.g. Google/Snowflake SQLs ... )</text>
+  </g>
+
+  
+  <g id="feedback_arrows">
+    <desc>Two curved arrows connect the SQL box back toward the workflow environment: green upper arrow labeled SQLs/Python and orange lower arrow labeled Exec feedback.</desc>
+    <path d="M1236 423 C1206 416 1185 414 1157 426" stroke="#16833b" stroke-width="4" fill="none" marker-end="url(#arrowGreen)" id="plus_node_161" />
+    <text x="1164" y="377" font-size="21" font-weight="700" id="plus_node_162" fill="#000">SQLs /</text>
+    <text x="1164" y="402" font-size="21" font-weight="700" id="plus_node_163" fill="#000">Python</text>
+    <path d="M1159 477 C1187 486 1208 487 1235 470" stroke="#df5d2f" stroke-width="4" fill="none" marker-end="url(#arrowOrange)" id="plus_node_164" />
+    <text x="1178" y="503" font-size="21" font-weight="700" id="plus_node_165" fill="#000">Exec</text>
+    <text x="1156" y="529" font-size="21" font-weight="700" id="plus_node_166" fill="#000">feedback</text>
+  </g>
+
+  
+  <g id="sql_code_content" class="mono">
+    <desc>SQL output frame contains syntax-colored generated SQL. The code starts at upper left and continues downward with centered ellipsis and omitted-lines note.</desc>
+    <text x="1256" y="195" font-size="19" id="plus_node_167" xml:space="preserve"><tspan class="kw">WITH</tspan><tspan fill="#000"> opportunity AS (</tspan></text><text x="1280" y="217" font-size="19" id="plus_node_168" xml:space="preserve"><tspan class="kw">SELECT</tspan><tspan fill="#000">  {{ dbt.date_trunc(</tspan><tspan class="str">'day'</tspan><tspan fill="#000">,</tspan><tspan class="str">'close_date'</tspan><tspan fill="#000">) }}</tspan></text><text x="1635" y="239" font-size="19" id="plus_node_169" xml:space="preserve"><tspan class="kw">AS</tspan><tspan fill="#000"> close_date,</tspan></text><text x="1280" y="261" font-size="19" id="plus_node_170" xml:space="preserve"><tspan class="kw">CASE</tspan></text><text x="1312" y="283" font-size="19" id="plus_node_171" xml:space="preserve"><tspan class="kw">WHEN</tspan><tspan fill="#000"> is_won </tspan><tspan class="kw">THEN</tspan><tspan fill="#000"> </tspan><tspan class="str">'Won'</tspan></text><text x="1312" y="305" font-size="19" id="plus_node_172" xml:space="preserve"><tspan class="kw">WHEN NOT</tspan><tspan fill="#000"> is_won </tspan><tspan class="kw">AND</tspan><tspan fill="#000"> is_closed </tspan><tspan class="kw">THEN</tspan><tspan fill="#000"> </tspan><tspan class="str">'Lost'</tspan></text><text x="1312" y="327" font-size="19" id="plus_node_173" xml:space="preserve"><tspan class="kw">WHEN NOT</tspan><tspan fill="#000"> is_closed </tspan><tspan class="kw">AND</tspan><tspan fill="#000"> LOWER(forecast_category)</tspan></text><text x="1256" y="349" font-size="19" id="plus_node_174" xml:space="preserve"><tspan fill="#000">IN (</tspan><tspan class="str">'pipeline'</tspan><tspan fill="#000">,</tspan><tspan class="str">'best_case'</tspan><tspan fill="#000">) </tspan><tspan class="kw">THEN</tspan><tspan fill="#000"> </tspan><tspan class="str">'Pipeline'</tspan></text><text x="1312" y="371" font-size="19" id="plus_node_175" xml:space="preserve"><tspan class="kw">END AS</tspan><tspan fill="#000"> status</tspan></text><text x="1280" y="393" font-size="19" id="plus_node_176" xml:space="preserve"><tspan class="kw">FROM</tspan><tspan fill="#000"> {{ var(</tspan><tspan class="str">'opportunity'</tspan><tspan fill="#000">) }}</tspan></text><text x="1256" y="415" font-size="19" id="plus_node_177" xml:space="preserve"><tspan fill="#000">),</tspan></text><text x="1390" y="467" font-size="29" font-weight="700" fill="#000" id="plus_node_178">...</text>
+    <text x="1457" y="463" font-size="23" class="comment" id="plus_node_179" xml:space="preserve">[+ 100 lines omitted]</text><text x="1256" y="508" font-size="19" id="plus_node_180" xml:space="preserve"><tspan class="kw">LEFT JOIN</tspan><tspan fill="#000"> event on ds.date_day =</tspan></text><text x="1256" y="530" font-size="19" id="plus_node_181" xml:space="preserve"><tspan fill="#000">salesforce_event.activity_date</tspan></text><text x="1256" y="552" font-size="19" id="plus_node_182" xml:space="preserve"><tspan class="kw">LEFT JOIN</tspan><tspan fill="#000"> opportunities_created</tspan></text><text x="1256" y="574" font-size="19" id="plus_node_183" xml:space="preserve"><tspan class="kw">ON</tspan><tspan fill="#000"> ds.date_day = opportunities_created.created_date</tspan></text><text x="1256" y="596" font-size="19" id="plus_node_184" xml:space="preserve"><tspan class="kw">LEFT JOIN</tspan><tspan fill="#000"> opportunities_closed</tspan></text><text x="1256" y="618" font-size="19" id="plus_node_185" xml:space="preserve"><tspan class="kw">ON</tspan><tspan fill="#000"> ds.date_day = opportunities_closed.close_date</tspan></text></g>
+<style id="repair_bg_style">svg{background-color:#fff;}</style></svg>

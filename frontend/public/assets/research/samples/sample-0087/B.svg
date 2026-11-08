@@ -1,0 +1,150 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="753" height="819" viewBox="0 0 753 819">
+  <title>KV-cache anchoring and context distribution across three hosts</title>
+  <desc>
+    Inventory: three vertically aligned host sections with top KV-Cache blocks, black upward arrows, rounded host containers containing Layer 1, Layer 2, ellipsis, and Layer N; lower anchor/cache blocks under each host; a three-token Context row at the bottom with braces and colored/dashed arrows to anchors; dashed Query box at lower right. Layout is columnar and horizontally symmetric around the three host centers, with C1/C2/C3 color coding and diagonal slash marks on combined KV-cache blocks.
+  </desc>
+
+  <defs>
+    <marker id="arrowBlack" markerUnits="userSpaceOnUse" markerWidth="10" markerHeight="8" refX="10" refY="4" orient="auto">
+      <path d="M0,0 L10,4 L0,8 Z" fill="#000000" id="plus_node_0" />
+    </marker>
+    <marker id="arrowBlue" markerUnits="userSpaceOnUse" markerWidth="10" markerHeight="8" refX="10" refY="4" orient="auto">
+      <path d="M0,0 L10,4 L0,8 Z" fill="#6d91cc" id="plus_node_1" />
+    </marker>
+    <marker id="arrowOrange" markerUnits="userSpaceOnUse" markerWidth="10" markerHeight="8" refX="10" refY="4" orient="auto">
+      <path d="M0,0 L10,4 L0,8 Z" fill="#e6a000" id="plus_node_2" />
+    </marker>
+    <marker id="arrowGreen" markerUnits="userSpaceOnUse" markerWidth="10" markerHeight="8" refX="10" refY="4" orient="auto">
+      <path d="M0,0 L10,4 L0,8 Z" fill="#6cab58" id="plus_node_3" />
+    </marker>
+
+    <style>
+      .label { font-family: Arial, Helvetica, sans-serif; fill:#000; text-anchor:middle; dominant-baseline:middle; }
+      .cacheText { font-family: Arial, Helvetica, sans-serif; font-size:22px; fill:#000; text-anchor:middle; dominant-baseline:middle; }
+      .smallText { font-family: Arial, Helvetica, sans-serif; font-size:23px; fill:#000; text-anchor:middle; dominant-baseline:middle; }
+      .layerText { font-family: Arial, Helvetica, sans-serif; font-size:23px; fill:#000; text-anchor:middle; dominant-baseline:middle; }
+      .hostText { font-family: Arial, Helvetica, sans-serif; font-size:23px; fill:#000; text-anchor:middle; dominant-baseline:middle; }
+      .kvText { font-family: Arial, Helvetica, sans-serif; font-size:22px; fill:#000; text-anchor:middle; dominant-baseline:middle; }
+      .blueStroke { stroke:#6d95d8; }
+      .orangeStroke { stroke:#e59b00; }
+      .greenStroke { stroke:#75ad69; }
+    </style>
+  </defs>
+
+  <rect id="f00_canvas" data-plus-kind="frame" x="0" y="0" width="753" height="819" fill="#ffffff" stroke="none" />
+
+  
+  <g id="arrows_black_vertical">
+    <line id="arrow_top_host1" x1="105" y1="166" x2="105" y2="124" stroke="#000" stroke-width="1.6" marker-end="url(#arrowBlack)" />
+    <line id="arrow_top_host2" x1="354" y1="166" x2="354" y2="124" stroke="#000" stroke-width="1.6" marker-end="url(#arrowBlack)" />
+    <line id="arrow_top_host3" x1="588" y1="166" x2="588" y2="124" stroke="#000" stroke-width="1.6" marker-end="url(#arrowBlack)" />
+
+    <line id="arrow_lower_host1" x1="104" y1="486" x2="104" y2="444" stroke="#000" stroke-width="1.6" marker-end="url(#arrowBlack)" />
+    <line id="arrow_lower_host2" x1="354" y1="486" x2="354" y2="444" stroke="#000" stroke-width="1.6" marker-end="url(#arrowBlack)" />
+    <line id="arrow_lower_host3" x1="588" y1="486" x2="588" y2="444" stroke="#000" stroke-width="1.6" marker-end="url(#arrowBlack)" />
+  </g>
+
+  <g id="context_to_anchor_arrows">
+    <line id="arrow_context_c1_to_host1_c1" x1="276" y1="670" x2="132" y2="585" stroke="#6d91cc" stroke-width="1.5" marker-end="url(#arrowBlue)" />
+    <line id="arrow_context_c1_to_host2_anchor_c1" x1="282" y1="670" x2="305" y2="567" stroke="#6d91cc" stroke-width="1.4" stroke-dasharray="5 5" marker-end="url(#arrowBlue)" />
+    <line id="arrow_context_c1_to_host3_anchor_c1" x1="300" y1="669" x2="505" y2="558" stroke="#6d91cc" stroke-width="1.4" stroke-dasharray="5 5" marker-end="url(#arrowBlue)" />
+    <line id="arrow_context_c2_to_host2_c2" x1="358" y1="675" x2="379" y2="574" stroke="#e6a000" stroke-width="1.6" marker-end="url(#arrowOrange)" />
+    <line id="arrow_context_c3_to_host3_c3" x1="457" y1="674" x2="603" y2="594" stroke="#6cab58" stroke-width="1.5" marker-end="url(#arrowGreen)" />
+  </g>
+
+  
+  <g id="host1_top_kvcache">
+    <rect id="f01_host1_top_c1" data-plus-kind="frame" x="80" y="35" width="50" height="46" rx="7" ry="7" fill="#ffffff" stroke="#6d95d8" stroke-width="1.4" />
+    <text id="txt_host1_top_c1" class="smallText" x="105" y="59">C1</text>
+    <text id="txt_host1_kvcache" class="kvText" x="105" y="103">KV-Cache</text>
+  </g>
+
+  
+  <g id="host2_top_kvcache">
+    <rect id="f02_host2_top_c1_dash" data-plus-kind="frame" x="300" y="35" width="51" height="46" rx="7" ry="7" fill="#ffffff" stroke="#6d95d8" stroke-width="1.4" stroke-dasharray="5 4" />
+    <rect id="f03_host2_top_c2" data-plus-kind="frame" x="351" y="35" width="50" height="46" rx="7" ry="7" fill="#fff0d9" stroke="#e59b00" stroke-width="1.4" />
+    <line id="slash_host2_top_cache" x1="364" y1="23" x2="295" y2="92" stroke="#000000" stroke-width="1.4" />
+    <text id="txt_host2_top_c1" class="smallText" x="325" y="59">C1</text>
+    <text id="txt_host2_top_c2" class="smallText" x="376" y="59">C2</text>
+    <text id="txt_host2_kvcache" class="kvText" x="354" y="103">KV-Cache</text>
+  </g>
+
+  
+  <g id="host3_top_kvcache">
+    <rect id="f04_host3_top_c1_dash" data-plus-kind="frame" x="546" y="35" width="51" height="46" rx="7" ry="7" fill="#ffffff" stroke="#6d95d8" stroke-width="1.4" stroke-dasharray="5 4" />
+    <rect id="f05_host3_top_c3" data-plus-kind="frame" x="597" y="35" width="50" height="46" rx="7" ry="7" fill="#dcefd8" stroke="#75ad69" stroke-width="1.4" />
+    <line id="slash_host3_top_cache" x1="610" y1="23" x2="540" y2="92" stroke="#000000" stroke-width="1.4" />
+    <text id="txt_host3_top_c1" class="smallText" x="571" y="59">C1</text>
+    <text id="txt_host3_top_c3" class="smallText" x="622" y="59">C3</text>
+    <text id="txt_host3_kvcache" class="kvText" x="588" y="103">KV-Cache</text>
+  </g>
+
+  
+  <g id="host1_section">
+    <rect id="f06_host1_container" data-plus-kind="frame" x="33" y="166" width="143" height="228" rx="20" ry="20" fill="#f4f4f4" stroke="#777777" stroke-width="1.4" />
+    <rect id="f07_host1_layerN" data-plus-kind="frame" x="48" y="180" width="114" height="42" rx="5" ry="5" fill="#ffffff" stroke="#000000" stroke-width="1.4" />
+    <rect id="f08_host1_layer2" data-plus-kind="frame" x="48" y="265" width="114" height="43" rx="5" ry="5" fill="#ffffff" stroke="#000000" stroke-width="1.4" />
+    <rect id="f09_host1_layer1" data-plus-kind="frame" x="48" y="336" width="114" height="43" rx="5" ry="5" fill="#ffffff" stroke="#000000" stroke-width="1.4" />
+    <text id="txt_host1_layerN" class="layerText" x="105" y="202">Layer N</text>
+    <text id="txt_host1_layer2" class="layerText" x="105" y="287">Layer 2</text>
+    <text id="txt_host1_layer1" class="layerText" x="105" y="358">Layer 1</text>
+    <text id="ellipsis_host1" class="label" x="104" y="242" font-size="29">⋮</text>
+    <line id="arrow_host1_layer1_to_layer2" x1="105" y1="336" x2="105" y2="309" stroke="#000000" stroke-width="1.4" marker-end="url(#arrowBlack)" />
+    <text id="txt_host1_label" class="hostText" x="105" y="417">Host 1</text>
+  </g>
+
+  <g id="host2_section">
+    <rect id="f10_host2_container" data-plus-kind="frame" x="282" y="166" width="143" height="228" rx="20" ry="20" fill="#f4f4f4" stroke="#777777" stroke-width="1.4" />
+    <rect id="f11_host2_layerN" data-plus-kind="frame" x="297" y="180" width="114" height="42" rx="5" ry="5" fill="#ffffff" stroke="#000000" stroke-width="1.4" />
+    <rect id="f12_host2_layer2" data-plus-kind="frame" x="297" y="265" width="114" height="43" rx="5" ry="5" fill="#ffffff" stroke="#000000" stroke-width="1.4" />
+    <rect id="f13_host2_layer1" data-plus-kind="frame" x="297" y="336" width="114" height="43" rx="5" ry="5" fill="#ffffff" stroke="#000000" stroke-width="1.4" />
+    <text id="txt_host2_layerN" class="layerText" x="354" y="202">Layer N</text>
+    <text id="txt_host2_layer2" class="layerText" x="354" y="287">Layer 2</text>
+    <text id="txt_host2_layer1" class="layerText" x="354" y="358">Layer 1</text>
+    <text id="ellipsis_host2" class="label" x="354" y="242" font-size="29">⋮</text>
+    <line id="arrow_host2_layer1_to_layer2" x1="354" y1="336" x2="354" y2="309" stroke="#000000" stroke-width="1.4" marker-end="url(#arrowBlack)" />
+    <text id="txt_host2_label" class="hostText" x="354" y="417">Host 2</text>
+  </g>
+
+  <g id="host3_section">
+    <rect id="f14_host3_container" data-plus-kind="frame" x="516" y="166" width="143" height="228" rx="20" ry="20" fill="#f4f4f4" stroke="#777777" stroke-width="1.4" />
+    <rect id="f15_host3_layerN" data-plus-kind="frame" x="531" y="180" width="114" height="42" rx="5" ry="5" fill="#ffffff" stroke="#000000" stroke-width="1.4" />
+    <rect id="f16_host3_layer2" data-plus-kind="frame" x="531" y="265" width="114" height="43" rx="5" ry="5" fill="#ffffff" stroke="#000000" stroke-width="1.4" />
+    <rect id="f17_host3_layer1" data-plus-kind="frame" x="531" y="336" width="114" height="43" rx="5" ry="5" fill="#ffffff" stroke="#000000" stroke-width="1.4" />
+    <text id="txt_host3_layerN" class="layerText" x="588" y="202">Layer N</text>
+    <text id="txt_host3_layer2" class="layerText" x="588" y="287">Layer 2</text>
+    <text id="txt_host3_layer1" class="layerText" x="588" y="358">Layer 1</text>
+    <text id="ellipsis_host3" class="label" x="588" y="242" font-size="29">⋮</text>
+    <line id="arrow_host3_layer1_to_layer2" x1="588" y1="336" x2="588" y2="309" stroke="#000000" stroke-width="1.4" marker-end="url(#arrowBlack)" />
+    <text id="txt_host3_label" class="hostText" x="588" y="417">Host 3</text>
+  </g>
+
+  
+  <g id="host1_lower_cache">
+    <rect id="f18_host1_lower_c1" data-plus-kind="frame" x="64" y="503" width="82" height="52" rx="7" ry="7" fill="#dcecff" stroke="#6d95d8" stroke-width="1.5" />
+    <text id="txt_host1_lower_c1" class="smallText" x="105" y="529">C1</text>
+  </g>
+
+  <g id="host2_anchor_cache"><defs><clipPath id="clip_host2_anchor_c1_hatch"><rect x="270" y="500" width="82" height="52" rx="7" ry="7" /></clipPath></defs><rect id="f19_host2_anchor_c1_dash_fill" x="270" y="500" width="82" height="52" rx="7" ry="7" fill="#ffffff" stroke="none" /><line id="hatch_host2_anchor_c1_1" x1="270" y1="547" x2="317" y2="500" stroke="#dcecff" stroke-width="3" opacity="0.72" stroke-linecap="round" clip-path="url(#clip_host2_anchor_c1_hatch)" /><line id="hatch_host2_anchor_c1_2" x1="291" y1="552" x2="343" y2="500" stroke="#dcecff" stroke-width="3" opacity="0.72" stroke-linecap="round" clip-path="url(#clip_host2_anchor_c1_hatch)" /><rect id="f19_host2_anchor_c1_dash" data-plus-kind="frame" x="270" y="500" width="82" height="52" rx="7" ry="7" fill="none" stroke="#6d95d8" stroke-width="1.4" stroke-dasharray="5 4" /><rect id="f20_host2_anchor_c2" data-plus-kind="frame" x="351" y="500" width="82" height="52" rx="7" ry="7" fill="#fff0d9" stroke="#e59b00" stroke-width="1.5" /><text id="txt_host2_anchor_c1" class="smallText" x="311" y="526">C1</text><text id="txt_host2_anchor_c2" class="smallText" x="392" y="526">C2</text><text id="txt_host2_anchor_label" class="hostText" x="311" y="576">Anchor</text></g><g id="host3_anchor_cache"><defs><clipPath id="clip_host3_anchor_c1_hatch"><rect x="504" y="500" width="82" height="52" rx="7" ry="7" /></clipPath></defs><rect id="f21_host3_anchor_c1_dash_fill" x="504" y="500" width="82" height="52" rx="7" ry="7" fill="#ffffff" stroke="none" /><line id="hatch_host3_anchor_c1_1" x1="504" y1="547" x2="551" y2="500" stroke="#dcecff" stroke-width="3" opacity="0.72" stroke-linecap="round" clip-path="url(#clip_host3_anchor_c1_hatch)" /><line id="hatch_host3_anchor_c1_2" x1="525" y1="552" x2="577" y2="500" stroke="#dcecff" stroke-width="3" opacity="0.72" stroke-linecap="round" clip-path="url(#clip_host3_anchor_c1_hatch)" /><rect id="f21_host3_anchor_c1_dash" data-plus-kind="frame" x="504" y="500" width="82" height="52" rx="7" ry="7" fill="none" stroke="#6d95d8" stroke-width="1.4" stroke-dasharray="5 4" /><rect id="f22_host3_anchor_c3" data-plus-kind="frame" x="585" y="500" width="82" height="52" rx="7" ry="7" fill="#dcefd8" stroke="#75ad69" stroke-width="1.5" /><text id="txt_host3_anchor_c1" class="smallText" x="545" y="526">C1</text><text id="txt_host3_anchor_c3" class="smallText" x="626" y="526">C3</text><text id="txt_host3_anchor_label" class="hostText" x="546" y="576">Anchor</text></g><g id="context_braces" fill="none" stroke="#a8a8a8" stroke-width="1.6" stroke-linecap="round">
+    <path id="brace_context_c1" d="M247 699 C247 694 251 692 256 692 L276 692 C282 692 284 689 284 684 C284 689 287 692 293 692 L313 692 C318 692 320 695 320 700" />
+    <path id="brace_context_c2" d="M333 699 C333 694 337 692 342 692 L362 692 C368 692 370 689 370 684 C370 689 373 692 379 692 L399 692 C404 692 406 695 406 700" />
+    <path id="brace_context_c3" d="M418 699 C418 694 422 692 427 692 L448 692 C454 692 456 689 456 684 C456 689 459 692 465 692 L484 692 C489 692 491 695 491 700" />
+  </g>
+
+  
+  <g id="context_row">
+    <rect id="f23_context_c1" data-plus-kind="frame" x="244" y="708" width="81" height="51" rx="7" ry="7" fill="#dcecff" stroke="#6d95d8" stroke-width="1.5" />
+    <rect id="f24_context_c2" data-plus-kind="frame" x="325" y="708" width="81" height="51" rx="7" ry="7" fill="#fff0d9" stroke="#e59b00" stroke-width="1.5" />
+    <rect id="f25_context_c3" data-plus-kind="frame" x="406" y="708" width="81" height="51" rx="7" ry="7" fill="#dcefd8" stroke="#75ad69" stroke-width="1.5" />
+    <text id="txt_context_c1" class="smallText" x="284.5" y="733.5">C1</text>
+    <text id="txt_context_c2" class="smallText" x="365.5" y="733.5">C2</text>
+    <text id="txt_context_c3" class="smallText" x="446.5" y="733.5">C3</text>
+    <text id="txt_context_label" class="hostText" x="366" y="787">Context</text>
+  </g>
+
+  
+  <g id="query_section">
+    <rect id="f26_query_box" data-plus-kind="frame" x="630" y="713" width="86" height="50" rx="8" ry="8" fill="#ffffff" stroke="#777777" stroke-width="1.4" stroke-dasharray="5 4" />
+    <text id="txt_query" class="hostText" x="673" y="738">Query</text>
+  </g>
+</svg>

@@ -1,0 +1,136 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1644" height="471" viewBox="0 0 1644 471">
+  <defs>
+    <marker id="arrowGray" markerUnits="userSpaceOnUse" markerWidth="38" markerHeight="30" viewBox="0 0 38 30" refX="36" refY="15" orient="auto"><path d="M0,0 L38,15 L0,30 Z" fill="#bfbfbf" id="plus_node_0" /></marker><marker id="arrowSmall" markerUnits="userSpaceOnUse" markerWidth="18" markerHeight="14" viewBox="0 0 18 14" refX="16" refY="7" orient="auto">
+      <path d="M0,0 L18,7 L0,14 Z" fill="#bfbfbf" id="plus_node_1" />
+    </marker>
+    <style>
+      .serif{font-family:"Times New Roman", Times, serif;}
+      .italic{font-style:italic;}
+      .bold{font-weight:700;}
+      .dash{stroke:#b9b9b9;stroke-width:1.2;stroke-dasharray:10 9;fill:none;}
+      .outer{stroke:#b9b9b9;stroke-width:1.3;fill:#ffffff;}
+      .eq{font-family:"Times New Roman", Times, serif;font-size:26px;fill:#000;}
+      .smallEq{font-family:"Times New Roman", Times, serif;font-size:23px;fill:#000;}
+      .title{font-family:"Times New Roman", Times, serif;font-size:28px;font-weight:700;fill:#000;}
+      .blockTitle{font-family:"Times New Roman", Times, serif;font-size:27px;font-weight:700;fill:#000;}
+    </style>
+  </defs>
+
+  <rect id="canvas_bg" x="0" y="0" width="1644" height="471" fill="#ffffff" />
+
+  
+  <rect id="f00_overall_process" data-plus-kind="frame" class="outer" x="256.5" y="25.5" width="1359" height="414" rx="30" ry="30" />
+  <rect id="f01_information_retrieval" data-plus-kind="frame" class="dash" x="268" y="60" width="438" height="237" rx="19" ry="19" />
+  <rect id="f02_prompt_formulation" data-plus-kind="frame" class="dash" x="718" y="60" width="438" height="296" rx="14" ry="14" />
+  <rect id="f03_generation" data-plus-kind="frame" class="dash" x="1166" y="60" width="438" height="367" rx="19" ry="19" />
+  <rect id="f04_filter_information" data-plus-kind="frame" x="282" y="72" width="416" height="119" rx="17" ry="17" fill="#fbebeb" stroke="none" />
+  <rect id="f05_select_context_samples" data-plus-kind="frame" x="282" y="202" width="413" height="84" rx="11" ry="11" fill="#f5f8ff" stroke="none" />
+  <rect id="f06_generate_next_state" data-plus-kind="frame" x="1178" y="72" width="413" height="154" rx="18" ry="18" fill="#fff8df" stroke="none" />
+  <rect id="f07_generate_next_action" data-plus-kind="frame" x="1178" y="233" width="413" height="77" rx="10" ry="10" fill="#fbf0fc" stroke="none" />
+  <rect id="f08_update_history" data-plus-kind="frame" x="1178" y="317" width="413" height="101" rx="12" ry="12" fill="#eff8f0" stroke="none" />
+
+  
+  <g id="loop_arrows" stroke="#bfbfbf" stroke-width="11" fill="none" stroke-linecap="butt" stroke-linejoin="miter">
+    <desc>Two vertical return arrows rise from the bottom loop into information retrieval and prompt formulation; the bottom horizontal gray loop runs rightward toward the generation block.</desc>
+    <path id="arrow_else_up" d="M379 421 V302" marker-end="url(#arrowGray)" />
+    <path id="arrow_condition_up" d="M760 415 V357" marker-end="url(#arrowGray)" />
+    <path id="arrow_while_right" d="M379 415 H1162" marker-end="url(#arrowSmall)" />
+  </g>
+
+  
+  <g id="left_input_section">
+    <desc>At the left of the process, a target-history expression, policy and parameters, and current step f=0 feed rightward from a user/avatar icon toward the information-retrieval block.</desc>
+    <text id="hist_expr" class="eq italic"><tspan x="16" y="111">h = {x(m), a(m)}</tspan><tspan x="222" y="99" font-size="17">l−1</tspan><tspan x="241" y="116" font-size="17">m=0</tspan></text><text id="param_pi" class="eq italic" x="144" y="149">π, K<tspan baseline-shift="sub" font-size="17">τ</tspan>, D<tspan baseline-shift="sub" font-size="17">τ</tspan></text>
+    <text id="param_rflc" class="eq italic" x="151" y="186">r, F, l, c</text>
+    <text id="param_f0" class="eq italic" x="178" y="230">f = 0</text>
+
+    <g id="avatar_origin" transform="translate(88 163)">
+      <desc>Simple person icon used as the origin of the incoming information flow.</desc>
+      <path d="M9 31 C1 21 7 1 27 1 C47 1 52 21 44 31 C39 39 13 39 9 31 Z" fill="#4a4d5d" id="plus_node_2" />
+      <path d="M8 73 C9 53 20 48 28 48 C37 48 51 55 53 73 Z" fill="#f4c5c2" id="plus_node_3" />
+      <path d="M17 22 C17 11 23 7 31 7 C40 7 46 13 46 23 L46 37 C46 50 17 50 17 37 Z" fill="#444858" id="plus_node_4" />
+      <path d="M16 24 C20 23 29 20 33 16 C35 23 42 24 47 24 L47 34 C47 46 40 53 31 53 C23 53 16 46 16 34 Z" fill="#ffe5cf" id="plus_node_5" />
+      <path id="plus_node_6" d="M18 49 C22 55 26 59 31 62 C36 59 41 55 45 49 L38 49 L31 56 L24 49 Z" fill="#ffd86f" opacity="1" /></g>
+    <path id="arrow_input_to_process" d="M145 202 H257" stroke="#bfbfbf" stroke-width="5" fill="none" marker-end="url(#arrowSmall)" />
+  </g>
+
+  
+  <text id="heading_1" class="title" x="488" y="51" text-anchor="middle">1) Information Retrieval</text>
+  <text id="heading_2" class="title" x="937" y="51" text-anchor="middle">2) Prompt Formulation</text>
+  <text id="heading_3" class="title" x="1383" y="51" text-anchor="middle">3) Generation</text>
+
+  
+  <g id="information_retrieval_content">
+    <desc>Inside the first dashed frame, the upper pink section filters relevant information into Kf and Df; the lower pale-blue section selects context samples Cf. The section is vertically stacked and centered inside its frame.</desc>
+    <text id="filter_title" class="blockTitle" x="490" y="98" text-anchor="middle">Filter information</text>
+    <text id="filter_eq_k" class="eq italic" x="308" y="133">
+      K<tspan baseline-shift="sub" font-size="18">f</tspan>
+      <tspan> = {k</tspan><tspan baseline-shift="sub" font-size="18">i</tspan>
+      <tspan> ∈ K</tspan><tspan baseline-shift="sub" font-size="18">τ</tspan>
+      <tspan>|isRelevant(k</tspan><tspan baseline-shift="sub" font-size="18">i</tspan><tspan>, h)}</tspan>
+    </text>
+    <text id="filter_eq_d" class="eq italic" x="308" y="168">
+      D<tspan baseline-shift="sub" font-size="18">f</tspan>
+      <tspan> = {d</tspan><tspan baseline-shift="sub" font-size="18">i</tspan>
+      <tspan> ∈ D</tspan><tspan baseline-shift="sub" font-size="18">τ</tspan>
+      <tspan>|isRelevant(d</tspan><tspan baseline-shift="sub" font-size="18">i</tspan><tspan>, h)}</tspan>
+    </text>
+
+    <text id="select_title" class="blockTitle" x="489" y="228" text-anchor="middle">Select context samples</text>
+    <text id="select_eq" class="eq italic" x="284" y="263">
+      C<tspan baseline-shift="sub" font-size="18">f</tspan>
+      <tspan> = arg top</tspan><tspan baseline-shift="sub" font-size="18">c</tspan>
+      <tspan>{d</tspan><tspan baseline-shift="sub" font-size="18">i</tspan>
+      <tspan> ∈ D</tspan><tspan baseline-shift="sub" font-size="18">f</tspan>
+      <tspan>|ϕ</tspan><tspan baseline-shift="sub" font-size="18">t</tspan><tspan>(h) · ϕ</tspan>
+      <tspan baseline-shift="sub" font-size="18">c</tspan><tspan>(d</tspan><tspan baseline-shift="sub" font-size="18">i</tspan><tspan>)}</tspan>
+    </text>
+  </g>
+
+  
+  <g id="prompt_formulation_content">
+    <desc>The middle dashed frame contains a prompt template: data description, variable descriptions, per-context sample history and future, target history, and a final simulation instruction. It is centered with a vertical reading order.</desc>
+    <text id="prompt_line_0" class="smallEq" x="937" y="84" text-anchor="middle">Prompt =</text>
+    <text id="prompt_line_1" class="smallEq" x="937" y="126" text-anchor="middle">&lt;Data description in <tspan class="italic">K</tspan><tspan baseline-shift="sub" font-size="15">f</tspan> &gt;</text>
+    <text id="prompt_line_2" class="smallEq" x="937" y="168" text-anchor="middle">&lt;Variable descriptions in <tspan class="italic">K</tspan><tspan baseline-shift="sub" font-size="15">f</tspan> &gt;</text>
+    <text id="prompt_line_3" class="smallEq" x="937" y="210" text-anchor="middle">For <tspan class="italic">c</tspan><tspan baseline-shift="sub" font-size="15">i</tspan> ∈ <tspan class="italic">C</tspan><tspan baseline-shift="sub" font-size="15">f</tspan> :</text>
+    <text id="prompt_line_4" class="smallEq" x="937" y="253" text-anchor="middle">&lt;Sample <tspan class="italic">c</tspan><tspan baseline-shift="sub" font-size="15">i</tspan> history&gt;, &lt;Sample <tspan class="italic">c</tspan><tspan baseline-shift="sub" font-size="15">i</tspan> future&gt;</text>
+    <text id="prompt_line_5" class="smallEq" x="937" y="294" text-anchor="middle">&lt;Target history <tspan class="italic">h</tspan> &gt;</text>
+    <text id="prompt_line_6" class="smallEq" x="937" y="335" text-anchor="middle">Simulate the next state of the target system.</text>
+  </g>
+
+  
+  <g id="generation_content">
+    <desc>The generation frame is split into three pastel sections: the top produces next state and probability curves, the middle samples the next action, and the bottom updates history. The layout is vertically aligned and shares a common center line.</desc>
+    <text id="state_title" class="blockTitle" x="1385" y="98" text-anchor="middle">Generate next state</text>
+
+    <g id="state_eq_1"><text class="eq italic" x="1187" y="148">Φ</text><text class="eq" x="1191" y="137" font-size="18">ˆ</text><text class="eq italic" x="1214" y="148"> = LLM<tspan font-style="normal">(Prompt)</tspan> =</text></g><text id="state_eq_2" class="eq italic" x="1238" y="184">f = f + 1</text><g id="state_eq_3"><text class="eq italic" x="1238" y="214">x(f) ∼ Φ</text><text class="eq" x="1334" y="203" font-size="18">ˆ</text></g><g id="probability_curves" transform="translate(1425 108)"><desc>Three overlapping smooth probability-density humps beside the next-state equation, matching the source with a multi-hump green distribution.</desc><path id="plus_node_7" d="M5 56 C17 35 30 19 43 6 C50 -1 59 5 68 20 C75 31 80 43 85 56 Z" fill="#79b6e4" opacity="0.75" stroke="#6aa8d7" stroke-width="1.2" /><path id="plus_node_8" d="M0 56 C15 50 27 40 39 31 C49 23 57 17 66 27 C75 38 82 49 88 56 Z" fill="#ffd2a6" opacity="0.85" stroke="#eeaa68" stroke-width="1.2" /><path id="plus_node_9" d="M7 58 C12 43 18 35 26 42 C33 49 39 49 45 37 C52 24 58 20 65 28 C73 39 79 49 83 58 Z" fill="#8bd287" opacity="0.85" stroke="#64b965" stroke-width="1.2" /><path id="plus_node_10" d="M0 58 H88" stroke="#a8a56f" stroke-width="1" fill="none" /></g><text id="prob_label_1" class="smallEq italic" x="1504" y="116">P(x<tspan baseline-shift="sub" font-size="15">1</tspan>)</text>
+    <text id="prob_label_2" class="smallEq italic" x="1517" y="139">P(x<tspan baseline-shift="sub" font-size="15">2</tspan>)</text>
+    <text id="prob_label_3" class="smallEq italic" x="1541" y="163">P(x<tspan baseline-shift="sub" font-size="15">3</tspan>)</text>
+    <text id="prob_ellipsis" class="smallEq" x="1561" y="190">⋮</text>
+
+    <text id="action_title" class="blockTitle" x="1384" y="259" text-anchor="middle">Generate next action</text>
+    <text id="action_eq" class="eq italic" x="1289" y="295">
+      a(f) ∼ π(x(f), f)
+    </text>
+
+    <text id="history_title" class="blockTitle" x="1384" y="342" text-anchor="middle">Update history</text>
+    <text id="history_eq_1" class="eq italic" x="1266" y="370">
+      h = h ∪ {x(f), a(f)}
+    </text>
+    <text id="history_eq_2" class="eq italic" x="1297" y="404">
+      h = {h<tspan baseline-shift="sub" font-size="18">i</tspan>}
+      <tspan baseline-shift="super" font-size="17">f</tspan>
+      <tspan baseline-shift="sub" font-size="17">i=f−l+1</tspan>
+    </text>
+  </g>
+
+  
+  <g id="loop_labels">
+    <desc>The lower gray loop is annotated with Else at the left, a conditional phrase below the middle prompt, and While f &lt; F at the right.</desc>
+    <text id="label_else" class="smallEq" x="388" y="405">Else</text>
+    <text id="label_condition_1" class="smallEq" x="786" y="380">If <tspan class="italic">f</tspan> mod <tspan class="italic">r</tspan> ≠ 0 and</text>
+    <text id="label_condition_2" class="smallEq italic" x="825" y="402">a(f) ∈ h<tspan baseline-shift="sub" font-size="15">a</tspan></text>
+    <text id="label_while" class="smallEq" x="1015" y="402">While <tspan class="italic">f</tspan> &lt; <tspan class="italic">F</tspan></text>
+  </g>
+</svg>

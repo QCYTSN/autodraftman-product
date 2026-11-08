@@ -1,0 +1,122 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1233" height="510" viewBox="0 0 1233 510">
+  <title>Layered attention copy-value diagram</title>
+  <desc>
+    Inventory: two pale-blue horizontal layer bands; top band title "Layer 2: Copy value using context similarity based attention"; five upper bracketed key/value or query entries; olive dashed attention path with a downward arrow into the Hello key/value entry and a right vertical terminal; black curved attention arrow from a dot near the second key/value entry up to label 11; lower pale-blue band title "Layer 1: Context formed with previous token using position based attention"; five lower bracketed token entries with math labels x¹, y¹, x², y², x*; olive dashed position-based attention paths above lower tokens with downward arrowheads. Symmetry/equipartition: upper and lower token groups are horizontally aligned in columns with repeated bracket-frame grammar, while the attention arrows are asymmetric and encode left-to-right dependency/copy relations.
+  </desc>
+
+  <defs>
+    <marker id="arrowGreen16" markerUnits="userSpaceOnUse" markerWidth="16" markerHeight="16" viewBox="0 0 10 8" refX="10" refY="4" orient="auto">
+      <path d="M0,0 L10,4 L0,8 Z" fill="#5a7027" id="plus_node_0" />
+    </marker>
+    <marker id="arrowBlack17" markerUnits="userSpaceOnUse" markerWidth="15" markerHeight="17" viewBox="0 0 10 8" refX="10" refY="4" orient="auto">
+      <path d="M0,0 L10,4 L0,8 Z" fill="#000000" id="plus_node_1" />
+    </marker>
+    <style>
+      .titleText{font-family:Arial, Helvetica, sans-serif;font-size:35px;font-weight:400;fill:#000}
+      .kvText{font-family:Arial, Helvetica, sans-serif;font-size:33px;font-weight:400;fill:#000}
+      .tokText{font-family:Arial, Helvetica, sans-serif;font-size:34px;font-weight:400;fill:#000}
+      .mathLabel{font-family:"Times New Roman", Times, serif;font-size:32px;font-weight:700;font-style:italic;fill:#000}
+      .mathSup{font-size:20px;font-style:normal}
+      .bracket{fill:none;stroke:#000;stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round}
+      .dashAttn{fill:none;stroke:#5a7027;stroke-width:4.2;stroke-dasharray:10 5;stroke-linecap:butt;stroke-linejoin:miter}
+      .layerFill{fill:#c9dcf2;stroke:none}
+    </style>
+  </defs>
+
+  
+  <g id="f01" data-plus-kind="frame"><rect id="f01_canvas_white_background" x="0" y="0" width="1233" height="510" fill="#ffffff" stroke="none" /><rect id="f01_top_layer_band" class="layerFill" x="45" y="81" width="1130" height="100" /></g><rect id="f02" data-plus-kind="frame" class="layerFill" x="45" y="320" width="1122" height="76" />
+  <rect id="f03" data-plus-kind="frame" x="45" y="181" width="1130" height="139" fill="none" stroke="none" />
+  <rect id="f04" data-plus-kind="frame" x="45" y="396" width="1122" height="94" fill="none" stroke="none" />
+
+  
+  <g id="layer2_dashed_attention">
+    <path id="layer2_dash_horizontal_and_terminal" class="dashAttn" d="M335 161 H1071 V202" />
+    <path id="layer2_dash_down_to_hello" class="dashAttn" d="M335 161 V201" marker-end="url(#arrowGreen16)" />
+  </g>
+
+  
+  <text id="layer2_title" class="titleText" x="67" y="144">Layer 2: Copy value using context similarity based attention</text>
+  <text id="layer1_title" class="titleText" x="67" y="371" textLength="1100" lengthAdjust="spacingAndGlyphs">Layer 1: Context formed with previous token using position based attention</text>
+
+  
+  <g id="upper_entry_01_start_hello">
+    <path id="upper_entry_01_brackets" class="bracket" d="M80 202 H66 V305 H80 M211 202 H225 V305 H211" />
+    <text id="upper_entry_01_text_k" class="kvText" x="87" y="243">K: &lt;start&gt;</text>
+    <text id="upper_entry_01_text_v" class="kvText" x="87" y="283">V: Hello</text>
+  </g>
+
+  <g id="upper_entry_02_hello_11">
+    <path id="upper_entry_02_brackets" class="bracket" d="M264 206 H250 V306 H264 M456 206 H470 V306 H456" />
+    <text id="upper_entry_02_text_k" class="kvText" x="272" y="244">K: Hello</text>
+    <text id="upper_entry_02_text_v" class="kvText" x="272" y="284">V: 11</text>
+  </g>
+
+  <g id="upper_entry_03_11_goodbye">
+    <path id="upper_entry_03_brackets" class="bracket" d="M509 202 H495 V306 H509 M704 202 H718 V306 H704" />
+    <text id="upper_entry_03_text_k" class="kvText" x="517" y="244">K: 11</text>
+    <text id="upper_entry_03_text_v" class="kvText" x="517" y="284">V: Goodbye</text>
+  </g>
+
+  <g id="upper_entry_04_goodbye_77">
+    <path id="upper_entry_04_brackets" class="bracket" d="M758 202 H744 V306 H758 M950 202 H964 V306 H950" />
+    <text id="upper_entry_04_text_k" class="kvText" x="804" y="244">K: Goodbye</text>
+    <text id="upper_entry_04_text_v" class="kvText" x="804" y="284">V: 77</text>
+  </g>
+
+  <g id="upper_entry_05_query_hello">
+    <path id="upper_entry_05_brackets" class="bracket" d="M1000 202 H986 V306 H1000 M1131 202 H1145 V306 H1131" />
+    <text id="upper_entry_05_text_q" class="kvText" x="1012" y="283">Q: Hello</text>
+  </g>
+
+  
+  <g id="layer2_curved_copy_arrow">
+    <circle id="layer2_similarity_origin_dot" cx="448" cy="252" r="9" fill="#000" />
+    <path id="layer2_black_curve_to_11" d="M448 252 C451 197 455 144 509 124 C559 105 629 109 704 110 C804 111 945 116 1033 96 C1067 88 1077 56 1084 21" fill="none" stroke="#000" stroke-width="3.2" stroke-linecap="round" marker-end="url(#arrowBlack17)" />
+    <text id="layer2_arrow_label_11" class="kvText" x="1097" y="38">11</text>
+  </g>
+
+  
+  <g id="layer1_position_attention">
+    <path id="layer1_path_to_x1" class="dashAttn" d="M130 376 V421" marker-end="url(#arrowGreen16)" />
+    <path id="layer1_path_x1_to_y1_horizontal" class="dashAttn" d="M130 381 H342" />
+    <path id="layer1_path_to_y1" class="dashAttn" d="M342 381 V421" marker-end="url(#arrowGreen16)" />
+    <path id="layer1_path_to_second_context" class="dashAttn" d="M367 381 V421" marker-end="url(#arrowGreen16)" />
+    <path id="layer1_path_y1_to_x2_horizontal" class="dashAttn" d="M367 381 H580" />
+    <path id="layer1_path_to_x2" class="dashAttn" d="M580 381 V421" marker-end="url(#arrowGreen16)" />
+    <path id="layer1_path_to_third_context" class="dashAttn" d="M622 384 V421" marker-end="url(#arrowGreen16)" />
+    <path id="layer1_path_x2_to_y2_horizontal" class="dashAttn" d="M622 384 H833" />
+    <path id="layer1_path_to_y2" class="dashAttn" d="M833 384 V421" marker-end="url(#arrowGreen16)" />
+  </g>
+
+  
+  <g id="lower_token_01_hello">
+    <path id="lower_token_01_brackets" class="bracket" d="M82 403 C73 403 66 404 66 406 V462 C66 464 73 465 82 465 M202 403 C211 403 218 404 218 406 V462 C218 464 211 465 202 465" />
+    <text id="lower_token_01_text" class="tokText" x="99" y="443">Hello</text>
+    <text id="lower_token_01_label" class="mathLabel" x="119" y="482">x<tspan class="mathSup" baseline-shift="super">1</tspan></text>
+  </g>
+
+  <g id="lower_token_02_11">
+    <path id="lower_token_02_brackets" class="bracket" d="M264 403 C255 403 248 404 248 406 V462 C248 464 255 465 264 465 M456 403 C465 403 472 404 472 406 V462 C472 464 465 465 456 465" />
+    <text id="lower_token_02_text_11" class="tokText" x="335" y="449">11</text>
+    <text id="lower_token_02_text_comma" class="tokText" x="389" y="424">,</text>
+    <text id="lower_token_02_label" class="mathLabel" x="345" y="482">y<tspan class="mathSup" baseline-shift="super">1</tspan></text>
+  </g>
+
+  <g id="lower_token_03_goodbye">
+    <path id="lower_token_03_brackets" class="bracket" d="M509 403 C500 403 493 404 493 406 V462 C493 464 500 465 509 465 M702 403 C711 403 718 404 718 406 V462 C718 464 711 465 702 465" />
+    <text id="lower_token_03_text" class="tokText" x="531" y="443">Goodbye</text>
+    <text id="lower_token_03_label" class="mathLabel" x="580" y="482">x<tspan class="mathSup" baseline-shift="super">2</tspan></text>
+  </g>
+
+  <g id="lower_token_04_77">
+    <path id="lower_token_04_brackets" class="bracket" d="M749 403 C740 403 733 404 733 406 V462 C733 464 740 465 749 465 M943 403 C952 403 959 404 959 406 V462 C959 464 952 465 943 465" />
+    <text id="lower_token_04_text" class="tokText" x="803" y="443">77</text>
+    <text id="lower_token_04_label" class="mathLabel" x="813" y="482">y<tspan class="mathSup" baseline-shift="super">2</tspan></text>
+  </g>
+
+  <g id="lower_token_05_hello_query">
+    <path id="lower_token_05_brackets" class="bracket" d="M1000 403 C991 403 984 404 984 406 V462 C984 464 991 465 1000 465 M1134 403 C1143 403 1150 404 1150 406 V462 C1150 464 1143 465 1134 465" />
+    <text id="lower_token_05_text" class="tokText" x="1030" y="443">Hello</text>
+    <text id="lower_token_05_label" class="mathLabel" x="1031" y="482">x<tspan class="mathSup" baseline-shift="super">*</tspan></text>
+  </g>
+</svg>

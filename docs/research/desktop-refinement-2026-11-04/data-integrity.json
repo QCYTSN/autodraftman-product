@@ -1,0 +1,19 @@
+{
+  "baseline": "0e64f10acff9b43128988fbce126ad7b537e8959",
+  "unchangedTrackedAssets": 1234,
+  "gitCsvLineEndingsNormalized": 6,
+  "unchanged": [
+    "four-method scores",
+    "ablation scores",
+    "resources",
+    "criteria",
+    "methods",
+    "provenance",
+    "all eligibility and evidence",
+    "all original SVGs and published image previews"
+  ],
+  "changedResearchData": [
+    "summary.examples",
+    "new example-observations.json"
+  ]
+}

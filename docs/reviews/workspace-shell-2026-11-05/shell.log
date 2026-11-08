@@ -1,0 +1,20 @@
+
+> figfox-frontend@0.1.0 review:workspace-shell
+> node scripts/workspace-shell-check.mjs
+
+Eight desktop states: exact header, source and footer sizes; full primary action without root overflow
+Repeated New task keeps the same truly blank task
+Create layout, sidebar animation, invalid replacement, modal history and focus restoration
+Task and library share alignment; browser Back and Forward follow the view query
+Double-click creates one document; continue uses its exact ID and refreshes renamed filenames
+Cancelled native chooser and invalid import preserve task, URL and all SVG records
+Native open starts within the click gesture and retains the real handle; browser Back saves the latest canvas edit
+Independent research example and four-column document collection retain previous files
+Task-save failure blocks SVG entry, reports the failure and creates no document
+1080px maximum at 1920; stacked tablet and drawer mobile layouts fit through 320px
+Reduced motion presents final states immediately without losing user text
+Rapid mode clicks follow the last intent; long notes scroll internally; composition and blank-task mode reset remain correct
+Fallback cancellation unlocks all entries; stale Continue never silently opens a different document
+Browser Back stays in the editor when its last save fails and succeeds after recovery
+Direct editor entry returns to My SVGs
+{"checks":15,"errors":[]}

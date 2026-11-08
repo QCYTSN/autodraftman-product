@@ -1,0 +1,179 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="708" height="1062" viewBox="0 0 708 1062">
+  <title>Otter workflow diagram</title>
+  <desc id="figure_inventory">
+    Base frames: a large rounded Otter container encloses three stacked rounded green regions: Localizer at top, Self-reflective action planner in the middle, and Test generator at bottom. A peach legend sits at bottom left outside the Otter container. Data circles enter from above as issue description and old code, flow through localizer calls to test/focal data circles, then through rule-based action planner boxes and LLM call boxes to planned actions, generated tests, and output y. The layout is vertically symmetric around paired localizer/planner columns, with a central downward pipeline for test generation.
+  </desc>
+
+  <defs>
+    <marker id="arrow" markerUnits="userSpaceOnUse" markerWidth="10" markerHeight="8" refX="10" refY="4" orient="auto">
+      <path d="M0,0 L10,4 L0,8 Z" fill="#000000" id="plus_node_0" />
+    </marker>
+  </defs>
+
+  <rect id="canvas_background" x="0" y="0" width="708" height="1062" fill="#ffffff" />
+
+  
+  <rect id="f01" data-plus-kind="frame" x="30" y="128" width="656" height="802" rx="33" ry="33" fill="#bfe6f4" stroke="#176d8d" stroke-width="3.5" />
+  <rect id="f02" data-plus-kind="frame" x="106" y="142" width="568" height="152" rx="30" ry="30" fill="#c8f4cd" stroke="#176d21" stroke-width="3.5" />
+  <rect id="f03" data-plus-kind="frame" x="106" y="422" width="568" height="156" rx="30" ry="30" fill="#c8f4cd" stroke="#176d21" stroke-width="3.5" />
+  <rect id="f04" data-plus-kind="frame" x="106" y="699" width="568" height="220" rx="43" ry="43" fill="#c8f4cd" stroke="#176d21" stroke-width="3.5" />
+  <rect id="f05" data-plus-kind="frame" x="36" y="948" width="302" height="93" fill="#fde4d6" stroke="none" />
+
+  
+  <circle id="data_issue_description" cx="315" cy="67" r="50" fill="#ffffff" stroke="#000000" stroke-width="2.5" />
+  <circle id="data_old_code" cx="562" cy="67" r="50" fill="#ffffff" stroke="#000000" stroke-width="2.5" />
+
+  <rect id="llm_localize_test_files" x="251" y="154" width="185" height="55" rx="27.5" ry="27.5" fill="#49d75f" stroke="#000000" stroke-width="2.5" />
+  <rect id="llm_localize_test_functions" x="251" y="225" width="185" height="54" rx="27" ry="27" fill="#49d75f" stroke="#000000" stroke-width="2.5" />
+  <rect id="llm_localize_focal_files" x="471" y="154" width="185" height="55" rx="27.5" ry="27.5" fill="#49d75f" stroke="#000000" stroke-width="2.5" />
+  <rect id="llm_localize_focal_functions" x="471" y="225" width="185" height="54" rx="27" ry="27" fill="#49d75f" stroke="#000000" stroke-width="2.5" />
+
+  <circle id="data_test_files_functions" cx="344" cy="361" r="50" fill="#ffffff" stroke="#000000" stroke-width="2.5" />
+  <circle id="data_focal_files_functions" cx="564" cy="361" r="50" fill="#ffffff" stroke="#000000" stroke-width="2.5" />
+
+  <rect id="rule_execute_read_actions_planner" x="266" y="439" width="157" height="56" fill="#000000" stroke="#000000" stroke-width="1" />
+  <rect id="llm_make_initial_plan" x="252" y="512" width="185" height="54" rx="27" ry="27" fill="#49d75f" stroke="#000000" stroke-width="2.5" />
+  <rect id="rule_validate_planned_actions" x="486" y="439" width="157" height="56" fill="#000000" stroke="#000000" stroke-width="1" />
+  <rect id="llm_reflect_improve_plan" x="471" y="512" width="185" height="54" rx="27" ry="27" fill="#49d75f" stroke="#000000" stroke-width="2.5" />
+
+  <circle id="data_planned_actions" cx="441" cy="638" r="49" fill="#ffffff" stroke="#000000" stroke-width="2.5" />
+
+  <rect id="rule_execute_read_actions_generator" x="363" y="713" width="156" height="56" fill="#000000" stroke="#000000" stroke-width="1" />
+  <rect id="llm_flesh_out_write_modify" x="348" y="783" width="185" height="54" rx="27" ry="27" fill="#49d75f" stroke="#000000" stroke-width="2.5" />
+  <rect id="rule_repair_generated_tests" x="363" y="851" width="156" height="56" fill="#000000" stroke="#000000" stroke-width="1" />
+
+  <circle id="data_generated_tests" cx="441" cy="994" r="49" fill="#ffffff" stroke="#000000" stroke-width="2.5" />
+
+  
+  <circle id="legend_data_circle" cx="64" cy="1012" r="20" fill="#ffffff" stroke="#000000" stroke-width="2.5" />
+  <rect id="legend_llm_call" x="97" y="991" width="111" height="41" rx="20.5" ry="20.5" fill="#49d75f" stroke="#000000" stroke-width="2.5" />
+  <rect id="legend_rule_based" x="219" y="991" width="114" height="41" fill="#000000" stroke="#000000" stroke-width="1" />
+
+  
+  <path id="arrow_issue_to_input" d="M363,62 L433,128" fill="none" stroke="#000000" stroke-width="2.5" marker-end="url(#arrow)" />
+  <path id="arrow_old_to_input" d="M526,93 L443,128" fill="none" stroke="#000000" stroke-width="2.5" marker-end="url(#arrow)" />
+
+  <path id="arrow_test_files_to_functions" d="M344,209 L344,225" fill="none" stroke="#000000" stroke-width="2.5" marker-end="url(#arrow)" />
+  <path id="arrow_focal_files_to_functions" d="M564,209 L564,225" fill="none" stroke="#000000" stroke-width="2.5" marker-end="url(#arrow)" />
+
+  <path id="arrow_localize_test_to_data" d="M344,279 L344,311" fill="none" stroke="#000000" stroke-width="2.5" marker-end="url(#arrow)" />
+  <path id="arrow_localize_focal_to_data" d="M564,279 L564,311" fill="none" stroke="#000000" stroke-width="2.5" marker-end="url(#arrow)" />
+
+  <path id="arrow_test_data_to_execute_planner" d="M344,411 L344,439" fill="none" stroke="#000000" stroke-width="2.5" marker-end="url(#arrow)" />
+  <path id="arrow_focal_data_to_execute_planner" d="M527,394 L350,439" fill="none" stroke="#000000" stroke-width="2.5" marker-end="url(#arrow)" />
+
+  <path id="arrow_execute_to_make_plan" d="M344,495 L344,512" fill="none" stroke="#000000" stroke-width="2.5" marker-end="url(#arrow)" />
+  <path id="arrow_validate_to_reflect" d="M564,495 L564,512" fill="none" stroke="#000000" stroke-width="2.5" marker-end="url(#arrow)" />
+  <path id="arrow_make_plan_to_validate" d="M437,539 L486,467" fill="none" stroke="#000000" stroke-width="2.5" marker-end="url(#arrow)" />
+  <path id="arrow_reflect_to_planned" d="M568,566 L489,635" fill="none" stroke="#000000" stroke-width="2.5" marker-end="url(#arrow)" />
+
+  <path id="arrow_planned_to_generator_execute" d="M441,687 L441,713" fill="none" stroke="#000000" stroke-width="2.5" marker-end="url(#arrow)" />
+  <path id="arrow_generator_execute_to_flesh" d="M441,769 L441,783" fill="none" stroke="#000000" stroke-width="2.5" marker-end="url(#arrow)" />
+  <path id="arrow_flesh_to_repair" d="M441,837 L441,851" fill="none" stroke="#000000" stroke-width="2.5" marker-end="url(#arrow)" />
+  <path id="arrow_repair_to_generated" d="M441,907 L441,945" fill="none" stroke="#000000" stroke-width="2.5" marker-end="url(#arrow)" />
+
+  
+  <g id="text_layer" font-family="Times New Roman, Times, serif" fill="#000000">
+    <text id="label_issue_description" x="315" y="47" font-size="20" text-anchor="middle">
+      <tspan x="315" dy="0">issue</tspan>
+      <tspan x="315" dy="24">description</tspan>
+      <tspan x="315" dy="24" font-style="italic">d</tspan><tspan baseline-shift="sub" font-size="13">issue</tspan>
+    </text>
+
+    <text id="label_old_code" x="562" y="47" font-size="20" text-anchor="middle">
+      <tspan x="562" dy="0">old</tspan>
+      <tspan x="562" dy="24">code</tspan>
+      <tspan x="562" dy="24" font-style="italic">c</tspan><tspan baseline-shift="sub" font-size="13">old</tspan>
+    </text>
+
+    <text id="label_input_x" x="409" y="74" font-size="20">
+      input <tspan font-style="italic">x</tspan>
+    </text>
+
+    <text id="label_otter" x="47" y="164" font-size="20">Otter</text>
+    <text id="label_localizer" x="121" y="226" font-size="20">Localizer</text>
+    <text id="label_action_planner" x="121" y="494" font-size="20">
+      <tspan x="121" dy="0">Self-reflective</tspan>
+      <tspan x="121" dy="25">action planner</tspan>
+    </text>
+    <text id="label_test_generator" x="126" y="817" font-size="20">Test generator</text>
+
+    <text id="label_localize_test_files" x="343.5" y="177" font-size="20" text-anchor="middle">
+      <tspan x="343.5" dy="0">Localize</tspan>
+      <tspan x="343.5" dy="24">test files</tspan>
+    </text>
+    <text id="label_localize_test_functions" x="343.5" y="248" font-size="20" text-anchor="middle">
+      <tspan x="343.5" dy="0">Localize</tspan>
+      <tspan x="343.5" dy="24">test functions</tspan>
+    </text>
+    <text id="label_localize_focal_files" x="563.5" y="177" font-size="20" text-anchor="middle">
+      <tspan x="563.5" dy="0">Localize</tspan>
+      <tspan x="563.5" dy="24">focal files</tspan>
+    </text>
+    <text id="label_localize_focal_functions" x="563.5" y="248" font-size="20" text-anchor="middle">
+      <tspan x="563.5" dy="0">Localize</tspan>
+      <tspan x="563.5" dy="24">focal functions</tspan>
+    </text>
+
+    <text id="label_test_files_functions" x="344" y="336" font-size="20" text-anchor="middle">
+      <tspan x="344" dy="0">test</tspan>
+      <tspan x="344" dy="24">files and</tspan>
+      <tspan x="344" dy="24">functions</tspan>
+    </text>
+    <text id="label_focal_files_functions" x="564" y="336" font-size="20" text-anchor="middle">
+      <tspan x="564" dy="0">focal</tspan>
+      <tspan x="564" dy="24">files and</tspan>
+      <tspan x="564" dy="24">functions</tspan>
+    </text>
+
+    <text id="label_execute_read_actions_planner" x="344.5" y="462" font-size="20" text-anchor="middle" fill="#ffffff">
+      <tspan x="344.5" dy="0">Execute</tspan>
+      <tspan x="344.5" dy="24">read actions</tspan>
+    </text>
+    <text id="label_make_initial_plan" x="344.5" y="535" font-size="20" text-anchor="middle">
+      <tspan x="344.5" dy="0">Make</tspan>
+      <tspan x="344.5" dy="24">initial plan</tspan>
+    </text>
+    <text id="label_validate_planned_actions" x="564.5" y="462" font-size="20" text-anchor="middle" fill="#ffffff">
+      <tspan x="564.5" dy="0">Validate</tspan>
+      <tspan x="564.5" dy="24">planned actions</tspan>
+    </text>
+    <text id="label_reflect_improve_plan" x="563.5" y="535" font-size="20" text-anchor="middle">
+      <tspan x="563.5" dy="0">Reflect and</tspan>
+      <tspan x="563.5" dy="24">improve plan</tspan>
+    </text>
+
+    <text id="label_planned_actions" x="441" y="632" font-size="20" text-anchor="middle">
+      <tspan x="441" dy="0">planned</tspan>
+      <tspan x="441" dy="24">actions</tspan>
+    </text>
+
+    <text id="label_execute_read_actions_generator" x="441" y="737" font-size="20" text-anchor="middle" fill="#ffffff">
+      <tspan x="441" dy="0">Execute</tspan>
+      <tspan x="441" dy="24">read actions</tspan>
+    </text>
+    <text id="label_flesh_out_write_modify" x="440.5" y="805" font-size="20" text-anchor="middle">
+      <tspan x="440.5" dy="0">Flesh out write</tspan>
+      <tspan x="440.5" dy="24">or modify action</tspan>
+    </text>
+    <text id="label_repair_generated_tests" x="441" y="874" font-size="20" text-anchor="middle" fill="#ffffff">
+      <tspan x="441" dy="0">Repair</tspan>
+      <tspan x="441" dy="24">generated tests</tspan>
+    </text>
+
+    <text id="label_generated_tests" x="441" y="982" font-size="20" text-anchor="middle">
+      <tspan x="441" dy="0">generated</tspan>
+      <tspan x="441" dy="24">tests</tspan>
+      <tspan x="441" dy="24" font-style="italic">y</tspan>
+    </text>
+
+    <text id="label_output_y" x="506" y="1001" font-size="20">
+      output <tspan font-style="italic">y</tspan>
+    </text>
+
+    <text id="legend_title" x="42" y="971" font-size="19" text-decoration="underline">Legend:</text>
+    <text id="legend_data_label" x="64" y="1018" font-size="18" text-anchor="middle">data</text>
+    <text id="legend_llm_label" x="152.5" y="1017" font-size="20" text-anchor="middle">LLM call</text>
+    <text id="legend_rule_label" x="276" y="1017" font-size="20" text-anchor="middle" fill="#ffffff">Rule-based</text>
+  </g>
+</svg>

@@ -1,0 +1,248 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1196" height="160" viewBox="0 0 1196 160">
+  <title>Projection paradigms and region-guided expert transformer workflow</title>
+  <desc>Four horizontally arranged base frames: (a) mainstream projection paradigms with a vertical feature plane, BEV grid and projected cuboids; (b) depth-guided dual-projection view transformer with feature plane, BEV grid, highlighted cell, 3D scene traces and curved projection arrow; (c) regional partitioning strategy with camera rays, colored BEV regions and stacked partitions; (d) region-guided expert transformer and recursive variant with colored expert tokens, routers, voxel cube and recursive routing.</desc>
+  <defs>
+    <marker id="arrowBlue" markerUnits="userSpaceOnUse" markerWidth="18" markerHeight="14" refX="17" refY="7" orient="auto">
+      <path d="M0,0 L18,7 L0,14 Z" fill="#1f4a80" id="plus_node_0" />
+    </marker>
+    <marker id="arrowBlack" markerUnits="userSpaceOnUse" markerWidth="12" markerHeight="10" refX="11" refY="5" orient="auto">
+      <path d="M0,0 L12,5 L0,10 Z" fill="#222" id="plus_node_1" />
+    </marker>
+    <linearGradient id="planeGray" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#f1f1f1" />
+      <stop offset="0.25" stop-color="#7d858b" />
+      <stop offset="0.55" stop-color="#2f3e46" />
+      <stop offset="1" stop-color="#e7e7e7" />
+    </linearGradient>
+    <linearGradient id="planeColor" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#e43d30" />
+      <stop offset="0.18" stop-color="#f7e34a" />
+      <stop offset="0.35" stop-color="#54b948" />
+      <stop offset="0.55" stop-color="#36a4ff" />
+      <stop offset="0.75" stop-color="#8b50c7" />
+      <stop offset="1" stop-color="#efefef" />
+    </linearGradient>
+    <linearGradient id="floorFill" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#fafafa" />
+      <stop offset="1" stop-color="#f0f3f7" />
+    </linearGradient>
+    <clipPath id="clipPlaneA"><polygon points="47,20 79,4 79,113 47,137" id="plus_node_2" /></clipPath>
+    <clipPath id="clipPlaneB"><polygon points="276,18 327,7 327,111 276,139" id="plus_node_3" /></clipPath>
+    <clipPath id="clipPlaneC"><polygon points="585,31 631,9 631,113 585,137" id="plus_node_4" /></clipPath>
+  </defs>
+
+  <rect id="f01" data-plus-kind="frame" x="0" y="0" width="235" height="160" fill="#ffffff" stroke="none" />
+  <rect id="f02" data-plus-kind="frame" x="238" y="0" width="326" height="160" fill="#ffffff" stroke="none" />
+  <rect id="f03" data-plus-kind="frame" x="575" y="0" width="274" height="160" fill="#ffffff" stroke="none" />
+  <rect id="f04" data-plus-kind="frame" x="849" y="0" width="347" height="160" fill="#ffffff" stroke="none" />
+
+  <g id="panel-a">
+    <desc>Origin is the BEV grid. Up-left is a vertical feature plane; inward are projected translucent cells and cuboids. A right-facing arrow links to panel b. Symmetry basis: shared perspective grid with aligned vertical cuboid columns.</desc>
+    <polygon id="a-feature-plane" points="47,20 79,4 79,113 47,137" fill="url(#planeGray)" stroke="#1a2830" stroke-width="1" />
+    <g clip-path="url(#clipPlaneA)" id="a-plane-texture">
+      <path d="M43,33 C58,21 68,44 84,32 M42,56 C55,45 66,69 83,55 M42,88 C57,78 65,101 84,90 M52,18 L52,136 M60,12 L60,132 M69,8 L69,123" fill="none" stroke="#dce0e2" stroke-width="1" opacity=".7" id="plus_node_5" />
+      <path d="M48,72 L80,57 M49,108 L79,92" stroke="#384850" stroke-width="2" opacity=".55" id="plus_node_6" />
+    </g>
+    <text x="31" y="39" font-family="Arial, sans-serif" font-size="8" font-weight="700" transform="rotate(-51 31 39)" id="plus_node_7">Feature Plane</text>
+
+    <polygon id="a-bev-floor" points="58,128 202,128 161,78 86,78" fill="url(#floorFill)" stroke="#111" stroke-width="1.2" />
+    <g id="a-bev-grid" stroke="#111" stroke-width="1" opacity=".95">
+      <path d="M72,128 L94,78 M87,128 L103,78 M102,128 L112,78 M117,128 L122,78 M132,128 L131,78 M147,128 L140,78 M162,128 L149,78 M177,128 L158,78" id="plus_node_8" />
+      <path d="M64,118 L194,118 M70,108 L185,108 M76,98 L177,98 M81,88 L169,88" id="plus_node_9" />
+      <path d="M58,128 L86,78 M202,128 L161,78" id="plus_node_10" />
+    </g>
+    <text x="184" y="111" font-family="Arial, sans-serif" font-size="8" font-weight="700" transform="rotate(-55 184 111)" id="plus_node_11">BEV Plane</text>
+
+    <g id="a-blue-bottom-cells" opacity=".72">
+      <polygon points="80,108 104,108 111,118 85,118" fill="#b9d7f6" stroke="#40648e" id="plus_node_12" />
+      <polygon points="108,108 132,108 137,118 111,118" fill="#c7def7" stroke="#40648e" id="plus_node_13" />
+      <polygon points="135,107 158,107 161,117 137,118" fill="#bad7f0" stroke="#40648e" id="plus_node_14" />
+      <polygon points="96,96 119,96 126,106 103,106" fill="#d9e9fb" stroke="#40648e" id="plus_node_15" />
+    </g>
+
+    <g id="a-cuboids" stroke="#24333f" stroke-width=".9">
+      <g id="a-cube-yellow-1" transform="translate(83 58)">
+        <rect x="0" y="-20" width="21" height="20" fill="#fff9c9" id="plus_node_16" />
+        <polygon points="0,-20 8,-28 29,-28 21,-20" fill="#fffde5" id="plus_node_17" />
+        <polygon points="21,-20 29,-28 29,-8 21,0" fill="#e4dba9" id="plus_node_18" />
+      </g>
+      <g id="a-cube-white-2" transform="translate(108 70)">
+        <rect x="0" y="-19" width="20" height="19" fill="#fffde8" id="plus_node_19" />
+        <polygon points="0,-19 8,-27 28,-27 20,-19" fill="#fffff3" id="plus_node_20" />
+        <polygon points="20,-19 28,-27 28,-8 20,0" fill="#e1e1bd" id="plus_node_21" />
+      </g>
+      <g id="a-cube-white-3" transform="translate(130 70)">
+        <rect x="0" y="-19" width="20" height="19" fill="#ffffee" id="plus_node_22" />
+        <polygon points="0,-19 8,-27 28,-27 20,-19" fill="#fff" id="plus_node_23" />
+        <polygon points="20,-19 28,-27 28,-8 20,0" fill="#dedfc1" id="plus_node_24" />
+      </g>
+      <g id="a-cube-white-4" transform="translate(151 70)">
+        <rect x="0" y="-19" width="20" height="19" fill="#ffffed" id="plus_node_25" />
+        <polygon points="0,-19 8,-27 28,-27 20,-19" fill="#fff" id="plus_node_26" />
+        <polygon points="20,-19 28,-27 28,-8 20,0" fill="#dedfc1" id="plus_node_27" />
+      </g>
+      <g id="a-cube-orange" transform="translate(94 98)">
+        <rect x="0" y="-19" width="21" height="19" fill="#f6c18b" id="plus_node_28" />
+        <polygon points="0,-19 8,-27 29,-27 21,-19" fill="#ffe0bb" id="plus_node_29" />
+        <polygon points="21,-19 29,-27 29,-8 21,0" fill="#d49155" id="plus_node_30" />
+      </g>
+    </g>
+    <polygon id="a-to-b-arrow" points="234,70 249,70 249,64 263,78 249,92 249,86 234,86" fill="#ffffff" stroke="#1f4a80" stroke-width="1.7" stroke-linejoin="miter" /><text x="14" y="146" font-family="Arial, sans-serif" font-size="13" id="plus_node_31">(a) Mainstream Projection Paradigms</text>
+  </g>
+
+  <g id="panel-b">
+    <desc>Origin is the center orange BEV cell. Up-left is the feature plane; rightward is a drawn outdoor point-cloud/road scene. A curved arrow returns depth guidance into the grid. Symmetry basis: dual projection shares the same BEV perspective lattice as panel a with a larger scene branch.</desc>
+    <polygon id="b-feature-plane" points="276,18 327,7 327,111 276,139" fill="url(#planeGray)" stroke="#1a2830" stroke-width="1" />
+    <g clip-path="url(#clipPlaneB)" id="b-plane-texture">
+      <rect x="276" y="18" width="3" height="121" fill="#e43d30" opacity=".9" id="plus_node_32" />
+      <path d="M280,18 L282,137" stroke="#f4d03f" stroke-width="1.2" id="plus_node_33" opacity=".9" />
+      <path d="M283,18 L285,135" stroke="#4aa564" stroke-width=".9" id="plus_node_34" opacity=".75" />
+      <path d="M296,18 L302,129" stroke="#46555b" stroke-width=".8" id="plus_node_35" opacity=".28" />
+      <path d="M313,14 L319,121" stroke="#263a43" stroke-width=".8" id="plus_node_36" opacity=".22" />
+      <path d="M280,50 C296,36 307,62 331,44 M279,91 C294,79 309,104 330,86" fill="none" stroke="#dce0e2" stroke-width="1" opacity=".65" id="plus_node_37" />
+    <g id="b-plane-gray-source-streaks" fill="none" stroke-linecap="round"><path d="M288,25 C299,18 309,28 324,19 M287,47 C300,39 313,55 329,43 M286,70 C299,61 314,78 330,66 M286,96 C302,85 315,103 330,91 M287,121 C302,110 316,128 330,116" stroke="#cfd5d8" stroke-width="1" opacity=".75" /><path d="M290,20 L290,136 M304,16 L304,128 M318,12 L318,119" stroke="#24333f" stroke-width=".8" opacity=".35" /><path d="M294,34 L321,25 M292,84 L324,70 M291,112 L319,99" stroke="#f1f1f1" stroke-width="1.2" opacity=".65" /></g></g>
+    <text x="278" y="54" font-family="Arial, sans-serif" font-size="8" font-weight="700" transform="rotate(-51 278 54)" id="plus_node_38">Feature Plane</text>
+
+    <polygon id="b-bev-floor" points="306,128 465,128 424,78 337,78" fill="url(#floorFill)" stroke="#111" stroke-width="1.2" />
+    <g id="b-bev-grid" stroke="#111" stroke-width="1" opacity=".95">
+      <path d="M321,128 L345,78 M337,128 L354,78 M353,128 L364,78 M369,128 L373,78 M385,128 L383,78 M401,128 L393,78 M417,128 L402,78 M433,128 L412,78" id="plus_node_39" />
+      <path d="M313,118 L457,118 M320,108 L448,108 M326,98 L440,98 M332,88 L431,88" id="plus_node_40" />
+      <path d="M306,128 L337,78 M465,128 L424,78" id="plus_node_41" />
+    </g>
+    <text x="447" y="112" font-family="Arial, sans-serif" font-size="8" font-weight="700" transform="rotate(-55 447 112)" id="plus_node_42">BEV Plane</text>
+
+    <g id="b-floor-cells" opacity=".75" stroke="#40648e">
+      <polygon points="365,108 390,108 395,119 369,119" fill="#bdd9f5" id="plus_node_43" />
+      <polygon points="392,108 416,108 419,119 395,119" fill="#bed8ef" id="plus_node_44" />
+      <polygon points="337,108 363,108 369,119 342,119" fill="#c9e0f5" id="plus_node_45" />
+      <polygon points="355,96 380,96 386,107 361,107" fill="#d4e6fa" id="plus_node_46" />
+    </g>
+    <g id="b-cuboids" stroke="#24333f" stroke-width=".9">
+      <g transform="translate(352 70)" id="plus_node_47">
+        <rect x="0" y="-19" width="20" height="19" fill="#fffbd7" id="plus_node_48" />
+        <polygon points="0,-19 8,-27 28,-27 20,-19" fill="#fffef0" id="plus_node_49" />
+        <polygon points="20,-19 28,-27 28,-8 20,0" fill="#e3deb5" id="plus_node_50" />
+      </g>
+      <g transform="translate(375 70)" id="plus_node_51">
+        <rect x="0" y="-19" width="20" height="19" fill="#fffbd7" id="plus_node_52" />
+        <polygon points="0,-19 8,-27 28,-27 20,-19" fill="#fffef0" id="plus_node_53" />
+        <polygon points="20,-19 28,-27 28,-8 20,0" fill="#e3deb5" id="plus_node_54" />
+      </g>
+      <g transform="translate(398 70)" id="plus_node_55">
+        <rect x="0" y="-19" width="20" height="19" fill="#fffbd7" id="plus_node_56" />
+        <polygon points="0,-19 8,-27 28,-27 20,-19" fill="#fffef0" id="plus_node_57" />
+        <polygon points="20,-19 28,-27 28,-8 20,0" fill="#e3deb5" id="plus_node_58" />
+      </g>
+      <g id="b-highlight-cube" transform="translate(347 100)">
+        <rect x="0" y="-22" width="23" height="22" fill="#ff861c" id="plus_node_59" />
+        <polygon points="0,-22 9,-31 32,-31 23,-22" fill="#ffa64f" id="plus_node_60" />
+        <polygon points="23,-22 32,-31 32,-9 23,0" fill="#d46110" id="plus_node_61" />
+      </g>
+      <g transform="translate(377 118)" id="plus_node_62">
+        <rect x="0" y="-21" width="23" height="21" fill="#b7d5f3" id="plus_node_63" />
+        <polygon points="0,-21 9,-30 32,-30 23,-21" fill="#dcecff" id="plus_node_64" />
+        <polygon points="23,-21 32,-30 32,-9 23,0" fill="#7da9cf" id="plus_node_65" />
+      </g>
+    </g>
+
+    <path id="b-curved-depth-arrow" d="M518,73 C544,94 525,124 488,126" fill="none" stroke="#1f4a80" stroke-width="1.6" marker-end="url(#arrowBlue)" />
+    <text x="253" y="146" font-family="Arial, sans-serif" font-size="13" id="plus_node_88">(b) Depth-guided Dual-Projection View Transformer</text>
+  <image id="b-source-scene-crop" x="378" y="0" width="187" height="58" href="data:image/png;base64,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" /><image id="b-depth-endpoint-patch-crop" x="532" y="52" width="33" height="44" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACEAAAAsCAIAAABkGEbmAAAALElEQVR4nO3NQQEAAAQEMPTvfErw2wqsk9Sz+Q4cDofD4XA4HA6Hw+FwOA4tXxADVXOPYeYAAAAASUVORK5CYII=" /></g>
+
+  <line id="separator-b-c" x1="566" y1="5" x2="566" y2="155" stroke="#111" stroke-width="1.3" stroke-dasharray="10 5" />
+
+  <g id="panel-c">
+    <desc>Origin is the colored BEV partition grid. Upward and rightward are multiple camera/expert icons projecting translucent triangular fields into the grid; a vertical stack of colored cuboids sits on the right side. Symmetry basis: radial camera partitioning around shared BEV regions, not uniform symmetry.</desc>
+    <polygon id="c-feature-plane" points="585,31 631,9 631,113 585,137" fill="url(#planeGray)" stroke="#1a2830" stroke-width="1" />
+    <g clip-path="url(#clipPlaneC)" id="c-plane-texture">
+      <path d="M589,41 C602,30 613,51 630,40 M589,73 C604,62 615,84 632,73 M588,105 C602,95 615,119 633,106" fill="none" stroke="#cfd5d8" stroke-width="1" id="plus_node_89" />
+      <path d="M592,32 L592,134 M604,24 L604,128 M617,17 L617,121" stroke="#253840" stroke-width="1" opacity=".45" id="plus_node_90" />
+    </g>
+    <text x="590" y="58" font-family="Arial, sans-serif" font-size="8" font-weight="700" transform="rotate(-51 590 58)" id="plus_node_91">Feature Plane</text>
+
+    <g id="c-camera-rays" opacity=".38">
+      <polygon points="652,25 638,112 696,112" fill="#f4e65a" id="plus_node_92" />
+      <polygon points="688,23 662,112 733,112" fill="#ff8a3d" id="plus_node_93" />
+      <polygon points="723,25 694,112 780,112" fill="#5aa9ff" id="plus_node_94" />
+      <polygon points="795,56 710,112 817,81" fill="#ff8841" id="plus_node_95" />
+      <polygon points="797,91 705,112 816,113" fill="#ffc044" id="plus_node_96" />
+      <polygon points="797,121 692,112 814,142" fill="#ff8745" id="plus_node_97" />
+    </g>
+    <g id="c-ray-guides" stroke="#8f8f8f" stroke-width=".7" stroke-dasharray="2 3" opacity=".55">
+      <path d="M652,25 L662,112 M652,25 L696,112 M688,23 L662,112 M688,23 L733,112 M723,25 L694,112 M723,25 L780,112" id="plus_node_98" />
+      <path d="M795,56 L710,112 M795,91 L705,112 M795,121 L692,112" id="plus_node_99" />
+    </g>
+
+    <polygon id="c-bev-floor" points="625,124 755,124 722,80 650,80" fill="#f7f8f3" stroke="#111" stroke-width="1.1" />
+    <g id="c-partition-cells" stroke="#333" stroke-width=".8" opacity=".82">
+      <polygon points="633,115 658,115 663,124 637,124" fill="#f1e657" id="plus_node_100" />
+      <polygon points="660,115 684,115 688,124 663,124" fill="#f6b141" id="plus_node_101" />
+      <polygon points="687,115 712,115 714,124 688,124" fill="#76b9f2" id="plus_node_102" />
+      <polygon points="642,103 666,103 673,114 658,114" fill="#f4e665" id="plus_node_103" />
+      <polygon points="668,103 694,103 700,114 674,114" fill="#ff8d23" id="plus_node_104" />
+      <polygon points="696,103 722,103 726,114 700,114" fill="#5aa8ef" id="plus_node_105" />
+      <polygon points="650,92 675,92 683,102 658,102" fill="#eee86a" id="plus_node_106" />
+      <polygon points="677,92 704,92 711,102 684,102" fill="#ffb24b" id="plus_node_107" />
+      <polygon points="706,92 732,92 738,102 711,102" fill="#f0ce66" id="plus_node_108" />
+      <polygon points="656,81 681,81 690,91 664,91" fill="#f7ef85" id="plus_node_109" />
+      <polygon points="683,81 710,81 719,91 692,91" fill="#bada7e" id="plus_node_110" />
+    </g>
+    <g id="c-bev-grid-lines" stroke="#111" stroke-width=".8" fill="none" opacity=".85">
+      <path d="M625,124 L650,80 M650,124 L669,80 M676,124 L688,80 M703,124 L706,80 M729,124 L722,80 M755,124 L722,80" id="plus_node_111" />
+      <path d="M632,114 L747,114 M639,103 L738,103 M645,92 L730,92 M650,80 L722,80" id="plus_node_112" />
+    </g>
+
+    <g id="c-cameras" fill="none" stroke-width="1.6">
+      <g transform="translate(652 8)" stroke="#34a853" id="plus_node_113">
+        <path d="M-5,0 h10 v8 c0,5 -10,5 -10,0 z" id="plus_node_114" /><path d="M-7,16 q7,7 14,0" id="plus_node_115" /><circle cx="0" cy="-2" r="1.5" fill="#34a853" id="plus_node_116" />
+      </g>
+      <g transform="translate(688 8)" stroke="#e52520" id="plus_node_117">
+        <path d="M-5,0 h10 v8 c0,5 -10,5 -10,0 z" id="plus_node_118" /><path d="M-7,16 q7,7 14,0" id="plus_node_119" /><circle cx="0" cy="-2" r="1.5" fill="#e52520" id="plus_node_120" />
+      </g>
+      <g transform="translate(723 8)" stroke="#2495e8" id="plus_node_121">
+        <path d="M-5,0 h10 v8 c0,5 -10,5 -10,0 z" id="plus_node_122" /><path d="M-7,16 q7,7 14,0" id="plus_node_123" /><circle cx="0" cy="-2" r="1.5" fill="#2495e8" id="plus_node_124" />
+      </g>
+      <g transform="translate(797 38)" stroke="#d96825" id="plus_node_125">
+        <path d="M-5,0 h10 v8 c0,5 -10,5 -10,0 z" id="plus_node_126" /><path d="M-7,16 q7,7 14,0" id="plus_node_127" /><circle cx="0" cy="-2" r="1.5" fill="#d96825" id="plus_node_128" />
+      </g>
+      <g transform="translate(797 74)" stroke="#c29100" id="plus_node_129">
+        <path d="M-5,0 h10 v8 c0,5 -10,5 -10,0 z" id="plus_node_130" /><path d="M-7,16 q7,7 14,0" id="plus_node_131" /><circle cx="0" cy="-2" r="1.5" fill="#c29100" id="plus_node_132" />
+      </g>
+      <g transform="translate(797 110)" stroke="#e96a2b" id="plus_node_133">
+        <path d="M-5,0 h10 v8 c0,5 -10,5 -10,0 z" id="plus_node_134" /><path d="M-7,16 q7,7 14,0" id="plus_node_135" /><circle cx="0" cy="-2" r="1.5" fill="#e96a2b" id="plus_node_136" />
+      </g>
+    </g>
+
+    <g id="c-right-stacked-blocks" stroke="#222" stroke-width=".8">
+      <g transform="translate(740 48)" id="plus_node_137">
+        <rect x="0" y="-20" width="22" height="20" fill="#e6a16f" id="plus_node_138" /><polygon points="0,-20 9,-28 31,-28 22,-20" fill="#f5c29a" id="plus_node_139" /><polygon points="22,-20 31,-28 31,-8 22,0" fill="#c77b48" id="plus_node_140" />
+      </g>
+      <g transform="translate(740 68)" id="plus_node_141">
+        <rect x="0" y="-20" width="22" height="20" fill="#d28a58" id="plus_node_142" /><polygon points="0,-20 9,-28 31,-28 22,-20" fill="#f0b183" id="plus_node_143" /><polygon points="22,-20 31,-28 31,-8 22,0" fill="#b26e42" id="plus_node_144" />
+      </g>
+      <g transform="translate(740 88)" id="plus_node_145">
+        <rect x="0" y="-20" width="22" height="20" fill="#e6d971" id="plus_node_146" /><polygon points="0,-20 9,-28 31,-28 22,-20" fill="#fff197" id="plus_node_147" /><polygon points="22,-20 31,-28 31,-8 22,0" fill="#c2b653" id="plus_node_148" />
+      </g>
+      <g transform="translate(740 108)" id="plus_node_149">
+        <rect x="0" y="-20" width="22" height="20" fill="#f4dc79" id="plus_node_150" /><polygon points="0,-20 9,-28 31,-28 22,-20" fill="#fff6a9" id="plus_node_151" /><polygon points="22,-20 31,-28 31,-8 22,0" fill="#cab757" id="plus_node_152" />
+      </g>
+    </g>
+    <text x="611" y="146" font-family="Arial, sans-serif" font-size="13" id="plus_node_153">(c) Regional Partitioning Strategy</text>
+  <text id="c-bev-plane-label" x="748" y="121" font-family="Arial, sans-serif" font-size="8" font-weight="700" fill="#1f4a80" transform="rotate(-55 748 121)">BEV Plane</text></g>
+
+  <g id="panel-d">
+    <desc>Origin is the left colored voxel cube. Rightward arrow enters a transformer block of six expert icons and a router; another arrow connects to a recursive variant with person icon, cube cluster, circular feedback arrow and router. Symmetry basis: two routing stages aligned horizontally with vertically paired expert rows.</desc>
+    <g id="d-voxel-cube" stroke="#111" stroke-width=".75">
+      <g transform="translate(852 96)" id="plus_node_154">
+        <polygon points="0,-18 9,-24 18,-18 9,-12" fill="#2ecb71" id="plus_node_155" /><polygon points="0,-18 9,-12 9,0 0,-6" fill="#16a05f" id="plus_node_156" /><polygon points="9,-12 18,-18 18,-6 9,0" fill="#1681c4" id="plus_node_157" />
+        <polygon points="10,-24 19,-30 28,-24 19,-18" fill="#19b8ff" id="plus_node_158" /><polygon points="10,-24 19,-18 19,-6 10,-12" fill="#116ea7" id="plus_node_159" /><polygon points="19,-18 28,-24 28,-12 19,-6" fill="#ffe262" id="plus_node_160" />
+        <polygon points="20,-30 29,-36 38,-30 29,-24" fill="#24d66c" id="plus_node_161" /><polygon points="20,-30 29,-24 29,-12 20,-18" fill="#1aa45b" id="plus_node_162" /><polygon points="29,-24 38,-30 38,-18 29,-12" fill="#e7b22d" id="plus_node_163" />
+        <polygon points="9,-7 18,-13 27,-7 18,-1" fill="#f28a20" id="plus_node_164" /><polygon points="9,-7 18,-1 18,11 9,5" fill="#d56c12" id="plus_node_165" /><polygon points="18,-1 27,-7 27,5 18,11" fill="#11a4dd" id="plus_node_166" />
+        <polygon points="20,-13 29,-19 38,-13 29,-7" fill="#3be17c" id="plus_node_167" /><polygon points="20,-13 29,-7 29,5 20,-1" fill="#149b54" id="plus_node_168" /><polygon points="29,-7 38,-13 38,-1 29,5" fill="#25afe7" id="plus_node_169" />
+        <polygon points="31,-19 40,-25 49,-19 40,-13" fill="#25c46d" id="plus_node_170" /><polygon points="31,-19 40,-13 40,-1 31,-7" fill="#0f884a" id="plus_node_171" /><polygon points="40,-13 49,-19 49,-7 40,-1" fill="#f8d64f" id="plus_node_172" />
+      </g>
+    </g>
+
+    <g id="d-transformer-block"><rect id="d-transformer-bg" x="892" y="18" width="105" height="110" rx="6" fill="#f3f3f3" stroke="none" /><g id="d-experts" stroke-width="1.35" fill="none"><g transform="translate(908 40)" stroke="#f26d22" id="plus_node_173"><rect x="-12" y="-13" width="24" height="25" rx="2" id="plus_node_174" /><path d="M-4,-7 h8 v8 c0,4 -8,4 -8,0 z" id="plus_node_175" /><path d="M-7,9 q7,6 14,0" id="plus_node_176" /></g><g transform="translate(938 40)" stroke="#e52520" id="plus_node_177"><rect x="-12" y="-13" width="24" height="25" rx="2" id="plus_node_178" /><path d="M-4,-7 h8 v8 c0,4 -8,4 -8,0 z" id="plus_node_179" /><path d="M-7,9 q7,6 14,0" id="plus_node_180" /></g><g transform="translate(968 40)" stroke="#f26d22" id="plus_node_181"><rect x="-12" y="-13" width="24" height="25" rx="2" id="plus_node_182" /><path d="M-4,-7 h8 v8 c0,4 -8,4 -8,0 z" id="plus_node_183" /><path d="M-7,9 q7,6 14,0" id="plus_node_184" /></g><g transform="translate(908 75)" stroke="#238be6" id="plus_node_185"><rect x="-12" y="-13" width="24" height="25" rx="2" id="plus_node_186" /><path d="M-4,-7 h8 v8 c0,4 -8,4 -8,0 z" id="plus_node_187" /><path d="M-7,9 q7,6 14,0" id="plus_node_188" /></g><g transform="translate(938 75)" stroke="#39a853" id="plus_node_189"><rect x="-12" y="-13" width="24" height="25" rx="2" id="plus_node_190" /><path d="M-4,-7 h8 v8 c0,4 -8,4 -8,0 z" id="plus_node_191" /><path d="M-7,9 q7,6 14,0" id="plus_node_192" /></g><g transform="translate(968 75)" stroke="#c69b00" id="plus_node_193"><rect x="-12" y="-13" width="24" height="25" rx="2" id="plus_node_194" /><path d="M-4,-7 h8 v8 c0,4 -8,4 -8,0 z" id="plus_node_195" /><path d="M-7,9 q7,6 14,0" id="plus_node_196" /></g></g><g id="d-routing-lines" stroke="#222222" stroke-width=".9" stroke-dasharray="2 2" fill="none"><path d="M908,53 L935,109 M938,53 L935,109 M968,53 L935,109 M908,88 L935,109 M938,88 L935,109 M968,88 L935,109" id="plus_node_197" /></g><rect id="d-router-left" x="902" y="110" width="68" height="16" rx="2" fill="#bcd7ff" stroke="#4778c5" /><text x="918" y="121" font-family="Arial, sans-serif" font-size="8" fill="#111" id="plus_node_198">Router</text></g><g id="d-arrow-in" /><g id="d-recursive-variant"><rect id="d-recursive-bg" x="1020" y="8" width="148" height="120" rx="6" fill="#f3f3f3" stroke="none" /><g id="d-person" transform="translate(1058 25)" stroke="#111" stroke-width="3" fill="none"><circle cx="0" cy="0" r="8" id="plus_node_199" /><path d="M-8,17 q8,-8 16,0" id="plus_node_200" /><path d="M-8,-7 h16" id="plus_node_201" /></g><g id="d-small-cubes" stroke="#111" stroke-width=".75" fill="none"><g transform="translate(1034 70)" id="plus_node_202"><rect x="0" y="-9" width="9" height="9" fill="#f4f4f4" id="plus_node_203" /><polygon points="0,-9 5,-14 14,-14 9,-9" fill="#fff" id="plus_node_204" /><polygon points="9,-9 14,-14 14,-5 9,0" fill="#dcdcdc" id="plus_node_205" /><rect x="9" y="-9" width="9" height="9" fill="#eeeeee" id="plus_node_206" /><polygon points="9,-9 14,-14 23,-14 18,-9" fill="#fff" id="plus_node_207" /><polygon points="18,-9 23,-14 23,-5 18,0" fill="#dcdcdc" id="plus_node_208" /><rect x="18" y="-9" width="9" height="9" fill="#f2f2f2" id="plus_node_209" /><polygon points="18,-9 23,-14 32,-14 27,-9" fill="#fff" id="plus_node_210" /><polygon points="27,-9 32,-14 32,-5 27,0" fill="#dcdcdc" id="plus_node_211" /><rect x="0" y="0" width="9" height="9" fill="#f4f4f4" id="plus_node_212" /><polygon points="9,0 14,-5 14,4 9,9" fill="#dcdcdc" id="plus_node_213" /><rect x="9" y="0" width="9" height="9" fill="#eeeeee" id="plus_node_214" /><polygon points="18,0 23,-5 23,4 18,9" fill="#dcdcdc" id="plus_node_215" /><rect x="18" y="0" width="9" height="9" fill="#f2f2f2" id="plus_node_216" /><polygon points="27,0 32,-5 32,4 27,9" fill="#dcdcdc" id="plus_node_217" /><rect x="0" y="9" width="9" height="9" fill="#f4f4f4" id="plus_node_218" /><polygon points="9,9 14,4 14,13 9,18" fill="#dcdcdc" id="plus_node_219" /><rect x="9" y="9" width="9" height="9" fill="#eeeeee" id="plus_node_220" /><polygon points="18,9 23,4 23,13 18,18" fill="#dcdcdc" id="plus_node_221" /><rect x="18" y="9" width="9" height="9" fill="#f2f2f2" id="plus_node_222" /><polygon points="27,9 32,4 32,13 27,18" fill="#dcdcdc" id="plus_node_223" /></g><g transform="translate(1068 69)" id="plus_node_224"><rect x="0" y="-9" width="9" height="9" fill="#f3f3f3" id="plus_node_225" /><polygon points="0,-9 5,-14 14,-14 9,-9" fill="#fff" id="plus_node_226" /><polygon points="9,-9 14,-14 14,-5 9,0" fill="#d8d8d8" id="plus_node_227" /><rect x="9" y="-9" width="9" height="9" fill="#ededed" id="plus_node_228" /><polygon points="9,-9 14,-14 23,-14 18,-9" fill="#fff" id="plus_node_229" /><polygon points="18,-9 23,-14 23,-5 18,0" fill="#d8d8d8" id="plus_node_230" /><rect x="0" y="0" width="9" height="9" fill="#f3f3f3" id="plus_node_231" /><polygon points="9,0 14,-5 14,4 9,9" fill="#d8d8d8" id="plus_node_232" /><rect x="9" y="0" width="9" height="9" fill="#ededed" id="plus_node_233" /><polygon points="18,0 23,-5 23,4 18,9" fill="#d8d8d8" id="plus_node_234" /></g></g><path id="d-recursive-arrow" d="M1084,37 C1113,47 1114,88 1082,101" fill="none" stroke="#111" stroke-width="1.5" marker-end="url(#arrowBlack)" /><rect id="d-router-right" x="1025" y="110" width="68" height="16" rx="2" fill="#bcd7ff" stroke="#4778c5" /><text x="1041" y="121" font-family="Arial, sans-serif" font-size="8" fill="#111" id="plus_node_235">Router</text></g><text x="852" y="146" font-family="Arial, sans-serif" font-size="13" id="plus_node_236">(d) Region-guided Expert Transformer and its recursive variant</text>
+  <path id="d-voxel-to-router-arrow" d="M890,118 H902" fill="none" stroke="#111111" stroke-width="1.2" marker-end="url(#arrowBlack)" /><polygon id="d-arrow-in-outline" points="990,58 1011,58 1011,51 1030,70 1011,89 1011,82 990,82" fill="#ffffff" stroke="#1f4a80" stroke-width="1.7" stroke-linejoin="miter" /></g>
+</svg>

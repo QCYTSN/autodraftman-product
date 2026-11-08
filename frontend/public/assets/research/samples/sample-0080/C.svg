@@ -1,0 +1,200 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="693" height="600" viewBox="0 0 693 600">
+  <title>C-Siren Module diagram</title>
+  <desc>
+    Inventory and relationships: A large rounded light-gray outer frame contains the C-Siren Module.
+    The center origin is the plus node, fed by an orange left h_l path and a green right epsilon_t path, then sending upward through Linear d_i by d_o, Sine, and x prime.
+    Below the plus node is a multiplication node, fed upward by the blue h_x path and leftward by the green alpha_t vector, then feeding upward into plus.
+    Left orange subframe processes e_l through Linear, GELU, Linear to h_l. Middle blue subframe processes x similarly to h_x.
+    Right green dashed subframe processes t upward through Sinusoidal Embedding, Linear d_T by 2d_i, GELU, Linear 2d_i by 2d_i to epsilon_t; alpha_t branches left into multiply.
+    Layout uses left/middle/right equipartition in the lower half, with central vertical black operator chain symmetry.
+  </desc>
+
+  <defs>
+    <marker id="arrowBlack" markerUnits="userSpaceOnUse" markerWidth="10" markerHeight="8" viewBox="0 0 10 8" refX="10" refY="4" orient="auto">
+      <path d="M0,0 L10,4 L0,8 Z" fill="#000000" id="plus_node_0" />
+    </marker>
+    <marker id="arrowBlackStart" markerUnits="userSpaceOnUse" markerWidth="10" markerHeight="8" viewBox="0 0 10 8" refX="0" refY="4" orient="auto-start-reverse">
+      <path d="M0,0 L10,4 L0,8 Z" fill="#000000" id="plus_node_1" />
+    </marker>
+    <marker id="arrowOrange" markerUnits="userSpaceOnUse" markerWidth="13" markerHeight="16" viewBox="0 0 10 8" refX="10" refY="4" orient="auto">
+      <path d="M0,0 L10,4 L0,8 Z" fill="#ff7f2a" id="plus_node_2" />
+    </marker>
+    <marker id="arrowBlue" markerUnits="userSpaceOnUse" markerWidth="10" markerHeight="8" viewBox="0 0 10 8" refX="10" refY="4" orient="auto">
+      <path d="M0,0 L10,4 L0,8 Z" fill="#55a9e6" id="plus_node_3" />
+    </marker>
+    <marker id="arrowGreen" markerUnits="userSpaceOnUse" markerWidth="12" markerHeight="7" viewBox="0 0 10 8" refX="10" refY="4" orient="auto">
+      <path d="M0,0 L10,4 L0,8 Z" fill="#64ae45" id="plus_node_4" />
+    </marker>
+    <marker id="arrowGreenStart" markerUnits="userSpaceOnUse" markerWidth="12" markerHeight="7" viewBox="0 0 10 8" refX="0" refY="4" orient="auto-start-reverse">
+      <path d="M0,0 L10,4 L0,8 Z" fill="#64ae45" id="plus_node_5" />
+    </marker>
+
+    <style>
+      .label { font-family: Arial, Helvetica, sans-serif; fill:#000; }
+      .math { font-family: "Times New Roman", Times, serif; font-style: italic; fill:#000; }
+      .boxtext { font-family: Arial, Helvetica, sans-serif; font-size:18px; fill:#fff; text-anchor:middle; dominant-baseline:middle; }
+      .smallboxtext { font-family: Arial, Helvetica, sans-serif; font-size:18px; fill:#000; text-anchor:middle; dominant-baseline:middle; }
+      .dashframe { stroke:#111; stroke-width:1.2; stroke-dasharray:3 2; }
+      .thin { stroke-width:2; fill:none; }
+    </style>
+  </defs>
+
+  
+  <rect id="f01" data-plus-kind="frame" x="20" y="58" width="650" height="469" rx="10" ry="10" fill="#e9e9e9" stroke="#1f3a4f" stroke-width="1.3" />
+  <rect id="f02" data-plus-kind="frame" x="31" y="347" width="164" height="165" fill="#edc7ac" stroke="#111111" stroke-width="1.2" stroke-dasharray="3 2" />
+  <rect id="f03" data-plus-kind="frame" x="226" y="347" width="164" height="165" fill="#c7dbea" stroke="#111111" stroke-width="1.2" stroke-dasharray="3 2" />
+  <rect id="f04" data-plus-kind="frame" x="420" y="303" width="236" height="209" fill="#cbdcc2" stroke="#111111" stroke-width="1.2" stroke-dasharray="3 2" />
+
+  
+  <text id="title_c_siren" class="label" x="438" y="102" font-size="29">C-Siren Module</text>
+
+  
+  <g id="operator_arrows">
+    <path id="arrow_mult_to_plus" d="M308 244 L308 228" class="thin" stroke="#000000" marker-end="url(#arrowBlack)" />
+    <path id="arrow_plus_to_linear_out" d="M308 186 L308 168" class="thin" stroke="#000000" marker-end="url(#arrowBlack)" />
+    <path id="arrow_linear_to_sine" d="M308 125 L308 103" class="thin" stroke="#000000" marker-end="url(#arrowBlack)" />
+    <path id="arrow_sine_to_xprime" d="M308 78 L308 39" class="thin" stroke="#000000" marker-end="url(#arrowBlack)" />
+  </g>
+
+  
+  <g id="orange_pathway">
+    <path id="arrow_el_to_orange_linear1" d="M113 536 L113 506" class="thin" stroke="#ff7f2a" marker-end="url(#arrowOrange)" />
+    <path id="arrow_orange_linear1_to_gelu" d="M113 464 L113 441" class="thin" stroke="#ff7f2a" marker-end="url(#arrowOrange)" />
+    <path id="arrow_orange_gelu_to_linear2" d="M113 417 L113 397" class="thin" stroke="#ff7f2a" marker-end="url(#arrowOrange)" />
+    <path id="arrow_orange_linear2_to_hl" d="M113 354 L113 329" class="thin" stroke="#ff7f2a" marker-end="url(#arrowOrange)" />
+    <path id="arrow_hl_to_plus" d="M113 305 L113 207 L287 207" class="thin" stroke="#ff7f2a" marker-end="url(#arrowOrange)" />
+  </g>
+
+  
+  <g id="blue_pathway">
+    <path id="arrow_x_to_blue_linear1" d="M308 536 L308 506" class="thin" stroke="#55a9e6" marker-end="url(#arrowBlue)" />
+    <path id="arrow_blue_linear1_to_gelu" d="M308 464 L308 441" class="thin" stroke="#55a9e6" marker-end="url(#arrowBlue)" />
+    <path id="arrow_blue_gelu_to_linear2" d="M308 417 L308 397" class="thin" stroke="#55a9e6" marker-end="url(#arrowBlue)" />
+    <path id="arrow_blue_linear2_to_hx" d="M308 354 L308 329" class="thin" stroke="#55a9e6" marker-end="url(#arrowBlue)" />
+    <path id="arrow_hx_to_mult" d="M308 305 L308 286" class="thin" stroke="#55a9e6" marker-end="url(#arrowBlue)" />
+  </g>
+
+  
+  <g id="green_pathway">
+    <path id="arrow_t_to_sinusoidal" d="M538 554 L538 500" class="thin" stroke="#64ae45" marker-end="url(#arrowGreen)" />
+    <path id="arrow_sinusoidal_to_linearT" d="M538 474 L538 457" class="thin" stroke="#64ae45" marker-end="url(#arrowGreen)" />
+    <path id="arrow_linearT_to_gelu" d="M538 415 L538 397" class="thin" stroke="#64ae45" marker-end="url(#arrowGreen)" />
+    <path id="arrow_gelu_to_linear2di" d="M538 372 L538 354" class="thin" stroke="#64ae45" marker-end="url(#arrowGreen)" />
+    <path id="arrow_linear2di_to_epsilon" d="M538 312 L538 289" class="thin" stroke="#64ae45" marker-end="url(#arrowGreen)" />
+    <path id="arrow_alpha_to_mult" d="M421 266 L329 266" class="thin" stroke="#64ae45" marker-end="url(#arrowGreen)" />
+    <path id="arrow_epsilon_to_plus" d="M590 256 L590 207 L329 207" class="thin" stroke="#64ae45" marker-end="url(#arrowGreen)" />
+  </g>
+
+  
+  <g id="top_output_stack">
+    <rect id="box_sine" x="271" y="78" width="74" height="25" fill="#fbfbfb" stroke="#111111" stroke-width="1.3" />
+    <text id="text_sine" class="smallboxtext" x="308" y="91.5">Sine</text>
+
+    <rect id="box_linear_output" x="234" y="125" width="148" height="42" rx="6" ry="6" fill="#fbfbfb" stroke="#111111" stroke-width="1.3" />
+    <text id="text_linear_output" class="label" x="248" y="152" font-size="18">Linear <tspan class="math">d</tspan><tspan class="math" baseline-shift="sub" font-size="13">i</tspan><tspan> × </tspan><tspan class="math">d</tspan><tspan class="math" baseline-shift="sub" font-size="13">o</tspan></text>
+
+    <text id="label_xprime" class="math" x="298" y="31" font-size="28">x′</text>
+  </g>
+
+  
+  <g id="operator_nodes">
+    <circle id="node_plus" cx="308" cy="207" r="21" fill="#fbfbfb" stroke="#111111" stroke-width="1.4" />
+    <path id="plus_h" d="M297 207 L319 207" stroke="#000000" stroke-width="2.2" />
+    <path id="plus_v" d="M308 196 L308 218" stroke="#000000" stroke-width="2.2" />
+
+    <circle id="node_multiply" cx="308" cy="266" r="21" fill="#fbfbfb" stroke="#111111" stroke-width="1.4" />
+    <path id="times_a" d="M299 257 L317 275" stroke="#000000" stroke-width="2.1" />
+    <path id="times_b" d="M317 257 L299 275" stroke="#000000" stroke-width="2.1" />
+  </g>
+
+  
+  <g id="orange_branch">
+    <text id="label_hl" class="math" x="35" y="324" font-size="26">h<tspan baseline-shift="sub" font-size="17">l</tspan></text>
+
+    <rect id="vector_hl" x="63" y="304" width="99" height="24" rx="4" ry="4" fill="#fff7f2" stroke="#ff7f2a" stroke-width="1.4" />
+    <circle cx="76" cy="316" r="8" fill="#fff7f2" stroke="#ff7f2a" stroke-width="1.2" id="plus_node_6" />
+    <circle cx="100" cy="316" r="8" fill="#fff7f2" stroke="#ff7f2a" stroke-width="1.2" id="plus_node_7" />
+    <circle cx="124" cy="316" r="8" fill="#fff7f2" stroke="#ff7f2a" stroke-width="1.2" id="plus_node_8" />
+    <circle cx="148" cy="316" r="8" fill="#fff7f2" stroke="#ff7f2a" stroke-width="1.2" id="plus_node_9" />
+
+    <rect id="orange_linear_top" x="38" y="354" width="149" height="42" rx="6" ry="6" fill="#f58232" stroke="#b45416" stroke-width="1.4" />
+    <text id="text_orange_linear_top" class="boxtext" x="112.5" y="376">Linear <tspan class="math" fill="#fff">d</tspan><tspan class="math" fill="#fff" baseline-shift="sub" font-size="13">i</tspan><tspan> × </tspan><tspan class="math" fill="#fff">d</tspan><tspan class="math" fill="#fff" baseline-shift="sub" font-size="13">i</tspan></text>
+
+    <rect id="orange_gelu" x="77" y="417" width="72" height="24" fill="#f58232" stroke="#b45416" stroke-width="1.3" />
+    <text id="text_orange_gelu" class="boxtext" x="113" y="430" font-size="17">GELU</text>
+
+    <rect id="orange_linear_bottom" x="39" y="464" width="148" height="41" rx="6" ry="6" fill="#f58232" stroke="#b45416" stroke-width="1.4" />
+    <text id="text_orange_linear_bottom" class="boxtext" x="113" y="486">Linear <tspan class="math" fill="#fff">d</tspan><tspan class="math" fill="#fff" baseline-shift="sub" font-size="13">i</tspan><tspan> × </tspan><tspan class="math" fill="#fff">d</tspan><tspan class="math" fill="#fff" baseline-shift="sub" font-size="13">i</tspan></text>
+
+    <rect id="vector_el" x="39" y="536" width="147" height="24" rx="4" ry="4" fill="#fff7f2" stroke="#ff7f2a" stroke-width="1.4" />
+    <circle cx="53" cy="548" r="8" fill="#fff7f2" stroke="#ff7f2a" stroke-width="1.2" id="plus_node_10" />
+    <circle cx="77" cy="548" r="8" fill="#fff7f2" stroke="#ff7f2a" stroke-width="1.2" id="plus_node_11" />
+    <circle cx="101" cy="548" r="8" fill="#fff7f2" stroke="#ff7f2a" stroke-width="1.2" id="plus_node_12" />
+    <circle cx="125" cy="548" r="8" fill="#fff7f2" stroke="#ff7f2a" stroke-width="1.2" id="plus_node_13" />
+    <circle cx="150" cy="548" r="8" fill="#fff7f2" stroke="#ff7f2a" stroke-width="1.2" id="plus_node_14" />
+    <circle cx="174" cy="548" r="8" fill="#fff7f2" stroke="#ff7f2a" stroke-width="1.2" id="plus_node_15" />
+    <text id="label_el" class="math" x="104" y="582" font-size="27">e<tspan baseline-shift="sub" font-size="17">l</tspan></text>
+  </g>
+
+  
+  <g id="blue_branch">
+    <text id="label_hx" class="math" x="226" y="324" font-size="26">h<tspan baseline-shift="sub" font-size="17">x</tspan></text>
+
+    <rect id="vector_hx" x="259" y="304" width="99" height="24" rx="4" ry="4" fill="#f2f9ff" stroke="#1688dd" stroke-width="1.4" />
+    <circle cx="272" cy="316" r="8" fill="#f2f9ff" stroke="#1688dd" stroke-width="1.2" id="plus_node_16" />
+    <circle cx="296" cy="316" r="8" fill="#f2f9ff" stroke="#1688dd" stroke-width="1.2" id="plus_node_17" />
+    <circle cx="320" cy="316" r="8" fill="#f2f9ff" stroke="#1688dd" stroke-width="1.2" id="plus_node_18" />
+    <circle cx="344" cy="316" r="8" fill="#f2f9ff" stroke="#1688dd" stroke-width="1.2" id="plus_node_19" />
+
+    <rect id="blue_linear_top" x="234" y="354" width="148" height="42" rx="6" ry="6" fill="#5b9ed3" stroke="#21699c" stroke-width="1.4" />
+    <text id="text_blue_linear_top" class="boxtext" x="308" y="376">Linear <tspan class="math" fill="#fff">d</tspan><tspan class="math" fill="#fff" baseline-shift="sub" font-size="13">i</tspan><tspan> × </tspan><tspan class="math" fill="#fff">d</tspan><tspan class="math" fill="#fff" baseline-shift="sub" font-size="13">i</tspan></text>
+
+    <rect id="blue_gelu" x="271" y="417" width="74" height="24" fill="#5b9ed3" stroke="#21699c" stroke-width="1.3" />
+    <text id="text_blue_gelu" class="boxtext" x="308" y="430" font-size="17">GELU</text>
+
+    <rect id="blue_linear_bottom" x="234" y="464" width="148" height="41" rx="6" ry="6" fill="#5b9ed3" stroke="#21699c" stroke-width="1.4" />
+    <text id="text_blue_linear_bottom" class="boxtext" x="308" y="486">Linear <tspan class="math" fill="#fff">d</tspan><tspan class="math" fill="#fff" baseline-shift="sub" font-size="13">i</tspan><tspan> × </tspan><tspan class="math" fill="#fff">d</tspan><tspan class="math" fill="#fff" baseline-shift="sub" font-size="13">i</tspan></text>
+
+    <rect id="vector_x" x="259" y="536" width="99" height="24" rx="4" ry="4" fill="#f2f9ff" stroke="#1688dd" stroke-width="1.4" />
+    <circle cx="271" cy="548" r="8" fill="#f2f9ff" stroke="#1688dd" stroke-width="1.2" id="plus_node_20" />
+    <circle cx="296" cy="548" r="8" fill="#f2f9ff" stroke="#1688dd" stroke-width="1.2" id="plus_node_21" />
+    <circle cx="320" cy="548" r="8" fill="#f2f9ff" stroke="#1688dd" stroke-width="1.2" id="plus_node_22" />
+    <circle cx="345" cy="548" r="8" fill="#f2f9ff" stroke="#1688dd" stroke-width="1.2" id="plus_node_23" />
+    <text id="label_x" class="math" x="300" y="582" font-size="27">x</text>
+  </g>
+
+  
+  <g id="green_branch">
+    <rect id="vector_alpha" x="420" y="256" width="109" height="23" rx="5" ry="5" fill="#f7fff4" stroke="#64ae45" stroke-width="1.5" />
+    <text id="alpha_left_bracket" class="label" x="423" y="274" font-size="22" fill="#64ae45">[</text>
+    <circle cx="432" cy="267.5" r="7.5" fill="#f7fff4" stroke="#64ae45" stroke-width="1.2" id="plus_node_24" />
+    <circle cx="456" cy="267.5" r="7.5" fill="#f7fff4" stroke="#64ae45" stroke-width="1.2" id="plus_node_25" />
+    <circle cx="480" cy="267.5" r="7.5" fill="#f7fff4" stroke="#64ae45" stroke-width="1.2" id="plus_node_26" />
+    <circle cx="504" cy="267.5" r="7.5" fill="#f7fff4" stroke="#64ae45" stroke-width="1.2" id="plus_node_27" />
+    <text id="alpha_right_bracket" class="label" x="516" y="274" font-size="22" fill="#64ae45">]</text>
+    <text id="label_alpha" class="math" x="459" y="294" font-size="27">α<tspan baseline-shift="sub" font-size="17">t</tspan></text>
+
+    <text id="text_one_minus" class="label" x="372" y="276" font-size="23">(1-</text>
+
+    <rect id="vector_epsilon" x="541" y="256" width="98" height="23" rx="5" ry="5" fill="#f7fff4" stroke="#64ae45" stroke-width="1.5" />
+    <circle cx="554" cy="267.5" r="7.5" fill="#f7fff4" stroke="#64ae45" stroke-width="1.2" id="plus_node_28" />
+    <circle cx="578" cy="267.5" r="7.5" fill="#f7fff4" stroke="#64ae45" stroke-width="1.2" id="plus_node_29" />
+    <circle cx="602" cy="267.5" r="7.5" fill="#f7fff4" stroke="#64ae45" stroke-width="1.2" id="plus_node_30" />
+    <circle cx="626" cy="267.5" r="7.5" fill="#f7fff4" stroke="#64ae45" stroke-width="1.2" id="plus_node_31" />
+    <text id="label_epsilon" class="math" x="581" y="294" font-size="27">ε<tspan baseline-shift="sub" font-size="17">t</tspan></text>
+
+    <rect id="green_linear_top" x="451" y="312" width="173" height="41" rx="6" ry="6" fill="#69b348" stroke="#2c6a23" stroke-width="1.4" />
+    <text id="text_green_linear_top" class="boxtext" x="537.5" y="334">Linear 2<tspan class="math" fill="#fff">d</tspan><tspan class="math" fill="#fff" baseline-shift="sub" font-size="13">i</tspan><tspan> × 2</tspan><tspan class="math" fill="#fff">d</tspan><tspan class="math" fill="#fff" baseline-shift="sub" font-size="13">i</tspan></text>
+
+    <rect id="green_gelu" x="501" y="372" width="74" height="25" fill="#69b348" stroke="#2c6a23" stroke-width="1.3" />
+    <text id="text_green_gelu" class="boxtext" x="538" y="385" font-size="17">GELU</text>
+
+    <rect id="green_linear_middle" x="452" y="415" width="172" height="42" rx="6" ry="6" fill="#69b348" stroke="#2c6a23" stroke-width="1.4" />
+    <text id="text_green_linear_middle" class="boxtext" x="538" y="437">Linear <tspan class="math" fill="#fff">d</tspan><tspan class="math" fill="#fff" baseline-shift="sub" font-size="13">T</tspan><tspan> × 2</tspan><tspan class="math" fill="#fff">d</tspan><tspan class="math" fill="#fff" baseline-shift="sub" font-size="13">i</tspan></text>
+
+    <rect id="green_sinusoidal" x="428" y="474" width="222" height="25" rx="4" ry="4" fill="#69b348" stroke="#2c6a23" stroke-width="1.3" />
+    <text id="text_green_sinusoidal" class="boxtext" x="539" y="487" font-size="17">Sinusoidal Embedding</text>
+
+    <text id="label_t" class="math" x="532" y="582" font-size="27">t</text>
+  </g>
+</svg>

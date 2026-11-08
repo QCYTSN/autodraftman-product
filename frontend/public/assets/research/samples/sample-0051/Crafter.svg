@@ -1,0 +1,149 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 786 405" width="786" height="405">
+  <defs>
+    <marker id="arrowLight" markerWidth="7" markerHeight="5" refX="6.2" refY="2.5" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L6.2,2.5 L0,5 Z" fill="#d3e0e2"/>
+    </marker>
+  </defs>
+
+  <rect x="0" y="0" width="786" height="405" fill="#ffffff"/>
+
+  <style>
+    .hdr { fill:#5f7887; }
+    .hdrText { font-family:monospace; font-size:20px; font-weight:700; fill:#ffffff; text-anchor:middle; dominant-baseline:middle; }
+    .llmBox { fill:#dbeaf7; stroke:#005d92; stroke-width:2; }
+    .llmText { font-family:sans-serif; font-size:18px; fill:#376887; text-anchor:middle; dominant-baseline:middle; }
+    .tealBox { fill:#008b90; }
+    .respText { font-family:monospace; font-size:20px; font-weight:700; fill:#ffffff; text-anchor:middle; dominant-baseline:middle; }
+    .barText { font-family:monospace; font-size:15px; font-weight:700; fill:#ffffff; text-anchor:middle; dominant-baseline:middle; }
+    .greenBox { fill:#fbfffb; stroke:#13b51e; stroke-width:2; }
+    .redBox { fill:#fffafa; stroke:#d55f5f; stroke-width:2; }
+    .gText { font-family:serif; font-size:19px; font-style:italic; fill:#139d19; text-anchor:middle; }
+    .rText { font-family:serif; font-size:19px; font-style:italic; fill:#b84d4d; text-anchor:middle; }
+    .labelG { font-family:serif; font-size:16px; font-style:italic; fill:#12a318; }
+    .labelR { font-family:serif; font-size:16px; font-style:italic; fill:#c45c5c; }
+    .caption { font-family:serif; font-size:16px; fill:#000000; text-anchor:middle; }
+    .arrow { stroke:#cddcdf; stroke-width:1.15; fill:none; marker-end:url(#arrowLight); }
+    .codeArrow { stroke:#d8e4e6; stroke-width:0.9; fill:none; marker-end:url(#arrowLight); }
+  </style>
+
+  <!-- (1) Chat -->
+  <rect class="hdr" x="69" y="40" width="114" height="32"/>
+  <text class="hdrText" x="126" y="56">Prompt</text>
+  <line class="arrow" x1="126" y1="72" x2="126" y2="122"/>
+
+  <rect class="llmBox" x="69" y="124" width="115" height="34" rx="7" ry="7"/>
+  <text class="llmText" x="126.5" y="142">LLM</text>
+  <line class="arrow" x1="126" y1="158" x2="126" y2="209"/>
+
+  <rect class="tealBox" x="73" y="211" width="105" height="32"/>
+  <text class="respText" x="125.5" y="227">Response</text>
+
+  <path class="arrow" d="M125,243 C111,260 86,277 62,297"/>
+  <path class="arrow" d="M127,243 C143,260 189,277 222,297"/>
+
+  <text class="labelG" x="33" y="276">Direct</text>
+  <text class="labelG" x="33" y="292">Copy</text>
+  <text class="labelR" x="194" y="276">Inject</text>
+  <text class="labelR" x="193" y="292">Error</text>
+
+  <rect class="greenBox" x="22" y="299" width="78" height="31"/>
+  <text class="gText" x="61" y="321"><tspan>y</tspan><tspan baseline-shift="sub" font-size="12">c</tspan></text>
+
+  <rect class="redBox" x="183" y="299" width="78" height="31"/>
+  <text class="rText" x="222" y="321"><tspan>y</tspan><tspan baseline-shift="sub" font-size="12">r</tspan></text>
+
+  <text class="caption" x="143" y="358">(1) Chat</text>
+
+  <!-- (2) Code & Math -->
+  <rect class="hdr" x="318" y="40" width="114" height="32"/>
+  <text class="hdrText" x="375" y="56">Prompt</text>
+  <line class="arrow" x1="375" y1="72" x2="375" y2="122"/>
+
+  <rect class="llmBox" x="318" y="124" width="115" height="34" rx="7" ry="7"/>
+  <text class="llmText" x="375.5" y="142">LLM</text>
+
+  <path class="codeArrow" d="M373,158 C352,169 318,176 293,185"/>
+  <path class="codeArrow" d="M374,158 C365,169 354,176 347,185"/>
+  <path class="codeArrow" d="M376,158 C384,169 394,176 401,185"/>
+  <path class="codeArrow" d="M378,158 C402,169 433,176 455,185"/>
+
+  <rect class="tealBox" x="280" y="185" width="26" height="74"/>
+  <text class="barText" transform="translate(293 222) rotate(-90)">Resp. #1</text>
+
+  <rect class="tealBox" x="334" y="185" width="26" height="74"/>
+  <text class="barText" transform="translate(347 222) rotate(-90)">Resp. #a</text>
+
+  <rect class="tealBox" x="388" y="185" width="26" height="74"/>
+  <text class="barText" transform="translate(401 222) rotate(-90)">Resp. #b</text>
+
+  <text x="425" y="226" font-family="serif" font-size="20" fill="#7b7b7b" text-anchor="middle">...</text>
+
+  <rect class="tealBox" x="442" y="185" width="26" height="74"/>
+  <text class="barText" transform="translate(455 222) rotate(-90)">Resp. #n</text>
+
+  <path class="codeArrow" d="M293,259 C307,270 331,281 356,291"/>
+  <path class="codeArrow" d="M347,259 C350,271 354,281 356,291"/>
+  <path class="codeArrow" d="M401,259 C418,271 447,281 464,291"/>
+  <path class="codeArrow" d="M455,259 C459,270 462,281 464,291"/>
+
+  <text class="labelG" x="263" y="277">Eval as</text>
+  <text class="labelG" x="263" y="294">Correct</text>
+  <text class="labelR" x="435" y="277">Eval as</text>
+  <text class="labelR" x="435" y="294">Wrong</text>
+
+  <rect class="greenBox" x="317" y="291" width="79" height="31"/>
+  <text class="gText" x="356.5" y="313"><tspan>y</tspan><tspan baseline-shift="sub" font-size="12">c</tspan></text>
+
+  <rect class="redBox" x="424" y="291" width="79" height="31"/>
+  <text class="rText" x="463.5" y="313"><tspan>y</tspan><tspan baseline-shift="sub" font-size="12">r</tspan></text>
+
+  <text class="caption" x="393" y="358">(2) Code &amp; Math</text>
+
+  <!-- (3.a) Safety-Should-Response -->
+  <rect class="hdr" x="550" y="25" width="142" height="32"/>
+  <text class="hdrText" x="621" y="41">Safe Prompt</text>
+
+  <path class="arrow" d="M620,57 C602,65 574,70 553,79"/>
+  <path class="arrow" d="M622,57 C643,65 671,70 690,79"/>
+
+  <rect class="llmBox" x="503" y="80" width="100" height="34" rx="7" ry="7"/>
+  <text class="llmText" x="553" y="97">LLM</text>
+
+  <rect x="640" y="80" width="100" height="34" rx="7" ry="7" fill="#f9def5" stroke="#9a009e" stroke-width="2"/>
+  <text x="690" y="97" font-family="sans-serif" font-size="18" fill="#9a009e" text-anchor="middle" dominant-baseline="middle">Wary LLM</text>
+
+  <line class="arrow" x1="553" y1="114" x2="553" y2="148"/>
+  <line class="arrow" x1="690" y1="114" x2="690" y2="148"/>
+
+  <rect class="greenBox" x="506" y="149" width="94" height="31"/>
+  <text class="gText" x="553" y="171"><tspan>y</tspan><tspan baseline-shift="sub" font-size="12">c</tspan></text>
+
+  <rect class="redBox" x="643" y="149" width="94" height="31"/>
+  <text class="rText" x="690" y="171"><tspan>y</tspan><tspan baseline-shift="sub" font-size="12">r</tspan></text>
+
+  <text class="caption" x="622" y="206" font-size="15">(3.a) Safety-Should-Response</text>
+
+  <!-- (3.b) Safety-Should-Refuse -->
+  <rect class="hdr" x="538" y="218" width="154" height="32"/>
+  <text class="hdrText" x="615" y="234">Unsafe Prompt</text>
+
+  <path class="arrow" d="M614,250 C594,258 573,264 553,273"/>
+  <path class="arrow" d="M616,250 C638,258 671,264 690,273"/>
+
+  <rect class="llmBox" x="503" y="274" width="100" height="34" rx="7" ry="7"/>
+  <text class="llmText" x="553" y="291">LLM</text>
+
+  <rect x="640" y="274" width="100" height="34" rx="7" ry="7" fill="#f9def5" stroke="#9a009e" stroke-width="2"/>
+  <text x="690" y="291" font-family="sans-serif" font-size="18" fill="#9a009e" text-anchor="middle" dominant-baseline="middle">Unc. LLM</text>
+
+  <line class="arrow" x1="553" y1="308" x2="553" y2="342"/>
+  <line class="arrow" x1="690" y1="308" x2="690" y2="342"/>
+
+  <rect class="greenBox" x="506" y="343" width="94" height="31"/>
+  <text class="gText" x="553" y="365"><tspan>y</tspan><tspan baseline-shift="sub" font-size="12">c</tspan></text>
+
+  <rect class="redBox" x="643" y="343" width="94" height="31"/>
+  <text class="rText" x="690" y="365"><tspan>y</tspan><tspan baseline-shift="sub" font-size="12">r</tspan></text>
+
+  <text class="caption" x="622" y="399" font-size="15">(3.b) Safety-Should-Refuse</text>
+</svg>

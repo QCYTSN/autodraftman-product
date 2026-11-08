@@ -1,0 +1,226 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1220 360" width="1220" height="360">
+  <rect x="0" y="0" width="1220" height="360" fill="#ffffff"/>
+
+  <defs>
+    <marker id="arrowBlack" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto" markerUnits="userSpaceOnUse">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#000000"/>
+    </marker>
+  </defs>
+
+  <!-- Top headings -->
+  <text x="94" y="42" font-family="serif" font-size="18" font-weight="700" fill="#000000">Tokens from 𝒟</text>
+  <text x="292" y="43" font-family="serif" font-size="19" font-weight="700" fill="#000000">W</text>
+  <text x="402" y="39" font-family="serif" font-size="18" font-weight="700" fill="#000000">Top-<tspan font-style="italic">k</tspan> importance</text>
+  <text x="635" y="39" font-family="serif" font-size="18" font-weight="700" fill="#000000">Important channel frequency</text>
+
+  <!-- Left token grid -->
+  <g stroke="#000000" stroke-width="1.4">
+    <rect x="67" y="56" width="31" height="31" fill="#d9ead3"/>
+    <rect x="137" y="56" width="31" height="31" fill="#f4b183"/>
+    <rect x="67" y="90" width="31" height="31" fill="#c6e0b4"/>
+    <rect x="102" y="90" width="31" height="31" fill="#e2f0d9"/>
+    <rect x="137" y="90" width="31" height="31" fill="#fce4d6"/>
+    <rect x="67" y="124" width="31" height="31" fill="#a9d18e"/>
+    <rect x="102" y="124" width="31" height="31" fill="#3f772f"/>
+    <rect x="137" y="124" width="31" height="31" fill="#f8cbad"/>
+    <rect x="67" y="158" width="31" height="31" fill="#548235"/>
+    <rect x="102" y="158" width="31" height="31" fill="#e2f0d9"/>
+    <rect x="137" y="158" width="31" height="31" fill="#f8cbad"/>
+    <rect x="67" y="193" width="31" height="31" fill="#d9ead3"/>
+    <rect x="102" y="193" width="31" height="31" fill="#b6d7a8"/>
+    <rect x="137" y="193" width="31" height="31" fill="#9e480e"/>
+  </g>
+
+  <!-- Axis annotations for token grid -->
+  <line x1="55" y1="199" x2="55" y2="112" stroke="#000000" stroke-width="1.8" marker-end="url(#arrowBlack)"/>
+  <text x="42" y="178" transform="rotate(-90 42 178)" font-family="serif" font-size="16" fill="#000000">Channel-wise</text>
+  <line x1="69" y1="233" x2="171" y2="233" stroke="#000000" stroke-width="1.8" marker-end="url(#arrowBlack)"/>
+  <text x="67" y="248" font-family="serif" font-size="16" fill="#000000">Token-wise</text>
+
+  <!-- Ellipsis and language strip -->
+  <text x="176" y="145" font-family="serif" font-size="32" font-weight="700" fill="#000000">⋯</text>
+  <g stroke="#000000" stroke-width="1.4">
+    <rect x="209" y="56" width="31" height="31" fill="#f6c8a8"/>
+    <rect x="209" y="90" width="31" height="31" fill="#f4b183"/>
+    <rect x="209" y="158" width="31" height="31" fill="#fce4d6"/>
+    <rect x="209" y="193" width="31" height="31" fill="#f4b183"/>
+  </g>
+
+  <!-- Weight vector -->
+  <g stroke="#000000" stroke-width="1.4">
+    <rect x="291" y="56" width="31" height="31" fill="#2e75b6"/>
+    <rect x="291" y="90" width="31" height="31" fill="#bdd7ee"/>
+    <rect x="291" y="124" width="31" height="31" fill="#deebf7"/>
+    <rect x="291" y="158" width="31" height="31" fill="#5b9bd5"/>
+    <rect x="291" y="193" width="31" height="31" fill="#1f4e79"/>
+  </g>
+
+  <!-- Main arrow 1 -->
+  <path d="M337 122 L360 122 L360 108 L386 139 L360 170 L360 156 L337 156 Z"
+        fill="#ffffff" stroke="#000000" stroke-width="2"/>
+
+  <!-- Top-k importance matrix -->
+  <g stroke="#d9d9d9" stroke-width="1">
+    <rect x="383" y="56" width="31" height="31" fill="#f1f1f1"/>
+    <rect x="418" y="56" width="31" height="31" fill="#a6a6a6" stroke="#000000" stroke-width="2.4"/>
+    <rect x="453" y="56" width="31" height="31" fill="#d9d9d9" stroke="#000000" stroke-width="2.4"/>
+    <rect x="383" y="90" width="31" height="31" fill="#cfcfcf" stroke="#000000" stroke-width="2.4"/>
+    <rect x="418" y="90" width="31" height="31" fill="#eeeeee"/>
+    <rect x="453" y="90" width="31" height="31" fill="#f4f4f4"/>
+    <rect x="383" y="124" width="31" height="31" fill="#eeeeee"/>
+    <rect x="418" y="124" width="31" height="31" fill="#a6a6a6" stroke="#000000" stroke-width="2.4"/>
+    <rect x="453" y="124" width="31" height="31" fill="#f3f3f3"/>
+    <rect x="383" y="158" width="31" height="31" fill="#9e9e9e" stroke="#000000" stroke-width="2.4"/>
+    <rect x="418" y="158" width="31" height="31" fill="#eeeeee"/>
+    <rect x="453" y="158" width="31" height="31" fill="#e6e6e6"/>
+    <rect x="383" y="193" width="31" height="31" fill="#d9d9d9"/>
+    <rect x="418" y="193" width="31" height="31" fill="#d9d9d9"/>
+    <rect x="453" y="193" width="31" height="31" fill="#8f8f8f" stroke="#000000" stroke-width="2.4"/>
+  </g>
+
+  <text x="489" y="146" font-family="serif" font-size="32" font-weight="700" fill="#000000">⋯</text>
+
+  <!-- Main arrow 2 -->
+  <path d="M580 122 L602 122 L602 108 L627 139 L602 170 L602 156 L580 156 Z"
+        fill="#ffffff" stroke="#000000" stroke-width="2"/>
+
+  <!-- Frequency chart -->
+  <g>
+    <line x1="659" y1="65" x2="659" y2="204" stroke="#000000" stroke-width="1"/>
+    <line x1="659" y1="204" x2="850" y2="204" stroke="#000000" stroke-width="1"/>
+
+    <polygon points="659,66 665,76 671,88 676,100 681,111 687,119 693,130 699,139 706,149 714,158 723,167 734,176 748,184 764,190 785,195 811,199 850,204 659,204"
+             fill="#add8ef" opacity="0.9" stroke="none"/>
+
+    <text x="639" y="70" font-family="serif" font-size="10" fill="#000000">1.0</text>
+    <text x="639" y="98" font-family="serif" font-size="10" fill="#000000">0.8</text>
+    <text x="639" y="126" font-family="serif" font-size="10" fill="#000000">0.6</text>
+    <text x="639" y="154" font-family="serif" font-size="10" fill="#000000">0.4</text>
+    <text x="639" y="182" font-family="serif" font-size="10" fill="#000000">0.2</text>
+    <text x="639" y="207" font-family="serif" font-size="10" fill="#000000">0.0</text>
+    <text x="721" y="218" font-family="serif" font-size="10" fill="#000000">64</text>
+    <text x="832" y="218" font-family="serif" font-size="10" fill="#000000">256</text>
+    <text x="704" y="229" font-family="serif" font-size="10" fill="#000000">Important Channel Index</text>
+    <text x="631" y="151" transform="rotate(-90 631 151)" font-family="serif" font-size="10" fill="#000000">Frequency</text>
+
+    <rect x="685" y="67" width="128" height="39" fill="#ffffff" stroke="#000000" stroke-width="1" stroke-dasharray="2 2"/>
+    <text x="704" y="82" font-family="serif" font-size="11" fill="#000000">Token-independent</text>
+    <text x="729" y="96" font-family="serif" font-size="11" fill="#000000">Channels</text>
+    <line x1="708" y1="105" x2="684" y2="124" stroke="#000000" stroke-width="1.2" marker-end="url(#arrowBlack)"/>
+
+    <rect x="733" y="135" width="138" height="39" fill="#ffffff" stroke="#000000" stroke-width="1" stroke-dasharray="2 2"/>
+    <text x="750" y="150" font-family="serif" font-size="11" fill="#000000">Token-dependent</text>
+    <text x="781" y="164" font-family="serif" font-size="11" fill="#000000">Channels</text>
+    <line x1="782" y1="174" x2="782" y2="195" stroke="#000000" stroke-width="1.2" marker-end="url(#arrowBlack)"/>
+  </g>
+
+  <!-- Arrows to expert modules -->
+  <path d="M860 96 L900 85 L898 73 L930 91 L906 122 L903 108 L866 119 Z"
+        fill="#ffffff" stroke="#000000" stroke-width="2"/>
+  <path d="M862 187 L900 198 L905 185 L931 210 L899 230 L902 217 L866 207 Z"
+        fill="#ffffff" stroke="#000000" stroke-width="2"/>
+
+  <!-- Expert module boxes, aligned and spaced like the original -->
+  <rect x="943" y="31" width="121" height="102" fill="none" stroke="#000000" stroke-width="1.3" stroke-dasharray="3 3"/>
+  <rect x="943" y="147" width="121" height="116" fill="none" stroke="#000000" stroke-width="1.3" stroke-dasharray="3 3"/>
+
+  <!-- Lower routed expert low-rank adaptor icon -->
+  <g>
+    <polygon points="953,151 1059,151 1019,190 994,190" fill="#f3b3e3" stroke="none"/>
+    <polygon points="953,258 1059,258 1019,222 994,222" fill="#f3b3e3" stroke="none"/>
+    <text x="981" y="214" font-family="serif" font-size="18" fill="#000000">⊢ r/2+</text>
+  </g>
+
+  <text x="1074" y="88" font-family="serif" font-size="17" font-weight="700" fill="#000000">Shared Expert</text>
+  <text x="1074" y="204" font-family="serif" font-size="17" font-weight="700" fill="#000000">Routed Experts</text>
+  <text x="1068" y="273" font-family="serif" font-size="18" fill="#000000">× Nᵣ</text>
+
+  <!-- Section captions -->
+  <text x="63" y="264" font-family="serif" font-size="16" font-weight="700" fill="#000000">Channel importance estimation</text>
+  <text x="90" y="282" font-family="serif" font-size="16" font-weight="700" fill="#000000">from calibration data</text>
+
+  <text x="383" y="264" font-family="serif" font-size="16" font-weight="700" fill="#000000">Top-<tspan font-style="italic">k</tspan> important channel</text>
+  <text x="387" y="282" font-family="serif" font-size="16" font-weight="700" fill="#000000">identification per token</text>
+
+  <text x="620" y="264" font-family="serif" font-size="15" font-weight="700" fill="#000000">Partitioning into token-dependent</text>
+  <text x="632" y="282" font-family="serif" font-size="15" font-weight="700" fill="#000000">and token-independent Channels</text>
+
+  <text x="902" y="277" font-family="serif" font-size="14" font-weight="700" fill="#000000">Shared and routed experts with</text>
+  <text x="948" y="295" font-family="serif" font-size="14" font-weight="700" fill="#000000">low-rank adaptor</text>
+
+  <!-- Legend container -->
+  <rect x="56" y="310" width="1117" height="38" rx="7" ry="7" fill="none" stroke="#a6a6a6" stroke-width="2"/>
+
+  <!-- Legend: vision token -->
+  <g stroke="#000000" stroke-width="1.2">
+    <rect x="70" y="320" width="18" height="18" fill="#d9ead3"/>
+    <rect x="90" y="320" width="18" height="18" fill="#e2f0d9"/>
+    <rect x="110" y="320" width="18" height="18" fill="#548235"/>
+    <rect x="130" y="320" width="18" height="18" fill="#d9ead3"/>
+    <rect x="150" y="320" width="18" height="18" fill="#3f772f"/>
+  </g>
+  <text x="176" y="335" font-family="serif" font-size="18" font-weight="700" fill="#000000">Vision token</text>
+
+  <!-- Legend: language token -->
+  <g stroke="#000000" stroke-width="1.2">
+    <rect x="294" y="320" width="18" height="18" fill="#9e480e"/>
+    <rect x="314" y="320" width="18" height="18" fill="#f4b183"/>
+    <rect x="334" y="320" width="18" height="18" fill="#f8cbad"/>
+    <rect x="354" y="320" width="18" height="18" fill="#fce4d6"/>
+  </g>
+  <text x="380" y="335" font-family="serif" font-size="18" font-weight="700" fill="#000000">Language token</text>
+
+  <!-- Legend: Hadamard product -->
+  <circle cx="553" cy="329" r="10" fill="#ffffff" stroke="#000000" stroke-width="2"/>
+  <circle cx="553" cy="329" r="2.5" fill="#000000"/>
+  <text x="568" y="335" font-family="serif" font-size="17" font-weight="700" fill="#000000">Hadamard product</text>
+
+  <!-- Legend: important channel -->
+  <rect x="746" y="320" width="18" height="18" fill="#8f8f8f" stroke="#000000" stroke-width="2"/>
+  <text x="771" y="335" font-family="serif" font-size="18" font-weight="700" fill="#000000">Important channel</text>
+
+  <!-- Legend: low-rank adaptor blue icon portion -->
+  <g>
+    <polygon points="946,315 976,315 965,328 957,328" fill="#9ed4ee" stroke="none"/>
+    <polygon points="946,343 976,343 965,330 957,330" fill="#9ed4ee" stroke="none"/>
+  </g>
+  <text x="1006" y="335" font-family="serif" font-size="18" font-weight="700" fill="#000000">Low-rank adapter</text>
+
+  <!-- Required transparent raster placeholders -->
+  <image id="icon_RAS_01" x="101" y="56" width="32" height="31" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAcCAYAAAAAwr0iAAAEFElEQVR4nG1XS44UMQx9SWWmGw2fPVu2HIRLwBXYcQUuAkICxAKh2XAHxAnYgYQ0IBZo0HRXxch27DjpqVap0qnEfrZfbFd69foNvX3/DjeHFVvdUGtFrQQiAtUKkh+QwFcCEo8ISZ46C+IVPGuXjlLKyLyu3dnWp4REhLxklMvLT/j88QOeP3sCrCvqcUMVgSTyGYjqSuCfzkGAMkABvLU9VFV34rHqZQAp5wZCQbGc3Z0zfP99jbLb7/H40UO8fPEUOByAdVPDxAgKYxXgFpvCbQNoA+ra51HdFw19H+cFqATc2+PL12+pHNYV/w4r/vz4ifPDtbxjhLU7vVkfndtwuc81ZDEIvtg2hn3bRri4OeLq118q7MIlJ5yliiyxVckSr3mzvHRYTgniAbs5vrvlMmfmDSj7PZb9eSqiLDNBWMAilGvhOr1oImJQyGGXJXHvHL7GI/FWWrDkBYUVZn7P+jO/zsLQ7loNibs3dZIZTRyfLZvjZdMuVpnMeopPRgXiDZWUnIjRJ2lguiuXN4asE08slgUVJDFTAlfaUHgNE8+BTzxSBebXAILlmHDZR/2YDjg7OdVjdlSr7C0pqxCqhFSrEI3PaghgVxJOE1sUT1gE18+MgWC/RMs4kZAkvDJaKw5si3ucJ+6fusk8FEkRkqTinAySKFQUC/HguiDfYsxWGBwR6kRLo5fcQwHHRMrIpiIixe1NkBHPTbCROdFiPhpu8dd/DaiTUsfjpTMZA4DTZQaZEkNrzPfjRDLPE/JsBni2lH3zbNSRGgeMTJ5FIrtaZZM8ORHJh61wNWvNXy7FjPMw9isrGcb6MShox9YSvzHfD5fH3qg2HTuXpjQcskkCCqdhrfkdsYVDLRq6gWFzlx4IGo20I3DSL5iMhBKJo1BM+RCqWzPsDMvj7PwNRO4p1yMsHuhpo6EfLIsKDEIjoktpqtprEh5ZuKZE4hlGz7G0B8QEkD/xcMfza96xahLLnYXIcn6Pc68J4zIXI/mfUEIqt/oyuLH3ADPhxkutMm3NmyEDWk3x4tbCWk6ajKmNGRvNWAxMWQen4nvcZwnzDIMWAD30JrBVrND5CHrXy93yWIw4T/CefJvDIlALgXS2QOGuta8LXUaIrV69RxgrYKh9Uyn2gub0YpvZuMpttTyL6+XekLi9DrXAe7PeUg2NUTyQsWQPXuf4t+TEShlA5S76yO08leOqjUHdVizbisy9ALfO/BTvdNeLrerp7k7LGU2xgVJCd4+StO7ca1ekuul/qswBwrJkLGUBcmk3K+c7ZolOn05B+2qyGTVGipR0PpaWtf/zHY13ZxkoZcnYnRfkew9Qy0VXHBoM3iw/qRfsQsua1rTYh4q1XExSBeCfcPKFxPfC3Rjo/g7nd6/SfwxPWWgX+44oAAAAAElFTkSuQmCC" preserveAspectRatio="xMidYMid meet"/>
+  <image id="icon_RAS_02" x="209" y="124" width="31" height="31" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACEAAAAdCAYAAAAkXAW5AAAEdElEQVR4nG1XO3IcNxB9wGBJkZJF8wQqR84c+ACq8iUc+CgsJ8oVKNBFFPgSDhz6E7lUimyJZckl0lRpgXb1D93Y5ZComcFi0N2vXz8A5erqin797Q8MFOx7R+8dchGBZtOuwq0WoBSU1Pi9lso3G1hkrM/D7zwPzzAwwP+gAdAeXz15gnLx5SU9bp/x3bdf4+7mFqhuMAzojY2oMbc2DYENaQ/x31Dnx2CDA0TWuH8Q+ug4OX+In39/gzfX/6Gdnj3A90+/Kc9//IHw9ztg1wCOlmetbJAb9232ro7FRRqtPUqYYrynttfIB48toN5RLi/w7OVP5cWrX6gRFdze3tF4+w9uPnzE1poZ2kBuUIwaKjzP4oBBLp2MgzkifWTP3ALhfR/4omy4u7lBp4FWt4K2a6U+OKPt9DO2tnn2LTSFNkINFyInnA53wDsZNTUq/RYIoWDre9Tzc5ycnqCWgrbVim3bAdwY9sJOaBRsXD5lCLMD01rGRMmo9PNONazZ4zmqjaoA6TO/tVqNgKQeizE2LnAWEONvOVDEEx8k0pUS8u7eTIdI+WCdJDwZGEJYoEVQZA6MAN6MTPILWTMA5tABV9nnWWUyr7PFOaScYc4x2k14A7bCSrGAqe+uFQlWzZGN85QtCVrTFBiJQARhzWJLOEMJFN9IFkQbViLKHD5GUhl1EYPcX/1F7p7K9Yaq1UXTkRSCqOgyeqamHES/oiHeO1DpUzM5c2Xiy0jopGAvA6UgVCJe+BNpM1WOXoNzRcZmSoRlRyqLn9WKybNBO/X/YA2wy7KqVbOQLR7HsdfJE/8tsFMkSkTlg91zjTnH7/UY2V6MJWSyJ7N0k0dOgzb9oZXXKlLHGskO69Bl+cprmDLEO/OELvFJia06TKzuvbJc++NajF5F67C1MIP49oE1xzfEii+nxCSa1+PCqEA+9NmeXUsOFtblKSFIiRNyHYJxT8lO+Zxe+nOC364oV//cx6QpzVMVK8SSLDV/XNwRofNwGTOVy6BPVZbZPgF1XrASFbRcTUfA5dXJZwgdiivZlPrhZd3HGfmCJGl/Mkv0Pi+wTjods+VxCpGnx6LzvUPm+cRB1kVLSV6iakmcgCtCYn9mu0Htq6kXdERrqUjVslLRNzfHhKmxzPI1LE6PNOmx7A9nhWu/jw2xSTqwri3q2VHJqFjp4GLlZThk9eOb7SEUbjcQRwFFRPcH8kZRqj7PqhUekApW87ULspE20kwgnIhpCzWDMfIZCX3Zlt8k6rkNWngzpd90nHsUieEG1oXHNlkHuh1jV9mYq4raTFDE7tPHxS5eSpR3uyQHFT597ZP3OljnMvjEsCOQJs6iGguIpcZ1p84YBxWMoXNtW2XZLtid7FAfP8SjT59Q+JDj5MpbKC98JogfgjwiF6dV3c2LOIMQVYyyofGW/+wcp1VXjcYb0b8+3NKfr6/x7/V7LUU+QfnHo8sRTvPpJzC986aEnWY054rOxuQYOPQYKDtqRoPfi6Cw74RHFx/x+u17jN7xPyzFrqzxSxPqAAAAAElFTkSuQmCC" preserveAspectRatio="xMidYMid meet"/>
+  <image id="icon_RAS_05" x="524" y="55" width="34" height="169" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACEAAAAcCAYAAADvANYcAAAC50lEQVR4nKVXCW4bMQwU3fz/l+0XUqSwWPAeUtqiRYnE3tXF4fCSifdevNZi3ovlAYRxIB4pPxbZ13+IHErrQ076+fnJP77/IHrR4s2mj1lBNGCplBKA7HnC0oyYul325vUhD+/9Xl+/vtbr9Q02sgFBDK5ZvmWzyvsv7PUzYz/i4Pc2ECGdXvK/MDmejUI9UHDahx1KnOt1JRdbdj6lYaFqv2i9UsM66ZMjC1I8ozW2nkmjKkd1xnya4+VJNwBEmaD4J3r0o4zHZlFuoIwZfaYRvzpVrNyMDJ3lDjKEuLDU2KE4t3l7ojhHptU5cxelxRhb4VSOQ3tMMFjrA0B9l/Av7j0VQnBnUOOUZaDHhMmZasaFYg9qEY0H3GOO6hxZGgdjotgzSwDJeAPBFwxmB1QqPdDfhFEgTNYGDx3XQDlemztUWm3wOIlXT0UagVcZcFfdiu3AwA0Em/8y0HLYErVyW4I35rbRjEUIETdoM/0jg0dMNDCXdLI9wFOk7PDYgldkNZblmMbEAhAkIwNTZEv8/0mqGKSah84BWyzwR0ww2Dwlo+9QfMPXusQTGh/vptMJAGnVZJW0/McWLlEVBc8AV+UV9/YGttbaN4s0Fcl7BHbDjFBYXApwqJqfRQeaelbMBfx6l2z5kjl6xK6D9X0QoC1cLpIg2Esoro52fcTD5X6Q6lBrEZPurNV8giApn3JZmVc6txguVQeYW4fB6hDGzcoRlB4Vk1oDc51qYPSOsiG6ZUuPdKXN5fpLvMQZPSbWeHJ32JfTIhUyDhZ0I1nUasxKraiHgqokdOsdKv0uqKR5bLjeZOhyfl/Qxou5CtbhDnqqcl4E4z65Xbn5e/SGuDcARXUju0tngkbeYUDhdS2yA7ZN9qYNVa1w4AYCpTRXpCud0Klab8ZLcbFmGx30pfL3ikn3iwfmtpZtvF9cpCk/itVIVWdGQcjkfvvFNapkRnUH99iL4Gdk/XI70qH5ULOMef0GFoilzuRkqj0AAAAASUVORK5CYII=" preserveAspectRatio="xMidYMid meet"/>
+  <image id="icon_RAS_06" x="943" y="32" width="117" height="102" href="data:image/png;base64,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" preserveAspectRatio="xMidYMid meet"/>
+
+  <!-- Blue shared-expert low-rank adaptor repair: full hourglass plus r/2 label -->
+  <g>
+    <polygon points="949,36 1058,36 1017,70 991,70" fill="#9ed4ee" stroke="none"/>
+    <polygon points="949,131 1058,131 1017,97 991,97" fill="#9ed4ee" stroke="none"/>
+    <text x="979" y="90" font-family="serif" font-size="18" fill="#000000">⊢ r/2+</text>
+  </g>
+
+  <!-- Corrected top-left vision token colour, matching the original green tile pattern -->
+  <path d="M102 56 H133 V87 H102 Z" fill="#548235" stroke="#000000" stroke-width="1.4"/>
+
+  <!-- Added post-ellipsis important-channel column in the Top-k importance panel -->
+  <g>
+    <path d="M526 56 H557 V87 H526 Z" fill="#d9d9d9" stroke="#d9d9d9" stroke-width="1"/>
+    <path d="M526 90 H557 V121 H526 Z" fill="#cfcfcf" stroke="#d9d9d9" stroke-width="1"/>
+    <path d="M526 124 H557 V155 H526 Z" fill="#f2f2f2" stroke="#d9d9d9" stroke-width="1"/>
+    <path d="M526 158 H557 V189 H526 Z" fill="#d0d0d0" stroke="#000000" stroke-width="2.4"/>
+    <path d="M526 193 H557 V224 H526 Z" fill="#8f8f8f" stroke="#000000" stroke-width="2.4"/>
+  </g>
+
+  <!-- Required vector placeholder -->
+  <g id="VEC_05">
+    <polygon points="965,315 999,315 986.2,327.3 978.8,327.3" fill="#f2c6e7"/>
+    <polygon points="978.8,329.7 986.2,329.7 999,342 965,342" fill="#f2c6e7"/>
+    <polygon points="965,315 970.2,315 980.5,327.3 978.8,327.3" fill="#f6d8ef" opacity="0.75"/>
+    <polygon points="965,342 970.4,342 980.5,329.7 978.8,329.7" fill="#f6d8ef" opacity="0.75"/>
+    <polygon points="993.8,315 999,315 986.2,327.3 984.6,327.3" fill="#e8addd" opacity="0.55"/>
+    <polygon points="984.6,329.7 986.2,329.7 999,342 993.7,342" fill="#e8addd" opacity="0.55"/>
+    <line x1="966" y1="315.4" x2="998" y2="315.4" stroke="#f8dbf1" stroke-width="0.8" stroke-linecap="round"/>
+    <line x1="966" y1="341.6" x2="998" y2="341.6" stroke="#e9b3df" stroke-width="0.8" stroke-linecap="round"/>
+    <rect x="978.6" y="327.45" width="7.8" height="2.1" rx="0.8" fill="#f7e1f2" opacity="0.9"/>
+  </g>
+</svg>

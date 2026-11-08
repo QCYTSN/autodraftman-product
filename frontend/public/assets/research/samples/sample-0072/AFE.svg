@@ -1,0 +1,274 @@
+<svg width="3840" height="668" viewBox="0 0 3840 668" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <marker id="arrow" markerWidth="12" markerHeight="8" refX="11" refY="4" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L12,4 L0,8 Z" fill="#000"/>
+    </marker>
+    <marker id="arrowSmall" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L10,3.5 L0,7 Z" fill="#000"/>
+    </marker>
+    <linearGradient id="ribbonTeal" x1="0" x2="1">
+      <stop offset="0" stop-color="#d9f4f3"/>
+      <stop offset="0.55" stop-color="#86b9b7"/>
+      <stop offset="1" stop-color="#3f7776"/>
+    </linearGradient>
+    <linearGradient id="ribbonSand" x1="0" x2="1">
+      <stop offset="0" stop-color="#f5e2c9"/>
+      <stop offset="0.55" stop-color="#c99b66"/>
+      <stop offset="1" stop-color="#7d5c3a"/>
+    </linearGradient>
+    <filter id="softShadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="1" dy="2" stdDeviation="1.4" flood-color="#777" flood-opacity="0.28"/>
+    </filter>
+    <style>
+      .serif{font-family:"Times New Roman", Times, serif}
+      .navy{stroke:#173254}
+      .thinbox{stroke:#173254;stroke-width:2.4}
+      .dotted{fill:#fff;stroke:#111;stroke-width:1.8;stroke-linecap:round;stroke-dasharray:1 5}
+      .arrow{stroke:#000;stroke-width:4;fill:none;marker-end:url(#arrow)}
+      .arrow2{stroke:#000;stroke-width:3.4;fill:none;marker-end:url(#arrowSmall)}
+      .txt{font-family:"Times New Roman", Times, serif;fill:#000}
+      .bold{font-weight:700}
+      .proteinStroke{fill:none;stroke-linecap:round;stroke-linejoin:round;filter:url(#softShadow)}
+    </style>
+  </defs>
+
+  <rect x="0" y="0" width="3840" height="668" fill="#fff"/>
+
+  <!-- Input label and arrow -->
+  <text class="txt" x="64" y="365" font-size="58">Input</text>
+  <path class="arrow" d="M145 346 L267 346"/>
+
+  <!-- Conditioning trunk -->
+  <rect x="270" y="123" width="330" height="448" rx="51" ry="51" fill="#d6d6d6" stroke="#173254" stroke-width="6"/>
+  <text class="txt" x="435" y="326" font-size="51" text-anchor="middle">Conditioning</text>
+  <text class="txt" x="435" y="421" font-size="51" text-anchor="middle">Trunk</text>
+
+  <path class="arrow" d="M600 346 L660 346"/>
+
+  <!-- Feature block -->
+  <rect class="dotted" x="665" y="123" width="455" height="448" rx="28" ry="28"/>
+  <text class="txt" x="687" y="166" font-size="34">{</text>
+  <text class="txt" x="718" y="160" font-size="29">s</text>
+  <text class="txt" x="735" y="171" font-size="21">i</text>
+  <text class="txt" x="762" y="160" font-size="29">inputs</text>
+  <text class="txt" x="687" y="248" font-size="34">{</text>
+  <text class="txt" x="716" y="242" font-size="29">s</text>
+  <text class="txt" x="733" y="253" font-size="21">i</text>
+  <text class="txt" x="760" y="242" font-size="29">trunk</text>
+  <text class="txt" x="700" y="425" font-size="34">{</text>
+  <text class="txt" x="731" y="419" font-size="29">z</text>
+  <text class="txt" x="747" y="430" font-size="20">ij</text>
+  <text class="txt" x="779" y="419" font-size="29">trunk</text>
+
+  <!-- top sequence bars -->
+  <g stroke="#173254" stroke-width="2">
+    <g transform="translate(830,151)">
+      <rect x="0" y="0" width="264" height="30" fill="#c7dff5"/>
+      <g fill="#c7dff5">
+        <rect x="0" y="0" width="29" height="30"/><rect x="29" y="0" width="29" height="30"/>
+        <rect x="58" y="0" width="29" height="30"/><rect x="87" y="0" width="29" height="30"/>
+        <rect x="116" y="0" width="29" height="30"/><rect x="145" y="0" width="29" height="30"/>
+        <rect x="174" y="0" width="29" height="30"/><rect x="203" y="0" width="29" height="30"/>
+        <rect x="232" y="0" width="32" height="30"/>
+      </g>
+      <path d="M29 0V30M58 0V30M87 0V30M116 0V30M145 0V30M174 0V30M203 0V30M232 0V30"/>
+    </g>
+    <g transform="translate(830,219)">
+      <rect x="0" y="0" width="264" height="30" fill="#f4c8cc"/>
+      <path d="M29 0V30M58 0V30M87 0V30M116 0V30M145 0V30M174 0V30M203 0V30M232 0V30"/>
+      <rect x="29" y="0" width="29" height="30" fill="#bdd8ef"/>
+      <rect x="87" y="0" width="29" height="30" fill="#bdd8ef"/>
+      <rect x="145" y="0" width="29" height="30" fill="#bdd8ef"/>
+      <rect x="203" y="0" width="29" height="30" fill="#bdd8ef"/>
+    </g>
+  </g>
+
+  <!-- pair matrix -->
+  <g transform="translate(830,284)" stroke="#173254" stroke-width="2.2">
+    <rect x="0" y="0" width="264" height="259" fill="#dba2d7"/>
+    <g fill="none">
+      <path d="M29 0V259M58 0V259M87 0V259M116 0V259M145 0V259M174 0V259M203 0V259M232 0V259"/>
+      <path d="M0 29H264M0 58H264M0 87H264M0 116H264M0 145H264M0 174H264M0 203H264M0 232H264"/>
+    </g>
+    <g opacity="0.55">
+      <rect x="29" y="0" width="29" height="29" fill="#f0b6d0"/>
+      <rect x="116" y="0" width="29" height="29" fill="#b9cbe9"/>
+      <rect x="203" y="0" width="29" height="29" fill="#f0b6d0"/>
+      <rect x="0" y="58" width="29" height="29" fill="#b9cbe9"/>
+      <rect x="87" y="58" width="29" height="29" fill="#f0b6d0"/>
+      <rect x="174" y="58" width="29" height="29" fill="#b9cbe9"/>
+      <rect x="58" y="116" width="29" height="29" fill="#f0b6d0"/>
+      <rect x="145" y="116" width="29" height="29" fill="#b9cbe9"/>
+      <rect x="232" y="116" width="32" height="29" fill="#f0b6d0"/>
+      <rect x="29" y="174" width="29" height="29" fill="#b9cbe9"/>
+      <rect x="116" y="174" width="29" height="29" fill="#f0b6d0"/>
+      <rect x="203" y="174" width="29" height="29" fill="#b9cbe9"/>
+      <rect x="0" y="232" width="29" height="27" fill="#f0b6d0"/>
+      <rect x="87" y="232" width="29" height="27" fill="#b9cbe9"/>
+      <rect x="174" y="232" width="29" height="27" fill="#f0b6d0"/>
+    </g>
+  </g>
+
+  <!-- Point cloud box -->
+  <rect class="dotted" x="1150" y="123" width="416" height="448" rx="55" ry="55"/>
+
+  <!-- dense atom cloud -->
+  <g opacity="0.94">
+    <g fill="#d36d00" stroke="#b75a00" stroke-width="1">
+      <circle cx="1310" cy="192" r="7"/><circle cx="1288" cy="215" r="8"/><circle cx="1340" cy="215" r="7"/><circle cx="1376" cy="178" r="6"/>
+      <circle cx="1405" cy="198" r="8"/><circle cx="1455" cy="230" r="7"/><circle cx="1246" cy="250" r="7"/><circle cx="1295" cy="256" r="8"/>
+      <circle cx="1352" cy="250" r="7"/><circle cx="1412" cy="260" r="8"/><circle cx="1480" cy="278" r="7"/><circle cx="1210" cy="296" r="7"/>
+      <circle cx="1267" cy="302" r="8"/><circle cx="1318" cy="306" r="8"/><circle cx="1375" cy="310" r="7"/><circle cx="1435" cy="320" r="8"/>
+      <circle cx="1510" cy="326" r="7"/><circle cx="1235" cy="352" r="7"/><circle cx="1295" cy="365" r="8"/><circle cx="1348" cy="354" r="7"/>
+      <circle cx="1398" cy="370" r="8"/><circle cx="1460" cy="378" r="7"/><circle cx="1518" cy="395" r="7"/><circle cx="1202" cy="405" r="7"/>
+      <circle cx="1259" cy="430" r="8"/><circle cx="1310" cy="414" r="7"/><circle cx="1365" cy="426" r="8"/><circle cx="1425" cy="425" r="7"/>
+      <circle cx="1488" cy="448" r="8"/><circle cx="1302" cy="475" r="7"/><circle cx="1360" cy="486" r="8"/><circle cx="1422" cy="470" r="7"/>
+    </g>
+    <g fill="#62a63f" stroke="#43812b" stroke-width="1">
+      <circle cx="1288" cy="178" r="7"/><circle cx="1320" cy="205" r="8"/><circle cx="1360" cy="199" r="7"/><circle cx="1425" cy="214" r="8"/>
+      <circle cx="1490" cy="252" r="7"/><circle cx="1222" cy="260" r="8"/><circle cx="1265" cy="236" r="7"/><circle cx="1328" cy="236" r="8"/>
+      <circle cx="1392" cy="240" r="7"/><circle cx="1442" cy="277" r="8"/><circle cx="1188" cy="320" r="7"/><circle cx="1252" cy="328" r="8"/>
+      <circle cx="1305" cy="332" r="7"/><circle cx="1355" cy="335" r="8"/><circle cx="1415" cy="344" r="7"/><circle cx="1475" cy="350" r="8"/>
+      <circle cx="1530" cy="352" r="7"/><circle cx="1215" cy="377" r="8"/><circle cx="1275" cy="390" r="7"/><circle cx="1335" cy="385" r="8"/>
+      <circle cx="1388" cy="402" r="7"/><circle cx="1445" cy="405" r="8"/><circle cx="1502" cy="424" r="7"/><circle cx="1240" cy="456" r="8"/>
+      <circle cx="1295" cy="445" r="7"/><circle cx="1345" cy="461" r="8"/><circle cx="1405" cy="452" r="7"/><circle cx="1465" cy="485" r="8"/>
+    </g>
+    <g fill="#d4a300" stroke="#ab8100" stroke-width="1">
+      <circle cx="1305" cy="165" r="6"/><circle cx="1342" cy="185" r="7"/><circle cx="1388" cy="220" r="6"/><circle cx="1462" cy="205" r="7"/>
+      <circle cx="1200" cy="266" r="6"/><circle cx="1278" cy="278" r="7"/><circle cx="1330" cy="280" r="6"/><circle cx="1385" cy="285" r="7"/>
+      <circle cx="1452" cy="302" r="6"/><circle cx="1512" cy="294" r="7"/><circle cx="1228" cy="320" r="6"/><circle cx="1288" cy="342" r="7"/>
+      <circle cx="1340" cy="324" r="6"/><circle cx="1395" cy="336" r="7"/><circle cx="1460" cy="336" r="6"/><circle cx="1500" cy="374" r="7"/>
+      <circle cx="1248" cy="403" r="6"/><circle cx="1300" cy="397" r="7"/><circle cx="1360" cy="395" r="6"/><circle cx="1420" cy="392" r="7"/>
+      <circle cx="1478" cy="417" r="6"/><circle cx="1278" cy="476" r="7"/><circle cx="1332" cy="440" r="6"/><circle cx="1392" cy="474" r="7"/>
+    </g>
+    <g fill="#c9d9ef" stroke="#9bb7d4" stroke-width="1">
+      <circle cx="1354" cy="170" r="6"/><circle cx="1420" cy="170" r="6"/><circle cx="1478" cy="226" r="6"/><circle cx="1530" cy="275" r="6"/>
+      <circle cx="1195" cy="350" r="6"/><circle cx="1245" cy="284" r="6"/><circle cx="1308" cy="228" r="6"/><circle cx="1368" cy="265" r="6"/>
+      <circle cx="1415" cy="300" r="6"/><circle cx="1550" cy="350" r="6"/><circle cx="1260" cy="365" r="6"/><circle cx="1325" cy="370" r="6"/>
+      <circle cx="1380" cy="450" r="6"/><circle cx="1442" cy="452" r="6"/><circle cx="1515" cy="462" r="6"/>
+    </g>
+  </g>
+
+  <text class="txt bold" x="1208" y="500" font-size="34">...</text>
+  <text class="txt bold" x="1245" y="500" font-size="34">CEV</text>
+  <text class="txt bold" x="1304" y="500" font-size="34" fill="#c90000">XXXX</text>
+  <text class="txt bold" x="1398" y="500" font-size="34">WGQG...</text>
+  <text class="txt bold" x="1313" y="541" font-size="34" fill="#c90000">CDR</text>
+
+  <path class="arrow" d="M1566 346 L1627 346"/>
+
+  <!-- top feedback arrow into module -->
+  <path d="M891 123 L891 66 L1890 66 L1890 119" stroke="#000" stroke-width="4" fill="none" marker-end="url(#arrow)"/>
+
+  <!-- Diffusion module title and frame -->
+  <text class="txt" x="2300" y="101" font-size="61" text-anchor="middle">Diffusion Module</text>
+  <rect x="1629" y="123" width="1250" height="448" rx="70" ry="70" fill="none" stroke="#173254" stroke-width="6"/>
+
+  <rect x="1656" y="175" width="214" height="334" rx="25" ry="25" fill="#ccd6e6" stroke="#173254" stroke-width="2.5"/>
+  <text class="txt bold" x="1763" y="328" font-size="37" text-anchor="middle">Feature</text>
+  <text class="txt bold" x="1763" y="397" font-size="37" text-anchor="middle">Extractor</text>
+
+  <rect x="1975" y="175" width="373" height="135" rx="18" ry="18" fill="#edf5e8" stroke="#173254" stroke-width="2.5"/>
+  <text class="txt bold" x="2161" y="235" font-size="36" text-anchor="middle">Atom-level</text>
+  <text class="txt bold" x="2161" y="282" font-size="36" text-anchor="middle">Representations</text>
+
+  <rect x="1975" y="370" width="373" height="135" rx="18" ry="18" fill="#f1e8c9" stroke="#173254" stroke-width="2.5"/>
+  <text class="txt bold" x="2161" y="430" font-size="36" text-anchor="middle">Residue-level</text>
+  <text class="txt bold" x="2161" y="477" font-size="36" text-anchor="middle">Representations</text>
+
+  <rect x="2450" y="175" width="405" height="135" rx="18" ry="18" fill="#f2d3be" stroke="#173254" stroke-width="2.5"/>
+  <text class="txt bold" x="2652" y="257" font-size="37" text-anchor="middle">Structure Denoising</text>
+
+  <rect x="2450" y="369" width="405" height="135" rx="18" ry="18" fill="#c7b1df" stroke="#173254" stroke-width="2.5"/>
+  <text class="txt bold" x="2652" y="451" font-size="37" text-anchor="middle">Sequence Denoising</text>
+
+  <path class="arrow2" d="M1870 242 L1973 242"/>
+  <path class="arrow2" d="M1870 432 L1973 432"/>
+  <path class="arrow2" d="M2348 242 L2448 242"/>
+  <path class="arrow2" d="M2348 432 L2448 432"/>
+  <path d="M2348 242 L2398 242 L2398 220 L2448 220" stroke="#000" stroke-width="3.4" fill="none" marker-end="url(#arrowSmall)"/>
+  <path d="M2348 432 L2398 432 L2398 462 L2448 462" stroke="#000" stroke-width="3.4" fill="none" marker-end="url(#arrowSmall)"/>
+
+  <path class="arrow" d="M2879 346 L2922 346"/>
+
+  <!-- intermediate structure box -->
+  <rect class="dotted" x="2925" y="123" width="416" height="448" rx="55" ry="55"/>
+
+  <!-- intermediate protein-like ribbons -->
+  <g transform="translate(2962,150)">
+    <g class="proteinStroke" stroke="url(#ribbonTeal)" stroke-width="18" opacity="0.95">
+      <path d="M46 245 C66 210 74 185 64 158 C55 132 52 102 83 92 C116 83 127 122 126 149"/>
+      <path d="M143 286 C175 260 186 230 177 203 C166 169 194 150 223 166 C257 185 252 222 231 246"/>
+      <path d="M247 114 C285 93 324 103 351 129 C383 162 380 203 353 229 C320 260 274 252 244 226"/>
+    </g>
+    <path class="proteinStroke" d="M53 244 C85 231 106 211 113 181 C121 147 101 122 82 93" stroke="#6ea2a2" stroke-width="8"/>
+    <path class="proteinStroke" d="M155 287 C206 285 237 257 241 220 C244 190 222 171 195 161" stroke="#4d8584" stroke-width="8"/>
+    <path class="proteinStroke" d="M250 114 C295 137 330 158 365 132" stroke="#91c7c5" stroke-width="8"/>
+    <path class="proteinStroke" d="M260 228 C301 202 341 205 376 232" stroke="#568c8b" stroke-width="8"/>
+    <g fill="url(#ribbonTeal)" stroke="#4a7c7b" stroke-width="1.5" opacity="0.9">
+      <polygon points="23,169 78,155 87,174 34,193"/>
+      <polygon points="43,205 100,191 111,209 57,232"/>
+      <polygon points="91,98 145,104 142,125 91,121"/>
+      <polygon points="134,241 190,229 198,248 145,267"/>
+      <polygon points="290,92 345,103 337,123 283,115"/>
+      <polygon points="307,176 363,168 365,190 310,198"/>
+      <polygon points="281,245 334,229 346,247 295,268"/>
+    </g>
+    <path d="M88 165 C102 138 125 143 119 174 C114 206 148 216 164 190 C180 164 204 170 198 199" fill="none" stroke="#df5961" stroke-width="6" stroke-linecap="round"/>
+    <path d="M209 92 C221 67 252 76 244 103 C238 125 264 133 275 112" fill="none" stroke="#e26b73" stroke-width="6" stroke-linecap="round"/>
+    <path d="M60 86 C50 62 78 47 96 67 C112 86 99 103 83 107" fill="none" stroke="#99c9c8" stroke-width="5"/>
+    <path d="M313 49 C342 34 361 66 340 84 C319 102 296 79 313 49" fill="none" stroke="#cde8e7" stroke-width="5"/>
+  </g>
+
+  <text class="txt bold" x="2990" y="500" font-size="34">...</text>
+  <text class="txt bold" x="3027" y="500" font-size="34">CEV</text>
+  <text class="txt bold" x="3086" y="500" font-size="34" fill="#c90000">XX</text>
+  <rect x="3130" y="470" width="22" height="35" fill="#fff100"/>
+  <text class="txt bold" x="3130" y="500" font-size="34" fill="#c90000">T</text>
+  <text class="txt bold" x="3152" y="500" font-size="34" fill="#c90000">X</text>
+  <text class="txt bold" x="3176" y="500" font-size="34">WGQG...</text>
+  <text class="txt bold" x="3094" y="541" font-size="34" fill="#c90000">CDR</text>
+
+  <path class="arrow" d="M3341 346 L3376 346"/>
+
+  <!-- Final Result title and box -->
+  <text class="txt" x="3586" y="101" font-size="61" text-anchor="middle">Final Result</text>
+  <rect class="dotted" x="3378" y="123" width="416" height="448" rx="55" ry="55"/>
+
+  <!-- final protein-like ribbons -->
+  <g transform="translate(3415,150)">
+    <g class="proteinStroke" stroke="url(#ribbonSand)" stroke-width="18" opacity="0.98">
+      <path d="M45 245 C68 208 76 183 65 155 C55 130 52 101 84 92 C118 84 128 122 127 149"/>
+      <path d="M144 287 C176 261 187 229 177 202 C166 169 194 150 225 166 C259 185 253 222 232 247"/>
+      <path d="M247 113 C286 93 325 103 351 129 C385 162 381 203 354 230 C320 261 275 252 244 226"/>
+    </g>
+    <path class="proteinStroke" d="M54 244 C86 231 107 211 114 181 C121 147 102 122 83 93" stroke="#9b7749" stroke-width="8"/>
+    <path class="proteinStroke" d="M156 287 C207 285 238 257 242 220 C244 190 223 171 196 161" stroke="#7d5b38" stroke-width="8"/>
+    <path class="proteinStroke" d="M250 114 C295 137 331 158 366 132" stroke="#d8b687" stroke-width="8"/>
+    <path class="proteinStroke" d="M260 228 C302 202 341 205 376 232" stroke="#8b6640" stroke-width="8"/>
+    <g fill="url(#ribbonSand)" stroke="#7d5c3a" stroke-width="1.5" opacity="0.93">
+      <polygon points="23,169 78,155 87,174 34,193"/>
+      <polygon points="43,205 100,191 111,209 57,232"/>
+      <polygon points="91,98 145,104 142,125 91,121"/>
+      <polygon points="134,241 190,229 198,248 145,267"/>
+      <polygon points="290,92 345,103 337,123 283,115"/>
+      <polygon points="307,176 363,168 365,190 310,198"/>
+      <polygon points="281,245 334,229 346,247 295,268"/>
+    </g>
+    <path d="M92 165 C103 138 127 143 120 174 C115 205 148 216 164 190 C179 166 199 168 199 194" fill="none" stroke="#cbd000" stroke-width="7" stroke-linecap="round"/>
+    <path d="M109 189 C134 188 141 214 125 229 C105 248 85 226 98 207" fill="none" stroke="#d7dd00" stroke-width="7" stroke-linecap="round"/>
+    <path d="M60 86 C50 62 78 47 96 67 C112 86 99 103 83 107" fill="none" stroke="#b28b57" stroke-width="5"/>
+    <path d="M313 49 C342 34 361 66 340 84 C319 102 296 79 313 49" fill="none" stroke="#eed8bf" stroke-width="5"/>
+  </g>
+
+  <text class="txt bold" x="3445" y="500" font-size="34">...</text>
+  <text class="txt bold" x="3482" y="500" font-size="34">CEV</text>
+  <rect x="3542" y="470" width="67" height="35" fill="#fff100"/>
+  <text class="txt bold" x="3542" y="500" font-size="34">NTY</text>
+  <text class="txt bold" x="3609" y="500" font-size="34">WGQG...</text>
+  <text class="txt bold" x="3548" y="541" font-size="34" fill="#c90000">CDR</text>
+
+  <!-- bottom diffusion iteration loop -->
+  <path d="M1590 347 L1590 637 L3125 637 L3125 571" stroke="#000" stroke-width="4" fill="none"/>
+  <text class="txt" x="3140" y="612" font-size="42">Diffusion Iterations</text>
+</svg>

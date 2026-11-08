@@ -1,0 +1,565 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1153" height="552" viewBox="0 0 1153 552">
+  <title>MLLM architecture, multi-head attention block, and overall gain diagram</title>
+  <desc>
+    The figure is organized into three main base frames: left MLLM architecture with stacked transformer layers and token inputs; middle multi-head attention block with standard MHA computations, visual attention ratio, reasoning/perception gating branches, and flowing standard procedure; right overall gain comparison with two layer-head grids, legend, and conclusion arrows. Content is constructed in native SVG with stable semantic IDs. No SAM assets are available.
+  </desc>
+
+  <defs>
+    <marker id="arrowBlack" markerUnits="userSpaceOnUse" markerWidth="10" markerHeight="8" refX="9" refY="4" orient="auto">
+      <path d="M0,0 L10,4 L0,8 Z" fill="#000" id="plus_node_0" />
+    </marker>
+    <marker id="arrowBlue" markerUnits="userSpaceOnUse" markerWidth="10" markerHeight="8" refX="9" refY="4" orient="auto">
+      <path d="M0,0 L10,4 L0,8 Z" fill="#536276" id="plus_node_1" />
+    </marker>
+    <marker id="arrowGreen" markerUnits="userSpaceOnUse" markerWidth="10" markerHeight="8" refX="9" refY="4" orient="auto">
+      <path d="M0,0 L10,4 L0,8 Z" fill="#567234" id="plus_node_2" />
+    </marker>
+    <marker id="arrowGold" markerUnits="userSpaceOnUse" markerWidth="10" markerHeight="8" refX="9" refY="4" orient="auto">
+      <path d="M0,0 L10,4 L0,8 Z" fill="#b28a16" id="plus_node_3" />
+    </marker>
+    <marker id="arrowRed" markerUnits="userSpaceOnUse" markerWidth="10" markerHeight="8" refX="9" refY="4" orient="auto">
+      <path d="M0,0 L10,4 L0,8 Z" fill="#9a5964" id="plus_node_4" />
+    </marker>
+    <style>
+      .title{font-family:Arial,Helvetica,sans-serif;font-weight:700;font-size:20px;fill:#000}
+      .subtitle{font-family:Arial,Helvetica,sans-serif;font-weight:700;font-size:14px;fill:#3b3b3b}
+      .small{font-family:Arial,Helvetica,sans-serif;font-size:11px;fill:#000}
+      .tiny{font-family:Arial,Helvetica,sans-serif;font-size:9px;fill:#000}
+      .label{font-family:Arial,Helvetica,sans-serif;font-size:12px;font-weight:700;fill:#000}
+      .math{font-family:"Times New Roman",serif;font-style:italic;font-size:13px;fill:#000}
+      .frameDash{fill:none;stroke:#405b5e;stroke-width:1.5;stroke-dasharray:5 5}
+      .dashRed{fill:none;stroke:#9a5964;stroke-width:2;stroke-dasharray:8 6}
+      .dashGreen{fill:none;stroke:#5f7838;stroke-width:2;stroke-dasharray:7 6}
+      .dashGold{fill:none;stroke:#c49b20;stroke-width:2;stroke-dasharray:7 6}
+      .dashBlack{fill:none;stroke:#000;stroke-width:1.2;stroke-dasharray:4 4}
+      .box{fill:#eef4ef;stroke:#000;stroke-width:1.2}
+      .softBlue{fill:#d5e6e4;stroke:#000;stroke-width:1.1}
+      .mat{fill:#f8f8f8;stroke:#000;stroke-width:1.1}
+      .pink{fill:#e8b9bd;stroke:#000;stroke-width:0.8}
+      .blueCell{fill:#8fb8c9}
+      .redCell{fill:#c8a0a0}
+      .grayCell{fill:#dfe1e3}
+      .whiteCell{fill:#f7f7f7}
+    </style>
+  </defs>
+
+  
+  <rect id="f01_left_architecture" data-plus-kind="frame" x="0" y="0" width="1153" height="552" rx="0" fill="#fff" stroke="none" stroke-width="0" stroke-dasharray="none" />
+  <rect id="f02_middle_attention_block" data-plus-kind="frame" x="220" y="18" width="505" height="516" rx="14" class="frameDash" />
+  <rect id="f03_right_gain" data-plus-kind="frame" x="735" y="14" width="405" height="520" rx="4" fill="none" stroke="none" />
+  <rect id="f04_transformer_stack" data-plus-kind="frame" x="64" y="103" width="139" height="319" rx="17" fill="none" stroke="#405b5e" stroke-width="3" stroke-dasharray="9 7" />
+  <rect id="f05_standard_mha" data-plus-kind="frame" x="281" y="46" width="270" height="153" rx="16" class="dashRed" />
+  <rect id="f06_visual_attention_ratio" data-plus-kind="frame" x="284" y="264" width="61" height="242" rx="6" class="dashBlack" fill="none" />
+  <rect id="f07_reasoning_layer" data-plus-kind="frame" x="369" y="219" width="282" height="153" rx="17" class="dashGreen" />
+  <rect id="f08_perception_layer" data-plus-kind="frame" x="369" y="379" width="282" height="145" rx="16" class="dashGold" />
+  <rect id="f09_flow_standard" data-plus-kind="frame" x="670" y="45" width="41" height="151" rx="7" fill="#fff5f5" stroke="#d09fa4" stroke-width="1.2" stroke-dasharray="4 4" />
+  <rect id="f10_top_grid" data-plus-kind="frame" x="752" y="64" width="200" height="200" fill="none" stroke="#000" stroke-width="1.3" stroke-dasharray="5 4" />
+  <rect id="f11_legend" data-plus-kind="frame" x="965" y="51" width="167" height="153" fill="none" stroke="#999" stroke-width="1.2" stroke-dasharray="5 5" />
+  <rect id="f12_bottom_grid" data-plus-kind="frame" x="752" y="322" width="200" height="200" fill="none" stroke="#000" stroke-width="1.3" stroke-dasharray="5 4" />
+
+  
+  <g id="left_architecture_content">
+    <title>MLLM Architecture</title>
+    <desc>Origin is the transformer stack; upward conduction reaches text response, downward reaches image/text token sequence, while residual arrows and plus nodes connect each layer.</desc>
+    <text x="46" y="38" class="title" id="plus_node_5">MLLM Architecture</text>
+
+    <rect id="text_response_box" x="70" y="64" width="121" height="18" rx="3" fill="#fff" stroke="#000" stroke-width="1.2" />
+    <text x="86" y="78" class="label" font-size="12" id="plus_node_6">Text Response</text>
+    <path d="M131 103 L131 84" stroke="#000" stroke-width="1.2" marker-end="url(#arrowBlack)" id="plus_node_7" />
+
+    <rect id="layer_norm_top" x="81" y="112" width="100" height="21" rx="5" class="softBlue" />
+    <text x="116" y="127" class="label" font-size="12" id="plus_node_8">Norm</text>
+    <circle id="plus_top" cx="131" cy="156" r="9" fill="#fff" stroke="#000" stroke-width="1.1" />
+    <path d="M126 156 L136 156 M131 151 L131 161" stroke="#000" stroke-width="1" id="plus_node_9" />
+    <path d="M131 146 L131 133" stroke="#000" stroke-width="1.2" marker-end="url(#arrowBlack)" id="plus_node_10" />
+
+    <rect id="feed_forward_network" x="80" y="180" width="102" height="42" rx="6" class="softBlue" />
+    <text x="94" y="197" class="label" font-size="12" id="plus_node_11">Feed-Forward</text>
+    <text x="109" y="212" class="label" font-size="12" id="plus_node_12">Network</text>
+    <path d="M131 180 L131 165" stroke="#000" stroke-width="1.2" marker-end="url(#arrowBlack)" id="plus_node_13" />
+    <path id="residual_top" d="M181 121 L191 121 L191 239 L131 239 L131 223" fill="none" stroke="#000" stroke-width="1.2" marker-end="url(#arrowBlack)" />
+
+    <rect id="layer_norm_middle" x="81" y="254" width="100" height="24" rx="6" class="softBlue" />
+    <text x="116" y="270" class="label" font-size="12" id="plus_node_14">Norm</text>
+    <circle id="plus_middle" cx="131" cy="304" r="9" fill="#fff" stroke="#000" stroke-width="1.1" />
+    <path d="M126 304 L136 304 M131 299 L131 309" stroke="#000" stroke-width="1" id="plus_node_15" />
+    <path d="M131 294 L131 278" stroke="#000" stroke-width="1.2" marker-end="url(#arrowBlack)" id="plus_node_16" />
+
+    <rect id="multihead_attention_layer" x="80" y="338" width="102" height="52" rx="7" class="softBlue" />
+    <text x="98" y="359" class="label" font-size="12" id="plus_node_17">Multi-Head</text>
+    <text x="103" y="374" class="label" font-size="12" id="plus_node_18">Attention</text>
+    <path d="M131 338 L131 313" stroke="#000" stroke-width="1.2" marker-end="url(#arrowBlack)" id="plus_node_19" />
+    <path id="residual_mid" d="M181 265 L191 265 L191 413 L131 413 L131 391" fill="none" stroke="#000" stroke-width="1.2" marker-end="url(#arrowBlack)" />
+    <path d="M131 443 L131 391" stroke="#000" stroke-width="1.2" marker-end="url(#arrowBlack)" id="plus_node_20" />
+
+    <circle id="pos_plus" cx="131" cy="439" r="9" fill="#fff" stroke="#000" stroke-width="1.1" />
+    <path d="M126 439 L136 439 M131 434 L131 444" stroke="#000" stroke-width="1" id="plus_node_21" />
+    <circle id="pos_token_circle" cx="94" cy="439" r="9" fill="#fff" stroke="#000" stroke-width="1.1" />
+    <path d="M84 439 L122 439" stroke="#000" stroke-width="1.1" marker-end="url(#arrowBlack)" id="plus_node_22" />
+    <text x="22" y="436" class="label" font-size="12" id="plus_node_23">Positional</text>
+    <text x="23" y="452" class="label" font-size="12" id="plus_node_24">Encoding</text>
+    <path d="M131 475 L131 449" stroke="#000" stroke-width="1.2" marker-end="url(#arrowBlack)" id="plus_node_25" />
+
+    <path id="token_container" d="M22 475 L241 475 L248 512 L20 512 Z" fill="#fff" stroke="#000" stroke-width="1.1" />
+    <path d="M20 504 H246" stroke="#000" stroke-width="1" id="plus_node_26" />
+    <g id="image_token_strip">
+      <rect x="23" y="486" width="11" height="11" fill="#c7d9d7" stroke="#879b9a" id="plus_node_27" />
+      <rect x="41" y="486" width="11" height="11" fill="#c7d9d7" stroke="#879b9a" id="plus_node_28" />
+      <rect x="59" y="486" width="11" height="11" fill="#c7d9d7" stroke="#879b9a" id="plus_node_29" />
+      <rect x="77" y="486" width="11" height="11" fill="#c7d9d7" stroke="#879b9a" id="plus_node_30" />
+      <rect x="95" y="486" width="11" height="11" fill="#c7d9d7" stroke="#879b9a" id="plus_node_31" />
+      <text x="116" y="495" class="tiny" id="plus_node_32">...</text>
+      <rect x="133" y="486" width="11" height="11" fill="#c7d9d7" stroke="#879b9a" id="plus_node_33" />
+      <rect x="157" y="486" width="11" height="11" fill="#e5c3c5" stroke="#a98a8e" id="plus_node_34" />
+      <rect x="175" y="486" width="11" height="11" fill="#e5c3c5" stroke="#a98a8e" id="plus_node_35" />
+      <rect x="193" y="486" width="11" height="11" fill="#e5c3c5" stroke="#a98a8e" id="plus_node_36" />
+      <text x="214" y="495" class="tiny" id="plus_node_37">...</text>
+      <rect x="232" y="486" width="11" height="11" fill="#e5c3c5" stroke="#a98a8e" id="plus_node_38" />
+    </g>
+    <g id="token_legend">
+      <rect x="37" y="514" width="17" height="14" rx="2" fill="#fff" stroke="#000" id="plus_node_39" />
+      <circle cx="42" cy="518" r="2" fill="#fff" stroke="#000" id="plus_node_40" />
+      <path d="M40 525 L46 521 L53 526" fill="none" stroke="#000" id="plus_node_41" />
+      <text x="60" y="524" class="small" id="plus_node_42">Image Token</text>
+      <rect x="163" y="514" width="14" height="14" rx="1" fill="#fff" stroke="#000" id="plus_node_43" />
+      <path d="M166 518 H174 M166 522 H172" stroke="#000" id="plus_node_44" />
+      <text x="182" y="524" class="small" id="plus_node_45">Text Token</text>
+    </g>
+    <text x="47" y="280" transform="rotate(-90 47 280)" fill="#44626d" font-family="Arial" font-size="12" font-weight="700" id="plus_node_46">N× Layers</text>
+  </g>
+
+  
+  <path id="arch_to_block_dash_1" d="M199 105 L254 18" fill="none" stroke="#405b5e" stroke-width="1.3" stroke-dasharray="5 5" />
+  <path id="arch_to_block_dash_2" d="M198 416 L250 534" fill="none" stroke="#405b5e" stroke-width="1.3" stroke-dasharray="5 5" />
+
+  
+  <g id="middle_attention_content">
+    <title>Multi-Head Attention Block</title>
+    <desc>Origin is the standard MHA region. Computation proceeds left-to-right through Q/K/V matrices, scaling, attention, output matrices, then downward to visual attention ratio and the reasoning/perception gating branches. The two lower branches are horizontally aligned and symmetric except for thresholds and gate outcomes.</desc>
+    <text x="368" y="37" class="title" id="plus_node_47">Multi-Head Attention Block</text>
+
+    
+    <g id="standard_mha_group">
+      <text x="252" y="143" class="math" id="plus_node_48">X<tspan baseline-shift="super" font-size="9">(ℓ)</tspan></text>
+      <path d="M274 135 H294" stroke="#000" marker-end="url(#arrowBlack)" id="plus_node_49" />
+      <rect x="295" y="61" width="63" height="36" class="mat" id="plus_node_50" />
+      <text x="301" y="82" class="math" id="plus_node_51">X<tspan baseline-shift="super" font-size="9">(ℓ)</tspan>W<tspan baseline-shift="super" font-size="9">(ℓ)</tspan><tspan baseline-shift="sub" font-size="9">k</tspan></text>
+      <rect x="295" y="163" width="63" height="36" class="mat" id="plus_node_52" />
+      <text x="301" y="184" class="math" id="plus_node_53">X<tspan baseline-shift="super" font-size="9">(ℓ)</tspan>W<tspan baseline-shift="super" font-size="9">(ℓ)</tspan><tspan baseline-shift="sub" font-size="9">q</tspan></text>
+      <circle cx="326" cy="131" r="8" fill="#fff" stroke="#000" id="plus_node_54" />
+      <path d="M321 126 L331 136 M331 126 L321 136" stroke="#000" id="plus_node_55" />
+      <path d="M326 97 V121" stroke="#000" marker-end="url(#arrowBlack)" id="plus_node_56" />
+      <path d="M326 163 V141" stroke="#000" marker-end="url(#arrowBlack)" id="plus_node_57" />
+      <path d="M335 131 H376" stroke="#000" marker-end="url(#arrowBlack)" id="plus_node_58" />
+      <text x="347" y="121" class="tiny" id="plus_node_59">Scaling</text>
+      <text x="346" y="151" class="tiny" id="plus_node_61"><tspan x="346" y="151">×</tspan><tspan x="358" y="143">1</tspan><tspan x="353" y="151">──</tspan><tspan x="354" y="162">√n</tspan><tspan baseline-shift="sub" font-size="7">k</tspan></text><rect x="379" y="55" width="40" height="126" class="mat" id="plus_node_62" />
+      <text x="392" y="78" class="math" font-size="11" id="plus_node_63">A<tspan baseline-shift="super" font-size="8">(0,ℓ)</tspan></text>
+      <line x1="379" y1="97" x2="419" y2="97" stroke="#000" id="plus_node_64" />
+      <text x="392" y="111" class="math" font-size="11" id="plus_node_65">A<tspan baseline-shift="super" font-size="8">(1,ℓ)</tspan></text>
+      <text x="397" y="137" class="label" id="plus_node_66">⋮</text>
+      <line x1="379" y1="149" x2="419" y2="149" stroke="#000" id="plus_node_67" />
+      <text x="389" y="168" class="math" font-size="11" id="plus_node_68">A<tspan baseline-shift="super" font-size="8">(27,ℓ)</tspan></text>
+
+      <rect x="435" y="82" width="61" height="73" class="mat" id="plus_node_69" />
+      <text x="441" y="120" class="math" id="plus_node_70">X<tspan baseline-shift="super" font-size="9">(ℓ)</tspan>W<tspan baseline-shift="super" font-size="9">(ℓ)</tspan><tspan baseline-shift="sub" font-size="9">v</tspan></text>
+      <path d="M420 118 H435" stroke="#000" marker-end="url(#arrowBlack)" id="plus_node_71" />
+      <path d="M468 82 V56 H314" fill="none" stroke="#000" marker-end="url(#arrowBlack)" id="plus_node_72" />
+      <circle cx="468" cy="157" r="8" fill="#fff" stroke="#000" id="plus_node_73" />
+      <path d="M463 152 L473 162 M473 152 L463 162" stroke="#000" id="plus_node_74" />
+      <path d="M468 155 V131" stroke="#000" marker-end="url(#arrowBlack)" id="plus_node_75" />
+      <path d="M476 157 H496" stroke="#000" marker-end="url(#arrowBlack)" id="plus_node_76" />
+
+      <rect x="505" y="56" width="31" height="126" class="pink" id="plus_node_77" />
+      <text x="512" y="76" class="math" font-size="11" id="plus_node_78">O<tspan baseline-shift="super" font-size="8">(0,ℓ)</tspan></text>
+      <line x1="505" y1="96" x2="536" y2="96" stroke="#000" id="plus_node_79" />
+      <text x="512" y="109" class="math" font-size="11" id="plus_node_80">O<tspan baseline-shift="super" font-size="8">(1,ℓ)</tspan></text>
+      <text x="518" y="135" class="label" id="plus_node_81">⋮</text>
+      <line x1="505" y1="151" x2="536" y2="151" stroke="#000" id="plus_node_82" />
+      <text x="508" y="169" class="math" font-size="11" id="plus_node_83">O<tspan baseline-shift="super" font-size="8">(27,ℓ)</tspan></text>
+      <path d="M536 132 H569" stroke="#9a5964" stroke-width="1.3" marker-end="url(#arrowRed)" id="plus_node_84" />
+      <text x="424" y="198" fill="#9a5964" font-family="Arial" font-size="12" font-weight="700" id="plus_node_85">Standard MHA</text>
+    </g>
+
+    
+    <g id="flow_standard_group">
+      <text x="688" y="165" transform="rotate(-90 688 165)" class="label" id="plus_node_86">Flowing Standard</text>
+      <text x="704" y="139" transform="rotate(-90 704 139)" class="label" id="plus_node_87">Procedure</text>
+      <rect x="610" y="56" width="39" height="151" fill="#f8f8f8" stroke="#000" id="plus_node_88" />
+      <text x="617" y="75" class="math" font-size="11" id="plus_node_89">O′<tspan baseline-shift="super" font-size="8">(0,ℓ)</tspan></text>
+      <line x1="610" y1="95" x2="649" y2="95" stroke="#000" id="plus_node_90" />
+      <text x="617" y="109" class="math" font-size="11" id="plus_node_91">O′<tspan baseline-shift="super" font-size="8">(1,ℓ)</tspan></text>
+      <text x="626" y="137" class="label" id="plus_node_92">⋮</text>
+      <line x1="610" y1="153" x2="649" y2="153" stroke="#000" id="plus_node_93" />
+      <text x="613" y="171" class="math" font-size="11" id="plus_node_94">O′<tspan baseline-shift="super" font-size="8">(27,ℓ)</tspan></text>
+      <circle cx="579" cy="132" r="8" fill="#fff" stroke="#000" id="plus_node_95" />
+      <path d="M574 127 L584 137 M584 127 L574 137" stroke="#000" id="plus_node_96" />
+      <text x="553" y="122" class="small" id="plus_node_97">Scaling</text>
+      <path d="M587 132 H610" stroke="#000" marker-end="url(#arrowBlack)" id="plus_node_98" />
+      <path d="M602 103 L602 88" stroke="#536276" marker-end="url(#arrowBlue)" id="plus_node_99" />
+      <path d="M602 162 L602 177" stroke="#536276" marker-end="url(#arrowBlue)" id="plus_node_100" />
+    </g>
+
+    
+    <g id="visual_attention_group"><text x="300" y="405" transform="rotate(-90 300 405)" class="label" id="plus_node_101">Visual Attention Ratio</text><g id="visual_ratio_formula" transform="rotate(-90 318 390)"><text x="250" y="390" class="math" font-size="14" id="plus_node_102">S<tspan baseline-shift="super" font-size="9">(ℓ)</tspan><tspan baseline-shift="sub" font-size="9">m</tspan>(h) =</text><text x="315" y="390" class="math" font-size="13" id="plus_node_103">1/|T<tspan baseline-shift="sub" font-size="8">q</tspan>|</text><text x="363" y="390" class="math" font-size="18" id="plus_node_104">∑</text><text x="380" y="390" class="math" font-size="18" id="plus_node_105">∑</text><text x="398" y="390" class="math" font-size="13" id="plus_node_106">a<tspan baseline-shift="super" font-size="8">(h,ℓ)</tspan><tspan baseline-shift="sub" font-size="8">i,j</tspan></text><text x="360" y="402" class="math" font-size="8" id="visual_sum_i_limit">i∈T<tspan baseline-shift="sub" font-size="6">q</tspan></text><text x="378" y="402" class="math" font-size="8" id="visual_sum_j_limit">j∈T<tspan baseline-shift="sub" font-size="6">m</tspan></text></g><path d="M314 214 V263" stroke="#000" marker-end="url(#arrowBlack)" id="plus_node_107" /><path d="M407 181 V209 H314" fill="none" stroke="#9a5964" stroke-width="1.3" marker-end="url(#arrowRed)" id="plus_node_108" /><path d="M345 294 H385" stroke="#000" marker-end="url(#arrowBlack)" id="plus_node_109" /><path d="M345 454 H385" stroke="#000" marker-end="url(#arrowBlack)" id="plus_node_110" /></g><g id="reasoning_layer_group">
+      <text x="450" y="367" fill="#5f7838" font-family="Arial" font-size="12" font-weight="700" id="plus_node_111">Reasoning Layer</text>
+      <rect x="388" y="234" width="48" height="127" fill="#f8f8f8" stroke="#000" id="plus_node_112" />
+      <text x="396" y="257" class="math" id="plus_node_113">S<tspan baseline-shift="super" font-size="8">(ℓ)</tspan><tspan baseline-shift="sub" font-size="8">m</tspan>(0)</text>
+      <line x1="388" y1="270" x2="436" y2="270" stroke="#000" id="plus_node_114" />
+      <text x="396" y="290" class="math" id="plus_node_115">S<tspan baseline-shift="super" font-size="8">(ℓ)</tspan><tspan baseline-shift="sub" font-size="8">m</tspan>(1)</text>
+      <text x="407" y="318" class="label" id="plus_node_116">⋮</text>
+      <line x1="388" y1="333" x2="436" y2="333" stroke="#000" id="plus_node_117" />
+      <text x="393" y="354" class="math" id="plus_node_118">S<tspan baseline-shift="super" font-size="8">(ℓ)</tspan><tspan baseline-shift="sub" font-size="8">m</tspan>(27)</text>
+
+      <path d="M436 253 H478" stroke="#000" marker-end="url(#arrowBlack)" id="plus_node_119" />
+      <rect x="477" y="236" width="11" height="10" rx="1" fill="#b1003a" id="plus_node_120" />
+      <path d="M479 238 L486 245 M486 238 L479 245" stroke="#fff" fill="none" stroke-width="1.3" id="plus_node_121" /><text x="492" y="244" class="tiny" font-weight="700" id="plus_node_122">NO</text>
+      <path d="M436 288 H478" stroke="#000" marker-end="url(#arrowBlack)" id="plus_node_123" />
+      <rect x="477" y="268" width="11" height="10" rx="1" fill="#8aa37e" id="plus_node_124" />
+      <path d="M479 273 L482 276 L487 269" stroke="#fff" fill="none" stroke-width="1.2" id="plus_node_125" />
+      <text x="492" y="277" class="tiny" font-weight="700" id="plus_node_126">YES</text>
+      <path d="M436 348 H478" stroke="#000" marker-end="url(#arrowBlack)" id="plus_node_127" />
+      <rect x="477" y="326" width="11" height="10" rx="1" fill="#8aa37e" id="plus_node_128" />
+      <path d="M479 331 L482 334 L487 327" stroke="#fff" fill="none" stroke-width="1.2" id="plus_node_129" />
+      <text x="492" y="335" class="tiny" font-weight="700" id="plus_node_130">YES</text>
+
+      <rect x="457" y="297" width="87" height="26" rx="4" fill="#eef6e6" stroke="#5f7838" stroke-width="1.2" stroke-dasharray="4 3" id="plus_node_131" />
+      <text x="465" y="315" class="math" id="plus_node_132">S<tspan baseline-shift="super" font-size="8">(ℓ)</tspan><tspan baseline-shift="sub" font-size="8">m</tspan> ≤ τ̄<tspan baseline-shift="sub" font-size="8">reas</tspan>?</text><path d="M544 310 H562" stroke="#000" marker-end="url(#arrowBlack)" id="plus_node_133" />
+
+      <rect x="562" y="234" width="68" height="127" fill="#e7eff2" stroke="#000" id="plus_node_134" />
+      <text x="576" y="257" class="math" id="plus_node_135">g<tspan baseline-shift="super" font-size="8">(0,ℓ)</tspan> = 1</text>
+      <line x1="562" y1="271" x2="630" y2="271" stroke="#000" id="plus_node_136" />
+      <text x="571" y="291" class="math" id="plus_node_137">g<tspan baseline-shift="super" font-size="8">(1,ℓ)</tspan> = g<tspan baseline-shift="sub" font-size="8">reas</tspan></text>
+      <text x="591" y="319" class="label" id="plus_node_138">⋮</text>
+      <line x1="562" y1="333" x2="630" y2="333" stroke="#000" id="plus_node_139" />
+      <text x="569" y="354" class="math" id="plus_node_140">g<tspan baseline-shift="super" font-size="8">(27,ℓ)</tspan> = g<tspan baseline-shift="sub" font-size="8">reas</tspan></text>
+      <path d="M630 295 H663 V205 H649" fill="none" stroke="#5f7838" stroke-width="1.4" marker-end="url(#arrowGreen)" id="plus_node_141" />
+    <g id="repair_reasoning_branch_overlays"><path id="repair_reasoning_tau_line" d="M412 234 V361" stroke="#879b6d" stroke-width="2" stroke-dasharray="6 6" fill="none" /><text id="repair_reasoning_tau_label" x="396" y="232" class="math" font-size="12">τ̄<tspan baseline-shift="sub" font-size="8">reas</tspan></text><path id="repair_reasoning_arrow_0" d="M457 249 H558 V244 L580 253 L558 262 V257 H457 Z" fill="#fff" stroke="#000" stroke-width="1" /><path id="repair_reasoning_arrow_1" d="M457 284 H558 V279 L580 288 L558 297 V292 H457 Z" fill="#fff" stroke="#000" stroke-width="1" /><path id="repair_reasoning_arrow_27" d="M457 344 H558 V339 L580 348 L558 357 V352 H457 Z" fill="#fff" stroke="#000" stroke-width="1" /></g></g>
+
+    
+    <g id="perception_layer_group">
+      <text x="450" y="526" fill="#c49b20" font-family="Arial" font-size="12" font-weight="700" id="plus_node_142">Perception Layer</text>
+      <rect x="388" y="394" width="48" height="124" fill="#fffaf0" stroke="#000" id="plus_node_143" />
+      <text x="396" y="417" class="math" id="plus_node_144">S<tspan baseline-shift="super" font-size="8">(ℓ)</tspan><tspan baseline-shift="sub" font-size="8">v</tspan>(0)</text>
+      <line x1="388" y1="430" x2="436" y2="430" stroke="#000" id="plus_node_145" />
+      <text x="396" y="450" class="math" id="plus_node_146">S<tspan baseline-shift="super" font-size="8">(ℓ)</tspan><tspan baseline-shift="sub" font-size="8">v</tspan>(1)</text>
+      <text x="407" y="477" class="label" id="plus_node_147">⋮</text>
+      <line x1="388" y1="490" x2="436" y2="490" stroke="#000" id="plus_node_148" />
+      <text x="393" y="510" class="math" id="plus_node_149">S<tspan baseline-shift="super" font-size="8">(ℓ)</tspan><tspan baseline-shift="sub" font-size="8">v</tspan>(27)</text>
+
+      <path d="M436 412 H478" stroke="#000" marker-end="url(#arrowBlack)" id="plus_node_150" />
+      <rect x="477" y="391" width="11" height="10" rx="1" fill="#8aa37e" id="plus_node_151" />
+      <path d="M479 396 L482 399 L487 392" stroke="#fff" fill="none" stroke-width="1.2" id="plus_node_152" />
+      <text x="492" y="400" class="tiny" font-weight="700" id="plus_node_153">YES</text>
+      <path d="M436 448 H478" stroke="#000" marker-end="url(#arrowBlack)" id="plus_node_154" />
+      <rect x="477" y="424" width="11" height="10" rx="1" fill="#8aa37e" id="plus_node_155" />
+      <path d="M479 429 L482 432 L487 425" stroke="#fff" fill="none" stroke-width="1.2" id="plus_node_156" />
+      <text x="492" y="433" class="tiny" font-weight="700" id="plus_node_157">YES</text>
+      <path d="M436 505 H478" stroke="#000" marker-end="url(#arrowBlack)" id="plus_node_158" />
+      <rect x="477" y="485" width="11" height="10" rx="1" fill="#b1003a" id="plus_node_159" />
+      <path d="M480 487 L486 493 M486 487 L480 493" stroke="#fff" stroke-width="1.3" id="plus_node_160" />
+      <text x="492" y="494" class="tiny" font-weight="700" id="plus_node_161">NO</text>
+
+      <rect x="457" y="456" width="87" height="26" rx="4" fill="#fff7db" stroke="#c49b20" stroke-width="1.2" stroke-dasharray="4 3" id="plus_node_162" />
+      <text x="465" y="474" class="math" id="plus_node_163">S<tspan baseline-shift="super" font-size="8">(ℓ)</tspan><tspan baseline-shift="sub" font-size="8">v</tspan> &gt; τ̄<tspan baseline-shift="sub" font-size="8">perc</tspan>?</text><path d="M544 469 H562" stroke="#000" marker-end="url(#arrowBlack)" id="plus_node_164" />
+
+      <rect x="562" y="393" width="68" height="125" fill="#f1f3ed" stroke="#000" id="plus_node_165" />
+      <text x="572" y="416" class="math" id="plus_node_166">g<tspan baseline-shift="super" font-size="8">(0,ℓ)</tspan> = g<tspan baseline-shift="sub" font-size="8">perc</tspan></text>
+      <line x1="562" y1="431" x2="630" y2="431" stroke="#000" id="plus_node_167" />
+      <text x="572" y="451" class="math" id="plus_node_168">g<tspan baseline-shift="super" font-size="8">(1,ℓ)</tspan> = g<tspan baseline-shift="sub" font-size="8">perc</tspan></text>
+      <text x="591" y="478" class="label" id="plus_node_169">⋮</text>
+      <line x1="562" y1="490" x2="630" y2="490" stroke="#000" id="plus_node_170" />
+      <text x="576" y="510" class="math" id="plus_node_171">g<tspan baseline-shift="super" font-size="8">(27,ℓ)</tspan> = 1</text>
+      <path d="M630 456 H663 V207 H649" fill="none" stroke="#c49b20" stroke-width="1.4" marker-end="url(#arrowGold)" id="plus_node_172" />
+    <g id="repair_perception_branch_overlays"><path id="repair_perception_tau_line" d="M412 394 V518" stroke="#c5a33a" stroke-width="2" stroke-dasharray="6 6" fill="none" /><text id="repair_perception_tau_label" x="397" y="391" class="math" font-size="12">τ̄<tspan baseline-shift="sub" font-size="8">perc</tspan></text><path id="repair_perception_arrow_0" d="M457 408 H558 V403 L580 412 L558 421 V416 H457 Z" fill="#fff" stroke="#000" stroke-width="1" /><path id="repair_perception_arrow_1" d="M457 444 H558 V439 L580 448 L558 457 V452 H457 Z" fill="#fff" stroke="#000" stroke-width="1" /><path id="repair_perception_arrow_27" d="M457 501 H558 V496 L580 505 L558 514 V509 H457 Z" fill="#fff" stroke="#000" stroke-width="1" /></g></g>
+  </g>
+
+  
+  <g id="right_gain_content">
+    <title>Overall Gain from Our Method</title>
+    <desc>Origin is the upper layer-head grid. Downward conduction compares the improved grid. Rightward conduction explains that a misallocated most-dominating attention head causes hallucinated answer, while a well allocated dominating head leads to the correct final answer.</desc>
+    <text x="805" y="36" class="title" id="plus_node_173">Overall Gain from Our Method</text>
+    <text x="832" y="58" font-family="Arial" font-size="14" font-style="italic" id="plus_node_174">Head</text>
+    <text x="743" y="156" transform="rotate(-90 743 156)" font-family="Arial" font-size="14" font-style="italic" id="plus_node_175">Layer</text>
+
+    
+    <g id="top_layer_grid">
+      <rect x="752" y="65" width="200" height="198" fill="#fff" id="plus_node_176" />
+      
+      <g id="top_grid_cells" stroke="#fff" stroke-width="2">
+        <rect x="754" y="67" width="18" height="18" class="redCell" id="plus_node_177" />
+        <rect x="776" y="67" width="18" height="18" class="grayCell" id="plus_node_178" />
+        <rect x="798" y="67" width="18" height="18" class="grayCell" id="plus_node_179" />
+        <rect x="820" y="67" width="18" height="18" class="grayCell" id="plus_node_180" />
+        <rect x="842" y="67" width="18" height="18" class="grayCell" id="plus_node_181" />
+        <rect x="864" y="67" width="18" height="18" class="grayCell" id="plus_node_182" />
+        <rect x="886" y="67" width="18" height="18" class="grayCell" id="plus_node_183" />
+        <rect x="908" y="67" width="18" height="18" class="grayCell" id="plus_node_184" />
+        <rect x="930" y="67" width="18" height="18" class="grayCell" id="plus_node_185" />
+
+        <rect x="754" y="89" width="18" height="18" class="grayCell" id="plus_node_186" />
+        <rect x="776" y="89" width="18" height="18" class="grayCell" id="plus_node_187" />
+        <rect x="798" y="89" width="18" height="18" class="grayCell" id="plus_node_188" />
+        <rect x="820" y="89" width="18" height="18" class="grayCell" id="plus_node_189" />
+        <rect x="842" y="89" width="18" height="18" class="grayCell" id="plus_node_190" />
+        <rect x="864" y="89" width="18" height="18" class="grayCell" id="plus_node_191" />
+        <rect x="886" y="89" width="18" height="18" class="blueCell" id="plus_node_192" />
+        <rect x="908" y="89" width="18" height="18" class="grayCell" id="plus_node_193" />
+        <rect x="930" y="89" width="18" height="18" class="grayCell" id="plus_node_194" />
+
+        <rect x="754" y="111" width="18" height="18" class="grayCell" id="plus_node_195" />
+        <rect x="776" y="111" width="18" height="18" class="grayCell" id="plus_node_196" />
+        <rect x="798" y="111" width="18" height="18" class="grayCell" id="plus_node_197" />
+        <rect x="820" y="111" width="18" height="18" class="grayCell" id="plus_node_198" />
+        <rect x="842" y="111" width="18" height="18" class="grayCell" id="plus_node_199" />
+        <rect x="864" y="111" width="18" height="18" class="grayCell" id="plus_node_200" />
+        <rect x="886" y="111" width="18" height="18" class="grayCell" id="plus_node_201" />
+        <rect x="908" y="111" width="18" height="18" class="grayCell" id="plus_node_202" />
+        <rect x="930" y="111" width="18" height="18" class="grayCell" id="plus_node_203" />
+
+        <rect x="754" y="133" width="18" height="18" class="grayCell" id="plus_node_204" />
+        <rect x="776" y="133" width="18" height="18" class="grayCell" id="plus_node_205" />
+        <rect x="798" y="133" width="18" height="18" class="grayCell" id="plus_node_206" />
+        <rect x="820" y="133" width="18" height="18" class="grayCell" id="plus_node_207" />
+        <rect x="842" y="133" width="18" height="18" class="grayCell" id="plus_node_208" />
+        <rect x="864" y="133" width="18" height="18" class="grayCell" id="plus_node_209" />
+        <rect x="886" y="133" width="18" height="18" class="grayCell" id="plus_node_210" />
+        <rect x="908" y="133" width="18" height="18" class="blueCell" id="plus_node_211" />
+        <rect x="930" y="133" width="18" height="18" class="grayCell" id="plus_node_212" />
+
+        <rect x="754" y="155" width="18" height="18" class="grayCell" id="plus_node_213" />
+        <rect x="776" y="155" width="18" height="18" class="grayCell" id="plus_node_214" />
+        <rect x="798" y="155" width="18" height="18" class="grayCell" id="plus_node_215" />
+        <rect x="820" y="155" width="18" height="18" class="redCell" id="plus_node_216" />
+        <rect x="842" y="155" width="18" height="18" class="grayCell" id="plus_node_217" />
+        <rect x="864" y="155" width="18" height="18" class="grayCell" id="plus_node_218" />
+        <rect x="886" y="155" width="18" height="18" class="grayCell" id="plus_node_219" />
+        <rect x="908" y="155" width="18" height="18" class="grayCell" id="plus_node_220" />
+        <rect x="930" y="155" width="18" height="18" class="grayCell" id="plus_node_221" />
+
+        <rect x="754" y="177" width="18" height="18" class="grayCell" id="plus_node_222" />
+        <rect x="776" y="177" width="18" height="18" class="grayCell" id="plus_node_223" />
+        <rect x="798" y="177" width="18" height="18" class="grayCell" id="plus_node_224" />
+        <rect x="820" y="177" width="18" height="18" class="grayCell" id="plus_node_225" />
+        <rect x="842" y="177" width="18" height="18" class="redCell" id="plus_node_226" />
+        <rect x="864" y="177" width="18" height="18" class="grayCell" id="plus_node_227" />
+        <rect x="886" y="177" width="18" height="18" class="redCell" id="plus_node_228" />
+        <rect x="908" y="177" width="18" height="18" class="grayCell" id="plus_node_229" />
+        <rect x="930" y="177" width="18" height="18" class="grayCell" id="plus_node_230" />
+
+        <rect x="754" y="199" width="18" height="18" class="redCell" id="plus_node_231" />
+        <rect x="776" y="199" width="18" height="18" class="grayCell" id="plus_node_232" />
+        <rect x="798" y="199" width="18" height="18" class="grayCell" id="plus_node_233" />
+        <rect x="820" y="199" width="18" height="18" class="grayCell" id="plus_node_234" />
+        <rect x="842" y="199" width="18" height="18" class="grayCell" id="plus_node_235" />
+        <rect x="864" y="199" width="18" height="18" class="grayCell" id="plus_node_236" />
+        <rect x="886" y="199" width="18" height="18" class="grayCell" id="plus_node_237" />
+        <rect x="908" y="199" width="18" height="18" class="grayCell" id="plus_node_238" />
+        <rect x="930" y="199" width="18" height="18" class="grayCell" id="plus_node_239" />
+
+        <rect x="754" y="221" width="18" height="18" class="grayCell" id="plus_node_240" />
+        <rect x="776" y="221" width="18" height="18" class="grayCell" id="plus_node_241" />
+        <rect x="798" y="221" width="18" height="18" class="grayCell" id="plus_node_242" />
+        <rect x="820" y="221" width="18" height="18" class="grayCell" id="plus_node_243" />
+        <rect x="842" y="221" width="18" height="18" class="grayCell" id="plus_node_244" />
+        <rect x="864" y="221" width="18" height="18" class="grayCell" id="plus_node_245" />
+        <rect x="886" y="221" width="18" height="18" class="grayCell" id="plus_node_246" />
+        <rect x="908" y="221" width="18" height="18" class="redCell" id="plus_node_247" />
+        <rect x="930" y="221" width="18" height="18" class="grayCell" id="plus_node_248" />
+
+        <rect x="754" y="243" width="18" height="18" class="grayCell" id="plus_node_249" />
+        <rect x="776" y="243" width="18" height="18" class="grayCell" id="plus_node_250" />
+        <rect x="798" y="243" width="18" height="18" class="grayCell" id="plus_node_251" />
+        <rect x="820" y="243" width="18" height="18" class="grayCell" id="plus_node_252" />
+        <rect x="842" y="243" width="18" height="18" class="grayCell" id="plus_node_253" />
+        <rect x="864" y="243" width="18" height="18" class="grayCell" id="plus_node_254" />
+        <rect x="886" y="243" width="18" height="18" class="grayCell" id="plus_node_255" />
+        <rect x="908" y="243" width="18" height="18" class="grayCell" id="plus_node_256" />
+        <rect x="930" y="243" width="18" height="18" class="grayCell" id="plus_node_257" />
+      </g>
+      <rect x="752" y="65" width="200" height="198" fill="none" stroke="#000" stroke-dasharray="5 4" id="plus_node_258" />
+      <line x1="752" y1="110" x2="952" y2="110" stroke="#000" stroke-dasharray="5 4" id="plus_node_259" />
+      <line x1="752" y1="131" x2="952" y2="131" stroke="#000" stroke-dasharray="5 4" id="plus_node_260" />
+      <text x="757" y="90" fill="#555" font-family="Arial" font-size="14" font-weight="700" id="plus_node_261">Perception</text>
+      <text x="770" y="108" fill="#555" font-family="Arial" font-size="14" font-weight="700" id="plus_node_262">Layers</text>
+      <text x="757" y="244" fill="#555" font-family="Arial" font-size="14" font-weight="700" id="plus_node_263">Reasoning</text>
+      <text x="770" y="260" fill="#555" font-family="Arial" font-size="14" font-weight="700" id="plus_node_264">Layers</text>
+      
+      <ellipse cx="807" cy="78" rx="8" ry="4.8" fill="none" stroke="#000" id="plus_node_265" />
+      <circle cx="807" cy="78" r="2.4" fill="#000" id="plus_node_266" />
+      <ellipse cx="896" cy="100" rx="8" ry="4.8" fill="none" stroke="#000" id="plus_node_267" />
+      <circle cx="896" cy="100" r="2.4" fill="#000" id="plus_node_268" />
+      <g fill="none" stroke="#555" stroke-width="1" id="plus_node_269">
+        <path d="M783 163 q2 -8 9 -3 q7 -7 13 1 q7 1 5 8 q-1 6 -9 5 h-12 q-8 0 -6 -11z" id="plus_node_270" />
+        <path d="M825 185 q2 -8 9 -3 q7 -7 13 1 q7 1 5 8 q-1 6 -9 5 h-12 q-8 0 -6 -11z" id="plus_node_271" />
+        <path d="M846 209 q2 -8 9 -3 q7 -7 13 1 q7 1 5 8 q-1 6 -9 5 h-12 q-8 0 -6 -11z" id="plus_node_272" />
+        <path d="M934 229 q2 -8 9 -3 q7 -7 13 1 q7 1 5 8 q-1 6 -9 5 h-12 q-8 0 -6 -11z" id="plus_node_273" />
+        <path d="M912 141 q2 -8 9 -3 q7 -7 13 1 q7 1 5 8 q-1 6 -9 5 h-12 q-8 0 -6 -11z" id="plus_node_274" />
+      </g>
+    </g>
+
+    
+    <g id="legend_group">
+      <path d="M976 69 q2 -8 10 -4 q7 -8 14 0 q7 1 5 8 q-2 7 -10 6 h-12 q-8 0 -7 -10z" fill="none" stroke="#000" id="plus_node_275" />
+      <text x="1002" y="68" class="small" id="plus_node_276">Better</text>
+      <text x="1002" y="83" class="small" id="plus_node_277">Reasoning Heads</text>
+      <ellipse cx="982" cy="107" rx="10" ry="6" fill="none" stroke="#000" id="plus_node_278" />
+      <circle cx="982" cy="107" r="2.7" fill="#000" id="plus_node_279" />
+      <text x="1002" y="105" class="small" id="plus_node_280">Better</text>
+      <text x="1002" y="120" class="small" id="plus_node_281">Perception Heads</text>
+      <rect x="973" y="132" width="22" height="22" class="redCell" id="plus_node_282" />
+      <text x="1002" y="140" class="small" id="plus_node_283">Misallocated</text>
+      <text x="1002" y="155" class="small" id="plus_node_284">Dominating AttnHeads</text>
+      <rect x="973" y="167" width="22" height="22" class="blueCell" id="plus_node_285" />
+      <text x="1002" y="176" class="small" id="plus_node_286">Well-allocated</text>
+      <text x="1002" y="191" class="small" id="plus_node_287">Dominating AttnHeads</text>
+    </g>
+
+    
+    <g id="top_conclusion">
+      <rect x="977" y="225" width="10" height="10" rx="1" fill="#b1003a" id="plus_node_288" />
+      <path d="M980 227 L985 233 M985 227 L980 233" stroke="#fff" stroke-width="1.2" id="plus_node_289" />
+      <path d="M991 240 H1006" stroke="#000" stroke-width="3" marker-end="url(#arrowBlack)" id="plus_node_290" />
+      <text x="1022" y="224" font-family="Arial" font-size="13" font-style="italic" font-weight="700" id="plus_node_291">Most Dominating</text>
+      <text x="1022" y="240" font-family="Arial" font-size="13" font-style="italic" font-weight="700" text-decoration="underline" id="plus_node_292">AttnHeads</text>
+      <text x="1022" y="256" font-family="Arial" font-size="13" font-style="italic" font-weight="700" text-decoration="underline" id="plus_node_293">Misallocated</text>
+      <path d="M1058 265 V286" stroke="#000" stroke-width="3" marker-end="url(#arrowBlack)" id="plus_node_294" />
+      <text x="1022" y="304" font-family="Arial" font-size="16" font-style="italic" font-weight="700" text-decoration="underline" id="plus_node_295">Hallucinated</text>
+      <text x="1022" y="322" font-family="Arial" font-size="16" font-style="italic" font-weight="700" text-decoration="underline" id="plus_node_296">Final Answer</text>
+    </g>
+
+    
+    <path d="M851 271 V298" stroke="#000" stroke-width="2" marker-end="url(#arrowBlack)" id="plus_node_297" />
+    <text x="858" y="286" font-family="Arial" font-size="14" id="plus_node_298">Improved</text>
+    <text x="858" y="302" font-family="Arial" font-size="14" font-style="italic" id="plus_node_299">Head</text>
+
+    
+    <text x="743" y="416" transform="rotate(-90 743 416)" font-family="Arial" font-size="14" font-style="italic" id="plus_node_300">Layer</text>
+    <g id="bottom_layer_grid">
+      <rect x="752" y="323" width="200" height="198" fill="#fff" id="plus_node_301" />
+      <g id="bottom_grid_cells" stroke="#fff" stroke-width="2">
+        <rect x="754" y="325" width="18" height="18" class="grayCell" id="plus_node_302" />
+        <rect x="776" y="325" width="18" height="18" class="grayCell" id="plus_node_303" />
+        <rect x="798" y="325" width="18" height="18" class="blueCell" id="plus_node_304" />
+        <rect x="820" y="325" width="18" height="18" class="grayCell" id="plus_node_305" />
+        <rect x="842" y="325" width="18" height="18" class="grayCell" id="plus_node_306" />
+        <rect x="864" y="325" width="18" height="18" class="grayCell" id="plus_node_307" />
+        <rect x="886" y="325" width="18" height="18" class="grayCell" id="plus_node_308" />
+        <rect x="908" y="325" width="18" height="18" class="grayCell" id="plus_node_309" />
+        <rect x="930" y="325" width="18" height="18" class="grayCell" id="plus_node_310" />
+
+        <rect x="754" y="347" width="18" height="18" class="grayCell" id="plus_node_311" />
+        <rect x="776" y="347" width="18" height="18" class="grayCell" id="plus_node_312" />
+        <rect x="798" y="347" width="18" height="18" class="grayCell" id="plus_node_313" />
+        <rect x="820" y="347" width="18" height="18" class="grayCell" id="plus_node_314" />
+        <rect x="842" y="347" width="18" height="18" class="grayCell" id="plus_node_315" />
+        <rect x="864" y="347" width="18" height="18" class="grayCell" id="plus_node_316" />
+        <rect x="886" y="347" width="18" height="18" class="blueCell" id="plus_node_317" />
+        <rect x="908" y="347" width="18" height="18" class="grayCell" id="plus_node_318" />
+        <rect x="930" y="347" width="18" height="18" class="grayCell" id="plus_node_319" />
+
+        <rect x="754" y="369" width="18" height="18" class="grayCell" id="plus_node_320" />
+        <rect x="776" y="369" width="18" height="18" class="grayCell" id="plus_node_321" />
+        <rect x="798" y="369" width="18" height="18" class="grayCell" id="plus_node_322" />
+        <rect x="820" y="369" width="18" height="18" class="grayCell" id="plus_node_323" />
+        <rect x="842" y="369" width="18" height="18" class="grayCell" id="plus_node_324" />
+        <rect x="864" y="369" width="18" height="18" class="grayCell" id="plus_node_325" />
+        <rect x="886" y="369" width="18" height="18" class="grayCell" id="plus_node_326" />
+        <rect x="908" y="369" width="18" height="18" class="blueCell" id="plus_node_327" />
+        <rect x="930" y="369" width="18" height="18" class="grayCell" id="plus_node_328" />
+
+        <rect x="754" y="391" width="18" height="18" class="grayCell" id="plus_node_329" />
+        <rect x="776" y="391" width="18" height="18" class="blueCell" id="plus_node_330" />
+        <rect x="798" y="391" width="18" height="18" class="grayCell" id="plus_node_331" />
+        <rect x="820" y="391" width="18" height="18" class="grayCell" id="plus_node_332" />
+        <rect x="842" y="391" width="18" height="18" class="grayCell" id="plus_node_333" />
+        <rect x="864" y="391" width="18" height="18" class="grayCell" id="plus_node_334" />
+        <rect x="886" y="391" width="18" height="18" class="grayCell" id="plus_node_335" />
+        <rect x="908" y="391" width="18" height="18" class="grayCell" id="plus_node_336" />
+        <rect x="930" y="391" width="18" height="18" class="grayCell" id="plus_node_337" />
+
+        <rect x="754" y="413" width="18" height="18" class="grayCell" id="plus_node_338" />
+        <rect x="776" y="413" width="18" height="18" class="grayCell" id="plus_node_339" />
+        <rect x="798" y="413" width="18" height="18" class="grayCell" id="plus_node_340" />
+        <rect x="820" y="413" width="18" height="18" class="grayCell" id="plus_node_341" />
+        <rect x="842" y="413" width="18" height="18" class="grayCell" id="plus_node_342" />
+        <rect x="864" y="413" width="18" height="18" class="grayCell" id="plus_node_343" />
+        <rect x="886" y="413" width="18" height="18" class="redCell" id="plus_node_344" />
+        <rect x="908" y="413" width="18" height="18" class="grayCell" id="plus_node_345" />
+        <rect x="930" y="413" width="18" height="18" class="grayCell" id="plus_node_346" />
+
+        <rect x="754" y="435" width="18" height="18" class="grayCell" id="plus_node_347" />
+        <rect x="776" y="435" width="18" height="18" class="grayCell" id="plus_node_348" />
+        <rect x="798" y="435" width="18" height="18" class="grayCell" id="plus_node_349" />
+        <rect x="820" y="435" width="18" height="18" class="grayCell" id="plus_node_350" />
+        <rect x="842" y="435" width="18" height="18" class="grayCell" id="plus_node_351" />
+        <rect x="864" y="435" width="18" height="18" class="grayCell" id="plus_node_352" />
+        <rect x="886" y="435" width="18" height="18" class="grayCell" id="plus_node_353" />
+        <rect x="908" y="435" width="18" height="18" class="grayCell" id="plus_node_354" />
+        <rect x="930" y="435" width="18" height="18" class="grayCell" id="plus_node_355" />
+
+        <rect x="754" y="457" width="18" height="18" class="grayCell" id="plus_node_356" />
+        <rect x="776" y="457" width="18" height="18" class="grayCell" id="plus_node_357" />
+        <rect x="798" y="457" width="18" height="18" class="grayCell" id="plus_node_358" />
+        <rect x="820" y="457" width="18" height="18" class="grayCell" id="plus_node_359" />
+        <rect x="842" y="457" width="18" height="18" class="blueCell" id="plus_node_360" />
+        <rect x="864" y="457" width="18" height="18" class="grayCell" id="plus_node_361" />
+        <rect x="886" y="457" width="18" height="18" class="grayCell" id="plus_node_362" />
+        <rect x="908" y="457" width="18" height="18" class="grayCell" id="plus_node_363" />
+        <rect x="930" y="457" width="18" height="18" class="grayCell" id="plus_node_364" />
+
+        <rect x="754" y="479" width="18" height="18" class="grayCell" id="plus_node_365" />
+        <rect x="776" y="479" width="18" height="18" class="grayCell" id="plus_node_366" />
+        <rect x="798" y="479" width="18" height="18" class="grayCell" id="plus_node_367" />
+        <rect x="820" y="479" width="18" height="18" class="grayCell" id="plus_node_368" />
+        <rect x="842" y="479" width="18" height="18" class="grayCell" id="plus_node_369" />
+        <rect x="864" y="479" width="18" height="18" class="grayCell" id="plus_node_370" />
+        <rect x="886" y="479" width="18" height="18" class="grayCell" id="plus_node_371" />
+        <rect x="908" y="479" width="18" height="18" class="grayCell" id="plus_node_372" />
+        <rect x="930" y="479" width="18" height="18" class="blueCell" id="plus_node_373" />
+
+        <rect x="754" y="501" width="18" height="18" class="grayCell" id="plus_node_374" />
+        <rect x="776" y="501" width="18" height="18" class="grayCell" id="plus_node_375" />
+        <rect x="798" y="501" width="18" height="18" class="grayCell" id="plus_node_376" />
+        <rect x="820" y="501" width="18" height="18" class="grayCell" id="plus_node_377" />
+        <rect x="842" y="501" width="18" height="18" class="grayCell" id="plus_node_378" />
+        <rect x="864" y="501" width="18" height="18" class="grayCell" id="plus_node_379" />
+        <rect x="886" y="501" width="18" height="18" class="grayCell" id="plus_node_380" />
+        <rect x="908" y="501" width="18" height="18" class="grayCell" id="plus_node_381" />
+        <rect x="930" y="501" width="18" height="18" class="grayCell" id="plus_node_382" />
+      </g>
+      <rect x="752" y="323" width="200" height="198" fill="none" stroke="#000" stroke-dasharray="5 4" id="plus_node_383" />
+      <line x1="752" y1="358" x2="952" y2="358" stroke="#000" stroke-dasharray="5 4" id="plus_node_384" />
+      <line x1="752" y1="390" x2="952" y2="390" stroke="#000" stroke-dasharray="5 4" id="plus_node_385" />
+      <text x="820" y="341" fill="#555" font-family="Arial" font-size="14" font-weight="700" id="plus_node_386">Perception</text>
+      <text x="822" y="360" fill="#555" font-family="Arial" font-size="14" font-weight="700" id="plus_node_387">Layers</text>
+      <text x="820" y="500" fill="#555" font-family="Arial" font-size="14" font-weight="700" id="plus_node_388">Reasoning</text>
+      <text x="823" y="516" fill="#555" font-family="Arial" font-size="14" font-weight="700" id="plus_node_389">Layers</text>
+      <ellipse cx="807" cy="336" rx="8" ry="4.8" fill="none" stroke="#000" id="plus_node_390" />
+      <circle cx="807" cy="336" r="2.4" fill="#000" id="plus_node_391" />
+      <ellipse cx="896" cy="358" rx="8" ry="4.8" fill="none" stroke="#000" id="plus_node_392" />
+      <circle cx="896" cy="358" r="2.4" fill="#000" id="plus_node_393" />
+      <g fill="none" stroke="#555" stroke-width="1" id="plus_node_394">
+        <path d="M823 444 q2 -8 9 -3 q7 -7 13 1 q7 1 5 8 q-1 6 -9 5 h-12 q-8 0 -6 -11z" id="plus_node_395" />
+      </g>
+      <ellipse cx="787" cy="424" rx="8" ry="4.8" fill="none" stroke="#000" id="plus_node_396" />
+      <circle cx="787" cy="424" r="2.4" fill="#000" id="plus_node_397" />
+      <ellipse cx="852" cy="468" rx="8" ry="4.8" fill="none" stroke="#000" id="plus_node_398" />
+      <circle cx="852" cy="468" r="2.4" fill="#000" id="plus_node_399" />
+      <ellipse cx="941" cy="490" rx="8" ry="4.8" fill="none" stroke="#000" id="plus_node_400" />
+      <circle cx="941" cy="490" r="2.4" fill="#000" id="plus_node_401" />
+    </g>
+
+    
+    <g id="bottom_conclusion">
+      <rect x="981" y="397" width="11" height="11" rx="1" fill="#3f7a55" id="plus_node_402" />
+      <path d="M983 402 L986 405 L991 398" stroke="#fff" fill="none" stroke-width="1.2" id="plus_node_403" />
+      <path d="M996 413 H1010" stroke="#000" stroke-width="3" marker-end="url(#arrowBlack)" id="plus_node_404" />
+      <text x="1022" y="400" font-family="Arial" font-size="13" font-style="italic" font-weight="700" id="plus_node_405">Most Dominating</text>
+      <text x="1022" y="416" font-family="Arial" font-size="13" font-style="italic" font-weight="700" text-decoration="underline" id="plus_node_406">AttnHeads</text>
+      <text x="1022" y="432" font-family="Arial" font-size="13" font-style="italic" font-weight="700" text-decoration="underline" id="plus_node_407">Well allocated</text>
+      <path d="M1058 442 V463" stroke="#000" stroke-width="3" marker-end="url(#arrowBlack)" id="plus_node_408" />
+      <text x="1022" y="481" font-family="Arial" font-size="16" font-style="italic" font-weight="700" text-decoration="underline" id="plus_node_409">Correct</text>
+      <text x="1022" y="501" font-family="Arial" font-size="16" font-style="italic" font-weight="700" text-decoration="underline" id="plus_node_410">Final Answer</text>
+    </g>
+  </g>
+</svg>

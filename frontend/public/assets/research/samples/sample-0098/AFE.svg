@@ -1,0 +1,150 @@
+<svg width="3840" height="1157" viewBox="0 0 3840 1157" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <marker id="arrowBlack" markerWidth="18" markerHeight="14" refX="1" refY="7" orient="auto" markerUnits="strokeWidth">
+      <path d="M1,7 L18,1 L18,13 Z" fill="#000"/>
+    </marker>
+    <marker id="arrowBlue" markerWidth="18" markerHeight="14" refX="1" refY="7" orient="auto" markerUnits="strokeWidth">
+      <path d="M1,7 L18,1 L18,13 Z" fill="#0b78bd"/>
+    </marker>
+    <marker id="arrowBlackEnd" markerWidth="18" markerHeight="14" refX="17" refY="7" orient="auto" markerUnits="strokeWidth">
+      <path d="M17,7 L0,1 L0,13 Z" fill="#000"/>
+    </marker>
+    <pattern id="diagHatch" width="28" height="28" patternUnits="userSpaceOnUse">
+      <path d="M-8,30 L30,-8 M6,34 L34,6 M-22,26 L26,-22" stroke="#000" stroke-width="9" stroke-linecap="butt"/>
+    </pattern>
+  </defs>
+
+  <rect width="3840" height="1157" fill="#fff"/>
+
+  <text x="430" y="87" font-family="Arial, Helvetica, sans-serif" font-size="75" font-weight="700" fill="#000">Biased train/val distribution</text>
+  <text x="2432" y="68" font-family="Arial, Helvetica, sans-serif" font-size="75" font-weight="700" fill="#000">Unbiased test distribution</text>
+
+  <!-- Left causal graph -->
+  <g font-family="Arial, Helvetica, sans-serif" fill="#000" stroke-linecap="butt">
+    <text x="590" y="265" font-size="82">X<tspan baseline-shift="sub" font-size="45">S</tspan></text>
+    <text x="590" y="461" font-size="82">X<tspan baseline-shift="sub" font-size="45">A</tspan></text>
+    <text x="590" y="657" font-size="82">X<tspan baseline-shift="sub" font-size="45">Y</tspan></text>
+    <text x="918" y="265" font-size="82">S</text>
+    <text x="918" y="461" font-size="82">A</text>
+    <text x="918" y="657" font-size="82">Y</text>
+
+    <line x1="921" y1="332" x2="642" y2="332" stroke="#000" stroke-width="9" marker-end="url(#arrowBlack)"/>
+    <line x1="921" y1="518" x2="642" y2="518" stroke="#000" stroke-width="9" marker-end="url(#arrowBlack)"/>
+    <line x1="921" y1="704" x2="642" y2="704" stroke="#000" stroke-width="9" marker-end="url(#arrowBlack)"/>
+
+    <line x1="975" y1="332" x2="1299" y2="491" stroke="#0b78bd" stroke-width="9" marker-end="url(#arrowBlue)"/>
+    <line x1="978" y1="518" x2="1296" y2="523" stroke="#0b78bd" stroke-width="9" marker-end="url(#arrowBlue)"/>
+    <line x1="975" y1="704" x2="1299" y2="552" stroke="#0b78bd" stroke-width="9" marker-end="url(#arrowBlue)"/>
+
+    <circle cx="612" cy="332" r="29" fill="#000"/>
+    <circle cx="950" cy="332" r="29" fill="#000"/>
+    <circle cx="612" cy="518" r="29" fill="#000"/>
+    <circle cx="950" cy="518" r="29" fill="#000"/>
+    <circle cx="612" cy="704" r="29" fill="#000"/>
+    <circle cx="950" cy="704" r="29" fill="#000"/>
+    <circle cx="1326" cy="523" r="29" fill="#0b78bd"/>
+
+    <text x="1307" y="458" font-size="78" fill="#0b78bd">Selection</text>
+  </g>
+
+  <!-- Right causal graph -->
+  <g font-family="Arial, Helvetica, sans-serif" fill="#000" stroke-linecap="butt">
+    <text x="2562" y="265" font-size="82">X<tspan baseline-shift="sub" font-size="45">S</tspan></text>
+    <text x="2562" y="461" font-size="82">X<tspan baseline-shift="sub" font-size="45">A</tspan></text>
+    <text x="2562" y="657" font-size="82">X<tspan baseline-shift="sub" font-size="45">Y</tspan></text>
+    <text x="2893" y="265" font-size="82">S</text>
+    <text x="2893" y="461" font-size="82">A</text>
+    <text x="2893" y="657" font-size="82">Y</text>
+
+    <line x1="2897" y1="332" x2="2618" y2="332" stroke="#000" stroke-width="9" marker-end="url(#arrowBlack)"/>
+    <line x1="2897" y1="518" x2="2618" y2="518" stroke="#000" stroke-width="9" marker-end="url(#arrowBlack)"/>
+    <line x1="2897" y1="704" x2="2618" y2="704" stroke="#000" stroke-width="9" marker-end="url(#arrowBlack)"/>
+
+    <circle cx="2588" cy="332" r="29" fill="#000"/>
+    <circle cx="2926" cy="332" r="29" fill="#000"/>
+    <circle cx="2588" cy="518" r="29" fill="#000"/>
+    <circle cx="2926" cy="518" r="29" fill="#000"/>
+    <circle cx="2588" cy="704" r="29" fill="#000"/>
+    <circle cx="2926" cy="704" r="29" fill="#000"/>
+  </g>
+
+  <!-- Legend -->
+  <g font-family="Arial, Helvetica, sans-serif" fill="#000">
+    <rect x="1562" y="523" width="738" height="342" fill="#fff" stroke="#777" stroke-width="5"/>
+    <text x="1818" y="598" font-size="55">Legend:</text>
+
+    <rect x="1598" y="633" width="73" height="73" fill="#000"/>
+    <text x="1695" y="684" font-size="45">Y = 0</text>
+
+    <rect x="1833" y="633" width="73" height="73" fill="#fff"/>
+    <rect x="1833" y="633" width="73" height="73" fill="url(#diagHatch)"/>
+    <rect x="1833" y="633" width="73" height="73" fill="none" stroke="#000" stroke-width="9"/>
+    <text x="1929" y="684" font-size="45">A = 0</text>
+
+    <rect x="2070" y="633" width="73" height="73" fill="#fff" stroke="#ff8c00" stroke-width="10"/>
+    <text x="2166" y="684" font-size="45">S = 0</text>
+
+    <rect x="1598" y="770" width="73" height="73" fill="#fff" stroke="#000" stroke-width="9"/>
+    <text x="1695" y="821" font-size="45">Y = 1</text>
+
+    <rect x="1833" y="770" width="73" height="73" fill="#fff" stroke="#000" stroke-width="9"/>
+    <text x="1929" y="821" font-size="45">A = 1</text>
+
+    <rect x="2070" y="770" width="73" height="73" fill="#fff" stroke="#20a3cf" stroke-width="10"/>
+    <text x="2166" y="821" font-size="45">S = 1</text>
+  </g>
+
+  <!-- Train distribution label and arrow -->
+  <g font-family="Arial, Helvetica, sans-serif" fill="#000">
+    <text x="995" y="866" font-size="55" text-anchor="middle">P<tspan baseline-shift="sub" font-size="35">train</tspan></text>
+    <line x1="108" y1="898" x2="1818" y2="898" stroke="#000" stroke-width="7" marker-start="url(#arrowBlack)" marker-end="url(#arrowBlackEnd)"/>
+  </g>
+
+  <!-- Train distribution bar -->
+  <g>
+    <rect x="92" y="910" width="435" height="178" fill="#ff8c00"/>
+    <rect x="527" y="910" width="438" height="178" fill="#20a3cf"/>
+    <rect x="965" y="910" width="434" height="178" fill="#ff8c00"/>
+    <rect x="1399" y="910" width="438" height="178" fill="#20a3cf"/>
+
+    <rect x="119" y="936" width="344" height="119" fill="url(#diagHatch)"/>
+    <rect x="557" y="936" width="260" height="119" fill="url(#diagHatch)"/>
+
+    <rect x="993" y="936" width="12" height="119" fill="#fff"/>
+    <rect x="993" y="936" width="12" height="119" fill="url(#diagHatch)"/>
+
+    <rect x="1058" y="936" width="314" height="120" fill="#fff"/>
+
+    <rect x="1427" y="936" width="74" height="120" fill="#fff"/>
+    <rect x="1427" y="936" width="74" height="120" fill="url(#diagHatch)"/>
+
+    <rect x="1554" y="936" width="256" height="120" fill="#fff"/>
+  </g>
+
+  <!-- Test distribution label and arrow -->
+  <g font-family="Arial, Helvetica, sans-serif" fill="#000">
+    <text x="2928" y="866" font-size="55" text-anchor="middle">P<tspan baseline-shift="sub" font-size="35">test</tspan></text>
+    <line x1="2060" y1="898" x2="3773" y2="898" stroke="#000" stroke-width="7" marker-start="url(#arrowBlack)" marker-end="url(#arrowBlackEnd)"/>
+  </g>
+
+  <!-- Test distribution bar -->
+  <g>
+    <rect x="2042" y="910" width="435" height="178" fill="#ff8c00"/>
+    <rect x="2477" y="910" width="438" height="178" fill="#20a3cf"/>
+    <rect x="2915" y="910" width="438" height="178" fill="#ff8c00"/>
+    <rect x="3353" y="910" width="438" height="178" fill="#20a3cf"/>
+
+    <rect x="2070" y="936" width="160" height="119" fill="url(#diagHatch)"/>
+    <rect x="2505" y="936" width="170" height="119" fill="url(#diagHatch)"/>
+
+    <rect x="2944" y="936" width="164" height="120" fill="#fff"/>
+    <rect x="2944" y="936" width="164" height="120" fill="url(#diagHatch)"/>
+
+    <rect x="3158" y="936" width="164" height="120" fill="#fff"/>
+
+    <rect x="3382" y="936" width="164" height="120" fill="#fff"/>
+    <rect x="3382" y="936" width="164" height="120" fill="url(#diagHatch)"/>
+
+    <rect x="3594" y="936" width="162" height="120" fill="#fff"/>
+  </g>
+</svg>

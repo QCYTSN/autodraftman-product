@@ -1,0 +1,307 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1054" height="601" viewBox="0 0 1054 601">
+  <title>Cross-view optimization diagram comparing ambiguous original 3D-GS and CVO constrained joint optimization</title>
+  <desc>
+    Base frames: f01 contains the initial point cloud, f02 contains the ground-truth Gaussian splat, f03 contains the top no-CVO optimization comparison, and f04 contains the bottom with-CVO optimization comparison. Conduction drawing inventories: f01 includes a dotted point cloud of an outdoor scene, title text, a highlighted red origin point, and an outgoing initialization arrow. f02 includes title text and a sparse ground-truth arrangement of three colored camera frustums and two green/yellow Gaussian splats. f03 includes iteration-i title without CVO, iteration-i+1 title without CVO, independent camera views, green splats, curved arrows, three black question arrows, possible result labels, ambiguous transformed splats, and camera frustums. f04 includes iteration-i title with CVO, iteration-i+1 title with CVO, correlated camera/splat geometry, green annotation, and the ground-truth direction arrow. Symmetry basis: the two right panels are vertically aligned and equal width; left top and bottom frames share the same left and right edges; right-panel contents are horizontally partitioned into iteration-i construction and iteration-i+1 outcomes.
+  </desc>
+
+  <defs>
+    <marker id="arrowBlack" viewBox="0 0 10 8" refX="9" refY="4" markerWidth="9" markerHeight="7" orient="auto" markerUnits="userSpaceOnUse">
+      <path d="M0,0 L10,4 L0,8 Z" fill="#333333" id="plus_node_0" />
+    </marker>
+    <marker id="arrowGray" viewBox="0 0 10 8" refX="9" refY="4" markerWidth="8" markerHeight="6" orient="auto" markerUnits="userSpaceOnUse">
+      <path d="M0,0 L10,4 L0,8 Z" fill="#777777" id="plus_node_1" />
+    </marker>
+    <marker id="arrowNavy" viewBox="0 0 10 8" refX="9" refY="4" markerWidth="10" markerHeight="8" orient="auto" markerUnits="userSpaceOnUse">
+      <path d="M0,0 L10,4 L0,8 Z" fill="#18316b" id="plus_node_2" />
+    </marker>
+    <marker id="arrowNavyStart" viewBox="0 0 10 8" refX="1" refY="4" markerWidth="10" markerHeight="8" orient="auto-start-reverse" markerUnits="userSpaceOnUse">
+      <path d="M10,0 L0,4 L10,8 Z" fill="#18316b" id="plus_node_3" />
+    </marker>
+    <marker id="tinyArrowBlue" viewBox="0 0 10 8" refX="9" refY="4" markerWidth="5" markerHeight="4" orient="auto" markerUnits="userSpaceOnUse">
+      <path d="M0,0 L10,4 L0,8 Z" fill="#233d7e" id="plus_node_4" />
+    </marker>
+
+    <radialGradient id="splatGrad" cx="47%" cy="44%" r="65%">
+      <stop offset="0%" stop-color="#6cc04a" stop-opacity="0.95" />
+      <stop offset="38%" stop-color="#8bcf5a" stop-opacity="0.85" />
+      <stop offset="70%" stop-color="#e0d982" stop-opacity="0.58" />
+      <stop offset="100%" stop-color="#f1d880" stop-opacity="0" />
+    </radialGradient>
+    <radialGradient id="splatGradStrong" cx="45%" cy="45%" r="65%">
+      <stop offset="0%" stop-color="#4bb13f" stop-opacity="0.98" />
+      <stop offset="42%" stop-color="#93d15c" stop-opacity="0.88" />
+      <stop offset="78%" stop-color="#e8d878" stop-opacity="0.5" />
+      <stop offset="100%" stop-color="#f3d981" stop-opacity="0" />
+    </radialGradient>
+    <radialGradient id="cloudWhite" cx="45%" cy="45%" r="70%">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="0.96" />
+      <stop offset="65%" stop-color="#f7f2e9" stop-opacity="0.8" />
+      <stop offset="100%" stop-color="#f7f2e9" stop-opacity="0" />
+    </radialGradient>
+    <pattern id="pointPatternGreen" width="8" height="8" patternUnits="userSpaceOnUse">
+      <circle cx="1.1" cy="1.2" r=".55" fill="#637b50" opacity=".55" id="plus_node_5" />
+      <circle cx="4.2" cy="2.3" r=".45" fill="#9b9b83" opacity=".42" id="plus_node_6" />
+      <circle cx="6.8" cy="5.2" r=".55" fill="#71895a" opacity=".55" id="plus_node_7" />
+      <circle cx="2.8" cy="6.7" r=".35" fill="#4f6743" opacity=".43" id="plus_node_8" />
+    </pattern>
+    <pattern id="pointPatternGray" width="7" height="7" patternUnits="userSpaceOnUse">
+      <circle cx="1" cy="1.5" r=".42" fill="#94947f" opacity=".36" id="plus_node_9" />
+      <circle cx="4.5" cy="3.1" r=".35" fill="#b9a98e" opacity=".28" id="plus_node_10" />
+      <circle cx="6.1" cy="6.1" r=".34" fill="#6d825b" opacity=".34" id="plus_node_11" />
+    </pattern>
+    <clipPath id="clipPointCloud">
+      <rect x="31" y="24" width="263" height="147" id="plus_node_12" />
+    </clipPath>
+    <clipPath id="clipGT">
+      <rect x="31" y="367" width="263" height="217" id="plus_node_13" />
+    </clipPath>
+  </defs>
+
+  <rect id="background" x="0" y="0" width="1054" height="601" fill="#ffffff" />
+
+  
+  <rect id="f01" data-plus-kind="frame" x="31" y="24" width="263" height="147" fill="none" stroke="#b9b9b9" stroke-width="0.8" stroke-dasharray="1.6 1.6" />
+  <rect id="f02" data-plus-kind="frame" x="31" y="367" width="263" height="217" fill="none" stroke="#b9b9b9" stroke-width="0.8" stroke-dasharray="1.6 1.6" />
+  <rect id="f03" data-plus-kind="frame" x="354" y="24" width="686" height="271" fill="none" stroke="#b9b9b9" stroke-width="0.8" stroke-dasharray="1.6 1.6" />
+  <rect id="f04" data-plus-kind="frame" x="354" y="312" width="686" height="272" fill="none" stroke="#b9b9b9" stroke-width="0.8" stroke-dasharray="1.6 1.6" />
+
+  
+  <g id="initial_point_cloud_content" clip-path="url(#clipPointCloud)">
+    <rect x="31" y="24" width="263" height="147" fill="#f8f8f5" id="plus_node_14" />
+    <rect x="31" y="24" width="263" height="147" fill="url(#pointPatternGreen)" opacity=".95" id="plus_node_15" />
+    <path d="M31,52 C45,45 48,28 71,29 C87,31 91,47 108,51 C128,57 155,43 185,54 C214,65 240,48 294,58 L294,24 L31,24 Z" fill="#eff1e8" opacity=".88" id="plus_node_16" />
+    <ellipse cx="116" cy="96" rx="73" ry="42" fill="url(#cloudWhite)" opacity=".92" id="plus_node_17" />
+    <ellipse cx="136" cy="109" rx="86" ry="31" fill="#eee9df" opacity=".55" id="plus_node_18" />
+    <path d="M57,136 C90,130 124,136 158,133 C186,130 225,135 294,126 L294,171 L31,171 L31,145 C39,143 48,140 57,136 Z" fill="#6d8b57" opacity=".18" id="plus_node_19" />
+    <path d="M55,156 C70,151 96,151 110,154 L111,165 C96,164 74,164 55,166 Z" fill="none" stroke="#8a9380" stroke-width="1.1" opacity=".7" id="plus_node_20" />
+    <g fill="#577249" opacity=".62" id="plus_node_21">
+      <circle cx="44" cy="35" r=".7" id="plus_node_22" /><circle cx="49" cy="40" r=".55" id="plus_node_23" /><circle cx="62" cy="58" r=".45" id="plus_node_24" />
+      <circle cx="83" cy="79" r=".5" id="plus_node_25" /><circle cx="96" cy="68" r=".45" id="plus_node_26" /><circle cx="201" cy="82" r=".55" id="plus_node_27" />
+      <circle cx="235" cy="72" r=".5" id="plus_node_28" /><circle cx="264" cy="88" r=".58" id="plus_node_29" /><circle cx="251" cy="118" r=".44" id="plus_node_30" />
+      <circle cx="70" cy="126" r=".55" id="plus_node_31" /><circle cx="89" cy="129" r=".45" id="plus_node_32" /><circle cx="122" cy="132" r=".5" id="plus_node_33" />
+      <circle cx="168" cy="127" r=".5" id="plus_node_34" /><circle cx="214" cy="131" r=".55" id="plus_node_35" /><circle cx="275" cy="126" r=".48" id="plus_node_36" />
+    </g>
+  </g>
+  <text id="txt_initial_pc" x="100" y="40" font-family="Times New Roman, serif" font-size="16" font-style="italic" fill="#111">
+    initial <tspan font-weight="700">Point Cloud</tspan>
+  </text>
+
+  
+  <circle id="origin_red_circle" cx="55.5" cy="143.2" r="5.8" fill="none" stroke="#ff0000" stroke-width="3" />
+  <path id="arrow_init_down_right" d="M55.5,149 L55.5,281.3 L88.5,281.3" fill="none" stroke="#333" stroke-width="1.7" marker-end="url(#arrowBlack)" />
+  <text id="txt_after_initialization" x="109" y="237" font-family="Times New Roman, serif" font-size="16" font-style="italic" fill="#111">
+    after <tspan font-weight="700">initialization</tspan>
+  </text>
+  <ellipse id="init_splat_shadow" cx="160.5" cy="285" rx="14" ry="21" fill="url(#splatGradStrong)" transform="rotate(-13 160.5 285)" />
+  <ellipse id="init_splat_core" cx="160.5" cy="285" rx="5.7" ry="16" fill="#7fc949" opacity=".62" transform="rotate(-13 160.5 285)" />
+  <path id="arrow_init_to_panels" d="M237,281 L337,281" fill="none" stroke="#333" stroke-width="1.8" marker-start="url(#arrowBlack)" marker-end="url(#arrowBlack)" />
+  <path id="arrow_branch_to_bottom" d="M294,281 L294,345.5 L334,345.5" fill="none" stroke="#333" stroke-width="1.7" marker-end="url(#arrowBlack)" />
+
+  
+  <g id="ground_truth_content" clip-path="url(#clipGT)">
+    <text id="txt_ground_truth" x="64" y="385" font-family="Times New Roman, serif" font-size="16" font-style="italic" fill="#111">
+      <tspan font-weight="700">Ground Truth</tspan><tspan> Gaussian Splat</tspan>
+    </text>
+
+    <g id="gt_view3_camera" opacity=".82">
+      <polygon points="112,428 147,436 147,455 111,464" fill="#f9fbff" stroke="#7c94de" stroke-width=".7" id="plus_node_37" />
+      <line x1="112" y1="428" x2="127" y2="446" stroke="#7c94de" stroke-width=".65" id="plus_node_38" />
+      <line x1="147" y1="436" x2="127" y2="446" stroke="#7c94de" stroke-width=".65" id="plus_node_39" />
+      <line x1="147" y1="455" x2="127" y2="446" stroke="#7c94de" stroke-width=".65" id="plus_node_40" />
+      <line x1="111" y1="464" x2="127" y2="446" stroke="#7c94de" stroke-width=".65" id="plus_node_41" />
+      <ellipse cx="129" cy="449" rx="8.8" ry="7.1" fill="url(#splatGradStrong)" id="plus_node_42" />
+    </g>
+
+    <ellipse id="gt_center_splat" cx="157" cy="492" rx="12" ry="11" fill="url(#splatGradStrong)" />
+    <ellipse cx="157" cy="492" rx="6.2" ry="6.8" fill="#6fc34d" opacity=".45" id="plus_node_43" />
+
+    <g id="gt_view1_camera" opacity=".86">
+      <polygon points="80,513 110,528 109,552 65,542" fill="#fffdf4" stroke="#e5bf43" stroke-width=".75" id="plus_node_44" />
+      <line x1="80" y1="513" x2="94" y2="534" stroke="#e5bf43" stroke-width=".65" id="plus_node_45" />
+      <line x1="110" y1="528" x2="94" y2="534" stroke="#e5bf43" stroke-width=".65" id="plus_node_46" />
+      <line x1="109" y1="552" x2="94" y2="534" stroke="#e5bf43" stroke-width=".65" id="plus_node_47" />
+      <line x1="65" y1="542" x2="94" y2="534" stroke="#e5bf43" stroke-width=".65" id="plus_node_48" />
+      <ellipse cx="94" cy="531" rx="6.4" ry="11" fill="url(#splatGradStrong)" transform="rotate(-35 94 531)" id="plus_node_49" />
+    </g>
+
+    <g id="gt_view2_camera" opacity=".82">
+      <polygon points="230,484 237,512 226,526 226,498" fill="#fffafa" stroke="#ee756e" stroke-width=".75" id="plus_node_50" />
+      <line x1="230" y1="484" x2="269" y2="508" stroke="#ee756e" stroke-width=".55" id="plus_node_51" />
+      <line x1="237" y1="512" x2="269" y2="508" stroke="#ee756e" stroke-width=".55" id="plus_node_52" />
+      <line x1="226" y1="526" x2="269" y2="508" stroke="#ee756e" stroke-width=".55" id="plus_node_53" />
+      <line x1="226" y1="498" x2="269" y2="508" stroke="#ee756e" stroke-width=".55" id="plus_node_54" />
+      <ellipse cx="231" cy="503" rx="3.5" ry="14" fill="url(#splatGradStrong)" transform="rotate(14 231 503)" id="plus_node_55" />
+    </g>
+  </g>
+
+  
+  <g id="top_panel_no_cvo">
+    <text id="txt_top_iter_i" x="466" y="39" font-family="Times New Roman, serif" font-size="16" font-style="italic" fill="#111">at iteration <tspan font-weight="700">i</tspan></text>
+    <text id="txt_top_no_cvo_i" x="475" y="59" font-family="Times New Roman, serif" font-size="16" font-style="italic" fill="#ff0000">w/o CVO</text>
+    <text id="txt_top_iter_ip1" x="825" y="39" font-family="Times New Roman, serif" font-size="16" font-style="italic" fill="#111">at iteration <tspan font-weight="700">i + 1</tspan></text>
+    <text id="txt_top_no_cvo_ip1" x="848" y="59" font-family="Times New Roman, serif" font-size="16" font-style="italic" fill="#ff0000">w/o CVO</text>
+
+    
+    <g id="top_view3" opacity=".18">
+      <polygon points="452,79 498,87 498,113 448,121" fill="#f7faff" stroke="#7b93da" stroke-width=".75" id="plus_node_56" />
+      <line x1="452" y1="79" x2="473" y2="101" stroke="#7b93da" stroke-width=".7" id="plus_node_57" />
+      <line x1="498" y1="87" x2="473" y2="101" stroke="#7b93da" stroke-width=".7" id="plus_node_58" />
+      <line x1="498" y1="113" x2="473" y2="101" stroke="#7b93da" stroke-width=".7" id="plus_node_59" />
+      <line x1="448" y1="121" x2="473" y2="101" stroke="#7b93da" stroke-width=".7" id="plus_node_60" />
+      <ellipse cx="474" cy="103" rx="13" ry="10" fill="url(#splatGrad)" id="plus_node_61" />
+      <text x="462" y="131" font-family="Times New Roman, serif" font-size="9" fill="#777" id="plus_node_62">View 3</text>
+    </g>
+
+    <g id="top_view1">
+      <polygon points="411,187 447,205 448,232 394,221" fill="#fffdf4" stroke="#e2ba38" stroke-width=".65" opacity=".78" id="plus_node_63" />
+      <line x1="411" y1="187" x2="429" y2="212" stroke="#e2ba38" stroke-width=".58" id="plus_node_64" />
+      <line x1="447" y1="205" x2="429" y2="212" stroke="#e2ba38" stroke-width=".58" id="plus_node_65" />
+      <line x1="448" y1="232" x2="429" y2="212" stroke="#e2ba38" stroke-width=".58" id="plus_node_66" />
+      <line x1="394" y1="221" x2="429" y2="212" stroke="#e2ba38" stroke-width=".58" id="plus_node_67" />
+      <ellipse cx="429" cy="211" rx="8" ry="14" fill="url(#splatGradStrong)" transform="rotate(-30 429 211)" id="plus_node_68" />
+      <text x="404" y="242" font-family="Times New Roman, serif" font-size="9" fill="#111" id="plus_node_69">View 1</text>
+    </g>
+
+    <g id="top_center_splat">
+      <ellipse cx="511.5" cy="160.6" rx="25" ry="15" fill="url(#splatGradStrong)" transform="rotate(-25 511.5 160.6)" id="plus_node_70" />
+      <ellipse cx="511.5" cy="160.6" rx="18" ry="7" fill="#7dca48" opacity=".28" transform="rotate(-25 511.5 160.6)" id="plus_node_71" />
+    </g>
+
+    <g id="top_view2" opacity=".18">
+      <polygon points="610,149 615,183 600,204 601,169" fill="#fffafa" stroke="#e96e68" stroke-width=".72" id="plus_node_72" />
+      <line x1="610" y1="149" x2="657" y2="177" stroke="#e96e68" stroke-width=".58" id="plus_node_73" />
+      <line x1="615" y1="183" x2="657" y2="177" stroke="#e96e68" stroke-width=".58" id="plus_node_74" />
+      <line x1="600" y1="204" x2="657" y2="177" stroke="#e96e68" stroke-width=".58" id="plus_node_75" />
+      <line x1="601" y1="169" x2="657" y2="177" stroke="#e96e68" stroke-width=".58" id="plus_node_76" />
+      <ellipse cx="608" cy="174" rx="3.8" ry="19" fill="url(#splatGrad)" transform="rotate(13 608 174)" id="plus_node_77" />
+      <text x="618" y="204" font-family="Times New Roman, serif" font-size="9" fill="#777" id="plus_node_78">View 2</text>
+    </g>
+
+    <path id="top_independent_curve_left" d="M443,111 C392,129 381,161 400,198" fill="none" stroke="#777" stroke-width="1.25" marker-end="url(#arrowGray)" />
+    <path id="top_independent_curve_right" d="M457,224 C502,232 558,222 593,195" fill="none" stroke="#777" stroke-width="1.25" marker-end="url(#arrowGray)" />
+    <text x="367" y="157" font-family="Times New Roman, serif" font-size="13" font-style="italic" fill="#ff0000" id="plus_node_79">independent</text>
+    <text x="492" y="239" font-family="Times New Roman, serif" font-size="13" font-style="italic" fill="#ff0000" id="plus_node_80">independent</text>
+
+    
+    <g id="top_possible_result_1">
+      <text x="694" y="98" font-family="Times New Roman, serif" font-size="13" font-weight="700" fill="#1c2e5a" id="plus_node_81">Rotate?</text>
+      <path d="M688,106 L782,106" fill="none" stroke="#333" stroke-width="1.5" marker-start="url(#arrowBlack)" marker-end="url(#arrowBlack)" id="plus_node_82" />
+      <text x="789" y="110" font-family="Times New Roman, serif" font-size="13" fill="#111" id="plus_node_83">Possible Result (1)</text>
+      <ellipse cx="907" cy="84" rx="22" ry="11" fill="url(#splatGradStrong)" transform="rotate(8 907 84)" id="plus_node_84" />
+      <path d="M916,72 C936,72 948,80 950,92" fill="none" stroke="#1b2d62" stroke-width="2" marker-end="url(#arrowNavy)" id="plus_node_85" />
+      <g opacity=".55" id="plus_node_86">
+        <polygon points="987,75 978,104 988,119 989,91" fill="#fffafa" stroke="#ff7770" stroke-width=".75" id="plus_node_87" />
+        <line x1="987" y1="75" x2="1025" y2="102" stroke="#ff7770" stroke-width=".55" id="plus_node_88" />
+        <line x1="978" y1="104" x2="1025" y2="102" stroke="#ff7770" stroke-width=".55" id="plus_node_89" />
+        <line x1="988" y1="119" x2="1025" y2="102" stroke="#ff7770" stroke-width=".55" id="plus_node_90" />
+        <line x1="989" y1="91" x2="1025" y2="102" stroke="#ff7770" stroke-width=".55" id="plus_node_91" />
+        <ellipse cx="983" cy="98" rx="3.2" ry="17" fill="url(#splatGradStrong)" transform="rotate(16 983 98)" id="plus_node_92" />
+      </g>
+    </g>
+
+    <g id="top_possible_result_2">
+      <text x="694" y="166" font-family="Times New Roman, serif" font-size="13" font-weight="700" fill="#1c2e5a" id="plus_node_93">Scale?</text>
+      <path d="M688,174 L782,174" fill="none" stroke="#333" stroke-width="1.5" marker-start="url(#arrowBlack)" marker-end="url(#arrowBlack)" id="plus_node_94" />
+      <text x="789" y="178" font-family="Times New Roman, serif" font-size="13" fill="#111" id="plus_node_95">Possible Result (2)</text>
+      <ellipse cx="861" cy="150" rx="33" ry="11" fill="url(#splatGradStrong)" transform="rotate(-1 861 150)" id="plus_node_96" />
+      <path d="M852,130 L920,130" fill="none" stroke="#1b2d62" stroke-width="2" marker-start="url(#arrowNavyStart)" marker-end="url(#arrowNavy)" id="plus_node_97" />
+      <path d="M941,142 L931,165" fill="none" stroke="#1b2d62" stroke-width="2" marker-start="url(#arrowNavyStart)" marker-end="url(#arrowNavy)" id="plus_node_98" />
+      <g opacity=".56" id="plus_node_99">
+        <polygon points="987,143 978,172 988,187 989,159" fill="#fffafa" stroke="#ff7770" stroke-width=".75" id="plus_node_100" />
+        <line x1="987" y1="143" x2="1025" y2="170" stroke="#ff7770" stroke-width=".55" id="plus_node_101" />
+        <line x1="978" y1="172" x2="1025" y2="170" stroke="#ff7770" stroke-width=".55" id="plus_node_102" />
+        <line x1="988" y1="187" x2="1025" y2="170" stroke="#ff7770" stroke-width=".55" id="plus_node_103" />
+        <line x1="989" y1="159" x2="1025" y2="170" stroke="#ff7770" stroke-width=".55" id="plus_node_104" />
+        <ellipse cx="983" cy="166" rx="3.2" ry="17" fill="url(#splatGradStrong)" transform="rotate(16 983 166)" id="plus_node_105" />
+      </g>
+    </g>
+
+    <g id="top_possible_result_3">
+      <text x="694" y="234" font-family="Times New Roman, serif" font-size="13" font-weight="700" fill="#1c2e5a" id="plus_node_106">Rotate + Scale?</text>
+      <path d="M688,242 L782,242" fill="none" stroke="#333" stroke-width="1.5" marker-start="url(#arrowBlack)" marker-end="url(#arrowBlack)" id="plus_node_107" />
+      <text x="789" y="246" font-family="Times New Roman, serif" font-size="13" fill="#111" id="plus_node_108">Possible Result (3)</text>
+      <ellipse cx="910" cy="224" rx="23" ry="10" fill="url(#splatGradStrong)" transform="rotate(17 910 224)" id="plus_node_109" />
+      <path d="M890,203 C906,198 928,203 934,216" fill="none" stroke="#1b2d62" stroke-width="2" marker-start="url(#arrowNavyStart)" marker-end="url(#arrowNavy)" id="plus_node_110" />
+      <path d="M924,239 C939,232 944,218 939,205" fill="none" stroke="#1b2d62" stroke-width="2" marker-end="url(#arrowNavy)" id="plus_node_111" />
+    </g>
+
+    <text id="caption_top_a" x="364" y="285" font-family="Times New Roman, serif" font-size="13" fill="#111">
+      <tspan font-weight="700">a) Original 3D-GS:</tspan>
+      <tspan> Insufficient constraints and random-view-select training strategy brings ambiguous optimization results.</tspan>
+    </text>
+  </g>
+
+  
+  <g id="bottom_panel_with_cvo">
+    <text id="txt_bottom_iter_i" x="466" y="327" font-family="Times New Roman, serif" font-size="16" font-style="italic" fill="#111">at iteration <tspan font-weight="700">i</tspan></text>
+    <text id="txt_bottom_with_cvo_i" x="474" y="347" font-family="Times New Roman, serif" font-size="16" font-style="italic" fill="#00b000">with CVO</text>
+    <text id="txt_bottom_iter_ip1" x="825" y="327" font-family="Times New Roman, serif" font-size="16" font-style="italic" fill="#111">at iteration <tspan font-weight="700">i + 1</tspan></text>
+    <text id="txt_bottom_with_cvo_ip1" x="848" y="347" font-family="Times New Roman, serif" font-size="16" font-style="italic" fill="#00b000">with CVO</text>
+
+    <g id="bottom_iter_i_geometry">
+      <g id="bottom_view1">
+        <polygon points="411,466 447,484 448,512 392,503" fill="#fffdf4" stroke="#e2ba38" stroke-width=".65" opacity=".85" id="plus_node_112" />
+        <line x1="411" y1="466" x2="430" y2="492" stroke="#e2ba38" stroke-width=".58" id="plus_node_113" />
+        <line x1="447" y1="484" x2="430" y2="492" stroke="#e2ba38" stroke-width=".58" id="plus_node_114" />
+        <line x1="448" y1="512" x2="430" y2="492" stroke="#e2ba38" stroke-width=".58" id="plus_node_115" />
+        <line x1="392" y1="503" x2="430" y2="492" stroke="#e2ba38" stroke-width=".58" id="plus_node_116" />
+        <ellipse cx="430" cy="492" rx="7.8" ry="13.7" fill="url(#splatGradStrong)" transform="rotate(-31 430 492)" id="plus_node_117" />
+        <text x="404" y="526" font-family="Times New Roman, serif" font-size="9" fill="#111" id="plus_node_118">View 1</text>
+      </g>
+
+      <ellipse id="bottom_mid_splat" cx="513" cy="439" rx="8.5" ry="15" fill="url(#splatGradStrong)" transform="rotate(-5 513 439)" />
+
+      <g id="bottom_view2">
+        <polygon points="615,427 623,464 605,490 604,449" fill="#fffafa" stroke="#f06b63" stroke-width=".72" opacity=".83" id="plus_node_119" />
+        <line x1="615" y1="427" x2="663" y2="463" stroke="#f06b63" stroke-width=".58" id="plus_node_120" />
+        <line x1="623" y1="464" x2="663" y2="463" stroke="#f06b63" stroke-width=".58" id="plus_node_121" />
+        <line x1="605" y1="490" x2="663" y2="463" stroke="#f06b63" stroke-width=".58" id="plus_node_122" />
+        <line x1="604" y1="449" x2="663" y2="463" stroke="#f06b63" stroke-width=".58" id="plus_node_123" />
+        <ellipse cx="613" cy="457" rx="4.2" ry="20" fill="url(#splatGradStrong)" transform="rotate(13 613 457)" id="plus_node_124" />
+        <text x="625" y="489" font-family="Times New Roman, serif" font-size="9" fill="#111" id="plus_node_125">View 2</text>
+      </g>
+
+      <path id="bottom_correlated_curve" d="M456,506 C501,515 560,509 592,482" fill="none" stroke="#777" stroke-width="1.25" marker-end="url(#arrowGray)" />
+      <text x="496" y="524" font-family="Times New Roman, serif" font-size="13" font-style="italic" fill="#00b000" id="plus_node_126">Correlated</text>
+    </g>
+
+    <g id="bottom_iter_ip1_geometry">
+      <g id="bottom_view3">
+        <polygon points="804,378 851,387 852,414 802,424" fill="#f7faff" stroke="#718bd9" stroke-width=".75" opacity=".85" id="plus_node_127" />
+        <line x1="804" y1="378" x2="826" y2="400" stroke="#718bd9" stroke-width=".7" id="plus_node_128" />
+        <line x1="851" y1="387" x2="826" y2="400" stroke="#718bd9" stroke-width=".7" id="plus_node_129" />
+        <line x1="852" y1="414" x2="826" y2="400" stroke="#718bd9" stroke-width=".7" id="plus_node_130" />
+        <line x1="802" y1="424" x2="826" y2="400" stroke="#718bd9" stroke-width=".7" id="plus_node_131" />
+        <ellipse cx="826" cy="404" rx="10.5" ry="9.2" fill="url(#splatGradStrong)" id="plus_node_132" />
+        <text x="815" y="430" font-family="Times New Roman, serif" font-size="9" fill="#111" id="plus_node_133">View 3</text>
+      </g>
+
+      <path id="bottom_big_arc" d="M850,397 C901,390 951,395 977,424" fill="none" stroke="#777" stroke-width="1.25" marker-end="url(#arrowGray)" />
+      <text x="910" y="424" font-family="Times New Roman, serif" font-size="13" font-style="italic" fill="#00b000" id="plus_node_134">Correlated</text>
+
+      <ellipse id="bottom_result_splat" cx="862" cy="462" rx="15.5" ry="14.5" fill="url(#splatGradStrong)" />
+      <ellipse cx="862" cy="462" rx="8.2" ry="8.5" fill="#71c94f" opacity=".42" id="plus_node_135" />
+      <path id="bottom_result_rotate_arrow" d="M879,460 C882,475 874,485 855,484 C850,484 846,483 843,482" fill="none" stroke="#1b2d62" stroke-width="2" marker-end="url(#arrowNavy)" />
+      <path d="M882,465 L882,432" fill="none" stroke="#1b2d62" stroke-width="2" marker-end="url(#arrowNavy)" id="plus_node_136" />
+
+      <g id="bottom_result_view2">
+        <polygon points="965,450 974,487 956,514 955,473" fill="#fffafa" stroke="#f06b63" stroke-width=".72" opacity=".83" id="plus_node_137" />
+        <line x1="965" y1="450" x2="1014" y2="485" stroke="#f06b63" stroke-width=".58" id="plus_node_138" />
+        <line x1="974" y1="487" x2="1014" y2="485" stroke="#f06b63" stroke-width=".58" id="plus_node_139" />
+        <line x1="956" y1="514" x2="1014" y2="485" stroke="#f06b63" stroke-width=".58" id="plus_node_140" />
+        <line x1="955" y1="473" x2="1014" y2="485" stroke="#f06b63" stroke-width=".58" id="plus_node_141" />
+        <ellipse cx="963" cy="480" rx="4.1" ry="19.5" fill="url(#splatGradStrong)" transform="rotate(13 963 480)" id="plus_node_142" />
+        <text x="972" y="508" font-family="Times New Roman, serif" font-size="9" fill="#111" id="plus_node_143">View 2</text>
+      </g>
+
+      <text x="694" y="451" font-family="Times New Roman, serif" font-size="13" font-weight="700" fill="#1c2e5a" id="plus_node_144">Rotate + Scale</text>
+      <path id="bottom_ground_truth_arrow" d="M688,459 L779,459" fill="none" stroke="#333" stroke-width="1.45" marker-start="url(#arrowBlack)" marker-end="url(#arrowBlack)" />
+      <text x="721" y="471" font-family="Times New Roman, serif" font-size="13" font-weight="700" fill="#00b000" id="plus_node_145">Ground Truth</text>
+    </g>
+
+    <text id="caption_bottom_b" x="364" y="574" font-family="Times New Roman, serif" font-size="13" fill="#111">
+      <tspan font-weight="700">b) Cross-View Joint Optimization (Ours):</tspan>
+      <tspan> More constrained and accurate gaussian splat within two iterations.</tspan>
+    </text>
+  </g>
+</svg>

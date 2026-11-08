@@ -35,6 +35,7 @@ class AuthProviderStatus(BaseModel):
 
 class AuthProvidersResponse(BaseModel):
     providers: list[AuthProviderStatus]
+    password_enabled: bool = False
 
 
 class BoundIdentityResponse(BaseModel):

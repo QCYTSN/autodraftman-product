@@ -1,0 +1,363 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1875" height="1017" viewBox="0 0 1875 1017">
+  <title>Editable reconstruction of multi-panel diffusion inversion and editing path comparison</title>
+  <desc>Five dashed base frames labeled (a) DDIM, (b) NTI, NPI, (c) DirectINV, (d) SPDInv, and (e) DCI. Each frame contains gray latent forward chains, magenta noise paths, red reconstruction paths, purple inversion paths, green reconstruction paths, and additional reference, interaction, optimization, editing, and U-Net components. No SAM picture replacement is used because no confirmed picture assets were supplied; all visible content is constructed in native SVG.</desc>
+  <defs>
+    <marker id="arr-blue" markerUnits="userSpaceOnUse" markerWidth="11" markerHeight="9" viewBox="0 0 10 8" refX="9" refY="4" orient="auto"><path d="M0,0 L10,4 L0,8 Z" fill="#0072bc" id="plus_node_0" /></marker>
+    <marker id="arr-blue-start" markerUnits="userSpaceOnUse" markerWidth="11" markerHeight="9" viewBox="0 0 10 8" refX="1" refY="4" orient="auto-start-reverse"><path d="M0,0 L10,4 L0,8 Z" fill="#0072bc" id="plus_node_1" /></marker>
+    <marker id="arr-purple" markerUnits="userSpaceOnUse" markerWidth="11" markerHeight="9" viewBox="0 0 10 8" refX="9" refY="4" orient="auto"><path d="M0,0 L10,4 L0,8 Z" fill="#7135a8" id="plus_node_2" /></marker>
+    <marker id="arr-purple-start" markerUnits="userSpaceOnUse" markerWidth="11" markerHeight="9" viewBox="0 0 10 8" refX="1" refY="4" orient="auto-start-reverse"><path d="M0,0 L10,4 L0,8 Z" fill="#7135a8" id="plus_node_3" /></marker>
+    <marker id="arr-green" markerUnits="userSpaceOnUse" markerWidth="11" markerHeight="9" viewBox="0 0 10 8" refX="9" refY="4" orient="auto"><path d="M0,0 L10,4 L0,8 Z" fill="#4f7f3d" id="plus_node_4" /></marker>
+    <marker id="arr-green-start" markerUnits="userSpaceOnUse" markerWidth="11" markerHeight="9" viewBox="0 0 10 8" refX="1" refY="4" orient="auto-start-reverse"><path d="M0,0 L10,4 L0,8 Z" fill="#4f7f3d" id="plus_node_5" /></marker>
+    <marker id="arr-red" markerUnits="userSpaceOnUse" markerWidth="11" markerHeight="9" viewBox="0 0 10 8" refX="9" refY="4" orient="auto"><path d="M0,0 L10,4 L0,8 Z" fill="#ff0000" id="plus_node_6" /></marker>
+    <marker id="arr-red-start" markerUnits="userSpaceOnUse" markerWidth="11" markerHeight="9" viewBox="0 0 10 8" refX="1" refY="4" orient="auto-start-reverse"><path d="M0,0 L10,4 L0,8 Z" fill="#ff0000" id="plus_node_7" /></marker>
+    <marker id="arr-magenta" markerUnits="userSpaceOnUse" markerWidth="11" markerHeight="9" viewBox="0 0 10 8" refX="9" refY="4" orient="auto"><path d="M0,0 L10,4 L0,8 Z" fill="#ff0064" id="plus_node_8" /></marker>
+    <marker id="arr-magenta-start" markerUnits="userSpaceOnUse" markerWidth="11" markerHeight="9" viewBox="0 0 10 8" refX="1" refY="4" orient="auto-start-reverse"><path d="M0,0 L10,4 L0,8 Z" fill="#ff0064" id="plus_node_9" /></marker>
+    <marker id="arr-lblue" markerUnits="userSpaceOnUse" markerWidth="11" markerHeight="9" viewBox="0 0 10 8" refX="9" refY="4" orient="auto"><path d="M0,0 L10,4 L0,8 Z" fill="#79b2e2" id="plus_node_10" /></marker>
+    <marker id="arr-orange" markerUnits="userSpaceOnUse" markerWidth="11" markerHeight="9" viewBox="0 0 10 8" refX="9" refY="4" orient="auto"><path d="M0,0 L10,4 L0,8 Z" fill="#cc6320" id="plus_node_11" /></marker>
+    <marker id="arr-yellow" markerUnits="userSpaceOnUse" markerWidth="10" markerHeight="8" viewBox="0 0 10 8" refX="9" refY="4" orient="auto"><path d="M0,0 L10,4 L0,8 Z" fill="#c6c51e" id="plus_node_12" /></marker>
+    <marker id="arr-yellow-start" markerUnits="userSpaceOnUse" markerWidth="10" markerHeight="8" viewBox="0 0 10 8" refX="1" refY="4" orient="auto-start-reverse"><path d="M0,0 L10,4 L0,8 Z" fill="#c6c51e" id="plus_node_13" /></marker>
+    <marker id="arr-brown" markerUnits="userSpaceOnUse" markerWidth="11" markerHeight="9" viewBox="0 0 10 8" refX="9" refY="4" orient="auto"><path d="M0,0 L10,4 L0,8 Z" fill="#a35d5e" id="plus_node_14" /></marker>
+    <marker id="arr-brown-start" markerUnits="userSpaceOnUse" markerWidth="11" markerHeight="9" viewBox="0 0 10 8" refX="1" refY="4" orient="auto-start-reverse"><path d="M0,0 L10,4 L0,8 Z" fill="#a35d5e" id="plus_node_15" /></marker>
+    <marker id="arr-pink" markerUnits="userSpaceOnUse" markerWidth="12" markerHeight="10" viewBox="0 0 10 8" refX="9" refY="4" orient="auto"><path d="M0,0 L10,4 L0,8 Z" fill="#f7a6df" id="plus_node_16" /></marker>
+    <marker id="arr-pink-start" markerUnits="userSpaceOnUse" markerWidth="12" markerHeight="10" viewBox="0 0 10 8" refX="1" refY="4" orient="auto-start-reverse"><path d="M0,0 L10,4 L0,8 Z" fill="#f7a6df" id="plus_node_17" /></marker>
+    <marker id="arr-black" markerUnits="userSpaceOnUse" markerWidth="10" markerHeight="8" viewBox="0 0 10 8" refX="9" refY="4" orient="auto"><path d="M0,0 L10,4 L0,8 Z" fill="#000" id="plus_node_18" /></marker>
+    <marker id="arr-outline-blue" markerUnits="userSpaceOnUse" markerWidth="13" markerHeight="11" viewBox="0 0 10 8" refX="9" refY="4" orient="auto"><path d="M0,0 L10,4 L0,8 Z" fill="white" stroke="#79aee2" stroke-width="1.5" id="plus_node_19" /></marker>
+    <marker id="arr-outline-orange" markerUnits="userSpaceOnUse" markerWidth="13" markerHeight="11" viewBox="0 0 10 8" refX="9" refY="4" orient="auto"><path d="M0,0 L10,4 L0,8 Z" fill="white" stroke="#f47a28" stroke-width="1.5" id="plus_node_20" /></marker>
+    <style>
+      .frame{fill:none;stroke:#a6a6a6;stroke-width:3;stroke-dasharray:10 8}
+      .innerframe{fill:none;stroke:#b7d5aa;stroke-width:2;stroke-dasharray:5 4}
+      .title{font-family:"Times New Roman",serif;font-size:31px;font-weight:700;fill:#000}
+      .label{font-family:"Times New Roman",serif;font-size:30px;fill:#000}
+      .smalllabel{font-family:"Times New Roman",serif;font-size:24px;fill:#000}
+      .tiny{font-family:"Times New Roman",serif;font-size:18px;fill:#000}
+      .nodeText{font-family:"Times New Roman",serif;font-size:25px;fill:#000;text-anchor:middle;dominant-baseline:middle}
+      .sub{font-size:13px;baseline-shift:sub}
+      .nodeG{fill:#aaa8a8}
+      .nodeP{fill:#d5a5f2}
+      .nodeGr{fill:#cde8b9}
+      .nodeB{fill:#777ed8}
+      .nodeO{fill:#f47a28}
+      .nodePk{fill:#fb91b7}
+      .nodeV{fill:#d5a3f0}
+      .arrow{fill:none;stroke-linecap:round;stroke-linejoin:round}
+      .dashdot{fill:none;stroke:#000;stroke-width:2.4;stroke-dasharray:8 9 2 9}
+    </style>
+  </defs>
+
+  <rect id="canvas_background" x="0" y="0" width="1875" height="1017" fill="#fff" />
+
+  
+  <rect id="f01" data-plus-kind="frame" class="frame" x="42" y="37" width="574" height="407" rx="18" />
+  <rect id="f02" data-plus-kind="frame" class="frame" x="38" y="464" width="574" height="429" rx="18" />
+  <rect id="f03" data-plus-kind="frame" class="frame" x="638" y="37" width="574" height="407" rx="18" />
+  <rect id="f04" data-plus-kind="frame" class="frame" x="635" y="464" width="574" height="429" rx="18" />
+  <rect id="f05" data-plus-kind="frame" class="frame" x="1230" y="37" width="589" height="862" rx="18" />
+  <rect id="f05_inner_reference" data-plus-kind="frame" class="innerframe" x="1259" y="90" width="539" height="252" rx="10" />
+
+  
+  <g id="panel_a">
+    <desc>Panel (a) DDIM contains a top gray forward diffusion chain, a left magenta double-headed noise arc, a right red double-headed reconstruction arc, a purple inversion path in the middle, and a green reconstruction path along the bottom. Layout basis is left-right balance around the central inversion chain with top and bottom chains aligned horizontally.</desc>
+    <text id="title_a" class="title" x="256" y="80">(a) DDIM</text>
+    <g id="a_top_chain">
+      <circle class="nodeG" cx="131" cy="114" r="24" id="plus_node_21" /><text class="nodeText" x="131" y="116" id="plus_node_22">Z<tspan class="sub">T</tspan></text>
+      <circle class="nodeG" cx="220" cy="114" r="24" id="plus_node_23" /><text class="nodeText" x="220" y="116" id="plus_node_24">Z<tspan class="sub">T-1</tspan></text>
+      <circle class="nodeG" cx="397" cy="114" r="24" id="plus_node_25" /><text class="nodeText" x="397" y="116" id="plus_node_26">Z<tspan class="sub">1</tspan></text>
+      <circle class="nodeG" cx="490" cy="114" r="24" id="plus_node_27" /><text class="nodeText" x="490" y="116" id="plus_node_28">Z<tspan class="sub">0</tspan></text>
+      <path class="arrow" d="M155 113 H195" stroke="#0072bc" stroke-width="4" marker-end="url(#arr-blue)" id="plus_node_29" />
+      <path class="arrow" d="M244 113 H288" stroke="#0072bc" stroke-width="4" marker-end="url(#arr-blue)" id="plus_node_30" />
+      <text class="label" x="294" y="118" id="plus_node_31">...</text>
+      <path class="arrow" d="M323 113 H367" stroke="#0072bc" stroke-width="4" marker-end="url(#arr-blue)" id="plus_node_32" />
+      <path class="arrow" d="M421 113 H461" stroke="#0072bc" stroke-width="4" marker-end="url(#arr-blue)" id="plus_node_33" />
+    </g>
+    <text class="label" x="82" y="235" id="plus_node_34">D<tspan class="sub">noi</tspan></text>
+    <path id="a_noise_arc" class="arrow" d="M103 126 C59 172 58 291 97 338" stroke="#ff0064" stroke-width="2.5" marker-start="url(#arr-magenta-start)" marker-end="url(#arr-magenta)" />
+    <text class="label" x="507" y="249" id="plus_node_35">D<tspan class="sub">rec</tspan></text>
+    <path id="a_reconstruction_arc" class="arrow" d="M513 126 C573 174 578 313 514 379" stroke="#ff0000" stroke-width="2.5" marker-start="url(#arr-red-start)" marker-end="url(#arr-red)" />
+    <g id="a_inversion_path">
+      <circle class="nodeP" cx="392" cy="217" r="24" id="plus_node_36" /><text class="nodeText" x="392" y="219" id="plus_node_37">Z<tspan class="sub">1</tspan></text>
+      <circle class="nodeP" cx="220" cy="295" r="24" id="plus_node_38" /><text class="nodeText" x="220" y="297" id="plus_node_39">Z<tspan class="sub">T-1</tspan></text>
+      <circle class="nodeP" cx="132" cy="338" r="24" id="plus_node_40" /><text class="nodeText" x="132" y="340" id="plus_node_41">Z<tspan class="sub">T</tspan></text>
+      <path class="arrow" d="M491 141 C489 176 459 203 420 216" stroke="#7135a8" stroke-width="2.2" marker-end="url(#arr-purple)" id="plus_node_42" />
+      <text class="label" x="307" y="270" id="plus_node_43">...</text>
+      <path class="arrow" d="M388 241 C378 258 352 263 337 262 C308 263 276 289 248 290" stroke="#7135a8" stroke-width="2.2" marker-end="url(#arr-purple)" id="plus_node_44" />
+      <path class="arrow" d="M220 319 C199 337 178 337 155 337" stroke="#7135a8" stroke-width="2.2" marker-end="url(#arr-purple)" id="plus_node_45" />
+    </g>
+    <g id="a_green_reconstruction">
+      <circle class="nodeGr" cx="216" cy="386" r="24" id="plus_node_46" /><text class="nodeText" x="216" y="388" id="plus_node_47">Z<tspan class="sub">T-1</tspan></text>
+      <circle class="nodeGr" cx="407" cy="414" r="24" id="plus_node_48" /><text class="nodeText" x="407" y="416" id="plus_node_49">Z<tspan class="sub">1</tspan></text>
+      <circle class="nodeGr" cx="499" cy="400" r="24" id="plus_node_50" /><text class="nodeText" x="499" y="402" id="plus_node_51">Z<tspan class="sub">0</tspan></text>
+      <path class="arrow" d="M154 358 C169 370 181 378 194 382" stroke="#4f7f3d" stroke-width="2" marker-end="url(#arr-green)" id="plus_node_52" />
+      <path class="arrow" d="M239 397 C257 405 279 407 300 408" stroke="#4f7f3d" stroke-width="2" marker-end="url(#arr-green)" id="plus_node_53" />
+      <text class="label" x="301" y="428" id="plus_node_54">...</text>
+      <path class="arrow" d="M337 419 C350 420 363 422 380 419" stroke="#4f7f3d" stroke-width="2" marker-end="url(#arr-green)" id="plus_node_55" />
+      <path class="arrow" d="M431 415 C445 414 459 413 473 407" stroke="#4f7f3d" stroke-width="2" marker-end="url(#arr-green)" id="plus_node_56" />
+    </g>
+  </g>
+
+  
+  <g id="panel_b">
+    <desc>Panel (b) NTI, NPI contains the DDIM-like top, magenta, red, purple, and green paths plus a blue reference path below and yellow interaction arrows between green and blue states. Layout basis is layered horizontal paths with vertical interaction pairs.</desc>
+    <text id="title_b" class="title" x="239" y="498">(b) NTI、NPI</text>
+    <g id="b_top_chain">
+      <circle class="nodeG" cx="132" cy="532" r="24" id="plus_node_57" /><text class="nodeText" x="132" y="534" id="plus_node_58">Z<tspan class="sub">T</tspan></text>
+      <circle class="nodeG" cx="220" cy="532" r="24" id="plus_node_59" /><text class="nodeText" x="220" y="534" id="plus_node_60">Z<tspan class="sub">T-1</tspan></text>
+      <circle class="nodeG" cx="397" cy="532" r="24" id="plus_node_61" /><text class="nodeText" x="397" y="534" id="plus_node_62">Z<tspan class="sub">1</tspan></text>
+      <circle class="nodeG" cx="490" cy="532" r="24" id="plus_node_63" /><text class="nodeText" x="490" y="534" id="plus_node_64">Z<tspan class="sub">0</tspan></text>
+      <path class="arrow" d="M156 531 H195" stroke="#0072bc" stroke-width="4" marker-end="url(#arr-blue)" id="plus_node_65" />
+      <path class="arrow" d="M244 531 H288" stroke="#0072bc" stroke-width="4" marker-end="url(#arr-blue)" id="plus_node_66" />
+      <text class="label" x="294" y="536" id="plus_node_67">...</text>
+      <path class="arrow" d="M323 531 H367" stroke="#0072bc" stroke-width="4" marker-end="url(#arr-blue)" id="plus_node_68" />
+      <path class="arrow" d="M421 531 H461" stroke="#0072bc" stroke-width="4" marker-end="url(#arr-blue)" id="plus_node_69" />
+    </g>
+    <text class="label" x="80" y="653" id="plus_node_70">D<tspan class="sub">noi</tspan></text>
+    <path class="arrow" d="M103 544 C59 590 58 709 97 756" stroke="#ff0064" stroke-width="2.5" marker-start="url(#arr-magenta-start)" marker-end="url(#arr-magenta)" id="plus_node_71" />
+    <text class="label" x="560" y="633" id="plus_node_72">D<tspan class="sub">rec</tspan></text>
+    <path class="arrow" d="M512 544 C561 585 563 676 514 714" stroke="#ff0000" stroke-width="2.5" marker-start="url(#arr-red-start)" marker-end="url(#arr-red)" id="plus_node_73" />
+    <g id="b_inversion_path">
+      <circle class="nodeP" cx="384" cy="635" r="24" id="plus_node_74" /><text class="nodeText" x="384" y="637" id="plus_node_75">Z<tspan class="sub">1</tspan></text>
+      <circle class="nodeP" cx="210" cy="711" r="24" id="plus_node_76" /><text class="nodeText" x="210" y="713" id="plus_node_77">Z<tspan class="sub">1</tspan></text>
+      <circle class="nodeP" cx="132" cy="758" r="24" id="plus_node_78" /><text class="nodeText" x="132" y="760" id="plus_node_79">Z<tspan class="sub">T</tspan></text>
+      <path class="arrow" d="M491 559 C489 595 450 621 412 633" stroke="#7135a8" stroke-width="2.2" marker-end="url(#arr-purple)" id="plus_node_80" />
+      <text class="label" x="300" y="688" id="plus_node_81">...</text>
+      <path class="arrow" d="M381 659 C364 680 325 688 244 708" stroke="#7135a8" stroke-width="2.2" marker-end="url(#arr-purple)" id="plus_node_82" />
+      <path class="arrow" d="M209 735 C190 752 172 756 155 756" stroke="#7135a8" stroke-width="2.2" marker-end="url(#arr-purple)" id="plus_node_83" />
+    </g>
+    <g id="b_green_reconstruction">
+      <circle class="nodeGr" cx="226" cy="786" r="24" id="plus_node_84" /><text class="nodeText" x="226" y="788" id="plus_node_85">Z<tspan class="sub">T-1</tspan></text>
+      <circle class="nodeGr" cx="392" cy="764" r="24" id="plus_node_86" /><text class="nodeText" x="392" y="766" id="plus_node_87">Z<tspan class="sub">1</tspan></text>
+      <circle class="nodeGr" cx="478" cy="730" r="24" id="plus_node_88" /><text class="nodeText" x="478" y="732" id="plus_node_89">Z<tspan class="sub">0</tspan></text>
+      <path class="arrow" d="M154 778 C171 784 185 787 200 789" stroke="#4f7f3d" stroke-width="2" marker-end="url(#arr-green)" id="plus_node_90" />
+      <path class="arrow" d="M249 798 C267 799 284 795 302 790" stroke="#4f7f3d" stroke-width="2" marker-end="url(#arr-green)" id="plus_node_91" />
+      <text class="label" x="305" y="792" id="plus_node_92">...</text>
+      <path class="arrow" d="M337 783 C350 777 364 772 370 769" stroke="#4f7f3d" stroke-width="2" marker-end="url(#arr-green)" id="plus_node_93" />
+      <path class="arrow" d="M416 755 C430 749 443 744 454 738" stroke="#4f7f3d" stroke-width="2" marker-end="url(#arr-green)" id="plus_node_94" />
+    </g>
+    <g id="b_reference_path">
+      <circle class="nodeB" cx="220" cy="861" r="24" id="plus_node_95" /><text class="nodeText" x="220" y="863" id="plus_node_96">Z<tspan class="sub">T-1</tspan></text>
+      <circle class="nodeB" cx="393" cy="834" r="24" id="plus_node_97" /><text class="nodeText" x="393" y="836" id="plus_node_98">Z<tspan class="sub">1</tspan></text>
+      <circle class="nodeB" cx="478" cy="811" r="24" id="plus_node_99" /><text class="nodeText" x="478" y="813" id="plus_node_100">Z<tspan class="sub">0</tspan></text>
+      <path class="arrow" d="M140 781 C155 814 178 841 197 851" stroke="#79b2e2" stroke-width="2" marker-end="url(#arr-lblue)" id="plus_node_101" />
+      <path class="arrow" d="M244 867 C271 867 287 856 301 856" stroke="#79b2e2" stroke-width="2" marker-end="url(#arr-lblue)" id="plus_node_102" />
+      <text class="label" x="306" y="858" id="plus_node_103">...</text>
+      <path class="arrow" d="M337 850 C351 847 363 841 371 838" stroke="#79b2e2" stroke-width="2" marker-end="url(#arr-lblue)" id="plus_node_104" />
+      <path class="arrow" d="M416 828 C430 825 446 817 455 813" stroke="#79b2e2" stroke-width="2" marker-end="url(#arr-lblue)" id="plus_node_105" />
+      <path class="arrow" d="M223 835 V809" stroke="#c6c51e" stroke-width="3" marker-start="url(#arr-yellow-start)" marker-end="url(#arr-yellow)" id="plus_node_106" />
+      <path class="arrow" d="M394 810 V789" stroke="#c6c51e" stroke-width="3" marker-start="url(#arr-yellow-start)" marker-end="url(#arr-yellow)" id="plus_node_107" />
+      <path class="arrow" d="M480 786 V757" stroke="#c6c51e" stroke-width="3" marker-start="url(#arr-yellow-start)" marker-end="url(#arr-yellow)" id="plus_node_108" />
+    </g>
+  </g>
+
+  
+  <g id="panel_c">
+    <desc>Panel (c) DirectINV contains a forward gray chain, magenta noise arc, red reconstruction indication near the terminal gray node, purple inversion path, green reconstruction path, and brown vertical optimization links between corresponding states. Layout basis is a broad central loop with paired vertical optimization arrows on the right.</desc>
+    <text id="title_c" class="title" x="837" y="78">(c) DirectINV</text>
+    <g id="c_top_chain">
+      <circle class="nodeG" cx="734" cy="110" r="24" id="plus_node_109" /><text class="nodeText" x="734" y="112" id="plus_node_110">Z<tspan class="sub">T</tspan></text>
+      <circle class="nodeG" cx="822" cy="110" r="24" id="plus_node_111" /><text class="nodeText" x="822" y="112" id="plus_node_112">Z<tspan class="sub">T-1</tspan></text>
+      <circle class="nodeG" cx="997" cy="110" r="24" id="plus_node_113" /><text class="nodeText" x="997" y="112" id="plus_node_114">Z<tspan class="sub">1</tspan></text>
+      <circle class="nodeG" cx="1091" cy="110" r="24" id="plus_node_115" /><text class="nodeText" x="1091" y="112" id="plus_node_116">Z<tspan class="sub">0</tspan></text>
+      <path class="arrow" d="M758 109 H796" stroke="#0072bc" stroke-width="4" marker-end="url(#arr-blue)" id="plus_node_117" />
+      <path class="arrow" d="M846 109 H891" stroke="#0072bc" stroke-width="4" marker-end="url(#arr-blue)" id="plus_node_118" />
+      <text class="label" x="896" y="114" id="plus_node_119">...</text>
+      <path class="arrow" d="M924 109 H969" stroke="#0072bc" stroke-width="4" marker-end="url(#arr-blue)" id="plus_node_120" />
+      <path class="arrow" d="M1022 109 H1062" stroke="#0072bc" stroke-width="4" marker-end="url(#arr-blue)" id="plus_node_121" />
+    </g>
+    <text class="label" x="687" y="232" id="plus_node_122">D<tspan class="sub">noi</tspan></text>
+    <path class="arrow" d="M704 124 C662 171 660 290 698 335" stroke="#ff0064" stroke-width="2.5" marker-start="url(#arr-magenta-start)" marker-end="url(#arr-magenta)" id="plus_node_123" />
+    <circle class="nodeGr" cx="1092" cy="141" r="24" id="plus_node_124" /><text class="nodeText" x="1092" y="143" id="plus_node_125" />
+    <path class="arrow" d="M1121 111 C1130 121 1130 130 1121 139" stroke="#ff0000" stroke-width="3" marker-start="url(#arr-red-start)" marker-end="url(#arr-red)" id="plus_node_126" />
+    <text class="label" x="1130" y="132" id="plus_node_127">D<tspan class="sub">rec</tspan></text>
+    <g id="c_inversion_path">
+      <circle class="nodeP" cx="999" cy="213" r="24" id="plus_node_128" /><text class="nodeText" x="999" y="215" id="plus_node_129">Z<tspan class="sub">1</tspan></text>
+      <circle class="nodeP" cx="821" cy="293" r="24" id="plus_node_130" /><text class="nodeText" x="821" y="295" id="plus_node_131">Z<tspan class="sub">T-1</tspan></text>
+      <circle class="nodeP" cx="737" cy="337" r="24" id="plus_node_132" /><text class="nodeText" x="737" y="339" id="plus_node_133">Z<tspan class="sub">T</tspan></text>
+      <path class="arrow" d="M1092 140 C1083 181 1045 204 1028 215" stroke="#7135a8" stroke-width="2.2" marker-end="url(#arr-purple)" id="plus_node_134" />
+      <text class="label" x="908" y="267" id="plus_node_135">...</text>
+      <path class="arrow" d="M994 238 C987 256 961 264 938 265 C899 266 873 287 848 292" stroke="#7135a8" stroke-width="2.2" marker-end="url(#arr-purple)" id="plus_node_136" />
+      <path class="arrow" d="M821 317 C797 333 777 337 760 337" stroke="#7135a8" stroke-width="2.2" marker-end="url(#arr-purple)" id="plus_node_137" />
+    </g>
+    <g id="c_green_reconstruction">
+      <circle class="nodeGr" cx="823" cy="393" r="24" id="plus_node_138" /><text class="nodeText" x="823" y="395" id="plus_node_139">Z<tspan class="sub">T-1</tspan></text>
+      <circle class="nodeGr" cx="999" cy="342" r="24" id="plus_node_140" /><text class="nodeText" x="999" y="344" id="plus_node_141">Z<tspan class="sub">1</tspan></text>
+      <circle class="nodeGr" cx="1091" cy="298" r="24" id="plus_node_142" /><text class="nodeText" x="1091" y="300" id="plus_node_143">Z<tspan class="sub">0</tspan></text>
+      <path class="arrow" d="M760 359 C777 370 788 377 801 381" stroke="#4f7f3d" stroke-width="2" marker-end="url(#arr-green)" id="plus_node_144" />
+      <path class="arrow" d="M847 391 C865 389 885 382 902 377" stroke="#4f7f3d" stroke-width="2" marker-end="url(#arr-green)" id="plus_node_145" />
+      <text class="label" x="908" y="385" id="plus_node_146">...</text>
+      <path class="arrow" d="M944 366 C955 361 966 355 977 350" stroke="#4f7f3d" stroke-width="2" marker-end="url(#arr-green)" id="plus_node_147" />
+      <path class="arrow" d="M1021 332 C1038 323 1052 314 1068 304" stroke="#4f7f3d" stroke-width="2" marker-end="url(#arr-green)" id="plus_node_148" />
+    </g>
+    <g id="c_optimization_links">
+      <path class="arrow" d="M1092 139 V270" stroke="#a35d5e" stroke-width="3" marker-end="url(#arr-brown)" id="plus_node_149" />
+      <path class="arrow" d="M999 239 V318" stroke="#a35d5e" stroke-width="3" marker-start="url(#arr-brown-start)" marker-end="url(#arr-brown)" id="plus_node_150" />
+      <path class="arrow" d="M823 317 V370" stroke="#a35d5e" stroke-width="3" marker-start="url(#arr-brown-start)" marker-end="url(#arr-brown)" id="plus_node_151" />
+    </g>
+  </g>
+
+  
+  <g id="panel_d">
+    <desc>Panel (d) SPDINV contains U-Net input to optimization connections, top gray forward chain, magenta noise arc, red reconstruction arc, purple inversion path with brown optimization loops, and green reconstruction path. Layout basis is a networked top-left U-Net feeding vertical optimization into the central inversion states.</desc>
+    <text id="title_d" class="title" x="848" y="493">(d) SPDINV</text>
+    <g id="d_unet">
+      <polygon points="724,490 812,529 724,568" fill="#fde5d4" stroke="#efd1bd" id="plus_node_152" />
+      <text class="label" x="736" y="538" id="plus_node_153">U-Net</text>
+      <text x="790" y="511" font-family="Arial" font-size="32" fill="#00aef0" id="plus_node_154">❄</text>
+    </g>
+    <g id="d_top_chain">
+      <circle class="nodeG" cx="738" cy="607" r="24" id="plus_node_155" /><text class="nodeText" x="738" y="609" id="plus_node_156">Z<tspan class="sub">T</tspan></text>
+      <circle class="nodeG" cx="826" cy="607" r="24" id="plus_node_157" /><text class="nodeText" x="826" y="609" id="plus_node_158">Z<tspan class="sub">T-1</tspan></text>
+      <circle class="nodeG" cx="1002" cy="607" r="24" id="plus_node_159" /><text class="nodeText" x="1002" y="609" id="plus_node_160">Z<tspan class="sub">1</tspan></text>
+      <circle class="nodeG" cx="1095" cy="607" r="24" id="plus_node_161" /><text class="nodeText" x="1095" y="609" id="plus_node_162">Z<tspan class="sub">0</tspan></text>
+      <path class="arrow" d="M762 606 H800" stroke="#0072bc" stroke-width="4" marker-end="url(#arr-blue)" id="plus_node_163" />
+      <path class="arrow" d="M850 606 H894" stroke="#0072bc" stroke-width="4" marker-end="url(#arr-blue)" id="plus_node_164" />
+      <text class="label" x="899" y="611" id="plus_node_165">...</text>
+      <path class="arrow" d="M930 606 H973" stroke="#0072bc" stroke-width="4" marker-end="url(#arr-blue)" id="plus_node_166" />
+      <path class="arrow" d="M1027 606 H1066" stroke="#0072bc" stroke-width="4" marker-end="url(#arr-blue)" id="plus_node_167" />
+    </g>
+    <g id="d_brown_controls">
+      <path class="arrow" d="M812 527 H941 V649 H965" stroke="#a35d5e" stroke-width="2.4" marker-end="url(#arr-brown)" id="plus_node_168" />
+      <path class="arrow" d="M795 548 V697 H758" stroke="#a35d5e" stroke-width="2.4" marker-end="url(#arr-brown)" id="plus_node_169" />
+      <path class="arrow" d="M862 527 V669" stroke="#a35d5e" stroke-width="2.4" marker-end="url(#arr-brown)" id="plus_node_170" />
+    </g>
+    <text class="label" x="688" y="676" id="plus_node_171">D<tspan class="sub">noi</tspan></text>
+    <path class="arrow" d="M709 617 C673 654 674 703 707 738" stroke="#ff0064" stroke-width="2.5" marker-start="url(#arr-magenta-start)" marker-end="url(#arr-magenta)" id="plus_node_172" />
+    <text class="label" x="1160" y="695" id="plus_node_173">D<tspan class="sub">rec</tspan></text>
+    <path class="arrow" d="M1113 624 C1164 654 1163 713 1119 745" stroke="#ff0000" stroke-width="2.5" marker-start="url(#arr-red-start)" marker-end="url(#arr-red)" id="plus_node_174" />
+    <g id="d_inversion_path">
+      <circle class="nodeP" cx="1009" cy="680" r="24" id="plus_node_175" /><text class="nodeText" x="1009" y="682" id="plus_node_176">Z<tspan class="sub">1</tspan></text>
+      <circle class="nodeP" cx="844" cy="733" r="24" id="plus_node_177" /><text class="nodeText" x="844" y="735" id="plus_node_178">Z<tspan class="sub">T-1</tspan></text>
+      <circle class="nodeP" cx="738" cy="745" r="24" id="plus_node_179" /><text class="nodeText" x="738" y="747" id="plus_node_180">Z<tspan class="sub">T</tspan></text>
+      <path class="arrow" d="M1094 630 C1090 655 1064 673 1036 680" stroke="#7135a8" stroke-width="2.2" marker-end="url(#arr-purple)" id="plus_node_181" />
+      <text class="label" x="918" y="725" id="plus_node_182">...</text>
+      <path class="arrow" d="M1001 704 C976 725 944 731 885 733" stroke="#7135a8" stroke-width="2.2" marker-end="url(#arr-purple)" id="plus_node_183" />
+      <path class="arrow" d="M843 757 C815 760 789 758 761 746" stroke="#7135a8" stroke-width="2.2" marker-end="url(#arr-purple)" id="plus_node_184" />
+      <path class="arrow" d="M966 666 C961 641 1001 637 1014 661" stroke="#a35d5e" stroke-width="2.3" marker-end="url(#arr-brown)" id="plus_node_185" />
+      <path class="arrow" d="M834 703 C828 671 870 665 867 705" stroke="#a35d5e" stroke-width="2.3" marker-end="url(#arr-brown)" id="plus_node_186" />
+      <path class="arrow" d="M725 718 C712 686 758 679 758 719" stroke="#a35d5e" stroke-width="2.3" marker-end="url(#arr-brown)" id="plus_node_187" />
+    </g>
+    <g id="d_green_reconstruction">
+      <circle class="nodeGr" cx="834" cy="825" r="24" id="plus_node_188" /><text class="nodeText" x="834" y="827" id="plus_node_189">Z<tspan class="sub">T-1</tspan></text>
+      <circle class="nodeGr" cx="1006" cy="789" r="24" id="plus_node_190" /><text class="nodeText" x="1006" y="791" id="plus_node_191">Z<tspan class="sub">1</tspan></text>
+      <circle class="nodeGr" cx="1094" cy="767" r="24" id="plus_node_192" /><text class="nodeText" x="1094" y="769" id="plus_node_193">Z<tspan class="sub">0</tspan></text>
+      <path class="arrow" d="M760 767 C773 790 790 807 812 817" stroke="#4f7f3d" stroke-width="2" marker-end="url(#arr-green)" id="plus_node_194" />
+      <path class="arrow" d="M858 832 C877 832 896 827 914 820" stroke="#4f7f3d" stroke-width="2" marker-end="url(#arr-green)" id="plus_node_195" />
+      <text class="label" x="918" y="819" id="plus_node_196">...</text>
+      <path class="arrow" d="M949 809 C962 804 975 797 984 792" stroke="#4f7f3d" stroke-width="2" marker-end="url(#arr-green)" id="plus_node_197" />
+      <path class="arrow" d="M1030 783 C1043 778 1056 773 1069 770" stroke="#4f7f3d" stroke-width="2" marker-end="url(#arr-green)" id="plus_node_198" />
+    </g>
+  </g>
+
+  
+  <g id="panel_e">
+    <desc>Panel (e) DCI contains an upper image-reference fixed-point optimization module with a small photo-like reference image, encoder, U-Net, loss and frozen icons; below it are diffusion paths like DDIM plus a dashed editing separator and an orange high-edit-fidelity editing path. Layout basis is vertical separation of reference module, diffusion inversion module, and editing path module.</desc>
+    <text id="title_e" class="title" x="1480" y="78">(e) DCI</text>
+
+    <g id="e_reference_module">
+      <rect x="1285" y="101" width="98" height="97" fill="#2c3132" stroke="#e8bd00" stroke-width="3" id="plus_node_199" />
+      <circle cx="1333" cy="139" r="20" fill="#e6b194" id="plus_node_200" />
+      <path d="M1320 121 C1333 98 1368 108 1353 147 C1356 173 1318 177 1309 151 Z" fill="#2f4c3d" opacity=".75" id="plus_node_201" />
+      <path d="M1320 154 C1332 141 1354 143 1362 172 L1311 177 Z" fill="#f5c8b4" opacity=".85" id="plus_node_202" />
+      <circle cx="1312" cy="136" r="13" fill="#cf3c2e" opacity=".45" id="plus_node_203" />
+      <path d="M1302 167 C1319 155 1342 157 1365 183" stroke="#fff" stroke-width="2" fill="none" opacity=".45" id="plus_node_204" />
+      <path class="arrow" d="M1332 203 V224" stroke="#000" stroke-width="2.2" marker-end="url(#arr-black)" id="plus_node_205" />
+      <text x="1744" y="133" font-family="Arial" font-size="34" fill="#00aef0" id="plus_node_206">❄</text>
+      <polygon points="1680,117 1751,152 1680,193" fill="#fde5d4" id="plus_node_207" />
+      <text class="label" x="1690" y="164" id="plus_node_208">U-Net</text>
+      <text class="smalllabel" x="1512" y="148" id="plus_node_209">Fixed-point</text>
+      <text class="smalllabel" x="1508" y="176" id="plus_node_210">optimization</text>
+      <path class="arrow" d="M1668 155 H1644" stroke="#f47a28" stroke-width="2" marker-end="url(#arr-outline-orange)" id="plus_node_211" />
+      <path class="arrow" d="M1568 230 V194" stroke="#f7a6df" stroke-width="2.2" marker-end="url(#arr-pink)" id="plus_node_212" />
+      <polygon points="1311,230 1354,242 1354,282 1311,294" fill="#b7cbea" id="plus_node_213" />
+      <text class="smalllabel" x="1312" y="271" id="plus_node_214">ENC</text>
+      <text x="1289" y="248" font-family="Arial" font-size="34" fill="#00aef0" id="plus_node_215">❄</text>
+      <path class="arrow" d="M1364 262 H1382" stroke="#79aee2" stroke-width="2.2" marker-end="url(#arr-outline-blue)" id="plus_node_216" />
+      <circle class="nodePk" cx="1418" cy="261" r="24" id="plus_node_217" />
+      <path d="M1443 261 H1477" stroke="#fb91b7" stroke-width="2" stroke-dasharray="7 5" marker-end="url(#arr-pink)" id="plus_node_218" />
+      <circle class="nodePk" cx="1512" cy="261" r="24" id="plus_node_219" />
+      <path class="arrow" d="M1548 261 H1586" stroke="#f7a6df" stroke-width="8" marker-start="url(#arr-pink-start)" marker-end="url(#arr-pink)" id="plus_node_220" />
+      <circle class="nodeV" cx="1617" cy="261" r="24" id="plus_node_221" />
+      <text class="label" x="1549" y="293" font-style="italic" id="plus_node_222">loss</text>
+      <text class="label" x="1382" y="319" id="plus_node_223">Image reference</text>
+      <path d="M1618 294 V401" stroke="#c994e8" stroke-width="2" stroke-dasharray="7 4" marker-end="url(#arr-pink)" id="plus_node_224" />
+    </g>
+
+    <g id="e_diffusion_module">
+      <g id="e_top_chain">
+        <circle class="nodeG" cx="1314" cy="386" r="24" id="plus_node_225" /><text class="nodeText" x="1314" y="388" id="plus_node_226">Z<tspan class="sub">T</tspan></text>
+        <circle class="nodeG" cx="1406" cy="386" r="24" id="plus_node_227" /><text class="nodeText" x="1406" y="388" id="plus_node_228">Z<tspan class="sub">T-1</tspan></text>
+        <circle class="nodeG" cx="1578" cy="386" r="24" id="plus_node_229" /><text class="nodeText" x="1578" y="388" id="plus_node_230">Z<tspan class="sub">1</tspan></text>
+        <circle class="nodeG" cx="1672" cy="386" r="24" id="plus_node_231" /><text class="nodeText" x="1672" y="388" id="plus_node_232">Z<tspan class="sub">0</tspan></text>
+        <path class="arrow" d="M1338 385 H1378" stroke="#0072bc" stroke-width="4" marker-end="url(#arr-blue)" id="plus_node_233" />
+        <path class="arrow" d="M1430 385 H1475" stroke="#0072bc" stroke-width="4" marker-end="url(#arr-blue)" id="plus_node_234" />
+        <text class="label" x="1479" y="390" id="plus_node_235">...</text>
+        <path class="arrow" d="M1513 385 H1549" stroke="#0072bc" stroke-width="4" marker-end="url(#arr-blue)" id="plus_node_236" />
+        <path class="arrow" d="M1603 385 H1643" stroke="#0072bc" stroke-width="4" marker-end="url(#arr-blue)" id="plus_node_237" />
+      </g>
+      <text class="label" x="1282" y="460" id="plus_node_238">D<tspan class="sub">noi</tspan></text>
+      <path class="arrow" d="M1293 405 C1271 432 1271 482 1296 506" stroke="#ff0064" stroke-width="2.5" marker-start="url(#arr-magenta-start)" marker-end="url(#arr-magenta)" id="plus_node_239" />
+      <text class="label" x="1718" y="438" id="plus_node_240">D<tspan class="sub">rec</tspan></text>
+      <path class="arrow" d="M1707 391 C1726 405 1726 425 1709 438" stroke="#ff0000" stroke-width="2.5" marker-start="url(#arr-red-start)" marker-end="url(#arr-red)" id="plus_node_241" />
+      <g id="e_purple_path">
+        <circle class="nodeP" cx="1617" cy="462" r="24" id="plus_node_242" /><text class="nodeText" x="1617" y="464" id="plus_node_243">Z<tspan class="sub">1</tspan></text>
+        <circle class="nodeP" cx="1416" cy="501" r="24" id="plus_node_244" /><text class="nodeText" x="1416" y="503" id="plus_node_245">Z<tspan class="sub">T-1</tspan></text>
+        <circle class="nodeP" cx="1320" cy="516" r="24" id="plus_node_246" /><text class="nodeText" x="1320" y="518" id="plus_node_247">Z<tspan class="sub">T</tspan></text>
+        <path class="arrow" d="M1672 410 C1666 440 1648 454 1640 458" stroke="#7135a8" stroke-width="2.2" marker-end="url(#arr-purple)" id="plus_node_248" />
+        <text class="label" x="1502" y="494" id="plus_node_249">...</text>
+        <path class="arrow" d="M1593 468 C1553 490 1494 503 1441 502" stroke="#7135a8" stroke-width="2.2" marker-end="url(#arr-purple)" id="plus_node_250" />
+        <path class="arrow" d="M1414 525 C1385 526 1365 525 1344 516" stroke="#7135a8" stroke-width="2.2" marker-end="url(#arr-purple)" id="plus_node_251" />
+        <path class="arrow" d="M1607 439 C1599 404 1636 393 1642 429" stroke="#a35d5e" stroke-width="2.4" marker-end="url(#arr-brown)" id="plus_node_252" />
+        <path class="arrow" d="M1409 477 C1398 446 1436 437 1446 471" stroke="#a35d5e" stroke-width="2.4" marker-end="url(#arr-brown)" id="plus_node_253" />
+        <path class="arrow" d="M1310 493 C1300 462 1339 453 1345 489" stroke="#a35d5e" stroke-width="2.4" marker-end="url(#arr-brown)" id="plus_node_254" />
+      </g>
+      <g id="e_green_path">
+        <circle class="nodeGr" cx="1422" cy="566" r="24" id="plus_node_255" /><text class="nodeText" x="1422" y="568" id="plus_node_256">Z<tspan class="sub">T-1</tspan></text>
+        <circle class="nodeGr" cx="1600" cy="529" r="24" id="plus_node_257" /><text class="nodeText" x="1600" y="531" id="plus_node_258">Z<tspan class="sub">1</tspan></text>
+        <circle class="nodeGr" cx="1680" cy="465" r="24" id="plus_node_259" /><text class="nodeText" x="1680" y="467" id="plus_node_260">Z<tspan class="sub">0</tspan></text>
+        <path class="arrow" d="M1340 535 C1356 553 1378 565 1398 569" stroke="#4f7f3d" stroke-width="2" marker-end="url(#arr-green)" id="plus_node_261" />
+        <path class="arrow" d="M1447 570 C1463 569 1482 563 1500 557" stroke="#4f7f3d" stroke-width="2" marker-end="url(#arr-green)" id="plus_node_262" />
+        <text class="label" x="1505" y="559" id="plus_node_263">...</text>
+        <path class="arrow" d="M1543 543 C1556 538 1572 533 1578 532" stroke="#4f7f3d" stroke-width="2" marker-end="url(#arr-green)" id="plus_node_264" />
+        <path class="arrow" d="M1620 515 C1634 505 1648 493 1661 480" stroke="#4f7f3d" stroke-width="2" marker-end="url(#arr-green)" id="plus_node_265" />
+      </g>
+      <line x1="1246" y1="615" x2="1811" y2="615" class="dashdot" id="plus_node_266" />
+    </g>
+
+    <g id="e_editing_path">
+      <path class="arrow" d="M1320 540 C1296 604 1310 680 1365 725" stroke="#cc6320" stroke-width="2" marker-end="url(#arr-orange)" id="plus_node_267" />
+      <circle class="nodeO" cx="1391" cy="739" r="24" id="plus_node_268" />
+      <path class="arrow" d="M1414 749 C1437 757 1457 771 1477 781" stroke="#cc6320" stroke-width="2" marker-end="url(#arr-orange)" id="plus_node_269" />
+      <text class="label" x="1479" y="782" id="plus_node_270">...</text>
+      <circle class="nodeO" cx="1551" cy="800" r="24" id="plus_node_271" />
+      <path class="arrow" d="M1574 808 C1591 815 1610 817 1628 812" stroke="#cc6320" stroke-width="2" marker-end="url(#arr-orange)" id="plus_node_272" />
+      <circle class="nodeO" cx="1660" cy="808" r="24" id="plus_node_273" />
+      <text class="label" x="1458" y="664" id="plus_node_274">Editing path</text>
+      <text class="label" x="1487" y="749" id="plus_node_275">High Edit Fidelity</text>
+    </g>
+  </g>
+
+  
+  <g id="legend">
+    <desc>Legend maps colors and arrow styles: green reconstruction path, orange editing path, purple inversion path, blue reference path, yellow interaction, and brown optimization.</desc>
+    <circle class="nodeGr" cx="164" cy="933" r="24" id="plus_node_276" />
+    <path class="arrow" d="M188 934 H287" stroke="#9bad92" stroke-width="3" marker-end="url(#arr-green)" id="plus_node_277" />
+    <text class="label" x="98" y="994" id="plus_node_278">Reconstruction path</text>
+
+    <circle class="nodeO" cx="460" cy="933" r="24" id="plus_node_279" />
+    <path class="arrow" d="M485 934 H583" stroke="#cc6320" stroke-width="2.4" marker-end="url(#arr-orange)" id="plus_node_280" />
+    <text class="label" x="431" y="994" id="plus_node_281">Editing path</text>
+
+    <circle class="nodeP" cx="760" cy="935" r="24" id="plus_node_282" />
+    <path class="arrow" d="M784 936 H884" stroke="#7135a8" stroke-width="2.4" marker-end="url(#arr-purple)" id="plus_node_283" />
+    <text class="label" x="722" y="994" id="plus_node_284">Inversion path</text>
+
+    <circle class="nodeB" cx="1085" cy="933" r="24" id="plus_node_285" />
+    <path class="arrow" d="M1109 935 H1211" stroke="#79b2e2" stroke-width="2.4" marker-end="url(#arr-lblue)" id="plus_node_286" />
+    <text class="label" x="1042" y="994" id="plus_node_287">Reference path</text>
+
+    <path class="arrow" d="M1397 941 H1458" stroke="#c6c51e" stroke-width="3" marker-start="url(#arr-yellow-start)" marker-end="url(#arr-yellow)" id="plus_node_288" />
+    <text class="label" x="1358" y="994" id="plus_node_289">Interaction</text>
+
+    <path class="arrow" d="M1640 951 C1624 918 1665 906 1669 939" stroke="#a35d5e" stroke-width="2.4" marker-end="url(#arr-brown)" id="plus_node_290" />
+    <path class="arrow" d="M1682 944 H1744" stroke="#a35d5e" stroke-width="3" marker-end="url(#arr-brown)" id="plus_node_291" />
+    <text class="label" x="1603" y="994" id="plus_node_292">optimization</text>
+  </g>
+</svg>

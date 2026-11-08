@@ -1,0 +1,15 @@
+{
+  "checks": [
+    "Remote merges and local-to-remote ID migration preserve image and task metadata; API payload excludes all local fields",
+    "New tasks default to image-to-SVG; primary input, action and status fit both desktop sizes",
+    "Task types remain independent of references; text and Blob images restore across refresh and task switching",
+    "Replacing and removing a reference releases its previous Blob association",
+    "Invalid drops are prevented; image paste is scoped to the upload context and leaves text inputs alone",
+    "Opening the real SVG example from a task returns to the same task and image",
+    "Document view has its own context; editor rename keeps one document and returns to the library",
+    "Quota and missing-Blob errors preserve text and SVG documents, show partial-save feedback and allow recovery and task deletion",
+    "Legacy drafts without task type retain create semantics, including reference input"
+  ],
+  "errors": [],
+  "requests": []
+}

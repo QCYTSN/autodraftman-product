@@ -1,0 +1,89 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="3840" height="1529" viewBox="0 0 3840 1529">
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="10" markerHeight="10" orient="auto" markerUnits="strokeWidth">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#000"/>
+    </marker>
+    <style>
+      .line{fill:none;stroke:#000;stroke-width:5;stroke-linecap:butt;stroke-linejoin:miter}
+      .dash{fill:none;stroke:#000;stroke-width:5;stroke-linecap:butt;stroke-linejoin:miter;stroke-dasharray:24 18}
+      .sans{font-family:Arial, Helvetica, sans-serif;fill:#000}
+      .serif{font-family:"Times New Roman", Times, serif;fill:#000;font-style:italic}
+    </style>
+  </defs>
+
+  <rect x="0" y="0" width="3840" height="1529" fill="#fff"/>
+
+  <path class="dash" d="M191 230 L2564 230" marker-end="url(#arrow)"/>
+  <path class="dash" d="M166 546 L3495 546 L3495 704" marker-end="url(#arrow)"/>
+  <path class="dash" d="M124 1027 L124 1343 L3214 1343" marker-end="url(#arrow)"/>
+
+  <path class="line" d="M2459 703 L2459 307 L2564 307" marker-end="url(#arrow)"/>
+  <path class="line" d="M2459 1020 L2459 1305 L3214 1305" marker-end="url(#arrow)"/>
+
+  <path class="line" d="M748 1087 L1724 1087"/>
+  <path class="line" d="M748 1087 L748 932" marker-end="url(#arrow)"/>
+  <path class="line" d="M1724 1087 L1724 932" marker-end="url(#arrow)"/>
+
+  <path class="line" d="M169 865 L223 865" marker-end="url(#arrow)"/>
+  <path class="line" d="M600 865 L681 865" marker-end="url(#arrow)"/>
+  <path class="line" d="M816 865 L938 865" marker-end="url(#arrow)"/>
+  <path class="line" d="M1332 865 L1439 865" marker-end="url(#arrow)"/>
+  <path class="line" d="M1573 865 L1656 865" marker-end="url(#arrow)"/>
+  <path class="line" d="M1791 865 L1906 865" marker-end="url(#arrow)"/>
+  <path class="line" d="M2316 865 L2403 865" marker-end="url(#arrow)"/>
+  <path class="line" d="M2517 865 L2648 865" marker-end="url(#arrow)"/>
+  <path class="line" d="M3057 865 L3214 865" marker-end="url(#arrow)"/>
+  <path class="line" d="M3090 307 L3214 307" marker-end="url(#arrow)"/>
+
+  <rect x="75" y="73" width="116" height="316" fill="#f8d1bd" stroke="#ef6b2a" stroke-width="5"/>
+  <rect x="78" y="451" width="88" height="190" fill="#f8d1bd" stroke="#ef6b2a" stroke-width="5"/>
+  <rect x="78" y="707" width="91" height="320" fill="#f8d1bd" stroke="#ef6b2a" stroke-width="5"/>
+
+  <polygon points="223,672 600,765 600,970 223,1062" fill="#ff9da2" stroke="#ff1116" stroke-width="5" stroke-linejoin="miter"/>
+  <circle cx="748" cy="865" r="67" fill="#96dced" stroke="#48aad8" stroke-width="5"/>
+  <rect x="938" y="769" width="394" height="193" fill="#d5a6d0" stroke="#a12aa0" stroke-width="5"/>
+  <rect x="1439" y="795" width="134" height="135" fill="#ffeca6" stroke="#ffbf00" stroke-width="5"/>
+  <circle cx="1724" cy="865" r="67" fill="#96dced" stroke="#48aad8" stroke-width="5"/>
+  <rect x="1143" y="1025" width="148" height="126" fill="#d5a6d0" stroke="#a12aa0" stroke-width="5"/>
+  <polygon points="1906,766 2316,670 2316,1056 1906,960" fill="#c8e4ba" stroke="#4cad38" stroke-width="5" stroke-linejoin="miter"/>
+  <rect x="2403" y="703" width="114" height="317" fill="#f8d1bd" stroke="#ef6b2a" stroke-width="5"/>
+  <rect x="2648" y="735" width="409" height="249" fill="#ffff00" stroke="#ff3b12" stroke-width="5"/>
+  <polygon points="2564,111 3090,208 3090,409 2564,506" fill="#d2bfe0" stroke="#7136a6" stroke-width="5" stroke-linejoin="miter"/>
+  <rect x="3214" y="151" width="560" height="315" fill="#fbe1d3" stroke="#ef6b2a" stroke-width="5"/>
+  <rect x="3214" y="704" width="560" height="313" fill="#fbe1d3" stroke="#ef6b2a" stroke-width="5"/>
+  <rect x="3214" y="1141" width="560" height="319" fill="#fbe1d3" stroke="#ef6b2a" stroke-width="5"/>
+
+  <text x="122" y="255" class="serif" font-size="72" text-anchor="middle">Y</text>
+  <text x="110" y="574" class="serif" font-size="72" text-anchor="middle">S</text>
+  <text x="110" y="893" class="serif" font-size="72" text-anchor="middle">X</text>
+
+  <text x="359" y="874" class="sans" font-size="72" text-anchor="middle">Encoder</text>
+  <text x="389" y="974" class="serif" font-size="72" text-anchor="middle">(f)</text>
+
+  <text x="748" y="887" class="sans" font-size="58" text-anchor="middle">+</text>
+  <text x="1135" y="896" class="sans" font-size="72" text-anchor="middle">Quantizer</text>
+  <text x="1506" y="892" class="serif" font-size="72" text-anchor="middle">Z</text>
+  <text x="1724" y="887" class="sans" font-size="58" text-anchor="middle">-</text>
+  <text x="1217" y="1116" class="serif" font-size="72" text-anchor="middle">U</text>
+
+  <text x="2111" y="855" class="sans" font-size="72" text-anchor="middle">Decoder</text>
+  <text x="2111" y="953" class="serif" font-size="72" text-anchor="middle">(g)</text>
+
+  <text x="2460" y="889" class="serif" font-size="72" text-anchor="middle">Ŷ</text>
+
+  <text x="2853" y="842" class="sans" font-size="72" text-anchor="middle">Classifier</text>
+  <text x="2853" y="937" class="serif" font-size="72" text-anchor="middle">(c)</text>
+  <text x="3138" y="830" class="serif" font-size="72" text-anchor="middle">Ŝ</text>
+
+  <text x="2825" y="297" class="sans" font-size="72" text-anchor="middle">Discriminator</text>
+  <text x="2825" y="391" class="serif" font-size="72" text-anchor="middle">(d)</text>
+
+  <text x="3494" y="289" class="sans" font-size="72" text-anchor="middle">Wasserstein</text>
+  <text x="3494" y="386" class="sans" font-size="72" text-anchor="middle">Loss</text>
+
+  <text x="3494" y="844" class="sans" font-size="72" text-anchor="middle">Classification</text>
+  <text x="3494" y="941" class="sans" font-size="72" text-anchor="middle">Loss</text>
+
+  <text x="3494" y="1281" class="sans" font-size="72" text-anchor="middle">Distortion</text>
+  <text x="3494" y="1378" class="sans" font-size="72" text-anchor="middle">Loss</text>
+</svg>

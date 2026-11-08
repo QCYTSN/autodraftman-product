@@ -1,0 +1,208 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="2048" height="1773" viewBox="0 0 2048 1773">
+  <defs>
+    <marker id="arrow-black" markerWidth="22" markerHeight="18" refX="20" refY="9" orient="auto" markerUnits="userSpaceOnUse">
+      <path d="M 0 0 L 22 9 L 0 18 Z" fill="#000000"/>
+    </marker>
+    <marker id="arrow-orange" markerWidth="22" markerHeight="18" refX="20" refY="9" orient="auto" markerUnits="userSpaceOnUse">
+      <path d="M 0 0 L 22 9 L 0 18 Z" fill="#f57c22"/>
+    </marker>
+    <marker id="arrow-blue" markerWidth="22" markerHeight="18" refX="20" refY="9" orient="auto" markerUnits="userSpaceOnUse">
+      <path d="M 0 0 L 22 9 L 0 18 Z" fill="#559ccf"/>
+    </marker>
+    <marker id="arrow-green" markerWidth="22" markerHeight="18" refX="20" refY="9" orient="auto" markerUnits="userSpaceOnUse">
+      <path d="M 0 0 L 22 9 L 0 18 Z" fill="#65ae42"/>
+    </marker>
+  </defs>
+  <rect id="background" data-pb-role="background" data-pb-editable="true" x="0" y="0" width="2048" height="1773" fill="#ffffff"/>
+
+  <g id="panel-main-module" data-pb-role="panel" data-pb-editable="true">
+    <rect id="module-outer-frame" x="56" y="174" width="1922" height="1384" rx="28" ry="28" fill="#e9e9e9" stroke="#2d4d60" stroke-width="4"/>
+    <text id="label-title" x="1294" y="302" font-family="Arial, Helvetica, sans-serif" font-size="82" font-style="normal" font-weight="400" fill="#000000" data-pb-role="title" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="horizontal">C-Siren Module</text>
+  </g>
+
+  <g id="connector-main-spine" data-pb-role="connector" data-pb-editable="true" fill="none">
+    <line id="flow-output-arrow" x1="910" y1="228" x2="910" y2="119" stroke="#000000" stroke-width="7" marker-end="url(#arrow-black)"/>
+    <line id="flow-sine-in" x1="910" y1="368" x2="910" y2="304" stroke="#000000" stroke-width="7" marker-end="url(#arrow-black)"/>
+    <line id="flow-linear-in" x1="910" y1="552" x2="910" y2="492" stroke="#000000" stroke-width="7" marker-end="url(#arrow-black)"/>
+    <line id="flow-multiply-to-sum" x1="910" y1="727" x2="910" y2="674" stroke="#000000" stroke-width="7" marker-end="url(#arrow-black)"/>
+  </g>
+
+  <g id="label-formula-x-prime" data-pb-role="formula" data-pb-editable="true" data-pb-formula-bbox="873 39 70 55" data-pb-formula-latex-b64="eCc=">
+    <text id="label-formula-x-prime-fallback" x="908" y="90" font-family="Times New Roman, Times, serif" font-size="72" font-style="italic" font-weight="400" fill="#000000" text-anchor="middle" data-pb-role="formula" data-pb-editable="true" data-pb-text-source="visual_inferred" data-pb-orientation="horizontal">x′</text>
+    <desc>LaTeX: x'</desc>
+  </g>
+
+  <g id="module-top-ops" data-pb-role="node" data-pb-editable="true">
+    <rect id="box-sine" x="797" y="228" width="226" height="76" fill="#ffffff" stroke="#2b2b2b" stroke-width="4"/>
+    <text id="label-sine" x="910" y="281" font-family="Arial, Helvetica, sans-serif" font-size="52" font-style="normal" font-weight="400" fill="#000000" text-anchor="middle" data-pb-role="label" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="horizontal">Sine</text>
+    <rect id="box-top-linear" x="690" y="369" width="440" height="122" rx="18" ry="18" fill="#ffffff" stroke="#2b2b2b" stroke-width="4"/>
+    <g id="label-formula-top-linear" data-pb-role="formula" data-pb-editable="true" data-pb-formula-bbox="732 405 348 56" data-pb-formula-latex-b64="ZF9pIFx0aW1lcyBkX28=">
+      <text id="label-formula-top-linear-fallback" x="910" y="449" font-family="Arial, Helvetica, sans-serif" font-size="52" font-style="normal" font-weight="400" fill="#000000" text-anchor="middle" data-pb-role="formula" data-pb-editable="true" data-pb-text-source="visual_inferred" data-pb-orientation="horizontal">Linear <tspan font-family="Times New Roman, Times, serif" font-style="italic">d</tspan><tspan baseline-shift="sub" font-size="32">i</tspan> × <tspan font-family="Times New Roman, Times, serif" font-style="italic">d</tspan><tspan baseline-shift="sub" font-size="32">o</tspan></text>
+      <desc>LaTeX: d_i \times d_o</desc>
+    </g>
+  </g>
+
+  <g id="node-operators" data-pb-role="node" data-pb-editable="true">
+    <circle id="node-sum-circle" cx="909" cy="609" r="62" fill="#ffffff" stroke="#000000" stroke-width="4"/>
+    <text id="label-plus" x="909" y="641" font-family="Arial, Helvetica, sans-serif" font-size="88" font-style="normal" font-weight="400" fill="#000000" text-anchor="middle" data-pb-role="label" data-pb-editable="true" data-pb-text-source="visual_inferred" data-pb-orientation="horizontal">+</text>
+    <circle id="node-multiply-circle" cx="908" cy="790" r="62" fill="#ffffff" stroke="#000000" stroke-width="4"/>
+    <text id="label-times" x="908" y="823" font-family="Arial, Helvetica, sans-serif" font-size="94" font-style="normal" font-weight="400" fill="#000000" text-anchor="middle" data-pb-role="label" data-pb-editable="true" data-pb-text-source="visual_inferred" data-pb-orientation="horizontal">×</text>
+  </g>
+
+  <g id="connectors-colored" data-pb-role="connector" data-pb-editable="true" fill="none">
+    <polyline id="flow-orange-skip" points="333,894 333,609 846,609" stroke="#f57c22" stroke-width="7" marker-end="url(#arrow-orange)"/>
+    <polyline id="flow-green-skip" points="1747,754 1747,609 972,609" stroke="#65ae42" stroke-width="7" marker-end="url(#arrow-green)"/>
+    <line id="flow-alpha-to-multiply" x1="1088" y1="790" x2="974" y2="790" stroke="#65ae42" stroke-width="7" marker-end="url(#arrow-green)"/>
+    <line id="flow-epsilon-up" x1="1589" y1="920" x2="1589" y2="850" stroke="#65ae42" stroke-width="7" marker-end="url(#arrow-green)"/>
+    <line id="flow-hx-to-multiply" x1="910" y1="895" x2="910" y2="854" stroke="#559ccf" stroke-width="7" marker-end="url(#arrow-blue)"/>
+    <line id="flow-hi-token" x1="333" y1="1044" x2="333" y2="969" stroke="#f57c22" stroke-width="7" marker-end="url(#arrow-orange)"/>
+    <line id="flow-hx-token" x1="910" y1="1045" x2="910" y2="969" stroke="#559ccf" stroke-width="7" marker-end="url(#arrow-blue)"/>
+  </g>
+
+  <g id="token-h-i" data-pb-role="node" data-pb-editable="true">
+    <rect x="186" y="895" width="292" height="72" rx="8" ry="8" fill="#f8eee0" stroke="#f57c22" stroke-width="4"/>
+    <circle cx="224" cy="931" r="25" fill="#ffffff" stroke="#f57c22" stroke-width="4"/>
+    <circle cx="294" cy="931" r="25" fill="#ffffff" stroke="#f57c22" stroke-width="4"/>
+    <circle cx="365" cy="931" r="25" fill="#ffffff" stroke="#f57c22" stroke-width="4"/>
+    <circle cx="436" cy="931" r="25" fill="#ffffff" stroke="#f57c22" stroke-width="4"/>
+  </g>
+  <g id="label-formula-h-i" data-pb-role="formula" data-pb-editable="true" data-pb-formula-bbox="95 896 76 64" data-pb-formula-latex-b64="aF9J">
+    <text x="95" y="958" font-family="Times New Roman, Times, serif" font-size="70" font-style="italic" font-weight="400" fill="#000000" data-pb-role="formula" data-pb-editable="true" data-pb-text-source="visual_inferred" data-pb-orientation="horizontal">h<tspan baseline-shift="sub" font-size="42">I</tspan></text>
+    <desc>LaTeX: h_I</desc>
+  </g>
+
+  <g id="token-h-x" data-pb-role="node" data-pb-editable="true">
+    <rect x="764" y="895" width="294" height="72" rx="8" ry="8" fill="#e6f4fb" stroke="#2292d0" stroke-width="4"/>
+    <circle cx="802" cy="931" r="25" fill="#ffffff" stroke="#2292d0" stroke-width="4"/>
+    <circle cx="872" cy="931" r="25" fill="#ffffff" stroke="#2292d0" stroke-width="4"/>
+    <circle cx="942" cy="931" r="25" fill="#ffffff" stroke="#2292d0" stroke-width="4"/>
+    <circle cx="1012" cy="931" r="25" fill="#ffffff" stroke="#2292d0" stroke-width="4"/>
+  </g>
+  <g id="label-formula-h-x" data-pb-role="formula" data-pb-editable="true" data-pb-formula-bbox="670 895 78 65" data-pb-formula-latex-b64="aF94">
+    <text x="670" y="958" font-family="Times New Roman, Times, serif" font-size="70" font-style="italic" font-weight="400" fill="#000000" data-pb-role="formula" data-pb-editable="true" data-pb-text-source="visual_inferred" data-pb-orientation="horizontal">h<tspan baseline-shift="sub" font-size="42">x</tspan></text>
+    <desc>LaTeX: h_x</desc>
+  </g>
+
+  <g id="token-alpha" data-pb-role="node" data-pb-editable="true">
+    <rect x="1242" y="754" width="292" height="72" rx="8" ry="8" fill="#e5f2dc" stroke="#65ae42" stroke-width="4"/>
+    <circle cx="1278" cy="790" r="25" fill="#ffffff" stroke="#65ae42" stroke-width="4"/>
+    <circle cx="1349" cy="790" r="25" fill="#ffffff" stroke="#65ae42" stroke-width="4"/>
+    <circle cx="1421" cy="790" r="25" fill="#ffffff" stroke="#65ae42" stroke-width="4"/>
+    <circle cx="1493" cy="790" r="25" fill="#ffffff" stroke="#65ae42" stroke-width="4"/>
+  </g>
+  <g id="label-formula-scale" data-pb-role="formula" data-pb-editable="true" data-pb-formula-bbox="1091 744 495 95" data-pb-formula-latex-b64="MStcYWxwaGFfdA==">
+    <text x="1092" y="815" font-family="Arial, Helvetica, sans-serif" font-size="70" font-style="normal" font-weight="400" fill="#000000" data-pb-role="formula" data-pb-editable="true" data-pb-text-source="visual_inferred" data-pb-orientation="horizontal">(1+</text>
+    <text x="1538" y="815" font-family="Arial, Helvetica, sans-serif" font-size="70" font-style="normal" font-weight="400" fill="#000000" data-pb-role="formula" data-pb-editable="true" data-pb-text-source="visual_inferred" data-pb-orientation="horizontal">)</text>
+    <desc>LaTeX: 1+\alpha_t</desc>
+  </g>
+  <g id="label-formula-alpha" data-pb-role="formula" data-pb-editable="true" data-pb-formula-bbox="1350 825 138 63" data-pb-formula-latex-b64="XGFscGhhX3Q=">
+    <text x="1420" y="874" font-family="Times New Roman, Times, serif" font-size="70" font-style="italic" font-weight="400" fill="#000000" text-anchor="middle" data-pb-role="formula" data-pb-editable="true" data-pb-text-source="visual_inferred" data-pb-orientation="horizontal">α<tspan baseline-shift="sub" font-size="42">t</tspan></text>
+    <desc>LaTeX: \alpha_t</desc>
+  </g>
+
+  <g id="token-epsilon" data-pb-role="node" data-pb-editable="true">
+    <rect x="1598" y="754" width="294" height="72" rx="8" ry="8" fill="#e5f2dc" stroke="#65ae42" stroke-width="4"/>
+    <circle cx="1635" cy="790" r="25" fill="#ffffff" stroke="#65ae42" stroke-width="4"/>
+    <circle cx="1706" cy="790" r="25" fill="#ffffff" stroke="#65ae42" stroke-width="4"/>
+    <circle cx="1777" cy="790" r="25" fill="#ffffff" stroke="#65ae42" stroke-width="4"/>
+    <circle cx="1848" cy="790" r="25" fill="#ffffff" stroke="#65ae42" stroke-width="4"/>
+  </g>
+  <g id="label-formula-epsilon" data-pb-role="formula" data-pb-editable="true" data-pb-formula-bbox="1713 823 119 65" data-pb-formula-latex-b64="XGVwc2lsb25fdA==">
+    <text x="1772" y="874" font-family="Times New Roman, Times, serif" font-size="70" font-style="italic" font-weight="400" fill="#000000" text-anchor="middle" data-pb-role="formula" data-pb-editable="true" data-pb-text-source="visual_inferred" data-pb-orientation="horizontal">ϵ<tspan baseline-shift="sub" font-size="42">t</tspan></text>
+    <desc>LaTeX: \epsilon_t</desc>
+  </g>
+
+  <g id="panel-orange-branch" data-pb-role="panel" data-pb-editable="true">
+    <rect x="88" y="1024" width="490" height="492" fill="#f3c9aa" stroke="#000000" stroke-width="3" stroke-dasharray="8 6"/>
+    <rect x="114" y="1044" width="438" height="122" rx="18" ry="18" fill="#f47b21" stroke="#743a0c" stroke-width="4"/>
+    <g id="label-formula-orange-top" data-pb-role="formula" data-pb-editable="true" data-pb-formula-bbox="148 1063 364 85" data-pb-formula-latex-b64="ZF9pIFx0aW1lcyBkX2k=">
+      <text x="333" y="1124" font-family="Arial, Helvetica, sans-serif" font-size="52" font-style="normal" font-weight="400" fill="#ffffff" text-anchor="middle" data-pb-role="formula" data-pb-editable="true" data-pb-text-source="visual_inferred" data-pb-orientation="horizontal">Linear <tspan font-family="Times New Roman, Times, serif" font-style="italic">d</tspan><tspan baseline-shift="sub" font-size="32">i</tspan> × <tspan font-family="Times New Roman, Times, serif" font-style="italic">d</tspan><tspan baseline-shift="sub" font-size="32">i</tspan></text>
+      <desc>LaTeX: d_i \times d_i</desc>
+    </g>
+    <rect x="224" y="1230" width="222" height="75" fill="#f47b21" stroke="#743a0c" stroke-width="4"/>
+    <text x="335" y="1286" font-family="Arial, Helvetica, sans-serif" font-size="56" font-style="normal" font-weight="400" fill="#ffffff" text-anchor="middle" data-pb-role="label" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="horizontal">GELU</text>
+    <rect x="114" y="1368" width="438" height="122" rx="18" ry="18" fill="#f47b21" stroke="#743a0c" stroke-width="4"/>
+    <g id="label-formula-orange-bottom" data-pb-role="formula" data-pb-editable="true" data-pb-formula-bbox="148 1390 366 83" data-pb-formula-latex-b64="ZF9JIFx0aW1lcyBkX2k=">
+      <text x="333" y="1448" font-family="Arial, Helvetica, sans-serif" font-size="52" font-style="normal" font-weight="400" fill="#ffffff" text-anchor="middle" data-pb-role="formula" data-pb-editable="true" data-pb-text-source="visual_inferred" data-pb-orientation="horizontal">Linear <tspan font-family="Times New Roman, Times, serif" font-style="italic">d</tspan><tspan baseline-shift="sub" font-size="32">I</tspan> × <tspan font-family="Times New Roman, Times, serif" font-style="italic">d</tspan><tspan baseline-shift="sub" font-size="32">i</tspan></text>
+      <desc>LaTeX: d_I \times d_i</desc>
+    </g>
+  </g>
+
+  <g id="panel-blue-branch" data-pb-role="panel" data-pb-editable="true">
+    <rect x="666" y="1023" width="488" height="492" fill="#bed8ec" stroke="#000000" stroke-width="3" stroke-dasharray="8 6"/>
+    <rect x="692" y="1044" width="432" height="122" rx="18" ry="18" fill="#559ccf" stroke="#245b7e" stroke-width="4"/>
+    <g id="label-formula-blue-top" data-pb-role="formula" data-pb-editable="true" data-pb-formula-bbox="735 1077 349 61" data-pb-formula-latex-b64="ZF9pIFx0aW1lcyBkX2k=">
+      <text x="909" y="1124" font-family="Arial, Helvetica, sans-serif" font-size="52" font-style="normal" font-weight="400" fill="#ffffff" text-anchor="middle" data-pb-role="formula" data-pb-editable="true" data-pb-text-source="visual_inferred" data-pb-orientation="horizontal">Linear <tspan font-family="Times New Roman, Times, serif" font-style="italic">d</tspan><tspan baseline-shift="sub" font-size="32">i</tspan> × <tspan font-family="Times New Roman, Times, serif" font-style="italic">d</tspan><tspan baseline-shift="sub" font-size="32">i</tspan></text>
+      <desc>LaTeX: d_i \times d_i</desc>
+    </g>
+    <rect x="800" y="1231" width="224" height="74" fill="#559ccf" stroke="#245b7e" stroke-width="4"/>
+    <text x="912" y="1286" font-family="Arial, Helvetica, sans-serif" font-size="56" font-style="normal" font-weight="400" fill="#ffffff" text-anchor="middle" data-pb-role="label" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="horizontal">GELU</text>
+    <rect x="692" y="1368" width="432" height="122" rx="18" ry="18" fill="#559ccf" stroke="#245b7e" stroke-width="4"/>
+    <g id="label-formula-blue-bottom" data-pb-role="formula" data-pb-editable="true" data-pb-formula-bbox="723 1386 369 88" data-pb-formula-latex-b64="ZF9pIFx0aW1lcyBkX2k=">
+      <text x="909" y="1448" font-family="Arial, Helvetica, sans-serif" font-size="52" font-style="normal" font-weight="400" fill="#ffffff" text-anchor="middle" data-pb-role="formula" data-pb-editable="true" data-pb-text-source="visual_inferred" data-pb-orientation="horizontal">Linear <tspan font-family="Times New Roman, Times, serif" font-style="italic">d</tspan><tspan baseline-shift="sub" font-size="32">i</tspan> × <tspan font-family="Times New Roman, Times, serif" font-style="italic">d</tspan><tspan baseline-shift="sub" font-size="32">i</tspan></text>
+      <desc>LaTeX: d_i \times d_i</desc>
+    </g>
+  </g>
+
+  <g id="panel-green-conditioning" data-pb-role="panel" data-pb-editable="true">
+    <rect x="1243" y="895" width="698" height="622" fill="#cde0c0" stroke="#000000" stroke-width="3" stroke-dasharray="8 6"/>
+    <rect x="1336" y="922" width="510" height="120" rx="18" ry="18" fill="#69ad42" stroke="#265679" stroke-width="4"/>
+    <g id="label-formula-green-top" data-pb-role="formula" data-pb-editable="true" data-pb-formula-bbox="1382 955 407 60" data-pb-formula-latex-b64="MmRfaSBcdGltZXMgMmRfaQ==">
+      <text x="1591" y="1001" font-family="Arial, Helvetica, sans-serif" font-size="52" font-style="normal" font-weight="400" fill="#ffffff" text-anchor="middle" data-pb-role="formula" data-pb-editable="true" data-pb-text-source="visual_inferred" data-pb-orientation="horizontal">Linear 2<tspan font-family="Times New Roman, Times, serif" font-style="italic">d</tspan><tspan baseline-shift="sub" font-size="32">i</tspan> × 2<tspan font-family="Times New Roman, Times, serif" font-style="italic">d</tspan><tspan baseline-shift="sub" font-size="32">i</tspan></text>
+      <desc>LaTeX: 2d_i \times 2d_i</desc>
+    </g>
+    <rect x="1479" y="1100" width="218" height="74" fill="#69ad42" stroke="#265679" stroke-width="4"/>
+    <text x="1588" y="1155" font-family="Arial, Helvetica, sans-serif" font-size="56" font-style="normal" font-weight="400" fill="#ffffff" text-anchor="middle" data-pb-role="label" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="horizontal">GELU</text>
+    <rect x="1336" y="1225" width="510" height="122" rx="18" ry="18" fill="#69ad42" stroke="#265679" stroke-width="4"/>
+    <g id="label-formula-green-mid" data-pb-role="formula" data-pb-editable="true" data-pb-formula-bbox="1391 1259 404 63" data-pb-formula-latex-b64="ZF9UIFx0aW1lcyAyZF9p">
+      <text x="1591" y="1306" font-family="Arial, Helvetica, sans-serif" font-size="52" font-style="normal" font-weight="400" fill="#ffffff" text-anchor="middle" data-pb-role="formula" data-pb-editable="true" data-pb-text-source="visual_inferred" data-pb-orientation="horizontal">Linear <tspan font-family="Times New Roman, Times, serif" font-style="italic">d</tspan><tspan baseline-shift="sub" font-size="32">T</tspan> × 2<tspan font-family="Times New Roman, Times, serif" font-style="italic">d</tspan><tspan baseline-shift="sub" font-size="32">i</tspan></text>
+      <desc>LaTeX: d_T \times 2d_i</desc>
+    </g>
+    <rect x="1265" y="1398" width="653" height="78" rx="8" ry="8" fill="#69ad42" stroke="#265679" stroke-width="4"/>
+    <text x="1591" y="1458" font-family="Arial, Helvetica, sans-serif" font-size="52" font-style="normal" font-weight="400" fill="#ffffff" text-anchor="middle" data-pb-role="label" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="horizontal">Sinusoidal Embedding</text>
+  </g>
+
+  <g id="connectors-stack-internal" data-pb-role="connector" data-pb-editable="true" fill="none">
+    <line x1="1589" y1="1099" x2="1589" y2="1044" stroke="#65ae42" stroke-width="7" marker-end="url(#arrow-green)"/>
+    <line x1="333" y1="1231" x2="333" y2="1169" stroke="#f57c22" stroke-width="7" marker-end="url(#arrow-orange)"/>
+    <line x1="910" y1="1231" x2="910" y2="1170" stroke="#559ccf" stroke-width="7" marker-end="url(#arrow-blue)"/>
+    <line x1="1590" y1="1226" x2="1590" y2="1176" stroke="#65ae42" stroke-width="7" marker-end="url(#arrow-green)"/>
+    <line x1="333" y1="1369" x2="333" y2="1306" stroke="#f57c22" stroke-width="7" marker-end="url(#arrow-orange)"/>
+    <line x1="910" y1="1369" x2="910" y2="1306" stroke="#559ccf" stroke-width="7" marker-end="url(#arrow-blue)"/>
+    <line x1="1591" y1="1399" x2="1591" y2="1350" stroke="#65ae42" stroke-width="7" marker-end="url(#arrow-green)"/>
+    <line x1="1592" y1="1639" x2="1592" y2="1477" stroke="#65ae42" stroke-width="7" marker-end="url(#arrow-green)"/>
+    <line x1="333" y1="1585" x2="333" y2="1493" stroke="#f57c22" stroke-width="7" marker-end="url(#arrow-orange)"/>
+    <line x1="910" y1="1584" x2="910" y2="1493" stroke="#559ccf" stroke-width="7" marker-end="url(#arrow-blue)"/>
+  </g>
+
+  <g id="token-e-i" data-pb-role="node" data-pb-editable="true">
+    <rect x="118" y="1583" width="435" height="72" rx="8" ry="8" fill="#f8eee0" stroke="#f57c22" stroke-width="4"/>
+    <circle cx="158" cy="1619" r="25" fill="#ffffff" stroke="#f57c22" stroke-width="4"/>
+    <circle cx="229" cy="1619" r="25" fill="#ffffff" stroke="#f57c22" stroke-width="4"/>
+    <circle cx="301" cy="1619" r="25" fill="#ffffff" stroke="#f57c22" stroke-width="4"/>
+    <circle cx="372" cy="1619" r="25" fill="#ffffff" stroke="#f57c22" stroke-width="4"/>
+    <circle cx="445" cy="1619" r="25" fill="#ffffff" stroke="#f57c22" stroke-width="4"/>
+    <circle cx="516" cy="1619" r="25" fill="#ffffff" stroke="#f57c22" stroke-width="4"/>
+  </g>
+  <g id="label-formula-e-i" data-pb-role="formula" data-pb-editable="true" data-pb-formula-bbox="306 1662 68 75" data-pb-formula-latex-b64="ZV9J">
+    <text x="340" y="1731" font-family="Times New Roman, Times, serif" font-size="70" font-style="italic" font-weight="400" fill="#000000" text-anchor="middle" data-pb-role="formula" data-pb-editable="true" data-pb-text-source="visual_inferred" data-pb-orientation="horizontal">e<tspan baseline-shift="sub" font-size="42">I</tspan></text>
+    <desc>LaTeX: e_I</desc>
+  </g>
+
+  <g id="token-x" data-pb-role="node" data-pb-editable="true">
+    <rect x="764" y="1582" width="290" height="72" rx="8" ry="8" fill="#e6f4fb" stroke="#2292d0" stroke-width="4"/>
+    <circle cx="802" cy="1618" r="25" fill="#ffffff" stroke="#2292d0" stroke-width="4"/>
+    <circle cx="873" cy="1618" r="25" fill="#ffffff" stroke="#2292d0" stroke-width="4"/>
+    <circle cx="944" cy="1618" r="25" fill="#ffffff" stroke="#2292d0" stroke-width="4"/>
+    <circle cx="1015" cy="1618" r="25" fill="#ffffff" stroke="#2292d0" stroke-width="4"/>
+  </g>
+  <g id="label-formula-x" data-pb-role="formula" data-pb-editable="true" data-pb-formula-bbox="869 1664 72 74" data-pb-formula-latex-b64="eA==">
+    <text x="905" y="1733" font-family="Times New Roman, Times, serif" font-size="72" font-style="italic" font-weight="400" fill="#000000" text-anchor="middle" data-pb-role="formula" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="horizontal">x</text>
+    <desc>LaTeX: x</desc>
+  </g>
+
+  <g id="label-formula-t" data-pb-role="formula" data-pb-editable="true" data-pb-formula-bbox="1565 1657 48 62" data-pb-formula-latex-b64="dA==">
+    <text x="1589" y="1720" font-family="Times New Roman, Times, serif" font-size="72" font-style="italic" font-weight="400" fill="#000000" text-anchor="middle" data-pb-role="formula" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="horizontal">t</text>
+    <desc>LaTeX: t</desc>
+  </g>
+</svg>

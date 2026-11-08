@@ -2,7 +2,38 @@ const configuredApiBaseUrl = import.meta.env.VITE_API_BASE_URL?.trim();
 
 export const apiConfigured = Boolean(configuredApiBaseUrl);
 
-const apiBaseUrl = (configuredApiBaseUrl ?? "").replace(/\/+$/, "");
+const apiBaseUrl = configuredApiBaseUrl === "/" ? window.location.origin : (configuredApiBaseUrl ?? "").replace(/\/+$/, "");
+const bearerSession = import.meta.env.VITE_SESSION_TRANSPORT === "bearer";
+const sessionKey = `figfox-session:${apiBaseUrl}:${import.meta.env.BASE_URL}`;
+
+// The Pages app cannot rely on third-party cookies. Keep its opaque session in
+// this tab only; never put credentials in URLs, persistent localStorage or assets.
+export function apiFetch(url: string, init: RequestInit = {}) {
+  const target = new URL(url, window.location.origin);
+  const configured = new URL(requireApiBaseUrl());
+  if (target.origin !== configured.origin || !target.pathname.startsWith(`${configured.pathname.replace(/\/$/, "")}/api/v1/`) || target.username || target.password) {
+    throw new Error("Untrusted API resource");
+  }
+  const headers = new Headers(init.headers);
+  headers.delete("Authorization");
+  const token = bearerSession ? sessionStorage.getItem(sessionKey) : null;
+  if (token) headers.set("Authorization", `Bearer ${token}`);
+  return fetch(target, { ...init, headers, credentials: bearerSession ? "omit" : "include", redirect: "error", cache: "no-store" });
+}
+
+export function fetchReconstructionArtifact(url: string, init: RequestInit = {}) {
+  return import.meta.env.VITE_INTERNAL_RECONSTRUCTION === "true"
+    ? apiFetch(url, init)
+    : fetch(url, { ...init, credentials: "include" });
+}
+
+export function apiResourceUrl(path: string) { return `${requireApiBaseUrl()}${path}`; }
+
+export function notifyIdentityChanged() {
+  window.dispatchEvent(new Event("figfox-identity-changed"));
+  // Cookie sessions are shared across tabs; Pages sessions belong to one tab.
+  if (!bearerSession) localStorage.setItem("figfox-identity-version", crypto.randomUUID());
+}
 
 export type CurrentIdentity = {
   kind: "guest" | "user";
@@ -138,9 +169,8 @@ async function requestJson<T>(
   const timeout = window.setTimeout(() => controller.abort(), 10_000);
 
   try {
-    const response = await fetch(`${requireApiBaseUrl()}${path}`, {
+    const response = await apiFetch(`${requireApiBaseUrl()}${path}`, {
       ...init,
-      credentials: "include",
       headers: {
         Accept: "application/json",
         ...init.headers,
@@ -171,9 +201,8 @@ async function requestJson<T>(
 }
 
 async function requestVoid(path: string, init: RequestInit): Promise<void> {
-  const response = await fetch(`${requireApiBaseUrl()}${path}`, {
+  const response = await apiFetch(`${requireApiBaseUrl()}${path}`, {
     ...init,
-    credentials: "include",
     headers: {
       Accept: "application/json",
       ...init.headers,
@@ -197,8 +226,14 @@ export function createOrRestoreGuest(): Promise<CurrentIdentity> {
   });
 }
 
-export function getCurrentIdentity(): Promise<CurrentIdentity> {
-  return requestJson<CurrentIdentity>("/api/v1/identity/me");
+export async function getCurrentIdentity(): Promise<CurrentIdentity> {
+  const token = bearerSession ? sessionStorage.getItem(sessionKey) : null;
+  if (bearerSession && !token) throw new ApiError("Sign in required", 401);
+  try { return await requestJson<CurrentIdentity>("/api/v1/identity/me"); }
+  catch (error) {
+    if (bearerSession && error instanceof ApiError && error.status === 401 && sessionStorage.getItem(sessionKey) === token) sessionStorage.removeItem(sessionKey);
+    throw error;
+  }
 }
 
 export function updateIdentityPreferences(
@@ -218,11 +253,33 @@ export async function getAuthProviders(): Promise<AuthProvider[]> {
   return response.providers;
 }
 
+export function getAuthConfiguration() {
+  return requestJson<{ providers: AuthProvider[]; password_enabled: boolean }>("/api/v1/auth/providers");
+}
+
+export async function signInWithPassword(username: string, password: string) {
+  if (bearerSession) {
+    // Check storage before creating a server session.
+    sessionStorage.setItem(`${sessionKey}:check`, "1");
+    sessionStorage.removeItem(`${sessionKey}:check`);
+  }
+  const response = await requestJson<{ session_token?: string }>("/api/v1/auth/password", {
+    method: "POST", headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ username, password, session_transport: bearerSession ? "bearer" : "cookie" }),
+  });
+  if (bearerSession) {
+    if (!response.session_token || !/^[A-Za-z0-9_-]{64}$/.test(response.session_token)) throw new Error("Invalid sign-in response");
+    sessionStorage.setItem(sessionKey, response.session_token);
+  }
+  return getCurrentIdentity();
+}
+
 export function oauthStartUrl(
   provider: "google" | "github",
   mode: "login" | "link" = "login",
+  returnPath?: string,
 ): string {
-  const returnUrl = new URL(window.location.href);
+  const returnUrl = new URL(returnPath ?? window.location.href, window.location.origin);
   returnUrl.searchParams.delete("auth");
   returnUrl.searchParams.delete("auth_error");
   returnUrl.searchParams.delete("provider");
@@ -250,6 +307,7 @@ export async function logout(): Promise<void> {
   await requestVoid("/api/v1/auth/logout", {
     method: "POST",
   });
+  if (bearerSession) sessionStorage.removeItem(sessionKey);
 }
 
 export async function getCreditTransactions(): Promise<CreditTransaction[]> {

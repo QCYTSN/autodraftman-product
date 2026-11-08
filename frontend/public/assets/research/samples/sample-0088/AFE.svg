@@ -1,0 +1,202 @@
+<svg width="3840" height="1724" viewBox="0 0 3840 1724" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <marker id="arrowGrey" markerWidth="12" markerHeight="12" refX="10.5" refY="6" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L12,6 L0,12 Z" fill="#9a9a9a"/>
+    </marker>
+    <marker id="arrowGreen" markerWidth="12" markerHeight="12" refX="10.5" refY="6" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L12,6 L0,12 Z" fill="#86bd73"/>
+    </marker>
+    <marker id="arrowRed" markerWidth="12" markerHeight="12" refX="10.5" refY="6" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L12,6 L0,12 Z" fill="#e76066"/>
+    </marker>
+    <style>
+      .boxGrey{fill:#fff;stroke:#9a9a9a;stroke-width:11;stroke-linejoin:round}
+      .boxGreen{fill:#fff;stroke:#87bd73;stroke-width:27;stroke-linejoin:round}
+      .boxRed{fill:#fff;stroke:#e45e65;stroke-width:27;stroke-linejoin:round}
+      .math{font-family:"Times New Roman","STIX Two Math","Cambria Math",serif;fill:#555}
+      .label{font-family:Arial,Helvetica,sans-serif;fill:#555}
+      .greyLine{fill:none;stroke:#9a9a9a;stroke-width:11;stroke-linecap:square;stroke-linejoin:miter}
+      .greenLine{fill:none;stroke:#86bd73;stroke-width:11;stroke-linecap:square}
+      .redLine{fill:none;stroke:#e76066;stroke-width:11;stroke-linecap:square}
+    </style>
+  </defs>
+
+  <rect x="0" y="0" width="3840" height="1724" fill="#fff"/>
+
+  <!-- long upper mask/train route -->
+  <path class="greyLine" d="M400 165 L400 112 L3430 112 L3430 685" marker-end="url(#arrowGrey)"/>
+
+  <!-- left training and pruning routes -->
+  <path class="greyLine" d="M400 410 L400 695" marker-end="url(#arrowGrey)"/>
+  <path d="M400 950 L400 1210" fill="none" stroke="#9a9a9a" stroke-width="11" stroke-dasharray="57 43" stroke-linecap="square" marker-end="url(#arrowGrey)"/>
+
+  <!-- matching route from left green box -->
+  <path d="M710 828 L802 828 L802 1287 L885 1287" fill="none" stroke="#9a9a9a" stroke-width="10" stroke-dasharray="64 34 8 34" stroke-linecap="square" stroke-linejoin="miter"/>
+  <path d="M885 1287 L970 1343" fill="none" stroke="#9a9a9a" stroke-width="10" marker-end="url(#arrowGrey)"/>
+
+  <!-- routes from B initialization -->
+  <path class="greyLine" d="M1750 292 L1210 697" marker-end="url(#arrowGrey)"/>
+  <path class="greyLine" d="M2054 410 L2054 696" marker-end="url(#arrowGrey)"/>
+  <path class="greyLine" d="M2360 292 L2710 695" marker-end="url(#arrowGrey)"/>
+
+  <!-- sparse-training border -->
+  <rect x="1698" y="540" width="2065" height="1083" fill="none" stroke="#3b82ff" stroke-width="11" stroke-dasharray="8 50" stroke-linecap="butt"/>
+
+  <!-- sparse area vertical arrows -->
+  <path class="redLine" d="M2054 950 L2054 1210" marker-end="url(#arrowRed)"/>
+  <path class="greenLine" d="M2736 950 L2736 1210" marker-end="url(#arrowGreen)"/>
+  <path class="greenLine" d="M3429 950 L3429 1210" marker-end="url(#arrowGreen)"/>
+
+  <!-- boxes -->
+  <rect class="boxGrey" x="98" y="168" width="610" height="242" rx="4"/>
+  <rect class="boxGreen" x="92" y="700" width="620" height="250" rx="4"/>
+  <rect class="boxGreen" x="92" y="1210" width="620" height="250" rx="4"/>
+
+  <rect class="boxGrey" x="895" y="710" width="610" height="238" rx="4"/>
+  <rect class="boxGrey" x="1750" y="168" width="610" height="242" rx="4"/>
+
+  <rect class="boxGrey" x="1750" y="710" width="610" height="238" rx="4"/>
+  <rect class="boxGrey" x="2435" y="710" width="610" height="238" rx="4"/>
+  <rect class="boxGrey" x="3127" y="710" width="610" height="238" rx="4"/>
+
+  <rect class="boxRed" x="1748" y="1211" width="620" height="250" rx="4"/>
+  <rect class="boxGreen" x="2428" y="1211" width="620" height="250" rx="4"/>
+  <rect class="boxGreen" x="3120" y="1211" width="620" height="250" rx="4"/>
+
+  <!-- legend -->
+  <text class="label" x="2845" y="192" font-size="70">train</text>
+  <line x1="3046" y1="175" x2="3388" y2="175" stroke="#9a9a9a" stroke-width="13"/>
+  <text class="label" x="2810" y="306" font-size="70">mask</text>
+  <line x1="3046" y1="302" x2="3388" y2="302" stroke="#9a9a9a" stroke-width="13" stroke-dasharray="56 38"/>
+  <text class="label" x="2780" y="436" font-size="70">match</text>
+  <line x1="3046" y1="417" x2="3388" y2="417" stroke="#9a9a9a" stroke-width="13" stroke-dasharray="56 38 10 38"/>
+
+  <!-- labels -->
+  <text class="label" x="580" y="598" font-size="90">train</text>
+  <text class="label" x="470" y="1116" font-size="90">prune</text>
+  <text class="label" x="1274" y="446" font-size="90">train</text>
+  <text class="label" x="3470" y="652" font-size="90">mask</text>
+  <text class="label" x="3487" y="1116" font-size="90">train</text>
+  <text class="label" x="953" y="1523" font-size="66">activation matching</text>
+  <text class="label" x="1660" y="1168" font-size="72" fill="#3b82ff" transform="rotate(-90 1660 1168)">Sparse Training</text>
+
+  <!-- math: top left init -->
+  <g class="math">
+    <text x="130" y="322" font-size="94" font-weight="600">w</text>
+    <text x="230" y="258" font-size="55" font-style="italic">t=0</text>
+    <text x="236" y="366" font-size="58" font-style="italic">A</text>
+    <text x="420" y="320" font-size="92">∼</text>
+    <text x="555" y="320" font-size="100" font-style="italic">𝒩</text>
+  </g>
+
+  <!-- math: left wA T -->
+  <g class="math">
+    <text x="266" y="857" font-size="94" font-weight="600">w</text>
+    <text x="356" y="793" font-size="55" font-style="italic">t=T</text>
+    <text x="360" y="902" font-size="58" font-style="italic">A</text>
+  </g>
+
+  <!-- math: left pruned -->
+  <g class="math">
+    <text x="145" y="1367" font-size="94" font-weight="600">w</text>
+    <text x="236" y="1303" font-size="55" font-style="italic">t=T</text>
+    <text x="240" y="1412" font-size="58" font-style="italic">A</text>
+    <text x="396" y="1368" font-size="90">⊙</text>
+    <text x="525" y="1367" font-size="94" font-weight="600">m</text>
+    <text x="615" y="1410" font-size="58" font-style="italic">A</text>
+  </g>
+
+  <!-- math: middle trained B -->
+  <g class="math">
+    <text x="1065" y="857" font-size="94" font-weight="600">w</text>
+    <text x="1158" y="793" font-size="55" font-style="italic">t=T</text>
+    <text x="1162" y="902" font-size="58" font-style="italic">B</text>
+  </g>
+
+  <!-- matching equation -->
+  <g class="math" fill="#777">
+    <text x="965" y="1370" font-size="70" fill="#777">w</text>
+    <text x="1032" y="1322" font-size="43" font-style="italic" fill="#777">t=T</text>
+    <text x="1035" y="1403" font-size="43" font-style="italic" fill="#777">B</text>
+    <text x="1210" y="1370" font-size="70" fill="#777">≈ π(w</text>
+    <text x="1452" y="1322" font-size="43" font-style="italic" fill="#777">t=T</text>
+    <text x="1455" y="1403" font-size="43" font-style="italic" fill="#777">A</text>
+    <text x="1544" y="1370" font-size="70" fill="#777">)</text>
+  </g>
+
+  <!-- math: top B init -->
+  <g class="math">
+    <text x="1782" y="322" font-size="94" font-weight="600">w</text>
+    <text x="1878" y="258" font-size="55" font-style="italic">t=0</text>
+    <text x="1882" y="366" font-size="58" font-style="italic">B</text>
+    <text x="2072" y="320" font-size="92">∼</text>
+    <text x="2200" y="320" font-size="100" font-style="italic">𝒩</text>
+  </g>
+
+  <!-- sparse top box math 1 -->
+  <g class="math">
+    <text x="1810" y="857" font-size="90" font-weight="600">w</text>
+    <text x="1900" y="798" font-size="52" font-style="italic">t=k</text>
+    <text x="1904" y="899" font-size="55" font-style="italic">B</text>
+    <text x="2040" y="858" font-size="86">⊙</text>
+    <text x="2155" y="857" font-size="90" font-weight="600">m</text>
+    <text x="2240" y="897" font-size="54" font-style="italic">A</text>
+  </g>
+
+  <!-- sparse top box math 2 -->
+  <g class="math">
+    <text x="2472" y="857" font-size="90" font-weight="600">w</text>
+    <text x="2562" y="798" font-size="52" font-style="italic">t=k</text>
+    <text x="2566" y="899" font-size="55" font-style="italic">B</text>
+    <text x="2698" y="858" font-size="86">⊙</text>
+    <text x="2818" y="857" font-size="86">π(m</text>
+    <text x="2995" y="897" font-size="52" font-style="italic">A</text>
+    <text x="3035" y="857" font-size="86">)</text>
+  </g>
+
+  <!-- sparse top box math 3 -->
+  <g class="math">
+    <text x="3190" y="857" font-size="90" font-weight="600">w</text>
+    <text x="3280" y="798" font-size="52" font-style="italic">t=k</text>
+    <text x="3284" y="899" font-size="55" font-style="italic">A</text>
+    <text x="3425" y="858" font-size="86">⊙</text>
+    <text x="3540" y="857" font-size="90" font-weight="600">m</text>
+    <text x="3625" y="897" font-size="54" font-style="italic">A</text>
+  </g>
+
+  <!-- sparse bottom red math -->
+  <g class="math">
+    <text x="1810" y="1368" font-size="90" font-weight="600">w</text>
+    <text x="1900" y="1308" font-size="52" font-style="italic">t=T</text>
+    <text x="1904" y="1409" font-size="55" font-style="italic">B</text>
+    <text x="2040" y="1369" font-size="86">⊙</text>
+    <text x="2155" y="1368" font-size="90" font-weight="600">m</text>
+    <text x="2240" y="1408" font-size="54" font-style="italic">A</text>
+  </g>
+
+  <!-- sparse bottom green math 1 -->
+  <g class="math">
+    <text x="2472" y="1368" font-size="90" font-weight="600">w</text>
+    <text x="2562" y="1308" font-size="52" font-style="italic">t=T</text>
+    <text x="2566" y="1409" font-size="55" font-style="italic">B</text>
+    <text x="2698" y="1369" font-size="86">⊙</text>
+    <text x="2818" y="1368" font-size="86">π(m</text>
+    <text x="2995" y="1408" font-size="52" font-style="italic">A</text>
+    <text x="3035" y="1368" font-size="86">)</text>
+  </g>
+
+  <!-- sparse bottom green math 2 -->
+  <g class="math">
+    <text x="3190" y="1368" font-size="90" font-weight="600">w</text>
+    <text x="3280" y="1308" font-size="52" font-style="italic">t=T</text>
+    <text x="3284" y="1409" font-size="55" font-style="italic">A</text>
+    <text x="3425" y="1369" font-size="86">⊙</text>
+    <text x="3540" y="1368" font-size="90" font-weight="600">m</text>
+    <text x="3625" y="1408" font-size="54" font-style="italic">A</text>
+  </g>
+
+  <!-- captions -->
+  <text class="label" x="1745" y="1564" font-size="50" fill="#ff0000">LTH Problem (Naive)</text>
+  <text class="label" x="2388" y="1564" font-size="50" fill="#86bd73">Our Solution (Permuted)</text>
+  <text class="label" x="3240" y="1564" font-size="50" fill="#86bd73">LTH Solution</text>
+</svg>

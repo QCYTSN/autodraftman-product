@@ -1,0 +1,191 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1475" height="600" viewBox="0 0 1475 600">
+  <title>Training and inference pipeline diagram</title>
+  <desc>
+    Inventory: left dashed rounded training-phase frame contains a pale pretraining panel with a general dataset cylinder, pretrain arrow, optional pretrained regressor, a domain-specific training-set scatter plot with axes and dashed trend line, a train arrow, a second regressor, and dashed transfer connector into the inference frame. Right dashed rounded inference frame contains query/reference labels and dotted reference strip, purple query arrow to regressor, external ranker brain icon, rankings dotted box, rank-based estimator, uncertainty/prediction dotted boxes, inverse-variance-weighting box, and refined prediction symbol. Overall layout uses two large horizontally aligned sibling frames with central dashed flow from training to inference; right-side inference objects are arranged left-to-right and top-to-bottom around the weighting stage.
+  </desc>
+
+  <defs>
+    <marker id="arrowGray" markerUnits="userSpaceOnUse" markerWidth="14" markerHeight="12" refX="13" refY="6" orient="auto">
+      <path d="M0,0 L14,6 L0,12 Z" fill="#535a62" id="plus_node_0" />
+    </marker>
+    <marker id="arrowGraySmall" markerUnits="userSpaceOnUse" markerWidth="11" markerHeight="10" refX="10" refY="5" orient="auto">
+      <path d="M0,0 L11,5 L0,10 Z" fill="#535a62" id="plus_node_1" />
+    </marker>
+    <marker id="arrowPurple" markerUnits="userSpaceOnUse" markerWidth="13" markerHeight="14" refX="12" refY="7" orient="auto">
+      <path d="M0,0 L13,7 L0,14 Z" fill="#a79df3" id="plus_node_2" />
+    </marker>
+    <style>
+      .serif{font-family:"Times New Roman", Times, serif; fill:#4f5660;}
+      .label{font-size:34px;}
+      .mid{font-size:31px;}
+      .small{font-size:28px;}
+      .bold{font-weight:700;}
+      .dashFrame{fill:none; stroke:#535a62; stroke-width:3.6; stroke-dasharray:7 8; stroke-linecap:round;}
+      .innerDash{fill:none; stroke:#535a62; stroke-width:3.6; stroke-dasharray:7 8; stroke-linecap:round;}
+      .arrowLine{fill:none; stroke:#535a62; stroke-width:3.8; stroke-linecap:square; stroke-linejoin:miter; marker-end:url(#arrowGray);}
+      .arrowLineThin{fill:none; stroke:#535a62; stroke-width:3.2; stroke-linecap:square; stroke-linejoin:miter; marker-end:url(#arrowGray);}
+      .dashArrow{fill:none; stroke:#535a62; stroke-width:3.4; stroke-dasharray:7 8; stroke-linecap:square; stroke-linejoin:miter; marker-end:url(#arrowGray);}
+      .boxBlue{fill:#c9d7e8;}
+      .boxGreen{fill:#c9ded1;}
+      .boxOrange{fill:#f6bf52;}
+      .darkStroke{stroke:#535a62;}
+    </style>
+  </defs>
+
+  
+  <rect id="f01" data-plus-kind="frame" class="dashFrame" x="38" y="31" width="516" height="549" rx="64" ry="64" />
+  <rect id="f02" data-plus-kind="frame" x="49" y="108" width="496" height="185" rx="47" ry="47" fill="#faeeee" />
+  <rect id="f03" data-plus-kind="frame" class="dashFrame" x="681" y="31" width="756" height="549" rx="65" ry="65" />
+  <rect id="f04" data-plus-kind="frame" class="innerDash" x="747" y="132" width="214" height="39" rx="13" ry="13" />
+  <rect id="f05" data-plus-kind="frame" class="innerDash" x="1262" y="132" width="128" height="119" rx="14" ry="14" />
+  <rect id="f06" data-plus-kind="frame" class="innerDash" x="901" y="272" width="50" height="80" rx="12" ry="12" />
+  <rect id="f07" data-plus-kind="frame" class="innerDash" x="1135" y="272" width="50" height="80" rx="12" ry="12" />
+
+  
+  <g id="left_training_content">
+    <text id="training_title" class="serif label bold" x="439" y="52" text-anchor="middle">
+      <tspan x="439" dy="0">training phase</tspan>
+      <tspan x="439" dy="39">(only regressor)</tspan>
+    </text>
+
+    <g id="general_dataset_cylinder">
+      <path d="M87 130 C87 120 124 115 169 115 C214 115 250 120 250 130 L250 220 C250 229 214 234 169 234 C124 234 87 229 87 220 Z" fill="#faeeee" stroke="#535a62" stroke-width="3.4" id="plus_node_3" />
+      <ellipse cx="169" cy="130" rx="81.5" ry="14.5" fill="#faeeee" stroke="#535a62" stroke-width="4" id="plus_node_4" />
+      <text class="serif mid" x="168" y="174" text-anchor="middle" id="plus_node_5">
+        <tspan x="168" dy="0">general</tspan>
+        <tspan x="168" dy="39">dataset</tspan>
+      </text>
+    </g>
+
+    <text id="pretrain_label" class="serif mid" x="269" y="164">pretrain</text>
+    <path id="pretrain_arrow" class="arrowLineThin" d="M280 191 L355 191" />
+    <g id="pretrained_regressor">
+      <rect x="394" y="162" width="142" height="55" rx="11" ry="11" class="boxBlue" id="plus_node_6" />
+      <text class="serif mid" x="465" y="200" text-anchor="middle" id="plus_node_7">regressor</text>
+    </g>
+    <text id="optional_label" class="serif small bold" x="245" y="263">(optional)</text>
+
+    <text id="domain_training_label" class="serif mid" x="80" y="355">
+      <tspan x="80" dy="0">domain-specific</tspan>
+      <tspan x="113" dy="39">training set</tspan>
+    </text>
+
+    <g id="scatter_training_set">
+      <path id="scatter_y_axis" d="M79 563 L79 376" stroke="#535a62" stroke-width="3.6" fill="none" marker-end="url(#arrowGray)" />
+      <path id="scatter_x_axis" d="M65 548 L270 548" stroke="#535a62" stroke-width="3.6" fill="none" marker-end="url(#arrowGray)" />
+      <path id="scatter_regression_line" d="M93 530 L224 395" stroke="#111111" stroke-width="3.2" stroke-dasharray="7 8" fill="none" />
+      <circle cx="101" cy="514" r="9.5" fill="#f0cf88" id="plus_node_8" />
+      <circle cx="136" cy="519" r="9.8" fill="#efc9ca" id="plus_node_9" />
+      <circle cx="147" cy="475" r="9.8" fill="#bdd8cc" id="plus_node_10" />
+      <circle cx="173" cy="444" r="9.8" fill="#bc8aae" id="plus_node_11" />
+      <circle cx="187" cy="484" r="9.8" fill="#6f8791" id="plus_node_12" />
+      <circle cx="205" cy="429" r="9.8" fill="#e98500" id="plus_node_13" />
+    </g>
+
+    <text id="train_label" class="serif mid" x="303" y="441">train</text>
+    <path id="train_arrow" class="arrowLineThin" d="M299 468 L370 468" />
+    <g id="trained_regressor">
+      <rect x="394" y="441" width="143" height="55" rx="11" ry="11" class="boxBlue" id="plus_node_14" />
+      <text class="serif mid" x="466" y="479" text-anchor="middle" id="plus_node_15">regressor</text>
+    </g>
+
+    <path id="optional_to_trained_dashed_arrow" class="dashArrow" d="M465 258 L465 420" />
+    <path id="training_to_inference_dashed_arrow" class="dashArrow" d="M537 475 L633 475 L633 354 L691 354" />
+  </g>
+
+  
+  <g id="right_inference_content">
+    <text id="inference_title" class="serif label bold" x="1320" y="54" text-anchor="middle">inference</text>
+
+    <text id="query_label" class="serif label" x="755" y="117" text-anchor="middle">query</text>
+    <text id="reference_label" class="serif label" x="910" y="117" text-anchor="middle">reference</text>
+
+    <g id="query_reference_dots">
+      <circle cx="782" cy="152" r="10" fill="#a39bef" id="plus_node_16" />
+      <circle cx="858" cy="152" r="10" fill="#bdd8cc" id="plus_node_17" />
+      <circle cx="891" cy="152" r="10" fill="#e98500" id="plus_node_18" />
+      <circle cx="925" cy="152" r="10" fill="#efc9ca" id="plus_node_19" />
+    </g>
+
+    <path id="query_to_regressor_arrow" d="M781 176 L781 296" stroke="#a79df3" stroke-width="3.6" fill="none" marker-end="url(#arrowPurple)" />
+
+    <g id="inference_regressor">
+      <rect x="705" y="326" width="143" height="55" rx="10" ry="10" class="boxBlue" id="plus_node_20" />
+      <text class="serif mid" x="776" y="363" text-anchor="middle" id="plus_node_21">regressor</text>
+    </g>
+
+    <path id="regressor_to_uncertainty_arrow" class="arrowLineThin" d="M849 353 L890 353" />
+
+    <text id="external_ranker_label" class="serif label" x="1102" y="73" text-anchor="middle">
+      <tspan x="1102" dy="0">external</tspan>
+      <tspan x="1102" dy="38">ranker</tspan>
+    </text>
+    <path id="reference_to_ranker_arrow" class="arrowLineThin" d="M987 152 L1041 152" />
+
+    <g id="ranker_brain_icon" fill="#535a62" stroke="#ffffff" stroke-width="1.2">
+      <ellipse cx="1083" cy="149" rx="14" ry="12" id="plus_node_22" />
+      <ellipse cx="1096" cy="145" rx="15" ry="11" id="plus_node_23" />
+      <ellipse cx="1112" cy="148" rx="16" ry="12" id="plus_node_24" />
+      <ellipse cx="1122" cy="158" rx="13" ry="11" id="plus_node_25" />
+      <ellipse cx="1107" cy="164" rx="17" ry="12" id="plus_node_26" />
+      <ellipse cx="1089" cy="162" rx="18" ry="12" id="plus_node_27" />
+      <ellipse cx="1079" cy="156" rx="11" ry="12" id="plus_node_28" />
+      <path d="M1082 144 C1092 146 1093 155 1087 160" fill="none" id="plus_node_29" />
+      <path d="M1097 139 C1100 150 1114 149 1119 157" fill="none" id="plus_node_30" />
+      <path d="M1075 156 C1087 154 1095 169 1108 163" fill="none" id="plus_node_31" />
+      <path d="M1101 154 C1110 155 1117 161 1126 158" fill="none" id="plus_node_32" />
+    </g>
+
+    <path id="ranker_to_rankings_arrow" class="arrowLineThin" d="M1160 152 L1212 152" />
+
+    <text id="rankings_label" class="serif label" x="1316" y="117" text-anchor="middle">rankings</text>
+    <g id="rankings_contents">
+      <circle cx="1294" cy="158" r="10" fill="#a39bef" id="plus_node_33" />
+      <text class="serif small" x="1324" y="168" text-anchor="middle" id="plus_node_34">&gt;</text>
+      <circle cx="1356" cy="158" r="10" fill="#bdd8cc" id="plus_node_35" />
+
+      <circle cx="1294" cy="190" r="10" fill="#a39bef" id="plus_node_36" />
+      <text class="serif small" x="1324" y="200" text-anchor="middle" id="plus_node_37">&lt;</text>
+      <circle cx="1356" cy="190" r="10" fill="#e98500" id="plus_node_38" />
+
+      <circle cx="1294" cy="224" r="10" fill="#a39bef" id="plus_node_39" />
+      <text class="serif small" x="1324" y="234" text-anchor="middle" id="plus_node_40">&gt;</text>
+      <circle cx="1356" cy="224" r="10" fill="#efc9ca" id="plus_node_41" />
+    </g>
+
+    <path id="rankings_to_estimator_arrow" class="arrowLineThin" d="M1330 261 L1330 301" />
+
+    <g id="rank_based_estimator">
+      <rect x="1254" y="309" width="155" height="87" rx="12" ry="12" class="boxGreen" id="plus_node_42" />
+      <text class="serif mid" x="1332" y="344" text-anchor="middle" id="plus_node_43">
+        <tspan x="1332" dy="0">rank-based</tspan>
+        <tspan x="1332" dy="39">estimator</tspan>
+      </text>
+    </g>
+
+    <g id="uncertainty_box_contents">
+      <rect x="914" y="287" width="25" height="25" fill="#bed0df" id="plus_node_44" />
+      <rect x="914" y="339" width="25" height="25" fill="#0577bd" id="plus_node_45" />
+    </g>
+    <g id="prediction_box_contents">
+      <rect x="1147" y="287" width="25" height="25" fill="#bdd4ca" id="plus_node_46" />
+      <rect x="1147" y="339" width="25" height="25" fill="#078c3d" id="plus_node_47" />
+    </g>
+
+    <text id="uncertainties_text" class="serif mid" x="964" y="302">uncertainties</text>
+    <text id="predictions_text" class="serif mid" x="977" y="360">predictions</text>
+
+    <path id="estimator_to_prediction_arrow" class="arrowLineThin" d="M1241 354 L1196 354" />
+    <path id="uncertainty_to_weighting_arrow" class="arrowLineThin" d="M925 353 L925 427" />
+    <path id="prediction_to_weighting_arrow" class="arrowLineThin" d="M1159 353 L1159 427" />
+
+    <g id="inverse_variance_weighting">
+      <rect x="850" y="435" width="394" height="55" rx="10" ry="10" class="boxOrange" id="plus_node_48" />
+      <text class="serif label" x="1047" y="473" text-anchor="middle" id="plus_node_49">inverse variance weighting</text>
+    </g>
+
+    <path id="weighting_to_refined_arrow" class="arrowLineThin" d="M1047 498 L1047 535" />
+    <rect id="refined_prediction_square" x="1035" y="542" width="25" height="25" fill="#33a3b3" />
+    <text id="refined_prediction_label" class="serif label" x="1082" y="565">refined prediction</text>
+  </g>
+<style id="canvas_background_style">svg{background-color:#ffffff !important;}svg:root{background-color:#ffffff !important;}</style></svg>

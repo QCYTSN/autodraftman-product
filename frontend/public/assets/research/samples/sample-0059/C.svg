@@ -1,0 +1,226 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1428" height="287" viewBox="0 0 1428 287">
+  <title>Masked spectral autoencoder training pipeline</title>
+  <desc>
+    Full figure inventory: a left Input card contains a waveform, OR label, and spectrogram; data flows through Encoder, DFT, Latent Spec., user/random mask arrows, Masked Spec., DFT-1, Decoder, and a right Variation card containing waveform, OR, spectrogram. Red dashed feedback paths show Add Noise and Reconstruction Loss. Blue dotted paths show masking/variation cues. The layout is horizontally symmetric around the paired spectrum boxes and keeps dashed feedback along the lower band.
+  </desc>
+
+  <defs>
+    <marker id="arrowPurpleSingle14x10" markerUnits="userSpaceOnUse" markerWidth="14" markerHeight="10" viewBox="0 0 10 8" refX="10" refY="4" orient="auto">
+      <path d="M0,0 L10,4 L0,8 Z" fill="#7a0b67" id="plus_node_0" />
+    </marker>
+    <marker id="arrowPurpleSingle9x10" markerUnits="userSpaceOnUse" markerWidth="9" markerHeight="10" viewBox="0 0 10 8" refX="10" refY="4" orient="auto">
+      <path d="M0,0 L10,4 L0,8 Z" fill="#7a0b67" id="plus_node_1" />
+    </marker>
+    <marker id="arrowBlueEnd7x8" markerUnits="userSpaceOnUse" markerWidth="7" markerHeight="8" viewBox="0 0 10 8" refX="10" refY="4" orient="auto">
+      <path d="M0,0 L10,4 L0,8 Z" fill="#0b0b8d" id="plus_node_2" />
+    </marker>
+    <marker id="arrowBlueStart8x8" markerUnits="userSpaceOnUse" markerWidth="8" markerHeight="8" viewBox="0 0 10 8" refX="0" refY="4" orient="auto-start-reverse">
+      <path d="M0,0 L10,4 L0,8 Z" fill="#0b0b8d" id="plus_node_3" />
+    </marker>
+    <marker id="arrowRedEnd7x8" markerUnits="userSpaceOnUse" markerWidth="7" markerHeight="8" viewBox="0 0 10 8" refX="10" refY="4" orient="auto">
+      <path d="M0,0 L10,4 L0,8 Z" fill="#d21c14" id="plus_node_4" />
+    </marker>
+    <marker id="arrowRedStart7x8" markerUnits="userSpaceOnUse" markerWidth="7" markerHeight="8" viewBox="0 0 10 8" refX="0" refY="4" orient="auto-start-reverse">
+      <path d="M0,0 L10,4 L0,8 Z" fill="#d21c14" id="plus_node_5" />
+    </marker>
+
+    <linearGradient id="spectrogramBase" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#24116e" />
+      <stop offset="0.35" stop-color="#7c1a76" />
+      <stop offset="0.68" stop-color="#d74b33" />
+      <stop offset="1" stop-color="#f7a21e" />
+    </linearGradient>
+    <linearGradient id="spectrogramDark" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#170d55" stop-opacity="0.94" />
+      <stop offset="0.33" stop-color="#6b1c70" stop-opacity="0.70" />
+      <stop offset="0.72" stop-color="#d24735" stop-opacity="0.72" />
+      <stop offset="1" stop-color="#ffad22" stop-opacity="0.85" />
+    </linearGradient>
+    <filter id="roughSpec" x="-4%" y="-4%" width="108%" height="108%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.055 0.22" numOctaves="4" seed="11" result="noise" />
+      <feColorMatrix in="noise" type="matrix" values="         1.8 0 0 0 -0.15         0 1.0 0 0 -0.15         0 0 0.55 0 0.05         0 0 0 0.52 0" result="grain" />
+      <feBlend in="SourceGraphic" in2="grain" mode="screen" />
+    </filter>
+    <clipPath id="clipSpecLeft"><rect x="29" y="162" width="190" height="98" id="plus_node_6" /></clipPath>
+    <clipPath id="clipSpecRight"><rect x="1202" y="162" width="190" height="98" id="plus_node_7" /></clipPath>
+    <clipPath id="clipLatent"><rect x="538" y="70" width="119" height="82" id="plus_node_8" /></clipPath>
+    <clipPath id="clipMasked"><rect x="766" y="75" width="117" height="77" id="plus_node_9" /></clipPath>
+  </defs>
+
+  
+  <rect id="f01" data-plus-kind="frame" x="16" y="29" width="216" height="242" rx="16" ry="16" fill="#dcebf7" />
+  <polygon id="f02" data-plus-kind="frame" points="262,49 337,74 415,49 415,194 338,168 262,194" fill="#efc7ed" />
+  <rect id="f03" data-plus-kind="frame" x="432" y="92" width="80" height="59" rx="10" ry="10" fill="#d5f0cc" />
+  <rect id="f04" data-plus-kind="frame" x="526" y="54" width="144" height="136" rx="10" ry="10" fill="#ffffff" stroke="#000000" stroke-width="2.2" />
+  <rect id="f05" data-plus-kind="frame" x="676" y="47" width="70" height="103" rx="2" ry="2" fill="none" stroke="none" />
+  <rect id="f06" data-plus-kind="frame" x="753" y="54" width="144" height="136" rx="10" ry="10" fill="#ffffff" stroke="#000000" stroke-width="2.2" />
+  <rect id="f07" data-plus-kind="frame" x="913" y="92" width="80" height="59" rx="10" ry="10" fill="#d5f0cc" />
+  <polygon id="f08" data-plus-kind="frame" points="1007,49 1084,75 1160,49 1160,194 1084,168 1007,194" fill="#efc7ed" />
+  <rect id="f09" data-plus-kind="frame" x="1189" y="29" width="216" height="242" rx="16" ry="16" fill="#dcebf7" />
+
+  
+  <g id="input-card-content">
+    <desc>Inside f01: title at top, waveform centered in upper half, OR separator, and a lower spectrogram panel. Objects are vertically stacked and centered.</desc>
+    <text id="txt-input-title" x="124" y="59" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="30" font-weight="700" fill="#000000">Input</text>
+
+    <g id="input-waveform" stroke="#000" stroke-width="1.35" stroke-linecap="butt">
+      <path d="M39,96 L39,84 M41,97 L41,82 M43,99 L43,80 M45,101 L45,77 M47,105 L47,74 M49,111 L49,72 M51,107 L51,78 M53,103 L53,81 M55,99 L55,84 M57,94 L57,89 M59,105 L59,77 M61,112 L61,71 M63,102 L63,81 M65,99 L65,85 M67,110 L67,74 M69,104 L69,80 M71,98 L71,87 M73,101 L73,83 M75,109 L75,74 M77,113 L77,69 M79,103 L79,82 M81,100 L81,85 M83,96 L83,89 M85,88 L85,66 M87,104 L87,75 M89,117 L89,63 M91,105 L91,75 M93,98 L93,87 M95,103 L95,81 M97,100 L97,84 M99,106 L99,78 M101,96 L101,88 M103,102 L103,81 M105,109 L105,74 M107,101 L107,83 M109,99 L109,85 M111,108 L111,76 M113,105 L113,77 M115,96 L115,89 M117,101 L117,84 M119,104 L119,81 M121,99 L121,86 M123,107 L123,76 M125,102 L125,83 M127,111 L127,73 M129,98 L129,87 M131,105 L131,78 M133,101 L133,83 M135,103 L135,82 M137,108 L137,76 M139,106 L139,78 M141,99 L141,86 M143,104 L143,81 M145,101 L145,83 M147,96 L147,89 M149,103 L149,82 M151,111 L151,73 M153,104 L153,80 M155,102 L155,82 M157,98 L157,87 M159,107 L159,77 M161,111 L161,71 M163,100 L163,84 M165,97 L165,87 M167,101 L167,83 M169,105 L169,78 M171,98 L171,87 M173,96 L173,89 M175,103 L175,80 M177,108 L177,75 M179,100 L179,84 M181,103 L181,80 M183,97 L183,87 M185,101 L185,84 M187,107 L187,76 M189,104 L189,80 M191,100 L191,85 M193,96 L193,89 M195,101 L195,84 M197,107 L197,76 M199,102 L199,82 M201,99 L201,85 M203,101 L203,83 M205,105 L205,79 M207,103 L207,81 M209,97 L209,87" id="plus_node_10" />
+      <path d="M38,96 C68,91 82,93 99,96 C120,99 139,92 158,95 C181,98 192,93 211,96" fill="none" stroke-width="1.2" id="plus_node_11" />
+    </g>
+
+    <text id="txt-input-or" x="124" y="152" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="23" font-weight="700" fill="#000000">OR</text>
+
+    <g id="input-spectrogram" clip-path="url(#clipSpecLeft)">
+      <rect x="29" y="162" width="190" height="98" fill="url(#spectrogramBase)" filter="url(#roughSpec)" id="plus_node_12" />
+      <rect x="29" y="162" width="190" height="98" fill="url(#spectrogramDark)" opacity="0.75" id="plus_node_13" />
+      <g opacity="0.78" id="plus_node_14">
+        <rect x="30" y="242" width="188" height="3" fill="#ffd43a" id="plus_node_15" />
+        <rect x="30" y="231" width="188" height="2" fill="#ffb02d" id="plus_node_16" />
+        <rect x="30" y="218" width="188" height="2.5" fill="#ffcf30" id="plus_node_17" />
+        <rect x="30" y="204" width="188" height="2" fill="#f58d27" id="plus_node_18" />
+        <rect x="30" y="194" width="188" height="1.5" fill="#fd7a28" id="plus_node_19" />
+        <rect x="30" y="181" width="188" height="1.4" fill="#c73f51" id="plus_node_20" />
+        <rect x="30" y="169" width="188" height="1.2" fill="#7d2c78" id="plus_node_21" />
+      </g>
+      <g opacity="0.42" id="plus_node_22">
+        <rect x="47" y="162" width="4" height="98" fill="#ff8f27" id="plus_node_23" />
+        <rect x="76" y="162" width="5" height="98" fill="#3b146e" id="plus_node_24" />
+        <rect x="98" y="162" width="6" height="98" fill="#f6a21f" id="plus_node_25" />
+        <rect x="123" y="162" width="4" height="98" fill="#521972" id="plus_node_26" />
+        <rect x="151" y="162" width="6" height="98" fill="#ffa221" id="plus_node_27" />
+        <rect x="178" y="162" width="4" height="98" fill="#2d135e" id="plus_node_28" />
+        <rect x="199" y="162" width="5" height="98" fill="#ed6928" id="plus_node_29" />
+      </g>
+      <g stroke="#f7bd29" stroke-width="0.9" opacity="0.55" id="plus_node_30">
+        <path d="M30,251 C47,248 62,253 82,247 S119,251 138,246 S176,247 218,244" fill="none" id="plus_node_31" />
+        <path d="M30,225 C48,223 62,226 80,221 S121,222 147,219 S190,223 219,219" fill="none" id="plus_node_32" />
+        <path d="M30,236 C65,232 88,237 109,233 S151,235 176,232 S203,234 219,231" fill="none" id="plus_node_33" />
+      </g>
+    </g>
+  </g>
+
+  
+  <text id="txt-encoder" x="339" y="132" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="30" font-weight="700" fill="#000000">Encoder</text>
+  <text id="txt-dft" x="472" y="131" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="23" font-weight="700" fill="#000000">DFT</text>
+
+  
+  <path id="arrow-input-to-encoder" d="M232,122 H260" stroke="#7a0b67" stroke-width="3" fill="none" marker-end="url(#arrowPurpleSingle14x10)" />
+  <path id="arrow-encoder-to-dft" d="M415,122 H430" stroke="#7a0b67" stroke-width="3" fill="none" marker-end="url(#arrowPurpleSingle9x10)" />
+  <path id="arrow-dft-to-latent" d="M512,122 H525" stroke="#7a0b67" stroke-width="3" fill="none" marker-end="url(#arrowPurpleSingle9x10)" />
+
+  
+  <g id="latent-spec-content">
+    <desc>Inside f04: a compact sloping multicolor latent spectrum plot occupies the upper panel, with label below.</desc>
+    <g clip-path="url(#clipLatent)" id="plus_node_34">
+      <rect x="538" y="70" width="119" height="82" fill="#ffffff" id="plus_node_35" />
+      <g opacity="0.42" stroke-width="0.7" fill="none" id="plus_node_36">
+        <path stroke="#d95845" d="M539,88 C551,106 566,98 578,108 C594,117 613,106 627,114 C641,120 650,118 657,123" id="plus_node_37" />
+        <path stroke="#54a858" d="M539,95 C553,101 564,104 579,107 C596,109 609,111 625,112 C639,113 649,119 657,121" id="plus_node_38" />
+        <path stroke="#6a9fd8" d="M539,92 C551,99 565,101 579,104 C594,106 612,111 628,112 C643,116 651,118 657,119" id="plus_node_39" />
+        <path stroke="#f29c29" d="M539,82 C552,104 568,99 582,105 C598,112 614,108 629,115 C643,116 651,118 657,122" id="plus_node_40" />
+        <path stroke="#8f6bc2" d="M539,100 C552,96 566,104 580,108 C597,110 613,113 628,115 C641,117 651,120 657,122" id="plus_node_41" />
+      </g>
+      <g opacity="0.22" stroke-width="0.55" id="plus_node_42">
+        <path stroke="#d95845" d="M542,68 V137 M547,84 V127 M553,77 V141 M560,92 V135 M566,82 V145 M573,95 V134 M581,88 V143 M590,96 V145 M598,97 V139 M607,99 V145 M616,103 V143 M626,108 V145 M636,111 V148 M646,113 V146 M655,116 V151" id="plus_node_43" />
+        <path stroke="#6a9fd8" d="M540,90 V133 M551,91 V124 M564,98 V132 M576,97 V138 M589,100 V135 M602,101 V141 M616,105 V137 M630,110 V145 M644,111 V146 M656,114 V149" id="plus_node_44" />
+      </g>
+      <path id="latent-main-trace" d="M540,88 C556,101 571,101 586,106 C604,110 621,111 638,116 C647,118 653,121 657,123" stroke="#777777" stroke-width="1.6" fill="none" opacity="0.68" />
+    </g>
+    <text id="txt-latent-label" x="598" y="178" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="16" font-weight="700" fill="#000000">Latent Spec.</text>
+  </g>
+
+  
+  <g id="mask-arrows-content">
+    <desc>Between f04 and f06: blue dotted user mask arrow is above the red dashed random mask arrow; both point from latent spectrum toward masked spectrum. The section uses two parallel horizontal lanes.</desc>
+    <text id="txt-user-mask" x="712" y="65" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="16" font-weight="700" fill="#0b0b8d">User</text>
+    <text id="txt-user-mask-2" x="712" y="86" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="16" font-weight="700" fill="#0b0b8d">Mask</text>
+    <text id="txt-rand-mask" x="712" y="139" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="16" font-weight="700" fill="#d21c14">Rand.</text>
+    <text id="txt-rand-mask-2" x="712" y="160" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="16" font-weight="700" fill="#d21c14">Mask</text>
+    <path id="arrow-user-mask" d="M676,102 H746" stroke="#0b0b8d" stroke-width="2.2" stroke-dasharray="2 2" fill="none" marker-end="url(#arrowBlueEnd7x8)" />
+    <path id="arrow-rand-mask" d="M676,135 H746" stroke="#d21c14" stroke-width="2.2" stroke-dasharray="6 3" fill="none" marker-end="url(#arrowRedEnd7x8)" />
+  </g>
+
+  
+  <g id="masked-spec-content">
+    <desc>Inside f06: a black step-like mask curve spans the plot area; colored spectral remnants appear in two separated windows. Label sits at bottom.</desc>
+    <g clip-path="url(#clipMasked)" id="plus_node_45">
+      <rect x="766" y="75" width="117" height="77" fill="#ffffff" id="plus_node_46" />
+      <g opacity="0.40" stroke-width="0.7" fill="none" id="plus_node_47">
+        <path stroke="#e06238" d="M785,94 C790,96 796,96 806,97 C815,99 817,102 820,106" id="plus_node_48" />
+        <path stroke="#60a85a" d="M786,99 C796,97 806,98 815,101 C818,102 820,105 821,107" id="plus_node_49" />
+        <path stroke="#6e9fd7" d="M786,91 C793,98 801,95 808,99 C815,101 818,104 821,107" id="plus_node_50" />
+        <path stroke="#e06238" d="M848,99 C855,99 863,98 871,101 C876,102 879,105 882,106" id="plus_node_51" />
+        <path stroke="#60a85a" d="M848,104 C856,101 864,101 872,102 C877,103 879,105 882,108" id="plus_node_52" />
+        <path stroke="#6e9fd7" d="M848,96 C856,99 864,99 873,102 C878,104 880,106 882,109" id="plus_node_53" />
+      </g>
+      <path id="masked-step" d="M768,151 H784 V96 H812 V151 H842 V101 H873 V151 H883" fill="none" stroke="#777777" stroke-width="1.8" />
+    </g>
+    <text id="txt-masked-label" x="825" y="178" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="16" font-weight="700" fill="#000000">Masked Spec.</text>
+  </g>
+
+  <path id="arrow-masked-to-dftinv" d="M897,122 H912" stroke="#7a0b67" stroke-width="3" fill="none" marker-end="url(#arrowPurpleSingle9x10)" />
+  <text id="txt-dftinv" x="953" y="131" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="23" font-weight="700" fill="#000000">DFT<tspan font-size="15" baseline-shift="super">-1</tspan></text>
+  <path id="arrow-dftinv-to-decoder" d="M993,122 H1006" stroke="#7a0b67" stroke-width="3" fill="none" marker-end="url(#arrowPurpleSingle9x10)" />
+
+  
+  <text id="txt-decoder" x="1084" y="132" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="30" font-weight="700" fill="#000000">Decoder</text>
+  <path id="arrow-decoder-to-variation" d="M1160,122 H1188" stroke="#7a0b67" stroke-width="3" fill="none" marker-end="url(#arrowPurpleSingle14x10)" />
+
+  
+  <g id="variation-cue">
+    <desc>A blue dotted curved cue above the decoder asks for variation and then points into the right output card.</desc>
+    <path id="arrow-blue-question-curve" d="M1148,48 C1150,35 1167,33 1170,44 C1173,55 1160,57 1160,66" stroke="#0b0b8d" stroke-width="2.2" stroke-dasharray="2 3" fill="none" marker-start="url(#arrowBlueStart8x8)" marker-end="url(#arrowBlueEnd7x8)" />
+    <path id="arrow-blue-to-output" d="M1163,60 H1188" stroke="#0b0b8d" stroke-width="2.2" stroke-dasharray="2 3" fill="none" marker-end="url(#arrowBlueEnd7x8)" />
+  </g>
+
+  
+  <g id="variation-card-content">
+    <desc>Inside f09: title, upper waveform, OR label, and lower spectrogram mirror the left input card, expressing a generated variation.</desc>
+    <text id="txt-variation-title" x="1297" y="59" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="30" font-weight="700" fill="#000000">Variation</text>
+
+    <g id="variation-waveform" stroke="#000" stroke-width="1.35" stroke-linecap="butt">
+      <path d="M1210,96 L1210,82 M1212,101 L1212,77 M1214,106 L1214,73 M1216,98 L1216,84 M1218,108 L1218,72 M1220,114 L1220,66 M1222,104 L1222,78 M1224,96 L1224,88 M1226,101 L1226,82 M1228,112 L1228,69 M1230,107 L1230,74 M1232,98 L1232,85 M1234,100 L1234,84 M1236,107 L1236,75 M1238,111 L1238,70 M1240,102 L1240,82 M1242,95 L1242,89 M1244,99 L1244,85 M1246,106 L1246,77 M1248,103 L1248,81 M1250,110 L1250,71 M1252,105 L1252,78 M1254,98 L1254,86 M1256,101 L1256,83 M1258,104 L1258,80 M1260,99 L1260,86 M1262,96 L1262,88 M1264,102 L1264,82 M1266,108 L1266,75 M1268,104 L1268,80 M1270,99 L1270,85 M1272,103 L1272,81 M1274,110 L1274,72 M1276,107 L1276,75 M1278,100 L1278,85 M1280,97 L1280,87 M1282,101 L1282,83 M1284,105 L1284,79 M1286,103 L1286,82 M1288,98 L1288,86 M1290,101 L1290,84 M1292,106 L1292,77 M1294,109 L1294,73 M1296,101 L1296,83 M1298,96 L1298,89 M1300,104 L1300,80 M1302,111 L1302,70 M1304,106 L1304,77 M1306,99 L1306,85 M1308,103 L1308,82 M1310,101 L1310,83 M1312,98 L1312,87 M1314,103 L1314,81 M1316,106 L1316,76 M1318,100 L1318,84 M1320,95 L1320,89 M1322,101 L1322,83 M1324,109 L1324,73 M1326,105 L1326,77 M1328,98 L1328,86 M1330,100 L1330,84 M1332,106 L1332,77 M1334,113 L1334,66 M1336,101 L1336,83 M1338,94 L1338,90 M1340,100 L1340,84 M1342,105 L1342,78 M1344,98 L1344,87 M1346,102 L1346,81 M1348,108 L1348,74 M1350,104 L1350,80 M1352,99 L1352,85 M1354,103 L1354,82 M1356,111 L1356,71 M1358,105 L1358,78 M1360,97 L1360,87 M1362,101 L1362,84 M1364,106 L1364,77 M1366,101 L1366,83 M1368,98 L1368,87 M1370,103 L1370,81 M1372,108 L1372,75 M1374,104 L1374,80 M1376,99 L1376,85 M1378,101 L1378,83 M1380,107 L1380,76" id="plus_node_54" />
+      <path d="M1210,96 C1236,92 1251,99 1271,95 C1296,91 1311,100 1332,96 C1354,92 1368,98 1380,96" fill="none" stroke-width="1.2" id="plus_node_55" />
+    </g>
+
+    <text id="txt-variation-or" x="1297" y="152" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="23" font-weight="700" fill="#000000">OR</text>
+
+    <g id="variation-spectrogram" clip-path="url(#clipSpecRight)">
+      <rect x="1202" y="162" width="190" height="98" fill="url(#spectrogramBase)" filter="url(#roughSpec)" id="plus_node_56" />
+      <rect x="1202" y="162" width="190" height="98" fill="url(#spectrogramDark)" opacity="0.72" id="plus_node_57" />
+      <g opacity="0.80" id="plus_node_58">
+        <rect x="1203" y="244" width="188" height="3" fill="#ffd13b" id="plus_node_59" />
+        <rect x="1203" y="232" width="188" height="2" fill="#f49a25" id="plus_node_60" />
+        <rect x="1203" y="219" width="188" height="2.5" fill="#ffca2e" id="plus_node_61" />
+        <rect x="1203" y="207" width="188" height="2" fill="#ec762a" id="plus_node_62" />
+        <rect x="1203" y="194" width="188" height="1.7" fill="#fc7830" id="plus_node_63" />
+        <rect x="1203" y="181" width="188" height="1.4" fill="#b83e5a" id="plus_node_64" />
+      </g>
+      <g opacity="0.43" id="plus_node_65">
+        <rect x="1219" y="162" width="5" height="98" fill="#3d146d" id="plus_node_66" />
+        <rect x="1240" y="162" width="4" height="98" fill="#ff9d23" id="plus_node_67" />
+        <rect x="1266" y="162" width="6" height="98" fill="#4b176f" id="plus_node_68" />
+        <rect x="1295" y="162" width="5" height="98" fill="#f89625" id="plus_node_69" />
+        <rect x="1318" y="162" width="4" height="98" fill="#361464" id="plus_node_70" />
+        <rect x="1342" y="162" width="6" height="98" fill="#ff9f22" id="plus_node_71" />
+        <rect x="1368" y="162" width="5" height="98" fill="#44156d" id="plus_node_72" />
+      </g>
+      <g stroke="#f7bd29" stroke-width="0.9" opacity="0.55" id="plus_node_73">
+        <path d="M1203,252 C1225,248 1238,253 1260,248 S1297,251 1319,246 S1362,249 1392,245" fill="none" id="plus_node_74" />
+        <path d="M1203,226 C1224,222 1239,225 1261,221 S1302,224 1326,220 S1361,223 1392,219" fill="none" id="plus_node_75" />
+        <path d="M1203,237 C1232,233 1253,238 1280,234 S1324,235 1350,233 S1371,235 1392,232" fill="none" id="plus_node_76" />
+      </g>
+    </g>
+  </g>
+
+  
+  <g id="training-feedback">
+    <desc>Lower feedback section: Add Noise is a dashed red path from the input side toward the decoder input; Reconstruction Loss is a longer dashed red path from the variation side back to the input side. Both use orthogonal segments matching the original.</desc>
+    <path id="arrow-add-noise" d="M232,220 H990 V176" stroke="#d21c14" stroke-width="2" stroke-dasharray="6 3" fill="none" marker-end="url(#arrowRedEnd7x8)" />
+    <text id="txt-add-noise" x="552" y="240" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="700" fill="#d21c14">Add Noise</text>
+
+    <path id="arrow-loss-from-output" d="M1178,191 V248 H233" stroke="#d21c14" stroke-width="2" stroke-dasharray="6 3" fill="none" marker-end="url(#arrowRedEnd7x8)" />
+    <path id="arrow-small-red-left" d="M1178,191 H1162" stroke="#d21c14" stroke-width="2" stroke-dasharray="6 3" fill="none" marker-end="url(#arrowRedStart7x8)" />
+    <text id="txt-reconstruction-loss" x="710" y="268" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="700" fill="#d21c14">Reconstruction Loss</text>
+  </g>
+</svg>

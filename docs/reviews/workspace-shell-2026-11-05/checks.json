@@ -1,0 +1,484 @@
+{
+  "checks": [
+    "Eight desktop states: exact header, source and footer sizes; full primary action without root overflow",
+    "Repeated New task keeps the same truly blank task",
+    "Create layout, sidebar animation, invalid replacement, modal history and focus restoration",
+    "Task and library share alignment; browser Back and Forward follow the view query",
+    "Double-click creates one document; continue uses its exact ID and refreshes renamed filenames",
+    "Cancelled native chooser and invalid import preserve task, URL and all SVG records",
+    "Native open starts within the click gesture and retains the real handle; browser Back saves the latest canvas edit",
+    "Independent research example and four-column document collection retain previous files",
+    "Task-save failure blocks SVG entry, reports the failure and creates no document",
+    "1080px maximum at 1920; stacked tablet and drawer mobile layouts fit through 320px",
+    "Reduced motion presents final states immediately without losing user text",
+    "Rapid mode clicks follow the last intent; long notes scroll internally; composition and blank-task mode reset remain correct",
+    "Fallback cancellation unlocks all entries; stale Continue never silently opens a different document",
+    "Browser Back stays in the editor when its last save fails and succeeds after recovery",
+    "Direct editor entry returns to My SVGs"
+  ],
+  "errors": [],
+  "measurements": [
+    {
+      "language": "zh",
+      "width": 1366,
+      "height": 768,
+      "state": "empty",
+      "header": {
+        "x": 232,
+        "y": 0,
+        "w": 1134,
+        "h": 56,
+        "bottom": 56
+      },
+      "container": {
+        "x": 264,
+        "y": 80,
+        "w": 1070,
+        "h": 575.4375,
+        "bottom": 655.4375
+      },
+      "body": {
+        "x": 265,
+        "y": 174.4375,
+        "w": 1068,
+        "h": 360,
+        "bottom": 534.4375
+      },
+      "frame": {
+        "x": 289,
+        "y": 230.4375,
+        "w": 597.59375,
+        "h": 280,
+        "bottom": 510.4375
+      },
+      "footer": {
+        "x": 265,
+        "y": 534.4375,
+        "w": 1068,
+        "h": 64,
+        "bottom": 598.4375
+      },
+      "button": {
+        "x": 1190.78125,
+        "y": 546.9375,
+        "w": 118.21875,
+        "h": 40,
+        "bottom": 586.9375
+      },
+      "columns": "597.594px 398.391px",
+      "rootHeight": 768,
+      "rootWidth": 1366
+    },
+    {
+      "language": "zh",
+      "width": 1366,
+      "height": 768,
+      "state": "uploaded",
+      "header": {
+        "x": 232,
+        "y": 0,
+        "w": 1134,
+        "h": 56,
+        "bottom": 56
+      },
+      "container": {
+        "x": 264,
+        "y": 80,
+        "w": 1070,
+        "h": 575.4375,
+        "bottom": 655.4375
+      },
+      "body": {
+        "x": 265,
+        "y": 174.4375,
+        "w": 1068,
+        "h": 360,
+        "bottom": 534.4375
+      },
+      "frame": {
+        "x": 289,
+        "y": 230.4375,
+        "w": 597.59375,
+        "h": 280,
+        "bottom": 510.4375
+      },
+      "footer": {
+        "x": 265,
+        "y": 534.4375,
+        "w": 1068,
+        "h": 64,
+        "bottom": 598.4375
+      },
+      "button": {
+        "x": 1190.78125,
+        "y": 546.9375,
+        "w": 118.21875,
+        "h": 40,
+        "bottom": 586.9375
+      },
+      "columns": "597.594px 398.391px",
+      "rootHeight": 768,
+      "rootWidth": 1366
+    },
+    {
+      "language": "zh",
+      "width": 1440,
+      "height": 900,
+      "state": "empty",
+      "header": {
+        "x": 232,
+        "y": 0,
+        "w": 1208,
+        "h": 56,
+        "bottom": 56
+      },
+      "container": {
+        "x": 296,
+        "y": 80,
+        "w": 1080,
+        "h": 575.4375,
+        "bottom": 655.4375
+      },
+      "body": {
+        "x": 297,
+        "y": 174.4375,
+        "w": 1078,
+        "h": 360,
+        "bottom": 534.4375
+      },
+      "frame": {
+        "x": 321,
+        "y": 230.4375,
+        "w": 603.59375,
+        "h": 280,
+        "bottom": 510.4375
+      },
+      "footer": {
+        "x": 297,
+        "y": 534.4375,
+        "w": 1078,
+        "h": 64,
+        "bottom": 598.4375
+      },
+      "button": {
+        "x": 1232.78125,
+        "y": 546.9375,
+        "w": 118.21875,
+        "h": 40,
+        "bottom": 586.9375
+      },
+      "columns": "603.594px 402.391px",
+      "rootHeight": 900,
+      "rootWidth": 1440
+    },
+    {
+      "language": "zh",
+      "width": 1440,
+      "height": 900,
+      "state": "uploaded",
+      "header": {
+        "x": 232,
+        "y": 0,
+        "w": 1208,
+        "h": 56,
+        "bottom": 56
+      },
+      "container": {
+        "x": 296,
+        "y": 80,
+        "w": 1080,
+        "h": 575.4375,
+        "bottom": 655.4375
+      },
+      "body": {
+        "x": 297,
+        "y": 174.4375,
+        "w": 1078,
+        "h": 360,
+        "bottom": 534.4375
+      },
+      "frame": {
+        "x": 321,
+        "y": 230.4375,
+        "w": 603.59375,
+        "h": 280,
+        "bottom": 510.4375
+      },
+      "footer": {
+        "x": 297,
+        "y": 534.4375,
+        "w": 1078,
+        "h": 64,
+        "bottom": 598.4375
+      },
+      "button": {
+        "x": 1232.78125,
+        "y": 546.9375,
+        "w": 118.21875,
+        "h": 40,
+        "bottom": 586.9375
+      },
+      "columns": "603.594px 402.391px",
+      "rootHeight": 900,
+      "rootWidth": 1440
+    },
+    {
+      "language": "en",
+      "width": 1366,
+      "height": 768,
+      "state": "empty",
+      "header": {
+        "x": 232,
+        "y": 0,
+        "w": 1134,
+        "h": 56,
+        "bottom": 56
+      },
+      "container": {
+        "x": 264,
+        "y": 80,
+        "w": 1070,
+        "h": 575.4375,
+        "bottom": 655.4375
+      },
+      "body": {
+        "x": 265,
+        "y": 174.4375,
+        "w": 1068,
+        "h": 360,
+        "bottom": 534.4375
+      },
+      "frame": {
+        "x": 289,
+        "y": 230.4375,
+        "w": 597.59375,
+        "h": 280,
+        "bottom": 510.4375
+      },
+      "footer": {
+        "x": 265,
+        "y": 534.4375,
+        "w": 1068,
+        "h": 64,
+        "bottom": 598.4375
+      },
+      "button": {
+        "x": 1135.546875,
+        "y": 546.9375,
+        "w": 173.453125,
+        "h": 40,
+        "bottom": 586.9375
+      },
+      "columns": "597.594px 398.391px",
+      "rootHeight": 768,
+      "rootWidth": 1366
+    },
+    {
+      "language": "en",
+      "width": 1366,
+      "height": 768,
+      "state": "uploaded",
+      "header": {
+        "x": 232,
+        "y": 0,
+        "w": 1134,
+        "h": 56,
+        "bottom": 56
+      },
+      "container": {
+        "x": 264,
+        "y": 80,
+        "w": 1070,
+        "h": 575.4375,
+        "bottom": 655.4375
+      },
+      "body": {
+        "x": 265,
+        "y": 174.4375,
+        "w": 1068,
+        "h": 360,
+        "bottom": 534.4375
+      },
+      "frame": {
+        "x": 289,
+        "y": 230.4375,
+        "w": 597.59375,
+        "h": 280,
+        "bottom": 510.4375
+      },
+      "footer": {
+        "x": 265,
+        "y": 534.4375,
+        "w": 1068,
+        "h": 64,
+        "bottom": 598.4375
+      },
+      "button": {
+        "x": 1135.546875,
+        "y": 546.9375,
+        "w": 173.453125,
+        "h": 40,
+        "bottom": 586.9375
+      },
+      "columns": "597.594px 398.391px",
+      "rootHeight": 768,
+      "rootWidth": 1366
+    },
+    {
+      "language": "en",
+      "width": 1440,
+      "height": 900,
+      "state": "empty",
+      "header": {
+        "x": 232,
+        "y": 0,
+        "w": 1208,
+        "h": 56,
+        "bottom": 56
+      },
+      "container": {
+        "x": 296,
+        "y": 80,
+        "w": 1080,
+        "h": 575.4375,
+        "bottom": 655.4375
+      },
+      "body": {
+        "x": 297,
+        "y": 174.4375,
+        "w": 1078,
+        "h": 360,
+        "bottom": 534.4375
+      },
+      "frame": {
+        "x": 321,
+        "y": 230.4375,
+        "w": 603.59375,
+        "h": 280,
+        "bottom": 510.4375
+      },
+      "footer": {
+        "x": 297,
+        "y": 534.4375,
+        "w": 1078,
+        "h": 64,
+        "bottom": 598.4375
+      },
+      "button": {
+        "x": 1177.546875,
+        "y": 546.9375,
+        "w": 173.453125,
+        "h": 40,
+        "bottom": 586.9375
+      },
+      "columns": "603.594px 402.391px",
+      "rootHeight": 900,
+      "rootWidth": 1440
+    },
+    {
+      "language": "en",
+      "width": 1440,
+      "height": 900,
+      "state": "uploaded",
+      "header": {
+        "x": 232,
+        "y": 0,
+        "w": 1208,
+        "h": 56,
+        "bottom": 56
+      },
+      "container": {
+        "x": 296,
+        "y": 80,
+        "w": 1080,
+        "h": 575.4375,
+        "bottom": 655.4375
+      },
+      "body": {
+        "x": 297,
+        "y": 174.4375,
+        "w": 1078,
+        "h": 360,
+        "bottom": 534.4375
+      },
+      "frame": {
+        "x": 321,
+        "y": 230.4375,
+        "w": 603.59375,
+        "h": 280,
+        "bottom": 510.4375
+      },
+      "footer": {
+        "x": 297,
+        "y": 534.4375,
+        "w": 1078,
+        "h": 64,
+        "bottom": 598.4375
+      },
+      "button": {
+        "x": 1177.546875,
+        "y": 546.9375,
+        "w": 173.453125,
+        "h": 40,
+        "bottom": 586.9375
+      },
+      "columns": "603.594px 402.391px",
+      "rootHeight": 900,
+      "rootWidth": 1440
+    }
+  ],
+  "steps": [
+    {
+      "seconds": 0.54,
+      "action": "Text to image: full-width brief"
+    },
+    {
+      "seconds": 1.76,
+      "action": "Add reference: 300px reference column"
+    },
+    {
+      "seconds": 2.55,
+      "action": "Remove reference, retaining brief"
+    },
+    {
+      "seconds": 3.23,
+      "action": "Image to SVG: stable two-column input"
+    },
+    {
+      "seconds": 4.03,
+      "action": "Collapse sidebar"
+    },
+    {
+      "seconds": 4.73,
+      "action": "Expand sidebar"
+    },
+    {
+      "seconds": 5.88,
+      "action": "Upload source image"
+    },
+    {
+      "seconds": 7.07,
+      "action": "Replace source with another validated image"
+    },
+    {
+      "seconds": 7.54,
+      "action": "Open full source dialog"
+    },
+    {
+      "seconds": 8.28,
+      "action": "Process overview over the retained form"
+    },
+    {
+      "seconds": 9.24,
+      "action": "Task to My SVGs"
+    },
+    {
+      "seconds": 11.56,
+      "action": "Create independent SVG canvas"
+    },
+    {
+      "seconds": 12.45,
+      "action": "Editor back to file collection"
+    }
+  ]
+}

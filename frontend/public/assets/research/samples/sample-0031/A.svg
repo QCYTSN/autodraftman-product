@@ -1,0 +1,265 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1355" height="344" viewBox="0 0 1355 344">
+  <title>Illustration of MoEraser architecture and noise injection-restore tuning</title>
+  <desc>Complete editable reconstruction. Base frames include the left erase/preserve module, the central MoEraser architecture, the NIR construction module, and the restoration module. Fire icons are first constructed as SVG and then mapped to confirmed SAM assets P002 and P001 at their source crop coordinates.</desc>
+  <defs>
+    <linearGradient id="redFade" x1="0" x2="1" y1="0" y2="0">
+      <stop offset="0" stop-color="#f04e46" />
+      <stop offset="0.55" stop-color="#ff1f1f" />
+      <stop offset="1" stop-color="#ffffff" stop-opacity="0" />
+    </linearGradient>
+    <linearGradient id="redFadeReverse" x1="0" x2="1" y1="0" y2="0">
+      <stop offset="0" stop-color="#ffffff" stop-opacity="0" />
+      <stop offset="0.45" stop-color="#ff1f1f" />
+      <stop offset="1" stop-color="#f04e46" />
+    </linearGradient>
+    <linearGradient id="noiseGrad" x1="0" x2="1" y1="0" y2="0">
+      <stop offset="0" stop-color="#f0d2bd" />
+      <stop offset="0.5" stop-color="#7aa4d1" />
+      <stop offset="1" stop-color="#cb91ae" />
+    </linearGradient>
+    <marker id="arrowNavy" markerUnits="userSpaceOnUse" markerWidth="8" markerHeight="8" refX="8" refY="4" orient="auto">
+      <path d="M0,0 L8,4 L0,8 Z" fill="#0b2e4d" id="plus_node_0" />
+    </marker>
+    <marker id="arrowNavyStart" markerUnits="userSpaceOnUse" markerWidth="8" markerHeight="8" refX="0" refY="4" orient="auto-start-reverse">
+      <path d="M0,0 L8,4 L0,8 Z" fill="#0b2e4d" id="plus_node_1" />
+    </marker>
+    <marker id="arrowBlue" markerUnits="userSpaceOnUse" markerWidth="8" markerHeight="8" refX="8" refY="4" orient="auto">
+      <path d="M0,0 L8,4 L0,8 Z" fill="#087bd7" id="plus_node_2" />
+    </marker>
+    <marker id="arrowBlueStart" markerUnits="userSpaceOnUse" markerWidth="8" markerHeight="8" refX="0" refY="4" orient="auto-start-reverse">
+      <path d="M0,0 L8,4 L0,8 Z" fill="#087bd7" id="plus_node_3" />
+    </marker>
+    <marker id="arrowRed" markerUnits="userSpaceOnUse" markerWidth="8" markerHeight="8" refX="8" refY="4" orient="auto">
+      <path d="M0,0 L8,4 L0,8 Z" fill="#f0524c" id="plus_node_4" />
+    </marker>
+    <marker id="arrowRedStart" markerUnits="userSpaceOnUse" markerWidth="8" markerHeight="8" refX="0" refY="4" orient="auto-start-reverse">
+      <path d="M0,0 L8,4 L0,8 Z" fill="#f0524c" id="plus_node_5" />
+    </marker>
+    <marker id="arrowGreen" markerUnits="userSpaceOnUse" markerWidth="8" markerHeight="8" refX="8" refY="4" orient="auto">
+      <path d="M0,0 L8,4 L0,8 Z" fill="#146b29" id="plus_node_6" />
+    </marker>
+    <marker id="arrowCyan" markerUnits="userSpaceOnUse" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto">
+      <path d="M0,0 L12,6 L0,12 Z" fill="#0d7895" stroke="#0b2e4d" stroke-width="1" id="plus_node_7" />
+    </marker>
+    <style>
+      .navy{stroke:#0b2e4d;stroke-width:3;fill:none}
+      .navy2{stroke:#0b2e4d;stroke-width:2.4;fill:none}
+      .blue{stroke:#087bd7;stroke-width:3;fill:none}
+      .red{stroke:#f0524c;stroke-width:3;fill:none}
+      .green{stroke:#146b29;stroke-width:3;fill:none}
+      .txt{font-family:Arial, Helvetica, sans-serif;fill:#000}
+      .serif{font-family:"Times New Roman", Times, serif;fill:#000}
+      .bold{font-weight:700}
+      .small{font-size:14px}
+      .med{font-size:18px}
+      .large{font-size:22px}
+      .caption{font-family:"Times New Roman", Times, serif;font-size:20px;font-weight:700}
+      .box{fill:#f3f3f3;stroke:#777;stroke-width:1.5}
+      .paleBlue{fill:#dcebf7;stroke:#00608a;stroke-width:1.5}
+    </style>
+  </defs>
+
+  <rect id="canvas_bg" x="0" y="0" width="1355" height="344" fill="#ffffff" />
+
+  
+  <g id="panel_a_local">
+    <desc>Inventory: red dashed Erase frame and blue dashed Preserve frame surround a Text embedding projector above MoEraser; red target branch and blue anchor branch meet at MoEraser. A flame sits over the erased object at lower left, then is mapped to SAM P002.</desc>
+    <rect id="f02" data-plus-kind="frame" x="28" y="50" width="95" height="245" rx="16" fill="none" stroke="#f0524c" stroke-width="2" stroke-dasharray="6 4" />
+    <rect id="f03" data-plus-kind="frame" x="130" y="50" width="95" height="245" rx="16" fill="none" stroke="#1e79c9" stroke-width="2" stroke-dasharray="6 4" />
+    <text id="erase_title" class="txt bold small" x="58" y="44" fill="#f0524c" style="fill:#f0524c">Erase</text>
+    <text id="preserve_title" class="txt bold small" x="146" y="44" fill="#087bd7" style="fill:#087bd7">Preserve</text>
+    <text id="w_proj_map" class="serif bold" font-size="18" style="fill:#f0524c"><tspan x="36" y="70">W</tspan><tspan x="54" y="74" font-size="12">proj.</tspan><tspan x="84" y="70" font-size="18">f</tspan><tspan x="92" y="74" font-size="12">map</tspan></text><text id="w_proj_anc" class="serif bold" font-size="18" style="fill:#087bd7"><tspan x="140" y="70">W</tspan><tspan x="158" y="74" font-size="12">proj.</tspan><tspan x="189" y="70" font-size="18">f</tspan><tspan x="197" y="74" font-size="12">anc</tspan></text><rect id="local_projector" class="box" x="47" y="98" width="158" height="58" rx="6" />
+    <text id="local_projector_text" class="txt bold large" x="126" y="122" text-anchor="middle">Text emb.</text>
+    <text id="local_projector_text2" class="txt bold large" x="126" y="146" text-anchor="middle">Projector</text>
+    <rect id="local_moeraser" class="paleBlue" x="47" y="166" width="158" height="80" rx="8" />
+    <text id="local_moeraser_text" class="txt bold" x="126" y="219" font-size="24" text-anchor="middle">MoEraser</text>
+
+    <path id="red_side_path" class="red" d="M90 98 V80 M90 156 V166 H35 V259 H82 V246" marker-end="url(#arrowRed)" />
+    <path id="red_inside_path" class="red" d="M35 166 H91" marker-end="url(#arrowRed)" />
+    <path id="red_dash_mid" class="red" d="M91 166 H130" stroke-dasharray="6 4" marker-start="url(#arrowRedStart)" marker-end="url(#arrowRed)" />
+    <path id="red_up_arrow" class="red" d="M91 246 V284" marker-end="url(#arrowRed)" />
+    <text id="ftar_left" class="serif" font-size="30" style="fill:#f0524c"><tspan x="70" y="289">f</tspan><tspan x="84" y="296" font-size="18">tar</tspan></text><path id="blue_projector_path" class="blue" d="M164 98 V80 M164 156 V166 H220 V246 H164 V253" marker-end="url(#arrowBlue)" />
+    <path id="blue_back_path" class="blue" d="M220 166 H164" marker-end="url(#arrowBlue)" />
+    <path id="blue_up_anchor" class="blue" d="M164 246 V284" marker-end="url(#arrowBlue)" />
+    <text id="fanc_left" class="serif" font-size="30" style="fill:#087bd7"><tspan x="146" y="289">f</tspan><tspan x="160" y="296" font-size="18">anc</tspan></text></g>
+
+  
+  <g id="panel_a_architecture">
+    <desc>Inventory: large rounded blue MoEraser architecture frame. Origin is the lower routing block; wiring conducts upward to experts, summation, alpha scale, then rightward to a gated linear unit with W_in, W_out, V and sigma nodes. The layout is horizontally balanced: router/expert path on left, GLU on right.</desc>
+    <rect id="f01" data-plus-kind="frame" x="245" y="5" width="527" height="305" rx="42" fill="#dcebf7" stroke="#00608a" stroke-width="1.6" />
+    <path id="arch_outer_wire_left" class="navy" d="M254 257 V31 H337" marker-end="url(#arrowNavy)" />
+    <text id="alpha_label" class="serif" x="293" y="29" font-size="18" font-style="italic">α</text>
+    <rect id="arch_top_scale" x="339" y="22" width="131" height="22" rx="3" fill="#f4f4f4" stroke="#000" stroke-width="2" />
+    <text id="arch_top_scale_text" class="serif bold" x="405" y="39" font-size="15" text-anchor="middle">Scale</text>
+    <path id="arch_top_up" class="navy2" d="M405 22 V8" marker-end="url(#arrowNavy)" />
+    <path id="arch_top_down" class="navy2" d="M405 58 V44" marker-end="url(#arrowNavy)" />
+    <path id="arch_scale_to_sum" class="navy2" d="M405 58 V74" />
+    <circle id="sum_node" cx="405" cy="75" r="11" fill="#dcebf7" stroke="#0b2e4d" stroke-width="1.5" />
+    <path id="sum_plus_h" d="M394 75 H416 M405 64 V86" stroke="#0b2e4d" stroke-width="1.3" />
+    <path id="arch_sum_to_experts" class="navy2" d="M405 86 V99 H502 V109" marker-end="url(#arrowNavy)" />
+    <path id="arch_sum_to_left" class="navy2" d="M394 75 H264 V214 H311 V230" marker-end="url(#arrowNavy)" />
+    <path id="arch_right_return" class="navy2" d="M416 75 H502 V143" marker-end="url(#arrowNavy)" />
+
+    <rect id="expert_1" x="271" y="110" width="78" height="30" rx="5" fill="#e7ffe7" stroke="#0b2e4d" stroke-width="2" />
+    <text id="expert_1_text" class="serif" x="310" y="131" font-size="18" text-anchor="middle">Expert 1</text>
+    <rect id="expert_2" x="352" y="110" width="78" height="30" rx="5" fill="#e7ffe7" stroke="#0b2e4d" stroke-width="2" />
+    <text id="expert_2_text" class="serif" x="391" y="131" font-size="18" text-anchor="middle">Expert 2</text>
+    <text id="expert_dots" class="serif bold" x="444" y="132" font-size="24" text-anchor="middle">...</text>
+    <rect id="expert_n" x="458" y="110" width="85" height="30" rx="5" fill="#e7ffe7" stroke="#0b2e4d" stroke-width="2" />
+    <text id="expert_n_text" class="serif" x="500" y="131" font-size="18" text-anchor="middle">Expert <tspan font-style="italic">N</tspan></text>
+    <path id="expert1_wire" class="navy2" d="M310 140 V158 H368 V203" />
+    <path id="expert2_wire" class="navy2" d="M391 140 V158 H368" />
+    <path id="expertn_wire" class="navy2" d="M501 140 V158 H441 V203" />
+    <path id="expert1_up" class="navy2" d="M310 158 V143" marker-end="url(#arrowNavy)" />
+    <path id="expertn_up" class="navy2" d="M501 158 V143" marker-end="url(#arrowNavy)" />
+
+    <rect id="router_bar_left" x="358" y="182" width="17" height="18" fill="#df62cd" />
+    <rect id="router_bar_right" x="439" y="170" width="15" height="30" fill="#c83ebe" />
+    <text id="router_dots" class="serif bold" x="429" y="191" font-size="20">...</text>
+    <text id="router_k" class="serif" x="463" y="191" font-size="18" font-style="italic">k = 2</text>
+    <rect id="router_box" x="344" y="203" width="133" height="20" rx="3" fill="#fff2ff" stroke="#8d1683" stroke-width="2" />
+    <text id="router_text" class="serif" x="411" y="219" font-size="17" text-anchor="middle">Router</text>
+    <rect id="scale_bottom" x="345" y="230" width="133" height="19" rx="3" fill="#f4f4f4" stroke="#000" stroke-width="2" />
+    <text id="scale_bottom_text" class="serif" x="412" y="246" font-size="16" text-anchor="middle">Scale</text>
+    <rect id="mlp_box" x="265" y="257" width="73" height="22" rx="3" fill="#f4f4f4" stroke="#000" stroke-width="2" />
+    <text id="mlp_text" class="serif bold" x="302" y="274" font-size="15" text-anchor="middle">MLP</text>
+    <rect id="ln_box" x="344" y="257" width="133" height="22" rx="3" fill="#f4f4f4" stroke="#000" stroke-width="2" />
+    <text id="ln_text" class="serif" x="411" y="274" font-size="15" text-anchor="middle">LayerNorm</text>
+    <path id="bottom_feedback" class="navy2" d="M412 279 V293 H302 V281" marker-end="url(#arrowNavy)" />
+    <path id="bottom_up" class="navy2" d="M302 257 V226 H345" marker-end="url(#arrowNavy)" />
+    <text id="beta_gamma" class="serif" x="309" y="237" font-size="18" font-style="italic">β, γ</text>
+
+    <rect id="f06" data-plus-kind="frame" x="560" y="60" width="202" height="219" rx="30" fill="#dff5de" stroke="#279334" stroke-width="2" stroke-dasharray="6 3" />
+    <text id="glu_title" class="txt bold" x="687" y="80" font-size="13" text-anchor="middle">Gated Linear Unit</text>
+    <path id="win_poly" d="M589 88 H637 L658 124 H568 Z" fill="#a8e79e" stroke="#146b29" stroke-width="1.5" />
+    <text id="win_text" class="serif" x="614" y="113" font-size="20" text-anchor="middle">
+      W<tspan font-size="14" baseline-shift="sub">in</tspan>
+    </text>
+    <circle id="dot_top" cx="613" cy="150" r="11" fill="#dff5de" stroke="#000" stroke-width="1.5" />
+    <circle cx="613" cy="150" r="3" fill="#000" id="plus_node_11" />
+    <circle id="sigma_node" cx="613" cy="184" r="12" fill="#dff5de" stroke="#000" stroke-width="1.5" />
+    <text id="sigma_text" class="serif" x="613" y="190" font-size="18" text-anchor="middle">σ</text>
+    <path id="wout_poly" d="M589 244 H637 L658 209 H568 Z" fill="#a8e79e" stroke="#146b29" stroke-width="1.5" />
+    <text id="wout_text" class="serif" x="613" y="233" font-size="20" text-anchor="middle">
+      W<tspan font-size="14" baseline-shift="sub">out</tspan>
+    </text>
+    <path id="v_poly" d="M687 244 H735 L756 209 H666 Z" fill="#a8e79e" stroke="#146b29" stroke-width="1.5" />
+    <text id="v_text" class="serif" x="711" y="232" font-size="22" text-anchor="middle" font-style="italic">V</text>
+    <path id="glu_vert1" class="green" d="M614 88 V73" marker-end="url(#arrowGreen)" />
+    <path id="glu_vert2" class="green" d="M613 139 V124" marker-end="url(#arrowGreen)" />
+    <path id="glu_vert3" class="green" d="M613 172 V161" marker-end="url(#arrowGreen)" />
+    <path id="glu_vert4" class="green" d="M613 209 V197" marker-end="url(#arrowGreen)" />
+    <path id="glu_bottom_wire" class="green" d="M613 269 V259 H709 V244" />
+    <path id="glu_right_wire" class="green" d="M709 209 V149 H626" marker-end="url(#arrowGreen)" />
+    <path id="glu_v_to_bottom" class="green" d="M709 244 V259" />
+  </g>
+
+  
+  <g id="panel_b_construction">
+    <desc>Inventory: text embedding projector combines with structured noise p_tar through a plus sign, then arrow down to corrupted projector; spider-web corruption marks appear at input and output sides. Symmetry basis is vertical flow from clean projector and noise into corrupted projector.</desc>
+    <rect id="f04" data-plus-kind="frame" x="797" y="54" width="149" height="55" rx="6" fill="#f3f3f3" stroke="#888" stroke-width="1.4" />
+    <text id="nir_text_projector_1" class="txt bold" x="872" y="78" font-size="18" text-anchor="middle">Text emb.</text>
+    <text id="nir_text_projector_2" class="txt bold" x="872" y="99" font-size="18" text-anchor="middle">Projector</text>
+    <path id="ptar_patch" d="M798 128 L868 143 L868 177 L798 169 Z" fill="#f5eadf" stroke="#000" stroke-width="1.2" />
+    <text id="ptar_patch_text" class="serif" x="833" y="163" font-size="20" text-anchor="middle">
+      p<tspan font-size="14" baseline-shift="sub">tar</tspan>
+    </text>
+    <text id="structured_noise" class="txt bold" x="872" y="203" font-size="16" text-anchor="middle">Structured noise</text>
+    <path id="nir_down_arrow" d="M864 211 H880 V226 H887 L872 241 L857 226 H864 Z" fill="#0d7895" stroke="#0b2e4d" stroke-width="1.5" /><rect id="nir_corrupted_projector" class="box" x="797" y="241" width="149" height="54" rx="7" fill="#d1d1d1" stroke="#000" />
+    <text id="corrupt_proj_text1" class="txt bold" x="872" y="264" font-size="18" text-anchor="middle">Corrupted</text>
+    <text id="corrupt_proj_text2" class="txt bold" x="872" y="285" font-size="18" text-anchor="middle">Projector</text>
+
+    <g id="web_bottom" stroke="#000" stroke-width="1.3" fill="none">
+      <path d="M770 229 L793 247 L767 270 L754 244 L796 236 L766 257 M756 255 H804 M772 228 L788 268" id="plus_node_24" />
+      <path d="M771 239 C765 247 766 258 774 263 C783 263 790 255 788 247 C786 241 779 237 771 239 Z" id="plus_node_25" />
+      <path d="M771 247 C777 243 784 246 785 252 C781 258 774 257 771 252 Z" id="plus_node_26" />
+    </g>
+    <path id="vertical_dashed_separator" d="M963 49 V302" stroke="#000" stroke-width="2.2" stroke-dasharray="8 5" />
+  <image id="source_noise_triangle_crop" x="875" y="128" width="72" height="57" href="data:image/png;base64,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" /><text id="plus_sign" class="txt bold" x="872" y="141" font-size="48" fill="#168aa6" stroke="#0b2e4d" stroke-width="1" text-anchor="middle">+</text></g>
+
+  
+  <g id="panel_b_restore">
+    <desc>Inventory: a light green restoration area compares a corrupted projector branch through MoEraser with a clean projector branch through MoEraser*. Token rows and a red opposing arrow at the top indicate corruption/removal, while bottom rows label f_tar, f_anc and Noise. Fire and snow symbols mark target and anchor cues. The two branches are horizontally symmetric around the red central arrow.</desc>
+    <rect id="f05" data-plus-kind="frame" x="976" y="166" width="340" height="138" rx="4" fill="#eef8eb" stroke="none" />
+    <g id="top_tokens_left" stroke="#146b29" stroke-width="1.3">
+      <rect x="1018" y="58" width="14" height="16" fill="#b8eab7" id="plus_node_27" />
+      <rect x="1032" y="58" width="14" height="16" fill="#b8eab7" id="plus_node_28" />
+      <rect x="1046" y="58" width="14" height="16" fill="#b8eab7" id="plus_node_29" />
+      <rect x="1060" y="58" width="14" height="16" fill="#b8eab7" id="plus_node_30" />
+      <rect x="1074" y="58" width="14" height="16" fill="#b8eab7" id="plus_node_31" />
+      <rect x="1088" y="58" width="16" height="16" fill="#b8eab7" id="plus_node_32" />
+    </g>
+    <g id="top_tokens_right" stroke="#146b29" stroke-width="1.3">
+      <rect x="1201" y="58" width="14" height="16" fill="#b8eab7" id="plus_node_33" />
+      <rect x="1215" y="58" width="14" height="16" fill="#b8eab7" id="plus_node_34" />
+      <rect x="1229" y="58" width="14" height="16" fill="#b8eab7" id="plus_node_35" />
+      <rect x="1243" y="58" width="14" height="16" fill="#b8eab7" id="plus_node_36" />
+      <rect x="1257" y="58" width="14" height="16" fill="#b8eab7" id="plus_node_37" />
+      <rect x="1271" y="58" width="16" height="16" fill="#b8eab7" id="plus_node_38" />
+    </g>
+    <path id="red_collision_left" d="M1114 54 H1137 L1157 65 L1137 77 H1114 Z" fill="url(#redFadeReverse)" /><path id="red_collision_right" d="M1194 54 H1171 L1151 65 L1171 77 H1194 Z" fill="url(#redFade)" /><path id="top_left_down" class="navy2" d="M1061 94 V75" marker-end="url(#arrowNavy)" />
+    <path id="top_right_down" class="navy2" d="M1244 94 V75" marker-end="url(#arrowNavy)" />
+
+    <rect id="corrupted_projector_right" x="987" y="94" width="149" height="52" rx="6" fill="#d1d1d1" stroke="#000" stroke-width="1.3" />
+    <text id="corrupted_projector_right_text1" class="txt bold" x="1061" y="115" font-size="18" text-anchor="middle">Corrupted</text>
+    <text id="corrupted_projector_right_text2" class="txt bold" x="1061" y="136" font-size="18" text-anchor="middle">Projector</text>
+    <rect id="restore_text_projector" x="1172" y="94" width="149" height="54" rx="6" fill="#f3f3f3" stroke="#888" stroke-width="1.3" />
+    <text id="restore_text_projector_t1" class="txt bold" x="1246" y="116" font-size="18" text-anchor="middle">Text emb.</text>
+    <text id="restore_text_projector_t2" class="txt bold" x="1246" y="137" font-size="18" text-anchor="middle">Projector</text>
+
+    <rect id="restore_moeraser" class="paleBlue" x="987" y="166" width="149" height="68" rx="8" />
+    <text id="restore_moeraser_text" class="txt bold" x="1061" y="209" font-size="22" text-anchor="middle">MoEraser</text>
+    <rect id="restore_moeraser_star" class="paleBlue" x="1172" y="166" width="149" height="68" rx="8" />
+    <text id="restore_moeraser_star_text" class="txt bold" x="1246" y="209" font-size="22" text-anchor="middle">MoEraser*</text>
+
+    <path id="restore_left_box_wire" class="navy2" d="M977 157 H1061 V146" marker-end="url(#arrowNavy)" />
+    <path id="restore_left_input_wire" class="navy2" d="M977 248 V157" />
+    <path id="restore_left_moe_downup" class="navy2" d="M1062 166 V151" marker-end="url(#arrowNavy)" />
+    <path id="restore_left_bottom_arrow" class="navy2" d="M1061 252 V236" marker-end="url(#arrowNavy)" />
+    <path id="restore_right_top_wire" class="navy2" d="M1160 157 H1245 V148" marker-end="url(#arrowNavy)" />
+    <path id="restore_right_border_wire" class="navy2" d="M1160 248 V157" />
+    <path id="restore_right_moe_downup" class="navy2" d="M1245 166 V151" marker-end="url(#arrowNavy)" />
+    <path id="restore_right_bottom_arrow" class="navy2" d="M1244 252 V236" marker-end="url(#arrowNavy)" />
+
+    <g id="bottom_tokens_ftarget" stroke="#ff6d32" stroke-width="1.2">
+      <rect x="998" y="259" width="15" height="14" fill="#ffd9ae" id="plus_node_39" />
+      <rect x="1013" y="259" width="15" height="14" fill="#ffd9ae" id="plus_node_40" />
+      <rect x="1028" y="259" width="15" height="14" fill="#ffd9ae" id="plus_node_41" />
+      <rect x="1043" y="259" width="15" height="14" fill="#ffd9ae" id="plus_node_42" />
+      <rect x="1058" y="259" width="15" height="14" fill="#ffd9ae" id="plus_node_43" />
+      <rect x="1073" y="259" width="13" height="14" fill="#ffd9ae" id="plus_node_44" />
+    </g>
+    <g id="bottom_tokens_fanc" stroke="#217aaa" stroke-width="1.2">
+      <rect x="1109" y="259" width="15" height="14" fill="#ccecf8" id="plus_node_45" />
+      <rect x="1124" y="259" width="15" height="14" fill="#ccecf8" id="plus_node_46" />
+      <rect x="1139" y="259" width="15" height="14" fill="#ccecf8" id="plus_node_47" />
+      <rect x="1154" y="259" width="15" height="14" fill="#ccecf8" id="plus_node_48" />
+      <rect x="1169" y="259" width="15" height="14" fill="#ccecf8" id="plus_node_49" />
+      <rect x="1184" y="259" width="13" height="14" fill="#ccecf8" id="plus_node_50" />
+    </g>
+    <g id="bottom_tokens_noise" stroke="#000" stroke-width="1.1">
+      <rect x="1218" y="259" width="15" height="14" fill="#868686" id="plus_node_51" />
+      <rect x="1233" y="259" width="15" height="14" fill="#777" id="plus_node_52" />
+      <rect x="1248" y="259" width="15" height="14" fill="#999" id="plus_node_53" />
+      <rect x="1263" y="259" width="15" height="14" fill="#777" id="plus_node_54" />
+      <rect x="1278" y="259" width="15" height="14" fill="#999" id="plus_node_55" />
+      <rect x="1293" y="259" width="12" height="14" fill="#777" id="plus_node_56" />
+    </g>
+    <text id="ftar_restore" class="serif bold" font-size="26" style="fill:#f0524c"><tspan x="1022" y="297">f</tspan><tspan x="1035" y="303" font-size="16">tar</tspan></text><text id="fanc_restore" class="serif bold" font-size="26" style="fill:#377ed8"><tspan x="1126" y="297">f</tspan><tspan x="1139" y="303" font-size="16">anc</tspan></text><text id="noise_label" class="txt bold" x="1262" y="297" font-size="17" text-anchor="middle">Noise</text>
+
+    <g id="snowflake" stroke="#38aef0" stroke-width="2" fill="none"><path id="plus_node_60" d="M1171 156 V183 M1158 169 H1184 M1162 160 L1180 178 M1180 160 L1162 178" /><path id="plus_node_61" d="M1171 156 l-4 7 M1171 156 l4 7 M1171 183 l-4 -7 M1171 183 l4 -7" /><path id="plus_node_62" d="M1158 169 l7 -4 M1158 169 l7 4 M1184 169 l-7 -4 M1184 169 l-7 4" /><path id="plus_node_63" d="M1162 160 l7 1 M1162 160 l1 7 M1180 178 l-7 -1 M1180 178 l-1 -7" /><path id="plus_node_64" d="M1180 160 l-7 1 M1180 160 l-1 7 M1162 178 l7 -1 M1162 178 l1 -7" /></g><g id="web_top_restore" stroke="#000" stroke-width="1.3" fill="none"><path id="web_top_restore_outer" d="M993 78 L1008 100 L981 119 L977 91 L1014 91 L986 111 L994 78 M976 103 H1017 M984 84 L1008 114" /><path id="web_top_restore_mid" d="M992 88 C986 94 985 105 992 112 C1000 112 1007 106 1006 98 C1005 91 1000 87 992 88 Z" /><path id="web_top_restore_inner" d="M989 94 C994 91 1001 92 1003 99 C1000 104 995 106 990 103 Z" /></g></g>
+
+  
+  <text id="caption_a" class="caption" x="492" y="337" text-anchor="middle" style="font-weight:400">(a) Illustration of our MoEraser architecture.</text>
+  <text id="caption_b" class="caption" x="1057" y="337" text-anchor="middle" style="font-weight:400">(b) Illustration of noise injection-restore (NIR) tuning.</text>
+
+  
+  <g id="sam_replacement_P002_fire" data-plus-keeps="f02 f03 local_projector local_moeraser red_side_path red_inside_path red_dash_mid blue_projector_path blue_back_path" transform="translate(0 0)">
+    <desc>Original Figure Object: left fire over target branch; Constructed Element ID: fire_a_draft; SAM Asset ID: asset_sam_region_000056. The asset source crop [27,152,39,45] covers only the flame, not the surrounding dashed frame or arrows.</desc>
+    <image href="data:image/png;base64,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" x="27" y="152" width="39" height="45" id="plus_node_65" preserveAspectRatio="none" />
+  </g>
+  <g id="sam_replacement_P001_fire" data-plus-keeps="f05 restore_moeraser restore_left_box_wire restore_left_input_wire corrupted_projector_right" transform="translate(0 0)">
+    <desc>Original Figure Object: right restoration fire marker beside MoEraser; Constructed Element ID: fire_b_draft; SAM Asset ID: asset_sam_region_000055. The asset source crop [979,153,30,40] covers only the flame.</desc>
+    <image href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAAoCAYAAADpE0oSAAAE6klEQVR4nLWXbUxbVRjH/+e29JVCYbCWUnAMocB4mQY1uBmM8WWZiRE/LH4ZiTMum1+Mmpn4xcRodJpgUGMMuqgz6oLbYrYPkmmyRCfTZYYUqLC6USi0XXlpgQ5K3+495lKoufTe9rbb/p/Ofc557u+5z33Oc88llFLI0dJiEO7+PtriuABm3AWo1AifsROdXo98pJSzaPTiAL33/MdoCy8CG4EuVtaiJE+oLLDju09oy6VTAOUE9nlLLUqAuwMe/+Yj2ny5X3QuXG69DSzASE0MnTtFG//8UdqzpOy2wOSR5w6nW9dC+LlikhYqRAqPf8cuPw6iEW7jDpIvWDk8dj3N+GnNMi1UZH79Mz4/hn3xfLlQWkzClJXGg/RgZfZi316ogUWff7rJ1n3seftFavU6pD02Uj26rxstx94ld6S43NedsPrGZDmaJzMElys4cGmAbt2vUip3ORCcn8vY9m7Y/0YkEskO3jHxF2QrHoPnp+/5kSg8kUjA0PsmnCd6RdcoNwdLgQWULkzJBwOoPfM5uiZZrOlK6dZaud9xAe8HnCj2TuAJtxKMoUQcPD0yRI0yPxib0rMRHLd/i54HDkF1T926LRGNwHb1HF4JXFm/1nAJPDU/jKmG58XB8Wkn8pEttoS+y72YvWlDUFOEne5r0KwuC9a8HPoHM/s7oVT+v01TI13Ag3xFKAezaxxmiXnt8gJ8Y3ZUt7anF1dRaDZvcNbAAEScwwLbJpgawsL03GkVzHvSwXxF6mKrdxVcHAung1mWhZLLv+HLUVipTgdzHJc60sgS4dfmtvUipWaBA8N3GIZhAJKl31O+ENbAtruBfQvJipEpnqiobRbYGN97R2lw1o+4okDakXBgd8+A3e8ArZ8DJrS8UTY4rjWgIrmVaGgxiLmpG2CqPSMwHu8GE4uKQxUs2M5/QXfdBDZOJNSrQS66uvtJaLQ6+KcmYHqnm654p5INRBUVr2gKCrbDBVhCwomY5FFNVPyrXO55DR32X8HEoxjXFmY+ZXI1C0D1YvqEPgEsqWSDOwZPp8Z8znRlJioZOmU40Fav6BypWduyWHYMSGj0MJoshAeLVgm1LAH6mLh32y3AGEsC+W3YFgKM8vqAu9IGlVotkWoKcFaRFG9KTYGuOcClAwwJwBIFGlaBsyaAzfz+p5r2okbqQM8XFcpWMoeuoklYZTSZs5IE0JTZhzIKGB59Zn0sHp6Ck05zJtlWM3bA4dbHUFZZTaTBKhZgcmuJ6+KfWiV+WOQUBbjVdTR1zYPTCTw0nxMzfzeNOPiPPQdgsTWn7sosmHamr0owuX4DkuJ94ulJ9FrqUPbCG4JHYeKHP0BIv024MqYEwtK9W1JhBogIwUFDGaZf/QxqrVZgZyqqqkngSA9WDeUpI6EEZLo0d/Ck8OOxXGzC6LETZHtV+l/leng1tkay8nof8ZkbNsgAc80MxBTyoTEC2ItSteGq2oXxt34g1vqm7D9t0WgUY/1f0pYrp6GMR8BZA+D2TghrnwLK+S134evpYikwoQer0uD3xw/BdOAIUWs08v8WAcDv9cB//iS1jfwCdYUP3EOTgJoVB0cJ8FsJ4rNmDLY/Dd2zL5FtlqqsCRIFb+qLgUF89fVJ+uGeClgKh2Atd0KhnYQikAAXtsIdqIM3eh8i9Q+j4sFOotMXZgVu6j8Z99j+qe6rsAAAAABJRU5ErkJggg==" x="979" y="153" width="30" height="40" id="plus_node_66" preserveAspectRatio="none" />
+  </g>
+</svg>

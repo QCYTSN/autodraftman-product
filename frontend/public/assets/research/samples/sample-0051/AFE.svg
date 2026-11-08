@@ -1,0 +1,157 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="3840" height="1979" viewBox="0 0 3840 1979">
+  <defs>
+    <marker id="arrow" viewBox="0 0 12 12" refX="10" refY="6" markerWidth="9" markerHeight="9" orient="auto-start-reverse">
+      <path d="M 0 0 L 12 6 L 0 12 z" fill="#c6d2d2"/>
+    </marker>
+    <style>
+      .mono { font-family: "Courier New", Courier, monospace; }
+      .serif { font-family: "Times New Roman", Times, serif; }
+      .promptBox { fill:#637f8f; stroke:#4f6f7f; stroke-width:3; }
+      .llmBox { fill:#dbeaf6; stroke:#0b5792; stroke-width:7; }
+      .tealBox { fill:#008d95; stroke:#00848c; stroke-width:3; }
+      .greenBox { fill:#efffef; stroke:#07991c; stroke-width:7; }
+      .redBox { fill:#fff1f1; stroke:#d55656; stroke-width:7; }
+      .purpleBox { fill:#fbf0ff; stroke:#8b0b8d; stroke-width:7; }
+      .arrow { stroke:#c6d2d2; stroke-width:6; fill:none; marker-end:url(#arrow); }
+      .whiteText { fill:white; }
+      .blueText { fill:#075d9d; }
+      .purpleText { fill:#8a008e; }
+      .greenText { fill:#078c17; }
+      .redText { fill:#d65b5b; }
+    </style>
+  </defs>
+
+  <rect x="0" y="0" width="3840" height="1979" fill="white"/>
+
+  <!-- arrows: left chat -->
+  <line class="arrow" x1="616" y1="352" x2="616" y2="604"/>
+  <line class="arrow" x1="616" y1="772" x2="616" y2="1023"/>
+  <line class="arrow" x1="586" y1="1184" x2="380" y2="1578"/>
+  <line class="arrow" x1="650" y1="1184" x2="856" y2="1578"/>
+
+  <!-- arrows: code and math -->
+  <line class="arrow" x1="1833" y1="352" x2="1833" y2="604"/>
+  <line class="arrow" x1="1784" y1="772" x2="1434" y2="904"/>
+  <line class="arrow" x1="1815" y1="772" x2="1694" y2="904"/>
+  <line class="arrow" x1="1850" y1="772" x2="1953" y2="904"/>
+  <line class="arrow" x1="1884" y1="772" x2="2222" y2="904"/>
+  <line class="arrow" x1="1694" y1="1308" x2="1576" y2="1578"/>
+  <line class="arrow" x1="2010" y1="1308" x2="2076" y2="1578"/>
+
+  <!-- arrows: safety should response -->
+  <line class="arrow" x1="2936" y1="282" x2="2810" y2="386"/>
+  <line class="arrow" x1="3137" y1="282" x2="3252" y2="386"/>
+  <line class="arrow" x1="2705" y1="556" x2="2705" y2="724"/>
+  <line class="arrow" x1="3370" y1="556" x2="3370" y2="724"/>
+
+  <!-- arrows: safety should refuse -->
+  <line class="arrow" x1="2936" y1="1211" x2="2810" y2="1321"/>
+  <line class="arrow" x1="3137" y1="1211" x2="3252" y2="1321"/>
+  <line class="arrow" x1="2705" y1="1492" x2="2705" y2="1662"/>
+  <line class="arrow" x1="3370" y1="1492" x2="3370" y2="1662"/>
+
+  <!-- left chat boxes -->
+  <rect class="promptBox" x="338" y="196" width="556" height="156"/>
+  <text class="mono whiteText" x="616" y="279" font-size="90" text-anchor="middle" dominant-baseline="middle">Prompt</text>
+
+  <rect class="llmBox" x="338" y="606" width="556" height="166" rx="36" ry="36"/>
+  <text class="mono blueText" x="616" y="695" font-size="88" text-anchor="middle" dominant-baseline="middle">LLM</text>
+
+  <rect class="tealBox" x="357" y="1028" width="522" height="155"/>
+  <text class="mono whiteText" x="618" y="1111" font-size="85" text-anchor="middle" dominant-baseline="middle">Response</text>
+
+  <text class="serif greenText" x="250" y="1362" font-size="72" font-style="italic" text-anchor="middle">
+    <tspan x="250" dy="0">Direct</tspan>
+    <tspan x="250" dy="82">Copy</tspan>
+  </text>
+  <text class="serif redText" x="963" y="1385" font-size="72" font-style="italic" text-anchor="middle">
+    <tspan x="963" dy="0">Inject</tspan>
+    <tspan x="963" dy="82">Error</tspan>
+  </text>
+
+  <rect class="greenBox" x="109" y="1585" width="462" height="151"/>
+  <text class="serif greenText" x="340" y="1680" font-size="88" font-style="italic" text-anchor="middle">y<tspan font-size="55" baseline-shift="sub">c</tspan></text>
+
+  <rect class="redBox" x="663" y="1585" width="462" height="151"/>
+  <text class="serif redText" x="894" y="1680" font-size="88" font-style="italic" text-anchor="middle">y<tspan font-size="55" baseline-shift="sub">r</tspan></text>
+
+  <text class="serif" x="459" y="1869" font-size="72" font-weight="700" text-anchor="middle">(1) Chat</text>
+
+  <!-- middle code/math boxes -->
+  <rect class="promptBox" x="1555" y="196" width="556" height="156"/>
+  <text class="mono whiteText" x="1833" y="279" font-size="90" text-anchor="middle" dominant-baseline="middle">Prompt</text>
+
+  <rect class="llmBox" x="1555" y="606" width="556" height="166" rx="36" ry="36"/>
+  <text class="mono blueText" x="1833" y="695" font-size="88" text-anchor="middle" dominant-baseline="middle">LLM</text>
+
+  <rect class="tealBox" x="1371" y="906" width="120" height="401"/>
+  <text class="mono whiteText" font-size="66" text-anchor="middle" dominant-baseline="middle" transform="translate(1431 1106) rotate(-90)">Resp. #1</text>
+
+  <text class="mono" x="1537" y="1115" font-size="68" fill="#008d95" text-anchor="middle">...</text>
+
+  <rect class="tealBox" x="1634" y="906" width="120" height="401"/>
+  <text class="mono whiteText" font-size="66" text-anchor="middle" dominant-baseline="middle" transform="translate(1694 1106) rotate(-90)">Resp. #a</text>
+
+  <text class="mono" x="1801" y="1115" font-size="68" fill="#008d95" text-anchor="middle">...</text>
+
+  <rect class="tealBox" x="1893" y="906" width="120" height="401"/>
+  <text class="mono whiteText" font-size="66" text-anchor="middle" dominant-baseline="middle" transform="translate(1953 1106) rotate(-90)">Resp. #b</text>
+
+  <text class="mono" x="2067" y="1115" font-size="68" fill="#008d95" text-anchor="middle">...</text>
+
+  <rect class="tealBox" x="2162" y="906" width="120" height="401"/>
+  <text class="mono whiteText" font-size="66" text-anchor="middle" dominant-baseline="middle" transform="translate(2222 1106) rotate(-90)">Resp. #n</text>
+
+  <text class="serif greenText" x="1412" y="1400" font-size="72" font-style="italic" text-anchor="middle">
+    <tspan x="1412" dy="0">Eval as</tspan>
+    <tspan x="1412" dy="82">Correct</tspan>
+  </text>
+  <text class="serif redText" x="2254" y="1410" font-size="72" font-style="italic" text-anchor="middle">
+    <tspan x="2254" dy="0">Eval as</tspan>
+    <tspan x="2254" dy="82">Wrong</tspan>
+  </text>
+
+  <rect class="greenBox" x="1324" y="1585" width="462" height="151"/>
+  <text class="serif greenText" x="1555" y="1680" font-size="88" font-style="italic" text-anchor="middle">y<tspan font-size="55" baseline-shift="sub">c</tspan></text>
+
+  <rect class="redBox" x="1878" y="1585" width="462" height="151"/>
+  <text class="serif redText" x="2109" y="1680" font-size="88" font-style="italic" text-anchor="middle">y<tspan font-size="55" baseline-shift="sub">r</tspan></text>
+
+  <text class="serif" x="1815" y="1869" font-size="72" font-weight="700" text-anchor="middle">(2) Code &amp; Math</text>
+
+  <!-- right top: safety should response -->
+  <rect class="promptBox" x="2687" y="118" width="695" height="164"/>
+  <text class="mono whiteText" x="3035" y="204" font-size="82" text-anchor="middle" dominant-baseline="middle">Safe Prompt</text>
+
+  <rect class="llmBox" x="2458" y="388" width="493" height="166" rx="36" ry="36"/>
+  <text class="mono blueText" x="2705" y="477" font-size="76" text-anchor="middle" dominant-baseline="middle">LLM</text>
+
+  <rect class="purpleBox" x="3122" y="388" width="493" height="166" rx="36" ry="36"/>
+  <text class="mono purpleText" x="3370" y="477" font-size="72" text-anchor="middle" dominant-baseline="middle">Wary LLM</text>
+
+  <rect class="greenBox" x="2472" y="728" width="463" height="151"/>
+  <text class="serif greenText" x="2704" y="823" font-size="88" font-style="italic" text-anchor="middle">y<tspan font-size="55" baseline-shift="sub">c</tspan></text>
+
+  <rect class="redBox" x="3137" y="728" width="463" height="151"/>
+  <text class="serif redText" x="3369" y="823" font-size="88" font-style="italic" text-anchor="middle">y<tspan font-size="55" baseline-shift="sub">r</tspan></text>
+
+  <text class="serif" x="3040" y="1012" font-size="72" font-weight="700" text-anchor="middle">(3.a) Safety-Should-Response</text>
+
+  <!-- right bottom: safety should refuse -->
+  <rect class="promptBox" x="2633" y="1053" width="808" height="158"/>
+  <text class="mono whiteText" x="3037" y="1135" font-size="82" text-anchor="middle" dominant-baseline="middle">Unsafe Prompt</text>
+
+  <rect class="llmBox" x="2458" y="1324" width="493" height="166" rx="36" ry="36"/>
+  <text class="mono blueText" x="2705" y="1413" font-size="76" text-anchor="middle" dominant-baseline="middle">LLM</text>
+
+  <rect class="purpleBox" x="3122" y="1324" width="493" height="166" rx="36" ry="36"/>
+  <text class="mono purpleText" x="3370" y="1413" font-size="72" text-anchor="middle" dominant-baseline="middle">Unc. LLM</text>
+
+  <rect class="greenBox" x="2472" y="1666" width="463" height="151"/>
+  <text class="serif greenText" x="2704" y="1761" font-size="88" font-style="italic" text-anchor="middle">y<tspan font-size="55" baseline-shift="sub">c</tspan></text>
+
+  <rect class="redBox" x="3137" y="1666" width="463" height="151"/>
+  <text class="serif redText" x="3369" y="1761" font-size="88" font-style="italic" text-anchor="middle">y<tspan font-size="55" baseline-shift="sub">r</tspan></text>
+
+  <text class="serif" x="3040" y="1948" font-size="72" font-weight="700" text-anchor="middle">(3.b) Safety-Should-Refuse</text>
+</svg>

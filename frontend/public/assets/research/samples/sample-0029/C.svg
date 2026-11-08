@@ -1,0 +1,444 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1143" height="586" viewBox="0 0 1143 586">
+  <title>Hallucination cases showing visual/textual attention and head-level contribution</title>
+  <desc>
+    The figure is split into two horizontal cases. Each case has user input at left, head comparison blocks, visual attention maps, textual attention token tables with hallucination token markings, and right-side head-level contribution heatmaps. Top case compares less/more visual attention for a traffic sign question; bottom case shows reasoning drift for an airplane question. Layout uses aligned column base frames, dashed separators, arrows, labels, token boxes, attention grids, and contribution heatmaps. SAM replacements are declared only for confirmed small icons/crops after native construction.
+  </desc>
+
+  <defs>
+    <marker id="arrowBlack" markerUnits="userSpaceOnUse" markerWidth="12" markerHeight="10" refX="11" refY="5" orient="auto">
+      <path d="M0,0 L12,5 L0,10 Z" fill="#111" id="plus_node_0" />
+    </marker>
+    <marker id="arrowBlue" markerUnits="userSpaceOnUse" markerWidth="13" markerHeight="10" refX="12" refY="5" orient="auto">
+      <path d="M0,0 L13,5 L0,10 Z" fill="#405b62" id="plus_node_1" />
+    </marker>
+    <marker id="arrowBlueStart" markerUnits="userSpaceOnUse" markerWidth="13" markerHeight="10" refX="1" refY="5" orient="auto-start-reverse">
+      <path d="M13,0 L1,5 L13,10 Z" fill="#405b62" id="plus_node_2" />
+    </marker>
+    <marker id="arrowOlive" markerUnits="userSpaceOnUse" markerWidth="11" markerHeight="8" refX="10" refY="4" orient="auto">
+      <path d="M0,0 L11,4 L0,8 Z" fill="#8a896d" id="plus_node_3" />
+    </marker>
+    <marker id="tinyBlue" markerUnits="userSpaceOnUse" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto">
+      <path d="M0,0 L6,3 L0,6 Z" fill="#436775" id="plus_node_4" />
+    </marker>
+    <marker id="tinyRed" markerUnits="userSpaceOnUse" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto">
+      <path d="M0,0 L6,3 L0,6 Z" fill="#b2473f" id="plus_node_5" />
+    </marker>
+
+    <pattern id="fineGrid" width="8" height="8" patternUnits="userSpaceOnUse">
+      <path d="M8 0H0V8" fill="none" stroke="#e7eeee" stroke-width=".45" id="plus_node_6" />
+    </pattern>
+    <pattern id="fineGridPink" width="8" height="8" patternUnits="userSpaceOnUse">
+      <path d="M8 0H0V8" fill="none" stroke="#f1dfdc" stroke-width=".45" id="plus_node_7" />
+    </pattern>
+
+    <style>
+      .serif{font-family:"Times New Roman",serif}
+      .sans{font-family:Arial,Helvetica,sans-serif}
+      .title{font-family:"Times New Roman",serif;font-weight:bold;font-size:15px}
+      .small{font-family:"Times New Roman",serif;font-size:12px}
+      .tiny{font-family:"Times New Roman",serif;font-size:9px}
+      .italic{font-family:"Times New Roman",serif;font-style:italic}
+      .dash{stroke:#111;stroke-width:2;stroke-dasharray:6 5}
+      .tokenText{font-family:"Times New Roman",serif;font-style:italic;font-size:10px;fill:#111}
+      .prob{font-family:"Times New Roman",serif;font-style:italic;font-size:6px;fill:#111}
+      .axis{font-family:"Times New Roman",serif;font-size:12px;fill:#111}
+      .frame{fill:none;stroke:none}
+    </style>
+  </defs>
+
+  <rect id="canvas_bg" x="0" y="0" width="1143" height="586" fill="#fff" />
+
+  
+  <rect id="f01" data-plus-kind="frame" class="frame" x="0" y="0" width="118" height="287" />
+  <rect id="f02" data-plus-kind="frame" class="frame" x="118" y="0" width="116" height="287" />
+  <rect id="f03" data-plus-kind="frame" class="frame" x="234" y="0" width="115" height="287" />
+  <rect id="f04" data-plus-kind="frame" class="frame" x="349" y="0" width="499" height="287" />
+  <rect id="f05" data-plus-kind="frame" class="frame" x="848" y="0" width="295" height="287" />
+  <rect id="f06" data-plus-kind="frame" class="frame" x="0" y="287" width="118" height="299" />
+  <rect id="f07" data-plus-kind="frame" class="frame" x="118" y="287" width="116" height="299" />
+  <rect id="f08" data-plus-kind="frame" class="frame" x="234" y="287" width="115" height="299" />
+  <rect id="f09" data-plus-kind="frame" class="frame" x="349" y="287" width="499" height="299" />
+  <rect id="f10" data-plus-kind="frame" class="frame" x="848" y="287" width="295" height="299" />
+
+  
+  <path id="sep_user_head_top" d="M118 0V287" class="dash" fill="none" />
+  <path id="sep_head_visual_top" d="M234 0V287" class="dash" fill="none" />
+  <path id="sep_visual_text_top" d="M349 0V287" class="dash" fill="none" />
+  <path id="sep_text_contrib_top" d="M848 0V287" class="dash" fill="none" />
+  <path id="sep_user_head_bottom" d="M118 312V568" class="dash" fill="none" />
+  <path id="sep_head_visual_bottom" d="M234 312V568" class="dash" fill="none" />
+  <path id="sep_visual_text_bottom" d="M349 312V568" class="dash" fill="none" />
+  <path id="sep_text_contrib_bottom" d="M848 312V568" class="dash" fill="none" />
+
+  
+  <text x="28" y="20" class="title" id="plus_node_8">User Input</text>
+  <text x="158" y="20" class="title" id="plus_node_9">Head</text>
+  <text x="243" y="20" class="title" id="plus_node_10">Visual Attention</text>
+  <text x="531" y="17" class="title" id="plus_node_11">Textual Attention</text>
+  <text x="925" y="18" class="title" id="plus_node_12">Head-level Contribution</text>
+  <text x="14" y="309" class="serif" font-size="24" font-weight="bold" id="plus_node_13">Hallucination Case II : Reasoning Drift</text>
+
+  
+  <text x="20" y="173" class="small" id="plus_node_20">There is a sign at</text>
+  <text x="20" y="189" class="small" id="plus_node_21">the intersection,</text>
+  <text x="20" y="205" class="small" id="plus_node_22">can I turn left?</text>
+  <text x="20" y="221" class="small" id="plus_node_23">Please answer</text>
+  <text x="20" y="237" class="small" id="plus_node_24">yes or no.</text>
+
+  
+  <g id="draft_airplane_input">
+    <rect x="12" y="331" width="97" height="95" fill="#e5f2fa" stroke="#9d9d9d" stroke-width="1" id="plus_node_25" />
+    <rect x="17" y="336" width="86" height="84" fill="#9cc7df" id="plus_node_26" />
+    <path d="M15 402C32 381 44 366 71 353C87 346 99 344 107 344V421H17Z" fill="#f2f6fa" opacity=".65" id="plus_node_27" />
+    <path d="M13 385C28 371 48 362 64 359C83 356 95 365 108 378V421H13Z" fill="#447aa2" opacity=".8" id="plus_node_28" />
+    <path d="M24 389C44 376 71 364 91 359" stroke="#fff" stroke-width="3" opacity=".75" id="plus_node_29" />
+    <path d="M20 407C31 397 44 390 59 383" stroke="#f2a45b" stroke-width="2" opacity=".9" id="plus_node_30" />
+    <path d="M24 390L83 373L105 386L68 387Z" fill="#fbfaf7" stroke="#435565" stroke-width="1" id="plus_node_31" />
+    <path d="M70 373L94 346L91 378Z" fill="#e9eef2" stroke="#435565" stroke-width=".8" id="plus_node_32" />
+    <path d="M56 386L34 407L71 393Z" fill="#e9eef2" stroke="#435565" stroke-width=".8" id="plus_node_33" />
+    <path d="M23 391L13 386L25 385Z" fill="#d6432f" id="plus_node_34" />
+    <path d="M38 386L79 375" stroke="#222" stroke-width="2" id="plus_node_35" />
+  </g>
+  <text x="12" y="473" class="small" id="plus_node_36">Does the vehicle in</text>
+  <text x="12" y="489" class="small" id="plus_node_37">the picture usually</text>
+  <text x="12" y="505" class="small" id="plus_node_38">have its windows</text>
+  <text x="12" y="521" class="small" id="plus_node_39">closed during fast</text>
+  <text x="12" y="537" class="small" id="plus_node_40">driving? Please</text>
+  <text x="12" y="553" class="small" id="plus_node_41">answer yes or no.</text>
+
+  
+  <rect x="131" y="50" width="93" height="51" rx="6" fill="#d5aca8" stroke="#88635f" id="plus_node_48" />
+  <text x="143" y="72" class="title" id="plus_node_49">Dominating</text>
+  <text x="160" y="88" class="title" id="plus_node_50">Head</text>
+  <text x="145" y="116" class="small" id="plus_node_51">• Layer 0</text>
+  <text x="145" y="131" class="small" id="plus_node_52">• Head 13</text>
+
+  <rect x="131" y="171" width="91" height="51" rx="6" fill="#aebbc0" stroke="#596b70" id="plus_node_61" />
+  <text x="155" y="191" class="title" id="plus_node_62">Better</text>
+  <text x="145" y="207" class="title" id="plus_node_63">Perception</text>
+  <text x="160" y="221" class="title" id="plus_node_64">Head</text>
+  <text x="145" y="244" class="small" id="plus_node_65">• Layer 3</text>
+  <text x="145" y="259" class="small" id="plus_node_66">• Head 8</text>
+
+  <rect x="131" y="334" width="93" height="51" rx="6" fill="#d5aca8" stroke="#88635f" id="plus_node_73" />
+  <text x="143" y="356" class="title" id="plus_node_74">Dominating</text>
+  <text x="160" y="372" class="title" id="plus_node_75">Head</text>
+  <text x="145" y="400" class="small" id="plus_node_76">• Layer 27</text>
+  <text x="145" y="415" class="small" id="plus_node_77">• Head 26</text>
+
+  <rect x="131" y="468" width="91" height="51" rx="6" fill="#aebbc0" stroke="#596b70" id="plus_node_86" />
+  <text x="155" y="489" class="title" id="plus_node_87">Better</text>
+  <text x="145" y="504" class="title" id="plus_node_88">Reasoning</text>
+  <text x="160" y="519" class="title" id="plus_node_89">Head</text>
+  <text x="145" y="544" class="small" id="plus_node_90">• Layer 27</text>
+  <text x="145" y="559" class="small" id="plus_node_91">• Head 21</text>
+
+  
+  <g id="vis_top_less">
+    <rect x="246" y="25" width="89" height="92" fill="#fff9f9" stroke="#bb6e6a" id="plus_node_92" />
+    <rect x="249" y="28" width="83" height="86" fill="url(#fineGridPink)" opacity=".85" id="plus_node_93" />
+    <rect x="251" y="28" width="3" height="4" fill="#ffb1b4" id="plus_node_94" />
+    <rect x="297" y="31" width="4" height="4" fill="#ffd0d0" id="plus_node_95" />
+    <rect x="326" y="63" width="5" height="4" fill="#ffdadb" id="plus_node_96" />
+    <rect x="258" y="104" width="4" height="5" fill="#ffe0e0" id="plus_node_97" />
+    <text x="258" y="129" class="italic" font-size="14" font-weight="bold" fill="#963d37" id="plus_node_98">Less Visual</text>
+    <text x="263" y="145" class="italic" font-size="14" font-weight="bold" fill="#963d37" id="plus_node_99">Attention</text>
+  </g>
+  <g id="vis_bottom_more">
+    <rect x="246" y="325" width="89" height="88" fill="#fff8f8" stroke="#bb6e6a" id="plus_node_110" />
+    <rect x="249" y="328" width="83" height="82" fill="url(#fineGridPink)" opacity=".9" id="plus_node_111" />
+    <rect x="265" y="329" width="4" height="4" fill="#ffc3c3" id="plus_node_112" />
+    <rect x="286" y="335" width="5" height="5" fill="#ffb9b9" id="plus_node_113" />
+    <rect x="304" y="326" width="5" height="5" fill="#ffc7c7" id="plus_node_114" />
+    <rect x="310" y="351" width="4" height="4" fill="#ffd2d2" id="plus_node_115" />
+    <rect x="256" y="381" width="4" height="4" fill="#ffd8d8" id="plus_node_116" />
+    <text x="259" y="428" class="italic" font-size="14" font-weight="bold" fill="#963d37" id="plus_node_117">More Visual</text>
+    <text x="263" y="444" class="italic" font-size="14" font-weight="bold" fill="#963d37" id="plus_node_118">Attention</text>
+  </g>
+  <g id="vis_bottom_less">
+    <rect x="246" y="452" width="89" height="88" fill="#fbffff" stroke="#7d8f92" id="plus_node_119" />
+    <rect x="249" y="455" width="83" height="82" fill="url(#fineGrid)" opacity=".95" id="plus_node_120" />
+    <text x="259" y="556" class="italic" font-size="14" font-weight="bold" fill="#315e68" id="plus_node_121">Less Visual</text>
+    <text x="263" y="572" class="italic" font-size="14" font-weight="bold" fill="#315e68" id="plus_node_122">Attention</text>
+  </g>
+
+  
+  <g id="textual_top" class="serif">
+    <rect x="365" y="27" width="462" height="226" fill="#fff" stroke="#333" stroke-width="1" stroke-dasharray="2 4" id="plus_node_123" />
+    
+    <g id="top_tokens_row1">
+      <rect x="368" y="32" width="58" height="16" fill="#f1eeee" id="plus_node_124" /><text x="371" y="43" class="tokenText" id="plus_node_125">Visual tokens</text><text x="389" y="51" class="prob" id="plus_node_126">0.007</text>
+      <rect x="438" y="32" width="20" height="16" fill="#ead0cc" id="plus_node_127" /><text x="444" y="43" class="tokenText" id="plus_node_128">&lt;</text><text x="444" y="51" class="prob" id="plus_node_129">0.004</text>
+      <rect x="471" y="32" width="28" height="16" fill="#f1eeee" id="plus_node_130" /><text x="475" y="43" class="tokenText" id="plus_node_131">think</text><text x="480" y="51" class="prob" id="plus_node_132">0.002</text>
+      <rect x="515" y="32" width="31" height="16" fill="#e6c0bd" id="plus_node_133" /><text x="522" y="43" class="tokenText" id="plus_node_134">&gt;\n</text><text x="523" y="51" class="prob" id="plus_node_135">0.016</text>
+      <rect x="560" y="32" width="30" height="16" fill="#e7c2bd" id="plus_node_136" /><text x="568" y="43" class="tokenText" id="plus_node_137">The</text><text x="569" y="51" class="prob" id="plus_node_138">0.055</text>
+      <rect x="606" y="32" width="31" height="16" fill="#f0eeee" id="plus_node_139" /><text x="611" y="43" class="tokenText" id="plus_node_140">image</text><text x="615" y="51" class="prob" id="plus_node_141">0.002</text>
+      <rect x="653" y="32" width="31" height="16" fill="#f0eeee" id="plus_node_142" /><text x="657" y="43" class="tokenText" id="plus_node_143">shows</text><text x="663" y="51" class="prob" id="plus_node_144">0.002</text>
+      <rect x="700" y="32" width="25" height="16" fill="#dfa6a4" id="plus_node_145" /><text x="709" y="43" class="tokenText" id="plus_node_146">a</text><text x="707" y="51" class="prob" id="plus_node_147">0.091</text>
+      <rect x="739" y="32" width="26" height="16" fill="#e5c5c1" id="plus_node_148" /><text x="745" y="43" class="tokenText" id="plus_node_149">red</text><text x="746" y="51" class="prob" id="plus_node_150">0.003</text>
+      <rect x="778" y="32" width="40" height="16" fill="#f0eeee" id="plus_node_151" /><text x="782" y="43" class="tokenText" id="plus_node_152">circular</text><text x="793" y="51" class="prob" id="plus_node_153">0.002</text>
+    </g>
+    
+    <g id="top_tokens_row2">
+      <rect x="368" y="63" width="58" height="16" fill="#91b8bd" id="plus_node_154" /><text x="371" y="74" class="tokenText" id="plus_node_155">Visual tokens</text><text x="389" y="82" class="prob" id="plus_node_156">0.868</text>
+      <rect x="438" y="63" width="20" height="16" fill="#f3f3f3" id="plus_node_157" /><text x="444" y="74" class="tokenText" id="plus_node_158">&lt;</text><text x="444" y="82" class="prob" id="plus_node_159">0.000</text>
+      <rect x="471" y="63" width="28" height="16" fill="#f0f0f0" id="plus_node_160" /><text x="475" y="74" class="tokenText" id="plus_node_161">think</text><text x="480" y="82" class="prob" id="plus_node_162">0.000</text>
+      <rect x="515" y="63" width="31" height="16" fill="#f1f1f1" id="plus_node_163" /><text x="522" y="74" class="tokenText" id="plus_node_164">&gt;\n</text><text x="523" y="82" class="prob" id="plus_node_165">0.001</text>
+      <rect x="560" y="63" width="30" height="16" fill="#f2f2f2" id="plus_node_166" /><text x="568" y="74" class="tokenText" id="plus_node_167">The</text><text x="569" y="82" class="prob" id="plus_node_168">0.000</text>
+      <rect x="606" y="63" width="31" height="16" fill="#f2f2f2" id="plus_node_169" /><text x="611" y="74" class="tokenText" id="plus_node_170">image</text><text x="615" y="82" class="prob" id="plus_node_171">0.000</text>
+      <rect x="653" y="63" width="31" height="16" fill="#f2f2f2" id="plus_node_172" /><text x="657" y="74" class="tokenText" id="plus_node_173">shows</text><text x="663" y="82" class="prob" id="plus_node_174">0.000</text>
+      <rect x="700" y="63" width="25" height="16" fill="#f2f2f2" id="plus_node_175" /><text x="709" y="74" class="tokenText" id="plus_node_176">a</text><text x="707" y="82" class="prob" id="plus_node_177">0.000</text>
+      <rect x="739" y="63" width="26" height="16" fill="#f2f2f2" id="plus_node_178" /><text x="745" y="74" class="tokenText" id="plus_node_179">red</text><text x="746" y="82" class="prob" id="plus_node_180">0.001</text>
+      <rect x="778" y="63" width="40" height="16" fill="#f2f2f2" id="plus_node_181" /><text x="782" y="74" class="tokenText" id="plus_node_182">circular</text><text x="793" y="82" class="prob" id="plus_node_183">0.006</text>
+    </g>
+    
+    <g id="top_tokens_rows_words" opacity=".98">
+      <rect x="369" y="96" width="35" height="16" fill="#f3f3f3" id="plus_node_184" /><text x="379" y="107" class="tokenText" id="plus_node_185">sign</text><text x="385" y="115" class="prob" id="plus_node_186">0.003</text>
+      <rect x="418" y="96" width="31" height="16" fill="#d8b3af" id="plus_node_187" /><text x="426" y="107" class="tokenText" id="plus_node_188">with</text><text x="427" y="115" class="prob" id="plus_node_189">0.043</text>
+      <rect x="463" y="96" width="27" height="16" fill="#d6aba8" id="plus_node_190" /><text x="473" y="107" class="tokenText" id="plus_node_191">a</text><text x="472" y="115" class="prob" id="plus_node_192">0.150</text>
+      <rect x="503" y="96" width="50" height="16" fill="#ead0cc" id="plus_node_193" /><text x="510" y="107" class="tokenText" id="plus_node_194">diagonal</text><text x="522" y="115" class="prob" id="plus_node_195">0.006</text>
+      <rect x="568" y="96" width="29" height="16" fill="#f0eeee" id="plus_node_196" /><text x="576" y="107" class="tokenText" id="plus_node_197">line</text><text x="576" y="115" class="prob" id="plus_node_198">0.004</text>
+      <rect x="612" y="96" width="52" height="16" fill="#eee9e9" id="plus_node_199" /><text x="623" y="107" class="tokenText" id="plus_node_200">crossing</text><text x="636" y="115" class="prob" id="plus_node_201">0.003</text>
+      <rect x="679" y="96" width="50" height="16" fill="#ead0cc" id="plus_node_202" /><text x="687" y="107" class="tokenText" id="plus_node_203">through</text><text x="701" y="115" class="prob" id="plus_node_204">0.019</text>
+      <rect x="742" y="96" width="27" height="16" fill="#dfa6a4" id="plus_node_205" /><text x="751" y="107" class="tokenText" id="plus_node_206">a</text><text x="749" y="115" class="prob" id="plus_node_207">0.193</text>
+      <rect x="783" y="96" width="34" height="16" fill="#f0eeee" id="plus_node_208" /><text x="791" y="107" class="tokenText" id="plus_node_209">black</text><text x="795" y="115" class="prob" id="plus_node_210">0.000</text>
+
+      <rect x="369" y="128" width="35" height="16" fill="#f3f3f3" id="plus_node_211" /><text x="379" y="139" class="tokenText" id="plus_node_212">sign</text><text x="385" y="147" class="prob" id="plus_node_213">0.000</text>
+      <rect x="418" y="128" width="31" height="16" fill="#f3f3f3" id="plus_node_214" /><text x="426" y="139" class="tokenText" id="plus_node_215">with</text><text x="427" y="147" class="prob" id="plus_node_216">0.000</text>
+      <rect x="463" y="128" width="27" height="16" fill="#f3f3f3" id="plus_node_217" /><text x="473" y="139" class="tokenText" id="plus_node_218">a</text><text x="472" y="147" class="prob" id="plus_node_219">0.000</text>
+      <rect x="503" y="128" width="50" height="16" fill="#f3f3f3" id="plus_node_220" /><text x="510" y="139" class="tokenText" id="plus_node_221">diagonal</text><text x="522" y="147" class="prob" id="plus_node_222">0.002</text>
+      <rect x="568" y="128" width="29" height="16" fill="#f3f3f3" id="plus_node_223" /><text x="576" y="139" class="tokenText" id="plus_node_224">line</text><text x="576" y="147" class="prob" id="plus_node_225">0.000</text>
+      <rect x="612" y="128" width="52" height="16" fill="#f3f3f3" id="plus_node_226" /><text x="623" y="139" class="tokenText" id="plus_node_227">crossing</text><text x="636" y="147" class="prob" id="plus_node_228">0.000</text>
+      <rect x="679" y="128" width="50" height="16" fill="#f3f3f3" id="plus_node_229" /><text x="687" y="139" class="tokenText" id="plus_node_230">through</text><text x="701" y="147" class="prob" id="plus_node_231">0.000</text>
+      <rect x="742" y="128" width="27" height="16" fill="#f3f3f3" id="plus_node_232" /><text x="751" y="139" class="tokenText" id="plus_node_233">a</text><text x="749" y="147" class="prob" id="plus_node_234">0.000</text>
+      <rect x="783" y="128" width="34" height="16" fill="#f3f3f3" id="plus_node_235" /><text x="791" y="139" class="tokenText" id="plus_node_236">black</text><text x="795" y="147" class="prob" id="plus_node_237">0.000</text>
+    </g>
+
+    <g id="top_generation_line">
+      <rect x="366" y="166" width="39" height="34" fill="#fff" stroke="#777" stroke-dasharray="4 3" id="plus_node_238" />
+      <text x="374" y="189" class="italic" font-size="15" font-weight="bold" id="plus_node_239">left</text>
+      <path d="M410 192C426 191 442 193 456 196" stroke="#8a896d" stroke-width="2" fill="none" marker-end="url(#arrowOlive)" id="plus_node_240" />
+      <text x="416" y="177" class="tokenText" fill="#c9c9c9" id="plus_node_241">arrow</text>
+      <text x="480" y="177" class="tokenText" fill="#c9c9c9" id="plus_node_242">This</text>
+      <text x="526" y="177" class="tokenText" fill="#c9c9c9" id="plus_node_243">type</text>
+      <text x="576" y="177" class="tokenText" fill="#c9c9c9" id="plus_node_244">of</text>
+      <text x="611" y="177" class="tokenText" fill="#c9c9c9" id="plus_node_245">sign</text>
+      <text x="657" y="177" class="tokenText" fill="#c9c9c9" id="plus_node_246">is</text>
+      <text x="702" y="177" class="tokenText" fill="#c9c9c9" id="plus_node_247">used</text>
+      <text x="751" y="177" class="tokenText" fill="#c9c9c9" id="plus_node_248">to</text>
+      <text x="775" y="177" class="tokenText" fill="#c9c9c9" id="plus_node_249">indicate</text>
+      <text x="484" y="200" class="small" id="plus_node_250">Generating Hallucination Token</text>
+    </g>
+    <g id="top_answer_rows" opacity=".85">
+      <text x="368" y="218" class="tokenText" fill="#b0b0b0" id="plus_node_251">that</text>
+      <text x="418" y="218" class="tokenText" fill="#b0b0b0" id="plus_node_252">left</text>
+      <text x="464" y="218" class="tokenText" fill="#b0b0b0" id="plus_node_253">turns</text>
+      <text x="516" y="218" class="tokenText" fill="#b0b0b0" id="plus_node_254">are</text>
+      <text x="562" y="218" class="tokenText" fill="#b0b0b0" id="plus_node_255">prohibited</text>
+      <text x="640" y="218" class="tokenText" fill="#b0b0b0" id="plus_node_256">at</text>
+      <text x="686" y="218" class="tokenText" fill="#b0b0b0" id="plus_node_257">the</text>
+      <text x="727" y="218" class="tokenText" fill="#b0b0b0" id="plus_node_258">intersection.</text>
+      <text x="789" y="218" class="tokenText" fill="#b0b0b0" id="plus_node_259">Therefore</text>
+      <text x="392" y="245" class="tokenText" fill="#b0b0b0" id="plus_node_260">based</text>
+      <text x="450" y="245" class="tokenText" fill="#b0b0b0" id="plus_node_261">on</text>
+      <text x="493" y="245" class="tokenText" fill="#b0b0b0" id="plus_node_262">the</text>
+      <text x="535" y="245" class="tokenText" fill="#b0b0b0" id="plus_node_263">sign,</text>
+      <text x="584" y="245" class="tokenText" fill="#b0b0b0" id="plus_node_264">you</text>
+      <text x="627" y="245" class="tokenText" fill="#b0b0b0" id="plus_node_265">cannot</text>
+      <text x="684" y="245" class="tokenText" fill="#b0b0b0" id="plus_node_266">turn</text>
+      <text x="733" y="245" class="tokenText" fill="#b0b0b0" id="plus_node_267">left</text>
+      <text x="690" y="245" class="tokenText" fill="#b0b0b0" id="plus_node_268">&lt;answer&gt;</text>
+      <text x="746" y="245" class="italic" font-size="12" font-weight="bold" id="plus_node_269">no</text>
+      <text x="769" y="245" class="tokenText" fill="#b0b0b0" id="plus_node_270">&lt;/answer&gt;</text>
+    </g>
+    </g>
+  <path id="top_attention_arrow" d="M374 265H346" stroke="#405b62" stroke-width="7" marker-end="url(#arrowBlue)" />
+  <text x="376" y="270" font-family="Arial" font-size="14" font-weight="bold" fill="#2b4d55" id="plus_node_276">Better Visual Attention! (For Perception)</text>
+
+  
+  <g id="textual_bottom" class="serif">
+    <rect x="365" y="322" width="462" height="221" fill="#fff" stroke="#333" stroke-width="1" stroke-dasharray="2 4" id="plus_node_277" />
+    <g id="bottom_tokens_row1">
+      <rect x="368" y="328" width="58" height="16" fill="#f1eeee" id="plus_node_278" /><text x="371" y="339" class="tokenText" id="plus_node_279">Visual tokens</text><text x="389" y="347" class="prob" id="plus_node_280">0.107</text>
+      <rect x="438" y="328" width="20" height="16" fill="#ead0cc" id="plus_node_281" /><text x="444" y="339" class="tokenText" id="plus_node_282">&lt;</text><text x="444" y="347" class="prob" id="plus_node_283">0.004</text>
+      <rect x="471" y="328" width="28" height="16" fill="#f1eeee" id="plus_node_284" /><text x="475" y="339" class="tokenText" id="plus_node_285">think</text><text x="480" y="347" class="prob" id="plus_node_286">0.002</text>
+      <rect x="515" y="328" width="31" height="16" fill="#e6c0bd" id="plus_node_287" /><text x="522" y="339" class="tokenText" id="plus_node_288">&gt;\n</text><text x="523" y="347" class="prob" id="plus_node_289">0.016</text>
+      <rect x="560" y="328" width="30" height="16" fill="#e7c2bd" id="plus_node_290" /><text x="568" y="339" class="tokenText" id="plus_node_291">The</text><text x="569" y="347" class="prob" id="plus_node_292">0.079</text>
+      <rect x="606" y="328" width="31" height="16" fill="#f0eeee" id="plus_node_293" /><text x="611" y="339" class="tokenText" id="plus_node_294">image</text><text x="615" y="347" class="prob" id="plus_node_295">0.004</text>
+      <rect x="653" y="328" width="31" height="16" fill="#f0eeee" id="plus_node_296" /><text x="657" y="339" class="tokenText" id="plus_node_297">shows</text><text x="663" y="347" class="prob" id="plus_node_298">0.003</text>
+      <rect x="696" y="328" width="33" height="16" fill="#f0eeee" id="plus_node_299" /><text x="701" y="339" class="tokenText" id="plus_node_300">a small</text>
+      <rect x="740" y="328" width="57" height="16" fill="#f0eeee" id="plus_node_301" /><text x="746" y="339" class="tokenText" id="plus_node_302">airplane</text>
+      <rect x="800" y="328" width="25" height="16" fill="#f0eeee" id="plus_node_303" /><text x="805" y="339" class="tokenText" id="plus_node_304">flying</text>
+    </g>
+    <g id="bottom_tokens_row2">
+      <rect x="368" y="358" width="58" height="16" fill="#f3f3f3" id="plus_node_305" /><text x="371" y="369" class="tokenText" id="plus_node_306">Visual tokens</text><text x="389" y="377" class="prob" id="plus_node_307">0.000</text>
+      <rect x="438" y="358" width="20" height="16" fill="#f3f3f3" id="plus_node_308" /><text x="444" y="369" class="tokenText" id="plus_node_309">&lt;</text>
+      <rect x="471" y="358" width="28" height="16" fill="#f3f3f3" id="plus_node_310" /><text x="475" y="369" class="tokenText" id="plus_node_311">think</text>
+      <rect x="515" y="358" width="31" height="16" fill="#f3f3f3" id="plus_node_312" /><text x="522" y="369" class="tokenText" id="plus_node_313">&gt;\n</text>
+      <rect x="560" y="358" width="30" height="16" fill="#f3f3f3" id="plus_node_314" /><text x="568" y="369" class="tokenText" id="plus_node_315">The</text>
+      <rect x="606" y="358" width="31" height="16" fill="#f3f3f3" id="plus_node_316" /><text x="611" y="369" class="tokenText" id="plus_node_317">image</text>
+      <rect x="653" y="358" width="31" height="16" fill="#f3f3f3" id="plus_node_318" /><text x="657" y="369" class="tokenText" id="plus_node_319">shows</text>
+      <rect x="696" y="358" width="33" height="16" fill="#f3f3f3" id="plus_node_320" /><text x="701" y="369" class="tokenText" id="plus_node_321">a small</text>
+      <rect x="740" y="358" width="57" height="16" fill="#f3f3f3" id="plus_node_322" /><text x="746" y="369" class="tokenText" id="plus_node_323">airplane</text>
+      <rect x="800" y="358" width="25" height="16" fill="#f3f3f3" id="plus_node_324" /><text x="805" y="369" class="tokenText" id="plus_node_325">flying</text>
+    </g>
+    <g id="bottom_reasoning_rows">
+      <rect x="369" y="389" width="28" height="16" fill="#f3f3f3" id="plus_node_326" /><text x="377" y="400" class="tokenText" id="plus_node_327">in</text><text x="377" y="408" class="prob" id="plus_node_328">0.000</text>
+      <rect x="411" y="389" width="29" height="16" fill="#f3f3f3" id="plus_node_329" /><text x="419" y="400" class="tokenText" id="plus_node_330">the</text>
+      <rect x="455" y="389" width="25" height="16" fill="#f3f3f3" id="plus_node_331" /><text x="465" y="400" class="tokenText" id="plus_node_332">sky</text>
+      <rect x="497" y="389" width="56" height="16" fill="#f0d7d3" id="plus_node_333" /><text x="503" y="400" class="tokenText" id="plus_node_334">Airplanes</text>
+      <rect x="580" y="389" width="50" height="16" fill="#e0aaa6" id="plus_node_335" /><text x="590" y="400" class="tokenText" id="plus_node_336">especially</text><text x="605" y="408" class="prob" id="plus_node_337">0.106</text>
+      <rect x="657" y="389" width="45" height="16" fill="#f1eeee" id="plus_node_338" /><text x="668" y="400" class="tokenText" id="plus_node_339">private</text>
+      <rect x="716" y="389" width="32" height="16" fill="#f1eeee" id="plus_node_340" /><text x="724" y="400" class="tokenText" id="plus_node_341">jets</text>
+      <rect x="762" y="389" width="24" height="16" fill="#f1eeee" id="plus_node_342" /><text x="767" y="400" class="tokenText" id="plus_node_343">or</text>
+      <rect x="796" y="389" width="31" height="16" fill="#f1eeee" id="plus_node_344" /><text x="802" y="400" class="tokenText" id="plus_node_345">small</text>
+
+      <rect x="369" y="421" width="28" height="16" fill="#f3f3f3" id="plus_node_346" /><text x="377" y="432" class="tokenText" id="plus_node_347">in</text>
+      <rect x="411" y="421" width="29" height="16" fill="#f3f3f3" id="plus_node_348" /><text x="419" y="432" class="tokenText" id="plus_node_349">the</text>
+      <rect x="455" y="421" width="25" height="16" fill="#f3f3f3" id="plus_node_350" /><text x="465" y="432" class="tokenText" id="plus_node_351">sky</text>
+      <rect x="497" y="421" width="56" height="16" fill="#f3f3f3" id="plus_node_352" /><text x="503" y="432" class="tokenText" id="plus_node_353">Airplanes</text>
+      <rect x="580" y="421" width="50" height="16" fill="#f3f3f3" id="plus_node_354" /><text x="590" y="432" class="tokenText" id="plus_node_355">especially</text>
+      <rect x="657" y="421" width="45" height="16" fill="#f3f3f3" id="plus_node_356" /><text x="668" y="432" class="tokenText" id="plus_node_357">private</text>
+      <rect x="716" y="421" width="32" height="16" fill="#f3f3f3" id="plus_node_358" /><text x="724" y="432" class="tokenText" id="plus_node_359">jets</text>
+      <rect x="762" y="421" width="24" height="16" fill="#f3f3f3" id="plus_node_360" /><text x="767" y="432" class="tokenText" id="plus_node_361">or</text>
+      <rect x="796" y="421" width="31" height="16" fill="#f3f3f3" id="plus_node_362" /><text x="802" y="432" class="tokenText" id="plus_node_363">small</text>
+
+      <rect x="369" y="452" width="49" height="16" fill="#e3f0f3" id="plus_node_364" /><text x="375" y="463" class="tokenText" id="plus_node_365">aircraft</text><text x="389" y="471" class="prob" id="plus_node_366">0.002</text>
+      <rect x="449" y="452" width="38" height="16" fill="#e6b6b2" id="plus_node_367" /><text x="456" y="463" class="tokenText" id="plus_node_368">typically</text><text x="466" y="471" class="prob" id="plus_node_369">0.277</text>
+      <rect x="507" y="452" width="33" height="16" fill="#f0eeee" id="plus_node_370" /><text x="514" y="463" class="tokenText" id="plus_node_371">have</text>
+      <rect x="560" y="452" width="49" height="16" fill="#f0eeee" id="plus_node_372" /><text x="567" y="463" class="tokenText" id="plus_node_373">windows</text>
+      <rect x="629" y="452" width="27" height="16" fill="#f0eeee" id="plus_node_374" /><text x="637" y="463" class="tokenText" id="plus_node_375">that</text>
+      <rect x="674" y="452" width="30" height="16" fill="#f0eeee" id="plus_node_376" /><text x="681" y="463" class="tokenText" id="plus_node_377">can</text>
+      <rect x="720" y="452" width="38" height="35" fill="#fff" stroke="#999" stroke-dasharray="4 3" id="plus_node_378" />
+      <text x="736" y="477" class="italic" font-size="16" font-weight="bold" id="plus_node_379">not</text>
+      <rect x="784" y="452" width="31" height="16" fill="#f0eeee" id="plus_node_380" /><text x="790" y="463" class="tokenText" id="plus_node_381">be</text>
+      <rect x="815" y="452" width="31" height="16" fill="#f0eeee" id="plus_node_382" /><text x="817" y="463" class="tokenText" id="plus_node_383">closed</text>
+
+      <rect x="369" y="484" width="49" height="32" fill="#d5eaee" stroke="#777" stroke-dasharray="4 3" id="plus_node_384" /><text x="375" y="495" class="tokenText" id="plus_node_385">aircraft</text><text x="389" y="503" class="prob" id="plus_node_386">0.167</text>
+      <rect x="449" y="484" width="38" height="16" fill="#f3f3f3" id="plus_node_387" /><text x="456" y="495" class="tokenText" id="plus_node_388">typically</text><text x="466" y="503" class="prob" id="plus_node_389">0.000</text>
+      <rect x="507" y="484" width="33" height="16" fill="#f3f3f3" id="plus_node_390" /><text x="514" y="495" class="tokenText" id="plus_node_391">have</text>
+      <rect x="560" y="484" width="49" height="16" fill="#d5eaee" id="plus_node_392" /><text x="567" y="495" class="tokenText" id="plus_node_393">windows</text><text x="582" y="503" class="prob" id="plus_node_394">0.167</text>
+      <rect x="629" y="484" width="27" height="16" fill="#f3f3f3" id="plus_node_395" /><text x="637" y="495" class="tokenText" id="plus_node_396">that</text>
+      <rect x="674" y="484" width="30" height="16" fill="#f3f3f3" id="plus_node_397" /><text x="681" y="495" class="tokenText" id="plus_node_398">can</text>
+    </g>
+    <path id="bottom_reason_arrow1" d="M393 543V515" stroke="#436775" stroke-width="3" marker-end="url(#tinyBlue)" />
+    <path id="bottom_reason_arrow2" d="M747 485C756 490 764 496 771 503" stroke="#8a896d" stroke-width="2" fill="none" marker-end="url(#arrowOlive)" />
+    <text x="704" y="511" class="small" id="plus_node_399">Generating Hallucination Token</text>
+    <g id="bottom_answer_rows">
+      <text x="369" y="531" class="tokenText" fill="#aaa" id="plus_node_400">during</text>
+      <text x="429" y="531" class="tokenText" fill="#aaa" id="plus_node_401">flight</text>
+      <text x="486" y="531" class="tokenText" fill="#aaa" id="plus_node_402">for</text>
+      <text x="535" y="531" class="tokenText" fill="#aaa" id="plus_node_403">safety</text>
+      <text x="589" y="531" class="tokenText" fill="#aaa" id="plus_node_404">and</text>
+      <text x="633" y="531" class="tokenText" fill="#aaa" id="plus_node_405">communication</text>
+      <text x="691" y="531" class="tokenText" fill="#aaa" id="plus_node_406">&lt;answer&gt;</text>
+      <text x="747" y="531" class="italic" font-size="12" font-weight="bold" id="plus_node_407">no</text>
+      <text x="770" y="531" class="tokenText" fill="#aaa" id="plus_node_408">&lt;/answer&gt;</text>
+    </g>
+    </g>
+  <path id="bottom_attention_arrow" d="M392 517V543" stroke="#436775" stroke-width="4" marker-start="url(#arrowBlueStart)" />
+  <text x="367" y="556" font-family="Arial" font-size="14" font-weight="bold" fill="#2b4d55" id="plus_node_414">Better Textual Attention! (For Reasoning)</text>
+
+  
+  <g id="contrib_top">
+    <rect x="885" y="38" width="241" height="222" fill="#fff" stroke="#c8c8c8" id="plus_node_415" />
+    <rect x="900" y="38" width="215" height="202" fill="#e9f4fb" id="plus_node_416" />
+    
+    <g opacity=".95" id="plus_node_417">
+      <rect x="900" y="38" width="8" height="8" fill="#0b559f" id="plus_node_418" /><rect x="916" y="38" width="8" height="8" fill="#97cae1" id="plus_node_419" /><rect x="932" y="38" width="8" height="8" fill="#0e63a8" id="plus_node_420" />
+      <rect x="948" y="38" width="8" height="8" fill="#91c6df" id="plus_node_421" /><rect x="996" y="38" width="8" height="8" fill="#0d5aa4" id="plus_node_422" /><rect x="1012" y="38" width="8" height="8" fill="#0f68ae" id="plus_node_423" />
+      <rect x="1044" y="38" width="8" height="8" fill="#5ca4c9" id="plus_node_424" /><rect x="1076" y="38" width="8" height="8" fill="#7ebbd7" id="plus_node_425" />
+      <rect x="900" y="54" width="8" height="8" fill="#d9eef7" id="plus_node_426" /><rect x="940" y="54" width="8" height="8" fill="#0b589e" id="plus_node_427" /><rect x="980" y="54" width="8" height="8" fill="#8cc3de" id="plus_node_428" /><rect x="1020" y="54" width="8" height="8" fill="#75b4d3" id="plus_node_429" />
+      <rect x="908" y="70" width="8" height="8" fill="#519ac4" id="plus_node_430" /><rect x="924" y="70" width="8" height="8" fill="#b7dcea" id="plus_node_431" /><rect x="1004" y="70" width="8" height="8" fill="#a9d4e6" id="plus_node_432" />
+      <rect x="892" y="86" width="8" height="8" fill="#d7eef7" id="plus_node_433" /><rect x="932" y="86" width="8" height="8" fill="#4f9fc8" id="plus_node_434" /><rect x="956" y="86" width="8" height="8" fill="#8dc7df" id="plus_node_435" /><rect x="1084" y="86" width="8" height="8" fill="#d5ecf5" id="plus_node_436" />
+      <rect x="916" y="110" width="8" height="8" fill="#8cc4dd" id="plus_node_437" /><rect x="948" y="110" width="8" height="8" fill="#6eb1d0" id="plus_node_438" /><rect x="1012" y="110" width="8" height="8" fill="#d4eaf4" id="plus_node_439" />
+      <rect x="908" y="134" width="8" height="8" fill="#a8d2e4" id="plus_node_440" /><rect x="964" y="134" width="8" height="8" fill="#62a7cc" id="plus_node_441" /><rect x="1044" y="134" width="8" height="8" fill="#9bcde2" id="plus_node_442" />
+      <rect x="932" y="158" width="8" height="8" fill="#bfddea" id="plus_node_443" /><rect x="980" y="158" width="8" height="8" fill="#78b8d6" id="plus_node_444" /><rect x="1100" y="158" width="8" height="8" fill="#b9dce9" id="plus_node_445" />
+      <rect x="916" y="190" width="8" height="8" fill="#95cae0" id="plus_node_446" /><rect x="988" y="190" width="8" height="8" fill="#acd7e8" id="plus_node_447" /><rect x="1068" y="190" width="8" height="8" fill="#d7edf6" id="plus_node_448" />
+      <rect x="956" y="236" width="8" height="8" fill="#95c9df" id="plus_node_449" /><rect x="1052" y="236" width="8" height="8" fill="#0963a7" id="plus_node_450" />
+    </g>
+    <rect x="960" y="52" width="11" height="12" fill="none" stroke="#395563" stroke-width="1.5" id="plus_node_451" />
+    <rect x="1000" y="38" width="11" height="11" fill="none" stroke="#9b3d3a" stroke-width="1.5" id="plus_node_452" />
+    <path d="M964 101V62" stroke="#6f8589" stroke-width="2" marker-end="url(#tinyBlue)" id="plus_node_453" />
+    <rect x="907" y="101" width="134" height="39" rx="4" fill="#fff" stroke="#6f8589" stroke-width="2" opacity=".95" id="plus_node_454" />
+    <text x="916" y="118" class="title" fill="#315e68" id="plus_node_455">Low Contribution</text>
+    <text x="922" y="133" class="small" font-weight="bold" id="plus_node_456">(Better Perception Head)</text>
+    <rect x="982" y="63" width="132" height="37" rx="4" fill="#fff" stroke="#c16a5f" stroke-width="2" opacity=".95" id="plus_node_457" />
+    <text x="990" y="78" class="title" fill="#b64b3f" id="plus_node_458">High Contribution</text>
+    <text x="1009" y="93" class="small" font-weight="bold" fill="#b64b3f" id="plus_node_459">(Dominating Head)</text>
+    <text x="873" y="157" class="axis" transform="rotate(-90 873 157)" id="plus_node_460">Layer Index</text>
+    <text x="978" y="268" class="axis" id="plus_node_461">Head Index</text>
+    <text x="890" y="82" class="axis" id="plus_node_462">5</text><text x="884" y="119" class="axis" id="plus_node_463">10</text><text x="884" y="159" class="axis" id="plus_node_464">15</text><text x="884" y="198" class="axis" id="plus_node_465">20</text><text x="884" y="233" class="axis" id="plus_node_466">25</text>
+    <text x="937" y="255" class="axis" id="plus_node_467">5</text><text x="977" y="255" class="axis" id="plus_node_468">10</text><text x="1021" y="255" class="axis" id="plus_node_469">15</text><text x="1061" y="255" class="axis" id="plus_node_470">20</text><text x="1102" y="255" class="axis" id="plus_node_471">25</text>
+  </g>
+
+  <g id="contrib_bottom">
+    <rect x="885" y="317" width="241" height="222" fill="#fff" stroke="#c8c8c8" id="plus_node_472" />
+    <rect x="900" y="317" width="215" height="202" fill="#e9f4fb" id="plus_node_473" />
+    <g opacity=".95" id="plus_node_474">
+      <rect x="900" y="317" width="8" height="8" fill="#0b559f" id="plus_node_475" /><rect x="996" y="317" width="8" height="8" fill="#0c5a9f" id="plus_node_476" /><rect x="1012" y="317" width="8" height="8" fill="#0e63a8" id="plus_node_477" />
+      <rect x="1028" y="317" width="8" height="8" fill="#074f96" id="plus_node_478" /><rect x="1084" y="317" width="8" height="8" fill="#8cc2dc" id="plus_node_479" />
+      <rect x="916" y="341" width="8" height="8" fill="#87c0dc" id="plus_node_480" /><rect x="964" y="341" width="8" height="8" fill="#b8dcea" id="plus_node_481" /><rect x="1076" y="341" width="8" height="8" fill="#70afd0" id="plus_node_482" />
+      <rect x="908" y="365" width="8" height="8" fill="#a4d1e5" id="plus_node_483" /><rect x="932" y="365" width="8" height="8" fill="#65aacd" id="plus_node_484" /><rect x="1004" y="365" width="8" height="8" fill="#8cc2dc" id="plus_node_485" />
+      <rect x="924" y="389" width="8" height="8" fill="#116caf" id="plus_node_486" /><rect x="940" y="389" width="8" height="8" fill="#76b5d4" id="plus_node_487" /><rect x="1044" y="389" width="8" height="8" fill="#a9d5e6" id="plus_node_488" />
+      <rect x="900" y="421" width="8" height="8" fill="#91c7df" id="plus_node_489" /><rect x="964" y="421" width="8" height="8" fill="#b0d8e8" id="plus_node_490" /><rect x="1076" y="421" width="8" height="8" fill="#80bbd7" id="plus_node_491" />
+      <rect x="916" y="469" width="8" height="8" fill="#0b559f" id="plus_node_492" /><rect x="948" y="469" width="8" height="8" fill="#4e9cc6" id="plus_node_493" /><rect x="972" y="469" width="8" height="8" fill="#0a5ba4" id="plus_node_494" />
+      <rect x="1028" y="485" width="8" height="8" fill="#73b5d3" id="plus_node_495" /><rect x="1084" y="493" width="8" height="8" fill="#8ac3dd" id="plus_node_496" />
+    </g>
+    <rect x="1052" y="519" width="11" height="13" fill="#fff" stroke="#425a60" stroke-width="1.5" id="plus_node_497" />
+    <rect x="1098" y="519" width="12" height="13" fill="none" stroke="#a03d3d" stroke-width="1.5" id="plus_node_498" />
+    <path d="M1084 473L1100 519" stroke="#b04740" stroke-width="3" marker-end="url(#tinyRed)" id="plus_node_499" />
+    <path d="M1039 503L1055 519" stroke="#6c8588" stroke-width="3" marker-end="url(#tinyBlue)" id="plus_node_500" />
+    <rect x="902" y="470" width="137" height="38" rx="4" fill="#fff" stroke="#6f8589" stroke-width="2" opacity=".95" id="plus_node_501" />
+    <text x="912" y="487" class="title" fill="#315e68" id="plus_node_502">Low Contribution</text>
+    <text x="924" y="502" class="small" font-weight="bold" id="plus_node_503">(Better Reasoning Head)</text>
+    <rect x="1006" y="424" width="134" height="40" rx="4" fill="#fff" stroke="#c16a5f" stroke-width="2" opacity=".95" id="plus_node_504" />
+    <text x="1017" y="442" class="title" fill="#b64b3f" id="plus_node_505">High Contribution</text>
+    <text x="1030" y="457" class="small" font-weight="bold" fill="#b64b3f" id="plus_node_506">(Dominating Head)</text>
+    <text x="873" y="436" class="axis" transform="rotate(-90 873 436)" id="plus_node_507">Layer Index</text>
+    <text x="978" y="557" class="axis" id="plus_node_508">Head Index</text>
+    <text x="890" y="362" class="axis" id="plus_node_509">5</text><text x="884" y="399" class="axis" id="plus_node_510">10</text><text x="884" y="438" class="axis" id="plus_node_511">15</text><text x="884" y="478" class="axis" id="plus_node_512">20</text><text x="884" y="514" class="axis" id="plus_node_513">25</text>
+    <text x="937" y="533" class="axis" id="plus_node_514">5</text><text x="977" y="533" class="axis" id="plus_node_515">10</text><text x="1021" y="533" class="axis" id="plus_node_516">15</text><text x="1061" y="533" class="axis" id="plus_node_517">20</text><text x="1102" y="533" class="axis" id="plus_node_518">25</text>
+  </g>
+
+  
+  <g id="sam_replace_top_sign" transform="translate(0 0)">
+    <title>Original traffic sign object - draft_sign_top - asset_sam_region_000029</title>
+    <desc>SAM crop P009 matches the top-left no-right-turn style sign in the original figure; source_crop coordinates are preserved.</desc>
+    <image href="data:image/png;base64,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" x="17" y="45" width="91" height="93" id="plus_node_519" preserveAspectRatio="none" />
+  </g>
+
+  <g id="sam_replace_top_dom_icon" transform="translate(0 0)">
+    <title>Dominating head robot icon - head_top_dom_icon - asset_sam_region_000025</title>
+    <image href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABwAAAAaCAYAAACkVDyJAAAC1ElEQVR4nLWWTUwTQRTH/zPdfiGsCxZaaNEEISh48CNoYhSIiRePaogJGD1x8G5iSCTx5sGYeNRgNPGAMRpFYvSgMcZAjJ9QFELEFijlS22F8lVod8xOaW2Rbbel/JJ2d2fe7H/nvXlvhjDGoAXFrqvtFut98og/lx+tw/GLlwjV6ZAOVKvhz6HvUMT0ZjNM4lYMvX0D97vutMTSEpTD4cgAQYDeZIy0hULYNEFr5S5sP1CDYCCAwPQ0LGU7UXb4SNqCRGsMFcKhEGtrOIlQcAnn793HloICsmkzVNAJAgiNDNHp9cgEio2h3T2rCIhj3vcbM+PjPAXWgTcyObJ4Jgf6+Ypdbf/PtXlFVohWq3oMvX1OdLa2sPDyMrIBoZTnaUVt/fqCd86eYQs+X1bE4kWbH3YQwRhJo4QYLvj9yDZMlrE4O5MQH5pp8DOFJu0UBEiO0pQvEW3FEIwmbYKDr1+pdp64fAWNN29j36kGVZvy2no0td3F6es3Yjm6lrHeL6z9QjOvx9TV3aXqTsnuWL3a1UwgldhBCEGe1cY9sh4jH97DNzLMPD2fE/NwLZ2tLdhRcxD9L56r2nx60I6lQABTgwPQklJJBWfGvXB2PE65Er8+e6ra7+zqxuSoh9+PDf1gSQWzwURfD+amJvj9H68n+QyjWKqqYdhWCDm4BFEUYTCZQXUUSs3wDbvhdfaoji12ODA5O4t5eCDl50NQC3Q8hsIiSJIEi9XGE1aWZV5vlV+uxYKJb32xDXotlOoQPYYoV+FQ0zmkYnF0BCU2G+b8fshMVg44vD06QzUxBeWjiqv3gOoFFFZUEkGy20mqSuN3u/DR7UImEEJgyMlB6d79/Dnqz5SimUOiuxf/i5UGqlIlNixH/4klCNp2V6V9PkmFMU+E3mROeG9sP1SqxctrV9kvt4sn83IwCHllBTpBObvEe1vbd5lEERV1x4gxNzeh4y/ksQTOJC+AgAAAAABJRU5ErkJggg==" x="126" y="33" width="28" height="26" id="plus_node_520" preserveAspectRatio="none" />
+  </g>
+  <g id="sam_replace_top_better_icon" transform="translate(0 0)">
+    <title>Better perception head robot/lightbulb icon - head_top_better_icon - asset_sam_region_000022 and asset_sam_region_000026</title>
+    <image href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB0AAAAaCAYAAABLlle3AAADBklEQVR4nL2W20sUURzHv2f2Mruue9FdN81VMclQQ6mgUjASLKEL5UNEmA9G9FAQ9NYFgpTAXnrprT/AbvhkhVFCYKhQhLBqaeZmq5u7mW6r7n1mYs66tLY77U5qX5j97Zn5zfnMOed3vjNEEARkouHJOZxufyKEIxxtl+ab8KyzhWhZFTJWsBfgXWAyzR8am4EIrKsqQo5eA8ecF06PD/LE0F9lpuk1ZVtoHBh10mgxZmGrRS+TaQL4mcxHWltVhCunaul/LavEvctHkK1Vy4MqimNsOfccqy2nMc+ow/5KmzygKEU+wFjlQTdE6vp1QzMr/UQxRpD4llnwBdD54A3cC8uSHftDEbwbd4FVKbCvQnp6GYZgT3kBLp3cSwghSdcpNBSOovnmI+HD9HdspM4f3Y0bZw8kUen0fnF7Nxwo6vnQp5TnKTQS5bEZCke5lOv+/6sXAMPxvGQFtjRWo72tARq1tHGV28y4e7EJu7YXSObM//QLQ2PO39CHfSMpEwstenSca0Dr4Rq0HqqW7PBW20E011fgzoVGyZyr91/iTEc37FPuGNQXCKVM9CyuYHB0Bj98fvTbv0p22DM4gVAkip6BccmcJX9YDMJyIPx3w49wPFpudyOdul7Z6SFHSmyiolEOE5+n4Q8GadvpcgtmDU8ygpp0auRks+A4HjEHi9WeWIJz3iA4iVoMhiN43DeM+cUV2n79fhITjlkhLVStZFBXpoNeAxiy1FAqCBItZsrDotfuTXkvIQDLBEBI7GtDRUJgGUBZWZyXBitgZ4kRFpMWAh8badyvxRjgxK2eGqogBLa8bJRaA1hYWcKOQgNyslVE9F5hxOHB8etdklirQQ2bmaUjTJxIcYt/dPkRjKR2NB2rwLUTJfThxBVQMDH3F6f3z76S5PGF6fGvIoRAkbAm8TVNC14PcFVkDVSfJfNbJ0Np1Ewcteb1Rg2/2GoUfTb5bbsOMQRoqslNAtITiZX44u0knvaPCI7Zb9iWb4CwOuN0k8h4JEJACnNZFJk1KRN+AVKxEtU+q1wLAAAAAElFTkSuQmCC" x="126" y="155" width="29" height="26" id="plus_node_521" preserveAspectRatio="none" />
+    <image href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA4AAAARCAYAAADtyJ2fAAAB/klEQVR4nG2SS09TQRTHf2dub59gqwhBixYpBmMQjS5EohsXLvCRuHbrxg/hx/EbmLjRBa7YmGIjkUXBJj5SqsRUSy/0tjNm7ty0mPYkN/fMyf93XjNijGFgRkP/G+iGwXSABKjTglcCNTHUATIAe3UIN2NgjHmLkLwtSOoEGFbsd6I0uIQGEXWizCSk1gWVQ0xYg+5GBBndxzSr6OYWHLfASyKFBdTsLSQ7HcNnIP1ExBy+MnCE0T107TWmVR9tU/moxceo/EV39ldRFoqqNT6Mh6zpEL33JkoeWe+zBd08er/igl4KNXcXstOIbbFQjsUB5mDH+ablQBuk5yqr8kNMv4sqrkXXo+bWYKLo9J2fDrQ695NBQH/dQOVL0bx025jDJrS/x2rvf1D8DHIqHjw4QP+uIVNL0TZ1/e1QXFiIPYnAqJzM3hwICDtg788uw/RdbLKITM7FGc6jUDPOz8+jSvcZa5kpvPL68OyviCJ5z3pRVTWzguTnRzjv0gPEz7lD4qrgnYufXL8Jx+/sgObjpzyV3cscBn06geboqMfLF9sxdEXw74CIff425QxknkK4JdW9wFR3ArKZBJm0R24iaVsB/7rgXRh04cBoO2lIrnJt+Rfbu1/42w5p/emSyyUg/Wh4XyNgbDeWz8qP/cC832xQnM3y/NnS2IX9A88Xu0B4Z0FyAAAAAElFTkSuQmCC" x="154" y="148" width="14" height="17" id="plus_node_522" preserveAspectRatio="none" />
+  </g>
+  <g id="sam_replace_bottom_dom_icon" transform="translate(0 0)">
+    <title>Bottom dominating head robot icon - head_bottom_dom_icon - asset_sam_region_000023</title>
+    <image href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABoAAAAaCAYAAACpSkzOAAACaUlEQVR4nL2WS2gTURSG/zuvPBsTpylVkaZqitGuCrZVSFUQgsXHThSKC0EpduHSTREVCwYV3LiX+kKyKeJCCepWI1q7KrjSJHYKaZvW5mGryZU7k9RGM81MHf3hMmdmzpxv7txzf4ZQSmFEk/HneHn7lhp3D5yme04NEJgQZyQpm0oyCHsjSjiOJu6PIjX+DpaDCtmsenT7/ZAD7Wqcn501BRKMJLWGdmFjWwBznz8hl8nA6fMh0LPX+hnxoojjI1HCjkzHrl2HvanJehATmwUnaCCX3GwKYgr0txKqAWvz78Uii/RyafXecqEAjudWJ9a0uuhwgpDa7icMsKAoeDJ8EV+np+sUNy+7ZwOOXh0hLcGOWtCj8+co6ygrJblcOPMwRnhB+LVGbENareV8HsV5bf9VQdSoDZkVXVX4v3Udp3cjPDiEwbGn2BHu03140+5OnI2N4fDwZd2cuWQS8ZtRfVCwbz94UcK2fWHdIoHuXkhOJ9p7eiHY7HVzJuPP6MdXL/S9Ln4jio4DB5F4MKoLeh97rFpReuIDfix9q59UWSbW3vTOkcjKBSvVNXQByts3UBKvjbn3ejU1MY5cxQQagiSvF76tbbA7HOB4HmDWQqlqWfPplDr01CI3g85kkANIQ1DnoQjcsoxyuawWrw6m1p0hJO7dRblUQj0JNhu4ijM0BC0oU5A8Hu3kt3XMfknrQrR0Cv/2IJYWF401A+H5P9wYlK4JYeo6cRI2t5tUZ8SCNVuOlkrrs3Gw0toL/tOug/oVNJDqDN7NWyxnsP8L0e5Y+d4qqP/SFeKSZQshEkKRfm07VPQTemDWd29q4iAAAAAASUVORK5CYII=" x="127" y="315" width="26" height="26" id="plus_node_523" preserveAspectRatio="none" />
+  </g>
+  <g id="sam_replace_bottom_better_icon" transform="translate(0 0)">
+    <title>Bottom better reasoning robot/lightbulb icon - head_bottom_better_icon - asset_sam_region_000021 and asset_sam_region_000024</title>
+    <image href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB0AAAAbCAYAAACAyoQSAAAC9klEQVR4nLVWW0iTURz/nW+b29x0y8vmskymSWZ2BR9CqeghEnvwIQYLKYjeqhd7iKAHKRDqRQu6vHSDHtLsQiTYS1dkWCRlYpgGpmu1ie3m1vbt24nvm8qW+3TH1g/Odj7O/5zfOf/L7xxCKQUL3gx9o61X+8DHBJxt2YXmhmrCtED0PQgL6ZTHj72tt2mUF6RvQoCeNhvZtt7CQPoOHMsmJ90+iIRrivOx2WqGuN8x5wzLEgDRQ8liX2s1w1Kgl04sNp1GhfraMjZShYXtpHptDm6dboZKkZh2vfUALIV5bKScgY1URNXaQqLOSThoU7mJdboEZtI0YEt/gCmmNIOxjMqHJJeMN/gbJy710pEJj5SZcpgJhKV/o14DTqwbGZSZDbh8slHMdiJLamvrpgOfncgmSovy8bLzCFFwXPqYvv/iQrbhnPZj2htK8VsKqRCPZ51UhPBXrLh/ycKVgrvyaADj32dkCY82bkffhRbUbSiVXaSytABP2+04c6hB1sbjnaUd9x3whyLgLt7rpx3dDlnj4811oiDg8L6tsja2PTXYWG7CsaYdyFWr0trc6B1EZ4+Ddj3/lKjT2BKxbL/7Ggd31+Dak7eyNneefUBNuQn9w5MIRfi0NrE5jphAlxeHrhfDUlsKk24/7Od7ZMddP9wIBGelvs8foEy3zErx8NUQRia8Un9wdCpzGczTKLDaqIRayYHj5gSGUinlnb94TAdjsnOjYR+EWETqC3w4c1J7fQkqSvIgKth8m0eEj+Pcg68Q4umLwGoxwBUQx8IoMmiJckuFmeyvq1y2RsX8EGIC4jSREMmkHl9ElnBedKpKtBhzhYjVpEnRXmq1d8gKvejR4vwc6V2UDNF+JsiDF+RJTzWVwZirXJiZsXvFg/z0RbESEEKklo6U/EcpJMk3bYrgFxt1WWfjCKBTpz5QUr7EC1erzl7pih617TRDpUwlXfTYdnuDuPnYgY+j46het0raqWS48JOCpcJBjDoVDLmLD/EHwGAcR44DM3wAAAAASUVORK5CYII=" x="125" y="452" width="29" height="27" id="plus_node_524" preserveAspectRatio="none" />
+    <image href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAARCAYAAADUryzEAAACJ0lEQVR4nH2S22sTURCHvzm72WzSaDEkTRsbFcUKFYmlVaRI3wRBBX3zjxSl+OSLbwqiiFQKMVUEtRa3tTbUJpsmuyN7SdqQ4jydGc7vMhdRVYahfeitQb+h4DMSMgH2VbDnBTFHZR0QhH+h+0LRFv8NMwXZO4JkjxHoIfiriu6nRjqot4YeeFGGTF5AipcRO5eSlCF7L3YiMcHha6XfSIy0vhF+fg5hb1Q5k8eae4Tky2m+CJm6GNSHfjNR9vcIN1bHwVH02gSNJ2g/nU1vHTTEEGxGuon61lvQIPmQK4HlQmYC3DNJLeii2x9TRh9CT23C1nANuh+RgZSvYYpXwNjxDFAl9D6gu03Cva+YmRspoIUZqCcWDpP6wS8UJWg+I2iugoC2t1PQ8bWH2EhBEhmQUzV09xO0PfR3A1NZADtHuPUO/D/pOaRDjLdRwGDNHFtx/Yh8/wc4BXAmhq1FVsz04uA3mIoYzCSYauQCOVVFZm6Ob2AAqa0g2ckksS6BOBEN4NyKKjGJNbuMFOfGwFK5jpleSDMXnCUZPeXgO3RfRg/d+XnA+sYU4uQJAkNrr83tJY/SdHSJDmTvClYphtlDCasG7oPoKvmyozx9VSZUxRgh505RX4BS1K6zLNHwBnFEEDdZBPe+VKqbem52F78b0OkEdPw+mfwKuJXY9gjkpGGdr1XldCETg7OO4fHDi8yeHQePzuCEePPeU9e1qc8XTwRHn/4BSqfVp6lwj2MAAAAASUVORK5CYII=" x="153" y="446" width="16" height="17" id="plus_node_525" preserveAspectRatio="none" />
+  </g>
+  <g id="sam_replace_top_wrong_and_check" transform="translate(0 0)">
+    <title>Top answer wrong/correct icons - top_wrong_cross top_reference_check - assets P008/P011</title>
+    <image href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAATCAYAAACQjC21AAABi0lEQVR4nGP8//8/w5cXrxkuLd34/+urtwykAmZWFgZVLwcGWStjRhCf8d3dh//nWIYwfCPDMGTgNbWRwTQrhpHpeP88ig0DgX21fQx/f/9mYHp/7zEDNcCPdx8Zfn78/J+JgcqAiS4GMjIzMSQcXM7gM7OFgQEcdxCg6u3IkHt7L4OMpSFOA1mwijIyMvBKiTHI25kxsHByMGyIL2FQ9XJkCFs7lYGJhQUsRpKB///8ZVjgGM2QcGAZg35sIAOvpBiDnK0J2DCQ4Q/2HSfNyyDw+ckLhgUOUQwfHz9jUHKxZmBhZ2fYmFTOcHnpJgayI0XCQJOBW0wYzgcZjBymJBmo6uPIELYGEmY7i1sZ3t15APZ+wMIevIYy4Yrl0FVT4GF2om8eOExhhupE+pEYKX//Meyv62d4d+chw80Nu1HC1KokheHBftyRwrjEK+n/nW0HGKgBSl+fpkFOYWQiEG0kAEYmJgYmOWsTqhgmoqnMwCHIz8BknhfPCMqjlABuCRGGgAXdDIyMjIwAeHp9c10XstUAAAAASUVORK5CYII=" x="820" y="232" width="20" height="19" id="plus_node_526" preserveAspectRatio="none" />
+    <image href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAATCAYAAACQjC21AAABWElEQVR4nGP8//8/w9GLp/4v27me4d2nDwykAhZmFgZbA3OGRN9wRlYWVgaW09cu/M/rrWUAGUwuuHrvJsPzt6/+16cUMTKtP7CdIsNgYMvhXQw/fv1kYPr87QsDNcDff/8Yvv/88Z+JgcqAiRxNoIjQUlSjjoFsrKwME4ubGJY0TWEw0tClzECQYf2FjQyWuiYMV+/dYrjx4A75BqIbltlRxvDtx3fCBipIyoIxIcO+fP+G1WImdIHJJS0MixsnMxioaZNsGFYDl+5cz8DFwckwuaSVwVzHiCTDQICFAQ2s2LWBgZGBgaEkJpNhWlk7AyMjI9GG4YyU5bs2MPQsmQ5mk2IYVhciG3rq2gWGZ69fgLIUA7GABZ/k3ScPGEgEjEwcbOykasIJ2FhYGZhczOyoYpiVnikjNycXA4ubuT3j24/v/y/etobh/WfySmwbfTOGyoRcsAAATG6ZCuep0EMAAAAASUVORK5CYII=" x="820" y="259" width="20" height="19" id="plus_node_527" preserveAspectRatio="none" />
+  </g>
+  <g id="sam_replace_bottom_wrong_and_check" transform="translate(0 0)">
+    <title>Bottom answer wrong/correct icons - bottom_wrong_cross bottom_reference_check - assets P007/P010</title>
+    <image href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAATCAYAAACQjC21AAABp0lEQVR4nGP8//8/w4cHT/5vzapjeHjoFMP/f/8YSAV8spIMjo0FDDoRvoyM//7+ZZiu5/X/9dXbDBQBRgaG5GNrGJheX7/DQLFhIPCfgeHamu0MTH++/2CgFvj9/QcDEwOVARMuCVZuTgYlNxsMcWENJQYRTWXSDbQuT2eI3bmQwXNyPVxMztaEIe30BobYXQtxGsgCCU5McHHRegaj5DAGs5w4MP/q6m0M0VvnMrByczHsqegi3YXv7zxkWOAQxfD52UuwofF7l4AN257XyHB66hLSDQSBd7cfMOyt7gWzmVhYwAn/9JTFDPgAEz5JOTtTBq/J9Qyg3PT9/UcGBXtzlDAlyUBpc314mIG8Occ8iOHT0xdg77v1VpFuoKy1MQMrFyckzKYsBnt/oWM02FBlLMkJBhifnr74f7ZpIBYZUKaXYvj06BmKMDs/L1ju54fPGFpMsqLByQY7+M+AYRgI/PyIaRAyoH7W4xDgo5phILOYhFQUGBWcLCk2jIWTnUE/NpCREZTGfnz8/P9g40SGh4dOM4AKXFKBgLw0g01FBqOMhSEDANT9lkuPdJgsAAAAAElFTkSuQmCC" x="822" y="518" width="20" height="19" id="plus_node_528" preserveAspectRatio="none" />
+    <image href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAABWElEQVR4nGP8//8/Awh8//Gd4dbj+wz//v0DcSGCmIARm6C4sCiDlIg4mM0CIg6dP/G/ZnoHw5fv3xgIAFwWMQTYezBUJ+UzMn7/+YPBPTfy/+dvXxgoBe3ZVQxM9589YqCGYSBw4dYVBqZ//3D6gmTw799/BiZ84UIOYCJLEyMTQ0FEKoO/nTvlBoIMAwV+nHcog7uFA2UGwgxzNbdjuPf0EUPNjE7yDUQ3LK2thOHdpw+EDZQVl2KYXNLCoC6vTLJhWA1UlVVksNY3Y5hR0Qk2lBTD4FkPGew7c5RhxrpFDBlBcWBDr9y9AbaAGMOwGggCs9YvAdMgQ0kxDKeBMEN//PzJYKlnwlA9rZ0ow/AaCAKLtq0GY5rnFHyASUJYFByT1AAyYpIMTML8gozRnkEUGwZKv352boyMoCoAhI9dOv3/7I3LsCqAJCApIsbgZeXMyMvNwwAAWbyYWJdFe10AAAAASUVORK5CYII=" x="822" y="544" width="20" height="20" id="plus_node_529" preserveAspectRatio="none" />
+  </g>
+  <g id="sam_replace_top_more_visual_patch" data-plus-keeps="f03" transform="translate(0 0)">
+    <title>Top more-visual-attention heatmap block - vis_top_more - asset_sam_region_000045</title>
+    <desc>The crop P025 covers the detailed lower visual-attention map and its label area; the column base frame remains native.</desc>
+    <image href="data:image/png;base64,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" x="246" y="153" width="91" height="91" id="plus_node_530" preserveAspectRatio="none" />
+  </g>
+</svg>

@@ -1,0 +1,159 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="2048" height="1524" viewBox="0 0 2048 1524">
+  <defs>
+    <marker id="arrow-black" markerWidth="40" markerHeight="30" refX="38" refY="15" orient="auto" markerUnits="userSpaceOnUse">
+      <polygon points="0,0 40,15 0,30" fill="#000000" data-pb-role="decorative" data-pb-editable="true"/>
+    </marker>
+  </defs>
+  <rect id="background" x="0" y="0" width="2048" height="1524" fill="#ffffff" data-pb-role="background" data-pb-editable="true"/>
+
+  <g id="panel-sample-weights" data-pb-role="panel" data-pb-editable="true">
+    <text id="label-sample-domain" x="137" y="308" font-family="Times New Roman, Times, serif" font-size="66" font-weight="700" font-style="normal" fill="#000000" data-pb-role="label" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="horizontal">Sample domain</text>
+    <text id="label-weights" x="151" y="402" font-family="Times New Roman, Times, serif" font-size="66" font-weight="700" font-style="normal" fill="#000000" data-pb-role="label" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="horizontal">weights</text>
+    <g id="formula-h-pi" data-pb-role="formula" data-pb-editable="true" data-pb-formula-bbox="400 326 210 72" data-pb-formula-latex-b64="aCBcc2ltIFxwaQ==">
+      <text id="formula-h-pi-fallback" x="405" y="399" font-family="Times New Roman, Times, serif" font-size="66" font-weight="700" font-style="italic" fill="#1976d2" data-pb-role="formula" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="horizontal">h ~ &#960;</text>
+      <desc>LaTeX: h \sim \pi</desc>
+    </g>
+    <g id="chart-sample-weights" data-pb-role="node" data-pb-editable="true">
+      <line id="chart-y-axis" x1="73" y1="410" x2="73" y2="803" stroke="#000000" stroke-width="7" data-pb-role="axis" data-pb-editable="true"/>
+      <line id="chart-x-axis" x1="73" y1="803" x2="535" y2="803" stroke="#000000" stroke-width="7" data-pb-role="axis" data-pb-editable="true"/>
+      <rect id="bar-h1" x="107" y="438" width="59" height="365" fill="#00477c" stroke="#000000" stroke-width="6" data-pb-role="node" data-pb-editable="true"/>
+      <rect id="bar-h2" x="222" y="731" width="59" height="72" fill="#93c8f5" stroke="#000000" stroke-width="6" data-pb-role="node" data-pb-editable="true"/>
+      <rect id="bar-h3" x="337" y="511" width="59" height="292" fill="#0b76d1" stroke="#000000" stroke-width="6" data-pb-role="node" data-pb-editable="true"/>
+      <rect id="bar-hk" x="453" y="694" width="58" height="109" fill="#3498ee" stroke="#000000" stroke-width="6" data-pb-role="node" data-pb-editable="true"/>
+    </g>
+    <rect id="box-h-vector" x="72" y="839" width="477" height="107" fill="#ffffff" stroke="#777777" stroke-width="5" data-pb-role="node" data-pb-editable="true"/>
+    <g id="formula-h-vector" data-pb-role="formula" data-pb-editable="true" data-pb-formula-bbox="88 852 440 84" data-pb-formula-latex-b64="aF8xIGh/MiBcY2RvdHMgaF9r">
+      <text id="formula-h-vector-fallback" x="88" y="918" font-family="Times New Roman, Times, serif" font-size="76" font-weight="400" font-style="italic" fill="#1976d2" data-pb-role="formula" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="horizontal">h<tspan baseline-shift="sub" font-size="43">1</tspan> h<tspan baseline-shift="sub" font-size="43">2</tspan> ... h<tspan baseline-shift="sub" font-size="43">k</tspan></text>
+      <desc>LaTeX: h_1 h_2 \cdots h_k</desc>
+    </g>
+  </g>
+
+  <g id="panel-model" data-pb-role="panel" data-pb-editable="true">
+    <rect id="model-frame" x="694" y="68" width="1282" height="719" rx="52" ry="52" fill="#ffffff" stroke="#d0d0d0" stroke-width="5" data-pb-role="panel" data-pb-editable="true"/>
+    <text id="title-model" x="712" y="141" font-family="Times New Roman, Times, serif" font-size="72" font-weight="700" font-style="normal" fill="#000000" data-pb-role="title" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="horizontal">Model</text>
+
+    <polygon id="node-mlp" points="844,424 977,424 1033,516 977,609 844,609 802,516" fill="#ffffff" stroke="#000000" stroke-width="6" data-pb-role="node" data-pb-editable="true"/>
+    <text id="label-mlp" x="829" y="537" font-family="Times New Roman, Times, serif" font-size="76" font-weight="700" font-style="normal" fill="#000000" data-pb-role="label" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="horizontal">MLP</text>
+
+    <rect id="node-source-s" x="1255" y="83" width="137" height="136" rx="18" ry="18" fill="#ffeaa7" stroke="#aa8d00" stroke-width="6" data-pb-role="node" data-pb-editable="true"/>
+    <g id="formula-source-s" data-pb-role="formula" data-pb-editable="true" data-pb-formula-bbox="1279 97 70 90" data-pb-formula-latex-b64="Uw==">
+      <text id="formula-source-s-fallback" x="1297" y="177" font-family="Times New Roman, Times, serif" font-size="82" font-weight="400" font-style="italic" fill="#000000" data-pb-role="formula" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="horizontal">S</text>
+      <desc>LaTeX: S</desc>
+    </g>
+
+    <rect id="node-expert-e1" x="1255" y="264" width="137" height="136" rx="18" ry="18" fill="#ff9095" stroke="#c91313" stroke-width="6" data-pb-role="node" data-pb-editable="true"/>
+    <g id="formula-e1" data-pb-role="formula" data-pb-editable="true" data-pb-formula-bbox="1281 284 88 70" data-pb-formula-latex-b64="RV8x">
+      <text id="formula-e1-fallback" x="1286" y="359" font-family="Times New Roman, Times, serif" font-size="78" font-weight="700" font-style="italic" fill="#000000" data-pb-role="formula" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="horizontal">E<tspan baseline-shift="sub" font-size="43">1</tspan></text>
+      <desc>LaTeX: E_1</desc>
+    </g>
+
+    <rect id="node-expert-mid" x="1255" y="445" width="137" height="136" rx="18" ry="18" fill="#ff9095" stroke="#c91313" stroke-width="6" data-pb-role="node" data-pb-editable="true"/>
+    <text id="label-expert-mid" x="1301" y="541" font-family="Times New Roman, Times, serif" font-size="72" font-weight="700" font-style="normal" fill="#000000" data-pb-role="label" data-pb-editable="true" data-pb-text-source="visual_inferred" data-pb-orientation="horizontal">...</text>
+
+    <rect id="node-expert-en" x="1255" y="626" width="137" height="136" rx="18" ry="18" fill="#ff9095" stroke="#c91313" stroke-width="6" data-pb-role="node" data-pb-editable="true"/>
+    <g id="formula-en" data-pb-role="formula" data-pb-editable="true" data-pb-formula-bbox="1281 644 90 76" data-pb-formula-latex-b64="RV9u">
+      <text id="formula-en-fallback" x="1285" y="720" font-family="Times New Roman, Times, serif" font-size="78" font-weight="700" font-style="italic" fill="#000000" data-pb-role="formula" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="horizontal">E<tspan baseline-shift="sub" font-size="43">n</tspan></text>
+      <desc>LaTeX: E_n</desc>
+    </g>
+
+    <g id="formula-alpha1" data-pb-role="formula" data-pb-editable="true" data-pb-formula-bbox="1085 306 160 70" data-pb-formula-latex-b64="XGFscGhhXzEgXA==">
+      <text id="formula-alpha1-fallback" x="1085" y="356" font-family="Times New Roman, Times, serif" font-size="68" font-weight="400" font-style="italic" fill="#1976d2" data-pb-role="formula" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="horizontal">&#945;<tspan baseline-shift="sub" font-size="38">1</tspan> &#215;</text>
+      <desc>LaTeX: \alpha_1 \times</desc>
+    </g>
+    <text id="label-expert-ellipsis" x="1140" y="546" font-family="Times New Roman, Times, serif" font-size="72" font-weight="700" font-style="normal" fill="#1976d2" data-pb-role="label" data-pb-editable="true" data-pb-text-source="visual_inferred" data-pb-orientation="horizontal">...</text>
+    <g id="formula-alphan" data-pb-role="formula" data-pb-editable="true" data-pb-formula-bbox="1083 661 165 70" data-pb-formula-latex-b64="XGFscGhhX24gXA==">
+      <text id="formula-alphan-fallback" x="1083" y="712" font-family="Times New Roman, Times, serif" font-size="68" font-weight="400" font-style="italic" fill="#1976d2" data-pb-role="formula" data-pb-editable="true" data-pb-text-source="visual_inferred" data-pb-orientation="horizontal">&#945;<tspan baseline-shift="sub" font-size="38">n</tspan> &#215;</text>
+      <desc>LaTeX: \alpha_n \times</desc>
+    </g>
+
+    <circle id="node-sum" cx="1540" cy="416" r="61" fill="#ffffff" stroke="#000000" stroke-width="6" data-pb-role="node" data-pb-editable="true"/>
+    <line id="sum-hline" x1="1482" y1="416" x2="1598" y2="416" stroke="#000000" stroke-width="5" data-pb-role="node" data-pb-editable="true"/>
+    <line id="sum-vline" x1="1540" y1="357" x2="1540" y2="475" stroke="#000000" stroke-width="5" data-pb-role="node" data-pb-editable="true"/>
+
+    <rect id="node-theta" x="1678" y="354" width="137" height="136" rx="18" ry="18" fill="#ffc58f" stroke="#cc3b00" stroke-width="6" data-pb-role="node" data-pb-editable="true"/>
+    <g id="formula-theta" data-pb-role="formula" data-pb-editable="true" data-pb-formula-bbox="1716 388 75 70" data-pb-formula-latex-b64="XFRoZXRh">
+      <text id="formula-theta-fallback" x="1717" y="453" font-family="Times New Roman, Times, serif" font-size="78" font-weight="700" font-style="normal" fill="#000000" data-pb-role="formula" data-pb-editable="true" data-pb-text-source="visual_inferred" data-pb-orientation="horizontal">&#920;</text>
+      <desc>LaTeX: \Theta</desc>
+    </g>
+  </g>
+
+  <g id="panel-data" data-pb-role="panel" data-pb-editable="true">
+    <rect id="data-frame" x="694" y="1012" width="1282" height="395" rx="52" ry="52" fill="#ffffff" stroke="#d0d0d0" stroke-width="5" data-pb-role="panel" data-pb-editable="true"/>
+    <text id="title-pretraining-domains" x="922" y="1082" font-family="Times New Roman, Times, serif" font-size="66" font-weight="700" font-style="normal" fill="#000000" data-pb-role="title" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="horizontal">Pretraining domains</text>
+    <text id="label-data" x="712" y="1370" font-family="Times New Roman, Times, serif" font-size="72" font-weight="700" font-style="normal" fill="#000000" data-pb-role="label" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="horizontal">Data</text>
+
+    <g id="icon-d1" data-pb-role="node" data-pb-editable="true">
+      <ellipse cx="980" cy="1135" rx="64" ry="31" fill="#ffffff" stroke="#004a75" stroke-width="9"/>
+      <path d="M916 1135 L916 1260 C916 1277 945 1292 980 1292 C1015 1292 1044 1277 1044 1260 L1044 1135" fill="none" stroke="#004a75" stroke-width="9"/>
+      <path d="M916 1194 C916 1211 945 1226 980 1226 C1015 1226 1044 1211 1044 1194" fill="none" stroke="#004a75" stroke-width="9"/>
+      <path d="M916 1248 C916 1265 945 1280 980 1280 C1015 1280 1044 1265 1044 1248" fill="none" stroke="#004a75" stroke-width="9"/>
+    </g>
+    <g id="icon-d2" data-pb-role="node" data-pb-editable="true">
+      <ellipse cx="1148" cy="1210" rx="65" ry="31" fill="#ffffff" stroke="#93c8f5" stroke-width="9"/>
+      <path d="M1083 1210 L1083 1261 C1083 1279 1113 1293 1148 1293 C1184 1293 1213 1279 1213 1261 L1213 1210" fill="none" stroke="#93c8f5" stroke-width="9"/>
+      <path d="M1083 1260 C1083 1278 1113 1292 1148 1292 C1184 1292 1213 1278 1213 1260" fill="none" stroke="#93c8f5" stroke-width="9"/>
+    </g>
+    <g id="icon-d3" data-pb-role="node" data-pb-editable="true">
+      <ellipse cx="1315" cy="1178" rx="65" ry="31" fill="#ffffff" stroke="#1976d2" stroke-width="9"/>
+      <path d="M1250 1178 L1250 1260 C1250 1278 1280 1292 1315 1292 C1351 1292 1380 1278 1380 1260 L1380 1178" fill="none" stroke="#1976d2" stroke-width="9"/>
+      <path d="M1250 1234 C1250 1252 1280 1266 1315 1266 C1351 1266 1380 1252 1380 1234" fill="none" stroke="#1976d2" stroke-width="9"/>
+    </g>
+    <g id="icon-dk" data-pb-role="node" data-pb-editable="true">
+      <ellipse cx="1496" cy="1212" rx="65" ry="31" fill="#ffffff" stroke="#3498ee" stroke-width="9"/>
+      <path d="M1431 1212 L1431 1261 C1431 1279 1461 1293 1496 1293 C1532 1293 1561 1279 1561 1261 L1561 1212" fill="none" stroke="#3498ee" stroke-width="9"/>
+      <path d="M1431 1260 C1431 1278 1461 1292 1496 1292 C1532 1292 1561 1278 1561 1260" fill="none" stroke="#3498ee" stroke-width="9"/>
+    </g>
+
+    <g id="formula-d1" data-pb-role="formula" data-pb-editable="true" data-pb-formula-bbox="935 1321 100 70" data-pb-formula-latex-b64="RF8x">
+      <text id="formula-d1-fallback" x="935" y="1382" font-family="Times New Roman, Times, serif" font-size="78" font-weight="400" font-style="italic" fill="#000000" data-pb-role="formula" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="horizontal">D<tspan baseline-shift="sub" font-size="43">1</tspan></text>
+      <desc>LaTeX: D_1</desc>
+    </g>
+    <g id="formula-d2" data-pb-role="formula" data-pb-editable="true" data-pb-formula-bbox="1104 1321 100 70" data-pb-formula-latex-b64="RF8y">
+      <text id="formula-d2-fallback" x="1104" y="1382" font-family="Times New Roman, Times, serif" font-size="78" font-weight="400" font-style="italic" fill="#000000" data-pb-role="formula" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="horizontal">D<tspan baseline-shift="sub" font-size="43">2</tspan></text>
+      <desc>LaTeX: D_2</desc>
+    </g>
+    <text id="label-domain-ellipsis" x="1261" y="1380" font-family="Times New Roman, Times, serif" font-size="66" font-weight="400" font-style="normal" fill="#000000" data-pb-role="label" data-pb-editable="true" data-pb-text-source="visual_inferred" data-pb-orientation="horizontal">...</text>
+    <g id="formula-dk" data-pb-role="formula" data-pb-editable="true" data-pb-formula-bbox="1438 1322 110 70" data-pb-formula-latex-b64="RF9r">
+      <text id="formula-dk-fallback" x="1438" y="1382" font-family="Times New Roman, Times, serif" font-size="78" font-weight="400" font-style="italic" fill="#000000" data-pb-role="formula" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="horizontal">D<tspan baseline-shift="sub" font-size="43">k</tspan></text>
+      <desc>LaTeX: D_k</desc>
+    </g>
+    <text id="label-sample-data" x="1570" y="1269" font-family="Times New Roman, Times, serif" font-size="66" font-weight="700" font-style="normal" fill="#000000" data-pb-role="label" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="horizontal">Sample data</text>
+    <g id="formula-x-mix" data-pb-role="formula" data-pb-editable="true" data-pb-formula-bbox="1584 1308 360 72" data-pb-formula-latex-b64="eCBcc2ltIFx0ZXh0e21peH0oaCk=">
+      <text id="formula-x-mix-fallback" x="1584" y="1365" font-family="Times New Roman, Times, serif" font-size="66" font-weight="700" font-style="italic" fill="#1976d2" data-pb-role="formula" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="horizontal">x ~ mix(h)</text>
+      <desc>LaTeX: x \sim \mathrm{mix}(h)</desc>
+    </g>
+  </g>
+
+  <g id="connector-layer" data-pb-role="connector" data-pb-editable="true">
+    <polyline id="connector-h-split" points="548,892 633,892 633,516" fill="none" stroke="#000000" stroke-width="5" data-pb-role="connector" data-pb-editable="true"/>
+    <line id="connector-h-to-mlp" x1="633" y1="516" x2="805" y2="516" stroke="#000000" stroke-width="5" marker-end="url(#arrow-black)" data-pb-role="connector" data-pb-editable="true"/>
+    <line id="connector-h-to-data" x1="633" y1="1139" x2="884" y2="1139" stroke="#000000" stroke-width="5" marker-end="url(#arrow-black)" data-pb-role="connector" data-pb-editable="true"/>
+    <line id="connector-split-vertical-data" x1="633" y1="892" x2="633" y2="1139" stroke="#000000" stroke-width="5" data-pb-role="connector" data-pb-editable="true"/>
+
+    <line id="connector-mlp-alpha1" x1="977" y1="424" x2="1088" y2="360" stroke="#000000" stroke-width="5" marker-end="url(#arrow-black)" data-pb-role="connector" data-pb-editable="true"/>
+    <line id="connector-mlp-middle" x1="1033" y1="516" x2="1104" y2="516" stroke="#000000" stroke-width="5" marker-end="url(#arrow-black)" data-pb-role="connector" data-pb-editable="true"/>
+    <line id="connector-mlp-alphan" x1="977" y1="609" x2="1073" y2="680" stroke="#000000" stroke-width="5" marker-end="url(#arrow-black)" data-pb-role="connector" data-pb-editable="true"/>
+
+    <line id="connector-s-to-sum" x1="1392" y1="151" x2="1523" y2="354" stroke="#000000" stroke-width="5" marker-end="url(#arrow-black)" data-pb-role="connector" data-pb-editable="true"/>
+    <line id="connector-e1-to-sum" x1="1392" y1="329" x2="1490" y2="384" stroke="#000000" stroke-width="5" marker-end="url(#arrow-black)" data-pb-role="connector" data-pb-editable="true"/>
+    <line id="connector-emid-to-sum" x1="1392" y1="515" x2="1492" y2="447" stroke="#000000" stroke-width="5" marker-end="url(#arrow-black)" data-pb-role="connector" data-pb-editable="true"/>
+    <line id="connector-en-to-sum" x1="1392" y1="690" x2="1504" y2="463" stroke="#000000" stroke-width="5" marker-end="url(#arrow-black)" data-pb-role="connector" data-pb-editable="true"/>
+    <line id="connector-sum-to-theta" x1="1601" y1="416" x2="1678" y2="416" stroke="#000000" stroke-width="5" marker-end="url(#arrow-black)" data-pb-role="connector" data-pb-editable="true"/>
+    <polyline id="connector-theta-to-loss" points="1815,422 1880,422 1880,842" fill="none" stroke="#000000" stroke-width="5" marker-end="url(#arrow-black)" data-pb-role="connector" data-pb-editable="true"/>
+
+    <line id="connector-data-x" x1="1627" y1="1138" x2="1755" y2="1138" stroke="#000000" stroke-width="5" marker-end="url(#arrow-black)" data-pb-role="connector" data-pb-editable="true"/>
+    <g id="formula-x-label" data-pb-role="formula" data-pb-editable="true" data-pb-formula-bbox="1778 1110 55 60" data-pb-formula-latex-b64="eA==">
+      <text id="formula-x-label-fallback" x="1779" y="1159" font-family="Times New Roman, Times, serif" font-size="72" font-weight="400" font-style="italic" fill="#000000" data-pb-role="formula" data-pb-editable="true" data-pb-text-source="visual_inferred" data-pb-orientation="horizontal">x</text>
+      <desc>LaTeX: x</desc>
+    </g>
+    <polyline id="connector-x-to-loss" points="1837,1138 1880,1138 1880,956" fill="none" stroke="#000000" stroke-width="5" marker-end="url(#arrow-black)" data-pb-role="connector" data-pb-editable="true"/>
+  </g>
+
+  <g id="loss-layer" data-pb-role="node" data-pb-editable="true">
+    <rect id="box-loss" x="1577" y="846" width="416" height="105" fill="#ffffff" stroke="#777777" stroke-width="5" data-pb-role="node" data-pb-editable="true"/>
+    <g id="formula-loss" data-pb-role="formula" data-pb-editable="true" data-pb-formula-bbox="1592 862 385 75" data-pb-formula-latex-b64="XG1hdGhybXtMb3NzfSBcZWxsKFxUaGV0YSwgeCk=">
+      <text id="formula-loss-fallback" x="1593" y="918" font-family="Times New Roman, Times, serif" font-size="66" font-weight="700" font-style="normal" fill="#000000" data-pb-role="formula" data-pb-editable="true" data-pb-text-source="visual_inferred" data-pb-orientation="horizontal">Loss <tspan font-style="italic" font-weight="400">&#8467;(&#920;, x)</tspan></text>
+      <desc>LaTeX: \mathrm{Loss} \ell(\Theta, x)</desc>
+    </g>
+  </g>
+</svg>

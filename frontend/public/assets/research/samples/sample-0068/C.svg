@@ -1,0 +1,81 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1377" height="492" viewBox="0 0 1377 492">
+  <title>EngiBench and EngiOpt workflow diagram</title>
+  <desc>
+    Inventory: two large rounded base frames. Left frame EngiBench contains layered green benchmark task cards labeled ..., Beams2D, HeatConduction, Airfoil; the foremost Airfoil card contains Simulator and Dataset blocks. A yellow Python API block sits to the right with an inner code panel listing simulate, optimize, and dataset. Curved black arrows connect Simulator to the first two API lines and the API dataset line to Dataset. Right frame EngiOpt contains three blue rounded option blocks: Optimization, Surrogate Models, and Generative Models. Alignment basis: left-to-right workflow with vertically stacked modules; right panel uses vertical equipartition.
+  </desc>
+
+  <defs>
+    <marker id="arrowHeadBlack" markerUnits="userSpaceOnUse" markerWidth="11" markerHeight="8" refX="10" refY="4" orient="auto">
+      <path d="M0,0 L10,4 L0,8 Z" fill="#000000" id="plus_node_0" />
+    </marker>
+  </defs>
+
+  <rect id="canvas_bg" x="0" y="0" width="1377" height="492" fill="#ffffff" />
+
+  
+  <rect id="f01_engibench_outer" data-plus-kind="frame" x="24" y="27" width="998" height="433" rx="86" ry="86" fill="#fdfdfd" stroke="#e1e1e1" stroke-width="3.5" />
+  <rect id="f02_engiopt_outer" data-plus-kind="frame" x="1038" y="29" width="306" height="432" rx="58" ry="58" fill="#fdfdfd" stroke="#e1e1e1" stroke-width="3.5" />
+
+  
+  <text id="txt_engibench_title" x="523" y="72" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="30" font-weight="700" fill="#090909">EngiBench</text>
+  <text id="txt_engiopt_title" x="1191" y="73" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="30" font-weight="700" fill="#090909">EngiOpt</text>
+
+  
+  <g id="g_benchmark_stack">
+    <desc>Four rounded green benchmark frames are offset downward and leftward; only their top labels remain visible behind the front Airfoil frame.</desc>
+
+    <rect id="f03_stack_ellipsis" data-plus-kind="frame" x="109" y="98" width="336" height="236" rx="42" ry="42" fill="#e5f9d6" stroke="#c8ddb8" stroke-width="3.5" />
+    <text id="txt_stack_ellipsis" x="142" y="132" font-family="Arial, Helvetica, sans-serif" font-size="25" fill="#0a0a0a">...</text>
+
+    <rect id="f04_stack_beams2d" data-plus-kind="frame" x="92" y="135" width="337" height="236" rx="42" ry="42" fill="#e5f9d6" stroke="#c8ddb8" stroke-width="3.5" />
+    <text id="txt_stack_beams2d" x="125" y="163" font-family="Arial, Helvetica, sans-serif" font-size="25" fill="#0a0a0a">Beams2D</text>
+
+    <rect id="f05_stack_heat" data-plus-kind="frame" x="75" y="174" width="337" height="236" rx="42" ry="42" fill="#e5f9d6" stroke="#c8ddb8" stroke-width="3.5" />
+    <text id="txt_stack_heat" x="107" y="209" font-family="Arial, Helvetica, sans-serif" font-size="25" fill="#0a0a0a">HeatConduction</text>
+
+    <rect id="f06_stack_airfoil" data-plus-kind="frame" x="58" y="218" width="337" height="217" rx="42" ry="42" fill="#e5f9d6" stroke="#c8ddb8" stroke-width="3.5" />
+    <text id="txt_stack_airfoil" x="90" y="254" font-family="Arial, Helvetica, sans-serif" font-size="25" fill="#0a0a0a">Airfoil</text>
+
+    <rect id="f07_simulator_block" data-plus-kind="frame" x="86" y="272" width="280" height="63" rx="12" ry="12" fill="#c9f3a6" stroke="#bced95" stroke-width="2" />
+    <text id="txt_simulator" x="226" y="315" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="25" fill="#050505">Simulator</text>
+
+    <rect id="f08_dataset_block" data-plus-kind="frame" x="86" y="350" width="280" height="65" rx="12" ry="12" fill="#c9f3a6" stroke="#bced95" stroke-width="2" />
+    <text id="txt_dataset" x="226" y="393" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="24" fill="#050505">Dataset</text>
+  </g>
+
+  
+  <g id="g_python_api">
+    <desc>Yellow API frame is horizontally centered between the benchmark stack and the EngiOpt frame; its inner pale code panel contains three API statements.</desc>
+    <rect id="f09_python_api_outer" data-plus-kind="frame" x="503" y="160" width="489" height="214" rx="43" ry="43" fill="#ffeca2" stroke="#ffd55c" stroke-width="3" />
+    <text id="txt_python_api" x="551" y="192" font-family="Arial, Helvetica, sans-serif" font-size="25" fill="#090909">Python API</text>
+    <rect id="f10_python_code_panel" data-plus-kind="frame" x="518" y="207" width="458" height="151" rx="25" ry="25" fill="#fff9e9" stroke="#e5e5e5" stroke-width="3" />
+  </g>
+
+  
+  <g id="g_api_arrows" fill="none" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <desc>Two upper arrows run from the Simulator block toward the first two Python API code lines; the lower arrow runs from the dataset API line down-left toward the Dataset block.</desc>
+    <path id="arrow_simulate_to_api" d="M368 289 C420 260, 466 252, 517 247" marker-end="url(#arrowHeadBlack)" />
+    <path id="arrow_optimize_to_api" d="M368 309 C421 287, 466 282, 517 282" marker-end="url(#arrowHeadBlack)" />
+    <path id="arrow_api_to_dataset" d="M518 317 C468 326, 417 344, 368 374" marker-end="url(#arrowHeadBlack)" />
+  </g>
+
+  
+  <g id="g_api_code_text" font-family="'Courier New', Courier, monospace" font-size="25" fill="#000000">
+    <text id="txt_code_simulate" x="527" y="254" xml:space="preserve">problem.simulate(design, conds)</text>
+    <text id="txt_code_optimize" x="527" y="290" xml:space="preserve">problem.optimize(design, conds)</text>
+    <text id="txt_code_dataset" x="527" y="325" xml:space="preserve">problem.dataset</text>
+  </g>
+
+  
+  <g id="g_engiopt_options">
+    <desc>Three blue rounded rectangular option frames are evenly stacked inside the EngiOpt outer frame.</desc>
+    <rect id="f11_optimization_block" data-plus-kind="frame" x="1049" y="126" width="279" height="78" rx="14" ry="14" fill="#c6def6" stroke="#acd4f6" stroke-width="4" />
+    <text id="txt_optimization" x="1189" y="176" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="25" fill="#070707">Optimization</text>
+
+    <rect id="f12_surrogate_block" data-plus-kind="frame" x="1049" y="228" width="279" height="78" rx="14" ry="14" fill="#c6def6" stroke="#acd4f6" stroke-width="4" />
+    <text id="txt_surrogate" x="1189" y="278" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="25" fill="#070707">Surrogate Models</text>
+
+    <rect id="f13_generative_block" data-plus-kind="frame" x="1049" y="329" width="279" height="78" rx="14" ry="14" fill="#c6def6" stroke="#acd4f6" stroke-width="4" />
+    <text id="txt_generative" x="1189" y="379" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="25" fill="#070707">Generative Models</text>
+  </g>
+</svg>

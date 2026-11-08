@@ -1,0 +1,219 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="3840" height="1757" viewBox="0 0 3840 1757">
+  <defs>
+    <marker id="arrow" viewBox="0 0 12 12" refX="10.5" refY="6" markerWidth="12" markerHeight="12" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L12,6 L0,12 Z" fill="#000"/>
+    </marker>
+    <marker id="arrowSmall" viewBox="0 0 12 12" refX="10.5" refY="6" markerWidth="10" markerHeight="10" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L12,6 L0,12 Z" fill="#69aa9d"/>
+    </marker>
+    <pattern id="greenHatch" patternUnits="userSpaceOnUse" width="10" height="10" patternTransform="rotate(45)">
+      <line x1="0" y1="0" x2="0" y2="10" stroke="#d8ecd6" stroke-width="4"/>
+    </pattern>
+    <style>
+      .serif{font-family:"Times New Roman","STIXGeneral","Cambria Math",serif;}
+      .math{font-family:"Times New Roman","STIXGeneral","Cambria Math",serif;font-style:italic;}
+      .box{fill:#fff;stroke:#333;stroke-width:3;}
+      .thinbox{fill:#fff;stroke:#222;stroke-width:3;}
+      .arrow{fill:none;stroke:#000;stroke-width:5;marker-end:url(#arrow);}
+      .arrow6{fill:none;stroke:#000;stroke-width:7;marker-end:url(#arrow);}
+      .curve{fill:none;stroke:#000;stroke-width:4.5;marker-end:url(#arrow);}
+      .sq{stroke:#111;stroke-width:2;}
+      .greenArrow{fill:none;stroke:#69aa9d;stroke-width:6;marker-end:url(#arrowSmall);opacity:.95;}
+    </style>
+  </defs>
+
+  <rect width="3840" height="1757" fill="#fff"/>
+
+  <!-- left input -->
+  <text x="47" y="755" class="serif" font-size="82" font-weight="700">x</text>
+  <g transform="translate(145,588)">
+    <rect class="sq" x="0" y="0" width="36" height="36" fill="#d9ecd6"/>
+    <rect class="sq" x="0" y="40" width="36" height="36" fill="#ead7e8"/>
+    <rect class="sq" x="0" y="80" width="36" height="36" fill="#ee6764"/>
+    <rect class="sq" x="0" y="120" width="36" height="36" fill="#ffdd6b"/>
+    <rect class="sq" x="0" y="160" width="36" height="36" fill="#79b9ad"/>
+    <rect class="sq" x="0" y="200" width="36" height="36" fill="#be6b91"/>
+    <rect class="sq" x="0" y="240" width="36" height="36" fill="#76a5d7"/>
+  </g>
+
+  <line x1="210" y1="733" x2="493" y2="733" class="arrow6"/>
+
+  <!-- big split curves -->
+  <path d="M210 733 C220 430 340 190 872 169" class="curve"/>
+  <path d="M210 733 C230 1045 360 1397 890 1420" class="curve"/>
+
+  <!-- top row -->
+  <rect x="900" y="80" width="215" height="225" rx="28" class="box"/>
+  <text x="918" y="217" class="math" font-size="82">ϕ<tspan baseline-shift="super" font-size="56">via</tspan></text>
+
+  <line x1="1115" y1="192" x2="1245" y2="192" class="arrow"/>
+  <text x="1262" y="212" class="math" font-size="86">ϕ</text>
+
+  <g transform="translate(1354,58)">
+    <rect class="sq" x="0" y="0" width="36" height="36" fill="#ffc0c0"/>
+    <rect class="sq" x="0" y="40" width="36" height="36" fill="#b8d1ec"/>
+    <rect class="sq" x="0" y="80" width="36" height="36" fill="#006dc2"/>
+    <rect class="sq" x="0" y="120" width="36" height="36" fill="#2d82d4"/>
+    <rect class="sq" x="0" y="160" width="36" height="36" fill="#ff6d72"/>
+    <rect class="sq" x="0" y="200" width="36" height="36" fill="#e00e0b"/>
+    <rect class="sq" x="0" y="240" width="36" height="36" fill="#e11113"/>
+    <rect class="sq" x="0" y="280" width="36" height="36" fill="#c5d7e9"/>
+  </g>
+
+  <line x1="1395" y1="194" x2="1600" y2="194" class="arrow"/>
+  <rect x="1605" y="84" width="215" height="225" rx="28" class="box"/>
+  <text x="1622" y="232" class="serif" font-size="92">1<tspan baseline-shift="super" font-size="58">⊤</tspan><tspan class="math" font-size="84"> ϕ</tspan></text>
+
+  <line x1="1820" y1="195" x2="2037" y2="195" class="arrow"/>
+  <circle cx="2110" cy="195" r="70" fill="#fff" stroke="#222" stroke-width="3"/>
+  <text x="2075" y="218" class="math" font-size="86">ŷ</text>
+
+  <path d="M2180 195 C2630 195 3190 180 3228 449" class="curve"/>
+
+  <!-- middle left mask samples -->
+  <g transform="translate(570,435)">
+    <rect class="sq" x="0" y="0" width="36" height="36" fill="#000"/>
+    <rect class="sq" x="0" y="40" width="36" height="36" fill="#fff"/>
+    <rect class="sq" x="0" y="80" width="36" height="36" fill="#000"/>
+    <rect class="sq" x="0" y="120" width="36" height="36" fill="#fff"/>
+    <rect class="sq" x="0" y="160" width="36" height="36" fill="#000"/>
+    <rect class="sq" x="0" y="200" width="36" height="36" fill="#fff"/>
+    <rect class="sq" x="0" y="380" width="36" height="36" fill="#fff"/>
+    <rect class="sq" x="0" y="420" width="36" height="36" fill="#000"/>
+    <rect class="sq" x="0" y="460" width="36" height="36" fill="#fff"/>
+    <rect class="sq" x="0" y="500" width="36" height="36" fill="#000"/>
+    <rect class="sq" x="0" y="540" width="36" height="36" fill="#fff"/>
+    <rect class="sq" x="0" y="580" width="36" height="36" fill="#000"/>
+  </g>
+  <g transform="translate(656,602)">
+    <rect class="sq" x="0" y="0" width="36" height="36" fill="#fff"/>
+    <rect class="sq" x="0" y="40" width="36" height="36" fill="#fff"/>
+    <rect class="sq" x="0" y="80" width="36" height="36" fill="#fff"/>
+    <rect class="sq" x="0" y="120" width="36" height="36" fill="#000"/>
+    <rect class="sq" x="0" y="160" width="36" height="36" fill="#fff"/>
+    <rect class="sq" x="0" y="200" width="36" height="36" fill="#fff"/>
+    <rect class="sq" x="0" y="240" width="36" height="36" fill="#000"/>
+  </g>
+
+  <line x1="738" y1="739" x2="900" y2="739" class="arrow6"/>
+  <rect x="910" y="627" width="215" height="225" rx="28" class="box"/>
+  <text x="928" y="765" class="math" font-size="82">ϕ<tspan baseline-shift="super" font-size="56">via</tspan></text>
+
+  <line x1="1125" y1="739" x2="1305" y2="739" class="arrow"/>
+  <text x="1323" y="760" class="math" font-size="86">ϕ</text>
+
+  <g transform="translate(1414,383)">
+    <rect class="sq" x="0" y="0" width="36" height="36" fill="#000"/>
+    <rect class="sq" x="0" y="40" width="36" height="36" fill="#b8d1ec"/>
+    <rect class="sq" x="0" y="80" width="36" height="36" fill="#000"/>
+    <rect class="sq" x="0" y="120" width="36" height="36" fill="#81b9ed"/>
+    <rect class="sq" x="0" y="160" width="36" height="36" fill="#ff6d72"/>
+    <rect class="sq" x="0" y="200" width="36" height="36" fill="#000"/>
+    <rect class="sq" x="0" y="240" width="36" height="36" fill="#cbdcec"/>
+  </g>
+  <g transform="translate(1522,595)">
+    <rect class="sq" x="0" y="0" width="36" height="36" fill="#ffc0c0"/>
+    <rect class="sq" x="0" y="40" width="36" height="36" fill="#b8d1ec"/>
+    <rect class="sq" x="0" y="80" width="36" height="36" fill="#006dc2"/>
+    <rect class="sq" x="0" y="120" width="36" height="36" fill="#000"/>
+    <rect class="sq" x="0" y="160" width="36" height="36" fill="#ff6d72"/>
+    <rect class="sq" x="0" y="200" width="36" height="36" fill="#e00e0b"/>
+    <rect class="sq" x="0" y="240" width="36" height="36" fill="#e11113"/>
+    <rect class="sq" x="0" y="280" width="36" height="36" fill="#000"/>
+  </g>
+  <g transform="translate(1418,820)">
+    <rect class="sq" x="0" y="0" width="36" height="36" fill="#ffc0c0"/>
+    <rect class="sq" x="0" y="40" width="36" height="36" fill="#000"/>
+    <rect class="sq" x="0" y="80" width="36" height="36" fill="#006dc2"/>
+    <rect class="sq" x="0" y="120" width="36" height="36" fill="#81b9ed"/>
+    <rect class="sq" x="0" y="160" width="36" height="36" fill="#000"/>
+    <rect class="sq" x="0" y="200" width="36" height="36" fill="#e00e0b"/>
+    <rect class="sq" x="0" y="240" width="36" height="36" fill="#000"/>
+  </g>
+
+  <line x1="1612" y1="739" x2="1810" y2="739" class="arrow6"/>
+  <rect x="1812" y="631" width="215" height="225" rx="28" class="box"/>
+  <text x="1830" y="779" class="serif" font-size="92">1<tspan baseline-shift="super" font-size="58">⊤</tspan><tspan class="math" font-size="84"> ϕ</tspan></text>
+  <line x1="2027" y1="742" x2="2215" y2="742" class="arrow"/>
+  <circle cx="2355" cy="744" r="130" fill="#fff" stroke="#222" stroke-width="3"/>
+  <text x="2228" y="760" class="math" font-size="41">via<tspan baseline-shift="super" font-size="25">SHAP</tspan><tspan baseline-shift="sub" font-size="31">(x<tspan baseline-shift="sub" font-size="22">S</tspan>)</tspan></text>
+  <line x1="2485" y1="744" x2="2635" y2="744" class="arrow"/>
+
+  <!-- right losses -->
+  <rect x="2894" y="472" width="665" height="120" class="thinbox"/>
+  <text x="2915" y="548" class="math" font-size="58">ℒ<tspan baseline-shift="sub" font-size="36">pred</tspan><tspan font-style="normal"> (θ) = (ŷ, y ∈ Y)</tspan></text>
+
+  <text x="3182" y="666" class="serif" font-size="88" font-weight="700">+</text>
+
+  <rect x="2647" y="688" width="1136" height="125" class="thinbox"/>
+  <text x="2668" y="766" class="math" font-size="33">ℒ<tspan baseline-shift="sub" font-size="22">ϕ</tspan><tspan font-style="normal">(θ) = </tspan>
+    <tspan font-size="32">𝔼</tspan><tspan baseline-shift="sub" font-size="20">p(S)</tspan>
+    <tspan font-style="normal" font-size="58">[</tspan>
+    <tspan font-style="normal" font-size="54">(</tspan>via<tspan baseline-shift="super" font-size="20">SHAP</tspan><tspan baseline-shift="sub" font-size="23">j</tspan><tspan font-style="normal">(x</tspan><tspan baseline-shift="super" font-size="22">S</tspan><tspan font-style="normal">) − </tspan>via<tspan baseline-shift="super" font-size="20">SHAP</tspan><tspan baseline-shift="sub" font-size="23">j</tspan><tspan font-style="normal">(0) − 1</tspan><tspan baseline-shift="super" font-size="22">⊤</tspan><tspan baseline-shift="sub" font-size="20">S</tspan>ϕ<tspan baseline-shift="sub" font-size="22">j</tspan><tspan baseline-shift="super" font-size="22">via</tspan><tspan font-style="normal">(x;θ)</tspan><tspan font-style="normal" font-size="54">)</tspan><tspan baseline-shift="super" font-size="23">2</tspan><tspan font-style="normal" font-size="58">]</tspan>
+  </text>
+
+  <!-- annotation -->
+  <rect x="886" y="1022" width="430" height="120" fill="url(#greenHatch)" opacity=".75"/>
+  <text x="910" y="1075" class="serif" font-size="50">Apply the same</text>
+  <text x="930" y="1140" class="serif" font-size="50">set of samples</text>
+  <path d="M888 1030 L755 936" class="greenArrow"/>
+  <path d="M1310 1125 L1468 1243" class="greenArrow"/>
+
+  <!-- bottom row -->
+  <rect x="894" y="1308" width="215" height="225" rx="28" class="box"/>
+  <text x="912" y="1447" class="math" font-size="82">ϕ<tspan baseline-shift="super" font-size="56">via</tspan></text>
+
+  <line x1="1109" y1="1420" x2="1238" y2="1420" class="arrow"/>
+  <text x="1258" y="1442" class="math" font-size="86">ϕ</text>
+
+  <g transform="translate(1354,1285)">
+    <rect class="sq" x="0" y="0" width="36" height="36" fill="#ffc0c0"/>
+    <rect class="sq" x="0" y="40" width="36" height="36" fill="#b8d1ec"/>
+    <rect class="sq" x="0" y="80" width="36" height="36" fill="#006dc2"/>
+    <rect class="sq" x="0" y="120" width="36" height="36" fill="#2d82d4"/>
+    <rect class="sq" x="0" y="160" width="36" height="36" fill="#ff6d72"/>
+    <rect class="sq" x="0" y="200" width="36" height="36" fill="#e00e0b"/>
+    <rect class="sq" x="0" y="240" width="36" height="36" fill="#e11113"/>
+    <rect class="sq" x="0" y="280" width="36" height="36" fill="#c5d7e9"/>
+  </g>
+
+  <line x1="1395" y1="1420" x2="1565" y2="1420" class="arrow6"/>
+
+  <g transform="translate(1616,1045)">
+    <rect class="sq" x="0" y="0" width="36" height="36" fill="#000"/>
+    <rect class="sq" x="0" y="40" width="36" height="36" fill="#fff"/>
+    <rect class="sq" x="0" y="80" width="36" height="36" fill="#000"/>
+    <rect class="sq" x="0" y="120" width="36" height="36" fill="#fff"/>
+    <rect class="sq" x="0" y="160" width="36" height="36" fill="#fff"/>
+    <rect class="sq" x="0" y="200" width="36" height="36" fill="#000"/>
+    <rect class="sq" x="0" y="240" width="36" height="36" fill="#fff"/>
+  </g>
+  <g transform="translate(1616,1425)">
+    <rect class="sq" x="0" y="0" width="36" height="36" fill="#fff"/>
+    <rect class="sq" x="0" y="40" width="36" height="36" fill="#000"/>
+    <rect class="sq" x="0" y="80" width="36" height="36" fill="#fff"/>
+    <rect class="sq" x="0" y="120" width="36" height="36" fill="#fff"/>
+    <rect class="sq" x="0" y="160" width="36" height="36" fill="#000"/>
+    <rect class="sq" x="0" y="200" width="36" height="36" fill="#fff"/>
+    <rect class="sq" x="0" y="240" width="36" height="36" fill="#000"/>
+  </g>
+  <g transform="translate(1713,1217)">
+    <rect class="sq" x="0" y="0" width="36" height="36" fill="#fff"/>
+    <rect class="sq" x="0" y="40" width="36" height="36" fill="#fff"/>
+    <rect class="sq" x="0" y="80" width="36" height="36" fill="#fff"/>
+    <rect class="sq" x="0" y="120" width="36" height="36" fill="#000"/>
+    <rect class="sq" x="0" y="160" width="36" height="36" fill="#fff"/>
+    <rect class="sq" x="0" y="200" width="36" height="36" fill="#fff"/>
+    <rect class="sq" x="0" y="240" width="36" height="36" fill="#000"/>
+  </g>
+
+  <line x1="1780" y1="1420" x2="1965" y2="1420" class="arrow6"/>
+  <rect x="1970" y="1312" width="215" height="225" rx="28" class="box"/>
+  <text x="1988" y="1460" class="math" font-size="88">S<tspan baseline-shift="super" font-size="58">⊤</tspan><tspan font-size="84"> ϕ</tspan></text>
+  <line x1="2185" y1="1423" x2="2360" y2="1423" class="arrow6"/>
+
+  <circle cx="2510" cy="1427" r="148" fill="#fff" stroke="#222" stroke-width="3"/>
+  <text x="2358" y="1448" class="math" font-size="40">S<tspan baseline-shift="super" font-size="28">⊤</tspan>ϕ<tspan baseline-shift="super" font-size="28">via</tspan><tspan font-style="normal">(x;θ)</tspan></text>
+
+  <path d="M2657 1435 C3095 1435 3210 1210 3238 820" class="curve"/>
+</svg>

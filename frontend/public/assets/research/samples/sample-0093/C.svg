@@ -1,0 +1,213 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="708" height="1062" viewBox="0 0 708 1062">
+  <title>Otter flowchart with localizer, self-reflective action planner, test generator, and legend</title>
+  <desc>
+    Inventory and relationships: The diagram is a vertical flowchart. At the top, two data circles, "issue description d_issue" and "old code c_old", converge via diagonal arrows at the top of the Otter container, labeled "input x". The main rounded blue Otter frame contains three stacked green rounded frames: Localizer at top, Self-reflective action planner in the middle, and Test generator at bottom. Localizer contains four green LLM-call rounded rectangles in two columns connected downward to two data circles. Those feed the action-planner frame, where black rule-based rectangles and green LLM-call rectangles form a planning/reflection loop, producing a planned-actions data circle. This circle feeds the test generator, which executes, writes/modifies, repairs, and outputs a generated-tests data circle labeled output y. A legend at lower left explains data, LLM call, and Rule-based styles. SAM mapping: Original legend data icon P001 - constructed element legend_data_icon_draft - SAM asset asset_sam_region_000018.
+  </desc>
+
+  <defs>
+    <marker id="arrow-standard" markerUnits="userSpaceOnUse" markerWidth="11" markerHeight="9" refX="10" refY="4" orient="auto">
+      <path d="M0,0 L10,4 L0,8 Z" fill="#000" id="plus_node_0" />
+    </marker>
+    <marker id="arrow-standard-start" markerUnits="userSpaceOnUse" markerWidth="11" markerHeight="9" refX="0" refY="4" orient="auto-start-reverse">
+      <path d="M0,0 L10,4 L0,8 Z" fill="#000" id="plus_node_1" />
+    </marker>
+    <marker id="arrow-small" markerUnits="userSpaceOnUse" markerWidth="9" markerHeight="10" refX="8" refY="5" orient="auto">
+      <path d="M0,0 L10,4 L0,8 Z" fill="#000" id="plus_node_2" />
+    </marker>
+    <style>
+      .serif { font-family: "Times New Roman", Times, serif; }
+      .label { font-family: "Times New Roman", Times, serif; font-size: 21px; fill: #000; }
+      .small-label { font-family: "Times New Roman", Times, serif; font-size: 19px; fill: #000; }
+      .node-text { font-family: "Times New Roman", Times, serif; font-size: 20px; fill: #000; text-anchor: middle; dominant-baseline: middle; }
+      .white-node-text { font-family: "Times New Roman", Times, serif; font-size: 20px; fill: #fff; text-anchor: middle; dominant-baseline: middle; }
+      .italic { font-style: italic; }
+      .frame-stroke { stroke: #166d23; stroke-width: 4; }
+      .outer-stroke { stroke: #146f90; stroke-width: 3.5; }
+      .arrow { fill: none; stroke: #000; stroke-width: 2.8; stroke-linecap: butt; stroke-linejoin: miter; marker-end: url(#arrow-standard); }
+      .arrow-thin { fill: none; stroke: #000; stroke-width: 2.5; stroke-linecap: butt; stroke-linejoin: miter; marker-end: url(#arrow-standard); }
+      .data-node { fill: #fff; stroke: #000; stroke-width: 2.6; }
+      .llm-node { fill: #44d35d; stroke: #000; stroke-width: 2.6; }
+      .rule-node { fill: #000; stroke: #000; stroke-width: 2.2; }
+    </style>
+  </defs>
+
+  
+  <rect id="f01" data-plus-kind="frame" x="30" y="128" width="658" height="802" rx="34" ry="34" fill="#c3eafa" class="outer-stroke" />
+  <rect id="f02" data-plus-kind="frame" x="106" y="143" width="568" height="152" rx="29" ry="29" fill="#c9f7ce" class="frame-stroke" />
+  <rect id="f03" data-plus-kind="frame" x="106" y="422" width="568" height="156" rx="29" ry="29" fill="#c9f7ce" class="frame-stroke" />
+  <rect id="f04" data-plus-kind="frame" x="106" y="699" width="568" height="220" rx="44" ry="44" fill="#c9f7ce" class="frame-stroke" />
+  <rect id="f05" data-plus-kind="frame" x="36" y="949" width="302" height="92" fill="#fde6dc" stroke="none" />
+
+  
+  <g id="top_inputs">
+    <circle id="issue_description_data" class="data-node" cx="315" cy="66" r="50" />
+    <text class="node-text" x="315" y="43" id="plus_node_3">
+      <tspan x="315" dy="0">issue</tspan>
+      <tspan x="315" dy="24">description</tspan>
+      <tspan class="italic" x="315" dy="25">d</tspan>
+    </text>
+    <text class="serif italic" x="331" y="98" font-size="14" text-anchor="middle" id="plus_node_4">issue</text>
+
+    <circle id="old_code_data" class="data-node" cx="562" cy="66" r="50" />
+    <text class="node-text" x="562" y="43" id="plus_node_5">
+      <tspan x="562" dy="0">old</tspan>
+      <tspan x="562" dy="24">code</tspan>
+      <tspan class="italic" x="562" dy="25">c</tspan>
+    </text>
+    <text class="serif italic" x="577" y="98" font-size="14" text-anchor="middle" id="plus_node_6">old</text>
+
+    <text id="input_x_label" class="label" x="438" y="74" text-anchor="middle">input <tspan class="italic">x</tspan></text>
+    <path id="arrow_issue_to_otter" class="arrow" d="M354,97 L433,127" />
+    <path id="arrow_old_to_otter" class="arrow" d="M523,98 L440,127" />
+  </g>
+
+  
+  <text id="otter_label" class="label" x="47" y="165">Otter</text>
+  <text id="localizer_label" class="label" x="121" y="226">Localizer</text>
+  <text id="planner_label" class="label" x="121" y="494">
+    <tspan x="121" dy="0">Self-reflective</tspan>
+    <tspan x="121" dy="25">action planner</tspan>
+  </text>
+  <text id="test_generator_label" class="label" x="126" y="817">Test generator</text>
+
+  
+  <g id="localizer_content">
+    <rect id="localize_test_files" class="llm-node" x="251" y="154" width="185" height="55" rx="27" ry="27" />
+    <text class="node-text" x="344" y="175" id="plus_node_7">
+      <tspan x="344" dy="0">Localize</tspan>
+      <tspan x="344" dy="24">test files</tspan>
+    </text>
+
+    <rect id="localize_test_functions" class="llm-node" x="251" y="225" width="185" height="55" rx="27" ry="27" />
+    <text class="node-text" x="344" y="246" id="plus_node_8">
+      <tspan x="344" dy="0">Localize</tspan>
+      <tspan x="344" dy="24">test functions</tspan>
+    </text>
+
+    <rect id="localize_focal_files" class="llm-node" x="472" y="154" width="185" height="55" rx="27" ry="27" />
+    <text class="node-text" x="565" y="175" id="plus_node_9">
+      <tspan x="565" dy="0">Localize</tspan>
+      <tspan x="565" dy="24">focal files</tspan>
+    </text>
+
+    <rect id="localize_focal_functions" class="llm-node" x="472" y="225" width="185" height="55" rx="27" ry="27" />
+    <text class="node-text" x="565" y="246" id="plus_node_10">
+      <tspan x="565" dy="0">Localize</tspan>
+      <tspan x="565" dy="24">focal functions</tspan>
+    </text>
+
+    <path id="arrow_test_files_to_functions" class="arrow-thin" d="M344,209 L344,224" />
+    <path id="arrow_focal_files_to_functions" class="arrow-thin" d="M565,209 L565,224" />
+
+    <path id="arrow_test_functions_to_data" class="arrow" d="M344,280 L344,310" />
+    <path id="arrow_focal_functions_to_data" class="arrow" d="M565,280 L565,310" />
+
+    <circle id="test_files_functions_data" class="data-node" cx="344" cy="361" r="50" />
+    <text class="node-text" x="344" y="333" id="plus_node_11">
+      <tspan x="344" dy="0">test</tspan>
+      <tspan x="344" dy="24">files and</tspan>
+      <tspan x="344" dy="24">functions</tspan>
+    </text>
+
+    <circle id="focal_files_functions_data" class="data-node" cx="565" cy="361" r="50" />
+    <text class="node-text" x="565" y="333" id="plus_node_12">
+      <tspan x="565" dy="0">focal</tspan>
+      <tspan x="565" dy="24">files and</tspan>
+      <tspan x="565" dy="24">functions</tspan>
+    </text>
+  </g>
+
+  
+  <g id="planner_content">
+    <path id="arrow_test_data_to_execute_read_1" class="arrow" d="M344,411 L344,438" />
+    <path id="arrow_focal_data_to_execute_read_1" class="arrow" d="M524,390 L348,438" />
+
+    <rect id="execute_read_actions_1" class="rule-node" x="266" y="439" width="156" height="56" />
+    <text class="white-node-text" x="344" y="460" id="plus_node_13">
+      <tspan x="344" dy="0">Execute</tspan>
+      <tspan x="344" dy="24">read actions</tspan>
+    </text>
+
+    <rect id="validate_planned_actions" class="rule-node" x="486" y="439" width="156" height="56" />
+    <text class="white-node-text" x="564" y="460" id="plus_node_14">
+      <tspan x="564" dy="0">Validate</tspan>
+      <tspan x="564" dy="24">planned actions</tspan>
+    </text>
+
+    <rect id="make_initial_plan" class="llm-node" x="251" y="511" width="185" height="55" rx="27" ry="27" />
+    <text class="node-text" x="344" y="532" id="plus_node_15">
+      <tspan x="344" dy="0">Make</tspan>
+      <tspan x="344" dy="24">initial plan</tspan>
+    </text>
+
+    <rect id="reflect_improve_plan" class="llm-node" x="472" y="511" width="185" height="55" rx="27" ry="27" />
+    <text class="node-text" x="565" y="532" id="plus_node_16">
+      <tspan x="565" dy="0">Reflect and</tspan>
+      <tspan x="565" dy="24">improve plan</tspan>
+    </text>
+
+    <path id="arrow_execute_to_make_plan" class="arrow" d="M344,495 L344,510" />
+    <path id="arrow_validate_to_reflect" class="arrow" d="M565,495 L565,510" />
+    <path id="arrow_make_to_validate" class="arrow" d="M433,520 L486,467" />
+    <path id="arrow_reflect_to_planned_actions" class="arrow" d="M565,566 L489,638" />
+
+    <circle id="planned_actions_data" class="data-node" cx="440" cy="639" r="50" />
+    <text class="node-text" x="440" y="628" id="plus_node_17">
+      <tspan x="440" dy="0">planned</tspan>
+      <tspan x="440" dy="24">actions</tspan>
+    </text>
+  </g>
+
+  
+  <g id="test_generator_content">
+    <path id="arrow_planned_to_execute_read_2" class="arrow" d="M440,689 L440,712" />
+
+    <rect id="execute_read_actions_2" class="rule-node" x="362" y="713" width="157" height="56" />
+    <text class="white-node-text" x="440" y="734" id="plus_node_18">
+      <tspan x="440" dy="0">Execute</tspan>
+      <tspan x="440" dy="24">read actions</tspan>
+    </text>
+
+    <path id="arrow_execute_2_to_flesh_out" class="arrow" d="M440,769 L440,781" />
+
+    <rect id="flesh_out_write_modify" class="llm-node" x="348" y="782" width="185" height="55" rx="27" ry="27" />
+    <text class="node-text" x="440" y="802" id="plus_node_19">
+      <tspan x="440" dy="0">Flesh out write</tspan>
+      <tspan x="440" dy="24">or modify action</tspan>
+    </text>
+
+    <path id="arrow_flesh_out_to_repair" class="arrow" d="M440,837 L440,851" />
+
+    <rect id="repair_generated_tests" class="rule-node" x="363" y="852" width="156" height="56" />
+    <text class="white-node-text" x="441" y="873" id="plus_node_20">
+      <tspan x="441" dy="0">Repair</tspan>
+      <tspan x="441" dy="24">generated tests</tspan>
+    </text>
+
+    <path id="arrow_repair_to_generated_tests" class="arrow" d="M440,908 L440,943" />
+
+    <circle id="generated_tests_data" class="data-node" cx="440" cy="994" r="49" />
+    <text class="node-text" x="440" y="975" id="plus_node_21">
+      <tspan x="440" dy="0">generated</tspan>
+      <tspan x="440" dy="24">tests</tspan>
+      <tspan class="italic" x="440" dy="26">y</tspan>
+    </text>
+
+    <text id="output_y_label" class="label" x="505" y="1002">output <tspan class="italic">y</tspan></text>
+  </g>
+
+  
+  <g id="legend_content">
+    <text id="legend_title" class="label" x="43" y="970">Legend:</text>
+
+    <rect id="legend_llm_call" class="llm-node" x="97" y="990" width="111" height="43" rx="21" ry="21" />
+    <text class="label" x="153" y="1017" text-anchor="middle" id="plus_node_22">LLM call</text>
+
+    <rect id="legend_rule_based" class="rule-node" x="219" y="990" width="112" height="43" />
+    <text class="white-node-text" x="275" y="1013" id="plus_node_23">Rule-based</text>
+  </g>
+
+  <g id="sam_replacement_p001_legend_data" data-plus-keeps="f05 legend_title legend_llm_call legend_rule_based" transform="translate(0 0)">
+    <image id="sam_image_p001" href="data:image/png;base64,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" x="42" y="990" width="43" height="42" preserveAspectRatio="none" />
+  </g>
+</svg>

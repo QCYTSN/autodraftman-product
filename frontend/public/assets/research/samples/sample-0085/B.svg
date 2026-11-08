@@ -1,0 +1,176 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="762" height="567" viewBox="0 0 762 567">
+  <title>Domain-weighted pretraining model diagram</title>
+  <desc>
+    Inventory and relationships: left sample-domain-weight chart shows weighted bars h1...hk with axes and a formula title, feeding by a split orthogonal arrow upward into an MLP inside the Model frame and downward into Data/pretraining domains. The Model frame contains MLP, coefficient labels alpha_i times E_i blocks, an S block, summation node, theta parameter block, and loss box. The Pretraining domains frame contains database-cylinder icons D1, D2, ..., Dk and a sample-data path x feeding the loss. Symmetry/equipartition: the upper model branches are vertically distributed around the central alpha-dot branch and converge into one summation circle; the bottom domain icons are horizontally partitioned with the darker domains at D1 and Dk balancing the row.
+  </desc>
+
+  <defs>
+    <marker id="arrowBlack" markerUnits="userSpaceOnUse" markerWidth="12" markerHeight="8" refX="10" refY="4" orient="auto">
+      <path d="M0,0 L10,4 L0,8 Z" fill="#000" id="plus_node_0" />
+    </marker>
+    <style>
+      .serif{font-family:"Times New Roman", Times, serif;}
+      .italic{font-style:italic;}
+      .bold{font-weight:700;}
+      .blueText{fill:#006bd6;}
+      .blackStroke{stroke:#000;stroke-width:2.6;fill:none;stroke-linecap:square;stroke-linejoin:miter;}
+      .arrow{stroke:#000;stroke-width:2.6;fill:none;stroke-linecap:square;stroke-linejoin:miter;marker-end:url(#arrowBlack);}
+      .frameStroke{stroke:#cfcfcf;stroke-width:2.4;fill:#fff;}
+    </style>
+  </defs>
+
+  <rect id="background" x="0" y="0" width="762" height="567" fill="#fff" />
+
+  
+  <rect id="f01" data-plus-kind="frame" x="17" y="92" width="222" height="261" fill="none" stroke="none" />
+  <rect id="f02_model" data-plus-kind="frame" x="259" y="25" width="475" height="267" rx="19" ry="19" class="frameStroke" />
+  <rect id="f03_pretraining" data-plus-kind="frame" x="259" y="377" width="475" height="146" rx="20" ry="20" class="frameStroke" />
+
+  
+  <g id="left_sample_domain_block">
+    <text id="sample_domain_title" class="serif" font-size="28" fill="#000"><tspan x="51" y="115">Sample domain</tspan><tspan x="57" y="147">weights</tspan><tspan class="blueText italic" x="151" y="147" fill="#006bd6">h ∼ π</tspan></text><g id="bar_chart_axes">
+      <path id="chart_y_axis" d="M28 298 L28 153" class="blackStroke" />
+      <path id="chart_x_axis" d="M28 298 L199 298" class="blackStroke" />
+      <path id="chart_top_tick" d="M18 153 L37 153" class="blackStroke" />
+    </g>
+
+    <g id="sample_weight_bars">
+      <rect id="bar_h1" x="40" y="164" width="22" height="134" fill="#06477b" stroke="#000" stroke-width="2.4" />
+      <rect id="bar_h2" x="83" y="272" width="22" height="26" fill="#a9d9ff" stroke="#000" stroke-width="2.4" />
+      <rect id="bar_mid" x="125" y="190" width="22" height="108" fill="#0672cf" stroke="#000" stroke-width="2.4" />
+      <rect id="bar_hk" x="168" y="259" width="22" height="39" fill="#55b7ff" stroke="#000" stroke-width="2.4" />
+    </g>
+
+    <rect id="sample_weights_label_box" x="27" y="312" width="176" height="39" fill="#fff" stroke="#777" stroke-width="2.2" />
+    <text id="sample_weights_labels" class="serif blueText italic" font-size="33">
+      <tspan x="32" y="341">h</tspan><tspan font-size="23" baseline-shift="-25%">1</tspan>
+      <tspan x="79" y="341">h</tspan><tspan font-size="23" baseline-shift="-25%">2</tspan>
+      <tspan x="123" y="341">···</tspan>
+      <tspan x="166" y="341">h</tspan><tspan font-size="23" baseline-shift="-25%">k</tspan>
+    </text>
+  </g>
+
+  
+  <g id="sample_weight_output_arrows">
+    <path id="arrow_weights_to_model" d="M203 332 H236 V192 H299" class="arrow" />
+    <path id="arrow_weights_to_data" d="M236 332 V423 H329" class="arrow" />
+  </g>
+
+  
+  <g id="model_content">
+    <text id="model_title" class="serif bold" x="266" y="52" font-size="27" fill="#000">Model</text>
+
+    <g id="mlp_block">
+      <path id="mlp_shape" d="M315 157 L362 157 L379 192 L362 227 L315 227 L299 192 Z" fill="#fff" stroke="#000" stroke-width="2.6" stroke-linejoin="miter" />
+      <text id="mlp_text" class="serif bold" x="337" y="201" font-size="28" text-anchor="middle" fill="#000">MLP</text>
+    </g>
+
+    <g id="model_branch_arrows">
+      <path id="arrow_mlp_to_e1" d="M362 158 L403 134" class="arrow" />
+      <path id="arrow_mlp_to_mid" d="M379 192 L411 192" class="arrow" />
+      <path id="arrow_mlp_to_en" d="M362 226 L403 251" class="arrow" />
+    </g>
+
+    <g id="coefficients">
+      <text id="alpha1_label" class="serif blueText italic" x="403" y="131" font-size="28">
+        <tspan>α</tspan><tspan font-size="18" baseline-shift="-25%">1</tspan><tspan> ×</tspan>
+      </text>
+      <text id="alpha_dots_label" class="serif blueText" x="423" y="202" font-size="32">⋮</text>
+      <text id="alphan_label" class="serif blueText italic" x="401" y="267" font-size="28">
+        <tspan>α</tspan><tspan font-size="18" baseline-shift="-25%">n</tspan><tspan> ×</tspan>
+      </text>
+    </g>
+
+    <g id="experts">
+      <rect id="expert_e1_box" x="468" y="99" width="50" height="51" rx="7" ry="7" fill="#ff9b9b" stroke="#d71919" stroke-width="2.5" />
+      <text id="expert_e1_text" class="serif italic" x="493" y="133" font-size="31" text-anchor="middle" fill="#000">
+        <tspan>E</tspan><tspan font-size="20" baseline-shift="-25%">1</tspan>
+      </text>
+
+      <rect id="expert_mid_box" x="468" y="167" width="50" height="51" rx="7" ry="7" fill="#ff9b9b" stroke="#d71919" stroke-width="2.5" />
+      <text id="expert_mid_dots" class="serif" x="493" y="202" font-size="31" text-anchor="middle" fill="#000">⋮</text>
+
+      <rect id="expert_en_box" x="468" y="234" width="50" height="52" rx="7" ry="7" fill="#ff9b9b" stroke="#d71919" stroke-width="2.5" />
+      <text id="expert_en_text" class="serif italic" x="493" y="268" font-size="31" text-anchor="middle" fill="#000">
+        <tspan>E</tspan><tspan font-size="20" baseline-shift="-25%">n</tspan>
+      </text>
+    </g>
+
+    <g id="s_block">
+      <rect id="s_box" x="467" y="31" width="51" height="51" rx="7" ry="7" fill="#ffe98a" stroke="#b38b00" stroke-width="2.4" />
+      <text id="s_text" class="serif italic" x="492" y="66" font-size="34" text-anchor="middle" fill="#000">S</text>
+    </g>
+
+    <g id="sum_node_and_inputs">
+      <path id="arrow_s_to_sum" d="M518 56 L568 132" class="arrow" />
+      <path id="arrow_e1_to_sum" d="M518 124 L553 143" class="arrow" />
+      <path id="arrow_emid_to_sum" d="M518 192 L553 171" class="arrow" />
+      <path id="arrow_en_to_sum" d="M518 260 L553 181" class="arrow" />
+      <circle id="sum_circle" cx="574" cy="157" r="23" fill="#fff" stroke="#000" stroke-width="2.6" />
+      <path id="sum_horizontal" d="M553 157 H595" stroke="#000" stroke-width="2.3" />
+      <path id="sum_vertical" d="M574 136 V179" stroke="#000" stroke-width="2.3" />
+    </g>
+
+    <g id="theta_output">
+      <path id="arrow_sum_to_theta" d="M597 157 H625" class="arrow" />
+      <rect id="theta_box" x="625" y="132" width="51" height="51" rx="7" ry="7" fill="#ffc08f" stroke="#e94d15" stroke-width="2.5" />
+      <text id="theta_text" class="serif" x="651" y="166" font-size="29" text-anchor="middle" fill="#000">Θ</text>
+      <path id="arrow_theta_to_loss" d="M676 157 H699 V312" class="arrow" />
+    </g>
+
+    <g id="loss_block">
+      <rect id="loss_box" x="588" y="315" width="153" height="39" fill="#fff" stroke="#777" stroke-width="2.4" />
+      <text id="loss_text" class="serif" x="665" y="342" font-size="28" text-anchor="middle" fill="#000"><tspan>Loss</tspan><tspan class="italic" dx="7">ℓ</tspan><tspan>(Θ,</tspan><tspan class="italic" dx="7">x</tspan><tspan>)</tspan></text></g>
+  </g>
+
+  
+  <g id="pretraining_content">
+    <text id="pretraining_title" class="serif bold" x="465" y="402" font-size="27" text-anchor="middle" fill="#000">Pretraining domains</text>
+
+    <g id="data_cylinders">
+      <text id="data_label" class="serif bold" x="262" y="508" font-size="29" fill="#000">Data</text>
+
+      <g id="domain_d1_icon" stroke="#06477b" stroke-width="4.6" fill="#fff">
+        <ellipse id="d1_top" cx="365" cy="420" rx="24" ry="9" />
+        <path id="d1_sides" d="M341 420 V474 M389 420 V474" />
+        <path id="d1_mid1" d="M341 438 C350 448 380 448 389 438" />
+        <path id="d1_mid2" d="M341 456 C350 466 380 466 389 456" />
+        <path id="d1_bottom" d="M341 474 C350 484 380 484 389 474" />
+      </g>
+
+      <g id="domain_d2_icon" stroke="#9ed0ff" stroke-width="4.6" fill="#fff">
+        <ellipse id="d2_top" cx="427" cy="455" rx="23" ry="9" />
+        <path id="d2_sides" d="M404 455 V477 M450 455 V477" />
+        <path id="d2_bottom" d="M404 477 C413 486 441 486 450 477" />
+      </g>
+
+      <g id="domain_dk_icon_dark" stroke="#0672cf" stroke-width="4.6" fill="#fff">
+        <ellipse id="dk_dark_top" cx="487" cy="439" rx="23" ry="9" />
+        <path id="dk_dark_sides" d="M464 439 V475 M510 439 V475" />
+        <path id="dk_dark_mid" d="M464 457 C473 466 501 466 510 457" />
+        <path id="dk_dark_bottom" d="M464 475 C473 484 501 484 510 475" />
+      </g>
+
+      <g id="domain_dk_icon_light" stroke="#59b0ff" stroke-width="4.6" fill="#fff">
+        <ellipse id="dk_light_top" cx="550" cy="455" rx="23" ry="9" />
+        <path id="dk_light_sides" d="M527 455 V477 M573 455 V477" />
+        <path id="dk_light_bottom" d="M527 477 C536 486 564 486 573 477" />
+      </g>
+
+      <text id="domain_labels" class="serif italic" font-size="34" fill="#000">
+        <tspan x="348" y="514">D</tspan><tspan font-size="21" baseline-shift="-25%">1</tspan>
+        <tspan x="410" y="514">D</tspan><tspan font-size="21" baseline-shift="-25%">2</tspan>
+        <tspan x="472" y="514">···</tspan>
+        <tspan x="532" y="514">D</tspan><tspan font-size="21" baseline-shift="-25%">k</tspan>
+      </text>
+    </g>
+
+    <g id="sample_data_path">
+      <path id="arrow_sample_x" d="M606 423 H653" class="arrow" />
+      <text id="sample_x_label" class="serif italic" x="661" y="430" font-size="29" fill="#000">x</text>
+      <path id="arrow_x_to_loss" d="M699 423 V357" class="arrow" />
+      <path id="sample_x_connector" d="M682 423 H699" stroke="#000" stroke-width="2.6" fill="none" stroke-linecap="square" />
+      <text id="sample_data_label" class="serif" x="582" y="471" font-size="28" fill="#000">Sample data</text>
+      <text id="sample_data_formula" class="serif blueText" font-size="27" fill="#006bd6"><tspan class="italic" x="590" y="503">x</tspan><tspan x="614" y="503">∼ mix(</tspan><tspan class="italic">h</tspan><tspan>)</tspan></text></g>
+  </g>
+</svg>

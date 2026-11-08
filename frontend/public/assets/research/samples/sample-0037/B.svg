@@ -1,0 +1,202 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="584" height="392" viewBox="0 0 584 392">
+  <title>Comparison of Modality-aware and Token-aware Quantization Methods</title>
+  <desc>
+    Inventory: three horizontal comparison rows separated by dashed lines. Each row contains left awareness icons and labels, a green D block, one or more outlined arrows, scaling/token bars, a hatched W_q output block, and a caption. Top row: red crosses for both modality-aware and token-aware, fixed scaling single s bar, SmoothQuant caption. Middle row: green check for modality-aware and red cross for token-aware, different modalities bars, MBQ caption. Bottom row: green checks for both, different tokens/quant experts bars, token-aware adaptive quantization caption. Symmetry basis: all three rows share horizontal left-to-right process alignment; D blocks and W_q blocks are vertically aligned across rows.
+  </desc>
+
+  <defs>
+    <pattern id="diagHatch" patternUnits="userSpaceOnUse" width="8" height="8" patternTransform="rotate(-35)">
+      <rect width="8" height="8" fill="#fbfbfb" id="plus_node_0" />
+      <line x1="0" y1="0" x2="0" y2="8" stroke="#d9d9d9" stroke-width="2" id="plus_node_1" />
+    </pattern>
+
+    <linearGradient id="scaleGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#e01f1f" />
+      <stop offset="25%" stop-color="#f3a51e" />
+      <stop offset="50%" stop-color="#f4e530" />
+      <stop offset="73%" stop-color="#31b759" />
+      <stop offset="100%" stop-color="#1174c8" />
+    </linearGradient>
+
+    <linearGradient id="scaleGradRev" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#d71d1d" />
+      <stop offset="35%" stop-color="#f3d620" />
+      <stop offset="68%" stop-color="#35b35a" />
+      <stop offset="100%" stop-color="#126fb9" />
+    </linearGradient>
+
+    <style>
+      .serif { font-family: "Times New Roman", Times, serif; }
+      .bold { font-weight: 700; }
+      .italic { font-style: italic; }
+      .label { font-size: 18px; font-weight: 700; font-family: "Times New Roman", Times, serif; }
+      .caption { font-size: 15px; font-weight: 700; font-family: "Times New Roman", Times, serif; }
+      .smalltitle { font-size: 14px; font-weight: 700; font-family: "Times New Roman", Times, serif; }
+      .boxText { font-size: 34px; font-style: italic; font-family: "Times New Roman", Times, serif; }
+      .arrowShape { fill: #ffffff; stroke: #000000; stroke-width: 2.4; stroke-linejoin: miter; }
+      .thinArrow { fill: #ffffff; stroke: #000000; stroke-width: 2.4; stroke-linejoin: miter; }
+      .barLabel { font-size: 14px; font-weight: 700; font-style: italic; font-family: "Times New Roman", Times, serif; }
+      .red { stroke: #d93636; fill: none; }
+      .green { stroke: #4caf50; fill: none; }
+    </style>
+  </defs>
+
+  <rect id="background" x="0" y="0" width="584" height="392" fill="#ffffff" />
+
+  
+  <g id="f01" data-plus-kind="frame">
+    <rect x="8" y="0" width="566" height="122" fill="none" stroke="none" id="plus_node_2" />
+  </g>
+  <g id="f02" data-plus-kind="frame">
+    <rect x="8" y="123" width="566" height="136" fill="none" stroke="none" id="plus_node_3" />
+  </g>
+  <g id="f03" data-plus-kind="frame">
+    <rect x="8" y="260" width="566" height="128" fill="none" stroke="none" id="plus_node_4" />
+  </g>
+
+  
+  <line id="sep_top_middle" x1="178" y1="123" x2="566" y2="123" stroke="#000" stroke-width="1.8" stroke-dasharray="7,5" />
+  <line id="sep_middle_bottom" x1="178" y1="260" x2="566" y2="260" stroke="#000" stroke-width="1.8" stroke-dasharray="7,5" />
+
+  
+  <g id="awareness_labels">
+    
+    <g id="icon_top_modality_no" transform="translate(32,34)">
+      <circle cx="0" cy="0" r="10" stroke="#d93636" stroke-width="3" fill="#fff" id="plus_node_5" />
+      <path d="M-5,-5 L5,5 M5,-5 L-5,5" stroke="#d93636" stroke-width="3" stroke-linecap="round" id="plus_node_6" />
+      <path d="M5,-8 L12,-15 M12,-15 L7,-15 M12,-15 L12,-10" stroke="#d93636" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" id="plus_node_7" />
+    </g>
+    <text id="label_top_modality" x="49" y="40" class="label">Modality-aware</text>
+
+    <g id="icon_top_token_no" transform="translate(32,70)">
+      <circle cx="0" cy="0" r="10" stroke="#d93636" stroke-width="3" fill="#fff" id="plus_node_8" />
+      <path d="M-5,-5 L5,5 M5,-5 L-5,5" stroke="#d93636" stroke-width="3" stroke-linecap="round" id="plus_node_9" />
+      <path d="M5,-8 L12,-15 M12,-15 L7,-15 M12,-15 L12,-10" stroke="#d93636" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" id="plus_node_10" />
+    </g>
+    <text id="label_top_token" x="49" y="76" class="label">Token-aware</text>
+
+    
+    <g id="icon_mid_modality_yes" transform="translate(32,171)">
+      <circle cx="0" cy="0" r="10" stroke="#4caf50" stroke-width="3" fill="#fff" id="plus_node_11" />
+      <path d="M-6,0 L-1,6 L9,-8" stroke="#4caf50" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round" fill="none" id="plus_node_12" />
+    </g>
+    <text id="label_mid_modality" x="49" y="177" class="label">Modality-aware</text>
+
+    <g id="icon_mid_token_no" transform="translate(32,208)">
+      <circle cx="0" cy="0" r="10" stroke="#d93636" stroke-width="3" fill="#fff" id="plus_node_13" />
+      <path d="M-5,-5 L5,5 M5,-5 L-5,5" stroke="#d93636" stroke-width="3" stroke-linecap="round" id="plus_node_14" />
+      <path d="M5,-8 L12,-15 M12,-15 L7,-15 M12,-15 L12,-10" stroke="#d93636" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" id="plus_node_15" />
+    </g>
+    <text id="label_mid_token" x="49" y="214" class="label">Token-aware</text>
+
+    
+    <g id="icon_bot_modality_yes" transform="translate(32,309)">
+      <circle cx="0" cy="0" r="10" stroke="#4caf50" stroke-width="3" fill="#fff" id="plus_node_16" />
+      <path d="M-6,0 L-1,6 L9,-8" stroke="#4caf50" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round" fill="none" id="plus_node_17" />
+    </g>
+    <text id="label_bot_modality" x="49" y="315" class="label">Modality-aware</text>
+
+    <g id="icon_bot_token_yes" transform="translate(32,346)">
+      <circle cx="0" cy="0" r="10" stroke="#4caf50" stroke-width="3" fill="#fff" id="plus_node_18" />
+      <path d="M-6,0 L-1,6 L9,-8" stroke="#4caf50" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round" fill="none" id="plus_node_19" />
+    </g>
+    <text id="label_bot_token" x="49" y="352" class="label">Token-aware</text>
+  </g>
+
+  
+  <g id="row_top_content">
+    <g id="f01_d_block" data-plus-kind="frame">
+      <rect x="178" y="12" width="81" height="80" fill="#dfead7" stroke="#000" stroke-width="1.1" id="plus_node_20" />
+      <text id="top_D_text" x="218.5" y="62.5" text-anchor="middle" class="boxText">D</text>
+    </g>
+
+    <path id="top_arrow_d_to_s" class="arrowShape" d="M268,45 L335,45 L335,38 L358,52 L335,66 L335,59 L268,59 Z" />
+
+    <text id="top_fixed_scaling" x="374" y="8" text-anchor="middle" class="smalltitle">Fixed scaling</text>
+    <g id="top_s_bar">
+      <rect x="364" y="11" width="17" height="80" fill="url(#scaleGrad)" stroke="#000" stroke-width="0.8" id="plus_node_21" />
+      <text x="372.5" y="57" text-anchor="middle" class="barLabel" id="plus_node_22">S</text>
+    </g>
+
+    <path id="top_arrow_s_to_w" class="arrowShape" d="M389,45 L456,45 L456,38 L479,52 L456,66 L456,59 L389,59 Z" />
+
+    <g id="f01_wq_block" data-plus-kind="frame">
+      <rect x="486" y="12" width="80" height="80" fill="url(#diagHatch)" stroke="#000" stroke-width="1.1" id="plus_node_23" />
+      <text id="top_Wq_text" x="526" y="61" text-anchor="middle" class="serif bold" font-size="28">W<tspan baseline-shift="sub" font-size="16" font-style="italic">q</tspan></text>
+    </g>
+
+    <text id="caption_top" x="372" y="108" text-anchor="middle" class="caption">
+      <tspan class="italic">e.g.</tspan>
+      <tspan> SmoothQuant </tspan>
+      <tspan font-size="14">(Channel-wise static quantization)</tspan>
+    </text>
+  </g>
+
+  
+  <g id="row_middle_content">
+    <g id="f02_d_block" data-plus-kind="frame">
+      <rect x="178" y="149" width="81" height="80" fill="#dfead7" stroke="#000" stroke-width="1.1" id="plus_node_24" />
+      <text id="mid_D_text" x="218.5" y="199.5" text-anchor="middle" class="boxText">D</text>
+    </g>
+
+    <path id="mid_arrow_d_to_modality_bars" class="thinArrow" d="M270,181 L289,181 L289,174 L306,190 L289,206 L289,198 L270,198 Z" />
+
+    <text id="mid_different_modalities" x="342" y="144" text-anchor="middle" class="smalltitle">Different modalities</text>
+    <g id="mid_modality_bars">
+      <rect id="mid_bar_sv" x="315" y="149" width="17" height="80" fill="#f0b53a" stroke="#000" stroke-width="0.8" />
+      <text x="323.5" y="194" text-anchor="middle" class="barLabel" id="plus_node_25">s<tspan baseline-shift="sub" font-size="9">v</tspan></text>
+      <rect id="mid_bar_st" x="339" y="149" width="17" height="80" fill="#28b99a" stroke="#000" stroke-width="0.8" />
+      <text x="347.5" y="194" text-anchor="middle" class="barLabel" id="plus_node_26">s<tspan baseline-shift="sub" font-size="9">l</tspan></text></g>
+
+    <path id="mid_arrow_modality_bars_to_s" class="thinArrow" d="M366,181 L384,181 L384,174 L402,190 L384,206 L384,198 L366,198 Z" />
+
+    <g id="mid_s_bar">
+      <rect x="413" y="149" width="17" height="80" fill="url(#scaleGradRev)" stroke="#000" stroke-width="0.8" id="plus_node_27" />
+      <text x="421.5" y="194" text-anchor="middle" class="barLabel" id="plus_node_28">S</text>
+    </g>
+
+    <path id="mid_arrow_s_to_w" class="thinArrow" d="M441,181 L457,181 L457,174 L475,190 L457,206 L457,198 L441,198 Z" />
+
+    <g id="f02_wq_block" data-plus-kind="frame">
+      <rect x="486" y="149" width="80" height="80" fill="url(#diagHatch)" stroke="#000" stroke-width="1.1" id="plus_node_29" />
+      <text id="mid_Wq_text" x="526" y="198" text-anchor="middle" class="serif bold" font-size="28">W<tspan baseline-shift="sub" font-size="16" font-style="italic">q</tspan></text>
+    </g>
+
+    <text id="caption_middle" x="372" y="246" text-anchor="middle" class="caption">
+      <tspan class="italic">e.g.</tspan>
+      <tspan> MBQ </tspan>
+      <tspan font-size="14">(Modality-aware quantization)</tspan>
+    </text>
+  </g>
+
+  
+  <g id="row_bottom_content">
+    <g id="f03_d_block" data-plus-kind="frame">
+      <rect x="178" y="285" width="81" height="80" fill="#dfead7" stroke="#000" stroke-width="1.1" id="plus_node_30" />
+      <text id="bot_D_text" x="218.5" y="335.5" text-anchor="middle" class="boxText">D</text>
+    </g>
+
+    <path id="bot_arrow_d_to_tokens" class="thinArrow" d="M271,317 L291,317 L291,310 L310,326 L291,342 L291,334 L271,334 Z" />
+
+    <text id="bot_different_tokens" x="376" y="281" text-anchor="middle" class="smalltitle">Different tokens</text>
+    <g id="bot_token_bars">
+      <rect id="bot_bar_t1" x="323" y="285" width="17" height="80" fill="url(#tokenFadeRed)" stroke="#000" stroke-width="0.8" />
+      <text x="331.5" y="330" text-anchor="middle" class="barLabel" id="plus_node_31">t<tspan baseline-shift="sub" font-size="9">1</tspan></text>
+      <rect id="bot_bar_t2" x="344" y="285" width="17" height="80" fill="url(#tokenFadeOrange)" stroke="#000" stroke-width="0.8" />
+      <text x="352.5" y="330" text-anchor="middle" class="barLabel" id="plus_node_32">t<tspan baseline-shift="sub" font-size="9">2</tspan></text>
+      <rect id="bot_bar_t3" x="365" y="285" width="17" height="80" fill="url(#tokenFadeGreen)" stroke="#000" stroke-width="0.8" />
+      <text x="373.5" y="330" text-anchor="middle" class="barLabel" id="plus_node_33">t<tspan baseline-shift="sub" font-size="9">3</tspan></text>
+      <text id="bot_token_ellipsis" x="395" y="329" text-anchor="middle" class="serif bold" font-size="18">···</text>
+      <rect id="bot_bar_tn" x="406" y="285" width="17" height="80" fill="url(#tokenFadeBlue)" stroke="#000" stroke-width="0.8" />
+      <text x="414.5" y="330" text-anchor="middle" class="barLabel" id="plus_node_34">t<tspan baseline-shift="sub" font-size="9">n</tspan></text>
+    </g>
+
+    <path id="bot_arrow_tokens_to_w" class="thinArrow" d="M434,317 L456,317 L456,310 L475,326 L456,342 L456,334 L434,334 Z" />
+
+    <g id="f03_wq_block" data-plus-kind="frame">
+      <rect x="486" y="285" width="80" height="80" fill="url(#diagHatch)" stroke="#000" stroke-width="1.1" id="plus_node_35" />
+      <text id="bot_Wq_text" x="526" y="334" text-anchor="middle" class="serif bold" font-size="28">W<tspan baseline-shift="sub" font-size="16" font-style="italic">q</tspan></text>
+    </g>
+
+    <text id="caption_bottom_left" x="216" y="381" text-anchor="start" class="caption">Quant Experts</text><text id="caption_bottom_right" x="328" y="381" text-anchor="start" class="caption">(Token-aware adaptive quantization)</text></g>
+<defs id="token_fade_defs"><linearGradient id="tokenFadeRed" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#f20f17" /><stop offset="55%" stop-color="#f20f17" /><stop offset="100%" stop-color="#fff0f0" /></linearGradient><linearGradient id="tokenFadeOrange" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#f2a13a" /><stop offset="55%" stop-color="#f2a13a" /><stop offset="100%" stop-color="#fff4e8" /></linearGradient><linearGradient id="tokenFadeGreen" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#10b85b" /><stop offset="55%" stop-color="#10b85b" /><stop offset="100%" stop-color="#eefaf3" /></linearGradient><linearGradient id="tokenFadeBlue" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#1479b9" /><stop offset="55%" stop-color="#1479b9" /><stop offset="100%" stop-color="#e8f3fa" /></linearGradient></defs></svg>

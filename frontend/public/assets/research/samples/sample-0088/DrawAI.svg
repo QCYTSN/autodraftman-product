@@ -1,0 +1,145 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="2048" height="920" viewBox="0 0 2048 920">
+  <defs>
+    <marker id="arrow-gray" markerWidth="38" markerHeight="38" refX="34" refY="19" orient="auto" markerUnits="userSpaceOnUse">
+      <polygon points="0,0 38,19 0,38" fill="#969696"/>
+    </marker>
+    <marker id="arrow-green" markerWidth="38" markerHeight="38" refX="34" refY="19" orient="auto" markerUnits="userSpaceOnUse">
+      <polygon points="0,0 38,19 0,38" fill="#7fbd70"/>
+    </marker>
+    <marker id="arrow-red" markerWidth="38" markerHeight="38" refX="34" refY="19" orient="auto" markerUnits="userSpaceOnUse">
+      <polygon points="0,0 38,19 0,38" fill="#e45c5c"/>
+    </marker>
+  </defs>
+  <rect id="background" data-pb-role="background" data-pb-editable="true" x="0" y="0" width="2048" height="920" fill="#ffffff" stroke="none"/>
+
+  <g id="connector-top-bus-mask" data-pb-role="connector" data-pb-editable="true">
+    <path d="M214 88 L214 60 L1832 60 L1832 368" fill="none" stroke="#969696" stroke-width="7" stroke-linecap="square" stroke-linejoin="round" marker-end="url(#arrow-gray)"/>
+  </g>
+  <g id="connector-left-train" data-pb-role="connector" data-pb-editable="true">
+    <line x1="215" y1="222" x2="215" y2="369" stroke="#969696" stroke-width="7" stroke-linecap="square" marker-end="url(#arrow-gray)"/>
+  </g>
+  <g id="connector-diagonal-train-b" data-pb-role="connector" data-pb-editable="true">
+    <line x1="929" y1="154" x2="654" y2="369" stroke="#969696" stroke-width="7" stroke-linecap="square" marker-end="url(#arrow-gray)"/>
+  </g>
+  <g id="connector-middle-train" data-pb-role="connector" data-pb-editable="true">
+    <line x1="1094" y1="222" x2="1094" y2="369" stroke="#969696" stroke-width="7" stroke-linecap="square" marker-end="url(#arrow-gray)"/>
+  </g>
+  <g id="connector-diagonal-train-permuted" data-pb-role="connector" data-pb-editable="true">
+    <line x1="1258" y1="154" x2="1448" y2="368" stroke="#969696" stroke-width="7" stroke-linecap="square" marker-end="url(#arrow-gray)"/>
+  </g>
+
+  <g id="panel-initial-a" data-pb-role="node" data-pb-editable="true">
+    <rect x="52" y="89" width="324" height="130" rx="2" ry="2" fill="#ffffff" stroke="#969696" stroke-width="7"/>
+    <g id="formula-initial-a" data-pb-role="formula" data-pb-editable="true" data-pb-formula-bbox="68 110 286 78" data-pb-formula-latex-b64="d19BXnt0PTB9IFxzaW0gXG1hdGhjYWx7Tn0=">
+      <text id="text-initial-a" x="68" y="171" font-family="Times New Roman, Times, serif" font-size="58" font-style="italic" font-weight="400" fill="#5a5a5a" data-pb-role="formula" data-pb-editable="true" data-pb-text-source="model_inferred" data-pb-orientation="horizontal">w<tspan baseline-shift="sub" font-size="34">A</tspan><tspan baseline-shift="super" font-size="34">t=0</tspan><tspan font-style="normal" font-size="62"> &#8764; </tspan><tspan font-style="italic" font-size="70">&#119977;</tspan></text>
+    </g>
+  </g>
+  <g id="panel-initial-b" data-pb-role="node" data-pb-editable="true">
+    <rect x="933" y="89" width="324" height="130" rx="2" ry="2" fill="#ffffff" stroke="#969696" stroke-width="7"/>
+    <g id="formula-initial-b" data-pb-role="formula" data-pb-editable="true" data-pb-formula-bbox="949 110 286 78" data-pb-formula-latex-b64="d19CXnt0PTB9IFxzaW0gXG1hdGhjYWx7Tn0=">
+      <text id="text-initial-b" x="949" y="171" font-family="Times New Roman, Times, serif" font-size="58" font-style="italic" font-weight="400" fill="#5a5a5a" data-pb-role="formula" data-pb-editable="true" data-pb-text-source="model_inferred" data-pb-orientation="horizontal">w<tspan baseline-shift="sub" font-size="34">B</tspan><tspan baseline-shift="super" font-size="34">t=0</tspan><tspan font-style="normal" font-size="62"> &#8764; </tspan><tspan font-style="italic" font-size="70">&#119977;</tspan></text>
+    </g>
+  </g>
+
+  <g id="panel-a-trained" data-pb-role="node" data-pb-editable="true">
+    <rect x="52" y="380" width="324" height="126" rx="2" ry="2" fill="#ffffff" stroke="#7fbd70" stroke-width="13"/>
+    <g id="formula-a-trained" data-pb-role="formula" data-pb-editable="true" data-pb-formula-bbox="141 401 160 70" data-pb-formula-latex-b64="d19BXnt0PVR9">
+      <text id="text-a-trained" x="143" y="460" font-family="Times New Roman, Times, serif" font-size="62" font-style="italic" font-weight="400" fill="#5a5a5a" data-pb-role="formula" data-pb-editable="true" data-pb-text-source="model_inferred" data-pb-orientation="horizontal">w<tspan baseline-shift="sub" font-size="36">A</tspan><tspan baseline-shift="super" font-size="36">t=T</tspan></text>
+    </g>
+  </g>
+  <g id="panel-b-trained" data-pb-role="node" data-pb-editable="true">
+    <rect x="481" y="382" width="320" height="124" rx="2" ry="2" fill="#ffffff" stroke="#969696" stroke-width="7"/>
+    <g id="formula-b-trained" data-pb-role="formula" data-pb-editable="true" data-pb-formula-bbox="567 400 160 70" data-pb-formula-latex-b64="d19CXnt0PVR9">
+      <text id="text-b-trained" x="568" y="458" font-family="Times New Roman, Times, serif" font-size="62" font-style="italic" font-weight="400" fill="#5a5a5a" data-pb-role="formula" data-pb-editable="true" data-pb-text-source="model_inferred" data-pb-orientation="horizontal">w<tspan baseline-shift="sub" font-size="36">B</tspan><tspan baseline-shift="super" font-size="36">t=T</tspan></text>
+    </g>
+  </g>
+  <g id="panel-naive-input" data-pb-role="node" data-pb-editable="true">
+    <rect x="934" y="382" width="322" height="124" rx="2" ry="2" fill="#ffffff" stroke="#969696" stroke-width="7"/>
+    <g id="formula-naive-input" data-pb-role="formula" data-pb-editable="true" data-pb-formula-bbox="962 402 260 70" data-pb-formula-latex-b64="d19CXnt0PWt9XG9kb3QgbV9B">
+      <text id="text-naive-input" x="963" y="460" font-family="Times New Roman, Times, serif" font-size="56" font-style="italic" font-weight="400" fill="#5a5a5a" data-pb-role="formula" data-pb-editable="true" data-pb-text-source="model_inferred" data-pb-orientation="horizontal">w<tspan baseline-shift="sub" font-size="32">B</tspan><tspan baseline-shift="super" font-size="32">t=k</tspan><tspan font-style="normal"> &#8857; </tspan>m<tspan baseline-shift="sub" font-size="32">A</tspan></text>
+    </g>
+  </g>
+  <g id="panel-permuted-input" data-pb-role="node" data-pb-editable="true">
+    <rect x="1301" y="382" width="320" height="124" rx="2" ry="2" fill="#ffffff" stroke="#969696" stroke-width="7"/>
+    <g id="formula-permuted-input" data-pb-role="formula" data-pb-editable="true" data-pb-formula-bbox="1321 402 280 70" data-pb-formula-latex-b64="d19CXnt0PWt9XG9kb3QgXHBpKG1fQSk=">
+      <text id="text-permuted-input" x="1322" y="459" font-family="Times New Roman, Times, serif" font-size="53" font-style="italic" font-weight="400" fill="#5a5a5a" data-pb-role="formula" data-pb-editable="true" data-pb-text-source="model_inferred" data-pb-orientation="horizontal">w<tspan baseline-shift="sub" font-size="30">B</tspan><tspan baseline-shift="super" font-size="30">t=k</tspan><tspan font-style="normal"> &#8857; </tspan>&#960;(m<tspan baseline-shift="sub" font-size="30">A</tspan>)</text>
+    </g>
+  </g>
+  <g id="panel-mask-input-a" data-pb-role="node" data-pb-editable="true">
+    <rect x="1669" y="382" width="322" height="124" rx="2" ry="2" fill="#ffffff" stroke="#969696" stroke-width="7"/>
+    <g id="formula-mask-input-a" data-pb-role="formula" data-pb-editable="true" data-pb-formula-bbox="1697 402 260 70" data-pb-formula-latex-b64="d19BXnt0PWt9XG9kb3QgbV9B">
+      <text id="text-mask-input-a" x="1698" y="460" font-family="Times New Roman, Times, serif" font-size="56" font-style="italic" font-weight="400" fill="#5a5a5a" data-pb-role="formula" data-pb-editable="true" data-pb-text-source="model_inferred" data-pb-orientation="horizontal">w<tspan baseline-shift="sub" font-size="32">A</tspan><tspan baseline-shift="super" font-size="32">t=k</tspan><tspan font-style="normal"> &#8857; </tspan>m<tspan baseline-shift="sub" font-size="32">A</tspan></text>
+    </g>
+  </g>
+
+  <g id="connector-prune" data-pb-role="connector" data-pb-editable="true">
+    <line x1="215" y1="512" x2="215" y2="640" stroke="#969696" stroke-width="7" stroke-linecap="square" stroke-dasharray="42 24" marker-end="url(#arrow-gray)"/>
+  </g>
+  <g id="connector-activation-match" data-pb-role="connector" data-pb-editable="true">
+    <polyline points="376,443 430,443 430,685 512,705" fill="none" stroke="#969696" stroke-width="7" stroke-linecap="square" stroke-linejoin="miter" stroke-dasharray="44 25 8 25" marker-end="url(#arrow-gray)"/>
+  </g>
+  <g id="connector-naive-red" data-pb-role="connector" data-pb-editable="true">
+    <line x1="1094" y1="507" x2="1094" y2="637" stroke="#e45c5c" stroke-width="7" stroke-linecap="square" marker-end="url(#arrow-red)"/>
+  </g>
+  <g id="connector-permuted-green" data-pb-role="connector" data-pb-editable="true">
+    <line x1="1459" y1="507" x2="1459" y2="637" stroke="#7fbd70" stroke-width="7" stroke-linecap="square" marker-end="url(#arrow-green)"/>
+  </g>
+  <g id="connector-lth-green" data-pb-role="connector" data-pb-editable="true">
+    <line x1="1829" y1="507" x2="1829" y2="637" stroke="#7fbd70" stroke-width="7" stroke-linecap="square" marker-end="url(#arrow-green)"/>
+  </g>
+
+  <g id="panel-a-pruned" data-pb-role="node" data-pb-editable="true">
+    <rect x="52" y="652" width="324" height="126" rx="2" ry="2" fill="#ffffff" stroke="#7fbd70" stroke-width="13"/>
+    <g id="formula-a-pruned" data-pb-role="formula" data-pb-editable="true" data-pb-formula-bbox="78 674 270 70" data-pb-formula-latex-b64="d19BXnt0PVR9XG9kb3QgbV9B">
+      <text id="text-a-pruned" x="78" y="731" font-family="Times New Roman, Times, serif" font-size="56" font-style="italic" font-weight="400" fill="#5a5a5a" data-pb-role="formula" data-pb-editable="true" data-pb-text-source="model_inferred" data-pb-orientation="horizontal">w<tspan baseline-shift="sub" font-size="32">A</tspan><tspan baseline-shift="super" font-size="32">t=T</tspan><tspan font-style="normal"> &#8857; </tspan>m<tspan baseline-shift="sub" font-size="32">A</tspan></text>
+    </g>
+  </g>
+  <g id="panel-naive-output" data-pb-role="node" data-pb-editable="true">
+    <rect x="934" y="652" width="322" height="126" rx="2" ry="2" fill="#ffffff" stroke="#e45c5c" stroke-width="13"/>
+    <g id="formula-naive-output" data-pb-role="formula" data-pb-editable="true" data-pb-formula-bbox="962 674 260 70" data-pb-formula-latex-b64="d19CXnt0PVR9XG9kb3QgbV9B">
+      <text id="text-naive-output" x="963" y="731" font-family="Times New Roman, Times, serif" font-size="56" font-style="italic" font-weight="400" fill="#5a5a5a" data-pb-role="formula" data-pb-editable="true" data-pb-text-source="model_inferred" data-pb-orientation="horizontal">w<tspan baseline-shift="sub" font-size="32">B</tspan><tspan baseline-shift="super" font-size="32">t=T</tspan><tspan font-style="normal"> &#8857; </tspan>m<tspan baseline-shift="sub" font-size="32">A</tspan></text>
+    </g>
+  </g>
+  <g id="panel-permuted-output" data-pb-role="node" data-pb-editable="true">
+    <rect x="1299" y="652" width="322" height="126" rx="2" ry="2" fill="#ffffff" stroke="#7fbd70" stroke-width="13"/>
+    <g id="formula-permuted-output" data-pb-role="formula" data-pb-editable="true" data-pb-formula-bbox="1320 674 280 70" data-pb-formula-latex-b64="d19CXnt0PVR9XG9kb3QgXHBpKG1fQSk=">
+      <text id="text-permuted-output" x="1321" y="731" font-family="Times New Roman, Times, serif" font-size="52" font-style="italic" font-weight="400" fill="#5a5a5a" data-pb-role="formula" data-pb-editable="true" data-pb-text-source="model_inferred" data-pb-orientation="horizontal">w<tspan baseline-shift="sub" font-size="30">B</tspan><tspan baseline-shift="super" font-size="30">t=T</tspan><tspan font-style="normal"> &#8857; </tspan>&#960;(m<tspan baseline-shift="sub" font-size="30">A</tspan>)</text>
+    </g>
+  </g>
+  <g id="panel-lth-output" data-pb-role="node" data-pb-editable="true">
+    <rect x="1668" y="652" width="322" height="126" rx="2" ry="2" fill="#ffffff" stroke="#7fbd70" stroke-width="13"/>
+    <g id="formula-lth-output" data-pb-role="formula" data-pb-editable="true" data-pb-formula-bbox="1697 674 260 70" data-pb-formula-latex-b64="d19BXnt0PVR9XG9kb3QgbV9B">
+      <text id="text-lth-output" x="1698" y="731" font-family="Times New Roman, Times, serif" font-size="56" font-style="italic" font-weight="400" fill="#5a5a5a" data-pb-role="formula" data-pb-editable="true" data-pb-text-source="model_inferred" data-pb-orientation="horizontal">w<tspan baseline-shift="sub" font-size="32">A</tspan><tspan baseline-shift="super" font-size="32">t=T</tspan><tspan font-style="normal"> &#8857; </tspan>m<tspan baseline-shift="sub" font-size="32">A</tspan></text>
+    </g>
+  </g>
+
+  <g id="panel-sparse-training-region" data-pb-role="panel" data-pb-editable="true">
+    <rect x="903" y="290" width="1104" height="577" fill="none" stroke="#2f80ff" stroke-width="6" stroke-linecap="square" stroke-dasharray="6 24"/>
+  </g>
+
+  <g id="legend-line-styles" data-pb-role="legend" data-pb-editable="true">
+    <text id="legend-train-label" x="1516" y="102" font-family="Arial, Helvetica, sans-serif" font-size="43" font-style="normal" font-weight="400" fill="#474747" data-pb-role="legend" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="horizontal">train</text>
+    <line id="legend-train-line" x1="1624" y1="94" x2="1807" y2="94" stroke="#969696" stroke-width="8" stroke-linecap="square"/>
+    <text id="legend-mask-label" x="1500" y="165" font-family="Arial, Helvetica, sans-serif" font-size="43" font-style="normal" font-weight="400" fill="#474747" data-pb-role="legend" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="horizontal">mask</text>
+    <line id="legend-mask-line" x1="1624" y1="161" x2="1807" y2="161" stroke="#969696" stroke-width="8" stroke-linecap="square" stroke-dasharray="30 24"/>
+    <text id="legend-match-label" x="1482" y="233" font-family="Arial, Helvetica, sans-serif" font-size="43" font-style="normal" font-weight="400" fill="#474747" data-pb-role="legend" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="horizontal">match</text>
+    <line id="legend-match-line" x1="1624" y1="224" x2="1807" y2="224" stroke="#969696" stroke-width="8" stroke-linecap="square" stroke-dasharray="30 20 8 20"/>
+  </g>
+
+  <g id="labels" data-pb-role="label" data-pb-editable="true">
+    <text id="label-left-train" x="309" y="321" font-family="Arial, Helvetica, sans-serif" font-size="52" font-style="normal" font-weight="400" fill="#474747" data-pb-role="label" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="horizontal">train</text>
+    <text id="label-diagonal-train" x="679" y="238" font-family="Arial, Helvetica, sans-serif" font-size="52" font-style="normal" font-weight="400" fill="#474747" data-pb-role="label" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="horizontal">train</text>
+    <text id="label-prune" x="251" y="608" font-family="Arial, Helvetica, sans-serif" font-size="52" font-style="normal" font-weight="400" fill="#474747" data-pb-role="label" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="horizontal">prune</text>
+    <text id="label-sparse-training" x="872" y="456" transform="rotate(-90 872 456)" font-family="Arial, Helvetica, sans-serif" font-size="42" font-style="normal" font-weight="400" fill="#2f80ff" text-anchor="middle" data-pb-role="label" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="vertical-rl">Sparse Training</text>
+    <text id="label-right-mask" x="1847" y="350" font-family="Arial, Helvetica, sans-serif" font-size="52" font-style="normal" font-weight="400" fill="#474747" data-pb-role="label" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="horizontal">mask</text>
+    <text id="label-right-train" x="1857" y="597" font-family="Arial, Helvetica, sans-serif" font-size="52" font-style="normal" font-weight="400" fill="#474747" data-pb-role="label" data-pb-editable="true" data-pb-text-source="model_inferred" data-pb-orientation="horizontal">train</text>
+    <text id="caption-naive" x="930" y="836" font-family="Arial, Helvetica, sans-serif" font-size="34" font-style="normal" font-weight="400" fill="#ff0000" data-pb-role="label" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="horizontal">LTH Problem (Naive)</text>
+    <text id="caption-permuted" x="1272" y="836" font-family="Arial, Helvetica, sans-serif" font-size="34" font-style="normal" font-weight="400" fill="#7fbd70" data-pb-role="label" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="horizontal">Our Solution (Permuted)</text>
+    <text id="caption-lth" x="1729" y="836" font-family="Arial, Helvetica, sans-serif" font-size="34" font-style="normal" font-weight="400" fill="#7fbd70" data-pb-role="label" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="horizontal">LTH Solution</text>
+    <text id="label-activation" x="508" y="815" font-family="Arial, Helvetica, sans-serif" font-size="39" font-style="normal" font-weight="400" fill="#474747" data-pb-role="label" data-pb-editable="true" data-pb-text-source="ocr" data-pb-orientation="horizontal">activation matching</text>
+  </g>
+
+  <g id="formula-activation-match" data-pb-role="formula" data-pb-editable="true" data-pb-formula-bbox="515 670 365 65" data-pb-formula-latex-b64="d19CXnt0PVR9XGFwcHJveCBccGkod19BXnt0PVR9KQ==">
+    <text id="text-activation-match" x="535" y="718" font-family="Times New Roman, Times, serif" font-size="45" font-style="italic" font-weight="400" fill="#777777" data-pb-role="formula" data-pb-editable="true" data-pb-text-source="model_inferred" data-pb-orientation="horizontal">w<tspan baseline-shift="sub" font-size="27">B</tspan><tspan baseline-shift="super" font-size="27">t=T</tspan><tspan font-style="normal"> &#8776; </tspan>&#960;(w<tspan baseline-shift="sub" font-size="27">A</tspan><tspan baseline-shift="super" font-size="27">t=T</tspan>)</text>
+  </g>
+</svg>

@@ -1,0 +1,193 @@
+<svg viewBox="0 0 1587 576" width="1587" height="576" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <marker id="redArrow" markerWidth="7" markerHeight="5" refX="6.2" refY="2.5" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L7,2.5 L0,5 Z" fill="#ff1a1a"/>
+    </marker>
+  </defs>
+
+  <rect x="0" y="0" width="1587" height="576" fill="#ffffff"/>
+
+  <!-- Left tree links -->
+  <g stroke="#666666" stroke-width="2" fill="none">
+    <line x1="240" y1="78" x2="173" y2="157"/>
+    <line x1="240" y1="78" x2="321" y2="157"/>
+    <line x1="173" y1="157" x2="120" y2="242"/>
+    <line x1="173" y1="157" x2="224" y2="242"/>
+  </g>
+
+  <!-- Left tree nodes -->
+  <g stroke-width="4">
+    <circle cx="240" cy="78" r="27" fill="#e6e6e6" stroke="#555555"/>
+    <circle cx="173" cy="157" r="27" fill="#e8c9df" stroke="#9900ff"/>
+    <circle cx="321" cy="157" r="27" fill="#fff4d8" stroke="#ffa500"/>
+    <circle cx="120" cy="242" r="27" fill="#d5e6f0" stroke="#0000ff"/>
+    <circle cx="224" cy="242" r="27" fill="#d8e3d8" stroke="#5c984a"/>
+  </g>
+
+  <!-- Left action labels -->
+  <g font-family="Times New Roman, Times, serif" font-size="28" font-style="italic" fill="#333333">
+    <text x="187" y="111">a₁</text>
+    <text x="300" y="112">a₂</text>
+    <text x="76" y="198">a₁</text>
+    <text x="188" y="198">a₂</text>
+  </g>
+
+  <!-- Left equation and annotations -->
+  <g font-family="Times New Roman, Times, serif" font-size="24" fill="#111111">
+    <text x="49" y="339" font-style="italic">V̄(</text>
+    <circle cx="93" cy="330" r="12" fill="#d5e6f0" stroke="#0000ff" stroke-width="3"/>
+    <text x="108" y="339">) = </text>
+    <text x="146" y="339" font-style="italic">Rθ(</text>
+    <circle cx="194" cy="330" r="12" fill="#e6e6e6" stroke="#555555" stroke-width="3"/>
+    <text x="209" y="339">, a) + </text>
+    <text x="280" y="339" font-style="italic">Rθ(</text>
+    <circle cx="329" cy="330" r="12" fill="#e8c9df" stroke="#9900ff" stroke-width="3"/>
+    <text x="344" y="339">, a) + </text>
+    <text x="415" y="339" font-style="italic">v̂θ(</text>
+    <circle cx="465" cy="330" r="12" fill="#d5e6f0" stroke="#0000ff" stroke-width="3"/>
+    <text x="480" y="339">)</text>
+  </g>
+
+  <path d="M144 352 C144 362 153 362 153 362 L419 362 C419 362 428 362 428 352" stroke="#111111" stroke-width="1.5" fill="none"/>
+  <text x="180" y="392" font-family="Helvetica, Arial, sans-serif" font-size="22" fill="#111111">Sum of rewards to</text>
+  <circle cx="406" cy="385" r="12" fill="#d5e6f0" stroke="#0000ff" stroke-width="3"/>
+
+  <text x="318" y="307" font-family="Helvetica, Arial, sans-serif" font-size="22" fill="#111111">Value of leaf state</text>
+  <circle cx="497" cy="301" r="10" fill="#d5e6f0" stroke="#0000ff" stroke-width="3"/>
+
+  <!-- First expansion arrow -->
+  <text x="464" y="164" font-family="Helvetica, Arial, sans-serif" font-size="29" fill="#111111">Expansion</text>
+  <polygon points="461,189 588,189 588,182 603,196 588,211 588,204 461,204"
+           fill="#ededed" stroke="#8a8a8a" stroke-width="1.3"/>
+
+  <!-- Middle tree links -->
+  <g stroke="#666666" stroke-width="2" fill="none">
+    <line x1="836" y1="78" x2="750" y2="157"/>
+    <line x1="836" y1="78" x2="922" y2="157"/>
+    <line x1="750" y1="157" x2="696" y2="243"/>
+    <line x1="750" y1="157" x2="806" y2="242"/>
+    <line x1="696" y1="243" x2="662" y2="326"/>
+    <line x1="696" y1="243" x2="750" y2="326"/>
+  </g>
+
+  <!-- Middle tree nodes -->
+  <g stroke-width="4">
+    <circle cx="836" cy="78" r="27" fill="#e6e6e6" stroke="#555555"/>
+    <circle cx="750" cy="157" r="27" fill="#e8c9df" stroke="#9900ff"/>
+    <circle cx="922" cy="157" r="27" fill="#fff4d8" stroke="#ffa500"/>
+    <circle cx="696" cy="243" r="27" fill="#d5e6f0" stroke="#0000ff"/>
+    <circle cx="806" cy="242" r="27" fill="#d8e3d8" stroke="#5c984a"/>
+    <circle cx="662" cy="326" r="27" fill="#efd2cc" stroke="#ff0000"/>
+    <circle cx="750" cy="326" r="27" fill="#e6e6e6" stroke="#999999"/>
+  </g>
+
+  <!-- Middle action labels, nudged clear of expanded-node edges -->
+  <g font-family="Times New Roman, Times, serif" font-size="28" font-style="italic" fill="#333333">
+    <text x="632" y="231">a₁</text>
+    <text x="728" y="231">a₂</text>
+  </g>
+
+  <!-- Middle legend -->
+  <g font-family="Times New Roman, Times, serif" font-size="22" fill="#111111">
+    <circle cx="648" cy="366" r="10" fill="#efd2cc" stroke="#ff0000" stroke-width="3"/>
+    <text x="672" y="374">= Tθ(</text>
+    <circle cx="734" cy="366" r="10" fill="#d5e6f0" stroke="#0000ff" stroke-width="3"/>
+    <text x="749" y="374">, a₁)</text>
+
+    <circle cx="648" cy="407" r="10" fill="#e6e6e6" stroke="#999999" stroke-width="3"/>
+    <text x="672" y="415">= Tθ(</text>
+    <circle cx="734" cy="407" r="10" fill="#d5e6f0" stroke="#0000ff" stroke-width="3"/>
+    <text x="749" y="415">, a₂)</text>
+  </g>
+
+  <!-- Backup title and arrow -->
+  <text x="1006" y="164" font-family="Helvetica, Arial, sans-serif" font-size="29" fill="#111111">Backup</text>
+  <polygon points="985,189 1112,189 1112,182 1127,196 1112,211 1112,204 985,204"
+           fill="#ededed" stroke="#8a8a8a" stroke-width="1.3"/>
+
+  <!-- Right tree links -->
+  <g stroke="#666666" stroke-width="2" fill="none">
+    <line x1="1362" y1="79" x2="1277" y2="158"/>
+    <line x1="1362" y1="79" x2="1450" y2="158"/>
+    <line x1="1277" y1="158" x2="1223" y2="243"/>
+    <line x1="1277" y1="158" x2="1332" y2="242"/>
+    <line x1="1223" y1="243" x2="1190" y2="326"/>
+    <line x1="1223" y1="243" x2="1278" y2="326"/>
+  </g>
+
+  <!-- Right tree nodes -->
+  <g stroke-width="4">
+    <circle cx="1362" cy="79" r="27" fill="#e6e6e6" stroke="#555555"/>
+    <circle cx="1277" cy="158" r="27" fill="#e8c9df" stroke="#9900ff"/>
+    <circle cx="1450" cy="158" r="27" fill="#fff4d8" stroke="#ffa500"/>
+    <circle cx="1223" cy="243" r="27" fill="#d5e6f0" stroke="#0000ff"/>
+    <circle cx="1332" cy="242" r="27" fill="#d8e3d8" stroke="#5c984a"/>
+    <circle cx="1190" cy="326" r="27" fill="#efd2cc" stroke="#ff0000"/>
+    <circle cx="1278" cy="326" r="27" fill="#e6e6e6" stroke="#999999"/>
+  </g>
+
+  <!-- Red backup arrows aligned with the tree edges and terminating at node boundaries -->
+  <g fill="none" stroke="#ff1a1a" stroke-width="1.25" stroke-linecap="round" marker-end="url(#redArrow)">
+    <path d="M1199 301 C1203 290 1208 277 1214 268"/>
+    <path d="M1261 302 C1256 290 1248 277 1238 268"/>
+    <path d="M1238 220 C1245 206 1254 191 1262 181"/>
+    <path d="M1317 219 C1309 205 1300 190 1292 181"/>
+    <path d="M1298 140 C1312 126 1329 109 1342 97"/>
+    <path d="M1430 140 C1416 127 1398 109 1382 97"/>
+  </g>
+
+  <!-- Right equations, lowered so backup arrows and tree nodes do not cross the text -->
+  <g font-family="Times New Roman, Times, serif" font-size="24" fill="#111111">
+    <text x="1370" y="279" font-style="italic">V(</text>
+    <circle cx="1398" cy="270" r="12" fill="#fff4d8" stroke="#ffa500" stroke-width="3"/>
+    <text x="1413" y="279">) = </text>
+    <text x="1456" y="279" font-style="italic">v̂θ(</text>
+    <circle cx="1504" cy="270" r="12" fill="#fff4d8" stroke="#ffa500" stroke-width="3"/>
+    <text x="1519" y="279">)</text>
+
+    <text x="1058" y="382" font-style="italic">Q(</text>
+    <circle cx="1091" cy="373" r="12" fill="#e6e6e6" stroke="#555555" stroke-width="3"/>
+    <text x="1106" y="382">, a₁) = </text>
+    <text x="1181" y="382" font-style="italic">Rθ(</text>
+    <circle cx="1229" cy="373" r="12" fill="#e6e6e6" stroke="#555555" stroke-width="3"/>
+    <text x="1244" y="382">, a) + </text>
+    <text x="1317" y="382" font-style="italic">V(</text>
+    <circle cx="1345" cy="373" r="12" fill="#e8c9df" stroke="#9900ff" stroke-width="3"/>
+    <text x="1360" y="382">)</text>
+
+    <text x="1058" y="424" font-style="italic">V(</text>
+    <circle cx="1086" cy="415" r="12" fill="#e8c9df" stroke="#9900ff" stroke-width="3"/>
+    <text x="1101" y="424">) = maxₐ </text>
+    <text x="1200" y="424" font-style="italic">Q(</text>
+    <circle cx="1232" cy="415" r="12" fill="#e8c9df" stroke="#9900ff" stroke-width="3"/>
+    <text x="1247" y="424">, a)</text>
+  </g>
+
+  <!-- Bottom left rounded explanation box -->
+  <rect x="43" y="418" width="538" height="137" rx="18" ry="18"
+        fill="#ffffff" stroke="#111111" stroke-width="2.2"/>
+  <text x="58" y="459" font-family="Helvetica, Arial, sans-serif" font-size="31" fill="#111111">Expansion</text>
+  <text x="58" y="508" font-family="Helvetica, Arial, sans-serif" font-size="28" fill="#111111">Sample a leaf node from</text>
+
+  <g font-family="Helvetica, Arial, sans-serif" font-size="28" fill="#111111">
+    <text x="58" y="544">softmax(</text>
+    <text x="181" y="544" font-family="Times New Roman, Times, serif" font-style="italic">V̄(</text>
+    <circle cx="223" cy="535" r="12" fill="#d5e6f0" stroke="#0000ff" stroke-width="3"/>
+    <text x="238" y="544">),</text>
+
+    <text x="269" y="544" font-family="Times New Roman, Times, serif" font-style="italic">V̄(</text>
+    <circle cx="310" cy="535" r="12" fill="#d8e3d8" stroke="#5c984a" stroke-width="3"/>
+    <text x="325" y="544">),</text>
+
+    <text x="356" y="544" font-family="Times New Roman, Times, serif" font-style="italic">V̄(</text>
+    <circle cx="397" cy="535" r="12" fill="#fff4d8" stroke="#ffa500" stroke-width="3"/>
+    <text x="412" y="544">)) to expand</text>
+  </g>
+
+  <!-- Bottom right rounded explanation box -->
+  <rect x="1030" y="430" width="539" height="137" rx="18" ry="18"
+        fill="#ffffff" stroke="#111111" stroke-width="2.2"/>
+  <text x="1046" y="471" font-family="Helvetica, Arial, sans-serif" font-size="31" fill="#111111">Backup</text>
+  <text x="1046" y="520" font-family="Helvetica, Arial, sans-serif" font-size="28" fill="#111111">Value of nodes are updated as maximum</text>
+  <text x="1046" y="556" font-family="Helvetica, Arial, sans-serif" font-size="28" fill="#111111">Q value of children nodes</text>
+</svg>

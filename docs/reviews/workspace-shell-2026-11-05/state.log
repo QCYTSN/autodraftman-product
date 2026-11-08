@@ -1,0 +1,5 @@
+
+> figfox-frontend@0.1.0 review:workspace-state
+> node scripts/workspace-refinement-check.mjs
+
+{"checks":9,"errors":[],"requests":[]}
