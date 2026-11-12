@@ -37,6 +37,8 @@
     "review:editor-parity-repair": "node scripts/editor-parity-repair-check.mjs",
     "review:pages": "node scripts/run-pages-review.mjs",
     "research:export": "python scripts/export-research.py",
+    "research:paper": "python scripts/paper_summary.py",
+    "review:paper": "node scripts/paper-summary-check.mjs",
     "review:research": "node scripts/research-check.mjs",
     "presentation:prepare": "node scripts/prepare-presentation.mjs",
     "presentation:build": "npm run presentation:prepare && vite build --config vite.presentation.config.ts && node scripts/pack-presentation.mjs",

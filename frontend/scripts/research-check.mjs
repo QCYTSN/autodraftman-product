@@ -24,7 +24,7 @@ try {
  await page.screenshot({path:output+'/desktop-hero.png'});
  await page.locator('#demo-benchmarks').scrollIntoViewIfNeeded();await page.locator('.research-profiles button').first().waitFor();
  assert.equal(await page.locator('.research-heatmap tbody tr').count(),17);assert.equal(await page.locator('.research-heatmap tbody button').count(),68);
- assert.equal(summary.provenance.snapshot,'2026-11-04');assert.equal(summary.summaries.A.D01.sampleN,63);assert.equal(summary.ablationSummaries.A.D01.sampleN,74);checks.push('Official data and 68 heatmap cells');
+ assert.equal(summary.provenance.snapshot,'2026-11-10');assert.equal(summary.summaries.A.D01.sampleN,63);assert.equal(summary.ablationSummaries.A.D01.sampleN,74);checks.push('Official data and 68 heatmap cells');
  const methodIds=['A','DrawAI','AFE','Crafter'];
  for (const [row,metric] of summary.metrics.entries()) {
   const values=methodIds.map(id=>summary.summaries[id][metric.id].score);
@@ -106,10 +106,11 @@ try {
  const currentMetrics=summary.metrics.filter(m=>m.id!=='D09');
  assert.equal(await page.locator('.research-ranking-details').evaluate(e=>e.open),false);
  await page.locator('.research-ranking-details summary').click();
- const expectedMean=id=>currentMetrics.reduce((sum,m)=>sum+summary.summaries[id][m.id].score,0)/16;
- assert.ok(Math.abs(expectedMean('A')-88.00036348862142)<1e-9);
- assert.ok(Math.abs(expectedMean('DrawAI')-90.7522497934646)<1e-9);
- assert.match(await page.locator('.research-score-summary').innerText(),/10 项/);
+ const expectedMean=id=>summary.aggregates.comparison.overall[id].mean;
+ assert.ok(Math.abs(expectedMean('A')-94.22)<1e-9);
+ assert.ok(Math.abs(expectedMean('DrawAI')-96.59)<1e-9);
+ const closeCount=currentMetrics.filter(m=>Math.max(...methodIds.map(id=>summary.summaries[id][m.id].score))-summary.summaries.A[m.id].score<=5).length;
+ assert.ok((await page.locator('.research-score-summary').innerText()).includes(`${closeCount} 项`));
  for(const id of ['D01','D08','D11']){
   const example=page.locator(`.research-score-example[data-metric="${id}"]`);
   const best=Math.max(...methodIds.map(method=>summary.summaries[method][id].score));
@@ -169,7 +170,7 @@ try {
  }
  await page.locator('.research-cost-point').first().focus();await page.keyboard.press('Enter');
  assert.equal(await page.locator('.research-cost-point').first().getAttribute('aria-pressed'),'true');
- checks.push('Equal-weight mean, true score gaps, zero-based cost/quality positions for all 16 criteria, keyboard and tap point readouts');
+ checks.push('Paper overall mean, true score gaps, zero-based cost/quality positions for all 16 criteria, keyboard and tap point readouts');
  await page.locator('.research-ranking-details summary').click();
  await page.locator('.research-comparison-scope a').click();assert.equal(await page.locator('#research-settings').evaluate(e=>e.open),true);
  await page.locator('#research-settings summary').click();

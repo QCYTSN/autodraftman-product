@@ -1,0 +1,11 @@
+{
+  "rules": "paper.tex, sections Current scoring and Effective sets; full-cohort web-editor review, no estimated full-cohort scores",
+  "directory": "paper_full80_20261110",
+  "sha256": {
+    "table-all-criteria.tex": "11f41da46ea38e948aab5be32c3226b169e37a443b00844168f42415a4245286",
+    "table-comparison.tex": "4a289c27003cfebd1fcfd2451f9fc61fa1284e3fa82b79d42906c2fabd3e93fd",
+    "table-ablation.tex": "9ccacaf4cdd100173185ea13d5173b7963517313ae9f296ef8a1e11aeafa66a8"
+  },
+  "individualEditingRecords": "unavailable",
+  "snapshot": "2026-11-10"
+}

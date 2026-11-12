@@ -1,4 +1,4 @@
-import { demoCases, type DemoCase, type DemoLanguage } from "./cases";
+import { allDemoCases, type DemoCase, type DemoLanguage } from "./cases";
 
 type Localized = Record<DemoLanguage, string>;
 
@@ -15,10 +15,11 @@ export type RefinementCase = {
 
 // Regions refer to the same source coordinates in both pipeline outputs.
 // These observations describe existing artifacts, not a quality evaluation.
+// Resolve by identity: the featured gallery can change its selection and order.
 export const refinementCases: RefinementCase[] = [
   {
     id: "formula",
-    figure: demoCases[1],
+    figure: allDemoCases.find(item => item.id === "diffusion")!,
     category: { zh: "公式排版", en: "Math typesetting" },
     region: { zh: "局部 · 加噪模块", en: "Detail · Add Noise module" },
     bounds: [430, 141, 160, 150],
@@ -34,7 +35,7 @@ export const refinementCases: RefinementCase[] = [
   },
   {
     id: "connections",
-    figure: demoCases[0],
+    figure: allDemoCases.find(item => item.id === "study")!,
     category: { zh: "连接关系", en: "Connections" },
     region: { zh: "局部 · 实验流程的连接路径", en: "Detail · Experiment branches" },
     bounds: [286, 105, 635, 338],
@@ -50,7 +51,7 @@ export const refinementCases: RefinementCase[] = [
   },
   {
     id: "layout",
-    figure: demoCases[2],
+    figure: allDemoCases.find(item => item.id === "vit")!,
     category: { zh: "文字布局", en: "Text layout" },
     region: { zh: "局部 · 多头自注意力模块", en: "Detail · Multi-head self-attention" },
     bounds: [658, 237, 483, 306],

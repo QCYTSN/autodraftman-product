@@ -28,11 +28,10 @@ export function rankCounts(data: Summary, method: string) {
   };
 }
 
-// Descriptive mean: each current criterion contributes exactly 1 / 16.
-// Average criterion scores, not pooled image judgments (eligible N varies).
+// The paper averages valid criteria within each image, then across images.
+// Import its reported aggregate; it cannot be reconstructed from criterion means.
 export function meanScore(data: Summary, method: string) {
-  const metrics = comparableMetrics(data);
-  return metrics.reduce((sum, metric) => sum + data.summaries[method][metric.id].score!, 0) / metrics.length;
+  return data.aggregates.comparison.overall[method].mean;
 }
 
 export function gapToBest(data: Summary, metric: Metric, method: string) {

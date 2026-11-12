@@ -231,3 +231,7 @@ write_csv('数据口径.csv', [['版本', VERSION], ['评分来源', statistics[
 print(json.dumps({'samples': 80, 'judgments': len(judgments), 'previews': dict(coverage),
                   'svgFiles': 480, 'damaged': damaged, 'derivedPreviews': derived,
                   'byteRecovery': dict(restoration)}, ensure_ascii=False))
+
+# Apply the later paper summaries after preserving the original per-image export.
+from paper_summary import apply_paper_summary
+apply_paper_summary(OUT)

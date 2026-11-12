@@ -1,4 +1,4 @@
-"""Cross-check published identities and scores against the November 4 archive."""
+"""Cross-check retained identities and visual scores against the November 4 archive."""
 from pathlib import Path
 import hashlib
 import json
@@ -18,14 +18,23 @@ assert len(index) == 80 and len({s['id'] for s in index}) == 80
 assert all(set(s) == {'id', 'category', 'sourceUrl'} for s in index)
 assert (public / 'samples.json').stat().st_size < 30000
 assert summary['provenance']['judgments'] == 8160
-assert summary['provenance']['snapshot'] == '2026-11-04'
+assert summary['provenance']['snapshot'] == '2026-11-10'
+historical = read(public / 'history/20261104/summary.json')
+editing = {'D13', 'D14', 'D15'}
 for scope, key in [('comparison', 'summaries'), ('ablation', 'ablationSummaries')]:
     for metric in stats[scope]['criteria']:
         for i, method in enumerate(stats[scope]['methods']):
-            score = summary[key][method][metric['id']]
+            score = historical[key][method][metric['id']]
             expected = stats[scope]['historical_D09_display'][i] if metric['id'] == 'D09' else metric['scores'][i][0]
             assert abs(score['score'] - expected) < 1e-9, (scope, method, metric['id'])
             assert score['sampleN'] == metric['n'] == score['judgmentN']
+            if metric['id'] not in editing:
+                assert summary[key][method][metric['id']] == score
+            else:
+                current = summary[key][method][metric['id']]
+                assert current['counts'] == {} and current['individualRecords'] == 'unavailable'
+                assert current['sampleN'] == (79 if method == 'AFE' else 80)
+assert summary['resources'] == historical['resources']
 assert summary['summaries']['A']['D01']['sampleN'] == 63
 assert summary['ablationSummaries']['A']['D01']['sampleN'] == 74
 previews = {k: 0 for k in summary['provenance']['svgCoverage']}

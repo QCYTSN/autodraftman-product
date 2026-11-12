@@ -33,6 +33,7 @@ export function judgmentText(score: Score, zh: boolean) {
   const total = Object.values(score.counts).reduce((sum, count) => sum + (count ?? 0), 0);
   if (total === 1) {
     if (score.counts.pass === 1) return zh ? '通过' : 'Pass';
+    if (score.counts.partial === 1) return zh ? '部分通过' : 'Partial pass';
     if (score.counts.fail === 1) return zh ? '未通过' : 'Fail';
     if (score.counts.NA === 1) return zh ? '本项不适用' : 'Not applicable';
     if (score.counts.unknown === 1) return zh ? '待核实' : 'Needs review';

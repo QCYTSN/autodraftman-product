@@ -34,6 +34,8 @@
 .research-axis{display:flex;justify-content:space-between;font-size:10px;color:var(--demo-muted);margin:12px 56px 0 104px}
 .research-settings{border-block:1px solid var(--demo-line);padding:24px 0}.research-settings summary{cursor:pointer;color:var(--demo-purple);font-size:14px;line-height:1.7}
 .research-settings summary>span{float:right;font-size:12px;color:var(--demo-muted)}
+.research-aggregate-results{margin-block:40px}.research-aggregate-results[open]>summary{margin-bottom:24px}.research-aggregate-results td small{display:inline-block;line-height:1.7;color:var(--demo-muted)}
+.research-history-notice{flex:none;margin:8px 0;font-size:12px;color:var(--demo-muted)}
 .demo-site .research-full-results{margin-top:88px}.research-full-results[open] summary{margin-bottom:32px}
 .research-table-scroll{overflow-x:auto;max-width:100%;overscroll-behavior-x:contain}.research-table,.research-heatmap{width:100%;border-collapse:collapse;text-align:left;font-size:14px;font-variant-numeric:tabular-nums}
 .research-table{min-width:650px}.research-table caption{text-align:left;padding:24px 0;font-size:14px;font-weight:550}.research-table th,.research-table td{padding:18px 14px;border-bottom:1px solid var(--demo-line)}

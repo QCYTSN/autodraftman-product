@@ -1,4 +1,9 @@
-﻿版本,20261104-codex-harness
-评分来源,"Current Codex harness single review; A/B/C prior harness visual review reused only for exact same render hash; vendor visual and all six native D13-D15 re-adjudicated by current harness. Native probes are historical actual Illustrator operation evidence, not historical DeepSeek judgments. No additional paid scoring or independent API receipts."
-ablation,"Within each image and criterion, common determinate eligibility across the listed methods. NA and unknown excluded for all methods together; remaining criteria equally weighted per image. Then mean over all 80 images. D09 historical display-only, excluded from current aggregates/deltas/CI. Binary criteria: Wilson CI. Aggregate/paired changes: image bootstrap10000 seed20261104. CI conditional on one harness rater, not inter-rater replication."
-comparison,"Within each image and criterion, common determinate eligibility across the listed methods. NA and unknown excluded for all methods together; remaining criteria equally weighted per image. Then mean over all 80 images. D09 historical display-only, excluded from current aggregates/deltas/CI. Binary criteria: Wilson CI. Aggregate/paired changes: image bootstrap10000 seed20261104. CI conditional on one harness rater, not inter-rater replication."
+﻿field,value
+version,paper-full80-20261110
+source,paper_full80_20261110
+D13-D15,"Full-cohort web-editor review; pass=1, partial=0.5, fail=0; NA excluded; mean x 100"
+editing sampleN,AFE=79; all other methods/configurations=80; AFE sample-0062 excluded as NA
+overall,"Mean valid criteria within each image, then mean across images; D09 excluded; comparison and ablation have separate eligible sets"
+CI95,"Image bootstrap, 10000 resamples, seed 20261104; copied from the paper, not recalculated"
+individual records,20261104 historical binary records retained; latest D13-D15 individual records unavailable
+resources,"Unchanged original per-image records, including retained API reserves where recorded"

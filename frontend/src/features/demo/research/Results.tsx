@@ -3,6 +3,7 @@ import { CriterionSelect } from './CriterionSelect';
 import { ProfileRow } from './ProfileRow';
 import { AblationRow } from './AblationRow';
 import { CaseGallery } from './CaseGallery';
+import { AggregateResults } from './AggregateResults';
 import { ExperimentSettings } from './ExperimentSettings';
 import { ScoreComparison, ResourceComparison } from './Comparisons';
 import { meanScore } from './comparisonData';
@@ -54,6 +55,7 @@ export default function Results() {
     <Section id="demo-benchmarks" kicker="FIGFOX IN COMPARISON" title={zh ? '四种方法，逐项比较' : 'Compare four reconstruction methods'} body={zh ? '在同一组科研图上，比较文字、结构、视觉表达与可编辑性。' : 'Compare text, structure, visual presentation and editability on the same scientific figures.'}>
       <ScoreComparison onLocate={id => { setGroup(data.metrics.find(item => item.id === id)!.group); setLocated(id); requestAnimationFrame(() => document.getElementById('profile-' + id)?.scrollIntoView({ block: 'center', behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth' })); }} />
       <nav className="demo-research-index research-controls" data-demo-reveal="fade"><a href="#demo-evaluation">{zh ? "指标定义" : "Criterion definitions"} ↑</a><a href="#demo-ablations">{zh ? '修复的作用' : 'Repair gains'} ↓</a><a href="#demo-efficiency">{zh ? '效果与投入' : 'Quality & resources'} ↓</a><a href="#research-provenance">{zh ? '实验与代码' : 'Data & code'} ↓</a></nav>
+      <AggregateResults scope="comparison" />
       <h3 className="research-chart-title" data-demo-reveal>{zh ? '按指标类别比较' : 'Compare by criterion group'}</h3>
       <div className="research-controls research-tabs" data-demo-reveal="fade">{groups.map(name => <button key={name} aria-pressed={activeGroup === name} onClick={() => setGroup(name)}>{groupLabel(name, data.metrics.find(item => item.group === name)!.groupEn, zh)}</button>)}</div>
       <div className="research-profiles">{data.metrics.filter(item => item.group === activeGroup).map((item, slot) => <div className="research-profile-card" id={"profile-" + item.id} data-located={located === item.id || undefined} data-demo-reveal="fade" key={slot}><h4>{item.id} · {label(item, language)}{item.id === 'D09' ? ' †' : ''}</h4>{methods.map(method => <ProfileRow key={method.id} method={method} score={data.summaries[method.id][item.id].score} onInspect={() => inspect(item, method.id)} />)}<div className="research-axis"><span>0</span><span>100</span></div></div>)}</div>
@@ -64,9 +66,9 @@ export default function Results() {
           const values = methods.map(candidate => data.summaries[candidate.id][item.id].score).filter((value): value is number => value !== null);
           const bestValue = item.direction === 'lower' ? Math.min(...values) : Math.max(...values);
           const best = score.score !== null && Math.abs(score.score - bestValue) < 1e-9;
-          return <td key={method.id}><button data-best={best || undefined} aria-label={`${method.name} · ${label(item, language)} · ${number(score.score)}${best ? (zh ? ' · 最优' : ' · Best') : ''}`} style={{ background: best ? '#6243ce' : `rgba(98,67,206,${.04 + (score.score ?? 0) / 100 * .3})` }} onClick={() => inspect(item, method.id)} title={`${number(score.score, 4)} / 100`}><b>{number(score.score)}{best && <span className="research-best-label">{zh ? '最优' : 'Best'}</span>}</b><small>{item.id === 'D09' ? (zh ? '历史评分 †' : 'Historical †') : `N=${score.sampleN} · n=${score.judgmentN}`}</small></button></td>;
+          return <td key={method.id}><button data-best={best || undefined} aria-label={`${method.name} · ${label(item, language)} · ${number(score.score)}${best ? (zh ? ' · 最优' : ' · Best') : ''}`} style={{ background: best ? '#6243ce' : `rgba(98,67,206,${.04 + (score.score ?? 0) / 100 * .3})` }} onClick={() => inspect(item, method.id)} title={`${number(score.score, 4)} / 100`}><b>{number(score.score)}{best && <span className="research-best-label">{zh ? '最优' : 'Best'}</span>}</b><small>{item.id === 'D09' ? (zh ? '历史评分 †' : 'Historical †') : `N=${score.sampleN}`}</small></button></td>;
         })}</tr>)}</tbody></table></div>
-        <p className="research-caption">{zh ? 'N 为有效图数，n 为有效判断数。† D09 沿用历史评分：对照单评审 / FigFox 双评审。其余 16 项使用 11 月 4 日 Codex 复核的四方法共同有效样本。' : 'N: valid images; n: valid judgments. † D09 retains historical scores: single review for baselines, double for FigFox. The other 16 criteria use the November 4 Codex review and samples valid for all four methods.'}</p>
+        <p className="research-caption">{zh ? '分数为百分制均分，N 为各方法有效图数。D13–D15 采用全量网页编辑复评，AFE 为 79 图，其余方法为 80 图。视觉项沿用共同有效集合；† D09 为历史评分。' : 'Scores are means on a 0–100 scale; N is valid images per method. D13–D15 use full-cohort web-editor reviews: 79 images for AFE, 80 for others. Visual criteria retain jointly valid sets; † D09 is historical.'}</p>
       </details>
     </Section>
 
@@ -75,10 +77,11 @@ export default function Results() {
     <Section id="demo-ablations" kicker="INSPECTION & REPAIR" title={zh ? '检查与修复如何影响结果' : 'How inspection and repair affect the result'} body={ablationDescription}>
       <div className="research-ablation-heading" data-demo-reveal="fade"><CriterionSelect metrics={data.metrics.filter(item => item.id !== 'D09')} value={ablationMetric} onValueChange={setAblationMetric} label={zh ? '评价指标' : 'Criterion'} ariaLabel={zh ? '消融指标' : 'Ablation criterion'} language={language} /><span>{zh ? `共同有效图数 ${data.ablationSummaries.A[ablationMetric].sampleN} · 0–100 分` : `${data.ablationSummaries.A[ablationMetric].sampleN} jointly valid figures · 0–100 points`}</span></div>
       <div className="research-ablation-chart" data-demo-reveal="fade" data-demo-delay="1">{['C', 'B', 'A'].map(id => <AblationRow key={id} name={names[id]} description={configurations[id]} score={data.ablationSummaries[id][ablationMetric].score} reference={data.ablationSummaries.C[ablationMetric].score} color={data.methods.find(method => method.id === id)!.color} selected={condition === id} onSelect={() => setCondition(id)} />)}<div className="research-axis"><span>0</span><span>100</span></div></div>
+      <AggregateResults scope="ablation" />
       <div className="research-ablation-footer" data-demo-reveal="fade"><span>{zh ? '灰色竖线：仅初稿得分' : 'Gray marker: draft-only score'}</span><button className="research-text-action" onClick={() => open({ sample: data.examples.ablation[ablationMetric], metric: ablationMetric, condition, scope: 'ablation', view: 'pair', methods: ['A', condition === 'A' ? 'C' : condition] })}>{zh ? '查看' : 'Inspect'}{zh ? names[condition] : ' ' + names[condition]}{zh ? '示例' : ' example'} ↗</button></div>
     </Section>
 
-    <Section id="demo-efficiency" kicker="QUALITY & RESOURCES" title={zh ? '重建质量与每图费用' : 'Reconstruction quality and cost'} body={zh ? `FigFox 的 16 项等权均分为 ${number(mean, 1)}，平均记录费用为每张 $${number(full.cost, 3)}。` : `FigFox averages ${number(mean, 1)} across 16 equally weighted criteria, at a recorded $${number(full.cost, 3)} per figure.`}>
+    <Section id="demo-efficiency" kicker="QUALITY & RESOURCES" title={zh ? '重建质量与每图费用' : 'Reconstruction quality and cost'} body={zh ? `FigFox 的总体均分为 ${number(mean, 2)}，平均记录费用为每张 $${number(full.cost, 3)}。` : `FigFox achieves an overall mean of ${number(mean, 2)}, at a recorded $${number(full.cost, 3)} per figure.`}>
       <ResourceComparison />
       <details className="research-settings research-stage-resources" data-demo-reveal="fade"><summary>{zh ? '查看 FigFox 的阶段用量' : 'View FigFox resources by stage'}</summary>
       <div className="research-resource-breakdown">{(['cost', 'minutes'] as const).map(kind => {
@@ -97,7 +100,7 @@ export default function Results() {
     </Section>
 
     <Section id="research-provenance" kicker="EXPLORE FIGFOX" title={zh ? '源代码与实验数据' : 'Source code and experiment data'} body={zh ? '查看实现与实验设置，下载评分数据。' : 'Explore the implementation and experiment settings, and download evaluation scores.'}>
-      <div className="research-downloads" data-demo-reveal="fade"><a href="https://github.com/LawrenceRiver/FigFox" target="_blank" rel="noreferrer">FigFox GitHub ↗</a><a href={asset('四方法评分.csv')} download>{zh ? '下载实验评分' : 'Download evaluation scores'} ↓</a></div>
+      <div className="research-downloads" data-demo-reveal="fade"><a href="https://github.com/LawrenceRiver/FigFox" target="_blank" rel="noreferrer">FigFox GitHub ↗</a><a href={asset('论文汇总评分.csv')} download>{zh ? '下载论文汇总' : 'Download paper aggregates'} ↓</a><a href={asset('四方法评分.csv')} download>{zh ? '下载实验评分' : 'Download evaluation scores'} ↓</a></div>
       <ExperimentSettings />
     </Section>
   </div>;

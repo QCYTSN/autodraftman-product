@@ -33,8 +33,8 @@ export function ScoreComparison({ onLocate }: { onLocate: (metric: string) => vo
         <button className="research-text-action research-locate" onClick={() => onLocate(id)}>{zh ? '查看完整比较' : 'View full comparison'} ↓</button>
       </figure>;
     })}</div>
-    <details className="research-settings research-ranking-details" data-demo-reveal="fade"><summary>{zh ? '查看排名分布' : 'View rank distribution'}<span>{zh ? '按原始分数计算，含并列' : 'Unrounded scores, including ties'}</span></summary>
-    <p className="research-score-summary">{zh ? `16 项同口径指标中，${closeCount} 项与该项最高分相差不超过 5 分。` : `Across 16 comparable criteria, ${closeCount} are within 5 points of their highest score.`}</p>
+    <details className="research-settings research-ranking-details" data-demo-reveal="fade"><summary>{zh ? '查看排名分布' : 'View rank distribution'}<span>{zh ? '按公布分数计算，含并列' : 'Published scores, including ties'}</span></summary>
+    <p className="research-score-summary">{zh ? `16 项当前指标中，${closeCount} 项与该项最高分相差不超过 5 分。` : `Across 16 current criteria, ${closeCount} are within 5 points of their highest score.`}</p>
     <figure className="research-rank-distribution">
       <figcaption><span>{zh ? '四方法排名分布' : 'Rank distribution across four methods'}</span><div className="research-rank-legend">{rankLabels.map((text, index) => <span key={text}><i data-rank={index + 1} />{text}</span>)}</div></figcaption>
       {mainIds.map(id => {
@@ -46,7 +46,7 @@ export function ScoreComparison({ onLocate }: { onLocate: (metric: string) => vo
           <div className="research-rank-bar" role="img" aria-label={description}>{[counts.first, counts.second, counts.other].map((count, index) => count > 0 && <span key={index} data-rank={index + 1} style={{ width: `${count / counts.total * 100}%` }} title={`${rankLabels[index]}: ${count}`} aria-hidden="true">{count}</span>)}</div>
         </div>;
       })}
-      <p className="research-rank-scale">{zh ? `每行 ${figfox.total} 项同口径指标` : `${figfox.total} criteria with a shared review protocol per row`}</p>
+      <p className="research-rank-scale">{zh ? `每行 ${figfox.total} 项当前指标` : `${figfox.total} current criteria per row`}</p>
     </figure>
     </details>
   </div>;
@@ -74,11 +74,11 @@ export function ResourceComparison() {
   const qualityMaximum = 100;
   const costMaximum = Math.ceil(Math.max(...mainIds.map(id => data.resources[id].cost)) * 2) / 2;
   const timeMaximum = Math.ceil(Math.max(...mainIds.map(id => data.resources[id].minutes)) / 5) * 5;
-  const qualityLabel = metric ? label(metric, language) : (zh ? '16 项等权均分' : '16-criterion mean');
+  const qualityLabel = metric ? label(metric, language) : (zh ? '总体均分' : 'Overall mean');
   return <div className="research-resource-comparison">
-    <div className="research-comparison-toolbar" data-demo-reveal="fade"><CriterionSelect metrics={metrics} value={criterion} onValueChange={setCriterion} label={zh ? '对比效果' : 'Compare quality'} ariaLabel={zh ? '效果对比指标' : 'Quality comparison criterion'} language={language} overview={{ value: 'mean', label: zh ? '16 项等权均分' : '16-criterion mean' }} /><span>{zh ? '四种方法 · 每种 80 张图' : 'Four methods · 80 figures each'}</span></div>
+    <div className="research-comparison-toolbar" data-demo-reveal="fade"><CriterionSelect metrics={metrics} value={criterion} onValueChange={setCriterion} label={zh ? '对比效果' : 'Compare quality'} ariaLabel={zh ? '效果对比指标' : 'Quality comparison criterion'} language={language} overview={{ value: 'mean', label: zh ? '总体均分' : 'Overall mean' }} /><span>{zh ? '四种方法 · 80 张原图' : 'Four methods · 80 source figures'}</span></div>
     <QualityCostPlot data={data} language={language} metric={metric} costMaximum={costMaximum} />
-    <p className="research-mean-note" data-demo-reveal="fade">{zh ? '均分为 16 项当前指标分数的算术平均，每项权重 6.25%。' : 'The mean averages all 16 current criterion scores, with a 6.25% weight each.'} <a href="#research-settings" onClick={() => { const settings = document.getElementById('research-settings'); if (settings instanceof HTMLDetailsElement) settings.open = true; }}>{zh ? '计算说明' : 'Calculation notes'} ↗</a></p>
+    <p className="research-mean-note" data-demo-reveal="fade">{zh ? '总体均分取自论文：先按图聚合，再对有效图取均值。' : 'Paper overall mean: average valid criteria per figure, then average across valid figures.'} <a href="#research-settings" onClick={() => { const settings = document.getElementById('research-settings'); if (settings instanceof HTMLDetailsElement) settings.open = true; }}>{zh ? '计算说明' : 'Calculation notes'} ↗</a></p>
     <details className="research-settings research-resource-details" data-demo-reveal="fade"><summary>{zh ? '查看四方法的分数、费用与时间' : 'View scores, costs and times for all four methods'}</summary>
     <div className="research-comparison-table" role="table" aria-label={zh ? '效果、记录费用与记录耗时对比' : 'Quality, recorded cost and recorded time'}>
       <div className="research-comparison-head" role="row"><span role="columnheader">{zh ? '方法' : 'Method'}</span><span role="columnheader">{qualityLabel} <small>↑</small></span><span role="columnheader">{zh ? '记录费用 / 张' : 'Recorded cost / figure'}<small>USD</small></span><span role="columnheader">{zh ? '记录耗时 / 张' : 'Recorded time / figure'}<small>{zh ? '分钟' : 'min'}</small></span></div>

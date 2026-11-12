@@ -29,7 +29,7 @@ export function QualityCostPlot({ data, language, metric, costMaximum }: { data:
   const score = (id: string) => metric ? data.summaries[id][metric.id].score! : meanScore(data, id);
   const difference = score('A') - score(comparison);
   const referenceCost = data.resources[comparison].cost;
-  const qualityLabel = metric ? label(metric, language) : (zh ? '16 项等权均分' : '16-criterion mean');
+  const qualityLabel = metric ? label(metric, language) : (zh ? '总体均分' : 'Overall mean');
   const method = data.methods.find(item => item.id === selected)!;
   return <div className="research-quality-cost">
     <figure className="research-cost-figure" data-demo-reveal aria-label={zh ? '四方法效果与每图费用坐标图：越上费用越低，越右分数越高' : 'Quality versus per-figure cost: lower costs toward the top, higher scores toward the right'}>
@@ -44,7 +44,7 @@ export function QualityCostPlot({ data, language, metric, costMaximum }: { data:
     </figure>
     <div className="research-cost-insights" data-demo-reveal data-demo-delay="1">
       <h3>{zh ? `FigFox 与 ${reference.name}` : `FigFox and ${reference.name}`}</h3>
-      <div className="research-cost-insight"><span>{zh ? (metric ? '单项得分差距' : '等权均分差距') : (metric ? 'Criterion score gap' : 'Mean score gap')}</span><strong title={Math.abs(difference).toString()}>{difference !== 0 && Math.abs(difference) < .1 ? '<0.1' : <AnimatedNumber value={Math.abs(difference)} />}<small>{zh ? '分' : 'points'}</small></strong><p aria-live="polite">{scoreComparison(score('A'), score(comparison), reference.name, zh)}</p><div className="research-insight-values">FigFox <AnimatedNumber value={score('A')} /> <span>/</span> {reference.name} <AnimatedNumber value={score(comparison)} /></div></div>
+      <div className="research-cost-insight"><span>{zh ? (metric ? '单项得分差距' : '总体均分差距') : (metric ? 'Criterion score gap' : 'Mean score gap')}</span><strong title={Math.abs(difference).toString()}>{difference !== 0 && Math.abs(difference) < .1 ? '<0.1' : <AnimatedNumber value={Math.abs(difference)} />}<small>{zh ? '分' : 'points'}</small></strong><p aria-live="polite">{scoreComparison(score('A'), score(comparison), reference.name, zh)}</p><div className="research-insight-values">FigFox <AnimatedNumber value={score('A')} /> <span>/</span> {reference.name} <AnimatedNumber value={score(comparison)} /></div></div>
       <div className="research-cost-insight research-figfox-cost"><span>{zh ? 'FigFox 每图费用' : 'FigFox cost per figure'}</span><strong>${number(data.resources.A.cost, 3)}<small>USD</small></strong><p aria-live="polite">{costComparison(data.resources.A.cost, referenceCost, zh)}</p><p>FigFox ${number(data.resources.A.cost, 3)} <span>/</span> {reference.name} ${number(referenceCost, 3)}</p></div>
     </div>
   </div>;
